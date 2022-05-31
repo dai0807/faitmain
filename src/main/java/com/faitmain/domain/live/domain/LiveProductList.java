@@ -1,6 +1,5 @@
 package com.faitmain.domain.live.domain;
 
-
 import com.faitmain.domain.product.domain.Product;
 
 import lombok.Data;
