@@ -21,7 +21,7 @@
     	<result property="sendDate" column="send_date" jdbcType="TIMESTAMP" />
     </resultMap>
     
-    <resultMap id="liveProductListMap" type="com.faitmain.domain.live.domain.LiveProductList">
+    <resultMap id="liveProductMap" type="com.faitmain.domain.live.domain.LiveProduct">
     	<result property="liveProductNumber" column="live_product_number" jdbcType="INTEGER" />
     	<result property="liveNumber" column="live_number" jdbcType="INTEGER" />
     	<result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
@@ -61,8 +61,8 @@
 		    (#{writer}, #{chattingMessage}, NOW())
     </insert>
     
-    <!-- ADD LiveProductList -->
-     <insert id="addLiveProductList" parameterType="com.faitmain.domain.live.domain.LiveProductList">
+    <!-- ADD LiveProduct -->
+     <insert id="addLiveProduct" parameterType="com.faitmain.domain.live.domain.LiveProduct">
     	INSERT INTO live_product_list
 		    (live_number, live_reservation_number, product_number, product_main_image)
 		VALUES
@@ -103,7 +103,7 @@
     
     <!-- UPDATE LiveChat (필요없음) -->
     
-    <!-- UPDATE LiveProductList (필요없음) -->
+    <!-- UPDATE LiveProduct (필요없음) -->
     
     <!-- UPDATE LiveReservation (신중했어야지) -->
     
@@ -132,8 +132,8 @@
 		WHERE live_number = #{liveNumber}
     </select>
     
-    <!-- GET LiveProductList -->
-    <select id="getLiveProductList" parameterType="com.faitmain.domain.live.domain.LiveProductList" resultMap="liveProductListMap">
+    <!-- GET LiveProduct -->
+    <select id="getLiveProduct" parameterType="com.faitmain.domain.live.domain.LiveProduct" resultMap="liveProductMap">
     	SELECT * FROM live_product_live
     	WHERE live_product_number = #{liveProductNumber}
     </select>
@@ -165,9 +165,9 @@
     	</where>
     </select>
     
-    <!-- GET LIST LiveProductList -->
-    <select id="getLiveproductListList" parameterType="com.faitmain.domain.live.domain.LiveProductList" resultMap="LiveProductListMap">
-    	SELECT * FROM live_product_list
+    <!-- GET LIST LiveProduct -->
+    <select id="getLiveProductList" parameterType="com.faitmain.domain.live.domain.LiveProduct" resultMap="LiveProductMap">
+    	SELECT * FROM live_product
     	<if test="#{liveReservationNumber} == 0">
     		<where>
     			live_number = #{liveNumber}
@@ -190,7 +190,7 @@
 
 
 	<!-- ================================================================================= DELETE ============================================================================== -->
-	<delete id="deleteLiveProductList" parameterType="com.faitmain.domain.live.domain.LiveProductList">
+	<delete id="deleteLiveProduct" parameterType="com.faitmain.domain.live.domain.LiveProduct">
 		DELETE FROM live_product_list
 		<where>
 			live_number = #{liveNumber}
