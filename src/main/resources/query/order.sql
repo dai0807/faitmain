@@ -1,10 +1,10 @@
 -- 테이블 복사/백업
 CREATE TABLE order_20220530_162529
 SELECT *
-  FROM order;
+  FROM `order`;
 
 -- 백업 테이블에서 원본 테이블로 데이터 복사(Auto Increment 컬럼 제외)
-INSERT INTO order ( product_number
+INSERT INTO `order` ( product_number
                   , buyer_id
                   , store_id
                   , order_bundle_number
@@ -52,7 +52,7 @@ SELECT product_number
 
 -- 테이블 ROW 갯수 확인
 SELECT COUNT( * )
-  FROM order;
+  FROM `order`;
 
 -- 조건에 맞는 ROW 조회
 SELECT order_number
@@ -76,7 +76,7 @@ SELECT order_number
      , order_claim_request_date
      , order_claim_response_date
      , order_claim_reason
-  FROM order
+  FROM `order`
  WHERE order_number = 1;
 
 -- 모든 컬럼 PK기준 역순으로 조회
@@ -101,7 +101,7 @@ SELECT order_number
      , order_claim_request_date
      , order_claim_response_date
      , order_claim_reason
-  FROM order
+  FROM `order`
  ORDER BY order_number DESC;
 
 -- 모든 컬럼 100건 조회
@@ -126,7 +126,7 @@ SELECT order_number
      , order_claim_request_date
      , order_claim_response_date
      , order_claim_reason
-  FROM order
+  FROM `order`
  LIMIT 100;
 
 -- SELECT 값에 따라 수정된 다른 값을 출력
@@ -155,15 +155,15 @@ SELECT order_number
      , order_claim_request_date
      , order_claim_response_date
      , order_claim_reason
-  FROM order;
+  FROM `order`;
 
 -- 특정 컬럼 중복 제거
 SELECT DISTINCT order_status
-  FROM order;
+  FROM `order`;
 
 -- Group By 문과 Having문을 이용하여 Select
 SELECT order_status, AVG( product_number )
-  FROM order
+  FROM `order`
  GROUP BY order_status
 HAVING AVG( product_number ) > 50;
 
@@ -189,12 +189,12 @@ SELECT order_number
      , order_claim_request_date
      , order_claim_response_date
      , order_claim_reason
-  FROM order
+  FROM `order`
  WHERE order_date BETWEEN '2015-10-01 23:59:59' AND '2015-11-30 23:59:59';
 
 -- 날짜별 통계
 SELECT DATE_FORMAT( order_date , '%Y-%m-%d' ) AS order_date, COUNT( * ) AS count
-  FROM order
+  FROM `order`
  GROUP BY DATE_FORMAT( order_date , '%Y-%m-%d' )
  ORDER BY DATE_FORMAT( order_date , '%Y-%m-%d' ) DESC;
 
@@ -223,7 +223,7 @@ SELECT order_number
      , order_claim_request_date
      , order_claim_response_date
      , order_claim_reason
-  FROM order
+  FROM `order`
  ORDER BY order_number DESC
  LIMIT 0, 10;
 -- LIMIT [(PageNumber - 1) * RowsPerPage], [RowsPerPage]
@@ -286,7 +286,7 @@ SELECT o.order_number
      , u.role
      , u.store_name
      , u.withdrawal_status
-  FROM order              o
+  FROM `order`              o
        INNER JOIN product p ON o.product_number = p.product_number
        INNER JOIN user    u ON o.buyer_id = u.id AND o.store_id = u.id
  WHERE o.order_number = 1
@@ -347,7 +347,7 @@ SELECT o.order_number
      , u.role
      , u.store_name
      , u.withdrawal_status
-  FROM order                   o
+  FROM `order`                   o
        LEFT OUTER JOIN product p ON o.product_number = p.product_number
        LEFT OUTER JOIN user    u ON o.buyer_id = u.id AND o.store_id = u.id
  WHERE o.order_number = 1
@@ -375,40 +375,40 @@ SELECT o.order_number
      , o.order_claim_request_date
      , o.order_claim_response_date
      , o.order_claim_reason
-     , p.product_number
-     , p.product_name
-     , p.price
-     , p.store_id
-     , p.product_main_image
-     , p.product_detail
-     , p.product_category_code
-     , p.product_status
-     , p.reg_date
-     , p.delivery_charge
-     , p.product_quantity
-     , p.product_group_number
-     , u.user_number
-     , u.id
-     , u.password
-     , u.gender
-     , u.address
-     , u.postal_code
-     , u.nickname
-     , u.phone_number
-     , u.name
-     , u.reg_date
-     , u.join_path
-     , u.book_number
-     , u.total_point
-     , u.store_logo_image
-     , u.store_introduction
-     , u.bank_account_copy_image
-     , u.bank_name
-     , u.bank_account_number
-     , u.role
-     , u.store_name
-     , u.withdrawal_status
-  FROM order o
+#      , p.product_number
+#      , p.product_name
+#      , p.price
+#      , p.store_id
+#      , p.product_main_image
+#      , p.product_detail
+#      , p.product_category_code
+#      , p.product_status
+#      , p.reg_date
+#      , p.delivery_charge
+#      , p.product_quantity
+#      , p.product_group_number
+#      , u.user_number
+#      , u.id
+#      , u.password
+#      , u.gender
+#      , u.address
+#      , u.postal_code
+#      , u.nickname
+#      , u.phone_number
+#      , u.name
+#      , u.reg_date
+#      , u.join_path
+#      , u.book_number
+#      , u.total_point
+#      , u.store_logo_image
+#      , u.store_introduction
+#      , u.bank_account_copy_image
+#      , u.bank_name
+#      , u.bank_account_number
+#      , u.role
+#      , u.store_name
+#      , u.withdrawal_status
+  FROM `order` o
 
  LIMIT 100;
 
@@ -434,46 +434,46 @@ SELECT o.order_number
      , o.order_claim_request_date
      , o.order_claim_response_date
      , o.order_claim_reason
-     , p.product_number
-     , p.product_name
-     , p.price
-     , p.store_id
-     , p.product_main_image
-     , p.product_detail
-     , p.product_category_code
-     , p.product_status
-     , p.reg_date
-     , p.delivery_charge
-     , p.product_quantity
-     , p.product_group_number
-     , u.user_number
-     , u.id
-     , u.password
-     , u.gender
-     , u.address
-     , u.postal_code
-     , u.nickname
-     , u.phone_number
-     , u.name
-     , u.reg_date
-     , u.join_path
-     , u.book_number
-     , u.total_point
-     , u.store_logo_image
-     , u.store_introduction
-     , u.bank_account_copy_image
-     , u.bank_name
-     , u.bank_account_number
-     , u.role
-     , u.store_name
-     , u.withdrawal_status
-     , _count.row_count
-  FROM order o
+#      , p.product_number
+#      , p.product_name
+#      , p.price
+#      , p.store_id
+#      , p.product_main_image
+#      , p.product_detail
+#      , p.product_category_code
+#      , p.product_status
+#      , p.reg_date
+#      , p.delivery_charge
+#      , p.product_quantity
+#      , p.product_group_number
+#      , u.user_number
+#      , u.id
+#      , u.password
+#      , u.gender
+#      , u.address
+#      , u.postal_code
+#      , u.nickname
+#      , u.phone_number
+#      , u.name
+#      , u.reg_date
+#      , u.join_path
+#      , u.book_number
+#      , u.total_point
+#      , u.store_logo_image
+#      , u.store_introduction
+#      , u.bank_account_copy_image
+#      , u.bank_name
+#      , u.bank_account_number
+#      , u.role
+#      , u.store_name
+#      , u.withdrawal_status
+#      , _count.row_count
+  FROM `order` o
 
  ORDER BY o.order_number DESC;
 
 -- Insert
-INSERT INTO order( product_number
+INSERT INTO `order`( product_number
                  , buyer_id
                  , store_id
                  , order_bundle_number
@@ -520,7 +520,7 @@ VALUES ( 1
 SELECT LAST_INSERT_ID( );
 
 -- Update
-UPDATE order
+UPDATE `order`
    SET product_number            = 1
      , buyer_id                  = 'buyer_id 1'
      , store_id                  = 'store_id 1'
@@ -545,16 +545,16 @@ UPDATE order
 
 -- Delete
 DELETE
-  FROM order
+  FROM `order`
  WHERE order_number = 1;
 
 -- 1일이 지난 데이터 삭제
 DELETE
-  FROM order
+  FROM `order`
  WHERE order_bundle_number < DATE_SUB( NOW( ) , INTERVAL 1 DAY );
 
 -- 해당 PK가 없으면 Insert 있으면 Update
-INSERT INTO order( order_number
+INSERT INTO `order`( order_number
                  , product_number
                  , buyer_id
                  , store_id
