@@ -6,28 +6,28 @@
 <mapper namespace="com.faitmain.domain.order.mapper.OrderMapper">
 
 
-    <insert id="insertOrder">
-        INSERT INTO order ( product_number
-                          , buyer_id
-                          , store_id
-                          , order_bundle_number
-                          , order_date
-                          , order_quantity
-                          , order_status
-                          , receiver_name
-                          , receiver_phone
-                          , receiver_address
-                          , receiver_request
-                          , delivery_tracking_number
-                          , delivery_company_code
-                          , payment_option
-                          , total_payment_price
-                          , reward_point
-                          , using_point
-                          , order_claim_request_date
-                          , order_claim_response_date
-                          , order_claim_reason
-                          )
+    <insert id="addOrder">
+        INSERT INTO `order` ( product_number
+                            , buyer_id
+                            , store_id
+                            , order_bundle_number
+                            , order_date
+                            , order_quantity
+                            , order_status
+                            , receiver_name
+                            , receiver_phone
+                            , receiver_address
+                            , receiver_request
+                            , delivery_tracking_number
+                            , delivery_company_code
+                            , payment_option
+                            , total_payment_price
+                            , reward_point
+                            , using_point
+                            , order_claim_request_date
+                            , order_claim_response_date
+                            , order_claim_reason
+                            )
         VALUES ( 1
                , 'buyer_id 1'
                , 'store_id 1'
@@ -52,7 +52,7 @@
     </insert>
 
     <update id="updateOrder">
-        UPDATE order
+        UPDATE `order`
            SET product_number            = 1
              , buyer_id                  = 'buyer_id 1'
              , store_id                  = 'store_id 1'
@@ -75,6 +75,8 @@
              , order_claim_reason        = 1
          WHERE order_number = 1;
     </update>
+
+    <select id="getOrder"></select>
 
 
 </mapper>
