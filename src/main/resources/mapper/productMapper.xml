@@ -5,7 +5,7 @@
 
 <mapper namespace="com.faitmain.domain.product.mapper.ProductMapper">
 
-	<resultMap id="productSelectMap" type="product">
+	<resultMap id="productSelectMap" type="com.faitmain.domain.product">
 		<result property="productNumber" 	column="product_number" 		jdbcType="INT"/>
 		<result property="productName"		column="product_name" 			jdbcType="VARCHAR" />
 		<result property="price" 			column="price" 					jdbcType="INT" />
