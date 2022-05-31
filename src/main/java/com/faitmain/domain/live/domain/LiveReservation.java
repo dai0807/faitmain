@@ -1,7 +1,5 @@
 package com.faitmain.domain.live.domain;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
