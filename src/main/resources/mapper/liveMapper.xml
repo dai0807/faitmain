@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faitmain.domain.live.mapper.LiveMapper">
+	
+	<resultMap id="liveMap" type="live">
+		<result property="liveNumber" 	column="live_number" 		jdbcType="INTEGER"/>
+		<result property="storeId" 		column="store_id" 				jdbcType="VARCHAR"/>
+		<result property="liveTitle" 		column="live_title" 				jdbcType="VARCHAR"/>
+		<result property="liveIntro" 		column="live_intro" 				jdbcType="VARCHAR"/>
+		<result property="liveImage" 		column="live_image" 				jdbcType="VARCHAR"/>
+		<result property="chattingStatus" 		column="chatting_status" 				jdbcType="BIT"/>
+		<result property="liveStatus"			column="live_status"				jdbcType="BIT"/>
+	</resultMap>
+	
+	<resultMap id="liveChatMap" type="liveChat">
+    	<result property="liveNumber" column="live_number" jdbcType="INTEGER" />
+    	<result property="writer" column="writer" jdbcType="VARCHAR" />
+    	<result property="chattingMessage" column="chatting_message" jdbcType="VARCHAR" />
+    	<result property="sendDate" column="send_date" jdbcType="" />
+    </resultMap>
+    
+    <resultMap id="liveProductListMap" type="liveProductList">
+    	<result property="liveProductNumber" column="live_product_number" jdbcType="INTEGER" />
+    	<result property="liveNumber" column="live_number" jdbcType="INTEGER" />
+    	<result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
+    	<result property="liveProduct.productNumber" column="product_number" jdbcType="INTEGER" />
+    	<result property="liveProduct.productMainImage" column="product_main_image" jdbcType="VARCHAR" />
+    </resultMap>
+	
+	<resultMap id="liveReservationMap" type="liveReservation">
+    	<result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
+    	<result property="storeId" column="store_id" jdbcType="VARCHAR" />
+    	<result property="reservationDate" column="resevation_date" jdbcType="DATE" />
+    </resultMap>
+    
+    <resultMap id="liveUserStatusMap" type="liveUserStatus">
+    	<result property="liveNumber" column="live_number" jdbcType="INTEGER" />
+    	<result property="id" column="id" jdbcType="VARCHAR" />
+    	<result property="alarmStatus" column="alarm_status" jdbcType="BIT" />
+    	<result property="kickStatus" column="kick_status" jdbcType="BIT" />
+    	<result property="dumbStatus" column="dumb_status" jdbcType="BIT" />
+    </resultMap>
+    
+    
+    <!-- ADD -->
+    <!-- ADD Live -->
+    <insert id="addLive" parameterType="live">
+    	INSERT INTO live
+		    ( store_id, live_title, live_intro, live_image, chatting_status, live_status )
+		VALUES
+		    ( #{storeId}, #{liveTitle}, #{liveIntro}, #{liveImage}, #{chattingStatus}, 0 );
+    
+    </insert>
+    
+    <!-- ADD LiveChat -->
+     <insert id="addLiveChat" parameterType="liveChat">
+    	INSERT INTO live_chat
+		    (writer, chatting_message, send_date)
+		VALUES
+		    (#{writer}, #{chattingMessage}, NOW());
+    </insert>
+    
+    <!-- ADD LiveProductList -->
+     <insert id="add" parameterType="">
+    	
+    
+    </insert>
+    
+    <!-- ADD LiveReservation -->
+     <insert id="add" parameterType="">
+    	
+    
+    </insert>
+    
+    <!-- ADD LiveUserStatus -->
+     <insert id="add" parameterType="">
+    	
+    
+    </insert>
+    
+    <!-- GET -->
+    
+    
+    <!-- UPDATE -->
+    <!-- UPDATE Live -->
+    <update id="updateLive" parameterType="Live">
+    	UPDATE live
+    	<set>
+    		store_id = #{storeId}, 
+		    live_title = #{liveTitle}, 
+		    live_intro = #{liveIntro}, 
+		    live_image = #{liveImage}, 
+		    chatting_status = #{chattingStatus},
+		    live_status = #{liveStatus}
+    	</set>
+    	WHERE live_number = #{liveNumber};
+    </update>
+    
+    <!-- UPDATE LiveChat -->
+    <update id="updateLiveChat" parameterType="LiveChat">
+    	UPDATE liveChat
+    	<set>
+    		writer = 'writer 1', 
+		    chatting_message = 'chatting_message 1', 
+		    send_date = NOW()
+    	</set>
+    	WHERE live_number = #{liveNumber];
+    </update>
+    
+    
+    
+    
+    
+    
+    
+    <!-- GET -->
+    <!-- GET Live -->
+    <select id="getLive" parameterType="int" resultMap="liveMap">
+    	SELECT * FROM live
+		WHERE live_number = #{liveNumber};
+    </select>
+    
+    
+    <!-- GET LIST -->
+    <!-- GET LiveList -->
+    <select id="getLive" parameterType="int" resultMap="liveMap">
+    	SELECT * FROM live
+    	WHERE live_status = 1;
+    </select>
+    
+
+</mapper>

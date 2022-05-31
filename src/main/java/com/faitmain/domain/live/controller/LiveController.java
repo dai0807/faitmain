@@ -1,4 +1,4 @@
 package com.faitmain.domain.live.controller;
 
-public class test{
+public class LiveController{
 }
