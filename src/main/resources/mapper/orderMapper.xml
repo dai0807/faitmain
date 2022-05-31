@@ -76,10 +76,37 @@
          WHERE order_number = 1;
     </update>
 
-    <select id="getOrder" parameterType="com.faitmain.domain.order.domain.Order">
+    <select id="getOrder" parameterType="int" resultType="com.faitmain.domain.order.domain.Order">
         SELECT *
           FROM `order`
          WHERE order_number = #{order_number}
+    </select>
+
+    <select id="findAll" resultType="com.faitmain.domain.order.domain.Order">
+        SELECT order_number
+             , product_number
+             , buyer_id
+             , store_id
+             , order_bundle_number
+             , order_date
+             , order_quantity
+             , order_status
+             , receiver_name
+             , receiver_phone
+             , receiver_address
+             , receiver_request
+             , delivery_tracking_number
+             , delivery_company_code
+             , payment_option
+             , total_payment_price
+             , reward_point
+             , using_point
+             , order_claim_request_date
+             , order_claim_response_date
+             , order_claim_reason
+          FROM `order`
+         ORDER BY order_number DESC
+         LIMIT 0, 10;
     </select>
 
 
