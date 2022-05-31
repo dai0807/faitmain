@@ -106,7 +106,7 @@
 		    chatting_message = 'chatting_message 1', 
 		    send_date = NOW()
     	</set>
-    	WHERE live_number = #{liveChatNumber];
+    	WHERE live_number = #{liveNumber];
     </update>
     
     
