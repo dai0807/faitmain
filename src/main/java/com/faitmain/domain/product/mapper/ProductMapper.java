@@ -7,6 +7,6 @@ import com.faitmain.domain.product.domain.Product;
 @Mapper
 public interface ProductMapper {
 	
-	public Product getProduct(int productNumber);
+	Product getProduct(int productNumber);
 	
 }
