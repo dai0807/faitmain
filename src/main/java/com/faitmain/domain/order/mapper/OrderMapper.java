@@ -13,7 +13,7 @@ public interface OrderMapper{
     void updateOrder( Order order );
 
     //select
-    void getOrder( int orderNumber );
+    Order getOrder( int orderNumber ) throws Exception;
 
 
 
