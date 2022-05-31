@@ -3,15 +3,10 @@ package com.faitmain.domain.user.domain;
 
 import java.sql.Date;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@ToString
+
+@Data
 public class StoreApplicationDocument {
 
 		int storeApplicationDocumentNumber ;

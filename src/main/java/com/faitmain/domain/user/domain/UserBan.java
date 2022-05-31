@@ -1,16 +1,10 @@
 package com.faitmain.domain.user.domain;
 
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@ToString
 
+@Data
 public class UserBan {
 	boolean  banplatform;
 	boolean  bansell;

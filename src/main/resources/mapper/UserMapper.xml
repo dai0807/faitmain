@@ -6,7 +6,7 @@
 <mapper namespace="com.faitmain.domain.user.mapper.UserMapper">
 
 
-<resultMap id="userMap" type="user">
+<resultMap id="userMap" type="com.faitmain.domain.user.domain.User">
 <result property="userNumber" 					column="user_number" 				jdbcType="INTEGER"/>
 		<result property="id" 					column="id" 						jdbcType="VARCHAR"/>
 		<result property="password"				column="password" 					jdbcType="VARCHAR" />
@@ -46,7 +46,7 @@
 
 
 
-<select id ="getUser" parameterType="com.faitmain.domain.user.domain.User" resultMap ="userMap" >
+<select id ="getUser" parameterType="String" resultMap ="userMap" >
 SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
 FROM user
 WHERE id = #{id};
