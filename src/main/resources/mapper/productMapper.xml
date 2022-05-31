@@ -16,9 +16,9 @@
 		<result property="productStatus" 	column="product_status" 		jdbcType="CHAR" />
 		<result property="productRegDate" 	column="reg_date" 				jdbcType="DATETIME" />
 		<result property="deliveryCharge" 	column="delivery_charge" 		jdbcType="INT" />
-		
+
 		<association property="store"  javaType="com.faitmain.domain.user.domain.User">
-			<id property="id" column="id" jdbcType="VARCHAR"/>			
+			<id property="id" column="id" jdbcType="VARCHAR"/>
 		</association>
 	</resultMap>
 	
