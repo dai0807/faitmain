@@ -5,22 +5,109 @@
 
 <mapper namespace="CustomerBoardMapper">
 <!-- com.faitmain.domain.Customer.mapper.CustomerBoardMapper -->
-	<resultMap id="customerSelectMap" type="customer">
-		<result property="customer_board_number" 		column="board_number" 		jdbcType="INT"/>
-		<result property="customer_board_title"			column="board_title" 		jdbcType="VARCHAR" />
-		<result property="customer_board_content" 		column="board_content" 		jdbcType="VARCHAR" />
-		<result property="reg_date" 					column="reg_date"	 		jdbcType="DATE" />
-		<result property="update_date" 					column="update_date" 		jdbcType="DATE" />
-		<result property="customer_FAQ_category_code" 	column="FAQ_category_code" 	jdbcType="INT" />
-		<result property="customer_board_type" 			column="board_type" 		jdbcType="CHAR" />
-		<result property="customer_id" 					column="id" 				jdbcType="VARCHAR" />
-		<result property="customer_count" 				column="count" 				jdbcType="INT" />
+	<resultMap id="customerSelectMap" type="com.faitmain.domain.customer.domain.Customer">
+		<result property="boardMumber"  				column="customer_board_number"		jdbcType="INT"/>
+		<result property="boardTitle"					column="customer_board_title" 		jdbcType="VARCHAR" />
+		<result property="boardContent"					column="customer_board_content" 	jdbcType="VARCHAR" />
+		<result property="regDate"						column="reg_date"	 				jdbcType="DATE" />
+		<result property= "updateDate"					column="update_date" 				jdbcType="DATE" />
+		<result property="FAQCategoryCode"			 	column="customer_FAQ_category_code" jdbcType="INT" />
+		<result property="customer_FAQ_category_code"  	column="customer_board_type" 		jdbcType="CHAR" />
+		<result property="id"							column="customer_id"  				jdbcType="VARCHAR" />
+		<result property="count" 						column="customer_count"				jdbcType="INT" />
+	</resultMap>
+	
+	<resultMap id="banPeriodSelectMap" type="com.faitmain.domain.customer.domain.BanPeriod">
+		<result property="reportNumber"				column="report_number" 			jdbcType="INT"/>
+		<result property="id"						column="respondent_id"			jdbcType="VARCHAR" />
+		<result property="nickname"  				column="respondent_nickname"	jdbcType="VARCHAR" />
+		<result property="storeName" 				column="respondent_store_name" 	jdbcType="VARCHAR" />
+		<result property="statusNumber"  			column="status_number"			jdbcType="INT" />
+		<result property="periodNumber"  			column="ban_period_number" 		jdbcType="INT" />
+		<result property="endDate"					column="ban_end_date" 			jdbcType="DATE" />
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
-	<insert id="addCustomerBoard"		parameterType="customer">
+	 <insert id="addCustomerBoard" parameterType="com.faitmain.domain.customer.domain.Customer">
+    	INSERT INTO customer
+		    ( customer_board_number, customer_board_type, customer_board_title, customer_board_content, 
+		    reg_date, customer_id )
+		VALUES
+		    ( seq_customer_customer_board_number.nextval, #{boarType}, #{boardTitle}, #{boardContent},
+		     #{regDate}, #{id} )
+    
+    </insert>
+    <!-- <insert id="addImage"  -->
+    
+    <insert id="processBenPeriod" parameterType="com.faitmain.domain.customer.domain.BanPeriod">
+    	INSERT INTO ban_period
+		    ( respondent_id, respondent_nickname, respondent_store_name, status_number, ban_period_number, ban_end_date )
+		VALUES
+		    ( #{id}, #{nickname}, #{storeName}, #{statusNumber}, #{periodNumber}, #{endDate} )
+    
+    </insert>
+    
+    <!-- SQL : UPDATE -->
+    <update id="updateCustomerBoard" parameterType="com.faitmain.domain.customer.domain.Customer">
+    	UPDATE customer
+    	<set>
+    		customer_board_type		= #{boardType},
+    		customer_board_title	= #{boardTitle},
+    		customer_board_content	= #{boardContent},
+    		update_date				= #{updateDate},
+    		image_number			= #{imageNumber},
+    		customer_id				= #{id}
+    	</set>
+		WHERE customer_board_number = #{boardNumber}
+    
+    </update>
+    
+    <!-- SQL : SELECT LIST -->
+	<!-- <select  id="getCustomerBoardList"  parameterType="search"	resultMap="customerSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT customer_board_number, prod_name, price, reg_date 
+	  										FROM product 
+	  										<if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				customer_board_number = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				prod_name = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 2 and searchKeyword !='' ">
+														price = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 3 and searchKeyword !='' ">
+														reg_date = #{searchKeyword}
+													</if>
+												</where>
+											</if>
+														ORDER BY prod_no ) inner_table
+											WHERE ROWNUM &lt;=#{endRowNum}	)
+										WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
 	
-	</insert>
+	SQL : SELECT ROW Count	 
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT prod_no , prod_name , price
+						FROM product
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 			prod_no = #{searchKeyword}
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 			prod_name = #{searchKeyword}
+								</if>
+							</where>
+						</if> ) countTable						
+	 </select>
+     -->
+    
+    
 
 
    
