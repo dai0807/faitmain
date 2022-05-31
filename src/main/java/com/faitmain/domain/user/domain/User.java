@@ -2,8 +2,6 @@ package com.faitmain.domain.user.domain;
 
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
  
 

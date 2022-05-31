@@ -6,5 +6,17 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface OrderMapper{
 
-    void insertOrder( Order order );
+    //insert
+    void addOrder( Order order );
+
+    //update
+    void updateOrder( Order order );
+
+    //select
+    Order getOrder( int orderNumber ) throws Exception;
+
+
+
+
+
 }
