@@ -208,7 +208,7 @@ CREATE TABLE `live_user_status` (
 CREATE TABLE live_reservation (
                               `live_reservation_number` integer(5)  NOT NULL AUTO_INCREMENT ,
                               `store_id`                varchar(25) NULL ,
-                              `reservation_date`        DATE        NULL ,
+                              `reservation_date`        varchar(25)        NULL ,
 
                               PRIMARY KEY ( live_reservation_number ) ,
                               FOREIGN KEY ( store_id ) REFERENCES user ( id )
@@ -335,10 +335,10 @@ INSERT INTO live_user_status (live_number, id, alarm_status, kick_status, dumb_s
 INSERT INTO live_user_status (live_number, id, alarm_status, kick_status, dumb_status) VALUES (10001, 'user02@naver.com', 00, 02, 01);
 INSERT INTO live_user_status (live_number, id, alarm_status, kick_status, dumb_status) VALUES (10002, 'user03@naver.com', 03, 01, 02);
 
-INSERT INTO live_reservation (store_id, reservation_date) VALUES ('admin@naver.com', NOW());
-INSERT INTO live_reservation (store_id, reservation_date) VALUES ('store01@naver.com', NOW());
-INSERT INTO live_reservation (store_id, reservation_date) VALUES ('store02@naver.com', NOW());
-INSERT INTO live_reservation (store_id, reservation_date) VALUES ('store03@naver.com', NOW());
+INSERT INTO live_reservation (store_id, reservation_date) VALUES ('admin@naver.com', '2022-05-31 13:00');
+INSERT INTO live_reservation (store_id, reservation_date) VALUES ('store01@naver.com', '2022-04-21 09:00');
+INSERT INTO live_reservation (store_id, reservation_date) VALUES ('store02@naver.com', '2022-07-15 12:00');
+INSERT INTO live_reservation (store_id, reservation_date) VALUES ('store03@naver.com', '2022-06-4 18:00');
 
 INSERT INTO live_product_list (live_number, live_reservation_number, product_number, product_main_image) VALUES (10001, 10001, 10011, 'product_main_image 01');
 INSERT INTO live_product_list (live_number, live_reservation_number, product_number, product_main_image) VALUES (10001, 10001, 10012, 'product_main_image 02');

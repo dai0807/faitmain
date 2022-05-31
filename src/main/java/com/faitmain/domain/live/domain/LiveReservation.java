@@ -8,5 +8,5 @@ import lombok.Data;
 public class LiveReservation {
 	private int liveReservationNumber;
 	private String storeId;
-	private Date reservationDate;
+	private String reservationDate;
 }

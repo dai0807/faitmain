@@ -68,25 +68,26 @@
 		    (live_number, live_reservation_number, product_number, product_main_image)
 		VALUES
 		    (#{liveNumber}, #{liveReservationNumber], #{liveProduct.productNumber}, #{liveProduct.productMainImage});
-    
     </insert>
     
     <!-- ADD LiveReservation -->
      <insert id="addLiveReservation" parameterType="LiveReservation">
-    	
-    
+    	INSERT INTO live_reservation
+		    (store_id, reservation_date)
+		VALUES
+		    (#{storeId}, #{reservationDate});
     </insert>
     
     <!-- ADD LiveUserStatus -->
-     <insert id="add" parameterType="">
-    	
-    
+     <insert id="addLiveUserStatus" parameterType="LiveUserStatus">
+    	INSERT INTO live_user_status
+    		(live_number, id, alarm_status, kick_status, dumb_status)
+    	VALUES
+    		(#{liveNumber}, #{id}, 0, 0, 0);
     </insert>
     
-    <!-- GET -->
     
-    
-    <!-- UPDATE -->
+    <!-- ----------------------------------------------------------------------- UPDATE--------------------------------------------------------------------------------------------- -->
     <!-- UPDATE Live -->
     <update id="updateLive" parameterType="Live">
     	UPDATE live
