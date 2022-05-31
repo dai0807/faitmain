@@ -26,7 +26,7 @@ public class LiveServiceImpl implements LiveService {
 	}
 	
 
-//live
+	//live
 	public int addLive(Live live)  throws Exception {
 		return liveMapper.addLive(live);
 	}
