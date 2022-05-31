@@ -1,6 +1,8 @@
 package com.faitmain.domain.live.domain;
 
-import kr.kro.faitmain.model.Product;
+
+import com.faitmain.domain.product.domain.Product;
+
 import lombok.Data;
 
 @Data
