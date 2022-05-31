@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS customer CASCADE;
 DROP TABLE IF EXISTS image CASCADE;
 DROP TABLE IF EXISTS inquiry CASCADE;
 DROP TABLE IF EXISTS live_chat CASCADE;
-DROP TABLE IF EXISTS live_product_list CASCADE;
+DROP TABLE IF EXISTS live_product CASCADE;
 DROP TABLE IF EXISTS live_reservation CASCADE;
 DROP TABLE IF EXISTS live_user_status CASCADE;
 DROP TABLE IF EXISTS live CASCADE;
@@ -214,7 +214,7 @@ CREATE TABLE live_reservation (
                               FOREIGN KEY ( store_id ) REFERENCES user ( id )
                               );
 
-CREATE TABLE live_product_list (
+CREATE TABLE live_product (
                                `live_product_number`     INTEGER(5)  NOT NULL AUTO_INCREMENT ,
                                `live_number`             INTEGER(5)  NOT NULL ,
                                `live_reservation_number` INTEGER(5)  NOT NULL ,
@@ -243,7 +243,7 @@ ALTER TABLE inquiry AUTO_INCREMENT = 10000;
 ALTER TABLE review AUTO_INCREMENT = 10000;
 ALTER TABLE live AUTO_INCREMENT = 10000;
 ALTER TABLE live_reservation AUTO_INCREMENT = 10000;
-ALTER TABLE live_product_list AUTO_INCREMENT = 10000;
+ALTER TABLE live_product AUTO_INCREMENT = 10000;
 ALTER TABLE `order` AUTO_INCREMENT = 10000;
 
 
@@ -340,16 +340,16 @@ INSERT INTO live_reservation (store_id, reservation_date) VALUES ('store01@naver
 INSERT INTO live_reservation (store_id, reservation_date) VALUES ('store02@naver.com', '2022-07-15 12:00');
 INSERT INTO live_reservation (store_id, reservation_date) VALUES ('store03@naver.com', '2022-06-4 18:00');
 
-INSERT INTO live_product_list (live_number, live_reservation_number, product_number, product_main_image) VALUES (10001, 10001, 10011, 'product_main_image 01');
-INSERT INTO live_product_list (live_number, live_reservation_number, product_number, product_main_image) VALUES (10001, 10001, 10012, 'product_main_image 02');
-INSERT INTO live_product_list (live_number, live_reservation_number, product_number, product_main_image) VALUES (10001, 10001, 10013, 'product_main_image 03');
-INSERT INTO live_product_list (live_number, live_reservation_number, product_number, product_main_image) VALUES (10002, 10002, 10005, 'product_main_image 04');
-INSERT INTO live_product_list (live_number, live_reservation_number, product_number, product_main_image) VALUES (10002, 10002, 10006, 'product_main_image 05');
-INSERT INTO live_product_list (live_number, live_reservation_number, product_number, product_main_image) VALUES (10002, 10002, 10007, 'product_main_image 06');
-INSERT INTO live_product_list (live_number, live_reservation_number, product_number, product_main_image) VALUES (10003, 10003, 10000, 'product_main_image 07');
-INSERT INTO live_product_list (live_number, live_reservation_number, product_number, product_main_image) VALUES (10003, 10003, 10001, 'product_main_image 08');
-INSERT INTO live_product_list (live_number, live_reservation_number, product_number, product_main_image) VALUES (10003, 10003, 10003, 'product_main_image 09');
-INSERT INTO live_product_list (live_number, live_reservation_number, product_number, product_main_image) VALUES (10003, 10003, 10015, 'product_main_image 10');
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10001, 10001, 10011, 'product_main_image 01');
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10001, 10001, 10012, 'product_main_image 02');
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10001, 10001, 10013, 'product_main_image 03');
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10002, 10002, 10005, 'product_main_image 04');
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10002, 10002, 10006, 'product_main_image 05');
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10002, 10002, 10007, 'product_main_image 06');
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10003, 10003, 10000, 'product_main_image 07');
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10003, 10003, 10001, 'product_main_image 08');
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10003, 10003, 10003, 'product_main_image 09');
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10003, 10003, 10015, 'product_main_image 10');
 
 INSERT INTO live_chat (live_number, writer, chatting_message, send_date) VALUES (10001, 'user01@naver.com', 'user01의 message 01', NOW());
 INSERT INTO live_chat (live_number, writer, chatting_message, send_date) VALUES (10001, 'user01@naver.com', 'user01의 message 02', NOW());
