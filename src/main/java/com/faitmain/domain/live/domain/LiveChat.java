@@ -1,13 +1,13 @@
 package com.faitmain.domain.live.domain;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 import lombok.Data;
 
 @Data
 public class LiveChat {
-	private int liveChatNumber;
+	private int liveNumber;
 	private String writer;
 	private String chattingMessage;
-	private Date sendDate;
+	private Timestamp sendDate;
 }
