@@ -15,7 +15,7 @@ import com.faitmain.domain.live.mapper.LiveMapper;
 public class LiveServiceImpl implements LiveService {
 
 	@Autowired
-	@Qualifier("LiveMapper")
+	@Qualifier("liveMapper")
 	private LiveMapper liveMapper;
 	public void setLiveMapper(LiveMapper liveMapper) {
 		this.liveMapper = liveMapper;
@@ -94,4 +94,4 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.getLiveUserStatusList(liveNumber);
 	}
 	
-	}
+}
