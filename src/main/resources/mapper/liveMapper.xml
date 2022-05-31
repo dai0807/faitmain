@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.faitmain.domain.live.mapper.LiveMapper">
 	
-	<resultMap id="liveMap" type="live">
+	<resultMap id="liveMap" type="com.faitmain.domain.live.domain.Live">
 		<result property="liveNumber" 	column="live_number" 		jdbcType="INTEGER"/>
 		<result property="storeId" 		column="store_id" 				jdbcType="VARCHAR"/>
 		<result property="liveTitle" 		column="live_title" 				jdbcType="VARCHAR"/>
@@ -14,14 +14,14 @@
 		<result property="liveStatus"			column="live_status"				jdbcType="BIT"/>
 	</resultMap>
 	
-	<resultMap id="liveChatMap" type="liveChat">
+	<resultMap id="liveChatMap" type="com.faitmain.domain.live.domain.LiveChat">
     	<result property="liveNumber" column="live_number" jdbcType="INTEGER" />
     	<result property="writer" column="writer" jdbcType="VARCHAR" />
     	<result property="chattingMessage" column="chatting_message" jdbcType="VARCHAR" />
-    	<result property="sendDate" column="send_date" jdbcType="" />
+    	<result property="sendDate" column="send_date" jdbcType="TIMESTAMP" />
     </resultMap>
     
-    <resultMap id="liveProductListMap" type="liveProductList">
+    <resultMap id="liveProductMap" type="com.faitmain.domain.live.domain.LiveProduct">
     	<result property="liveProductNumber" column="live_product_number" jdbcType="INTEGER" />
     	<result property="liveNumber" column="live_number" jdbcType="INTEGER" />
     	<result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
@@ -29,13 +29,13 @@
     	<result property="liveProduct.productMainImage" column="product_main_image" jdbcType="VARCHAR" />
     </resultMap>
 	
-	<resultMap id="liveReservationMap" type="liveReservation">
+	<resultMap id="liveReservationMap" type="com.faitmain.domain.live.domain.LiveReservation">
     	<result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
     	<result property="storeId" column="store_id" jdbcType="VARCHAR" />
     	<result property="reservationDate" column="resevation_date" jdbcType="DATE" />
     </resultMap>
     
-    <resultMap id="liveUserStatusMap" type="liveUserStatus">
+    <resultMap id="liveUserStatusMap" type="com.faitmain.domain.live.domain.LiveUserStatus">
     	<result property="liveNumber" column="live_number" jdbcType="INTEGER" />
     	<result property="id" column="id" jdbcType="VARCHAR" />
     	<result property="alarmStatus" column="alarm_status" jdbcType="BIT" />
@@ -43,49 +43,52 @@
     	<result property="dumbStatus" column="dumb_status" jdbcType="BIT" />
     </resultMap>
     
-    
-    <!-- ADD -->
+    <!-- ================================================================================= ADD =================================================================================== -->
     <!-- ADD Live -->
-    <insert id="addLive" parameterType="live">
+    <insert id="addLive" parameterType="com.faitmain.domain.live.domain.Live">
     	INSERT INTO live
 		    ( store_id, live_title, live_intro, live_image, chatting_status, live_status )
 		VALUES
-		    ( #{storeId}, #{liveTitle}, #{liveIntro}, #{liveImage}, #{chattingStatus}, 0 );
+		    ( #{storeId}, #{liveTitle}, #{liveIntro}, #{liveImage}, #{chattingStatus}, 0 )
     
     </insert>
     
     <!-- ADD LiveChat -->
-     <insert id="addLiveChat" parameterType="liveChat">
+     <insert id="addLiveChat" parameterType="com.faitmain.domain.live.domain.LiveChat">
     	INSERT INTO live_chat
 		    (writer, chatting_message, send_date)
 		VALUES
-		    (#{writer}, #{chattingMessage}, NOW());
+		    (#{writer}, #{chattingMessage}, NOW())
     </insert>
     
-    <!-- ADD LiveProductList -->
-     <insert id="add" parameterType="">
-    	
-    
+    <!-- ADD LiveProduct -->
+     <insert id="addLiveProduct" parameterType="com.faitmain.domain.live.domain.LiveProduct">
+    	INSERT INTO live_product_list
+		    (live_number, live_reservation_number, product_number, product_main_image)
+		VALUES
+		    (#{liveNumber}, #{liveReservationNumber], #{liveProduct.productNumber}, #{liveProduct.productMainImage})
     </insert>
     
     <!-- ADD LiveReservation -->
-     <insert id="add" parameterType="">
-    	
-    
+     <insert id="addLiveReservation" parameterType="com.faitmain.domain.live.domain.LiveReservation">
+    	INSERT INTO live_reservation
+		    (store_id, reservation_date)
+		VALUES
+		    (#{storeId}, #{reservationDate})
     </insert>
     
     <!-- ADD LiveUserStatus -->
-     <insert id="add" parameterType="">
-    	
-    
+     <insert id="addLiveUserStatus" parameterType="com.faitmain.domain.live.domain.LiveUserStatus">
+    	INSERT INTO live_user_status
+    		(live_number, id, alarm_status, kick_status, dumb_status)
+    	VALUES
+    		(#{liveNumber}, #{id}, 0, 0, 0)
     </insert>
     
-    <!-- GET -->
     
-    
-    <!-- UPDATE -->
+    <!-- ================================================================================= UPDATE============================================================================== -->
     <!-- UPDATE Live -->
-    <update id="updateLive" parameterType="Live">
+    <update id="updateLive" parameterType="com.faitmain.domain.live.domain.Live">
     	UPDATE live
     	<set>
     		store_id = #{storeId}, 
@@ -95,40 +98,104 @@
 		    chatting_status = #{chattingStatus},
 		    live_status = #{liveStatus}
     	</set>
-    	WHERE live_number = #{liveNumber};
+    	WHERE live_number = #{liveNumber}
     </update>
     
-    <!-- UPDATE LiveChat -->
-    <update id="updateLiveChat" parameterType="LiveChat">
-    	UPDATE liveChat
+    <!-- UPDATE LiveChat (필요없음) -->
+    
+    <!-- UPDATE LiveProduct (필요없음) -->
+    
+    <!-- UPDATE LiveReservation (신중했어야지) -->
+    
+    <!-- UPDATE LiveUserStatus -->
+    <update id="updateLiveUserStatus" parameterType="com.faitmain.domain.live.domain.LiveUserStatus">
+    	UPDATE live_user_status
     	<set>
-    		writer = 'writer 1', 
-		    chatting_message = 'chatting_message 1', 
-		    send_date = NOW()
+    		alarm_status = #{alarmStatus},
+    		kick_status = #{kickStatus},
+    		dumb_status = #{dumbStatus}
     	</set>
-    	WHERE live_number = #{liveNumber];
+    	<where>
+    		live_number = #{liveNumber}
+    		AND id = #{id}
+    	</where>
     </update>
     
     
     
     
     
-    
-    
-    <!-- GET -->
+    <!-- ================================================================================= GET ============================================================================== -->
     <!-- GET Live -->
-    <select id="getLive" parameterType="int" resultMap="liveMap">
+    <select id="getLive" parameterType="int" resultMap="LiveMap">
     	SELECT * FROM live
-		WHERE live_number = #{liveNumber};
+		WHERE live_number = #{liveNumber}
     </select>
     
+    <!-- GET LiveProduct -->
+    <select id="getLiveProduct" parameterType="com.faitmain.domain.live.domain.LiveProduct" resultMap="liveProductMap">
+    	SELECT * FROM live_product_live
+    	WHERE live_product_number = #{liveProductNumber}
+    </select>
+
+	<!-- GET LiveUserStatus -->
+	<select id="getLiveUserStatus" parameterType="com.faitmain.domain.live.domain.LiveUserStatus" resultMap="liveUserStatusMap">
+		SELECT * FROM live_user_status
+		<where>
+			live_number = #{liveNumber}
+			AND id = #{id}
+		</where>
+	</select>
     
-    <!-- GET LIST -->
-    <!-- GET LiveList -->
-    <select id="getLive" parameterType="int" resultMap="liveMap">
+    
+    
+    <!-- ================================================================================= GET LIST ============================================================================== -->
+    <!-- GET LIST Live -->
+    <select id="getLiveList" resultMap="LiveMap">
     	SELECT * FROM live
     	WHERE live_status = 1;
     </select>
     
+    <!-- GET LIST LiveChat -->
+    <select id="getLiveChatList" parameterType="com.faitmain.domain.live.domain.LiveChat" resultMap="LiveChatMap">
+    	SELECT * FROM live_chat
+    	<where>
+    		live_number = #{liveNumber}
+    		AND writer = #{writer}
+    	</where>
+    </select>
+    
+    <!-- GET LIST LiveProduct -->
+    <select id="getLiveProductList" parameterType="com.faitmain.domain.live.domain.LiveProduct" resultMap="LiveProductMap">
+    	SELECT * FROM live_product
+    	<if test="#{liveReservationNumber} == 0">
+    		<where>
+    			live_number = #{liveNumber}
+    		</where>
+    	</if>
+    	<if test="#{liveNumber} == 0">
+    		<where>
+    			live_reservation_number = #{liveReservationNumber}
+    		</where>
+    	</if>
+    </select>
+    
+    <!-- GET LIST ListUserStatus -->
+    <select id="getLiveUserStatusList" parameterType="com.faitmain.domain.live.domain.LiveUserStatus" resultMap="liveUserStatusMap">
+		SELECT * FROM live_user_status
+		<where>
+			live_number = #{liveNumber}
+		</where>
+	</select>
 
+
+	<!-- ================================================================================= DELETE ============================================================================== -->
+	<delete id="deleteLiveProduct" parameterType="com.faitmain.domain.live.domain.LiveProduct">
+		DELETE FROM live_product_list
+		<where>
+			live_number = #{liveNumber}
+		</where>
+	</delete>
+	
+	
 </mapper>

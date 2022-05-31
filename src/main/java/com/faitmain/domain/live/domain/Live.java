@@ -10,5 +10,5 @@ public class Live {
 	private String liveIntro;
 	private String liveImage;
 	private boolean chattingStatus; // true : chat on / false : chat off
-	private boolean live_status;  // true : live on / false : live off
+	private boolean liveStatus;  // true : live on / false : live off
 }
