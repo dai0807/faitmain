@@ -7,7 +7,7 @@
 
 
     <insert id="insertOrder">
-        INSERT INTO `order` ( product_number
+        INSERT INTO order ( product_number
                           , buyer_id
                           , store_id
                           , order_bundle_number
@@ -52,7 +52,7 @@
     </insert>
 
     <update id="updateOrder">
-        UPDATE `order`
+        UPDATE order
            SET product_number            = 1
              , buyer_id                  = 'buyer_id 1'
              , store_id                  = 'store_id 1'

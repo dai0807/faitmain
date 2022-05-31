@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.faitmain.domain.live.mapper.LiveMapper">
 	
-	<resultMap id="liveMap" type="live">
+	<resultMap id="liveMap" type="com.faitmain.domain.live.domain.Live">
 		<result property="liveNumber" 	column="live_number" 		jdbcType="INTEGER"/>
 		<result property="storeId" 		column="store_id" 				jdbcType="VARCHAR"/>
 		<result property="liveTitle" 		column="live_title" 				jdbcType="VARCHAR"/>
