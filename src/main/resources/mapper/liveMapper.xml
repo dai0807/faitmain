@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.faitmain.domain.live.mapper.LiveMapper">
 	
-	<resultMap id="liveMap" type="live">
+	<resultMap id="liveMap" type="com.faitmain.domain.live.domain.Live">
 		<result property="liveNumber" 	column="live_number" 		jdbcType="INTEGER"/>
 		<result property="storeId" 		column="store_id" 				jdbcType="VARCHAR"/>
 		<result property="liveTitle" 		column="live_title" 				jdbcType="VARCHAR"/>
@@ -18,7 +18,7 @@
     	<result property="liveNumber" column="live_number" jdbcType="INTEGER" />
     	<result property="writer" column="writer" jdbcType="VARCHAR" />
     	<result property="chattingMessage" column="chatting_message" jdbcType="VARCHAR" />
-    	<result property="sendDate" column="send_date" jdbcType="" />
+    	<result property="sendDate" column="send_date" jdbcType="TIMESTAMP" />
     </resultMap>
     
     <resultMap id="liveProductListMap" type="liveProductList">
@@ -55,7 +55,7 @@
     </insert>
     
     <!-- ADD LiveChat -->
-     <insert id="addLiveChat" parameterType="liveChat">
+     <insert id="addLiveChat" parameterType="LiveChat">
     	INSERT INTO live_chat
 		    (writer, chatting_message, send_date)
 		VALUES
@@ -63,13 +63,16 @@
     </insert>
     
     <!-- ADD LiveProductList -->
-     <insert id="add" parameterType="">
-    	
+     <insert id="addLiveProductList" parameterType="LiveProductList">
+    	INSERT INTO live_product_list
+		    (live_number, live_reservation_number, product_number, product_main_image)
+		VALUES
+		    (#{liveNumber}, #{liveReservationNumber], #{liveProduct.productNumber}, #{liveProduct.productMainImage});
     
     </insert>
     
     <!-- ADD LiveReservation -->
-     <insert id="add" parameterType="">
+     <insert id="addLiveReservation" parameterType="LiveReservation">
     	
     
     </insert>
@@ -98,16 +101,9 @@
     	WHERE live_number = #{liveNumber};
     </update>
     
-    <!-- UPDATE LiveChat -->
-    <update id="updateLiveChat" parameterType="LiveChat">
-    	UPDATE liveChat
-    	<set>
-    		writer = 'writer 1', 
-		    chatting_message = 'chatting_message 1', 
-		    send_date = NOW()
-    	</set>
-    	WHERE live_number = #{liveNumber];
-    </update>
+    <!-- UPDATE LiveChat (필요없음) -->
+    
+    <!-- UPDATE LiveProductList -->
     
     
     
@@ -125,9 +121,14 @@
     
     <!-- GET LIST -->
     <!-- GET LiveList -->
-    <select id="getLive" parameterType="int" resultMap="liveMap">
+    <select id="getLiveList" parameterType="int" resultMap="liveMap">
     	SELECT * FROM live
     	WHERE live_status = 1;
+    </select>
+    
+    <!-- GET LiveChatList -->
+    <select id="getLiveChatList" parameterType="LiveChat" resultMap="List">
+    
     </select>
     
 

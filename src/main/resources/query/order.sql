@@ -253,6 +253,19 @@ SELECT o.order_number
      , o.order_claim_request_date
      , o.order_claim_response_date
      , o.order_claim_reason
+     , p.product_number
+     , p.product_name
+     , p.price
+     , p.store_id
+     , p.product_main_image
+     , p.product_detail
+     , p.product_category_code
+     , p.product_status
+     , p.reg_date
+     , p.delivery_charge
+     , p.product_quantity
+     , p.product_group_number
+     , u.user_number
      , u.id
      , u.password
      , u.gender
@@ -269,11 +282,13 @@ SELECT o.order_number
      , u.store_introduction
      , u.bank_account_copy_image
      , u.bank_name
+     , u.bank_account_number
      , u.role
      , u.store_name
      , u.withdrawal_status
-  FROM order           o
-       INNER JOIN user u ON o.buyer_id = u.id AND o.store_id = u.id
+  FROM order              o
+       INNER JOIN product p ON o.product_number = p.product_number
+       INNER JOIN user    u ON o.buyer_id = u.id AND o.store_id = u.id
  WHERE o.order_number = 1
  LIMIT 100;
 
@@ -299,6 +314,19 @@ SELECT o.order_number
      , o.order_claim_request_date
      , o.order_claim_response_date
      , o.order_claim_reason
+     , p.product_number
+     , p.product_name
+     , p.price
+     , p.store_id
+     , p.product_main_image
+     , p.product_detail
+     , p.product_category_code
+     , p.product_status
+     , p.reg_date
+     , p.delivery_charge
+     , p.product_quantity
+     , p.product_group_number
+     , u.user_number
      , u.id
      , u.password
      , u.gender
@@ -315,11 +343,13 @@ SELECT o.order_number
      , u.store_introduction
      , u.bank_account_copy_image
      , u.bank_name
+     , u.bank_account_number
      , u.role
      , u.store_name
      , u.withdrawal_status
-  FROM order                o
-       LEFT OUTER JOIN user u ON o.buyer_id = u.id AND o.store_id = u.id
+  FROM order                   o
+       LEFT OUTER JOIN product p ON o.product_number = p.product_number
+       LEFT OUTER JOIN user    u ON o.buyer_id = u.id AND o.store_id = u.id
  WHERE o.order_number = 1
  LIMIT 100;
 
@@ -345,16 +375,28 @@ SELECT o.order_number
      , o.order_claim_request_date
      , o.order_claim_response_date
      , o.order_claim_reason
+     , p.product_number
+     , p.product_name
+     , p.price
+     , p.store_id
+     , p.product_main_image
+     , p.product_detail
+     , p.product_category_code
+     , p.product_status
+     , p.reg_date
+     , p.delivery_charge
+     , p.product_quantity
+     , p.product_group_number
+     , u.user_number
      , u.id
      , u.password
      , u.gender
      , u.address
      , u.postal_code
-     , u.new_tablecol
      , u.nickname
      , u.phone_number
      , u.name
-     , u.regdate
+     , u.reg_date
      , u.join_path
      , u.book_number
      , u.total_point
@@ -362,6 +404,7 @@ SELECT o.order_number
      , u.store_introduction
      , u.bank_account_copy_image
      , u.bank_name
+     , u.bank_account_number
      , u.role
      , u.store_name
      , u.withdrawal_status
@@ -391,16 +434,28 @@ SELECT o.order_number
      , o.order_claim_request_date
      , o.order_claim_response_date
      , o.order_claim_reason
+     , p.product_number
+     , p.product_name
+     , p.price
+     , p.store_id
+     , p.product_main_image
+     , p.product_detail
+     , p.product_category_code
+     , p.product_status
+     , p.reg_date
+     , p.delivery_charge
+     , p.product_quantity
+     , p.product_group_number
+     , u.user_number
      , u.id
      , u.password
      , u.gender
      , u.address
      , u.postal_code
-     , u.new_tablecol
      , u.nickname
      , u.phone_number
      , u.name
-     , u.regdate
+     , u.reg_date
      , u.join_path
      , u.book_number
      , u.total_point
@@ -408,6 +463,7 @@ SELECT o.order_number
      , u.store_introduction
      , u.bank_account_copy_image
      , u.bank_name
+     , u.bank_account_number
      , u.role
      , u.store_name
      , u.withdrawal_status
@@ -417,36 +473,36 @@ SELECT o.order_number
  ORDER BY o.order_number DESC;
 
 -- Insert
-INSERT INTO order ( product_number
-                  , buyer_id
-                  , store_id
-                  , order_bundle_number
-                  , order_date
-                  , order_quantity
-                  , order_status
-                  , receiver_name
-                  , receiver_phone
-                  , receiver_address
-                  , receiver_request
-                  , delivery_tracking_number
-                  , delivery_company_code
-                  , payment_option
-                  , total_payment_price
-                  , reward_point
-                  , using_point
-                  , order_claim_request_date
-                  , order_claim_response_date
-                  , order_claim_reason
-                  )
+INSERT INTO order( product_number
+                 , buyer_id
+                 , store_id
+                 , order_bundle_number
+                 , order_date
+                 , order_quantity
+                 , order_status
+                 , receiver_name
+                 , receiver_phone
+                 , receiver_address
+                 , receiver_request
+                 , delivery_tracking_number
+                 , delivery_company_code
+                 , payment_option
+                 , total_payment_price
+                 , reward_point
+                 , using_point
+                 , order_claim_request_date
+                 , order_claim_response_date
+                 , order_claim_reason
+                 )
 VALUES ( 1
        , 'buyer_id 1'
        , 'store_id 1'
-       , 1
+       , NOW( )
        , NOW( )
        , 1
        , 'order_status 1'
        , 'receiver_name 1'
-       , 1
+       , 'receiver_phone 1'
        , 'receiver_address 1'
        , 'receiver_request 1'
        , 1
@@ -457,7 +513,7 @@ VALUES ( 1
        , 1
        , NOW( )
        , NOW( )
-       , 1
+       , 'order_claim_reason 1'
        );
 
 -- Insert된 Row의 Auto Increment값 조회
@@ -468,12 +524,12 @@ UPDATE order
    SET product_number            = 1
      , buyer_id                  = 'buyer_id 1'
      , store_id                  = 'store_id 1'
-     , order_bundle_number       = 1
+     , order_bundle_number       = NOW( )
      , order_date                = NOW( )
      , order_quantity            = 1
      , order_status              = 'order_status 1'
      , receiver_name             = 'receiver_name 1'
-     , receiver_phone            = 1
+     , receiver_phone            = 'receiver_phone 1'
      , receiver_address          = 'receiver_address 1'
      , receiver_request          = 'receiver_request 1'
      , delivery_tracking_number  = 1
@@ -484,7 +540,7 @@ UPDATE order
      , using_point               = 1
      , order_claim_request_date  = NOW( )
      , order_claim_response_date = NOW( )
-     , order_claim_reason        = 1
+     , order_claim_reason        = 'order_claim_reason 1'
  WHERE order_number = 1;
 
 -- Delete
@@ -495,7 +551,7 @@ DELETE
 -- 1일이 지난 데이터 삭제
 DELETE
   FROM order
- WHERE order_date < DATE_SUB( NOW( ) , INTERVAL 1 DAY );
+ WHERE order_bundle_number < DATE_SUB( NOW( ) , INTERVAL 1 DAY );
 
 -- 해당 PK가 없으면 Insert 있으면 Update
 INSERT INTO order( order_number
