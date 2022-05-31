@@ -17,13 +17,12 @@ import com.faitmain.domain.product.service.ProductService;
 
 
 @Transactional
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class ProductMapperTest {
 	
 	Logger logger = LoggerFactory.getLogger(ProductMapperTest.class);
 	
-	@Autowired()
+	@Autowired
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
 //	ProductMapper productMapper;

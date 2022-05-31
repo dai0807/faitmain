@@ -5,16 +5,14 @@ import java.util.List;
 
 import com.faitmain.domain.user.domain.User;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.Value;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@ToString
+@Data
 public class Product {
 
 	private int productNumber;
@@ -29,6 +27,6 @@ public class Product {
 	private String productStatus;
 	private Date productRegDate;
 	private int deliveryCharge;
+	private int productGroupNumber;
 	
 }
-
