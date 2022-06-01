@@ -70,7 +70,7 @@
 	 </select>
 	 		
 	<!-- SQL : SELECT ROW Count (현재 search 없음) -->	 
-	<select  id="getTotalCount"  parameterType="com.faitmain.domain.model.Search"	 resultType="int">
+	<select id="getTotalCount" parameterType="com.faitmain.global.common.Search" resultType="int">
 	  	SELECT COUNT(*)
 	  	FROM(	SELECT product_number, product_name , price, reg_date
 				FROM product						
