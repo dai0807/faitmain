@@ -2,6 +2,9 @@ package com.faitmain.domain.example.service;
 
 import com.faitmain.domain.example.domain.Member;
 import com.faitmain.domain.example.mapper.MemberMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,16 +12,11 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service
+@Primary
 public class MemberService{
+
+    @Autowired
     MemberMapper memberMapper;
-
-    public MemberService( MemberMapper memberMapper ){
-        this.memberMapper = memberMapper;
-    }
-
-    public ArrayList< HashMap< String, Object > > findAll(){
-        return memberMapper.findAll();
-    }
 
     public List< Member > getMemberList(){
         return memberMapper.getMemberList();

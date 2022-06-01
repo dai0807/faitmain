@@ -4,6 +4,7 @@
 
 <mapper namespace="com.faitmain.domain.example.mapper.MemberMapper">
 
+
     <insert id="createMember">
         INSERT INTO member( id  , name)
         VALUES ( #{id} , #{name} )
@@ -18,11 +19,6 @@
         DELETE FROM member
                WHERE id = #{id}
     </delete>
-
-    <select id="findAll" resultType="HashMap">
-        SELECT *
-          FROM user;
-    </select>
 
     <select id="getMember" resultType="com.faitmain.domain.example.domain.Member">
         SELECT *
