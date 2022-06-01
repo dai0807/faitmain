@@ -2,6 +2,7 @@ package com.faitmain.domain.example.mapper;
 
 import com.faitmain.domain.example.domain.Member;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -9,9 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 
 @Mapper
+@Repository
 public interface MemberMapper{
-
-    ArrayList< HashMap< String, Object > > findAll();
 
     Member getMember( int id );
 

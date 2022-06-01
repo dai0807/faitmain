@@ -17,7 +17,7 @@ import static org.springframework.web.servlet.function.RequestPredicates.POST;
 @ExtendWith( SpringExtension.class )
 @SpringBootTest( webEnvironment = SpringBootTest.WebEnvironment.MOCK )
 @AutoConfigureMockMvc
-class WebRestControllerTest{
+class MemberControllerTest{
 
     @Autowired
     private MockMvc mvc;
