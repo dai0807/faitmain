@@ -38,8 +38,8 @@ class MemberServiceTest{
     @DisplayName( "생성" )
     void test3(){
         Member member = new Member();
-        member.setName( "Tom" );
         member.setId( 1 );
+        member.setName( "Tom" );
 
         int insertCnt = memberService.createMember( member );
         assertThat( insertCnt ).isEqualTo( 1 );
