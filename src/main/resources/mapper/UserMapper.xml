@@ -3,10 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.faitmain.domain.order.mapper.UserMapper">
+<mapper namespace="com.faitmain.domain.user.mapper.UserMapper">
 
 
-<resultMap id="userMap" type="user">
+<resultMap id="userMap" type="com.faitmain.domain.user.domain.User">
 <result property="userNumber" 					column="user_number" 				jdbcType="INTEGER"/>
 		<result property="id" 					column="id" 						jdbcType="VARCHAR"/>
 		<result property="password"				column="password" 					jdbcType="VARCHAR" />
@@ -33,11 +33,30 @@
 </resultMap>
 
 
+<resultMap id="StoreApplicationDocumentMap" type="StoreApplicationDocument">
+		<result property="storeApplicationDocumentNumber" 					column="store_application_document_number" 	jdbcType="INTEGER"/>
+		<result property="id" 												column="id" 								jdbcType="VARCHAR"/>
+		<result property="examinationStatus"								column="examination_status" 				jdbcType="VARCHAR" />
+		<result property="productDetial" 									column="product_detail" 					jdbcType="VARCHAR"/>
+ 		<result property="regDate"											column="reg_date" 							jdbcType="DATE" />
+	  				
 
-<select id ="getUser" parameterType="user">
+</resultMap>
+
+
+
+
+<select id ="getUser" parameterType="String" resultMap ="userMap" >
 SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
 FROM user
 WHERE id = #{id};
+
+</select>
+ 
+ <select id ="getlist" parameterType="com.faitmain.domain.user.domain.User"  resultMap ="userMap" > <!-- role 따라  -->
+SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
+FROM user
+WHERE   role =#{role}   ;
 
 </select>
  
@@ -51,7 +70,7 @@ WHERE id = #{id};
  
  
         
-        
+         
         
  <insert id ="addUser"   >
  INSERT INTO user
@@ -79,8 +98,7 @@ VALUES
    )
  
  </insert>
- 
- 	 <update	id="updateUser"	parameterType="user" >
+  	 <update	id="updateUser"	parameterType="com.faitmain.domain.user.domain.User" >
 	   	UPDATE user
 	   	<set>
 	   		nickname 		= #{nickname} ,	   	
@@ -98,8 +116,14 @@ VALUES
 	   	WHERE  id = #{id}
 	 </update>
  
- 
- 
+  	 <update	id="updateStore"	parameterType="com.faitmain.domain.user.domain.User" >
+	   	UPDATE user
+	   	<set>
+	   		role = #{role}
+	   	</set>
+	   	WHERE  id = #{id}
+	 </update>
+ <!-- List  -->
  
 <!-- 
 	이것은 유효성 검사 할때 쓰일 Mapper  아직은 둠  
@@ -109,4 +133,42 @@ VALUES
 	
 
  -->
+ 
+ 
+ 
+ 
+ <!-- 스토어 -->
+ 
+  	<insert id ="addStoreApplicationDocument" parameterType="com.faitmain.domain.user.domain.StoreApplicationDocument"  >
+		INSERT INTO store_application_document ( id, examination_status, product_detail, reg_date)
+		VALUES
+		    (#{id}, 'W', #{product_detail}, NOW() )
+		 
+ 	</insert>
+ 
+ 	 
+ 	 <update	id="updateStoreApplicationDocument"  parameterType="com.faitmain.domain.user.domain.StoreApplicationDocument"  >
+	   	UPDATE store_application_document
+	   	<set>
+	   		examination_status 		= #{examination_status} ,	   	
+ 			 		
+	   	</set>
+	   	WHERE  store_application_document_number = #{storeApplicationDocumentNumber}
+	 </update>
+ 
+	 <select id ="getStoreApplicationDocument" parameterType="com.faitmain.domain.user.domain.StoreApplicationDocument"   resultMap ="StoreApplicationDocumentMap">
+		SELECT *
+		FROM store_application_document
+		WHERE store_application_document_number = #{id}
+		ORDER BY reg_date desc  
+	</select>
+ 
+ 	 <select id ="getStoreList" parameterType="com.faitmain.domain.user.domain.StoreApplicationDocument"   resultMap ="StoreApplicationDocumentMap">
+		SELECT *
+		FROM store_application_document
+		WHERE store_application_document_number = #{id}
+		ORDER BY reg_date desc  
+	</select>
+ 
+ 
 </mapper>

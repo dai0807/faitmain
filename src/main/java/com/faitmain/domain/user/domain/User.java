@@ -2,10 +2,13 @@ package com.faitmain.domain.user.domain;
 
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
-	
+ 
 
-	@ToString
+
+	@Data
 	public class User {
 		  private int userNumber ;
 	  	   private String id;
