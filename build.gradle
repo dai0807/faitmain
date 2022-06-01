@@ -25,9 +25,9 @@ dependencies {
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-	
-   testImplementation("org.junit.platform:junit-platform-launcher:1.5.2") 
-	testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
+	testImplementation 'org.mockito:mockito-all:1.10.19'
+	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.2.2'
+
 
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -53,6 +53,6 @@ dependencies {
 
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+test {
+    useJUnitPlatform()
 }

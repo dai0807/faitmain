@@ -2,21 +2,24 @@ package com.faitmain.domain.order.mapper;
 
 import com.faitmain.domain.order.domain.Order;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Mapper
+@Repository
 public interface OrderMapper{
 
     //insert
-    void addOrder( Order order );
+    int addOrder( Order order );
 
     //update
-    void updateOrder( Order order );
+    int updateOrder( Order order );
 
     //select
-    Order getOrder( int orderNumber ) throws Exception;
+    Order getOrder( int orderNumber );
 
 
-
-
+    List< Order> findAll();
 
 }

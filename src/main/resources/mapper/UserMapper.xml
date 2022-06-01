@@ -46,17 +46,44 @@
 
 
 
-<select id ="getUser" parameterType="String" resultMap ="userMap" >
-SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
-FROM user
-WHERE id = #{id};
+<select id ="getUser" parameterType="com.faitmain.domain.user.domain.User"  resultMap ="userMap" >
+	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
+		FROM user
+ 			<where>
+			
+				<if test="#{password} != null AND #{password}  != '' ">
+			     		AND 	password = #{password}
+			     </if>
+				<if test="#{id} != null">
+			     		AND 	id = #{id}
+			     </if>
+			     
+			      <if test="#{nickname} != null  AND #{nickname}  != ''">
+			     		AND 	nickname = #{nickname}
+			     </if>
+			     
+			     </where>
+ </select>
+ 
+ <select id ="getlist" parameterType="com.faitmain.domain.user.domain.User"  resultMap ="userMap" > <!-- role 따라  -->
+	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
+	FROM user
+	WHERE   role =#{role}   ;
 
 </select>
  
- <select id ="getlist" parameterType="com.faitmain.domain.user.domain.User"  resultMap ="userMap" > <!-- role 따라  -->
-SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
-FROM user
-WHERE   role =#{role}   ;
+ 
+  <select id ="getUserList" parameterType=" com.faitmain.global.common.Search"  resultMap ="userMap" > <!-- role 따라  -->
+	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
+	FROM user
+		<if test="searchCondition != null">
+										<where>
+											<if test="searchCondition == null and searchKeyword !='' ">
+									 				role = #{searchKeyword}
+											</if>
+													 
+											</where>
+		</if>
 
 </select>
  
@@ -116,7 +143,7 @@ VALUES
 	   	WHERE  id = #{id}
 	 </update>
  
-  	 <update	id="updateStore"	parameterType="com.faitmain.domain.user.domain.User" >
+  	 <update	id="updatUserStore"	parameterType="com.faitmain.domain.user.domain.User" >
 	   	UPDATE user
 	   	<set>
 	   		role = #{role}
@@ -125,14 +152,14 @@ VALUES
 	 </update>
  <!-- List  -->
  
-<!-- 
-	이것은 유효성 검사 할때 쓰일 Mapper  아직은 둠  
+  
+<!-- 	이것은 유효성 검사 할때 쓰일 Mapper  아직은 둠    -->
 	  <select id="getchechDuplication" parameterType="map" resultType="int">
         SELECT COUNT(*) FROM user WHERE ${checkcondition}= #{checkkeyword}
     </select>
 	
 
- -->
+ 
  
  
  
@@ -156,18 +183,24 @@ VALUES
 	   	WHERE  store_application_document_number = #{storeApplicationDocumentNumber}
 	 </update>
  
-	 <select id ="getStoreApplicationDocument" parameterType="com.faitmain.domain.user.domain.StoreApplicationDocument"   resultMap ="StoreApplicationDocumentMap">
+	 <select id ="getStoreApplicationDocument" parameterType="String"   resultMap ="StoreApplicationDocumentMap">
 		SELECT *
 		FROM store_application_document
-		WHERE store_application_document_number = #{id}
+		WHERE store_application_document_number = #{value}
 		ORDER BY reg_date desc  
 	</select>
  
- 	 <select id ="getStoreList" parameterType="com.faitmain.domain.user.domain.StoreApplicationDocument"   resultMap ="StoreApplicationDocumentMap">
+ 	 <select id ="getStoreApplicationDocumentList" parameterType="com.faitmain.domain.user.domain.StoreApplicationDocument"   resultMap ="StoreApplicationDocumentMap">
 		SELECT *
 		FROM store_application_document
-		WHERE store_application_document_number = #{id}
-		ORDER BY reg_date desc  
+		<if test="#{examinationStatus} != null">
+    		<where>
+    			examination_status = #{examinationStatus}
+    		</where>
+    	</if>
+   
+		
+ 		ORDER BY reg_date desc  
 	</select>
  
  

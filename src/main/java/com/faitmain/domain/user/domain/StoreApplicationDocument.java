@@ -2,6 +2,7 @@ package com.faitmain.domain.user.domain;
 
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -15,7 +16,7 @@ public class StoreApplicationDocument {
 		String productDetial ;
 		Date regDate ;
 	
-	
+		List<Image> StoreApplicationDocumentImage ;
 	
 	
 }
