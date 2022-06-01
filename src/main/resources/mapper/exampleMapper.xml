@@ -1,9 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
 <mapper namespace="com.faitmain.domain.example.mapper.MemberMapper">
 
+    <insert id="createMember">
+        INSERT INTO member( id  , name)
+        VALUES ( #{id} , #{name} )
+    </insert>
+
+    <update id="updateMember">
+        UPDATE member SET name = #{name}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteMember">
+        DELETE FROM member
+               WHERE id = #{id}
+    </delete>
+
     <select id="findAll" resultType="HashMap">
-        select * from user;
+        SELECT *
+          FROM user;
+    </select>
+
+    <select id="getMember" resultType="com.faitmain.domain.example.domain.Member">
+        SELECT *
+          FROM member
+         WHERE id = #{id}
+    </select>
+
+    <select id="getMemberList" resultType="com.faitmain.domain.example.domain.Member">
+        SELECT *
+          FROM member;
     </select>
 
 </mapper>
