@@ -23,15 +23,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 public class OrderControllerTest{
 
     @Autowired
-    private MockMvc mockMvc;
+    private MockMvc mvc;
 
-    @BeforeEach() //Junit4의 @Before
-    public void setup() {
-        this.mvc = MockMvcBuilders.webAppContextSetup(ctx)
-                .addFilters(new CharacterEncodingFilter("UTF-8", true))  // 필터 추가
-                .alwaysDo(print())
-                .build();
-    }
+//    @BeforeEach() //Junit4의 @Before
+//    public void setup() {
+//        this.mvc = MockMvcBuilders.webAppContextSetup(ctx)
+//                .addFilters(new CharacterEncodingFilter("UTF-8", true))  // 필터 추가
+//                .alwaysDo(print())
+//                .build();
+//    }
 
 
 }
