@@ -10,4 +10,5 @@ public class LiveChat {
 	private String writer;
 	private String chattingMessage;
 	private Timestamp sendDate;
+	
 }

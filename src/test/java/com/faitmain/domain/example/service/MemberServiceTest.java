@@ -38,8 +38,8 @@ class MemberServiceTest{
     @DisplayName( "생성" )
     void test3(){
         Member member = new Member();
-        member.setId( 1 );
-        member.setName( "Tom" );
+       // member.setId( 1 );
+       // member.setName( "Tom" );
 
         int insertCnt = memberService.createMember( member );
         assertThat( insertCnt ).isEqualTo( 1 );
@@ -58,8 +58,8 @@ class MemberServiceTest{
     @DisplayName( "업데이트" )
     void test5(){
         Member member = new Member();
-        member.setId( 1 );
-        member.setName( "John" );
+   //     member.setId( 1 );
+   //     member.setName( "John" );
         int updateCnt = memberService.updateMember( member );
         assertThat( updateCnt ).isEqualTo( 1 );
     }
