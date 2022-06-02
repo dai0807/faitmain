@@ -2,9 +2,9 @@ package com.faitmain.domain.live.mapper;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class LiveMapperTest {
 	
-	@InjectMocks
+	@Autowired
 	private LiveMapper liveMapper = Mockito.mock( LiveMapper.class );
 	
 	/*================================= Live ===================================== */

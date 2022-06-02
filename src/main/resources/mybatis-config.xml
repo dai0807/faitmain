@@ -8,6 +8,11 @@
 <!--        <typeAlias type="com.faitmain.domain.order.domain.Order" alias="Order"/>-->
 
         <package name="com.faitmain.domain.order.domain" />
+        <package name="com.faitmain.domain.live.domain" />
+        <package name="com.faitmain.domain.user.domain" />
+        <package name="com.faitmain.domain.product.domain" />
+        <package name="com.faitmain.domain.customer.domain" />
+        <package name="com.faitmain.global.common.Search" />
     </typeAliases>
 
 </configuration>
