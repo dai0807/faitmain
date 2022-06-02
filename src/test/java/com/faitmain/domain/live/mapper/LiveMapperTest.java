@@ -144,7 +144,7 @@ public class LiveMapperTest {
 	
 	/*================================= Live Product ====================================== */
 	
-	@Test
+	//@Test
 	public void addLiveProductTest() throws Exception{
 		System.out.println("addLiveProductTest start");
 		
@@ -163,20 +163,19 @@ public class LiveMapperTest {
 		System.out.println("addLiveProductTest end");
 	}
 	
-	//@Test
+	@Test
 	public void getLiveProductTest() throws Exception{
 		System.out.println("getLiveProductTest start");
 			
 		LiveProduct liveProduct = new LiveProduct();
 		
-		liveProduct = liveMapper.getLiveProduct(10001);
-		
+		liveProduct = liveMapper.getLiveProduct(10012);
 		
 		assertThat(liveProduct.getLiveProductNumber() == 10001);
 		assertThat(liveProduct.getLiveNumber() == 10001);
-		assertThat(liveProduct.getLiveReservationNumber() == 10001);
-		assertThat(liveProduct.getProductNumber() == 10012);
-		assertThat(liveProduct.getProductMainImage()).isEqualTo("product_main_image 02");
+		assertThat(liveProduct.getLiveReservationNumber() == 0);
+		assertThat(liveProduct.getProductNumber() == 10011);
+		assertThat(liveProduct.getProductMainImage()).isEqualTo("product_main_image.jpg");
 				
 		System.out.println("getLiveProductTest end");
 	}
