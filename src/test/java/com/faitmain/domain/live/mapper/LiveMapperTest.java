@@ -28,7 +28,7 @@ public class LiveMapperTest {
 	private LiveMapper liveMapper;
 	
 	/*================================= Live ===================================== */
-	@Test
+	//@Test
 	//@DisplayName("addLive Mapper Test")
 	public void addLiveTest() throws Exception {
 		System.out.println("addLiveTest start");
@@ -46,13 +46,13 @@ public class LiveMapperTest {
 		int result = liveMapper.addLive(live);
 		System.out.println("result = " + result);
 		
-		live = liveMapper.getLive(10006);
+		live = liveMapper.getLive(10005);
 		System.out.println(live);
 		
 		assertThat(live.getStoreId()).isEqualTo("store03@naver.com");
-		assertThat(live.getLiveTitle()).isEqualTo("live_title 04");
-		assertThat(live.getLiveIntro()).isEqualTo("live_intro 04");
-		assertThat(live.getLiveImage()).isEqualTo("live_image 04");
+		assertThat(live.getLiveTitle()).isEqualTo("liveTitleTest");
+		assertThat(live.getLiveIntro()).isEqualTo("liveIntroTest");
+		assertThat(live.getLiveImage()).isEqualTo("liveImageTest");
 		
 		System.out.println("addLiveTest end");
 	}
@@ -76,10 +76,11 @@ public class LiveMapperTest {
 		
 		Live updateLive = liveMapper.getLive(10003);
 		
-		Assertions.assertEquals("store03@naver.com", updateLive.getStoreId());
-		Assertions.assertEquals("updateliveTitleTest", updateLive.getLiveTitle());
-		Assertions.assertEquals("updateliveIntroTest", updateLive.getLiveIntro());
-		Assertions.assertEquals("updateliveImageTest", updateLive.getLiveImage());
+		assertThat(updateLive.getStoreId()).isEqualTo("store03@naver.com");
+		assertThat(updateLive.getLiveTitle()).isEqualTo("updateliveTitleTest");
+		assertThat(updateLive.getLiveIntro()).isEqualTo("updateliveIntroTest");
+		assertThat(updateLive.getLiveImage()).isEqualTo("updateliveImageTest");
+		
 		
 		System.out.println("updateLiveTest end");
 	}
@@ -91,10 +92,11 @@ public class LiveMapperTest {
 			
 		Live getLive = liveMapper.getLive(10001);
 			
-		Assertions.assertEquals("store01@naver.com", getLive.getStoreId());
-		Assertions.assertEquals("live_title 02", getLive.getLiveTitle());
-		Assertions.assertEquals("live_intro 02", getLive.getLiveIntro());
-		Assertions.assertEquals("live_image 02", getLive.getLiveImage());
+		assertThat(getLive.getStoreId()).isEqualTo("store01@naver.com");
+		assertThat(getLive.getLiveTitle()).isEqualTo("live_title 02");
+		assertThat(getLive.getLiveIntro()).isEqualTo("live_intro 02");
+		assertThat(getLive.getLiveImage()).isEqualTo("live_image 02");
+		
 			
 		System.out.println("getLiveTest end");
 	}
