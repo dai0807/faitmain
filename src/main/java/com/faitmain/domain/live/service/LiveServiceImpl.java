@@ -1,5 +1,6 @@
 package com.faitmain.domain.live.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.faitmain.domain.live.domain.Live;
+import com.faitmain.domain.live.domain.LiveChat;
 import com.faitmain.domain.live.domain.LiveProduct;
+import com.faitmain.domain.live.domain.LiveReservation;
 import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.live.mapper.LiveMapper;
 
@@ -44,8 +47,8 @@ public class LiveServiceImpl implements LiveService {
 	}
 	
 	//liveChat
-	public int addLiveChat(String writer, String message) throws Exception {
-		return liveMapper.addLiveChat(writer, message);
+	public int addLiveChat(LiveChat liveChat) throws Exception {
+		return liveMapper.addLiveChat(liveChat);
 	}
 	
 	public Map<String, Object> getLiveChatList(int liveNumber, String writer) throws Exception {
@@ -54,8 +57,8 @@ public class LiveServiceImpl implements LiveService {
 	
 	
 	//liveProduct
-	public int addLiveProduct(int livenumber, int liveReservationNumber, int productNumber, String liveProductMainImage) throws Exception {
-		return liveMapper.addLiveProduct(livenumber, liveReservationNumber, productNumber, liveProductMainImage);
+	public int addLiveProduct(LiveProduct liveProduct) throws Exception {
+		return liveMapper.addLiveProduct(liveProduct);
 	}
 	
 	public LiveProduct getLiveProduct(int liveProductNumber) throws Exception {
@@ -72,25 +75,25 @@ public class LiveServiceImpl implements LiveService {
 	
 	
 	//liveReservation
-	public int addLiveReservation(String storeId, String reservationDate) throws Exception {
-		return liveMapper.addLiveReservation(storeId, reservationDate);
+	public int addLiveReservation(LiveReservation liveReservation) throws Exception {
+		return liveMapper.addLiveReservation(liveReservation);
 	}
 	
 	
 	//liveUserStatus
-	public int addLiveUserStatus(int liveNumber, String id) throws Exception {
-		return liveMapper.addLiveUserStatus(liveNumber, id);
+	public int addLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception {
+		return liveMapper.addLiveUserStatus(liveUserStatus);
 	}
 	
 	public int updateLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception {
 		return liveMapper.updateLiveUserStatus(liveUserStatus);
 	}
 	
-	public LiveUserStatus getLiveUserStatus(int liveNumber, String id) throws Exception {
-		return liveMapper.getLiveUserStatus(liveNumber, id);
+	public LiveUserStatus getLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception {
+		return liveMapper.getLiveUserStatus(liveUserStatus);
 	}
 	
-	public Map<String, Object> getLiveUserStatusList(int liveNumber) throws Exception {
+	public List<LiveUserStatus> getLiveUserStatusList(int liveNumber) throws Exception {
 		return liveMapper.getLiveUserStatusList(liveNumber);
 	}
 	

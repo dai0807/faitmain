@@ -12,17 +12,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
 
-    @Autowired
     OrderMapper orderMapper;
+
+    @Autowired
+    public OrderServiceImpl( OrderMapper orderMapper ){
+        this.orderMapper = orderMapper;
+    }
 
     @Override
     public int addOrder( Order order ){
-        return 1;
+        return orderMapper.addOrder( order );
     }
 
     @Override
     public int updateOrder( Order order ){
-        return 1;
+        return orderMapper.updateOrder( order );
     }
 
     @Override

@@ -9,4 +9,5 @@ public class LiveUserStatus {
 	private boolean alarmStatus; // true : alarm on / false : alarm off
 	private boolean kickStatus;  // true : kick on / false : kick off
 	private boolean dumbStatus;  // true : dumb on / false : dumb off
+	
 }

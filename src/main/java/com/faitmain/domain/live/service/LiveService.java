@@ -1,9 +1,12 @@
 package com.faitmain.domain.live.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.faitmain.domain.live.domain.Live;
+import com.faitmain.domain.live.domain.LiveChat;
 import com.faitmain.domain.live.domain.LiveProduct;
+import com.faitmain.domain.live.domain.LiveReservation;
 import com.faitmain.domain.live.domain.LiveUserStatus;
 
 public interface LiveService {
@@ -18,13 +21,13 @@ public interface LiveService {
 	public Map<String, Object> getLiveList() throws Exception;
 	
 	//liveChat
-	public int addLiveChat(String writer, String message) throws Exception;
+	public int addLiveChat(LiveChat liveChat) throws Exception;
 	
 	public Map<String, Object> getLiveChatList(int liveNumber, String writer) throws Exception;
 	
 	
 	//liveProduct
-	public int addLiveProduct(int livenumber, int liveReservationNumber, int productNumber, String liveProductMainImage) throws Exception;
+	public int addLiveProduct(LiveProduct liveProduct) throws Exception;
 	
 	public LiveProduct getLiveProduct(int liveProductNumber) throws Exception;
 	
@@ -34,17 +37,17 @@ public interface LiveService {
 	
 	
 	//liveReservation
-	public int addLiveReservation(String storeId, String reservationDate) throws Exception;
+	public int addLiveReservation(LiveReservation liveReservation) throws Exception;
 	
 	
 	//liveUserStatus
-	public int addLiveUserStatus(int liveNumber, String id) throws Exception;
+	public int addLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception;
 	
 	public int updateLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception;
 	
-	public LiveUserStatus getLiveUserStatus(int liveNumber, String id) throws Exception;
+	public LiveUserStatus getLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception;
 	
-	public Map<String, Object> getLiveUserStatusList(int liveNumber) throws Exception;
+	public List<LiveUserStatus> getLiveUserStatusList(int liveNumber) throws Exception;
 	
 }
 

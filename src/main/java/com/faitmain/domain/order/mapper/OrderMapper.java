@@ -2,10 +2,12 @@ package com.faitmain.domain.order.mapper;
 
 import com.faitmain.domain.order.domain.Order;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Mapper
+@Repository
 public interface OrderMapper{
 
     //insert
@@ -19,4 +21,5 @@ public interface OrderMapper{
 
 
     List< Order> findAll();
+
 }

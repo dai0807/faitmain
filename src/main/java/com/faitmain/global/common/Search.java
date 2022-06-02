@@ -1,4 +1,4 @@
-package com.faitmain.domain.model;
+package com.faitmain.global.common;
 
 import lombok.Data;
 
