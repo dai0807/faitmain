@@ -1,3 +1,4 @@
+
 package com.faitmain.domain.customer.mapper;
 
 import java.util.List;
@@ -10,3 +11,4 @@ public interface CustomerMapper {
 	
 	public List<Customer> getCustomerBoardList();
 }
+

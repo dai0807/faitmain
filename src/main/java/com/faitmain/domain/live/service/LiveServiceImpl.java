@@ -1,11 +1,11 @@
 package com.faitmain.domain.live.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.faitmain.domain.live.domain.Live;
 import com.faitmain.domain.live.domain.LiveChat;
@@ -14,19 +14,23 @@ import com.faitmain.domain.live.domain.LiveReservation;
 import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.live.mapper.LiveMapper;
 
+import lombok.RequiredArgsConstructor;
+
 @Service("liveServiceImpl")
+@Transactional
+@RequiredArgsConstructor
 public class LiveServiceImpl implements LiveService {
 
 	@Autowired
-	@Qualifier("liveMapper")
 	private LiveMapper liveMapper;
-	public void setLiveMapper(LiveMapper liveMapper) {
-		this.liveMapper = liveMapper;
-	}
 	
-	public LiveServiceImpl() {
-		System.out.println(this.getClass());
-	}
+//	public void setLiveMapper(LiveMapper liveMapper) {
+//		this.liveMapper = liveMapper;
+//	}
+	
+//	public LiveServiceImpl() {
+//		System.out.println(this.getClass());
+//	}
 	
 
 	//live
@@ -42,7 +46,7 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.getLive(liveNumber);
 	}
 	
-	public Map<String, Object> getLiveList() throws Exception {
+	public List getLiveList() throws Exception {
 		return liveMapper.getLiveList();
 	}
 	
@@ -51,7 +55,7 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.addLiveChat(liveChat);
 	}
 	
-	public Map<String, Object> getLiveChatList(int liveNumber, String writer) throws Exception {
+	public List getLiveChatList(int liveNumber, String writer) throws Exception {
 		return liveMapper.getLiveChatList(liveNumber, writer);
 	}
 	
@@ -65,7 +69,7 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.getLiveProduct(liveProductNumber);
 	}
 	
-	public Map<String, Object> getLiveProductList(LiveProduct liveProduct) throws Exception {
+	public List getLiveProductList(LiveProduct liveProduct) throws Exception {
 		return liveMapper.getLiveProductList(liveProduct);
 	}
 	

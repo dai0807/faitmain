@@ -25,9 +25,11 @@
     	<result property="liveProductNumber" column="live_product_number" jdbcType="INTEGER" />
     	<result property="liveNumber" column="live_number" jdbcType="INTEGER" />
     	<result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
-    	<result property="liveProduct.productNumber" column="product_number" jdbcType="INTEGER" />
-    	<result property="liveProduct.productMainImage" column="product_main_image" jdbcType="VARCHAR" />
+    	<result property="productNumber" column="product_number" jdbcType="INTEGER"/>
+    	<result property="productMainImage" column="product_main_image" jdbcType="VARCHAR"/>
     </resultMap>
+	
+	
 	
 	<resultMap id="liveReservationMap" type="com.faitmain.domain.live.domain.LiveReservation">
     	<result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
@@ -66,7 +68,7 @@
     	INSERT INTO live_product
 		    (live_number, live_reservation_number, product_number, product_main_image)
 		VALUES
-		    (#{liveNumber}, #{liveReservationNumber], #{liveProduct.productNumber}, #{liveProduct.productMainImage})
+		    (#{liveNumber}, #{liveReservationNumber}, #{productNumber}, #{productMainImage})
     </insert>
     
     <!-- ADD LiveReservation -->
@@ -127,7 +129,7 @@
     
     <!-- ================================================================================= GET ============================================================================== -->
     <!-- GET Live -->
-    <select id="getLive" parameterType="int" resultMap="LiveMap">
+    <select id="getLive" parameterType="int" resultMap="liveMap">
     	SELECT * FROM live
 		WHERE live_number = #{liveNumber}
     </select>
@@ -151,13 +153,13 @@
     
     <!-- ================================================================================= GET LIST ============================================================================== -->
     <!-- GET LIST Live -->
-    <select id="getLiveList" resultMap="LiveMap">
+    <select id="getLiveList" resultMap="liveMap">
     	SELECT * FROM live
     	WHERE live_status = 1;
     </select>
     
     <!-- GET LIST LiveChat -->
-    <select id="getLiveChatList" parameterType="com.faitmain.domain.live.domain.LiveChat" resultMap="LiveChatMap">
+    <select id="getLiveChatList" parameterType="com.faitmain.domain.live.domain.LiveChat" resultMap="liveChatMap">
     	SELECT * FROM live_chat
     	<where>
     		live_number = #{liveNumber}
@@ -166,7 +168,7 @@
     </select>
     
     <!-- GET LIST LiveProduct -->
-    <select id="getLiveProductList" parameterType="com.faitmain.domain.live.domain.LiveProduct" resultMap="LiveProductMap">
+    <select id="getLiveProductList" parameterType="com.faitmain.domain.live.domain.LiveProduct" resultMap="liveProductMap">
     	SELECT * FROM live_product
     	<if test="#{liveReservationNumber} == 0">
     		<where>

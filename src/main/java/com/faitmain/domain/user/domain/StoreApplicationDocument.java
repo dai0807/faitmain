@@ -5,19 +5,21 @@ import java.sql.Date;
 import java.util.List;
 
 import com.faitmain.global.common.Image;
+
 import lombok.Data;
 
 
 @Data
 public class StoreApplicationDocument {
 
-		int storeApplicationDocumentNumber ;
-		String id ;
-		String examinationStatus ;
-		String productDetial ;
-		Date regDate ;
+		private int storeApplicationDocumentNumber ;
+		private String id ;
+		private String examinationStatus ;
+		private String productDetial ;
+		private Date regDate ;
 	
-		List< Image > StoreApplicationDocumentImage ;
+		private List<Image> StoreApplicationDocumentImage ;
+
 	
 	
 }

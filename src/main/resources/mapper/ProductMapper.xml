@@ -10,11 +10,11 @@
 		<result property="productName"			column="product_name" 			jdbcType="VARCHAR" />
 		<result property="price" 				column="price" 					jdbcType="INTEGER" />
 		<result property="productMainImage" 	column="product_main_image" 	jdbcType="VARCHAR" />
-		<result property="productDetail" 		column="product_detail"			jdbcType="LONGTEXT" />
+		<result property="productDetail" 		column="product_detail"			jdbcType="VARCHAR" />
 		<result property="productQuantity" 		column="product_quantity" 		jdbcType="INTEGER" />
 		<result property="categoryCode" 		column="product_category_code" 	jdbcType="CHAR" />
 		<result property="productStatus" 		column="product_status" 		jdbcType="CHAR" />
-		<result property="productRegDate" 		column="reg_date" 				jdbcType="DATETIME" />
+		<result property="productRegDate" 		column="reg_date" 				jdbcType="TIMESTAMP" />
 		<result property="deliveryCharge" 		column="delivery_charge" 		jdbcType="INTEGER" />
 		<result property="productGroupNumber" 	column="product_group_number" 	jdbcType="INTEGER" />
 		
@@ -35,7 +35,7 @@
 	<insert id="addProduct" parameterType="com.faitmain.domain.product.domain.Product">		
 		INSERT
 		INTO product(product_name, price, store_id, product_main_image, product_detail, product_category_code, reg_date, delivery_charge, product_quantity, product_group_number)
-		VALUES (#{productName}, #{price}, #{store.id}, #{productMainImage}, #{productDetail:LONGTEXT}, #{categoryCode}, NOW(), #{deliveryCharge}, #{productQuantity}, #{product_group_number:INT})
+		VALUES (#{productName}, #{price}, #{store.id}, #{productMainImage}, #{productDetail:VARCHAR}, #{categoryCode}, NOW(), #{deliveryCharge}, #{productQuantity}, #{product_group_number:INTEGER})
 	</insert>	
 	
 	<!-- 상품 추가 이미지 등록 (최대 6개) -->
@@ -134,10 +134,10 @@
 			product_name = #{productName},
 			price = #{price},
 			product_main_image = #{productMainImage},
-			product_detail = #{productDetail:LONGTEXT},
+			product_detail = #{productDetail:VARCHAR},
 			product_category_code = #{categoryCode},
 			product_quantity = #{productQuantity},
-			product_group_number = #{product_group_number:INT},
+			product_group_number = #{product_group_number:INTEGER},
 			product_status = #{productStatus}
 		</set>
 		WHERE product_number = #{productNumber}
