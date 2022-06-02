@@ -4,9 +4,12 @@ package com.faitmain.domain.customer.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.faitmain.domain.customer.domain.BanPeriod;
 import com.faitmain.domain.customer.domain.Customer;
 
+@Mapper
 public interface CustomerMapper {
 
 	//CustomerBoard

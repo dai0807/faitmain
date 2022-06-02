@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="CustomerBoardMapper">
+<mapper namespace="com.faitmain.domain.customer.mapper.CustomerMapper">
 <!-- com.faitmain.domain.Customer.mapper.CustomerBoardMapper -->
 	<resultMap id="customerSelectMap" type="com.faitmain.domain.customer.domain.Customer">
 		<result property="boardMumber"  				column="customer_board_number"		jdbcType="INTEGER"/>
@@ -12,7 +12,7 @@
 		<result property="regDate"						column="reg_date"	 				jdbcType="DATE" />
 		<result property= "updateDate"					column="update_date" 				jdbcType="DATE" />
 		<result property="FAQCategoryCode"			 	column="customer_FAQ_category_code" jdbcType="INTEGER" />
-		<result property="customer_FAQ_category_code"  	column="customer_board_type" 		jdbcType="CHAR" />
+		<result property="boardType"  					column="customer_board_type" 		jdbcType="CHAR" />
 		<result property="id"							column="customer_id"  				jdbcType="VARCHAR" />
 		<result property="count" 						column="customer_viewcount"				jdbcType="INTEGER" />
 	</resultMap>
