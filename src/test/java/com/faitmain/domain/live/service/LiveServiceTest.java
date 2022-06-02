@@ -1,21 +1,21 @@
 package com.faitmain.domain.live.service;
 
+
+ 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
 import com.faitmain.domain.live.domain.Live;
-import com.faitmain.domain.live.mapper.LiveMapper;
-
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
+import com.faitmain.domain.live.mapper.LiveMapper;
+ 
+class LiveServiceTest {
 
-
-public class LiveServiceTest {
-	
 	LiveServiceImpl liveServiceImpl;
 	
 	@Mock
@@ -54,7 +54,7 @@ public class LiveServiceTest {
 		given(liveMapper.getLive(liveNumber)).willReturn(mockLive);
 		
 		Live responseLive = liveServiceImpl.getLive(liveNumber);
-		
+		System.out.println(responseLive);
 		assertThat(responseLive.getLiveNumber()).isEqualTo(liveNumber);
 		
 	}
@@ -70,7 +70,7 @@ public class LiveServiceTest {
 
         liveServiceImpl.addLive(mockLive);
         
-        System.out.println(liveServiceImpl.getLive(10000));
+        System.out.println(liveServiceImpl.addLive(mockLive));
         
         mockLive = Live.builder().liveNumber(liveNumber).liveTitle("뽀롤롤로").build();
         
@@ -81,7 +81,4 @@ public class LiveServiceTest {
         assertThat(responseLive.getLiveTitle()).isEqualTo("뽀롤롤로");
         
 	}
-
-	
-	
 }
