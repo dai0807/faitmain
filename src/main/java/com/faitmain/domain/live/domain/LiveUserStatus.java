@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class LiveUserStatus {
-	private int liveNumer;
+	private int liveNumber;
 	private String id;
 	private boolean alarmStatus; // true : alarm on / false : alarm off
 	private boolean kickStatus;  // true : kick on / false : kick off
