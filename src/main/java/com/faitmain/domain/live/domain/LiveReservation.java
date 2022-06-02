@@ -7,4 +7,5 @@ public class LiveReservation {
 	private int liveReservationNumber;
 	private String storeId;
 	private String reservationDate;
+	
 }

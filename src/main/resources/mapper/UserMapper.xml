@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.faitmain.domain.user.mapper.UserMapper">
+
+
+<resultMap id="userMap" type="com.faitmain.domain.user.domain.User">
+<result property="userNumber" 					column="user_number" 				jdbcType="INTEGER"/>
+		<result property="id" 					column="id" 						jdbcType="VARCHAR"/>
+		<result property="password"				column="password" 					jdbcType="VARCHAR" />
+		<result property="address" 				column="address" 					jdbcType="VARCHAR"/>
+		<result property="postalCode"			column="postal_code" 				jdbcType="INTEGER" />
+ 		<result property="nickname"				column="nickname" 					jdbcType="VARCHAR" />
+ 		<result property="storeName" 			column="store_name" 				jdbcType="VARCHAR"/>
+ 		<result property="name" 				column="name" 						jdbcType="VARCHAR"/>
+ 	
+ 		<result property="phoneNumber"			column="phone_number" 				jdbcType="VARCHAR" />
+ 		<result property="regDate"				column="reg_date" 					jdbcType="DATE" />
+		<result property="joinPath" 			column="join_path" 					jdbcType="VARCHAR"/>
+		
+ 		<result property="bookNumber"			column="book_number" 				jdbcType="INTEGER" />
+		<result property="totalPoint" 			column="total_point" 				jdbcType="INTEGER"/>
+		<result property="storelogoImage" 		column="store_logo_image" 			jdbcType="VARCHAR"/>
+ 		<result property="storeIntroduction"	column="store_introduction" 		jdbcType="VARCHAR" /> 	
+ 		<result property="bankAccountCopyImage" column="bank_account_copy_image" 	jdbcType="VARCHAR"/> 			
+ 		<result property="bankName" 			column="bank_name" 					jdbcType="VARCHAR"/>
+ 		<result property="bankAccountNumber" 	column="bank_account_number" 		jdbcType="VARCHAR"/>
+ 		<result property="role"					column="role" 						jdbcType="VARCHAR" />
+ 		<result property="withdrawalStatus"		column="withdrawal_status" 			jdbcType="Boolean" />  		 			
+
+</resultMap>
+
+
+<resultMap id="StoreApplicationDocumentMap" type="StoreApplicationDocument">
+		<result property="storeApplicationDocumentNumber" 					column="store_application_document_number" 	jdbcType="INTEGER"/>
+		<result property="id" 												column="id" 								jdbcType="VARCHAR"/>
+		<result property="examinationStatus"								column="examination_status" 				jdbcType="VARCHAR" />
+		<result property="productDetial" 									column="product_detail" 					jdbcType="VARCHAR"/>
+ 		<result property="regDate"											column="reg_date" 							jdbcType="DATE" />
+	  				
+
+</resultMap>
+
+
+
+
+<select id ="getUser" parameterType="com.faitmain.domain.user.domain.User"  resultMap ="userMap" >
+	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
+		FROM user
+ 			<where>
+			
+				<if test="#{password} != null AND #{password}  != '' ">
+			     		AND 	password = #{password}
+			     </if>
+				<if test="#{id} != null">
+			     		AND 	id = #{id}
+			     </if>
+			     
+			      <if test="#{nickname} != null  AND #{nickname}  != ''">
+			     		AND 	nickname = #{nickname}
+			     </if>
+			     
+			     </where>
+ </select>
+ 
+ <select id ="getlist" parameterType="com.faitmain.domain.user.domain.User"  resultMap ="userMap" > <!-- role 따라  -->
+	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
+	FROM user
+	WHERE   role =#{role}   ;
+
+</select>
+ 
+ 
+  <select id ="getUserList" parameterType=" com.faitmain.global.common.Search"  resultMap ="userMap" > <!-- role 따라  -->
+	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
+	FROM user
+		<if test="searchCondition != null">
+										<where>
+											<if test="searchCondition == null and searchKeyword !='' ">
+									 				role = #{searchKeyword}
+											</if>
+													 
+											</where>
+		</if>
+
+</select>
+ 
+ <select id ="findUser" parameterType="map"  resultType="int" >  <!-- 이것은 findUser 때에따라 들어가는 값 확인하기 -->
+	SELECT COUNT(*)
+	FROM user
+		WHERE  phone_number =#{phoneNumber}  
+		AND  ${findcondition}= #{findkeyword} ;
+
+</select>
+ 
+ 
+        
+         
+        
+ <insert id ="addUser"   >
+ INSERT INTO user
+   (id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, 
+    join_path, total_point, store_logo_image, store_introduction, bank_account_copy_image,
+    bank_name, bank_account_number, role, store_name)
+VALUES
+    (
+    #{id}, 
+    #{password} , 
+    #{gender}, 
+    #{address}, 
+    #{postalCode}, 
+    #{nickname}, 
+    #{storeName}, 
+    #{name}, 
+    #{phoneNumber}, 
+    now() , 
+    #{joinPath},     
+    #{storelogoImage} , 
+    #{bankAccountCopyImage} , 
+    #{bankName} , 
+    #{bankAccountNumber} , 
+    #{role}
+   )
+ 
+ </insert>
+  	 <update	id="updateUser"	parameterType="com.faitmain.domain.user.domain.User" >
+	   	UPDATE user
+	   	<set>
+	   		nickname 		= #{nickname} ,	   	
+ 			address			= #{address},
+			postal_code 	= #{postalCode} ,			 			
+			phone_number	=	#{phoneNumber} ,
+		
+			store_introduction				=	#{storeIntroduction} ,
+			bank_account_copy_image			=	#{bankAccountCopyImage} ,
+			bank_name						=	#{bankName} ,
+			bank_account_number				=	#{bankAccountNumber} ,
+
+			
+	   	</set>
+	   	WHERE  id = #{id}
+	 </update>
+ 
+  	 <update	id="updatUserStore"	parameterType="com.faitmain.domain.user.domain.User" >
+	   	UPDATE user
+	   	<set>
+	   		role = #{role}
+	   	</set>
+	   	WHERE  id = #{id}
+	 </update>
+ <!-- List  -->
+ 
+  
+<!-- 	이것은 유효성 검사 할때 쓰일 Mapper  아직은 둠    -->
+	  <select id="getchechDuplication" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM user WHERE ${checkcondition}= #{checkkeyword}
+    </select>
+	
+
+ 
+ 
+ 
+ 
+ 
+ <!-- 스토어 -->
+ 
+  	<insert id ="addStoreApplicationDocument" parameterType="com.faitmain.domain.user.domain.StoreApplicationDocument"  >
+		INSERT INTO store_application_document ( id, examination_status, product_detail, reg_date)
+		VALUES
+		    (#{id}, 'W', #{product_detail}, NOW() )
+		 
+ 	</insert>
+ 
+ 	 
+ 	 <update	id="updateStoreApplicationDocument"  parameterType="com.faitmain.domain.user.domain.StoreApplicationDocument"  >
+	   	UPDATE store_application_document
+	   	<set>
+	   		examination_status 		= #{examination_status} ,	   	
+ 			 		
+	   	</set>
+	   	WHERE  store_application_document_number = #{storeApplicationDocumentNumber}
+	 </update>
+ 
+	 <select id ="getStoreApplicationDocument" parameterType="String"   resultMap ="StoreApplicationDocumentMap">
+		SELECT *
+		FROM store_application_document
+		WHERE store_application_document_number = #{value}
+		ORDER BY reg_date desc  
+	</select>
+ 
+ 	 <select id ="getStoreApplicationDocumentList" parameterType="com.faitmain.domain.user.domain.StoreApplicationDocument"   resultMap ="StoreApplicationDocumentMap">
+		SELECT *
+		FROM store_application_document
+		<if test="#{examinationStatus} != null">
+    		<where>
+    			examination_status = #{examinationStatus}
+    		</where>
+    	</if>
+   
+		
+ 		ORDER BY reg_date desc  
+	</select>
+ 
+ 
+</mapper>
