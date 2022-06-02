@@ -63,7 +63,7 @@
     
     <!-- ADD LiveProduct -->
      <insert id="addLiveProduct" parameterType="com.faitmain.domain.live.domain.LiveProduct">
-    	INSERT INTO live_product_list
+    	INSERT INTO live_product
 		    (live_number, live_reservation_number, product_number, product_main_image)
 		VALUES
 		    (#{liveNumber}, #{liveReservationNumber], #{liveProduct.productNumber}, #{liveProduct.productMainImage})
