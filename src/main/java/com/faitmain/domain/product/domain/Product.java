@@ -4,17 +4,11 @@ import java.sql.Date;
 import java.util.List;
 
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.global.common.Image;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.Value;
+import lombok.Data;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@ToString
+@Data
 public class Product {
 
 	private int productNumber;
@@ -22,13 +16,13 @@ public class Product {
 	private User store;
 	private int price;
 	private String productMainImage;
-	private List<String> productExtraImage;
+	private List<Image> productExtraImage;
 	private String productDetail;
 	private int productQuantity;
 	private String categoryCode;
 	private String productStatus;
 	private Date productRegDate;
 	private int deliveryCharge;
+	private int productGroupNumber;
 	
 }
-

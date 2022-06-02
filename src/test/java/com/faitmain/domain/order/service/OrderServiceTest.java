@@ -1,23 +1,37 @@
 package com.faitmain.domain.order.service;
 
 import com.faitmain.domain.order.domain.Order;
-import com.faitmain.domain.order.mapper.OrderMapper;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import static java.sql.JDBCType.NULL;
+import java.util.List;
 
-@Transactional
+@SpringBootTest
 public class OrderServiceTest{
 
-    //1.
-    private OrderMapper orderMapper = Mockito.mock( OrderMapper.class );
+//    1
+//    private final OrderMapper orderMapper = Mockito.mock( OrderMapper.class );
+    @Autowired
     private OrderService orderService;
 
     @BeforeEach
     public void setUp(){
+    }
+
+    @Test
+    @DisplayName( "전체 조회" )
+    @Transactional
+    public void getOrderListTest() throws Exception{
+        List< Order > orderList = orderService.getOrderList();
+        for ( Order order : orderList ) {
+            System.out.println( "order = " + order.toString() );
+        }
     }
 
 //    @Test
