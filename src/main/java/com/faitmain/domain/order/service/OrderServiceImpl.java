@@ -5,23 +5,22 @@ import com.faitmain.domain.order.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
 
+    @Autowired
     OrderMapper orderMapper;
 
-    @Autowired
-    public OrderServiceImpl( OrderMapper orderMapper ){
-        this.orderMapper = orderMapper;
-    }
 
     @Override
-    public int addOrder( Order order ){
-        return orderMapper.addOrder( order );
+    public void addOrder( Order order ){
+        orderMapper.addOrder( order );
     }
 
     @Override
@@ -36,6 +35,6 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public List< Order > getOrderList(){
-        return orderMapper.findAll();
+        return orderMapper.getOrderList();
     }
 }
