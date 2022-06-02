@@ -18,11 +18,15 @@ public interface UserMapper {
 	//Select
 	 User getUser(User User) ;
 	
-	
+	//유저 insert 
 	 int addUser(User user) ;
+		//유저 insert 
+ 	 
 	 
+	 //유저 update
 	 int updateUser(User user);
 	 
+	 // role update
 	 int updatUserStore(User user);
 	
 	 //아이디/PW 찾기 할때 사용하는 findUser
@@ -30,6 +34,7 @@ public interface UserMapper {
 	 
 	 //충복체크
 	 int getchechDuplicationCount( HashMap<String, Object> map) ;
+	 
 	 
 	 int addStoreApplicationDocument(StoreApplicationDocument storeApplicationDocument) ; 
 	 

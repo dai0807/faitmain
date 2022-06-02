@@ -6,7 +6,7 @@
 <mapper namespace="com.faitmain.domain.user.mapper.UserMapper">
 
 
-<resultMap id="userMap" type="com.faitmain.domain.user.domain.User">
+<resultMap id="userMap" type="User">
 <result property="userNumber" 					column="user_number" 				jdbcType="INTEGER"/>
 		<result property="id" 					column="id" 						jdbcType="VARCHAR"/>
 		<result property="password"				column="password" 					jdbcType="VARCHAR" />
@@ -33,7 +33,7 @@
 </resultMap>
 
 
-<resultMap id="StoreApplicationDocumentMap" type="com.faitmain.domain.user.domain.StoreApplicationDocument">
+<resultMap id="StoreApplicationDocumentMap" type="StoreApplicationDocument">
 		<result property="storeApplicationDocumentNumber" 					column="store_application_document_number" 	jdbcType="INTEGER"/>
 		<result property="id" 												column="id" 								jdbcType="VARCHAR"/>
 		<result property="examinationStatus"								column="examination_status" 				jdbcType="VARCHAR" />
@@ -46,7 +46,7 @@
 
 
 
-<select id ="getUser" parameterType="com.faitmain.domain.user.domain.User"  resultMap ="userMap" >
+<select id ="getUser" parameterType="User"  resultMap ="userMap" >
 	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
 		FROM user
  			<where>
@@ -66,7 +66,7 @@
 			     </where>
  </select>
  
- <select id ="getlist" parameterType="com.faitmain.domain.user.domain.User"  resultMap ="userMap" > <!-- role 따라  -->
+ <select id ="getlist" parameterType="User"  resultMap ="userMap" > <!-- role 따라  -->
 	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
 	FROM user
 	WHERE   role =#{role}   ;
@@ -97,36 +97,15 @@
 </select>
  
  
-        
+    <insert id ="addUser"   parameterType="User"  >
+    
+    INSERT INTO user (id,	 password,	 gender, 	address, postal_code, 	nickname, 	phone_number, 	name, 	reg_date, 	join_path,	store_logo_image, store_introduction, bank_account_copy_image, bank_name,bank_account_number, role, store_name)
+VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#{phoneNumber}, #{name},now(),		#{joinPath},	NULL		,			NULL	,	NULL				 ,NULL		,NULL			,	#{role},#{storeName});
+    
+    </insert>    
          
-        
- <insert id ="addUser"   >
- INSERT INTO user
-   (id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, 
-    join_path, total_point, store_logo_image, store_introduction, bank_account_copy_image,
-    bank_name, bank_account_number, role, store_name)
-VALUES
-    (
-    #{id}, 
-    #{password} , 
-    #{gender}, 
-    #{address}, 
-    #{postalCode}, 
-    #{nickname}, 
-    #{storeName}, 
-    #{name}, 
-    #{phoneNumber}, 
-    now() , 
-    #{joinPath},     
-    #{storelogoImage} , 
-    #{bankAccountCopyImage} , 
-    #{bankName} , 
-    #{bankAccountNumber} , 
-    #{role}
-   )
  
- </insert>
-  	 <update	id="updateUser"	parameterType="com.faitmain.domain.user.domain.User" >
+  	 <update	id="updateUser"	parameterType="User" >
 	   	UPDATE user
 	   	<set>
 	   		nickname 		= #{nickname} ,	   	
@@ -144,7 +123,7 @@ VALUES
 	   	WHERE  id = #{id}
 	 </update>
  
-  	 <update	id="updatUserStore"	parameterType="com.faitmain.domain.user.domain.User" >
+  	 <update	id="updatUserStore"	parameterType="User" >
 	   	UPDATE user
 	   	<set>
 	   		role = #{role}
@@ -167,7 +146,7 @@ VALUES
  
  <!-- 스토어 -->
  
-  	<insert id ="addStoreApplicationDocument" parameterType="com.faitmain.domain.user.domain.StoreApplicationDocument"  >
+  	<insert id ="addStoreApplicationDocument" parameterType="StoreApplicationDocument"  >
 		INSERT INTO store_application_document ( id, examination_status, product_detail, reg_date)
 		VALUES
 		    (#{id}, 'W', #{product_detail}, NOW() )
@@ -175,7 +154,7 @@ VALUES
  	</insert>
  
  	 
- 	 <update	id="updateStoreApplicationDocument"  parameterType="com.faitmain.domain.user.domain.StoreApplicationDocument"  >
+ 	 <update	id="updateStoreApplicationDocument"  parameterType="StoreApplicationDocument"  >
 	   	UPDATE store_application_document
 	   	<set>
 	   		examination_status 		= #{examination_status} ,	   	
@@ -191,7 +170,7 @@ VALUES
 		ORDER BY reg_date desc  
 	</select>
  
- 	 <select id ="getStoreApplicationDocumentList" parameterType="com.faitmain.domain.user.domain.StoreApplicationDocument"   resultMap ="StoreApplicationDocumentMap">
+ 	 <select id ="getStoreApplicationDocumentList" parameterType="StoreApplicationDocument"   resultMap ="StoreApplicationDocumentMap">
 		SELECT *
 		FROM store_application_document
 		<if test="#{examinationStatus} != null">
