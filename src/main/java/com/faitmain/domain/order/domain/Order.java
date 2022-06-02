@@ -2,6 +2,7 @@ package com.faitmain.domain.order.domain;
 
 import lombok.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -13,10 +14,11 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class Order {
 
+    @Valid
     @NotNull
     private int orderNumber;
 
-
+    @NotNull
     private int productNumber;
 
     @NotNull

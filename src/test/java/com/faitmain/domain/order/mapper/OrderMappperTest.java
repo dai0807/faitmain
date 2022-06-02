@@ -87,9 +87,10 @@ class OrderMappperTest{
 
         System.out.println( "updateOrderTest Start" );
 
+        //given
         Order order = new Order();
 
-        order.setOrderNumber( 10013 );
+        order.setOrderNumber( 10001 );
         order.setOrderStatus( "주문접수" );
         order.setReceiverName( "홍길동" );
         order.setReceiverPhone( "01039372812" );
@@ -99,13 +100,14 @@ class OrderMappperTest{
         order.setDeliveryCompanyCode( "ABCDE" );
         order.setOrderClaimReason( 0 );
 
-
+        //when
         System.out.println( "result = " + orderMapper.updateOrder( order ) );
         System.out.println( "orderNumber = " + order.getOrderNumber() );
 
         order = orderMapper.getOrder( order.getOrderNumber() );
         System.out.println( "order = " + order );
 
+        //then
         assertThat( order.getOrderStatus() ).isEqualTo( "주문접수" );
         assertThat( order.getReceiverName() ).isEqualTo( "홍길동" );
         assertThat( order.getReceiverPhone() ).isEqualTo( "01039372812" );
@@ -114,6 +116,21 @@ class OrderMappperTest{
         assertThat( order.getDeliveryTrackingNumber() ).isEqualTo( 1 );
         assertThat( order.getDeliveryCompanyCode() ).isEqualTo( "ABCDE" );
         assertThat( order.getOrderClaimReason() ).isEqualTo( 0 );
+    }
+
+    @Test
+    @DisplayName( " 주문조회 테스트" )
+    public void getOrderTest(){
+
+        //given
+        int orderNumber = 10001;
+
+        //when
+        Order order = orderMapper.getOrder( 10001 );
+        System.out.println( "order = " + order );
+
+        //then
+        assertThat( order.getOrderNumber() ).isEqualTo( 10001 );
     }
 
     @Test
