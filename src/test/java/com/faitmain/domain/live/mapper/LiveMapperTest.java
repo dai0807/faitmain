@@ -2,36 +2,30 @@ package com.faitmain.domain.live.mapper;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.List;
-
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
-
+import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 
 import com.faitmain.domain.live.domain.Live;
-import com.faitmain.domain.live.domain.LiveChat;
-import com.faitmain.domain.live.domain.LiveProduct;
-import com.faitmain.domain.live.domain.LiveReservation;
-import com.faitmain.domain.live.domain.LiveUserStatus;
-import com.faitmain.domain.product.domain.Product;
+import com.faitmain.domain.order.mapper.OrderMapper;
 import com.faitmain.domain.product.mapper.ProductMapper;
 
-//@MybatisTest
-public class LiveMapperTest {
+import static org.assertj.core.api.Assertions.assertThat;
 
-	@Autowired
-	private LiveMapper liveMapper;
+@MybatisTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+public class LiveMapperTest {
 	
-	@Autowired
-	private ProductMapper productMapper;
-	
+	@InjectMocks
+	private LiveMapper liveMapper = Mockito.mock( LiveMapper.class );
 	
 	/*================================= Live ===================================== */
 	@Test
+	@DisplayName("addLive Mapper Test")
 	public void addLiveTest() throws Exception {
 		System.out.println("addLiveTest start");
 		
@@ -43,8 +37,18 @@ public class LiveMapperTest {
 		live.setLiveImage("liveImageTest");
 		live.setLiveStatus(true);
 		live.setChattingStatus(true);
+		System.out.println(live);
 		
-		assertEquals(1, liveMapper.addLive(live));
+		int result = liveMapper.addLive(live);
+		System.out.println("result = " + result);
+		
+		live = liveMapper.getLive(10001);
+		System.out.println(live);
+		
+		assertThat(live.getStoreId()).isEqualTo("store03@naver.com");
+		assertThat(live.getLiveTitle()).isEqualTo("live_title 04");
+		assertThat(live.getLiveIntro()).isEqualTo("live_intro 04");
+		assertThat(live.getLiveImage()).isEqualTo("live_image 04");
 		
 		System.out.println("addLiveTest end");
 	}
