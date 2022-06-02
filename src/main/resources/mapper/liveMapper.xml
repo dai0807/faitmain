@@ -193,7 +193,7 @@
 
 	<!-- ================================================================================= DELETE ============================================================================== -->
 	<delete id="deleteLiveProduct" parameterType="LiveProduct">
-		DELETE FROM live_product_list
+		DELETE FROM live_product
 		<where>
 			live_number = #{liveNumber}
 		</where>
