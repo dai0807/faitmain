@@ -145,10 +145,10 @@ CREATE TABLE `customer` (
                         `customer_board_content`     varchar(1000) NOT NULL ,
                         `reg_date`                   date          NOT NULL ,
                         `update_date`                date DEFAULT NULL ,
-                        `customer_FAQ_category_code` 	int     NULL,      
+                        `customer_FAQ_category_code` 	int     NULL,
                         `customer_board_type`        char(1)       NOT NULL ,
                         `customer_id`                varchar(25)   NOT NULL ,
-		'customer_viewcount'	int	DEFAULT 0,
+		                'customer_viewcount'	     int	DEFAULT 0,
                         PRIMARY KEY ( `customer_board_number` ) ,
                         FOREIGN KEY ( `customer_id` ) REFERENCES `user` ( `id` )
                         );

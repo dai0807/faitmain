@@ -45,17 +45,5 @@ public class LiveRestController {
 		
 		return map;
 	}
-	
-	@PostMapping("json/updateLive")
-	public Live updateLive(@RequestBody Live live) {
-		System.out.println("/live/json/updateLive : POST start...");
-		
-		Live getLive = liveService.getLive(live.getLiveNumber());
-		
-		System.out.println("result = " + liveService.updateLive(live));
-		
-		System.out.println("/live/json/updateLive : POST end...");
-		
-		return ;
-	}
+
 }

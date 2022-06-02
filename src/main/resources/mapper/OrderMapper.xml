@@ -5,9 +5,7 @@
 
 <mapper namespace="com.faitmain.domain.order.mapper.OrderMapper">
 
-    <resultMap id="OrderMap" type="Order">
 
-    </resultMap>
     <insert id="addOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="orderNumber">
         INSERT INTO `order` ( product_number
                             , buyer_id
@@ -73,7 +71,7 @@
          WHERE order_number = #{order_number}
     </select>
 
-    <select id="getOrderList" resultType="Order">
+    <select id="getOrderList" resultType="com.faitmain.domain.order.domain.Order">
         SELECT *
           FROM `order`
          ORDER BY order_number DESC

@@ -22,7 +22,7 @@
 <!--    </typeAliases>-->
 
 <!--    <mappers>-->
-<!--        <mapper resource="mapper/liveMapper.xml"/>-->
+<!--        <mapper resource="mapper/LiveMapper.xml"/>-->
 <!--        <mapper resource="mapper/CartMapper.xml"/>-->
 <!--        <mapper resource="mapper/CustomerBoardMapper.xml"/>-->
 <!--        <mapper resource="mapper/InquiryMapper.xml"/>-->

@@ -1,12 +1,12 @@
 package com.faitmain.domain.order.mapper;
 
 import com.faitmain.domain.order.domain.Order;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 @Mapper
+
 public interface OrderMapper{
 
     //insert
@@ -20,6 +20,6 @@ public interface OrderMapper{
     Order getOrder( int orderNumber );
 
 
-    List< Order> getOrderList();
+    List< Order > getOrderList();
 
 }
