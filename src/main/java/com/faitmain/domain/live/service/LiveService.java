@@ -1,6 +1,5 @@
 package com.faitmain.domain.live.service;
 
-import java.util.List;
 import java.util.Map;
 
 import com.faitmain.domain.live.domain.Live;
@@ -18,12 +17,12 @@ public interface LiveService {
 	
 	public Live getLive(int liveNumber) throws Exception;
 	
-	public List getLiveList() throws Exception;
+	public Map<String, Object> getLiveList() throws Exception;
 	
 	//liveChat
 	public int addLiveChat(LiveChat liveChat) throws Exception;
 	
-	public List getLiveChatList(int liveNumber, String writer) throws Exception;
+	public Map<String, Object> getLiveChatList(LiveChat liveChat) throws Exception;
 	
 	
 	//liveProduct
@@ -31,7 +30,7 @@ public interface LiveService {
 	
 	public LiveProduct getLiveProduct(int liveProductNumber) throws Exception;
 	
-	public List getLiveProductList(LiveProduct liveProduct) throws Exception;
+	public Map<String, Object> getLiveProductList(LiveProduct liveProduct) throws Exception;
 	
 	public int deleteLiveProduct(int liveNumber) throws Exception;
 	
@@ -47,7 +46,7 @@ public interface LiveService {
 	
 	public LiveUserStatus getLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception;
 	
-	public List getLiveUserStatusList(int liveNumber) throws Exception;
+	public Map<String, Object> getLiveUserStatusList(int liveNumber) throws Exception;
 	
 }
 

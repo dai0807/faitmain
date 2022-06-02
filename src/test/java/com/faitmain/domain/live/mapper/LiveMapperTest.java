@@ -1,13 +1,10 @@
 package com.faitmain.domain.live.mapper;
 
-import static org.junit.Assert.assertEquals;
+import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
-import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +13,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.faitmain.domain.live.domain.Live;
 import com.faitmain.domain.live.domain.LiveChat;
 import com.faitmain.domain.live.domain.LiveProduct;
-import com.faitmain.domain.order.mapper.OrderMapper;
+import com.faitmain.domain.live.domain.LiveReservation;
+import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.mapper.ProductMapper;
 
@@ -163,7 +161,7 @@ public class LiveMapperTest {
 		System.out.println("addLiveProductTest end");
 	}
 	
-	@Test
+	//@Test
 	public void getLiveProductTest() throws Exception{
 		System.out.println("getLiveProductTest start");
 			
@@ -192,7 +190,7 @@ public class LiveMapperTest {
 	public void deleteLiveProductTest() throws Exception{
 		System.out.println("deleteLiveProductTest start");
 		
-//		Assertions.assertEquals(1, liveMapper.deleteLiveProduct(10001));
+		assertThat(liveMapper.deleteLiveProduct(10013) == 1);
 		
 		System.out.println("deleteLiveProductTest end");
 	}
@@ -203,12 +201,12 @@ public class LiveMapperTest {
 	public void addLiveReservationTest() throws Exception{
 		System.out.println("addLiveReservationTest start");
 		
-//		LiveReservation liveReservation = new LiveReservation();
-//		
-//		liveReservation.setStoreId("store03@naver.com");
-//		liveReservation.setReservationDate("2022-07-14 09:00");
-//		
-//		Assertions.assertEquals(1, liveMapper.addLiveReservation(liveReservation));
+		LiveReservation liveReservation = new LiveReservation();
+		
+		liveReservation.setStoreId("store03@naver.com");
+		liveReservation.setReservationDate("2022-07-14 09:00");
+		
+		assertThat(liveMapper.addLiveReservation(liveReservation) == 1);
 		
 		System.out.println("addLiveReservationTest end");
 	}
@@ -219,38 +217,35 @@ public class LiveMapperTest {
 	public void addLiveUserStatusTest() throws Exception{
 		System.out.println("addLiveUserStatusTest start");
 			
-//		LiveUserStatus liveUserStatus = new LiveUserStatus();
-//		
-//		liveUserStatus.setLiveNumer(10001);
-//		liveUserStatus.setId("user02@naver.com");
-//			
-//		Assertions.assertEquals(1, liveMapper.addLiveUserStatus(liveUserStatus));
+		LiveUserStatus liveUserStatus = new LiveUserStatus();
+		
+		liveUserStatus.setLiveNumber(10001);
+		liveUserStatus.setId("user02@naver.com");
+			
+		assertThat(liveMapper.addLiveUserStatus(liveUserStatus) == 1);
 			
 		System.out.println("addLiveUserStatusTest end");
 	}
 	
-	//@Test
+	@Test
 	public void updateLiveUserStatusTest() throws Exception{
 		System.out.println("updateLiveUserStatusTest start");
 				
-//		LiveUserStatus liveUserStatus = new LiveUserStatus();
-//			
-//		liveUserStatus.setLiveNumer(10001);
-//		liveUserStatus.setId("user02@naver.com");
-//		liveUserStatus.setAlarmStatus(false);
-//		liveUserStatus.setKickStatus(false);
-//		liveUserStatus.setDumbStatus(false);
-//				
-//		int result = liveMapper.updateLiveUserStatus(liveUserStatus);
-//		System.out.println("result = " + result);
-//		
-//		LiveUserStatus updateLiveUserStatus = liveMapper.getLiveUserStatus(liveUserStatus);
-//		
-//		Assertions.assertEquals(10001, updateLiveUserStatus.getLiveNumer());
-//		Assertions.assertEquals("user02@naver.com", updateLiveUserStatus.getId());
-//		Assertions.assertEquals(false, updateLiveUserStatus.isAlarmStatus());
-//		Assertions.assertEquals(false, updateLiveUserStatus.isKickStatus());
-//		Assertions.assertEquals(false, updateLiveUserStatus.isDumbStatus());
+		LiveUserStatus liveUserStatus = new LiveUserStatus();
+			
+		liveUserStatus.setLiveNumber(10002);
+		liveUserStatus.setId("user03@naver.com");
+		liveUserStatus.setAlarmStatus(true);
+		liveUserStatus.setKickStatus(true);
+		liveUserStatus.setDumbStatus(true);
+				
+		int result = liveMapper.updateLiveUserStatus(liveUserStatus);
+		System.out.println("result = " + result);
+		
+		LiveUserStatus updateLiveUserStatus = liveMapper.getLiveUserStatus(liveUserStatus);
+		
+		assertThat(updateLiveUserStatus.getLiveNumber()==10002);
+		assertThat(updateLiveUserStatus.getId()).isEqualTo("user03@naver.com");
 				
 		System.out.println("updateLiveUserStatusTest end");
 	}
@@ -259,7 +254,6 @@ public class LiveMapperTest {
 	public void getLiveUserStatusListTest() throws Exception{
 		System.out.println("getLiveUserStatusListTest start");
 		
-//		List<LiveUserStatus> list = liveMapper.getLiveUserStatusList(10001);
 		
 		System.out.println("getLiveUserStatusListTest end");
 	}

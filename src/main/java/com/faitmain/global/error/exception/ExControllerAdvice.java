@@ -2,7 +2,6 @@ package com.faitmain.global.error.exception;
 
 import com.faitmain.global.error.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
-import org.omg.CORBA.UserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,12 +19,12 @@ public class ExControllerAdvice{
         return new ErrorResult("BAD", e.getMessage());
     }
 
-    @ExceptionHandler
-    public ResponseEntity userExHandler( UserException e) {
-        log.error("[exceptionHandler] ex", e);
-        ErrorResult errorResult = new ErrorResult("USER-EX", e.getMessage());
-        return new ResponseEntity(errorResult, HttpStatus.BAD_REQUEST);
-    }
+//    @ExceptionHandler
+//    public ResponseEntity userExHandler( UserException e) {
+//        log.error("[exceptionHandler] ex", e);
+//        ErrorResult errorResult = new ErrorResult("USER-EX", e.getMessage());
+//        return new ResponseEntity(errorResult, HttpStatus.BAD_REQUEST);
+//    }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler
