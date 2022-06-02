@@ -1,56 +1,48 @@
-package com.faitmain.global.config;
+//package com.faitmain.global.config;
+//
+//import com.zaxxer.hikari.HikariConfig;
+//import com.zaxxer.hikari.HikariDataSource;
+//import org.apache.ibatis.session.SqlSessionFactory;
+//import org.mybatis.spring.SqlSessionFactoryBean;
+//import org.mybatis.spring.SqlSessionTemplate;
+//import org.springframework.boot.context.properties.ConfigurationProperties;
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
+//import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+//
+//import javax.sql.DataSource;
+//
+//
+//@Configuration
+//public class DatabaseConfig{
+//
+//
+//    @Bean
+//    @ConfigurationProperties( prefix = "spring.datasource" )
+//    public HikariConfig hikariConfig(){
+//        return new HikariConfig();
+//    }
+//
+//    @Bean
+//    public DataSource dataSource(){
+//        return new HikariDataSource( hikariConfig() );
+//    }
 
-import javax.sql.DataSource;
+//    @Bean
+//    public SqlSessionFactory sqlSessionFactory( DataSource dataSource ) throws Exception{
+//        SqlSessionFactoryBean Bean = new SqlSessionFactoryBean();
+//
+//        Bean.setDataSource( dataSource );
+//
+//        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+//        Bean.setMapperLocations( resolver.getResources( "classpath:mapper/*.xml" ) );
+//
+//        return Bean.getObject();
+//    }
 
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
-
-@Configuration
-@MapperScan(basePackages = "com.faitmain.domain")
-public class DatabaseConfig {
-
-    @Autowired
-    private ApplicationContext applicationContext;
-
-    @Bean
-    @ConfigurationProperties(prefix = "spring.datasource")
-    public HikariConfig hikariConfig() {
-        return new HikariConfig();
-    }
-
-    @Bean(name = "dataSource")
-    public DataSource dataSource() throws Exception {
-        DataSource dataSource = new HikariDataSource(hikariConfig());
-        return dataSource;
-    }
-
-    @Bean
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
-        SqlSessionFactoryBean Bean = new SqlSessionFactoryBean();
-        
-        Bean.setDataSource(dataSource);
-        
-        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Bean.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
-       
-        return Bean.getObject();
-    }
-
-    @Bean
-    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-        sqlSessionFactory.getConfiguration().setMapUnderscoreToCamelCase(true);
-        return new SqlSessionTemplate(sqlSessionFactory);
-    }
-}
+//    @Bean
+//    public SqlSessionTemplate sqlSessionTemplate( SqlSessionFactory sqlSessionFactory ){
+//        sqlSessionFactory.getConfiguration().setMapUnderscoreToCamelCase( true );
+//        return new SqlSessionTemplate( sqlSessionFactory );
+//    }
+//}

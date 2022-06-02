@@ -8,7 +8,6 @@ import com.faitmain.domain.user.domain.User;
  
 @Mapper
 @Repository
-
 public interface UserMapper {
 
 	//Select
