@@ -6,7 +6,7 @@
 <mapper namespace="com.faitmain.domain.order.mapper.OrderMapper">
 
 
-    <insert id="addOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="order_number">
+    <insert id="addOrder" parameterType="com.faitmain.domain.order.domain.Order" useGeneratedKeys="true" keyProperty="order_number">
         INSERT INTO `order` ( product_number
                             , buyer_id
                             , store_id
@@ -51,7 +51,7 @@
                );
     </insert>
 
-    <update id="updateOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="order_number">
+    <update id="updateOrder" parameterType="com.faitmain.domain.order.domain.Order" useGeneratedKeys="true" keyProperty="order_number">
         UPDATE `order`
            SET product_number            = #{product_number}
              , buyer_id                  = #{buyer_id}
@@ -76,13 +76,13 @@
          WHERE order_number = 1;
     </update>
 
-    <select id="getOrder" parameterType="Order" resultType="Order">
+    <select id="getOrder" parameterType="com.faitmain.domain.order.domain.Order" resultType="com.faitmain.domain.order.domain.Order">
         SELECT *
           FROM `order`
          WHERE order_number = #{order_number}
     </select>
 
-    <select id="getOrderList" resultType="Order">
+    <select id="getOrderList" resultType="com.faitmain.domain.order.domain.Order">
         SELECT *
           FROM `order`
          ORDER BY order_number DESC

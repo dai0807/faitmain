@@ -5,10 +5,13 @@ import static org.junit.Assert.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.faitmain.domain.live.domain.Live;
 import com.faitmain.domain.order.mapper.OrderMapper;
@@ -16,16 +19,17 @@ import com.faitmain.domain.product.mapper.ProductMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@MybatisTest
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class LiveMapperTest {
 	
 	@Autowired
-	private LiveMapper liveMapper = Mockito.mock( LiveMapper.class );
+	private LiveMapper liveMapper;
 	
 	/*================================= Live ===================================== */
 	@Test
-	@DisplayName("addLive Mapper Test")
+	//@DisplayName("addLive Mapper Test")
 	public void addLiveTest() throws Exception {
 		System.out.println("addLiveTest start");
 		
@@ -42,7 +46,7 @@ public class LiveMapperTest {
 		int result = liveMapper.addLive(live);
 		System.out.println("result = " + result);
 		
-		live = liveMapper.getLive(10001);
+		live = liveMapper.getLive(10006);
 		System.out.println(live);
 		
 		assertThat(live.getStoreId()).isEqualTo("store03@naver.com");

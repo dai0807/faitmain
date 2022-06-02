@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.faitmain.domain.live.domain.Live;
 import com.faitmain.domain.live.domain.LiveChat;
@@ -13,19 +14,23 @@ import com.faitmain.domain.live.domain.LiveReservation;
 import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.live.mapper.LiveMapper;
 
+import lombok.RequiredArgsConstructor;
+
 @Service("liveServiceImpl")
+@Transactional
+@RequiredArgsConstructor
 public class LiveServiceImpl implements LiveService {
 
 	@Autowired
-	@Qualifier("liveMapper")
 	private LiveMapper liveMapper;
-	public void setLiveMapper(LiveMapper liveMapper) {
-		this.liveMapper = liveMapper;
-	}
 	
-	public LiveServiceImpl() {
-		System.out.println(this.getClass());
-	}
+//	public void setLiveMapper(LiveMapper liveMapper) {
+//		this.liveMapper = liveMapper;
+//	}
+	
+//	public LiveServiceImpl() {
+//		System.out.println(this.getClass());
+//	}
 	
 
 	//live

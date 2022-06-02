@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.faitmain.domain.live.mapper.LiveMapper">
 	
-	<resultMap id="liveMap" type="Live">
+	<resultMap id="liveMap" type="com.faitmain.domain.live.domain.Live">
 		<result property="liveNumber" 	column="live_number" 		jdbcType="INTEGER"/>
 		<result property="storeId" 		column="store_id" 				jdbcType="VARCHAR"/>
 		<result property="liveTitle" 		column="live_title" 				jdbcType="VARCHAR"/>
@@ -14,14 +14,14 @@
 		<result property="liveStatus"			column="live_status"				jdbcType="BIT"/>
 	</resultMap>
 	
-	<resultMap id="liveChatMap" type="LiveChat">
+	<resultMap id="liveChatMap" type="com.faitmain.domain.live.domain.LiveChat">
     	<result property="liveNumber" column="live_number" jdbcType="INTEGER" />
     	<result property="writer" column="writer" jdbcType="VARCHAR" />
     	<result property="chattingMessage" column="chatting_message" jdbcType="VARCHAR" />
     	<result property="sendDate" column="send_date" jdbcType="TIMESTAMP" />
     </resultMap>
     
-    <resultMap id="liveProductMap" type="LiveProduct">
+    <resultMap id="liveProductMap" type="com.faitmain.domain.live.domain.LiveProduct">
     	<result property="liveProductNumber" column="live_product_number" jdbcType="INTEGER" />
     	<result property="liveNumber" column="live_number" jdbcType="INTEGER" />
     	<result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
@@ -31,13 +31,13 @@
 	
 	
 	
-	<resultMap id="liveReservationMap" type="LiveReservation">
+	<resultMap id="liveReservationMap" type="com.faitmain.domain.live.domain.LiveReservation">
     	<result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
     	<result property="storeId" column="store_id" jdbcType="VARCHAR" />
     	<result property="reservationDate" column="resevation_date" jdbcType="DATE" />
     </resultMap>
     
-    <resultMap id="liveUserStatusMap" type="LiveUserStatus">
+    <resultMap id="liveUserStatusMap" type="com.faitmain.domain.live.domain.LiveUserStatus">
     	<result property="liveNumber" column="live_number" jdbcType="INTEGER" />
     	<result property="id" column="id" jdbcType="VARCHAR" />
     	<result property="alarmStatus" column="alarm_status" jdbcType="BIT" />
@@ -47,7 +47,7 @@
     
     <!-- ================================================================================= ADD =================================================================================== -->
     <!-- ADD Live -->
-    <insert id="addLive" parameterType="Live">
+    <insert id="addLive" parameterType="com.faitmain.domain.live.domain.Live">
     	INSERT INTO live
 		    ( store_id, live_title, live_intro, live_image, chatting_status, live_status )
 		VALUES
@@ -55,14 +55,8 @@
     
     </insert>
     
-    <select id="getProduct" resultMap="" parameterType="Product">
-    	SELECT product_number, product_main_image
-    	FROM product
-    	WHERE product_number = #{productNumber}
-    </select>
-    
     <!-- ADD LiveChat -->
-     <insert id="addLiveChat" parameterType="LiveChat">
+     <insert id="addLiveChat" parameterType="com.faitmain.domain.live.domain.LiveChat">
     	INSERT INTO live_chat
 		    (writer, chatting_message, send_date)
 		VALUES
@@ -70,7 +64,7 @@
     </insert>
     
     <!-- ADD LiveProduct -->
-     <insert id="addLiveProduct" parameterType="LiveProduct">
+     <insert id="addLiveProduct" parameterType="com.faitmain.domain.live.domain.LiveProduct">
     	INSERT INTO live_product
 		    (live_number, live_reservation_number, product_number, product_main_image)
 		VALUES
@@ -78,7 +72,7 @@
     </insert>
     
     <!-- ADD LiveReservation -->
-     <insert id="addLiveReservation" parameterType="LiveReservation">
+     <insert id="addLiveReservation" parameterType="com.faitmain.domain.live.domain.LiveReservation">
     	INSERT INTO live_reservation
 		    (store_id, reservation_date)
 		VALUES
@@ -86,7 +80,7 @@
     </insert>
     
     <!-- ADD LiveUserStatus -->
-     <insert id="addLiveUserStatus" parameterType="LiveUserStatus">
+     <insert id="addLiveUserStatus" parameterType="com.faitmain.domain.live.domain.LiveUserStatus">
     	INSERT INTO live_user_status
     		(live_number, id, alarm_status, kick_status, dumb_status)
     	VALUES
@@ -96,7 +90,7 @@
     
     <!-- ================================================================================= UPDATE============================================================================== -->
     <!-- UPDATE Live -->
-    <update id="updateLive" parameterType="Live">
+    <update id="updateLive" parameterType="com.faitmain.domain.live.domain.Live">
     	UPDATE live
     	<set>
     		store_id = #{storeId}, 
@@ -116,7 +110,7 @@
     <!-- UPDATE LiveReservation (신중했어야지) -->
     
     <!-- UPDATE LiveUserStatus -->
-    <update id="updateLiveUserStatus" parameterType="LiveUserStatus">
+    <update id="updateLiveUserStatus" parameterType="com.faitmain.domain.live.domain.LiveUserStatus">
     	UPDATE live_user_status
     	<set>
     		alarm_status = #{alarmStatus},
@@ -135,19 +129,19 @@
     
     <!-- ================================================================================= GET ============================================================================== -->
     <!-- GET Live -->
-    <select id="getLive" parameterType="int" resultMap="LiveMap">
+    <select id="getLive" parameterType="int" resultMap="liveMap">
     	SELECT * FROM live
 		WHERE live_number = #{liveNumber}
     </select>
     
     <!-- GET LiveProduct -->
-    <select id="getLiveProduct" parameterType="LiveProduct" resultMap="liveProductMap">
+    <select id="getLiveProduct" parameterType="com.faitmain.domain.live.domain.LiveProduct" resultMap="liveProductMap">
     	SELECT * FROM live_product_live
     	WHERE live_product_number = #{liveProductNumber}
     </select>
 
 	<!-- GET LiveUserStatus -->
-	<select id="getLiveUserStatus" parameterType="LiveUserStatus" resultMap="liveUserStatusMap">
+	<select id="getLiveUserStatus" parameterType="com.faitmain.domain.live.domain.LiveUserStatus" resultMap="liveUserStatusMap">
 		SELECT * FROM live_user_status
 		<where>
 			live_number = #{liveNumber}
@@ -159,13 +153,13 @@
     
     <!-- ================================================================================= GET LIST ============================================================================== -->
     <!-- GET LIST Live -->
-    <select id="getLiveList" resultMap="LiveMap">
+    <select id="getLiveList" resultMap="liveMap">
     	SELECT * FROM live
     	WHERE live_status = 1;
     </select>
     
     <!-- GET LIST LiveChat -->
-    <select id="getLiveChatList" parameterType="LiveChat" resultMap="LiveChatMap">
+    <select id="getLiveChatList" parameterType="com.faitmain.domain.live.domain.LiveChat" resultMap="liveChatMap">
     	SELECT * FROM live_chat
     	<where>
     		live_number = #{liveNumber}
@@ -174,7 +168,7 @@
     </select>
     
     <!-- GET LIST LiveProduct -->
-    <select id="getLiveProductList" parameterType="LiveProduct" resultMap="LiveProductMap">
+    <select id="getLiveProductList" parameterType="com.faitmain.domain.live.domain.LiveProduct" resultMap="liveProductMap">
     	SELECT * FROM live_product
     	<if test="#{liveReservationNumber} == 0">
     		<where>
@@ -189,7 +183,7 @@
     </select>
     
     <!-- GET LIST ListUserStatus -->
-    <select id="getLiveUserStatusList" parameterType="LiveUserStatus" resultMap="liveUserStatusMap">
+    <select id="getLiveUserStatusList" parameterType="com.faitmain.domain.live.domain.LiveUserStatus" resultMap="liveUserStatusMap">
 		SELECT * FROM live_user_status
 		<where>
 			live_number = #{liveNumber}
@@ -198,7 +192,7 @@
 
 
 	<!-- ================================================================================= DELETE ============================================================================== -->
-	<delete id="deleteLiveProduct" parameterType="LiveProduct">
+	<delete id="deleteLiveProduct" parameterType="com.faitmain.domain.live.domain.LiveProduct">
 		DELETE FROM live_product_list
 		<where>
 			live_number = #{liveNumber}
