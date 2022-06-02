@@ -95,7 +95,7 @@ public class UserMapperTest {
 			System.out.println("updatUserStore end");
 		}
 		 
-		 //	@Test
+		 	//@Test
 			 @DisplayName("findUser   Test")
 			public void findUser() throws Exception {
 				System.out.println("findUser start");
@@ -137,8 +137,31 @@ public class UserMapperTest {
 					int result = usermapper.addUser(user);
 					System.out.println(result+ " : addUser end");
 				}
+				 
 					 	
-		 	
+	 @Test
+	 @DisplayName("getchechDuplicationCount   Test")
+		public void getchechDuplicationCount() throws Exception {
+			System.out.println("getchechDuplicationCount start");
+				
+			Map<String,Object> hashmap = new HashMap<>() ;
+			hashmap.put("checkcondition", "phone_number") ;
+			hashmap.put("checkkeyword", "0106541987") ;
+			
+			System.out.println("있음 : "+usermapper.getchechDuplicationCount(hashmap));
+ 
+			
+			HashMap<String,Object> hashmap1 = new HashMap<>() ;
+			hashmap1.put("checkcondition", "id") ;
+			hashmap1.put("checkkeyword", "us05@naver.com") ;
+			
+			System.out.println("없음 : "+usermapper.getchechDuplicationCount(hashmap1));
+ 
+					
+					
+			
+	 }
+					 		 	
 	 
 }
 //	Logger logger = LoggerFactory.getLogger(ProductMapperTest.class);

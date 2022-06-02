@@ -1,6 +1,7 @@
 package com.faitmain.domain.user.mapper;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -30,10 +31,10 @@ public interface UserMapper {
 	 int updatUserStore(User user);
 	
 	 //아이디/PW 찾기 할때 사용하는 findUser
-	 int findUser(HashMap<String, Object> map);
+	 int findUser(Map<String, Object> hashMap);
 	 
 	 //충복체크
-	 int getchechDuplicationCount( HashMap<String, Object> map) ;
+	 int getchechDuplicationCount(  Map<String, Object> map) ;
 	 
 	 
 	 int addStoreApplicationDocument(StoreApplicationDocument storeApplicationDocument) ; 

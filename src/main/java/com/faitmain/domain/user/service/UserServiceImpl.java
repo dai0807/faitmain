@@ -37,27 +37,29 @@ public class UserServiceImpl implements UserSerivce {
 
  	public int addUser(User user) throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+		return userMapper.addUser(user);
 	}
 
 
  	public int updateUser(User user) throws Exception {
- 		return updateUser(user);
+ 		return userMapper.updateUser(user);
 	}
 
 
- 	public int findUser(Map<String, Object> hasMap) throws Exception {
+ 	public int findUser(Map<String, Object> hashMap) throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+		return userMapper.findUser(hashMap);
 	}
 
 
- 	public int getchechDuplication(Map<String, Object> hasMap) throws Exception {
+ 	public int getchechDuplication(HashMap<String, Object> hashMap) throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+		return userMapper.getchechDuplicationCount(hashMap);
 	}
 
 
+ 	
+ 	
  	public void certifiedPhoneNumber(String userPhoneNumber, int randomNumber) throws Exception {
 		// TODO Auto-generated method stub
 		
@@ -127,5 +129,14 @@ public class UserServiceImpl implements UserSerivce {
 		// TODO Auto-generated method stub
 		
 	}
+
+	 
+	public int getchechDuplication(Map<String, Object> hashMap) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	
 
 }
