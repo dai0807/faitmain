@@ -1,24 +1,17 @@
 package com.faitmain.domain.live.mapper;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
+import com.faitmain.domain.live.domain.*;
+import com.faitmain.domain.product.domain.Product;
+import com.faitmain.domain.product.mapper.ProductMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
-import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.faitmain.domain.live.domain.Live;
-import com.faitmain.domain.live.domain.LiveChat;
-import com.faitmain.domain.live.domain.LiveProduct;
-import com.faitmain.domain.order.mapper.OrderMapper;
-import com.faitmain.domain.product.domain.Product;
-import com.faitmain.domain.product.mapper.ProductMapper;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,7 +27,7 @@ public class LiveMapperTest {
 	private ProductMapper productMapper;
 	
 	/*================================= Live ===================================== */
-	//@Test
+	@Test
 	//@DisplayName("addLive Mapper Test")
 	public void addLiveTest() throws Exception {
 		System.out.println("addLiveTest start");
@@ -92,7 +85,7 @@ public class LiveMapperTest {
 	}
 	
 	
-	//@Test
+	@Test
 	public void getLiveTest() throws Exception {
 		System.out.println("getLiveTest start");
 			
