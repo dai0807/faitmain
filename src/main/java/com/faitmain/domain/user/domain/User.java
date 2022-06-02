@@ -1,6 +1,8 @@
 package com.faitmain.domain.user.domain;
 
 
+import java.sql.Date;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +23,7 @@ import lombok.ToString;
 		    private String name;
 
 		    private String phoneNumber;
-		    private Data regDate ;
+		    private Date regDate ;
 		    private String joinPath;
 		    
 		    private int bookNumber;

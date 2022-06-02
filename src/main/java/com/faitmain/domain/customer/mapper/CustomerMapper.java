@@ -1,3 +1,4 @@
+
 package com.faitmain.domain.customer.mapper;
 
 
@@ -22,3 +23,4 @@ public interface CustomerMapper {
 	//BanPeriod
 	public int processBanPeriod(int reportNumber) throws Exception;
 }
+
