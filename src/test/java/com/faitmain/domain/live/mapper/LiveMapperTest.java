@@ -28,7 +28,7 @@ public class LiveMapperTest {
 	private LiveMapper liveMapper;
 	
 	/*================================= Live ===================================== */
-	//@Test
+	// @Test
 	//@DisplayName("addLive Mapper Test")
 	public void addLiveTest() throws Exception {
 		System.out.println("addLiveTest start");
@@ -46,7 +46,7 @@ public class LiveMapperTest {
 		int result = liveMapper.addLive(live);
 		System.out.println("result = " + result);
 		
-		live = liveMapper.getLive(10005);
+		live = liveMapper.getLive(10006);
 		System.out.println(live);
 		
 		assertThat(live.getStoreId()).isEqualTo("store03@naver.com");
@@ -57,7 +57,7 @@ public class LiveMapperTest {
 		System.out.println("addLiveTest end");
 	}
 	
-	//@Test
+	@Test
 	public void updateLiveTest() throws Exception {
 		System.out.println("updateLiveTest start");
 		
