@@ -67,4 +67,18 @@ public class ProductMapperTest {
 		
 	}
 	
+	@Test
+	@DisplayName("updateProduct Mapper Test")
+	public void updateProductTest() throws Exception{
+		
+		System.out.println("updateProductTest start");
+		
+		Product product = productMapper.getProduct(10000);
+		
+		assertThat(product.getPrice()).isEqualTo(5000);
+		
+		System.out.println("updateProductTest end");
+		
+	}
+	
 }
