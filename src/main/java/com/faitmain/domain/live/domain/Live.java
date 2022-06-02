@@ -2,6 +2,7 @@ package com.faitmain.domain.live.domain;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 public class Live {
@@ -16,9 +17,8 @@ public class Live {
 	
 	
 	 public Live() {
+		 
 	}
-
-
 
 	@Builder
 	  public Live(int liveNumber, String liveTitle) {
