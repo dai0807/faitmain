@@ -1,5 +1,6 @@
 package com.faitmain.domain.live.domain;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
@@ -11,4 +12,10 @@ public class Live {
 	private String liveImage;
 	private boolean chattingStatus; // true : chat on / false : chat off
 	private boolean liveStatus;  // true : live on / false : live off
+	
+	 @Builder
+	  public Live(int liveNumber, String liveTitle) {
+	    this.liveNumber = liveNumber;
+	    this.liveTitle = liveTitle;
+	  }
 }

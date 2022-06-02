@@ -2,6 +2,7 @@
 //
 //import static org.junit.Assert.assertEquals;
 //
+//import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.DisplayName;
 //import org.junit.jupiter.api.Test;
@@ -14,8 +15,10 @@
 //import org.springframework.test.context.junit.jupiter.SpringExtension;
 //
 //import com.faitmain.domain.live.domain.Live;
+//import com.faitmain.domain.live.domain.LiveChat;
+//import com.faitmain.domain.live.domain.LiveProduct;
 //import com.faitmain.domain.order.mapper.OrderMapper;
-//import com.faitmain.domain.product.mapper.ProductMapper;
+//import com.faitmain.domain.product.domain.Product;
 //
 //import static org.assertj.core.api.Assertions.assertThat;
 //
