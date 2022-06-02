@@ -32,7 +32,7 @@ public class LiveController {
       
       Map<String, Object> map = liveService.getLiveList();
       
-      model.addAttribute(list);
+      model.addAttribute(map);
       
       System.out.println("/live/getLiveList : GET end...");
       
@@ -75,10 +75,10 @@ public class LiveController {
       return "redirect:/live/addLive.jsp";
    }
    
-   @GetMapping("watchLive")
-   public String watchLive(  ) throws Exception {
-	   
-   }
+//   @GetMapping("watchLive")
+//   public String watchLive(  ) throws Exception {
+//	   
+//   }
 
    
 
