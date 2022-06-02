@@ -50,18 +50,19 @@
 	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
 		FROM user
  			<where>
-			
-				<if test="#{password} != null AND #{password}  != '' ">
+ 			id = #{id}
+			<!-- 
+				<if test="#{password} != null  ">
 			     		AND 	password = #{password}
 			     </if>
 				<if test="#{id} != null">
-			     		AND 	id = #{id}
+			     		AND 	
 			     </if>
 			     
-			      <if test="#{nickname} != null  AND #{nickname}  != ''">
+			      <if test="#{nickname} != null  ">
 			     		AND 	nickname = #{nickname}
 			     </if>
-			     
+			      -->
 			     </where>
  </select>
  
@@ -202,6 +203,12 @@ VALUES
 		
  		ORDER BY reg_date desc  
 	</select>
+ 
+ 	<insert id="addImage" parameterType="com.faitmain.global.common.Image">
+		INSERT 
+		INTO iamge (image_classification_code, image_classification_number, image_name)
+		VALUES ('S', #{productNumber}, #{productImage})
+	</insert>
  
  
 </mapper>
