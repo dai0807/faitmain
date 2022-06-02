@@ -30,8 +30,8 @@ public class UserServiceImpl implements UserSerivce {
 		System.out.println(this.getClass());
 	}
 	
- 	public User getUser(String id) throws Exception {
- 		return userMapper.getUser(id);
+ 	public User getUser(User user) throws Exception {
+ 		return userMapper.getUser(user);
 	}
 
 
@@ -42,8 +42,7 @@ public class UserServiceImpl implements UserSerivce {
 
 
  	public int updateUser(User user) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+ 		return updateUser(user);
 	}
 
 
@@ -117,6 +116,16 @@ public class UserServiceImpl implements UserSerivce {
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void sendCertificationSms(String userPhoneNumber, int randomNumber) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void certifiedPhoneNumber(String userPhoneNumber, String smsCertification) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
