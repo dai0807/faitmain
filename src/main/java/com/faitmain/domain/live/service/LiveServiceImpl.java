@@ -24,6 +24,10 @@ public class LiveServiceImpl implements LiveService {
 	@Autowired
 	private LiveMapper liveMapper;
 	
+	public LiveServiceImpl(LiveMapper liveMapper) {
+		this.liveMapper = liveMapper;
+	}
+	
 //	public void setLiveMapper(LiveMapper liveMapper) {
 //		this.liveMapper = liveMapper;
 //	}

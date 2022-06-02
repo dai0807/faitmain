@@ -13,7 +13,6 @@ import com.faitmain.global.common.Search;
  
 @Mapper
 @Repository
-
 public interface UserMapper {
 
 	//Select

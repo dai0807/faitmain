@@ -14,7 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.faitmain.domain.live.domain.Live;
+import com.faitmain.domain.live.domain.LiveChat;
+import com.faitmain.domain.live.domain.LiveProduct;
 import com.faitmain.domain.order.mapper.OrderMapper;
+import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.mapper.ProductMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,6 +29,9 @@ public class LiveMapperTest {
 	
 	@Autowired
 	private LiveMapper liveMapper;
+	
+	@Autowired
+	private ProductMapper productMapper;
 	
 	/*================================= Live ===================================== */
 	// @Test
@@ -96,7 +102,6 @@ public class LiveMapperTest {
 		assertThat(getLive.getLiveTitle()).isEqualTo("live_title 02");
 		assertThat(getLive.getLiveIntro()).isEqualTo("live_intro 02");
 		assertThat(getLive.getLiveImage()).isEqualTo("live_image 02");
-		
 			
 		System.out.println("getLiveTest end");
 	}
@@ -119,10 +124,11 @@ public class LiveMapperTest {
 		
 		LiveChat liveChat = new LiveChat();
 		
+		liveChat.setLiveNumber(10001);
 		liveChat.setWriter("user02@naver.com");
 		liveChat.setChattingMessage("addLiveChatTest");
 		
-		Assertions.assertEquals(1, liveMapper.addLiveChat(liveChat));
+		assertThat(liveMapper.addLiveChat(liveChat) == 1);
 		
 		System.out.println("addLiveChatTest end");
 	}
@@ -149,27 +155,28 @@ public class LiveMapperTest {
 		
 		liveProduct.setLiveNumber(10001);
 		liveProduct.setLiveReservationNumber(0);
-		liveProduct.setLiveProduct(product);
+		liveProduct.setProductNumber(product.getProductNumber());
+		liveProduct.setProductMainImage(product.getProductMainImage());
 		
-		Assertions.assertEquals(1, liveMapper.addLiveProduct(liveProduct));
+		assertThat(liveMapper.addLiveProduct(liveProduct) == 1);
 		
 		System.out.println("addLiveProductTest end");
 	}
 	
-	//@Test
+	@Test
 	public void getLiveProductTest() throws Exception{
 		System.out.println("getLiveProductTest start");
 			
 		LiveProduct liveProduct = new LiveProduct();
 		
-		liveProduct = liveMapper.getLiveProduct(10001);
+		liveProduct = liveMapper.getLiveProduct(10012);
 		
-		Assertions.assertEquals(10001, liveProduct.getLiveProductNumber());
-		Assertions.assertEquals(10001, liveProduct.getLiveNumber());
-		Assertions.assertEquals(10001, liveProduct.getLiveReservationNumber());
-		Assertions.assertEquals(10011, liveProduct.getLiveProduct().getProductNumber());
-		Assertions.assertEquals("product_main_image.jpg", liveProduct.getLiveProduct().getProductMainImage());
-			
+		assertThat(liveProduct.getLiveProductNumber() == 10001);
+		assertThat(liveProduct.getLiveNumber() == 10001);
+		assertThat(liveProduct.getLiveReservationNumber() == 0);
+		assertThat(liveProduct.getProductNumber() == 10011);
+		assertThat(liveProduct.getProductMainImage()).isEqualTo("product_main_image.jpg");
+				
 		System.out.println("getLiveProductTest end");
 	}
 	
