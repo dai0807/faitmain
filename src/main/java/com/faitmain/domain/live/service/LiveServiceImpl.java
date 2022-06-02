@@ -1,6 +1,8 @@
 package com.faitmain.domain.live.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,17 +52,32 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.getLive(liveNumber);
 	}
 	
-	public List getLiveList() throws Exception {
-		return liveMapper.getLiveList();
+	public Map<String, Object> getLiveList() throws Exception {
+		List<Live> list = liveMapper.getLiveList();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("list", list);
+		
+		return map;
 	}
 	
 	//liveChat
 	public int addLiveChat(LiveChat liveChat) throws Exception {
+		
+		
 		return liveMapper.addLiveChat(liveChat);
 	}
 	
-	public List getLiveChatList(int liveNumber, String writer) throws Exception {
-		return liveMapper.getLiveChatList(liveNumber, writer);
+	public Map<String, Object> getLiveChatList(LiveChat liveChat) throws Exception {
+		
+		List<LiveChat> list = liveMapper.getLiveChatList(liveChat);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("list", list);
+		
+		return map;
 	}
 	
 	
@@ -73,8 +90,15 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.getLiveProduct(liveProductNumber);
 	}
 	
-	public List getLiveProductList(LiveProduct liveProduct) throws Exception {
-		return liveMapper.getLiveProductList(liveProduct);
+	public Map<String, Object> getLiveProductList(LiveProduct liveProduct) throws Exception {
+		
+		List<LiveProduct> list = liveMapper.getLiveProductList(liveProduct);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("list", list);
+		
+		return map;
 	}
 	
 	public int deleteLiveProduct(int liveNumber) throws Exception {
@@ -101,8 +125,15 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.getLiveUserStatus(liveUserStatus);
 	}
 	
-	public List<LiveUserStatus> getLiveUserStatusList(int liveNumber) throws Exception {
-		return liveMapper.getLiveUserStatusList(liveNumber);
+	public Map<String, Object> getLiveUserStatusList(int liveNumber) throws Exception {
+		
+		List<LiveUserStatus> list = liveMapper.getLiveUserStatusList(liveNumber);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("list", list);
+		
+		return map;
 	}
 	
 }
