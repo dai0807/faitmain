@@ -12,14 +12,14 @@ import lombok.Data;
 @Data
 public class StoreApplicationDocument {
 
-		private int storeApplicationDocumentNumber ;
-		private String id ;
-		private String examinationStatus ;
-		private String productDetial ;
-		private Date regDate ;
-	
-		private List<Image> StoreApplicationDocumentImage ;
 
+		int storeApplicationDocumentNumber ;
+		String id ;
+		String examinationStatus ;
+		String productDetial ;
+		Date regDate ;
+	
+		
 	
 	
 }

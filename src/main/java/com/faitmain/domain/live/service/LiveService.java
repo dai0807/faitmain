@@ -22,7 +22,7 @@ public interface LiveService {
 	//liveChat
 	public int addLiveChat(LiveChat liveChat) throws Exception;
 	
-	public Map<String, Object> getLiveChatList(int liveNumber, String writer) throws Exception;
+	public Map<String, Object> getLiveChatList(LiveChat liveChat) throws Exception;
 	
 	
 	//liveProduct
