@@ -1,10 +1,6 @@
 package com.faitmain.domain.example.service;
 
-<<<<<<< HEAD
-//import com.faitmain.domain.example.domain.Member;
-=======
-
->>>>>>> refs/remotes/origin/master
+ 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
