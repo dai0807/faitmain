@@ -2,22 +2,21 @@ package com.faitmain.domain.customer.domain;
 
 import java.sql.Date;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+
+@Data
 public class Customer{
 	
-	private int customer_board_number;
-	private String customer_board_title;
-	private String customer_board_content;
-	private Date reg_date;
-	private Date update_date;
-	private int customer_FAQ_category_code;
-	private char customer_board_type;
-	private String customer_id;
-	private int customer_count;
+	private int boardNumber;
+	private String boardTitle;
+	private String boardContent;
+	private Date regDate;
+	private Date updateDate;
+	private int FAQCategoryCode;
+	private char boardType;
+	private String customerId;
+//	private int viewCount;
 	
 	
 }
