@@ -30,11 +30,10 @@
 	<!-- SQL : INSERT -->
 	 <insert id="addCustomerBoard" parameterType="com.faitmain.domain.customer.domain.Customer">
     	INSERT INTO customer
-		    ( customer_board_number, customer_board_type, customer_board_title, customer_board_content, 
+		    (  customer_board_type, customer_board_title, customer_board_content, 
 		    reg_date, customer_id )
 		VALUES
-		    ( seq_customer_customer_board_number.nextval, #{boarType}, #{boardTitle}, #{boardContent},
-		     #{regDate}, #{id} )
+		    (  #{boardType}, #{boardTitle}, #{boardContent}, #{regDate}, #{id} )
     
     </insert>
     <!-- <insert id="addImage"  -->
