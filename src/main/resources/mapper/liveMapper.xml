@@ -58,9 +58,9 @@
     <!-- ADD LiveChat -->
      <insert id="addLiveChat" parameterType="com.faitmain.domain.live.domain.LiveChat">
     	INSERT INTO live_chat
-		    (writer, chatting_message, send_date)
+		    (live_number, writer, chatting_message, send_date)
 		VALUES
-		    (#{writer}, #{chattingMessage}, NOW())
+		    (#{liveNumber}, #{writer}, #{chattingMessage}, NOW())
     </insert>
     
     <!-- ADD LiveProduct -->
