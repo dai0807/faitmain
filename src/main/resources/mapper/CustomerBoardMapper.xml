@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="CustomerBoardMapper">
+<mapper namespace="com.faitmain.domain.customer.mapper.CustomerMapper">
 <!-- com.faitmain.domain.Customer.mapper.CustomerBoardMapper -->
 	<resultMap id="customerSelectMap" type="com.faitmain.domain.customer.domain.Customer">
 		<result property="boardMumber"  				column="customer_board_number"		jdbcType="INTEGER"/>
@@ -12,9 +12,9 @@
 		<result property="regDate"						column="reg_date"	 				jdbcType="DATE" />
 		<result property= "updateDate"					column="update_date" 				jdbcType="DATE" />
 		<result property="FAQCategoryCode"			 	column="customer_FAQ_category_code" jdbcType="INTEGER" />
-		<result property="customer_FAQ_category_code"  	column="customer_board_type" 		jdbcType="CHAR" />
+		<result property="boardType"  					column="customer_board_type" 		jdbcType="CHAR" />
 		<result property="id"							column="customer_id"  				jdbcType="VARCHAR" />
-		<result property="count" 						column="customer_count"				jdbcType="INTEGER" />
+		<result property="count" 						column="customer_viewcount"				jdbcType="INTEGER" />
 	</resultMap>
 	
 	<resultMap id="banPeriodSelectMap" type="com.faitmain.domain.customer.domain.BanPeriod">
@@ -38,13 +38,22 @@
     </insert>
     <!-- <insert id="addImage"  -->
     
-    <insert id="processBenPeriod" parameterType="com.faitmain.domain.customer.domain.BanPeriod">
+    <insert id="processBanPeriod" parameterType="com.faitmain.domain.customer.domain.BanPeriod">
     	INSERT INTO ban_period
 		    ( respondent_id, respondent_nickname, respondent_store_name, status_number, ban_period_number, ban_end_date )
 		VALUES
 		    ( #{id}, #{nickname}, #{storeName}, #{statusNumber}, #{periodNumber}, #{endDate} )
     
     </insert>
+    
+    <!-- 상세보기 -->
+    <select id="getCustomerBoard" parameterType="com.faitmain.domain.customer.domain.Customer">
+    	SELECT * FROM customer 
+    	
+    	<where>
+    	 	customer_board_number = #{boardNumber}
+    	</where>
+    </select>
     
     <!-- SQL : UPDATE -->
     <update id="updateCustomerBoard" parameterType="com.faitmain.domain.customer.domain.Customer">
@@ -57,10 +66,23 @@
     		image_number			= #{imageNumber},
     		customer_id				= #{id}
     	</set>
-		WHERE customer_board_number = #{boardNumber}
-    
+		<where> 
+			customer_board_number = #{boardNumber}
+    	</where>
     </update>
     
+    <delete id="deleteCustomerBoard" parameterType="com.faitmain.domain.customer.domain.Customer">
+    	DELETE FROM customer
+    	<where>
+    		customer_board_number = #{boardNumber}
+    	</where>
+    </delete>
+    
+    <select id="getCustomerBoardList" parameterType="com.faitmain.domain.customer.domain.Customer">
+    
+    	SELECT * FROM customer
+    
+    </select>
     <!-- SQL : SELECT LIST -->
 	<!-- <select  id="getCustomerBoardList"  parameterType="search"	resultMap="customerSelectMap">
 	  	SELECT *

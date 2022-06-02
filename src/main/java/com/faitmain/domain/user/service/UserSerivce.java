@@ -17,7 +17,7 @@ public interface UserSerivce {
 	
 	public int updateUser (User user) throws Exception ;
 	
-	public User getUser(String id)  throws Exception;
+	public User getUser(User user)  throws Exception;
 	
 	//id&pw 찾기 find 시 사용 
 	public int findUser (Map<String, Object> hasMap) throws Exception;
@@ -28,8 +28,13 @@ public interface UserSerivce {
 	public int updateUserPassword(User user) throws Exception ;
 	
 	
-	//인증 문자 보내기 
-	public void certifiedPhoneNumber (String userPhoneNumber, int randomNumber) throws Exception ;
+	//문자 보내기
+	public void sendCertificationSms (String userPhoneNumber, int randomNumber) throws Exception ;
+		
+	
+	//문자 인증
+	public void certifiedPhoneNumber (String userPhoneNumber, String smsCertification ) throws Exception ;
+	
 	// 카카오 토큰 받기
 	public String getAccessToken(String authorize_code) throws Exception ;
 	//카카오 정보 받아오기
@@ -39,6 +44,7 @@ public interface UserSerivce {
 	
 	public Map<String,Object> getUserList (Search search) throws Exception ;
 
+	
 	
 	
 	
