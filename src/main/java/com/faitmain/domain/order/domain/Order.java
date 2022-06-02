@@ -6,11 +6,8 @@ import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-//@NoArgsConstructor
-@RequiredArgsConstructor
-@ToString
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 public class Order {
 
     @NotNull

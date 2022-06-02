@@ -13,11 +13,11 @@ public class MemberController{
     MemberService memberService;
 
 
-//    @RequestMapping( value = "findAll", method = RequestMethod.POST )
-//    public ResponseEntity< ? > findAll(){
+//    @RequestMapping( value = "getOrderList", method = RequestMethod.POST )
+//    public ResponseEntity< ? > getOrderList(){
 //        Response response = new Response();
 //        response.setResultCode( "50001" );
-//        response.setRes( memberService.findAll() );
+//        response.setRes( memberService.getOrderList() );
 //        return new ResponseEntity<>( response , HttpStatus.OK );
 //    }
 }
