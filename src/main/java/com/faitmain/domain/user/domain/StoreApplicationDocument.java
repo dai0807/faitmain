@@ -16,7 +16,7 @@ public class StoreApplicationDocument {
 		String productDetial ;
 		Date regDate ;
 	
-		List<Image> StoreApplicationDocumentImage ;
+		/* List<Image> StoreApplicationDocumentImage ; */
 	
 	
 }

@@ -6,24 +6,24 @@
 <mapper namespace="CustomerBoardMapper">
 <!-- com.faitmain.domain.Customer.mapper.CustomerBoardMapper -->
 	<resultMap id="customerSelectMap" type="com.faitmain.domain.customer.domain.Customer">
-		<result property="boardMumber"  				column="customer_board_number"		jdbcType="INT"/>
+		<result property="boardMumber"  				column="customer_board_number"		jdbcType="INTEGER"/>
 		<result property="boardTitle"					column="customer_board_title" 		jdbcType="VARCHAR" />
 		<result property="boardContent"					column="customer_board_content" 	jdbcType="VARCHAR" />
 		<result property="regDate"						column="reg_date"	 				jdbcType="DATE" />
 		<result property= "updateDate"					column="update_date" 				jdbcType="DATE" />
-		<result property="FAQCategoryCode"			 	column="customer_FAQ_category_code" jdbcType="INT" />
+		<result property="FAQCategoryCode"			 	column="customer_FAQ_category_code" jdbcType="INTEGER" />
 		<result property="customer_FAQ_category_code"  	column="customer_board_type" 		jdbcType="CHAR" />
 		<result property="id"							column="customer_id"  				jdbcType="VARCHAR" />
-		<result property="count" 						column="customer_count"				jdbcType="INT" />
+		<result property="count" 						column="customer_viewcount"				jdbcType="INTEGER" />
 	</resultMap>
 	
 	<resultMap id="banPeriodSelectMap" type="com.faitmain.domain.customer.domain.BanPeriod">
-		<result property="reportNumber"				column="report_number" 			jdbcType="INT"/>
+		<result property="reportNumber"				column="report_number" 			jdbcType="INTEGER"/>
 		<result property="id"						column="respondent_id"			jdbcType="VARCHAR" />
 		<result property="nickname"  				column="respondent_nickname"	jdbcType="VARCHAR" />
 		<result property="storeName" 				column="respondent_store_name" 	jdbcType="VARCHAR" />
-		<result property="statusNumber"  			column="status_number"			jdbcType="INT" />
-		<result property="periodNumber"  			column="ban_period_number" 		jdbcType="INT" />
+		<result property="statusNumber"  			column="status_number"			jdbcType="INTEGER" />
+		<result property="periodNumber"  			column="ban_period_number" 		jdbcType="INTEGER" />
 		<result property="endDate"					column="ban_end_date" 			jdbcType="DATE" />
 	</resultMap>
 	
@@ -38,13 +38,22 @@
     </insert>
     <!-- <insert id="addImage"  -->
     
-    <insert id="processBenPeriod" parameterType="com.faitmain.domain.customer.domain.BanPeriod">
+    <insert id="processBanPeriod" parameterType="com.faitmain.domain.customer.domain.BanPeriod">
     	INSERT INTO ban_period
 		    ( respondent_id, respondent_nickname, respondent_store_name, status_number, ban_period_number, ban_end_date )
 		VALUES
 		    ( #{id}, #{nickname}, #{storeName}, #{statusNumber}, #{periodNumber}, #{endDate} )
     
     </insert>
+    
+    <!-- 상세보기 -->
+    <select id="getCustomerBoard" parameterType="com.faitmain.domain.customer.domain.Customer">
+    	SELECT * FROM customer 
+    	
+    	<where>
+    	 	customer_board_number = #{boardNumber}
+    	</where>
+    </select>
     
     <!-- SQL : UPDATE -->
     <update id="updateCustomerBoard" parameterType="com.faitmain.domain.customer.domain.Customer">
@@ -57,10 +66,23 @@
     		image_number			= #{imageNumber},
     		customer_id				= #{id}
     	</set>
-		WHERE customer_board_number = #{boardNumber}
-    
+		<where> 
+			customer_board_number = #{boardNumber}
+    	</where>
     </update>
     
+    <delete id="deleteCustomerBoard" parameterType="com.faitmain.domain.customer.domain.Customer">
+    	DELETE FROM customer
+    	<where>
+    		customer_board_number = #{boardNumber}
+    	</where>
+    </delete>
+    
+    <select id="getCustomerBoardList" parameterType="com.faitmain.domain.customer.domain.Customer">
+    
+    	SELECT * FROM customer
+    
+    </select>
     <!-- SQL : SELECT LIST -->
 	<!-- <select  id="getCustomerBoardList"  parameterType="search"	resultMap="customerSelectMap">
 	  	SELECT *
