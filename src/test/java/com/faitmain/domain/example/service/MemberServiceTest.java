@@ -1,6 +1,6 @@
 package com.faitmain.domain.example.service;
 
-import com.faitmain.domain.example.domain.Member;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

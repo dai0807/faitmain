@@ -2,15 +2,19 @@ package com.faitmain.domain.order.mapper;
 
 import com.faitmain.domain.order.domain.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@MybatisTest
+@ExtendWith( SpringExtension.class)
+@SpringBootTest
 class OrderMappperTest{
 
     @Autowired
@@ -19,6 +23,7 @@ class OrderMappperTest{
     @Test
     public void addOrderTest(){
 
+        System.out.println("addOrderTest Start");
 
         Order order = new Order();
 
@@ -43,10 +48,11 @@ class OrderMappperTest{
         order.setOrderClaimResponseDate( new Date( new java.util.Date().getTime() ) );
         order.setOrderClaimReason( 0 );
 
-        orderMapper.addOrder( order );
-        System.out.println(order);
+        int result = orderMapper.addOrder( order );
+        System.out.println("result = " + result);
 
         order = orderMapper.getOrder( order.getOrderNumber() );
+        System.out.println(order);
 
         assertThat( order.getProductNumber() ).isEqualTo( 10001 );
         assertThat( order.getBuyerId() ).isEqualTo( "user01@naver.com" );
