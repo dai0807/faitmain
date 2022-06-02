@@ -1,7 +1,6 @@
 package com.faitmain.domain.live.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -42,7 +41,7 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.getLive(liveNumber);
 	}
 	
-	public Map<String, Object> getLiveList() throws Exception {
+	public List getLiveList() throws Exception {
 		return liveMapper.getLiveList();
 	}
 	
@@ -51,7 +50,7 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.addLiveChat(liveChat);
 	}
 	
-	public Map<String, Object> getLiveChatList(int liveNumber, String writer) throws Exception {
+	public List getLiveChatList(int liveNumber, String writer) throws Exception {
 		return liveMapper.getLiveChatList(liveNumber, writer);
 	}
 	
@@ -65,7 +64,7 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.getLiveProduct(liveProductNumber);
 	}
 	
-	public Map<String, Object> getLiveProductList(LiveProduct liveProduct) throws Exception {
+	public List getLiveProductList(LiveProduct liveProduct) throws Exception {
 		return liveMapper.getLiveProductList(liveProduct);
 	}
 	

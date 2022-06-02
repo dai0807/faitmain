@@ -25,9 +25,11 @@
     	<result property="liveProductNumber" column="live_product_number" jdbcType="INTEGER" />
     	<result property="liveNumber" column="live_number" jdbcType="INTEGER" />
     	<result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
-    	<result property="liveProduct.productNumber" column="product_number" jdbcType="INTEGER" />
-    	<result property="liveProduct.productMainImage" column="product_main_image" jdbcType="VARCHAR" />
+    	<result property="productNumber" column="product_number" jdbcType="INTEGER"/>
+    	<result property="productMainImage" column="product_main_image" jdbcType="VARCHAR"/>
     </resultMap>
+	
+	
 	
 	<resultMap id="liveReservationMap" type="com.faitmain.domain.live.domain.LiveReservation">
     	<result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
@@ -53,6 +55,12 @@
     
     </insert>
     
+    <select id="getProduct" resultMap="" parameterType="com.faitmain.domain.product.domain.Product">
+    	SELECT product_number, product_main_image
+    	FROM product
+    	WHERE product_number = #{productNumber}
+    </select>
+    
     <!-- ADD LiveChat -->
      <insert id="addLiveChat" parameterType="com.faitmain.domain.live.domain.LiveChat">
     	INSERT INTO live_chat
@@ -66,7 +74,7 @@
     	INSERT INTO live_product_list
 		    (live_number, live_reservation_number, product_number, product_main_image)
 		VALUES
-		    (#{liveNumber}, #{liveReservationNumber], #{liveProduct.productNumber}, #{liveProduct.productMainImage})
+		    (#{liveNumber}, #{liveReservationNumber}, #{productNumber}, #{productMainImage})
     </insert>
     
     <!-- ADD LiveReservation -->

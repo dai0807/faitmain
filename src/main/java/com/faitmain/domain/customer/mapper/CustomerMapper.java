@@ -1,5 +1,7 @@
-package com.faitmain.domain.customer.mapper;
-
-public interface CustomerMapper {
-
-}
+/*
+ * package com.faitmain.domain.customer.mapper;
+ * 
+ * public interface CustomerMapper {
+ * 
+ * }
+ */

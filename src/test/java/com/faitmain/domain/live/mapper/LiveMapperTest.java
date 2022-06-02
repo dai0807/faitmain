@@ -1,8 +1,10 @@
 package com.faitmain.domain.live.mapper;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -18,8 +20,7 @@ import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.mapper.ProductMapper;
 
-@AutoConfigureTestDatabase(replace=Replace.NONE)
-@MybatisTest
+//@MybatisTest
 public class LiveMapperTest {
 
 	@Autowired
@@ -43,7 +44,7 @@ public class LiveMapperTest {
 		live.setLiveStatus(true);
 		live.setChattingStatus(true);
 		
-		Assertions.assertEquals(1, liveMapper.addLive(live));
+		assertEquals(1, liveMapper.addLive(live));
 		
 		System.out.println("addLiveTest end");
 	}

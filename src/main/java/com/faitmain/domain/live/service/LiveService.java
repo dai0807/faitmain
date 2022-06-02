@@ -18,12 +18,12 @@ public interface LiveService {
 	
 	public Live getLive(int liveNumber) throws Exception;
 	
-	public Map<String, Object> getLiveList() throws Exception;
+	public List getLiveList() throws Exception;
 	
 	//liveChat
 	public int addLiveChat(LiveChat liveChat) throws Exception;
 	
-	public Map<String, Object> getLiveChatList(int liveNumber, String writer) throws Exception;
+	public List getLiveChatList(int liveNumber, String writer) throws Exception;
 	
 	
 	//liveProduct
@@ -31,7 +31,7 @@ public interface LiveService {
 	
 	public LiveProduct getLiveProduct(int liveProductNumber) throws Exception;
 	
-	public Map<String, Object> getLiveProductList(LiveProduct liveProduct) throws Exception;
+	public List getLiveProductList(LiveProduct liveProduct) throws Exception;
 	
 	public int deleteLiveProduct(int liveNumber) throws Exception;
 	
@@ -47,7 +47,7 @@ public interface LiveService {
 	
 	public LiveUserStatus getLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception;
 	
-	public List<LiveUserStatus> getLiveUserStatusList(int liveNumber) throws Exception;
+	public List getLiveUserStatusList(int liveNumber) throws Exception;
 	
 }
 
