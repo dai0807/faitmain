@@ -19,6 +19,7 @@ public class StoreApplicationDocument {
 		private Date regDate ;
 	
 		private List<Image> StoreApplicationDocumentImage ;
+
 	
 	
 }
