@@ -20,12 +20,12 @@ public interface LiveMapper {
 	
 	public Live getLive(int liveNumber) throws Exception;
 	
-	public List getLiveList() throws Exception;
+	public List<Live> getLiveList() throws Exception;
 	
 	//liveChat
 	public int addLiveChat(LiveChat liveChat) throws Exception;
 	
-	public List<LiveChat> getLiveChatList(int liveNumber, String writer) throws Exception;
+	public List<LiveChat> getLiveChatList(LiveChat liveChat) throws Exception;
 	
 	
 	//liveProduct
