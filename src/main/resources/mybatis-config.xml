@@ -4,10 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
-    <typeAliases>
-<!--        <typeAlias type="com.faitmain.domain.order.domain.Order" alias="Order"/>-->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+        <setting name="callSettersOnNulls" value="false"/>
+        <setting name="jdbcTypeForNull" value="NULL"/>
+    </settings>
 
+    <typeAliases>
+        <!--        <typeAlias type="com.faitmain.domain.order.domain.Order" alias="Order"/>-->
         <package name="com.faitmain.domain.order.domain" />
+        <package name="com.faitmain.domain.live.domain" />
+        <package name="com.faitmain.domain.user.domain" />
+        <package name="com.faitmain.domain.product.domain" />
+        <package name="com.faitmain.domain.customer.domain" />
+        <package name="com.faitmain.global.common.Search" />
     </typeAliases>
 
 </configuration>
