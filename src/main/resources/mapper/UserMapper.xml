@@ -134,7 +134,8 @@ VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#
  
   
 <!-- 	이것은 유효성 검사 할때 쓰일 Mapper  아직은 둠    -->
-	  <select id="getchechDuplication" parameterType="map" resultType="int">
+
+	  <select id="getchechDuplicationCount" parameterType="map" resultType="int">
         SELECT COUNT(*) FROM user WHERE ${checkcondition}= #{checkkeyword}
     </select>
 	
