@@ -137,11 +137,12 @@
 			product_name = #{productName},
 			price = #{price},
 			product_main_image = #{productMainImage},
-			product_detail = #{productDetail:LONGTEXT},
+			product_detail = #{productDetail:LONGVARCHAR},
 			product_category_code = #{categoryCode},
 			product_quantity = #{productQuantity},
-			product_group_number = #{product_group_number:INT},
-			product_status = #{productStatus}
+			product_status = #{productStatus},
+			product_group_number = <if test="productGroupNumber == 0">null</if>
+								   <if test="productGroupNumber != 0">#{product_group_number}</if>			
 		</set>
 		WHERE product_number = #{productNumber}
 	</update>

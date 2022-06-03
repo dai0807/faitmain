@@ -26,7 +26,7 @@
 	</resultMap>
 	
 	<!-- 문의 등록 -->
-	<insert id="addInquiry" parameterType="com.faitmain.domain.product.domain.Product">		
+	<insert id="addInquiry" parameterType="com.faitmain.domain.product.domain.Inquiry">		
 		INSERT
 		INTO inquiry(inquiry_title, inquiry_content, inquiry_date, user_id, store_id, product_number, secret)
 		VALUES (#{inquiryTitle}, #{inquiryContent}, now(), #{userId}, #{storeId}, #{productNumber}, #{secret})
