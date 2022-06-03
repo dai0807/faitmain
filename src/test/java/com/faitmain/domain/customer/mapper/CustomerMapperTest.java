@@ -26,9 +26,9 @@ public class CustomerMapperTest{
 		Customer customer = new Customer();
 		
 		
-		customer.setCustomer_board_title("mapper test");
-		customer.setCustomer_board_content("mapper test");
-		customer.setCustomer_id("mapper test");
+		customer.setBoardTitle("mapper test");
+		customer.setBoardContent("mapper test");
+		customer.setCustomerId("mapper test");
 		
 		customerMapper.addCustomerBoard(customer);
 	}

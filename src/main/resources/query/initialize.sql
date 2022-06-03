@@ -145,10 +145,9 @@ CREATE TABLE `customer` (
                         `customer_board_content`     varchar(1000) NOT NULL ,
                         `reg_date`                   date          NOT NULL ,
                         `update_date`                date DEFAULT NULL ,
-                        `customer_FAQ_category_code` 	int     NULL,      
+                        `customer_FAQ_category_code` 	int    		NOT NULL,      
                         `customer_board_type`        char(1)       NOT NULL ,
                         `customer_id`                varchar(25)   NOT NULL ,
-		'customer_viewcount'	int	DEFAULT 0,
                         PRIMARY KEY ( `customer_board_number` ) ,
                         FOREIGN KEY ( `customer_id` ) REFERENCES `user` ( `id` )
                         );
@@ -158,10 +157,10 @@ CREATE TABLE `customer` (
 CREATE TABLE `ban_period` (
                           `report_number`         int         NOT NULL ,
                           `respondent_id`         varchar(25) NOT NULL ,
-                          `respondent_nickname`   varchar(20) NULL,
-                          `respondent_store_name` varchar(20)  NULL,
-                          `status_number`         int DEFAULT 0 ,
-                          `ban_period_number`     int DEFAULT 0 ,
+                          `respondent_nickname`   varchar(20) NOT NULL,
+                          `respondent_store_name` varchar(20) NOT NULL,
+                          `status_number`         int DEFAULT NULL ,
+                          `ban_period_number`     int DEFAULT NULL ,
                           `ban_end_date`          date        NOT NULL ,
                           FOREIGN KEY ( `report_number` ) REFERENCES `customer` ( `customer_board_number` ) ,
                           FOREIGN KEY ( `respondent_id` ) REFERENCES `user` ( `id` )

@@ -89,8 +89,4 @@ public class LiveRestController {
 		
 		System.out.println("/live/json/updateLiveUserStatus : POST end...");
 	}
-	
-	// LIVE RESERVATION
-	
-	
 }
