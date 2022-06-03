@@ -6,54 +6,74 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.mapper.CustomerMapper;
+import com.faitmain.global.common.Image;
+
+import lombok.RequiredArgsConstructor;
 
 @Service("customerServiceImpl")
+@Transactional
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService{
 	
 	@Autowired
-	@Qualifier("customerMapper")
+	
 	private CustomerMapper customerMapper;
 	
-	public void setCustomerMapper(CustomerMapper customerMapper) {
-		this.customerMapper = customerMapper;
-	}
-	
-	public CustomerServiceImpl() {
-		System.out.println(this.getClass());
-	}
+//	public void setCustomerMapper(CustomerMapper customerMapper) {
+//		this.customerMapper = customerMapper;
+//	}
+//	
+//	public CustomerServiceImpl(CustomerMapper customerMapper) {
+//		this.customerMapper = customerMapper;
+//		
+//		System.out.println(this.getClass());
+//	}
 	
 	@Override
 	public int addCustomerBoard(Customer customer) throws Exception {
+		customerMapper.addCustomerBoard(customer);
 		return customerMapper.addCustomerBoard(customer);
-		
-	}
-
-	@Override
-	public Customer getCustomerBoard(int boardNumber) throws Exception {
-		return customerMapper.getCustomerBoard(boardNumber);
-	}
-
-	@Override
-	public int updateCustomerBoard(Customer customer) throws Exception {
-		return customerMapper.addCustomerBoard(customer);
-		
-	}
-
-	@Override
-	public List<Customer> getCustomerBoardList() throws Exception {
-		return customerMapper.getCustomerBoardList();
-	}
-
-	@Override
-	public int deleteCustomerBoard(int boardNumber) throws Exception {
-		return customerMapper.deleteCustomerBoard(boardNumber);
 		
 	}
 	
-	public int processBanPeriod(int reportNumber) throws Exception{
-		return customerMapper.processBanPeriod(reportNumber);
+	@Override
+	public void addCustomerBoard(Image image) throws Exception {
+		customerMapper.addCustomerBoardImage(image);
+		
 	}
+	
+	@Override
+	public Customer getCustomerBoard(int boardNumber) throws Exception{ 
+		return customerMapper.getCustomerBoard(boardNumber); 
+	}
+	  
+	@Override
+	public int updateCustomerBoard(Customer customer) throws Exception{ 
+		 return customerMapper.updateCustomerBoard(customer);
+	  
+	  }
+	  
+	@Override
+	public List<Customer> getCustomerBoardList() throws Exception {
+		  return customerMapper.getCustomerBoardList(); 
+	}
+	  
+	@Override
+	public int deleteCustomerBoard(int boardNumber) throws Exception {
+		  return customerMapper.deleteCustomerBoard(boardNumber);
+	  
+	}
+	
+	@Override
+	public int processBanPeriod(int reportNumber) throws Exception{ 
+		  return customerMapper.processBanPeriod(reportNumber); 
+	}
+
+
+	
+	
 }

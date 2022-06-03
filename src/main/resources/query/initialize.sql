@@ -246,7 +246,14 @@ ALTER TABLE live_reservation AUTO_INCREMENT = 10000;
 ALTER TABLE live_product AUTO_INCREMENT = 10000;
 ALTER TABLE `order` AUTO_INCREMENT = 10000;
 
+---ALERT customer
 
+ALTER TABLE customer MODIFY COLUMN customer_FAQ_category_code INT NULL;
+
+---ALERT ban_period
+
+ALTER TABLE ban_period MODIFY COLUMN respondent_nickname VARCHAR(20) NULL;
+ALTER TABLE ban_period MODIFY COLUMN respondent_store_name VARCHAR(20) NULL;
 
 -- insert sql
 
@@ -357,3 +364,31 @@ INSERT INTO live_chat (live_number, writer, chatting_message, send_date) VALUES 
 INSERT INTO live_chat (live_number, writer, chatting_message, send_date) VALUES (10002, 'user02@naver.com', 'user02의 message 02', NOW());
 INSERT INTO live_chat (live_number, writer, chatting_message, send_date) VALUES (10003, 'user03@naver.com', 'user03의 message 01', NOW());
 INSERT INTO live_chat (live_number, writer, chatting_message, send_date) VALUES (10003, 'user03@naver.com', 'user03의 message 02', NOW());
+
+--customer
+INSERT INTO customer(customer_board_title, customer_board_content, reg_date, update_date, customer_FAQ_category_code, customer_board_type, customer_id)
+VALUES('TITLE 1', 'CONTNET 1', now(), NULL, 1, 'N', 'admin@naver.com');
+INSERT INTO customer(customer_board_title, customer_board_content, reg_date, update_date, customer_FAQ_category_code, customer_board_type, customer_id)
+VALUES('TITLE 2', 'CONTNET 2', now(), NULL, 2, 'N', 'admin@naver.com');
+INSERT INTO customer(customer_board_title, customer_board_content, reg_date, update_date, customer_FAQ_category_code, customer_board_type, customer_id)
+VALUES('TITLE 3', 'CONTNET 3', now(), NULL, 3, 'F', 'admin@naver.com');
+INSERT INTO customer(customer_board_title, customer_board_content, reg_date, update_date, customer_FAQ_category_code, customer_board_type, customer_id)
+VALUES('TITLE 4', 'CONTNET 4', now(), NULL, 4, 'R', 'admin@naver.com');
+INSERT INTO customer(customer_board_title, customer_board_content, reg_date, update_date, customer_FAQ_category_code, customer_board_type, customer_id)
+VALUES('TITLE 5', 'CONTNET 5', now(), now(), 3, 'N', 'admin@naver.com');
+INSERT INTO customer(customer_board_title, customer_board_content, reg_date, update_date, customer_FAQ_category_code, customer_board_type, customer_id)
+VALUES('TITLE 6', 'CONTNET 6', now(), NULL, 2, 'N', 'admin@naver.com');
+INSERT INTO customer(customer_board_title, customer_board_content, reg_date, update_date, customer_FAQ_category_code, customer_board_type, customer_id)
+VALUES('TITLE 7', 'CONTNET 7', now(), now(), 1, 'N', 'admin@naver.com');
+INSERT INTO customer(customer_board_title, customer_board_content, reg_date, update_date, customer_FAQ_category_code, customer_board_type, customer_id)
+VALUES('TITLE 8', 'CONTNET 8', now(), NULL, 4, 'N', 'admin@naver.com');
+
+
+UPDATE customer SET customer_board_type='N', customer_board_title="TITLE 22", customer_board_title="CONTENT 22", update_date = now(), customer_id = "admin@naver.com" 
+WHERE customer_board_number = 10;
+UPDATE customer SET customer_board_type='F', customer_board_title="TITLE 33", customer_board_title="CONTENT 33", update_date = now(), customer_id = "admin@naver.com" 
+WHERE customer_board_number = 5;
+UPDATE customer SET customer_board_type='R', customer_board_title="TITLE 44", customer_board_title="CONTENT 44", update_date = now(), customer_id = "admin@naver.com" 
+WHERE customer_board_number = 6;
+UPDATE customer SET customer_board_type='L', customer_board_title="TITLE 55", customer_board_title="CONTENT 55", update_date = now(), customer_id = "admin@naver.com" 
+WHERE customer_board_number = 7;

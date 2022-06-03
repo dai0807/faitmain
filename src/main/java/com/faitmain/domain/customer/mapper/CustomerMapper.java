@@ -31,7 +31,7 @@ public interface CustomerMapper {
 	public Customer getCustomerBoard(int boardNumber) throws Exception;
 	
 	//SELECT
-	public Image getImage(int boardNumber) throws Exception;
+	public Image getCustomerBoardImage(int boardNumber) throws Exception;
 	
 	//SELECT List
 	public List<Customer> getCustomerBoardList() throws Exception;

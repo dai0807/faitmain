@@ -5,21 +5,26 @@
 
 <mapper namespace="com.faitmain.domain.customer.mapper.CustomerMapper">
 <!-- com.faitmain.domain.Customer.mapper.CustomerBoardMapper -->
-	<resultMap id="customerSelectMap" type="com.faitmain.domain.customer.domain.Customer">
-		<result property="boardMumber"  				column="customer_board_number"		jdbcType="INTEGER"/>
+	<resultMap id="customerMap" type="com.faitmain.domain.customer.domain.Customer">
+		<result property="boardNumber"  				column="customer_board_number"		jdbcType="INTEGER"/>
 		<result property="boardTitle"					column="customer_board_title" 		jdbcType="VARCHAR" />
 		<result property="boardContent"					column="customer_board_content" 	jdbcType="VARCHAR" />
 		<result property="regDate"						column="reg_date"	 				jdbcType="DATE" />
 		<result property= "updateDate"					column="update_date" 				jdbcType="DATE" />
 		<result property="FAQCategoryCode"			 	column="customer_FAQ_category_code" jdbcType="INTEGER" />
 		<result property="boardType"  					column="customer_board_type" 		jdbcType="CHAR" />
-
-		<result property="customerId"							column="customer_id"  				jdbcType="VARCHAR" />
+	 	<!-- <result property="customerId"					column="customer_id"  				jdbcType="VARCHAR" /> -->
+		
+		<association property="customerId" javaType="User" >	
+			<id property="id" column="customer_id" jdbcType="VARCHAR"/>
+			
+		</association>
 		<!-- <result property="viewCount" 					column="customer_viewcount"				jdbcType="INTEGER" /> -->
-
+		
+		
 	</resultMap>
 	
-	<resultMap id="banPeriodSelectMap" type="com.faitmain.domain.customer.domain.BanPeriod">
+	<resultMap id="banPeriodMap" type="com.faitmain.domain.customer.domain.BanPeriod">
 		<result property="reportNumber"				column="report_number" 			jdbcType="INTEGER"/>
 		<result property="respondentId"				column="respondent_id"			jdbcType="VARCHAR" />
 		<result property="respondentNickname"  		column="respondent_nickname"	jdbcType="VARCHAR" />
@@ -27,21 +32,37 @@
 		<result property="statusNumber"  			column="status_number"			jdbcType="INTEGER" />
 		<result property="periodNumber"  			column="ban_period_number" 		jdbcType="INTEGER" />
 		<result property="endDate"					column="ban_end_date" 			jdbcType="DATE" />
+		
+		<association property="customerId" javaType="User" >	
+			<id property="id" column="customer_id" jdbcType="VARCHAR"/>
+			<result property="respondentNickname" column="respondent_nickname" jdbcType="VARCHAR"/>
+		</association>
+		
+	</resultMap>
+	
+	<resultMap id="imageSelectMap" type="com.faitmain.global.common.Image">
+		<result property="imageNumber" column="image_number" jdbcType="INTEGER"/>
+		<result property="imageClassificationCode" column="image_classification_code" jdbcType="CHAR"/>
+		<result property="imageClassificationNumber" column="image_classification_number" jdbcType="INTEGER"/>
+		<result property="imageName" column="image_name" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
-	 <insert id="addCustomerBoard" parameterType="com.faitmain.domain.customer.domain.Customer">
+	<insert id="addCustomerBoard" parameterType="Customer">
     	INSERT INTO customer
-		    (  customer_board_type, customer_board_title, customer_board_content, 
-		    reg_date, customer_id )
+		    ( customer_board_title, customer_board_content, reg_date, update_date, 
+		     customer_FAQ_category_code, customer_board_type, customer_id )
 		VALUES
-		    (  #{boardType}, #{boardTitle}, #{boardContent}, NOW(), #{customerId} )
-
-    
+		    (  #{boardTitle}, #{boardContent}, NOW(), NOW(),#{FAQCategoryCode}, #{boardType}, #{customerId.id} )
+	</insert>
+	
+    <insert id="addCustomerBoardImage" parameterType="com.faitmain.global.common.Image" >
+    	INSERT
+    	INTO image(image_classification_code, image_classification_number, image_name)
+    	VALUES('C', #{boardNumber}, #{boardImage})
     </insert>
-    <!-- <insert id="addImage"  -->
     
-    <insert id="processBanPeriod" parameterType="com.faitmain.domain.customer.domain.BanPeriod">
+    <insert id="processBanPeriod" parameterType="BanPeriod">
     	INSERT INTO ban_period
 		    ( respondent_id, respondent_nickname, respondent_store_name, status_number, ban_period_number, ban_end_date )
 		VALUES
@@ -50,43 +71,93 @@
     </insert>
     
     <!-- 상세보기 -->
-    <select id="getCustomerBoard" parameterType="com.faitmain.domain.customer.domain.Customer">
-    	SELECT * FROM customer 
-    	
+    <select id="getCustomerBoard" parameterType="int" resultMap ="customerMap">
+    	SELECT 
+    	customer_board_title, customer_board_content, customer_FAQ_category_code, customer_board_type, reg_date, update_date, customer_id
+    	FROM customer 
     	<where>
-    	 	customer_board_number = #{boardNumber}
+    		customer_board_number = #{boardNumber}
     	</where>
     </select>
     
+    <select id="getCustomerBoardImage" parameterType="int" resultMap="customerMap">
+    	SELECT *
+    	FROM image
+    	<where>
+    		 image_classification_code = 'C' AND image_classification_number = #{value}
+		</where>    
+    </select>
+    
     <!-- SQL : UPDATE -->
-    <update id="updateCustomerBoard" parameterType="com.faitmain.domain.customer.domain.Customer">
+    <update id="updateCustomerBoard" parameterType="Customer">
     	UPDATE customer
     	<set>
     		customer_board_type		= #{boardType},
     		customer_board_title	= #{boardTitle},
     		customer_board_content	= #{boardContent},
     		update_date				= #{updateDate},
-    		image_number			= #{imageNumber},
-    		customer_id				= #{customerId}
+    		customer_FAQ_category_code = #{FAQCategoryCode},
+    		customer_board_type		= #{boardType},
+    	<!-- 	image_number			= #{imageNumber}, -->
+    		customer_id				= #{customerId.id}
     	</set>
 		<where> 
 			customer_board_number = #{boardNumber}
     	</where>
     </update>
     
-    <delete id="deleteCustomerBoard" parameterType="com.faitmain.domain.customer.domain.Customer">
+    <update id="updateCustomerBoardImage" parameterType="com.faitmain.global.common.Image">
+    	UPDATE image
+    	<set>
+    		image_name = #{imageName}
+    	</set>
+    	<where>
+    		image_number = #{imageNumber}
+    	</where>
+    </update>
+    
+   	<update id="updateBanStatus" parameterType="BanPeriod">
+   		UPDATE banPeriod
+   		<set>
+   			status_number = #{statusNumber}
+   		</set>
+   		<where>
+   			report_number = #{reportNumber}
+   		</where>
+   	</update>
+   	
+   	<update id="updateBanPeriod" parameterType="BanPeriod">
+   		UPDATE banPeriod
+   		<set>
+   			period_number = #{periodNumber}
+   		</set>
+   		<where>
+   			report_number = #{reportNumber}
+   		</where>
+   	</update>
+   	
+    <delete id="deleteCustomerBoard" parameterType="Customer">
     	DELETE FROM customer
     	<where>
     		customer_board_number = #{boardNumber}
     	</where>
     </delete>
     
-    <select id="getCustomerBoardList" parameterType="com.faitmain.domain.customer.domain.Customer">
+    <delete id="deleteCustomerBoardImage" parameterType="int">
+    	DELETE FROM image
+    	<where>
+    		image_number = #{imageNumber}
+    	</where>
+    </delete>
     
-    	SELECT * FROM customer
-    
-    </select>
     <!-- SQL : SELECT LIST -->
+    <select id="getCustomerBoardList" parameterType="Customer" >
+    
+    	SELECT * 
+    	FROM customer
+    	
+    </select>
+    
 	<!-- <select  id="getCustomerBoardList"  parameterType="search"	resultMap="customerSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
@@ -131,8 +202,8 @@
 	 </select>
      -->
     
-    
-
+    <!-- get Customer -->
+	
 
    
 
