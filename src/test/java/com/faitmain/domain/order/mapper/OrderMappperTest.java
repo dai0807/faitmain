@@ -31,7 +31,7 @@ class OrderMappperTest{
 
         Order order = new Order();
 
-        order.setProductNumber( 10003 );
+        order.setProductNumber( 10001 );
         order.setBuyerId( "user01@naver.com" );
         order.setStoreId( "store03@naver.com" );
         order.setOrderBundleNumber( new Timestamp( new java.util.Date().getTime() ) );
@@ -59,7 +59,7 @@ class OrderMappperTest{
         order = orderMapper.getOrder( order.getOrderNumber() );
         System.out.println( "order = " + order );
 
-        assertThat( order.getProductNumber() ).isEqualTo( 10003 );
+        assertThat( order.getProductNumber() ).isEqualTo( 10001 );
         assertThat( order.getBuyerId() ).isEqualTo( "user01@naver.com" );
         assertThat( order.getStoreId() ).isEqualTo( "store03@naver.com" );
 //        assertThat( order.getOrderBundleNumber() ).isEqualTo( new Timestamp( new java.util.Date().getTime() ) );
