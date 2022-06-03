@@ -2,6 +2,10 @@ package com.faitmain.domain.product.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.faitmain.domain.product.domain.Cart;
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.user.domain.User;
 
@@ -52,7 +57,7 @@ public class ProductMapperTest {
 		
 	}
 	
-//	get
+//	get product
 //	@Test
 	@DisplayName("getProduct Mapper Test")
 	public void getProductTest() throws Exception{
@@ -68,16 +73,76 @@ public class ProductMapperTest {
 	}
 	
 	@Test
+	@DisplayName("getProductList Mapper Test")
+	public void getProductListTest() throws Exception{
+		
+		System.out.println("getProductListTest start");
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("orderName", "product_name DESC");
+		map.put("startRowNum", 1+"");
+		map.put("endRowNum", 5+"");
+		
+		List<Product> list = productMapper.getProductList(map);
+		assertThat(list.get(0).getProductName()).isEqualTo("프랑스에서 만든 마카롱 10개 세트");	
+		
+		System.out.println("getProductListTest end");
+		
+	}
+	
+	//update
+//	@Test
 	@DisplayName("updateProduct Mapper Test")
 	public void updateProductTest() throws Exception{
 		
 		System.out.println("updateProductTest start");
 		
-		Product product = productMapper.getProduct(10000);
+		Product product = new Product();
+		product.setProductNumber(10016);
+		product.setProductName("딸기맛마카롱");
+		product.setProductMainImage("akzkfhd.png");
+		product.setPrice(3000);
+		product.setProductDetail("마카롱 10세트 딸기맛 특별 할인");
+		product.setCategoryCode("01");
+		product.setProductQuantity(5);
+		product.setProductStatus("01");
+		product.setProductGroupNumber(0);
 		
-		assertThat(product.getPrice()).isEqualTo(5000);
+		productMapper.updateProduct(product);
+		
+		Product resultProduct = productMapper.getProduct(10016);
+		assertThat(resultProduct.getProductName()).isEqualTo("딸기맛마카롱");
 		
 		System.out.println("updateProductTest end");
+		
+	}
+	
+	//update productStatus
+//	@Test
+	@DisplayName("updateProductStatus Mapper Test")
+	public void updateProductStatusTest() throws Exception{
+		
+		System.out.println("updateProductStatusTest start");
+		
+		Product product = new Product();
+		product.setProductNumber(10013);
+		product.setProductStatus("02");
+		productMapper.updateProductStatus(product);
+		
+		System.out.println("updateProductStatusTest start");
+		
+	}
+	
+	//delete
+//	@Test
+	@DisplayName("deleteProduct Mapper Test")
+	public void deleteProductTest() throws Exception{
+		
+		System.out.println("deleteProductTest start");
+		
+		productMapper.deleteProduct(10016);
+		
+		System.out.println("deleteProductTest end");
 		
 	}
 	
