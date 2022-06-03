@@ -29,9 +29,9 @@ public class WebController{
         return "view/login";
     }
 
-    @GetMapping( "view/admin/admin" )
+    @GetMapping( "view/admin/main" )
     public String admin(){
         System.out.println( "WebController.admin" );
-        return "view/admin/admin";
+        return "view/admin/main";
     }
 }
