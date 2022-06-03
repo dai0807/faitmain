@@ -84,7 +84,7 @@
     	INSERT INTO live_user_status
     		(live_number, id, alarm_status, kick_status, dumb_status)
     	VALUES
-    		(#{liveNumber}, #{id}, 0, 0, 0)
+    		(#{liveNumber}, #{id}, #{alarm_status}, #{kick_status}, #{dumb_status})
     </insert>
     
     
