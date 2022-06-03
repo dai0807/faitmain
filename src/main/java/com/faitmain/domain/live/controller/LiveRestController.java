@@ -3,6 +3,7 @@ package com.faitmain.domain.live.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import com.faitmain.domain.live.domain.LiveReservation;
 import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.live.service.LiveService;
 
+@Slf4j
 @RestController
 @RequestMapping("/live/*")
 public class LiveRestController {
@@ -26,7 +28,7 @@ public class LiveRestController {
 	private LiveService liveService;
 	
 	public LiveRestController() {
-		System.out.println(this.getClass());
+		log.info( "Controller = {} ", LiveRestController.class );
 	}
 	
 	
