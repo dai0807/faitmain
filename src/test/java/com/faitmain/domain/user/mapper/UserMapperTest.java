@@ -166,7 +166,7 @@ public class UserMapperTest {
 			
 	 }
 					 		 
-	// @Test
+	  @Test
 	 @DisplayName("getStoreApplicationDocument   Test")
 		public void getStoreApplicationDocumenNumber() throws Exception {
 			System.out.println("getStoreApplicationDocumenNumber start");
@@ -187,10 +187,13 @@ public class UserMapperTest {
  
 					
 			assertThat(storeADoc.getProductDetial()).isEqualTo("우리스토어");
-		
+			assertThat( storeADoc.getId()).isEqualTo("store02@naver.com");
+			assertThat( storeADoc.getRegDate()).isEqualTo("2022-05-30");
+			assertThat( storeADoc.getStoreApplicationDocumentNumber()).isEqualTo(10001);
+
 			
 	 }
-  @Test
+ // @Test
 	 @DisplayName("getUserList   Test")
 		public void getUserList() throws Exception {
 			System.out.println("getUserList start");
@@ -206,8 +209,11 @@ public class UserMapperTest {
 			
 			List<User> list = usermapper.getUserList(map);
  			
-			System.out.println(list);
-			
+			for(User user :list) {
+				System.out.println("user 유저 출력 " + user ) ;
+				
+			}
+ 			
 			
 		 
 			
@@ -236,6 +242,10 @@ public class UserMapperTest {
 			System.out.println(list);
 			
 			
+			for(StoreApplicationDocument StoreApplicationDocument :list) {
+				System.out.println("신청서 출력 " + StoreApplicationDocument ) ;
+				
+			}
 		 
 			
 			System.out.println("Last getStoreApplicationDocumentList : ");
@@ -244,7 +254,7 @@ public class UserMapperTest {
 			
 	 }	
 	    
-	 @Test //스토어 리스트  뽑기
+	// @Test //스토어 리스트  뽑기
 	 @DisplayName("updateUser   Test")
 		public void updateUser() throws Exception {
 			System.out.println("updateUser updateUser : ");

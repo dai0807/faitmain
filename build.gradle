@@ -48,6 +48,8 @@ dependencies {
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 	implementation 'javax.servlet:jstl:1.2'
 
+	implementation group: 'net.nurigo', name: 'javaSDK', version: '2.2' // smsAPI 
+	
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	compileOnly 'org.projectlombok:lombok'
