@@ -1,5 +1,6 @@
 package com.faitmain.domain.live.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.faitmain.domain.live.domain.Live;
 import com.faitmain.domain.live.domain.LiveChat;
 import com.faitmain.domain.live.domain.LiveProduct;
+import com.faitmain.domain.live.domain.LiveReservation;
 import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.live.service.LiveService;
 
@@ -72,7 +74,7 @@ public class LiveRestController {
 	}
 	
 	@PostMapping("json/updateLiveUserStatus")
-	public void LiveUserStatus(@RequestBody LiveUserStatus liveUserStatus) throws Exception{
+	public void addLiveUserStatus(@RequestBody LiveUserStatus liveUserStatus) throws Exception{
 		System.out.println("/live/json/updateLiveUserStatus : POST start...");
 		
 		if(liveService.getLiveUserStatus(liveUserStatus) == null) {
@@ -89,4 +91,31 @@ public class LiveRestController {
 		
 		System.out.println("/live/json/updateLiveUserStatus : POST end...");
 	}
+	
+	// LIVE RESERVATION
+	@GetMapping("json/getLiveReservationCal")
+	public Map<String, Integer> getLiveReservationCal() throws Exception{
+		System.out.println("/live/json/getLiveReservationCal : GET start...");
+		
+		
+		
+		System.out.println("/live/json/getLiveReservationCal : GET end...");
+		return null;
+	}
+	
+	@PostMapping("json/deleteLiveReservation")
+	public Map<String, Object> deleteLiveReservation(@RequestBody LiveReservation liveReservation) throws Exception{
+		System.out.println("/live/json/deleteLiveReservation : POST start...");
+		
+		System.out.println("deleteLiveReservation result : " + liveService.deleteLiveReservation(liveReservation.getLiveReservationNumber()));
+		
+		Map<String, Object> map = liveService.getLiveReservationList(liveReservation.getReservationDate()); 
+		
+		System.out.println("/live/json/deleteLiveReservation : POST end...");
+		
+		return map;
+	}
+	
+	
+	
 }

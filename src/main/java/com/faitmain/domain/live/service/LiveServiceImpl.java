@@ -111,6 +111,20 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.addLiveReservation(liveReservation);
 	}
 	
+	public int deleteLiveReservation(int liveReservationNumber) throws Exception{
+		return liveMapper.deleteLiveReservation(liveReservationNumber);
+	}
+	
+	public Map<String, Object> getLiveReservationList(String reservationDate) throws Exception{
+		
+		List<LiveReservation> list = liveMapper.getLiveReservationList(reservationDate);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("list", list);
+		
+		return map;
+	}
 	
 	//liveUserStatus
 	public int addLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception {
