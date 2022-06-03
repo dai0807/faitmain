@@ -1,6 +1,7 @@
 package com.faitmain.domain.order.mapper;
 
 import com.faitmain.domain.order.domain.Order;
+import com.faitmain.global.common.Search;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -20,5 +21,8 @@ public interface OrderMapper{
 
     //selectList
     List< Order> getOrderList();
+
+    //paging
+    int getTotalCount( Search search );
 
 }
