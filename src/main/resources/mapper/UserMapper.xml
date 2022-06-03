@@ -28,7 +28,9 @@
  		<result property="bankName" 			column="bank_name" 					jdbcType="VARCHAR"/>
  		<result property="bankAccountNumber" 	column="bank_account_number" 		jdbcType="VARCHAR"/>
  		<result property="role"					column="role" 						jdbcType="VARCHAR" />
- 		<result property="withdrawalStatus"		column="withdrawal_status" 			jdbcType="TINYINT" />  		 			
+ 		<result property="withdrawalStatus"		column="withdrawal_status" 			jdbcType="TINYINT" />
+ 		<result property="storeApplicationDocumentNumber" 					column="store_application_document_number" 	jdbcType="INTEGER"/>
+ 		  		 			
 
 </resultMap>
 
@@ -39,44 +41,178 @@
 		<result property="examinationStatus"								column="examination_status" 				jdbcType="VARCHAR" />
 		<result property="productDetial" 									column="product_detail" 					jdbcType="VARCHAR"/>
  		<result property="regDate"											column="reg_date" 							jdbcType="DATE" />
-	  				
+ 		<result property="storeIntroduction"								column="store_introduction" 				jdbcType="VARCHAR" /> 	
+ 		<result property="storeName" 										column="store_name" 						jdbcType="VARCHAR"/>
+	  						
 
 </resultMap>
 
+	<resultMap id="imageSelectMap" type="com.faitmain.global.common.Image">
+		<result property="imageNumber" column="image_number" jdbcType="INTEGER"/>
+		<result property="imageClassificationCode" column="image_classification_code" jdbcType="CHAR"/>
+		<result property="imageClassificationNumber" column="image_classification_number" jdbcType="INTEGER"/>
+		<result property="imageName" column="image_name" jdbcType="VARCHAR"/>
+	</resultMap>
 
 
+
+    <insert id ="addUser"   parameterType="User"  >
+    
+    INSERT INTO user (id,	 password,	 gender, 	address, postal_code, 	nickname, 	phone_number, 	name, 	reg_date, 	join_path,	store_logo_image, store_introduction, bank_account_copy_image, bank_name,bank_account_number, role, store_name)
+VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#{phoneNumber}, #{name},now(),		#{joinPath},	NULL		,			NULL	,	NULL				 ,NULL		,NULL			,	#{role},#{storeName});
+    
+    </insert>  
+    
+   	<insert id ="addStoreApplicationDocument" parameterType="StoreApplicationDocument"  >
+		INSERT INTO store_application_document ( id, examination_status, product_detail, reg_date)
+		VALUES
+		    (#{id}, 'W', #{product_detail}, NOW() )
+		 
+ 	</insert>
+ 	
+ <select id ="getLogin"  parameterType="User" >
+ 	SELECT COUNT(*) FROM user 
+ 		WHERE id = #{id} AND password = #{password}
+ 
+ </select>	   
 
 <select id ="getUser" parameterType="User"  resultMap ="userMap" >
 	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
 		FROM user
- 			<where>
+ 		WHERE
  			id = #{id}
-			<!-- 
-				<if test="#{password} != null  ">
-			     		AND 	password = #{password}
-			     </if>
-				<if test="#{id} != null">
-			     		AND 	
-			     </if>
-			     
-			      <if test="#{nickname} != null  ">
-			     		AND 	nickname = #{nickname}
-			     </if>
-			      -->
-			     </where>
+		
+			      
+  </select>
+ 
+ <select id ="getMapUser" parameterType="map"  resultMap ="userMap" >
+	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
+		FROM user
+ 			<where>
+ 			${userCondition} = #{userKeyword}
+			   </where>
  </select>
  
- <select id ="getlist" parameterType="User"  resultMap ="userMap" > <!-- role 따라  -->
-	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
+ 
+  <select id ="findUser" parameterType="map"  resultType="int" >  <!-- 이것은 findUser 때에따라 들어가는 값 확인하기 -->
+	SELECT COUNT(*)
 	FROM user
-	WHERE   role =#{role}   ;
+		WHERE  phone_number =#{phoneNumber}  
+		AND  ${findcondition}= #{findkeyword} ;
 
 </select>
  
  
-  <select id ="getUserList" parameterType="com.faitmain.global.common.Search"  resultMap ="userMap" > <!-- role 따라  -->
+ <!-- 	이것은 유효성 검사 할때 쓰일 Mapper  아직은 둠    -->
+
+	  <select id="getchechDuplicationCount" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM user WHERE ${checkcondition}= #{checkkeyword}
+        
+    </select>
+	
+ 
+  <!-- 가장 최신의 스토어 신청서 번호 가지고 있기  -->
+	 <select id ="getStoreApplicationDocumentNumber" parameterType="String" resultType="int">
+		SELECT store_application_document_number
+		FROM store_application_document
+		WHERE id = #{value}
+		ORDER BY reg_date desc  
+	</select>
+ 
+ <!--  //SELECT 스토어 신청서 넘버로 스토어 가져오기   -->
+ 	 <select id ="getStoreApplicationDocument" parameterType="int" resultMap ="StoreApplicationDocumentMap">
+		SELECT	 s.* , u.store_name , u.store_introduction 
+			FROM	 store_application_document s ,user u  
+			WHERE	  s.id = u.id and store_application_document_number = #{value}
+	</select>
+ 
+ 
+ 
+ <!-- 키워드나 정렬 조건 새로 붙이기  망함 
+ <select id ="getlist" parameterType="com.faitmain.global.common.Search"  resultMap ="userMap" >  
 	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
 	FROM user
+	 <if test="searchCondition != null">
+			 	<where>
+	
+			    role = #{searchKeyword}  ;
+			    </where>
+		 </if>
+
+</select>
+--> 
+  <!-- 키워드나 정렬 조건 새로 붙이기   , 이름 / 키워드 등 서치 키워드 다시 설정해서 넣기  0 전체 1 유저 , 2 스토어 검색 -->
+	  <select id ="getUserList" parameterType="map"  resultMap ="userMap" > <!-- role 따라  -->
+		SELECT *
+		  	FROM (	SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq
+			  			FROM(	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
+								FROM user
+									<where>
+							 		<if test="searchCondition == 0 and searchKeyword !=''  ">
+									
+											name  LIKE '%' || #{searchKeyword} || '%'
+									
+									</if>
+							 		<if test="searchCondition == 1 and searchKeyword !=''  ">
+										role = "user" AND 	name  LIKE '%' || #{searchKeyword} || '%'
+									</if>
+									
+							 		<if test="searchCondition == 2 and searchKeyword !=''  ">
+										role LIKE '%store%' AND 	name  LIKE '%' || #{searchKeyword} || '%'
+									</if>											 
+								 </where>
+								 ) inner_table
+						WHERE (@ROWNUM:=0)=0 limit ${endRowNum} ) total
+			WHERE row_seq BETWEEN ${startRowNum} AND ${endRowNum} 
+	</select>
+
+	<!-- SQL : SELECT ROW Count (현재 search 없음) -->	 
+	<select  id="getUserTotalCount"  parameterType="map"	 resultType="int">
+	  	SELECT COUNT(*)
+	  		FROM(	
+	  			SELECT COUNT(*) 	
+	  				FROM user
+									<where>
+							 		<if test="searchCondition == 0 and searchKeyword !=''  ">
+									
+											name  LIKE '%' || #{searchKeyword} || '%'
+									
+									</if>
+							 		<if test="searchCondition == 1 and searchKeyword !=''  ">
+										role = 'user' AND 	name  LIKE '%' || #{searchKeyword} || '%'
+									</if>
+									
+							 		<if test="searchCondition == 2 and searchKeyword !=''  ">
+										role LIKE '%store%' AND 	name  LIKE '%' || #{searchKeyword} || '%'
+									</if>											 
+								 </where>
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	) countTable						
+	 </select> 
+
+
+
+
+
+
+<!-- 
+
+
+<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				user_id = #{searchKeyword}
+													</if>
+
+
+ -->
+<!-- 망한 잔제임 
+<select id = "getUserListAll" parameterType="map" resultMap ="userMap">
+
+	SELECT   id,   phone_number, name, reg_date,  role, reg_date
+	FROM  USER
 		<if test="searchCondition != null">
 										<where>
 											<if test="searchCondition == null and searchKeyword !='' ">
@@ -87,24 +223,13 @@
 		</if>
 
 </select>
- 
- <select id ="findUser" parameterType="map"  resultType="int" >  <!-- 이것은 findUser 때에따라 들어가는 값 확인하기 -->
-	SELECT COUNT(*)
-	FROM user
-		WHERE  phone_number =#{phoneNumber}  
-		AND  ${findcondition}= #{findkeyword} ;
 
-</select>
+ -->
  
- 
-    <insert id ="addUser"   parameterType="User"  >
-    
-    INSERT INTO user (id,	 password,	 gender, 	address, postal_code, 	nickname, 	phone_number, 	name, 	reg_date, 	join_path,	store_logo_image, store_introduction, bank_account_copy_image, bank_name,bank_account_number, role, store_name)
-VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#{phoneNumber}, #{name},now(),		#{joinPath},	NULL		,			NULL	,	NULL				 ,NULL		,NULL			,	#{role},#{storeName});
-    
-    </insert>    
+
+  
          
- 
+ <!-- 유저 업데이트 -->
   	 <update	id="updateUser"	parameterType="User" >
 	   	UPDATE user
 	   	<set>
@@ -123,6 +248,18 @@ VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#
 	   	WHERE  id = #{id}
 	 </update>
  
+ <!-- UPUDATEPASSword -->
+   	 <update	id="updateUserPassword"	parameterType="User" >
+	   	UPDATE user
+	   	<set>
+	   		password 		= #{password}    				
+	   	</set>
+	   	WHERE  id = #{id}
+	 </update>
+	 
+	 
+ 
+ 
   	 <update	id="updatUserStore"	parameterType="User" >
 	   	UPDATE user
 	   	<set>
@@ -133,26 +270,13 @@ VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#
  <!-- List  -->
  
   
-<!-- 	이것은 유효성 검사 할때 쓰일 Mapper  아직은 둠    -->
 
-	  <select id="getchechDuplicationCount" parameterType="map" resultType="int">
-        SELECT COUNT(*) FROM user WHERE ${checkcondition}= #{checkkeyword}
-    </select>
-	
-
- 
- 
  
  
  
  <!-- 스토어 -->
  
-  	<insert id ="addStoreApplicationDocument" parameterType="StoreApplicationDocument"  >
-		INSERT INTO store_application_document ( id, examination_status, product_detail, reg_date)
-		VALUES
-		    (#{id}, 'W', #{product_detail}, NOW() )
-		 
- 	</insert>
+
  
  	 
  	 <update	id="updateStoreApplicationDocument"  parameterType="StoreApplicationDocument"  >
@@ -163,32 +287,130 @@ VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#
 	   	</set>
 	   	WHERE  store_application_document_number = #{storeApplicationDocumentNumber}
 	 </update>
- 
-	 <select id ="getStoreApplicationDocument" parameterType="String"   resultMap ="StoreApplicationDocumentMap">
+	 
+<!-- 리스트 서치시 밑 이용 가능  -->
+ <!-- 망한 잔제  
+ 	 <select id ="getStoreApplicationDocumentList" parameterType="com.faitmain.global.common.Search"   resultMap ="StoreApplicationDocumentMap">
 		SELECT *
 		FROM store_application_document
-		WHERE store_application_document_number = #{value}
-		ORDER BY reg_date desc  
-	</select>
- 
- 	 <select id ="getStoreApplicationDocumentList" parameterType="StoreApplicationDocument"   resultMap ="StoreApplicationDocumentMap">
-		SELECT *
-		FROM store_application_document
-		<if test="#{examinationStatus} != null">
+		<if test="searchCondition != null">
     		<where>
-    			examination_status = #{examinationStatus}
+    			examination_status = #{searchKeyword}
     		</where>
     	</if>
    
 		
  		ORDER BY reg_date desc  
 	</select>
+	
+	
+		 <select id ="getStoreApplicationDocumentALLList" parameterType="Map"   resultMap ="StoreApplicationDocumentMap">
+		SELECT *
+		FROM store_application_document
+		<if test="searchCondition != null">
+    		<where>
+    			examination_status = #{searchKeyword}
+    		</where>
+    	</if>
+   
+		
+ 		ORDER BY reg_date desc  
+	</select>
+	  -->
+	<!-- 0 전체 1 - R , 2 -A , 3 - W -->
+	  <select id ="getStoreApplicationDocumentList" parameterType="map"  resultMap ="StoreApplicationDocumentMap" > <!-- role 따라  -->
+		SELECT *
+		  	FROM (	SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq
+			  			FROM(	SELECT *
+								FROM store_application_document
+									<where>
+							 	 
+							 		<if test="searchCondition == 1    ">
+										examination_status = 'R'  
+									</if>
+									
+							 		<if test="searchCondition == 2    ">
+										examination_status = 'A'  
+									</if>		
+									
+							 		<if test="searchCondition == 3    ">
+										examination_status = 'W'  
+									</if>																			 
+								 </where>
+								 ) inner_table
+						WHERE (@ROWNUM:=0)=0 limit ${endRowNum} ) total
+			WHERE row_seq BETWEEN ${startRowNum} AND ${endRowNum} 
+	</select>
+	
+	
+		<select  id="getStoreApplicationDocumenTotalCount"  parameterType="map"	 resultType="int">
+	  	SELECT COUNT(*)
+	  		FROM(	
+	  			SELECT COUNT(*) 	
+	  				FROM store_application_document
+									<where>
+							 		
+							 		<if test="searchCondition == 1   ">
+										examination_status = 'R'  
+									</if>
+									
+							 		<if test="searchCondition == 2  ">
+										examination_status = 'A'  
+									</if>		
+									
+							 		<if test="searchCondition == 3    ">
+										examination_status = 'W'  
+									</if>												 
+								 </where>
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	) countTable						
+	 </select> 
+
+	
+	
+	
+	
+	<!-- store  -->
  
+	
+ <!-- 스토어 이미지 등록(최대 6개) -->
+
  	<insert id="addImage" parameterType="com.faitmain.global.common.Image">
 		INSERT 
-		INTO iamge (image_classification_code, image_classification_number, image_name)
-		VALUES ('S', #{productNumber}, #{productImage})
+		INTO image (image_classification_code, image_classification_number, image_name)
+		VALUES ('S', #{imageClassificationNumber}, #{imageName})
 	</insert>
- 
- 
-</mapper>
+	
+	<!-- 스토어 이미지 조회 -->
+ 	<select id="getImage" parameterType="int"	resultMap="imageSelectMap">
+		SELECT image_number, image_name
+		FROM image 
+		WHERE image_classification_code = 'S' AND image_classification_number = #{value}
+	</select>
+	
+	
+	
+	
+	
+	<!-- delect User -->
+	<delete id= "delectUser"   parameterType="String"  >
+	DELECT FROM user  WHERE id = #{value}
+	
+	</delete>
+	
+	
+ <!-- updateWithdrawalStatus -->
+   	 <update	id="updateWithdrawalStatus"	parameterType="String" >
+	   	UPDATE user
+	   	<set>
+	   		updateWithdrawalStatus 		= 1				
+	   	</set>
+	   	WHERE  id = #{value}
+	 </update>
+	  
+	
+	</mapper>

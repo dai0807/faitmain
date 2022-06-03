@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang = "ko">
+<head>
+    <meta charset = "UTF-8">
+    <title>주문페이지</title>
+
+    <!-- Font Awesome icons (free version)-->
+    <script crossorigin = "anonymous" src = "https://use.fontawesome.com/releases/v6.1.0/js/all.js"></script>
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
+
+    <!-- Google fonts-->
+    <link href = "https://fonts.googleapis.com/css?family=Montserrat:400,700" rel = "stylesheet" type = "text/css"/>
+    <link href = "https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel = "stylesheet" type = "text/css"/>
+
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link th:href="@{/view/css/styles.css}" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+
+<input id = "user_id" type = "hidden" value = "${user.id }">
+
+<section class = "title">
+    <h1>주문하기</h1>
+</section>
+
+<main>
+
+    <form>
+
+        <ul>
+            <li>
+                <div class = "order_info">
+                    <h2><span>${cartList.storeName }</span>
+                        <button class = "delete_all" type = "button">전체삭제</button>
+                    </h2>
+                    <hr>
+
+                    <h2>주문정보</h2>
+
+
+                    <ul>
+                        <c:set value = "${cartList.cart }" var = "cart"/>
+
+                        <c:forEach begin = "0" end = "${fn:length(cart) -1 }" var = "j">
+                            <li>
+                                <div class = "food_name_box">
+                                    <div class = "food_name">${cart[j].foodName }</div>
+                                    <div><i class = "fas fa-times delete"></i></div>
+                                </div>
+                                <div class = "price">ㆍ기본가격
+                                    <fm:formatNumber pattern = "###,###" value = "${cart[j].foodPrice }"/>
+                                                     원
+                                </div>
+
+
+                                <c:if test = "${fn:length(cart[j].optionName) > 0 }">
+                                    <c:forEach begin = "0" end = "${fn:length(cart[j].optionName) -1 }" var = "i">
+
+                                        <div class = "menu_option">
+                                            <span>ㆍ${cart[j].optionName[i]  }</span>
+                                            <span><fm:formatNumber pattern = "###,###"
+                                                                   value = "${cart[j].optionPrice[i] }"/>원</span>
+                                        </div>
+
+                                    </c:forEach>
+                                </c:if>
+
+                                <div class = "amount">
+                                    <div class = "sum">
+                                        <fm:formatNumber pattern = "###,###" value = "${cart[j].totalPrice }"/>
+                                        원
+                                    </div>
+                                    <!-- 메뉴 하나 총합 -->
+                                    <div class = "amount_box">
+                                        <button class = "minus" type = "button">-</button>
+                                        <input class = "amount_text" min = "1" readonly
+                                               type = "number" value = "${cart[j].amount }">
+                                        <button class = "plus" type = "button">+</button>
+                                    </div>
+                                </div>
+
+                            </li>
+
+                        </c:forEach>
+                    </ul>
+                </div>
+            </li>
+
+            <li class = "delevery_cont">
+
+                <div class = "delevery_info">
+                    <h2>배달정보 </h2>
+                    <div>
+                        <span>주소 :</span>
+                        <span class = "address1">${BMaddress.address2}</span>
+                        <button id = "delevery_modify" onclick = "modifyAddress()" type = "button">주소 변경하기</button>
+                        <%@ include file="/WEB-INF/view/include/modifyAddress.jsp" %>
+                    </div>
+
+                    <input id = "deleveryAddress1" name = "deleveryAddress1" type = "hidden"
+                           value = "${BMaddress.address1 }">
+                    <input id = "deleveryAddress2" name = "deleveryAddress2" type = "hidden"
+                           value = "${BMaddress.address2 }">
+
+
+                    <div>상세 주소</div>
+                    <div class = "input_area"><input id = "deleveryAddress3" maxlength = "100" name = "deleveryAddress3"
+                                                     type = "text" value = "${BMaddress3 }"></div>
+
+                    <div>전화번호</div>
+                    <c:if test = "${!empty user  }">
+                        <div class = "input_area"><input autocomplete = "off" name = "phone" onkeypress = "return lenthCheck(this, 11)"
+                                                         readonly required type = "number"
+                                                         value = "${user.phone }"></div>
+                    </c:if>
+                    <c:if test = "${empty user.phone || empty user  }">
+                        <div class = "input_area"><input autocomplete = "off" name = "phone" onkeypress = "return lenthCheck(this, 11)"
+                                                         required
+                                                         type = "number"></div>
+                    </c:if>
+                </div>
+                <hr>
+            </li>
+
+            <li class = "request">
+                <div>요청사항</div>
+                <textarea cols = "50" maxlength = "500" name = "request" rows = "5"></textarea>
+                <hr>
+            </li>
+
+
+            <li>
+                <h2>결제수단</h2>
+
+                <label><input checked = "checked" name = "payMethod" type = "radio" value = "신용카드">신용카드</label>
+
+                <label><input name = "payMethod" type = "radio" value = "현장결제">현장결제</label>
+                <hr>
+            </li>
+
+            <li class = "point_area">
+                <h2>포인트</h2>
+
+                <div class = "point">
+                    <div class = "point_click">
+                        <c:if test = "${!empty user  }">
+                            <span><fm:formatNumber pattern = "###,###" value = "${user.point }"/>원 사용 가능</span>
+                            <input id = "point" type = "hidden" value = "${user.point }">
+                        </c:if>
+
+                        <c:if test = "${empty user  }">
+                            <span>로그인후 사용 가능합니다.</span>
+                        </c:if>
+
+                        <span class = "icon"> <i class = "fas fa-chevron-down"></i>  </span>
+                    </div>
+
+                    <div class = "point_input_box">
+                        <input class = "point_input" name = "usedPoint" pattern = "/d" placeholder = "사용 할 포인트" type = "number"
+                               value = "0">
+                        <button class = "use_point" type = "button">사용하기</button>
+                    </div>
+
+                </div>
+                <hr>
+
+            </li>
+
+            <li class = "pay">
+                <div class = "order_price">주문금액 :
+                    <fm:formatNumber pattern = "###,###" value = "${cartList.cartTotal }"/>
+                                           원
+                </div>
+                <div>배달팁
+                    <fm:formatNumber pattern = "###,###" value = "${cartList.deleveryTip }"/>
+                     원
+                </div>
+
+                <div class = "point_dis"><span>포인트 할인 </span><span></span></div>
+
+                <div class = "total">
+                    <fm:formatNumber pattern = "###,###" value = "${cartList.cartTotal + cartList.deleveryTip}"/>
+                    원 결제하기
+                </div>
+
+                <input id = "total" name = "total" type = "hidden"
+                       value = "${cartList.cartTotal + cartList.deleveryTip}">
+                <input id = "delevery_tip" name = "deleveryTip" type = "hidden" value = "${cartList.deleveryTip }">
+                <input id = "order_num" type = "hidden" value = "${orderNum }">
+
+                <input class = "order_btn" type = "button" value = "주문하기">
+            </li>
+
+
+        </ul>
+
+    </form>
+</main>
+
+
+</c:if>
+
+
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script th:src="@{js/scripts.js}"></script>
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<!-- * *                               SB Forms JS                               * *-->
+<!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+
+</body>
+</html>

@@ -30,10 +30,10 @@ public interface ProductMapper {
 	public List<Product> getProductOption(int productGroupNumber) throws Exception;
 	
 	//SELECT - 상품 목록 조회
-	public List<Product> getProductList(Map<String, String> map) throws Exception;
+	public List<Product> getProductList(Map<String, Object> map) throws Exception;
 	
 	//SELECT - 상품 count
-	public int getTotalCount(Map<String, String> map) throws Exception;
+	public int getTotalCount(Map<String, Object> map) throws Exception;
 	
 	//UPDATE - 상품 수정
 	public void updateProduct(Product product) throws Exception;

@@ -3,9 +3,11 @@ package com.faitmain.domain.product.domain;
 import java.sql.Date;
 import java.util.List;
 
+import com.faitmain.domain.live.domain.Live;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Image;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
@@ -24,5 +26,15 @@ public class Product {
 	private Date productRegDate;
 	private int deliveryCharge;
 	private int productGroupNumber;
+	
+	@Builder
+	public Product(int productNumber, String productName) {
+	  this.productNumber = productNumber;
+	  this.productName = productName;
+	}
+	
+	public Product() {
+	
+	}
 	
 }
