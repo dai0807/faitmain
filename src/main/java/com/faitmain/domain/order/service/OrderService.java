@@ -3,6 +3,7 @@ package com.faitmain.domain.order.service;
 import com.faitmain.domain.order.domain.Order;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OrderService{
 
@@ -12,7 +13,6 @@ public interface OrderService{
 
     Order getOrder( int OrderNumber ) throws Exception;
 
-    List< Order > getOrderList() throws Exception;
 
-
+    Map< String, Object > getOrderList( );
 }

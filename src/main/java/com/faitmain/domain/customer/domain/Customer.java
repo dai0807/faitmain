@@ -13,6 +13,7 @@ public class Customer{
 	private int boardNumber;
 	private String boardTitle;
 	private String boardContent;
+
 	private List<Image> boardImage;
 	private Date regDate;
 	private Date updateDate;
@@ -20,6 +21,9 @@ public class Customer{
 	private char boardType;
 	private String customerId;
 	private int totalCount;
+
+
+
 	
 	
 }

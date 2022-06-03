@@ -13,8 +13,10 @@
 		<result property= "updateDate"					column="update_date" 				jdbcType="DATE" />
 		<result property="FAQCategoryCode"			 	column="customer_FAQ_category_code" jdbcType="INTEGER" />
 		<result property="boardType"  					column="customer_board_type" 		jdbcType="CHAR" />
+
 		<result property="customerId"							column="customer_id"  				jdbcType="VARCHAR" />
-		<result property="totalCount" 						column="customer_viewcount"				jdbcType="INTEGER" />
+		<!-- <result property="viewCount" 					column="customer_viewcount"				jdbcType="INTEGER" /> -->
+
 	</resultMap>
 	
 	<resultMap id="banPeriodSelectMap" type="com.faitmain.domain.customer.domain.BanPeriod">
@@ -34,6 +36,7 @@
 		    reg_date, customer_id )
 		VALUES
 		    (  #{boardType}, #{boardTitle}, #{boardContent}, NOW(), #{customerId} )
+
     
     </insert>
     <!-- <insert id="addImage"  -->

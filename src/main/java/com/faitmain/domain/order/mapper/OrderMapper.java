@@ -10,16 +10,15 @@ import java.util.List;
 public interface OrderMapper{
 
     //insert
-
     int addOrder( Order order );
 
     //update
     int updateOrder( Order order );
 
-    //select
+    //selectOne
     Order getOrder( int orderNumber );
 
-
+    //selectList
     List< Order> getOrderList();
 
 }

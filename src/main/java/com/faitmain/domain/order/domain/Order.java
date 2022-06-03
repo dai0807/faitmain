@@ -2,14 +2,19 @@ package com.faitmain.domain.order.domain;
 
 import lombok.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-@Data
-@NoArgsConstructor
+@Setter
+@Getter
+@ToString
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class Order {
 
+    @Valid
     @NotNull
     private int orderNumber;
 
