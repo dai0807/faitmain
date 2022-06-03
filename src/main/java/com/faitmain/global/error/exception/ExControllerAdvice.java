@@ -1,3 +1,4 @@
+
 package com.faitmain.global.error.exception;
 
 import com.faitmain.global.error.ErrorResult;
@@ -35,3 +36,4 @@ public class ExControllerAdvice{
 
 
 }
+

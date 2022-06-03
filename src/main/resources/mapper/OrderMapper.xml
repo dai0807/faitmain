@@ -5,8 +5,7 @@
 
 <mapper namespace="com.faitmain.domain.order.mapper.OrderMapper">
 
-
-    <insert id="addOrder" parameterType="com.faitmain.domain.order.domain.Order" useGeneratedKeys="true" keyProperty="order_number">
+    <insert id="addOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="orderNumber">
         INSERT INTO `order` ( product_number
                             , buyer_id
                             , store_id
@@ -28,61 +27,50 @@
                             , order_claim_response_date
                             , order_claim_reason
                             )
-        VALUES ( #{product_number}
-               , #{buyer_id}
-               , #{store_id}
-               , #{order_bundle_number}
-               , #{order_date}
-               , #{order_quantity}
-               , #{order_status}
-               , #{receiver_name}
-               , #{receiver_phone}
-               , #{receiver_address}
-               , #{receiver_request}
-               , #{delivery_tracking_number}
-               , #{delivery_company_code}
-               , #{payment_option}
-               , #{total_payment_price}
-               , #{reward_point}
-               , #{using_point}
-               , #{order_claim_request_date}
-               , #{order_claim_response_date}
-               , #{order_claim_reason}
+        VALUES ( #{productNumber}
+               , #{buyerId}
+               , #{storeId}
+               , #{orderBundleNumber}
+               , #{orderDate}
+               , #{orderQuantity}
+               , #{orderStatus}
+               , #{receiverName}
+               , #{receiverPhone}
+               , #{receiverAddress}
+               , #{receiverRequest}
+               , #{deliveryTrackingNumber}
+               , #{deliveryCompanyCode}
+               , #{paymentOption}
+               , #{totalPaymentPrice}
+               , #{rewardPoint}
+               , #{usingPoint}
+               , #{orderClaimRequestDate}
+               , #{orderClaimResponseDate}
+               , #{orderClaimReason}
                );
     </insert>
 
-    <update id="updateOrder" parameterType="com.faitmain.domain.order.domain.Order" useGeneratedKeys="true" keyProperty="order_number">
+    <update id="updateOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="orderNumber">
         UPDATE `order`
-           SET product_number            = #{product_number}
-             , buyer_id                  = #{buyer_id}
-             , store_id                  = #{store_id}
-             , order_bundle_number       = #{order_bundle_number}
-             , order_date                = #{order_date}
-             , order_quantity            = #{order_quantity}
-             , order_status              = #{order_status}
-             , receiver_name             = #{receiver_name}
-             , receiver_phone            = #{receiver_phone}
-             , receiver_address          = #{receiver_address}
-             , receiver_request          = #{receiver_request}
-             , delivery_tracking_number  = #{delivery_tracking_number}
-             , delivery_company_code     = #{delivery_company_code}
-             , payment_option            = #{payment_option}
-             , total_payment_price       = #{total_payment_price}
-             , reward_point              = #{reward_point}
-             , using_point               = #{using_point}
-             , order_claim_request_date  = #{order_claim_request_date}
-             , order_claim_response_date = #{order_claim_response_date}
-             , order_claim_reason        = #{order_claim_reason}
-         WHERE order_number = 1;
+           SET order_number              = #{orderNumber}
+             , order_status              = #{orderStatus}
+             , receiver_name             = #{receiverName}
+             , receiver_phone            = #{receiverPhone}
+             , receiver_address          = #{receiverAddress}
+             , receiver_request          = #{receiverRequest}
+             , delivery_tracking_number  = #{deliveryTrackingNumber}
+             , delivery_company_code     = #{deliveryCompanyCode}
+             , order_claim_reason        = #{orderClaimReason}
+         WHERE order_number = #{orderNumber};
     </update>
 
-    <select id="getOrder" parameterType="com.faitmain.domain.order.domain.Order" resultType="com.faitmain.domain.order.domain.Order">
+    <select id="getOrder" parameterType="Order" resultType="Order">
         SELECT *
           FROM `order`
-         WHERE order_number = #{order_number}
+         WHERE order_number = #{orderNumber}
     </select>
 
-    <select id="getOrderList" resultType="com.faitmain.domain.order.domain.Order">
+    <select id="getOrderList" resultType="Order">
         SELECT *
           FROM `order`
          ORDER BY order_number DESC

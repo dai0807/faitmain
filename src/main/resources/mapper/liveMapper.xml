@@ -93,12 +93,12 @@
     <update id="updateLive" parameterType="Live">
     	UPDATE live
     	<set>
-    		store_id = #{storeId}, 
-		    live_title = #{liveTitle}, 
-		    live_intro = #{liveIntro}, 
-		    live_image = #{liveImage}, 
-		    chatting_status = #{chattingStatus},
-		    live_status = #{liveStatus}
+    		<if test="storeId != null">store_id = #{storeId},</if> 
+			<if test="liveTitle != null">live_title = #{liveTitle},</if> 
+		    						   live_intro = #{liveIntro:VARCHAR}, 
+		    						   live_image = #{liveImage:VARCHAR}, 
+		    						   chatting_status = #{chattingStatus},
+		    						   live_status = #{liveStatus}
     	</set>
     	WHERE live_number = #{liveNumber}
     </update>
