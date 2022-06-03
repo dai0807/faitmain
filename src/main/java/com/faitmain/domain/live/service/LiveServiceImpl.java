@@ -48,8 +48,17 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.updateLive(live);
 	}
 	
+	public int updateLiveStatusCode(int liveNumber) throws Exception {
+		Live live = liveMapper.getLive(liveNumber);
+		return liveMapper.updateLiveStatusCode(live);
+	}
+	
 	public Live getLive(int liveNumber) throws Exception {
 		return liveMapper.getLive(liveNumber);
+	}
+	
+	public Live getLiveByStoreId(String storeId) throws Exception {
+		return liveMapper.getLiveByStoreId(storeId);
 	}
 	
 	public Map<String, Object> getLiveList() throws Exception {
@@ -111,9 +120,25 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.addLiveReservation(liveReservation);
 	}
 	
+	public int deleteLiveReservation(int liveReservationNumber) throws Exception{
+		return liveMapper.deleteLiveReservation(liveReservationNumber);
+	}
+	
+	public Map<String, Object> getLiveReservationList(String reservationDate) throws Exception{
+		
+		List<LiveReservation> list = liveMapper.getLiveReservationList(reservationDate);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("list", list);
+		
+		return map;
+	}
 	
 	//liveUserStatus
 	public int addLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception {
+		
+			liveUserStatus.getId();//수정해야댐 수정해야댐 수정해야댐 무지성으로 걍 박아놓은거임
 		return liveMapper.addLiveUserStatus(liveUserStatus);
 	}
 	
