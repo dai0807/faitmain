@@ -25,10 +25,10 @@ public class CustomerMapperTest{
 		
 		Customer customer = new Customer();
 		
-		
-		customer.setCustomer_board_title("mapper test");
-		customer.setCustomer_board_content("mapper test");
-		customer.setCustomer_id("mapper test");
+		customer.setBoardType('N');
+		customer.setBoardTitle("mapper test");
+		customer.setBoardContent("mapper test");
+		customer.setCustomerId("Admin");
 		
 		customerMapper.addCustomerBoard(customer);
 	}

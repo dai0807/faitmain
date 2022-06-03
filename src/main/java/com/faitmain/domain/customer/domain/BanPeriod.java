@@ -2,11 +2,9 @@ package com.faitmain.domain.customer.domain;
 
 import java.sql.Date;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class BanPeriod {
 	
 	private int report_number;
