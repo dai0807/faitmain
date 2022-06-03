@@ -43,7 +43,7 @@
 	<!-- 상품 추가 이미지 등록 (최대 6개) -->
 	<insert id="addProductImage" parameterType="com.faitmain.global.common.Image">
 		INSERT 
-		INTO iamge (image_classification_code, image_classification_number, image_name)
+		INTO image (image_classification_code, image_classification_number, image_name)
 		VALUES ('P', #{productNumber}, #{productImage})
 	</insert>
 	
@@ -148,7 +148,7 @@
 	</update>
 	
 	<update id="updateProductImage" parameterType="com.faitmain.global.common.Image">
-		UPDATE iamge
+		UPDATE image
 		<set>
 			image_name = #{imageName}
 		</set>

@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html lang = "en">
-<head>
-    <meta charset = "UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<header xmlns:sec = "http://www.w3.org/1999/xhtml">
+    <a th:href = "@{/v}"><img alt = "demo page" height = "auto" id = "btn_home" src = ""
+                              th:src = "@{/static/img/like.png}" width = "50"/></a>
+    <ul>
+        <li sec:authorize = "isAuthenticated()">
+            <span sec:authentication = "principal.username"></span> 님 반가워요!
+        </li>
+        <li>
+            <form id = "logoutFrm" method = "post" style = "display: inline-block;" th:action = "@{/logout}">
+                <a data-placement = "logout" data-toggle = "tooltip" href = "#"
+                   onclick = "document.getElementById('logoutFrm').submit()" title = "Logout"><i class = "fa fa-power-off"></i></a>
+            </form>
+        </li>
+    </ul>
+</header>

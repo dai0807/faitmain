@@ -21,8 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class UserServiceImpl implements UserSerivce {
-
- 
 		
 	    @Autowired
 		@Qualifier("userMapper")
@@ -33,7 +31,7 @@ public class UserServiceImpl implements UserSerivce {
 	    }
 		
 		public UserServiceImpl() {
-			System.out.println(this.getClass());
+			log.info( "Service = {} ", this.getClass() );
 		}
 		
 		//  insert 유저	
