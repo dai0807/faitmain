@@ -1,6 +1,7 @@
 package com.faitmain.domain.live.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -45,6 +46,9 @@ public interface LiveMapper {
 	//liveReservation
 	public int addLiveReservation(LiveReservation liveReservation) throws Exception;
 	
+	public int deleteLiveReservation(int liveReservationNumber) throws Exception;
+	
+	public List<LiveReservation> getLiveReservationList(String reservationDate) throws Exception;
 	
 	//liveUserStatus
 	public int addLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception;

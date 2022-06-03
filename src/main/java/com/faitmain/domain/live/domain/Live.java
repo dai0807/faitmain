@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class Live {
 	private int liveNumber;
 	private String storeId;
@@ -14,11 +15,6 @@ public class Live {
 	private boolean chattingStatus; // false 0 : chat off / true 1 : chat on
 	private boolean liveStatus;  // false 0 : live off / true 1 : live on
 	
-	
-	
-	 public Live() {
-		 
-	}
 
 	@Builder
 	  public Live(int liveNumber, String liveTitle) {

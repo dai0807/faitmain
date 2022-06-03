@@ -42,6 +42,9 @@ public interface LiveService {
 	//liveReservation
 	public int addLiveReservation(LiveReservation liveReservation) throws Exception;
 	
+	public int deleteLiveReservation(int liveReservationNumber) throws Exception;
+	
+	public Map<String, Object> getLiveReservationList(String reservationDate) throws Exception;
 	
 	//liveUserStatus
 	public int addLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception;
