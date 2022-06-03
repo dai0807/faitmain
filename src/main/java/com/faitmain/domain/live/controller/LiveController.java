@@ -33,6 +33,13 @@ public class LiveController {
 	   log.info( "Controller = {} ", this.getClass() );
    }
    
+   // Index
+   @GetMapping( "/" )
+   public String main() throws Exception{
+       log.info( "log = {} " , this.getClass().getName() );
+       return "index";
+   }
+   
    @GetMapping( "getLiveList" )
    public String getLiveList( Model model ) throws Exception {
       
@@ -76,10 +83,10 @@ public class LiveController {
 		   											HttpSession session,
 		   											RedirectAttributes model ) throws Exception {
 	   
-	  //방송진행 유무 검증
+	  //諛⑹넚吏꾪뻾 �쑀臾� 寃�利�
 	  User user = (User) session.getAttribute("user");
 	  
-	  //방송을 한번이라도 한적이 있다면 >> UPDATE
+	  //諛⑹넚�쓣 �븳踰덉씠�씪�룄 �븳�쟻�씠 �엳�떎硫� >> UPDATE
 	  if(liveService.getLiveByStoreId(user.getId()) != null ) {
 		  
 	      System.out.println("/live/updateLive : POST start...");
@@ -90,14 +97,14 @@ public class LiveController {
 	      
 	      System.out.println("/live/updateLive : POST end...");
 	      
-	      //updateLive 후 방송화면으로 다시 이동
+	      //updateLive �썑 諛⑹넚�솕硫댁쑝濡� �떎�떆 �씠�룞
 	      live = liveService.getLive(live.getLiveNumber());
 	      
 	      model.addAttribute("live", live);
 	      
 	      return "redirect:/live/transLive.jsp";
 	      
-	    //방송을 한번도 한적 없다면 >> INSERT
+	    //諛⑹넚�쓣 �븳踰덈룄 �븳�쟻 �뾾�떎硫� >> INSERT
 	  	}else {
       
 		  System.out.println("/live/addLive : POST start...");
@@ -108,12 +115,12 @@ public class LiveController {
       
 		  System.out.println("/live/addLive : POST end...");
       
-		  //addLive 후 방송 시작을 위한 getLive 
+		  //addLive �썑 諛⑹넚 �떆�옉�쓣 �쐞�븳 getLive 
 		  live = liveService.getLive(live.getLiveNumber());
       
 		  model.addAttribute("live", live);
       
-		  System.out.println("방송 데이터 : " + live);
+		  System.out.println("諛⑹넚 �뜲�씠�꽣 : " + live);
       
 		  return "redirect:/live/transLive.jsp";
 	  	}
@@ -160,7 +167,7 @@ public class LiveController {
 	      
 	      System.out.println("/live/updateLive : POST end...");
 	      
-	      //정보변경 후 방송화면으로 다시 이동
+	      //�젙蹂대�寃� �썑 諛⑹넚�솕硫댁쑝濡� �떎�떆 �씠�룞
 	      live = liveService.getLive(live.getLiveNumber());
 	      
 	      model.addAttribute("live", live);
@@ -172,7 +179,7 @@ public class LiveController {
    @GetMapping("updateLiveStatusCode")
    public String updateLiveStatusCode( @RequestParam( "liveNumber" ) int liveNumber,
 		   															 Model model ) throws Exception {
-	   	  //방송 종료 updateLiveStatusCode
+	   	  //諛⑹넚 醫낅즺 updateLiveStatusCode
 	      System.out.println("/live/updateLiveStatusCode : GET start...");
 	      
 	      liveService.updateLiveStatusCode(liveNumber);
@@ -180,7 +187,7 @@ public class LiveController {
 	      System.out.println("/live/updateLiveStatusCode : GET end...");
 	      
 	      
-	      //방송 종료 후 liveList로 이동
+	      //諛⑹넚 醫낅즺 �썑 liveList濡� �씠�룞
 	      System.out.println("/live/getLiveList : GET start...");
 	      
 	      Map<String, Object> map = liveService.getLiveList();

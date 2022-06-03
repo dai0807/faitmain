@@ -149,13 +149,13 @@
 		</where>
 	</select>
 	
-	<!-- GET LiveReservation -->
+	<!-- GET LiveReservation 
     <select id="">
     	SELECT * FROM live_reservation
     	<where
     		
     	</where>
-    </select>
+    </select> -->
     
     
     <!-- ================================================================================= GET LIST ============================================================================== -->
