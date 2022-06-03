@@ -6,8 +6,8 @@ import lombok.Data;
 public class LiveUserStatus {
 	private int liveNumber;
 	private String id;
-	private boolean alarmStatus; // true : alarm on / false : alarm off
-	private boolean kickStatus;  // true : kick on / false : kick off
-	private boolean dumbStatus;  // true : dumb on / false : dumb off
+	private boolean alarmStatus; // false 0 : alarm off / true 1 : alarm on
+	private boolean kickStatus;  // false 0 : kick off / true 1 : kick on
+	private boolean dumbStatus;  // false 0 : dumb off / true 1 : dumb on
 	
 }

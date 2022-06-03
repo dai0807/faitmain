@@ -6,16 +6,25 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.mapper.ProductMapper;
 import com.faitmain.global.common.Image;
 
+import lombok.RequiredArgsConstructor;
+
 @Service("productServiceImpl")
+@Transactional
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private ProductMapper productMapper;
+	
+	public ProductServiceImpl(ProductMapper productMapper) {
+		this.productMapper = productMapper;
+	}
 
 	@Override
 	public int addProduct(Product product) throws Exception {
@@ -41,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Map<String, Object> getProductList(Map<String, String> map) throws Exception {
+	public Map<String, Object> getProductList(Map<String, Object> map) throws Exception {
 		List<Product> list = productMapper.getProductList(map);
 		int totalCount = productMapper.getTotalCount(map);
 		

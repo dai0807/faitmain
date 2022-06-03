@@ -3,6 +3,7 @@ package com.faitmain.domain.customer.service;
 
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -14,24 +15,23 @@ import com.faitmain.global.common.Image;
 
 import lombok.RequiredArgsConstructor;
 
+@Slf4j
 @Service("customerServiceImpl")
 @Transactional
-@RequiredArgsConstructor
+
 public class CustomerServiceImpl implements CustomerService{
 	
 	@Autowired
 	
 	private CustomerMapper customerMapper;
 	
-//	public void setCustomerMapper(CustomerMapper customerMapper) {
-//		this.customerMapper = customerMapper;
-//	}
-//	
-//	public CustomerServiceImpl(CustomerMapper customerMapper) {
-//		this.customerMapper = customerMapper;
-//		
-//		System.out.println(this.getClass());
-//	}
+
+	public void setCustomerMapper(CustomerMapper customerMapper) {
+		this.customerMapper = customerMapper;
+	}
+	
+	public CustomerServiceImpl() {
+	}
 	
 	@Override
 	public int addCustomerBoard(Customer customer) throws Exception {

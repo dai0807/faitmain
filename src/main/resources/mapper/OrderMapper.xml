@@ -52,15 +52,15 @@
 
     <update id="updateOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="orderNumber">
         UPDATE `order`
-           SET order_number              = #{orderNumber}
-             , order_status              = #{orderStatus}
-             , receiver_name             = #{receiverName}
-             , receiver_phone            = #{receiverPhone}
-             , receiver_address          = #{receiverAddress}
-             , receiver_request          = #{receiverRequest}
-             , delivery_tracking_number  = #{deliveryTrackingNumber}
-             , delivery_company_code     = #{deliveryCompanyCode}
-             , order_claim_reason        = #{orderClaimReason}
+           SET order_number             = #{orderNumber}
+             , order_status             = #{orderStatus}
+             , receiver_name            = #{receiverName}
+             , receiver_phone           = #{receiverPhone}
+             , receiver_address         = #{receiverAddress}
+             , receiver_request         = #{receiverRequest}
+             , delivery_tracking_number = #{deliveryTrackingNumber}
+             , delivery_company_code    = #{deliveryCompanyCode}
+             , order_claim_reason       = #{orderClaimReason}
          WHERE order_number = #{orderNumber};
     </update>
 
@@ -75,6 +75,26 @@
           FROM `order`
          ORDER BY order_number DESC
          LIMIT 0, 10;
+    </select>
+
+    <select id="getTotalCount" parameterType="com.faitmain.global.common.Search" resultType="int">
+        SELECT COUNT(*)
+        FROM (SELECT order_number
+                   , order_bundle_number
+                   , order_date
+                   , order_status
+                FROM 'order'
+        <if test="searchCondition != null">
+            <where>
+                <if test="searchCondition == 0 and searchKeyword !='' ">
+                    order_number = #{searchKeyword}
+                </if>
+                <if test="searchCondition == 1 and searchKeyword !='' ">
+                    order_status = #{searchKeyword}
+                </if>
+            </where>
+        </if>
+        ) countTable
     </select>
 
 
