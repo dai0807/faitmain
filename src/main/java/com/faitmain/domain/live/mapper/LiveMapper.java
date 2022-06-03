@@ -18,7 +18,11 @@ public interface LiveMapper {
 	
 	public int updateLive(Live live) throws Exception;
 	
+	public int updateLiveStatusCode(Live live) throws Exception;
+	
 	public Live getLive(int liveNumber) throws Exception;
+	
+	public Live getLiveByStoreId(String storId) throws Exception;
 	
 	public List<Live> getLiveList() throws Exception;
 	

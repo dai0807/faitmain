@@ -48,8 +48,17 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.updateLive(live);
 	}
 	
+	public int updateLiveStatusCode(int liveNumber) throws Exception {
+		Live live = liveMapper.getLive(liveNumber);
+		return liveMapper.updateLiveStatusCode(live);
+	}
+	
 	public Live getLive(int liveNumber) throws Exception {
 		return liveMapper.getLive(liveNumber);
+	}
+	
+	public Live getLiveByStoreId(String storeId) throws Exception {
+		return liveMapper.getLiveByStoreId(storeId);
 	}
 	
 	public Map<String, Object> getLiveList() throws Exception {
@@ -114,6 +123,8 @@ public class LiveServiceImpl implements LiveService {
 	
 	//liveUserStatus
 	public int addLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception {
+		
+			liveUserStatus.getId();//수정해야댐 수정해야댐 수정해야댐 무지성으로 걍 박아놓은거임
 		return liveMapper.addLiveUserStatus(liveUserStatus);
 	}
 	

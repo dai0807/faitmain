@@ -103,6 +103,18 @@
     	WHERE live_number = #{liveNumber}
     </update>
     
+    <!-- UPDATE LiveStatusCode -->
+    <update id="updateLiveStatusCode" parameterType="Live">
+    	UPDATE live
+    	<set>
+    	
+    		<if test="liveStatus == 0">live_status = 1</if> 
+			<if test="liveStatus == 1">live_status = 0</if> 
+			
+    	</set>
+    	WHERE live_number = #{liveNumber}
+    </update>
+   
     <!-- UPDATE LiveChat (필요없음) -->
     
     <!-- UPDATE LiveProduct (필요없음) -->

@@ -15,7 +15,11 @@ public interface LiveService {
 	
 	public int updateLive(Live live) throws Exception;
 	
+	public int updateLiveStatusCode(int liveNumver) throws Exception;
+	
 	public Live getLive(int liveNumber) throws Exception;
+	
+	public Live getLiveByStoreId(String storeId) throws Exception;
 	
 	public Map<String, Object> getLiveList() throws Exception;
 	
