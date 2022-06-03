@@ -13,7 +13,7 @@ public class WebController{
 
     @GetMapping( "/" )
     public String main() throws Exception{
-        log.info( "log = {} " , log );
+        log.info( "log = {} " , this.getClass().getName() );
         return "index";
     }
 

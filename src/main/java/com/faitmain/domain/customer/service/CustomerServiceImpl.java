@@ -3,6 +3,7 @@ package com.faitmain.domain.customer.service;
 
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.mapper.CustomerMapper;
 
+@Slf4j
 @Service("customerServiceImpl")
 public class CustomerServiceImpl implements CustomerService{
 	
@@ -22,7 +24,7 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 	
 	public CustomerServiceImpl() {
-		System.out.println(this.getClass());
+		log.info( "Service = {}", this.getClass() );
 	}
 	
 	@Override

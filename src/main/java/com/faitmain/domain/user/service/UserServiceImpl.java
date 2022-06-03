@@ -3,6 +3,7 @@ package com.faitmain.domain.user.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import com.faitmain.domain.user.mapper.UserMapper;
 import com.faitmain.global.common.Search;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @Transactional
 public class UserServiceImpl implements UserSerivce {
@@ -27,7 +29,7 @@ public class UserServiceImpl implements UserSerivce {
     }
 	
 	public UserServiceImpl() {
-		System.out.println(this.getClass());
+		log.info( "Service = {} ", this.getClass() );
 	}
 	
  	public User getUser(User user) throws Exception {

@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.live.service.LiveService;
 import com.faitmain.domain.user.domain.User;
 
+@Slf4j
 @Controller
 @RequestMapping( "/live/" )
 public class LiveController {
@@ -28,7 +30,7 @@ public class LiveController {
    private LiveService liveService;
    
    public LiveController() {
-      System.out.println(this.getClass());
+	   log.info( "Controller = {} ", this.getClass() );
    }
    
    @GetMapping( "getLiveList" )
