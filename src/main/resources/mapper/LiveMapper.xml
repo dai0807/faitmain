@@ -51,7 +51,7 @@
     	INSERT INTO live
 		    ( store_id, live_title, live_intro, live_image, chatting_status, live_status )
 		VALUES
-		    ( #{storeId}, #{liveTitle}, #{liveIntro}, #{liveImage}, #{chattingStatus}, 0 )
+		    ( #{storeId}, #{liveTitle}, #{liveIntro}, #{liveImage}, #{chattingStatus}, 1 )
     
     </insert>
     
@@ -84,7 +84,7 @@
     	INSERT INTO live_user_status
     		(live_number, id, alarm_status, kick_status, dumb_status)
     	VALUES
-    		(#{liveNumber}, #{id}, 0, 0, 0)
+    		(#{liveNumber}, #{id}, #{alarmStatus}, #{kickStatus}, #{dumbStatus})
     </insert>
     
     
@@ -122,10 +122,6 @@
     		AND id = #{id}
     	</where>
     </update>
-    
-    
-    
-    
     
     <!-- ================================================================================= GET ============================================================================== -->
     <!-- GET Live -->

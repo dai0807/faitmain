@@ -15,8 +15,11 @@ public class StoreApplicationDocument {
 
 		int storeApplicationDocumentNumber ;
 		String id ;
-		String examinationStatus ;
+		String storeName ;
+		String storeIntroduction ;
+		String examinationStatus ; // R, A ,W 
 		String productDetial ;
+		List<Image> productmanufacturingImage ;
 		Date regDate ;
 	
 		
