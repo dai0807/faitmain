@@ -19,7 +19,7 @@
 		<result property="productGroupNumber" 	column="product_group_number" 	jdbcType="INTEGER" />
 		
 		<association property="store"  javaType="com.faitmain.domain.user.domain.User">
-			<id property="id" column="id" jdbcType="VARCHAR"/>
+			<id property="id" column="store_id" jdbcType="VARCHAR"/>
 		</association>		
 		
 	</resultMap>
@@ -100,7 +100,7 @@
 									</if>
 								</where>
 						ORDER BY ${orderName} ) inner_table
-				WHERE (@ROWNUM:=0)=0 limit #{endRowNum} )
+				WHERE (@ROWNUM:=0)=0 limit #{endRowNum} ) result_table
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
 	 		

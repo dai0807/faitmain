@@ -43,10 +43,136 @@ public class UserMapperTest{
     }
 
 
+<<<<<<< HEAD
+					user.setRole("user");
+					user.setStoreName(null);
+ 					System.out.println(user);
+					int result = usermapper.addUser(user);
+					System.out.println(result+ " : addUser end");
+				}
+				 
+					 	
+	// @Test
+	 @DisplayName("getchechDuplicationCount   Test")
+		public void getchechDuplicationCount() throws Exception {
+			System.out.println("getchechDuplicationCount start");
+				
+			Map<String,Object> hashmap = new HashMap<>() ;
+			hashmap.put("checkcondition", "phone_number") ;
+			hashmap.put("checkkeyword", "0106541987") ;
+			
+			System.out.println("있음 : "+usermapper.getchechDuplicationCount(hashmap));
+ 
+			
+			HashMap<String,Object> hashmap1 = new HashMap<>() ;
+			hashmap1.put("checkcondition", "id") ;
+			hashmap1.put("checkkeyword", "us05@naver.com") ;
+			
+			System.out.println("없음 : "+usermapper.getchechDuplicationCount(hashmap1));
+ 
+					
+					
+			
+	 }
+					 		 
+	  @Test
+	 @DisplayName("getStoreApplicationDocument   Test")
+		public void getStoreApplicationDocumenNumber() throws Exception {
+			System.out.println("getStoreApplicationDocumenNumber start");
+			// 이름으로, 스토어 신청서 번호 찾고 , 스토어 신청서 번호로 ,  스토어 신청서 찾아 옴 
+		 
+		 int StoreApplicationNumber= usermapper.getStoreApplicationDocumentNumber("store02@naver.com");
+		 System.out.println("id의 신청서 번호 " + StoreApplicationNumber) ;
+		 
+		 StoreApplicationDocument storeADoc  =usermapper.getStoreApplicationDocument(StoreApplicationNumber) ;
+		 List<Image> list   = usermapper.getImage(StoreApplicationNumber) ;
+			System.out.println(list) ;
+			storeADoc.setProductmanufacturingImage(list);
+		 
+			System.out.println("스토어 친성서 " + storeADoc) ; 
+		 
+			
+			System.out.println("getStoreApplicationDocumenNumber : " +storeADoc);
+ 
+					
+			assertThat(storeADoc.getProductDetial()).isEqualTo("우리스토어");
+			assertThat( storeADoc.getId()).isEqualTo("store02@naver.com");
+			assertThat( storeADoc.getRegDate()).isEqualTo("2022-05-30");
+			assertThat( storeADoc.getStoreApplicationDocumentNumber()).isEqualTo(10001);
+
+			
+	 }
+ // @Test
+	 @DisplayName("getUserList   Test")
+		public void getUserList() throws Exception {
+			System.out.println("getUserList start");
+			// 이름으로, 스토어 신청서 번호 찾고 , 스토어 신청서 번호로 ,  스토어 신청서 찾아 옴 
+		 
+		 
+			System.out.println("getProductListTest start");
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			//map.put("orderName", "product_name DESC");
+			map.put("startRowNum", 1+"");
+			map.put("endRowNum", 3+"");
+			
+			List<User> list = usermapper.getUserList(map);
+ 			
+			for(User user :list) {
+				System.out.println("user 유저 출력 " + user ) ;
+				
+			}
+ 			
+			
+		 
+			
+			System.out.println("Last getUserList : ");
+ 
+ 
+			
+	 }	
+	  
+	  // @Test //스토어 리스트  뽑기
+	 @DisplayName("getStoreApplicationDocumentList   Test")
+		public void getStoreApplicationDocumentList() throws Exception {
+			System.out.println("getStoreApplicationDocumentList start");
+ 		 
+		 
+			System.out.println("getProductListTest start");
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			//map.put("orderName", "product_name DESC");
+			map.put("searchCondition", "2");
+			map.put("startRowNum", 1+"");
+			map.put("endRowNum", 3+"");
+			
+			List<StoreApplicationDocument> list = usermapper.getStoreApplicationDocumentList(map);
+ 			
+			System.out.println(list);
+			
+			
+			for(StoreApplicationDocument StoreApplicationDocument :list) {
+				System.out.println("신청서 출력 " + StoreApplicationDocument ) ;
+				
+			}
+		 
+			
+			System.out.println("Last getStoreApplicationDocumentList : ");
+ 
+ 
+			
+	 }	
+	    
+	// @Test //스토어 리스트  뽑기
+	 @DisplayName("updateUser   Test")
+		public void updateUser() throws Exception {
+			System.out.println("updateUser updateUser : ");
+=======
     // @Test
     @DisplayName( "getUserUpdateTest   Test" )
     public void getUserUpdateTest() throws Exception{
         System.out.println( "getUserUpdateTest start" );
+>>>>>>> refs/remotes/origin/master
 
         User user = new User();
         user.setId( "store03@naver.com" );

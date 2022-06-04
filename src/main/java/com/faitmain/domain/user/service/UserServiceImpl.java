@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
+
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -32,6 +36,11 @@ public class UserServiceImpl implements UserSerivce {
 		
 		public UserServiceImpl() {
 			log.info( "Service = {} ", this.getClass() );
+		}
+		
+		//로그인ㅇ
+		public int getLogin(User user) throws Exception{
+			return userMapper.getLogin(user);
 		}
 		
 		//  insert 유저	
@@ -192,14 +201,45 @@ public class UserServiceImpl implements UserSerivce {
 		}
 
 	 
+	 	
 		//인증 문자 보내기 
 		public void sendCertificationSms(String userPhoneNumber, int randomNumber) throws Exception {
-			// TODO Auto-generated method stub
+
+			log.info("certifiedPhoneNumber 에옴  {}" , userPhoneNumber);
+			log.info("randomNumber 에옴  {}" , randomNumber);
+			
+ 
+			//나의 API 키 
+			String api_key = "NCSX1AN2GVPGAKYQ"; 
+			String api_secret = "VU56XMOI4OLSANYT4OD1LQJUVNOSS9KN";
+		
+			Message coolsms = new Message(api_key, api_secret); 
+			HashMap<String, String> map = new HashMap<String, String>(); 
+			map.put("to", userPhoneNumber); 
+			// 수신전화번호 
+			map.put("from", "01028382468");
+			// 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+			map.put("type", "SMS"); 
+			map.put("text", "[TEST] 인증번호는" + "["+randomNumber+"]" + "입니다."); 
+			// 문자 내용 입력
+			map.put("app_version", "test app 1.2");
+			// application name and version
+			try { 
+				JSONObject obj = (JSONObject) coolsms.send(map);
+				System.out.println(obj.toString()); 
+		
+				} catch (CoolsmsException e) {
+					System.out.println(e.getMessage());
+					System.out.println(e.getCode()); 
+				 e.printStackTrace() ;
+			}
+
+			
 			
 		}
 
 		//문자 인증 
-		public void certifiedPhoneNumber(String userPhoneNumber, String smsCertification) throws Exception {
+		public void certifiedPhoneNumber(String userPhoneNumber, int smsCertification) throws Exception {
 			// TODO Auto-generated method stub
 			
 		}

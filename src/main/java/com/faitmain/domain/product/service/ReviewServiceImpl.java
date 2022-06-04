@@ -5,15 +5,24 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.faitmain.domain.product.domain.Review;
 import com.faitmain.domain.product.mapper.ReviewMapper;
 
+import lombok.RequiredArgsConstructor;
+
 @Service("reviewServiceImpl")
+@Transactional
+@RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
 
 	@Autowired
 	private ReviewMapper reviewMapper;
+	
+	public ReviewServiceImpl(ReviewMapper reviewMapper) {
+		this.reviewMapper = reviewMapper;
+	}
 	
 	@Override
 	public void addReview(Review review) throws Exception {
@@ -39,6 +48,6 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public void deleteReview(int reviewNumber) throws Exception {
 		reviewMapper.deleteReview(reviewNumber);		
-	}
+	}	
 
 }
