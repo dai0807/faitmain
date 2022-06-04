@@ -76,7 +76,7 @@
     	INSERT INTO live_reservation
 		    (store_id, reservation_date)
 		VALUES
-		    (#{storeId}, DATE_FORMAT(STR_TO_DATE(#{reservationDate},'%Y-%m-%d')'%Y-%m-%d') )
+		    (#{storeId}, #{reservationDate})
     </insert>
     
     <!-- ADD LiveUserStatus -->
@@ -84,7 +84,7 @@
     	INSERT INTO live_user_status
     		(live_number, id, alarm_status, kick_status, dumb_status)
     	VALUES
-    		(#{liveNumber}, #{id}, #{alarm_status}, #{kick_status}, #{dumb_status})
+    		(#{liveNumber}, #{id}, #{alarmStatus}, #{kickStatus}, #{dumbStatus})
     </insert>
     
     
@@ -93,28 +93,16 @@
     <update id="updateLive" parameterType="Live">
     	UPDATE live
     	<set>
-    		<if test="storeId != null">store_id = #{storeId},</if> 
-			<if test="liveTitle != null">live_title = #{liveTitle},</if> 
-		    						   live_intro = #{liveIntro:VARCHAR}, 
-		    						   live_image = #{liveImage:VARCHAR}, 
-		    						   chatting_status = #{chattingStatus},
-		    						   live_status = #{liveStatus}
+    		store_id = #{storeId}, 
+		    live_title = #{liveTitle}, 
+		    live_intro = #{liveIntro}, 
+		    live_image = #{liveImage}, 
+		    chatting_status = #{chattingStatus},
+		    live_status = #{liveStatus}
     	</set>
     	WHERE live_number = #{liveNumber}
     </update>
     
-    <!-- UPDATE LiveStatusCode -->
-    <update id="updateLiveStatusCode" parameterType="Live">
-    	UPDATE live
-    	<set>
-    	
-    		<if test="liveStatus == 0">live_status = 1</if> 
-			<if test="liveStatus == 1">live_status = 0</if> 
-			
-    	</set>
-    	WHERE live_number = #{liveNumber}
-    </update>
-   
     <!-- UPDATE LiveChat (필요없음) -->
     
     <!-- UPDATE LiveProduct (필요없음) -->
@@ -134,10 +122,6 @@
     		AND id = #{id}
     	</where>
     </update>
-    
-    
-    
-    
     
     <!-- ================================================================================= GET ============================================================================== -->
     <!-- GET Live -->
@@ -160,6 +144,14 @@
 			AND id = #{id}
 		</where>
 	</select>
+	
+	<!-- GET LiveReservation 
+    <select id="">
+    	SELECT * FROM live_reservation
+    	<where
+    		
+    	</where>
+    </select> -->
     
     
     <!-- ================================================================================= GET LIST ============================================================================== -->
@@ -200,37 +192,15 @@
 			live_number = #{liveNumber}
 		</where>
 	</select>
-	
-	<!-- GET LIST LiveReservation -->
-	<select id="getLiveReservationList" parameterType="String" resultMap="liveReservationMap">
-		SELECT * FROM live_reservation
-		<where>
-			reservation_date = #{reservationDate}
-		</where>
-	</select>
-	
-	<!-- GET CAL LIST LiveReservation -->
-	<select id="getLiveReservationCal">
-		SELECT COUNT()
-		FROM (SELECT * FROM live_reservation
-			  )
-	</select>
+
 
 	<!-- ================================================================================= DELETE ============================================================================== -->
-	<!-- DELETE Live Product -->
-	<delete id="deleteLiveProduct" parameterType="int">
+	<delete id="deleteLiveProduct" parameterType="LiveProduct">
 		DELETE FROM live_product
 		<where>
 			live_number = #{liveNumber}
 		</where>
 	</delete>
 	
-	<!-- DELETE Live Reservation -->
-	<delete id="deleteLiveReservation" parameterType="int">
-		DELETE FROM live_reservation
-		<where>
-			live_reservation_number = #{liveReservationNumber}
-		</where>
-	</delete>
 	
 </mapper>
