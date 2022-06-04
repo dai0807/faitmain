@@ -49,7 +49,7 @@ public class LiveController {
       
       log.info( "Controller = {} ", "/live/getLive : GET end..." );
       
-      return "live";
+      return "view/live/live";
    }
    
    @GetMapping( "getLiveList" )
