@@ -18,4 +18,15 @@ public interface OrderService{
 
     //주문조회
     Map< String, Object > getOrderList( ) throws Exception;
+
+
+    //////////// iamport ///////////
+
+    String getToken() throws Exception;
+
+    int paymentInfo( String imp_uid , String access_token );
+
+    public void pamentCancle( String access_token , String imp_uid , String amount , String reason );
+
+
 }
