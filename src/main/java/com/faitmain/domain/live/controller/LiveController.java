@@ -40,6 +40,18 @@ public class LiveController {
        return "index";
    }
    
+   @GetMapping( "live" )
+   public String getLive( ) throws Exception {
+      
+      System.out.println("/live/getLive : GET start...");
+      log.info( "Controller = {} ", "/live/getLive : GET start..." );
+     
+      
+      log.info( "Controller = {} ", "/live/getLive : GET end..." );
+      
+      return "live";
+   }
+   
    @GetMapping( "getLiveList" )
    public String getLiveList( Model model ) throws Exception {
       
