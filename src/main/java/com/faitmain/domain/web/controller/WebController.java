@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @AllArgsConstructor
 public class WebController{
 
-
     @GetMapping( "/" )
     public String main() throws Exception{
         log.info( "log = {} " , this.getClass().getName() );
