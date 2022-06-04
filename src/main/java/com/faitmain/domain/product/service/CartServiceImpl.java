@@ -5,15 +5,24 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.faitmain.domain.product.domain.Cart;
 import com.faitmain.domain.product.mapper.CartMapper;
 
+import lombok.RequiredArgsConstructor;
+
 @Service("cartServiceImpl")
+@Transactional
+@RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
 
 	@Autowired
 	private CartMapper cartMapper;
+	
+	public CartServiceImpl(CartMapper cartMapper) {
+		this.cartMapper = cartMapper;
+	}
 	
 	@Override
 	public void addCart(Cart cart) throws Exception {

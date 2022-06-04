@@ -23,8 +23,11 @@ public interface UserSerivce {
 	public int addImage(Image image)throws Exception ; 
 	
 	////////////////////////////////select////////////////////////////////////////////////////
+	//SELECT 로그인 
+	public int getLogin(User user) throws Exception ;
+	
 	//SELECT  유저 상세 조회 
-	public User getUser(User user)  throws Exception;
+	public User getUser( User user )  throws Exception;
 
 	// SELECT 아이디/PW 찾기 할때 사용하는 findUser
 	public int findUser (Map<String, Object> hasMap) throws Exception;
@@ -82,7 +85,7 @@ public interface UserSerivce {
 	//문자 보내기
 	public void sendCertificationSms (String userPhoneNumber, int randomNumber) throws Exception ;	
 	//문자 인증
-	public void certifiedPhoneNumber (String userPhoneNumber, String smsCertification ) throws Exception ;
+	public void certifiedPhoneNumber (String userPhoneNumber, int smsCertification ) throws Exception ;
 	// 카카오 토큰 받기
 	public String getAccessToken(String authorize_code) throws Exception ;
 	//카카오 정보 받아오기

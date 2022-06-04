@@ -14,7 +14,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.faitmain.domain.product.domain.Cart;
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.user.domain.User;
 
@@ -66,7 +65,10 @@ public class ProductMapperTest {
 		
 		Product product = productMapper.getProduct(10000);
 		
+		System.out.println(product);
+		
 		assertThat(product.getPrice()).isEqualTo(5000);
+		assertThat(product.getStore().getId()).isEqualTo("store03@naver.com");
 		
 		System.out.println("getProductTest end");
 		
@@ -78,10 +80,10 @@ public class ProductMapperTest {
 		
 		System.out.println("getProductListTest start");
 		
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("orderName", "product_name DESC");
-		map.put("startRowNum", 1+"");
-		map.put("endRowNum", 5+"");
+		map.put("startRowNum", 1);
+		map.put("endRowNum", 5);
 		
 		List<Product> list = productMapper.getProductList(map);
 		assertThat(list.get(0).getProductName()).isEqualTo("프랑스에서 만든 마카롱 10개 세트");	

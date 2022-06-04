@@ -4,10 +4,14 @@ package com.faitmain.domain.customer.service;
 import java.util.List;
 
 import com.faitmain.domain.customer.domain.Customer;
+import com.faitmain.global.common.Image;
 
 public interface CustomerService {
 
+	//INSERT
 	public int addCustomerBoard(Customer customer) throws Exception;
+	
+	public void addCustomerBoard(Image image) throws Exception;
 	
 	public Customer getCustomerBoard(int boardNumber) throws Exception;
 	

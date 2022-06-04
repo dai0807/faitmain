@@ -25,6 +25,8 @@ public interface UserMapper {
 	 //insert 상품 추가 등록 INSERT - 상품  등록
 	 int addImage(Image image) ;
 	 
+	 int getLogin(User user) ;
+	 
 	//SELECT  유저 상세 조회 
 	 User getUser(User User) ;	 
 	 //select 유저 상세 조회 2 

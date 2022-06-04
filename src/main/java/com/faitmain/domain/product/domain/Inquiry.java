@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import com.faitmain.domain.user.domain.User;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
@@ -20,5 +21,14 @@ public class Inquiry {
 	private String inquiryReplyCotent;
 	private Date inquiryReplyDate;
 	private boolean secret;
+	
+	@Builder
+	public Inquiry(int inquiryNumber, String inquiryTitle) {
+		this.inquiryNumber = inquiryNumber;
+		this.inquiryTitle = inquiryTitle;
+	}
+
+	public Inquiry() {
+	}
 
 }
