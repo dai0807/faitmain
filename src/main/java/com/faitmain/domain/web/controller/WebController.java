@@ -32,6 +32,6 @@ public class WebController{
     @GetMapping( "view/admin/main" )
     public String admin(){
         System.out.println( "WebController.admin" );
-        return "view/admin/main";
+        return "view/common/admin/main";
     }
 }
