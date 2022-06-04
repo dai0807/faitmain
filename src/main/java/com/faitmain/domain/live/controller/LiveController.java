@@ -33,13 +33,6 @@ public class LiveController {
 	   log.info( "Controller = {} ", this.getClass() );
    }
    
-   // Index
-   @GetMapping( "/" )
-   public String main() throws Exception{
-       log.info( "log = {} " , this.getClass().getName() );
-       return "index";
-   }
-   
    @GetMapping( "live" )
    public String getLive( ) throws Exception {
       

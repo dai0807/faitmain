@@ -1,6 +1,6 @@
 const vChatCloud = new VChatCloud();
 const dhd = new VChatCloud();
-let channel, userNick, userKey, channelKey="" ,youtubeId;
+let channel, userNick, userKey, channelKey="" ,youtubeId="";
 
 var getParameters = function (paramName) {
     // 리턴값을 위한 변수 선언
@@ -23,9 +23,10 @@ var getParameters = function (paramName) {
 };
 
 channelKey = 'zrWskFNzrd-41toO2KQAc-20220604114542';
-
+youtubeId = 'https://youtube/PzkxG6-ctrg';
 
 $(function() {
+	;
     // 파라미터로 "youtubeId" 값이 빈값이 아닐경우 영상 교체
     // 비디오 영역을 보여주며, 빈값일때는 채팅 채팅화면 영역만 보여준다.(채팅영역은 css를 수정하게끔 해준다.)
     if (getParameters('youtubeId') != undefined ) {
