@@ -19,7 +19,7 @@
 		<result property="productGroupNumber" 	column="product_group_number" 	jdbcType="INTEGER" />
 		
 		<association property="store"  javaType="com.faitmain.domain.user.domain.User">
-			<id property="id" column="id" jdbcType="VARCHAR"/>
+			<id property="id" column="store_id" jdbcType="VARCHAR"/>
 		</association>		
 		
 	</resultMap>
@@ -43,7 +43,7 @@
 	<!-- 상품 추가 이미지 등록 (최대 6개) -->
 	<insert id="addProductImage" parameterType="com.faitmain.global.common.Image">
 		INSERT 
-		INTO iamge (image_classification_code, image_classification_number, image_name)
+		INTO image (image_classification_code, image_classification_number, image_name)
 		VALUES ('P', #{productNumber}, #{productImage})
 	</insert>
 	
@@ -100,7 +100,7 @@
 									</if>
 								</where>
 						ORDER BY ${orderName} ) inner_table
-				WHERE (@ROWNUM:=0)=0 limit #{endRowNum} )
+				WHERE (@ROWNUM:=0)=0 limit #{endRowNum} ) result_table
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
 	 		
@@ -148,7 +148,7 @@
 	</update>
 	
 	<update id="updateProductImage" parameterType="com.faitmain.global.common.Image">
-		UPDATE iamge
+		UPDATE image
 		<set>
 			image_name = #{imageName}
 		</set>

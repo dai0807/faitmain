@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.faitmain.domain.product.domain.Inquiry;
+import com.faitmain.global.common.Search;
 
 public interface InquiryService {
 
@@ -14,7 +15,7 @@ public interface InquiryService {
 	public Inquiry getInquiry(int inquiryNumber) throws Exception;
 		
 	//문의 목록 조회
-	public Map<String, Object> getInquiryList(Map<String, String> map) throws Exception;
+	public Map<String, Object> getInquiryList(Search search) throws Exception;
 	
 	//문의 수정
 	public void updateInquiry(Inquiry inquiry) throws Exception;

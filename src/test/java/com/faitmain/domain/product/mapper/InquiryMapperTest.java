@@ -1,8 +1,6 @@
 package com.faitmain.domain.product.mapper;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.faitmain.domain.product.domain.Inquiry;
 import com.faitmain.domain.product.domain.Product;
+import com.faitmain.global.common.Search;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -26,7 +25,7 @@ public class InquiryMapperTest {
 	@Autowired
 	private ProductMapper productMapper;
 	
-	@Test
+//	@Test
 	@DisplayName("addInquiry Mapper Test")
 	public void addInquiryTest() throws Exception{
 		
@@ -45,7 +44,7 @@ public class InquiryMapperTest {
 		System.out.println("addInquiryTest end");
 	}
 	
-	@Test
+//	@Test
 	@DisplayName("getInquiry Mapper Test")
 	public void getInquiryTest() throws Exception{
 		
@@ -62,16 +61,18 @@ public class InquiryMapperTest {
 		
 		System.out.println("getInquiryListTest start");
 				
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("startRowNum", 1+"");
-		map.put("endRowNum", 5+"");
+		Search search = new Search();
+		search.setStartRowNum(1);
+		search.setEndRowNum(5);
 		
-		List<Inquiry> inquiry = inquiryMapper.getInquiryList(map);
+		List<Inquiry> inquirys = inquiryMapper.getInquiryList(search);
+		
+		System.out.println(inquirys);
 				
 		System.out.println("getInquiryListTest end");
 	}
 	
-	@Test
+//	@Test
 	@DisplayName("updateInquiry Mapper Test")
 	public void updateInquiryTest() throws Exception{
 		
@@ -89,7 +90,7 @@ public class InquiryMapperTest {
 		System.out.println("updateInquiryTest end");
 	}
 	
-	@Test
+//	@Test
 	@DisplayName("deleteInquiry Mapper Test")
 	public void deleteInquiryTest() throws Exception{
 		
