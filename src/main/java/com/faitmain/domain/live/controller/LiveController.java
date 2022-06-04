@@ -211,9 +211,27 @@ public class LiveController {
 	      System.out.println("/live/addSanctionUser : GET start...");
 	      
 	      liveService.addLiveUserStatus(liveUserStatus);
+	      
 	      System.out.println("/live/addSanctionUser : GET end...");
 	   	
    }
+   
+   @GetMapping("getAlarmList")
+   public String getAlarmList( @RequestParam ("liveNumber") int liveNumber,
+		   													Model model ) throws Exception {
+	   
+	   System.out.println("/live/getAlarmList : GET start...");
+	 
+	   Map<String, Object> map = liveService.getLiveUserStatusList(liveNumber);
+	   
+	   model.addAttribute(map);   
+	   
+	   System.out.println("/live/getAlarmList : GET end...");
+	   
+	   return "forward:/live/getAlarmList.jsp";
+   }
+   
+   
       
 
 }
