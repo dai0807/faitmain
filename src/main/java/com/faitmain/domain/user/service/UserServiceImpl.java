@@ -22,13 +22,12 @@ import com.faitmain.global.common.Search;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-@Service
+@Service("userServiceImpl")
 @Transactional
 public class UserServiceImpl implements UserSerivce {
 		
 	    @Autowired
-		@Qualifier("userMapper")
-	 	private UserMapper userMapper ;
+ 	 	private UserMapper userMapper ;
 
 	    public void setUserMapper ( UserMapper userMapper ){
 	        this.userMapper = userMapper;
@@ -62,8 +61,8 @@ public class UserServiceImpl implements UserSerivce {
 		}
 		
 		//SELECT  유저 상세 조회 
-	 	public User getUser(User user) throws Exception {
-	 		return userMapper.getUser(user);
+	 	public User getUser(String id) throws Exception {
+	 		return userMapper.getUser(id);
 		}
  
 
@@ -79,7 +78,13 @@ public class UserServiceImpl implements UserSerivce {
 			// TODO Auto-generated method stub
 			return userMapper.getchechDuplicationCount(map);
 		}
-				 	
+			
+		public String findGetId (Map<String, Object> map) throws Exception{
+			
+			return userMapper.findGetId(map);
+		}
+
+	 	
 	 	//SELECT id로 스토어 신청서 넘버 가져오기
 		public int getStoreApplicationDocumenNumber(String id ) throws Exception{
 		
@@ -160,9 +165,9 @@ public class UserServiceImpl implements UserSerivce {
 		}
 		//  UPDATE - 스토어로 업데이트 
 
-		public int updatUserStore(User user) throws Exception {
+		public int updatUserStore(Map<String,Object> map ) throws Exception {
 			// TODO Auto-generated method stub
-			return userMapper.updatUserStore(user);
+			return userMapper.updatUserStore(map);
 		}
 
 		// UPDATE 스토어문서 상태 examination_status
