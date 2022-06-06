@@ -15,31 +15,7 @@ import java.security.Principal;
 @RestController
 public class OrderRestController{
 
-    @PostMapping( "/order/payment-cash" )
-    public ResponseEntity<String> payment( HttpSession session , OrderInfo orderInfo ) throws IOException{
-
-        // 1. 아임포트 API 키와 SECRET키로 토큰을 생성
-
-        // 2. 토큰으로 결제 완료된 주문정보를 가져옴
-
-        // 3. 로그인하지 않았는데 사용포인트가 0 이상일경우 결제 취소
-
-        // 4. 로그인 사용자가 현재포인트보다 사용포인트가 많을 경우 결제 취소
-
-        // 5. DB에서 실제 계산되어야 할 가격가져오기
-
-        // 6. 결제 완료된 금액과 실제 계산되어야 할 금액이 다를경우 결제 취소
-
-        // 7. 결제에러시 결제 취소
-
-        return new ResponseEntity<>( HttpStatus.OK );
-    }
-
-    @PostMapping( "/order/payment" )
-    public ReturnResult getPayment( @RequestBody Payment payment , Principal principal ){
-
-        ReturnResult returnResult = new ReturnResult();
 
 
-    }
+
 }

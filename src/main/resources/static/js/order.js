@@ -99,31 +99,6 @@ function payment(){
 
 
 
-// 현장에서 결제
-function paymentCash(data){
-
-    $.ajax({
-        url: "/order/payment-cash",
-        method: "POST",
-        data: data,
-    })
-        .done(function() {
-            /*messageSend();*/
-
-            swal({
-                text: "주문이 완료되었습니다",
-                closeOnClickOutside : false
-            })
-                .then(function(){
-                    location.replace("/orderList");
-                })
-
-        }) // done
-        .fail(function() {
-            alert("에러");
-            location.replace("/");
-        })
-}
 
 // 계산 완료
 function paymentComplete(data) {

@@ -2,9 +2,9 @@ package com.faitmain.global.util;
 
 import java.util.Calendar;
 
-public class CreateOrderNumber{
+public class CreateOrderBundleNumber{
 
-    public static String createOrderNum(){
+    public static String createOrderBundleNumber(){
 
         Calendar cal = Calendar.getInstance();
 
