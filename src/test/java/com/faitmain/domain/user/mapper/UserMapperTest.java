@@ -21,12 +21,16 @@ import com.faitmain.domain.live.domain.Live;
 import com.faitmain.domain.order.mapper.OrderMapper;
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.mapper.ProductMapper;
+import com.faitmain.domain.user.controller.UserRestController;
 import com.faitmain.domain.user.domain.StoreApplicationDocument;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserSerivce;
 import com.faitmain.global.common.Image;
 
+import lombok.extern.slf4j.Slf4j;
+
 import static org.assertj.core.api.Assertions.assertThat;
+@Slf4j
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -38,32 +42,40 @@ public class UserMapperTest {
     @Autowired
 	private UserMapper usermapper;
 
-	// @Test
+	 @Test
 	 @DisplayName("getUserTest   Test")
+	 
+	 
 	public void getUserTest() throws Exception {
-		System.out.println("getUserTest start");
-		
+ 		log.info("getUserTest Start ");
+ 		
 		User user = new User();
 		user.setId("store03@naver.com");
-		System.out.println(user);
-		user=usermapper.getUser(user) ;
-		System.out.println("getUser  "+user);
-		//assertThat(user.getName()).isEqualTo("이순신");
-
 		
-		System.out.println("getUserTest end");
-	}
+		log.info("user 출력  {} " ,user);
+		user=usermapper.getUser(user.getId()) ;
+ 		log.info("getUser :: 후 출력  {} " ,user);
+ 		
+		assertThat(user.getName()).isEqualTo("이순신");
+		assertThat(user.getAddress()).isEqualTo("서울시강남구");
+		assertThat(user.getPostalCode()).isEqualTo(1234);
+		assertThat(user.getPhoneNumber()).isEqualTo("01022222222");
+		assertThat(user.getJoinPath()).isEqualTo("HOME");
+
+ 		log.info("getUserTest end ");
+		
+ 	}
 	
  
 	 
 	// @Test
 	 @DisplayName("getUserUpdateTest   Test")
 	public void getUserUpdateTest() throws Exception {
-		System.out.println("getUserUpdateTest start");
+  		log.info("getUserUpdateTest start");
 		
 		User user = new User();
 		user.setId("store03@naver.com");
-		user=usermapper.getUser(user) ;
+		user=usermapper.getUser(user.getId()) ;
 		System.out.println(user);
 
 		user.setAddress("업데이트 어드민주소");
@@ -75,28 +87,42 @@ public class UserMapperTest {
  
 		
 		assertThat(user.getAddress()).isEqualTo("업데이트 어드민주소");
+		assertThat(user.getPostalCode()).isEqualTo(54321);
+		assertThat(user.getStoreIntroduction()).isEqualTo("스토어 업데이트!!! ");
+ 		log.info("getUserUpdateTest end");
 
-		System.out.println("getUserUpdateTest end");
-	}
+ 	}
 	
 	 
-	 	//@Test
+	 //	@Test
 		 @DisplayName("updatUserStore   Test")
 		public void updatUserStore() throws Exception {
-			System.out.println("updatUserStore start");
-			
+	 		log.info("     updatUserStore start");
+ 			
 			User user = new User();
 			user.setId("store03@naver.com");
-			user=usermapper.getUser(user) ;
-			System.out.println("store 권한 올리기전 "+ user.getRole());
-			user.setRole("store");
-			int result = usermapper.updatUserStore(user);
-			System.out.println("result:: "+ result);
-			user=usermapper.getUser(user) ;
-			System.out.println("나와라  변경된 롤 ! "+  user.getRole());
-
+			user=usermapper.getUser(user.getId()) ;
+ 			log.info("store 권한 올리기전 {} "  ,   user.getRole() );
 			
-			System.out.println("updatUserStore end");
+			user.setRole("store");
+			Map<String,Object> map = new HashMap<>();
+
+			map.put("role", "store") ;
+			map.put("id", user.getId()) ;
+ 			log.info("map 값은 :  {}" ,map);
+ 			int   result = usermapper.updatUserStore(map);
+				log.info("##신청서 승인된 User , Role 권한 상승  결과  {} ##" , result);
+			
+			
+			
+			
+			
+		
+ 			user=usermapper.getUser(user.getId()) ;
+ 	 		log.info(" 나와라  변경된 롤 !  {}" , user.getRole());
+ 			assertThat(user.getRole()).isEqualTo("store");
+
+	 		log.info(" updatUserStore end");
 		}
 		 
 		 	//@Test
@@ -166,7 +192,7 @@ public class UserMapperTest {
 			
 	 }
 					 		 
-	  @Test
+	 // @Test
 	 @DisplayName("getStoreApplicationDocument   Test")
 		public void getStoreApplicationDocumenNumber() throws Exception {
 			System.out.println("getStoreApplicationDocumenNumber start");
@@ -261,16 +287,16 @@ public class UserMapperTest {
 
 			User user = new User();
 			user.setId("test033@naver.com");
-			user = usermapper.getUser(user) ;
+			user = usermapper.getUser(user.getId()) ;
 			
 			System.out.println(user);
 			System.out.println("user 변경전 이름 "  + user.getName()) ;
 			user.setNickname("김평야");
 			int restult =  usermapper.updateUser(user) ;
 			System.out.println("result set " + restult);
-			System.out.println("result set " + usermapper.getUser(user).getNickname());
+			System.out.println("result set " + usermapper.getUser(user.getId()).getNickname());
 
-			User user1 = usermapper.getUser(user) ;
+			User user1 = usermapper.getUser(user.getId()) ;
 			assertThat(user1.getNickname()).isEqualTo("김평야");
 System.out.println("=======================");
   

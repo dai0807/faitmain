@@ -186,7 +186,7 @@ public class UserRestController {
 					if(storeApplicationDocument.getExaminationStatus().equals("A")) {  //A 승인일때 
 						
 						Map<String,Object> map = new HashMap<>();
-						map.put("role", "Store") ;
+						map.put("role", "store") ;
 						map.put("id", storeApplicationDocument.getId()) ;
 						log.info("map 값은 :  {}" ,map);
 						result = 0 ;
