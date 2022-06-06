@@ -1,9 +1,25 @@
 package com.faitmain.domain.live.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
+
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +36,7 @@ import com.faitmain.domain.live.service.LiveService;
 
 @Slf4j
 @RestController
-@RequestMapping("/live/*")
+@RequestMapping("/openapi/*")
 public class LiveRestController {
 
 	// Field
@@ -29,6 +45,33 @@ public class LiveRestController {
 	
 	public LiveRestController() {
 		log.info( "Controller = {} ", LiveRestController.class );
+	}
+	
+	@GetMapping("tocken")
+	public void getAccessToken() throws Exception {
+		log.info( "AccessToken = {} ", this.getClass() );
+		
+		String url = "https://vchatcloud.com/openapi/token";
+		
+		//System.setProperty("https.protocols", "TLSv1.2");
+		
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		
+		HttpGet httpGet = new HttpGet(url);
+		
+		httpGet.addHeader("Content-type", "application/json");
+		httpGet.addHeader("accept", "*/*");
+		httpGet.addHeader("api_key", "kmLueZ-chdq38-O7LGgP-Ggd14x-20220604144349");
+		
+		CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
+		
+		System.out.println("Get Response Status");
+		System.out.println(httpResponse.getStatusLine().getStatusCode());
+		String json = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
+		
+		System.out.println(json);
+		
+		httpClient.close();
 	}
 	
 	
