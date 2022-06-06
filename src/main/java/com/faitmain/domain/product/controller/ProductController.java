@@ -42,7 +42,7 @@ public class ProductController {
 		
 		log.info("/product/addProduct : GET");
 //		view/common/admin/main
-		return "view/product/addProduct";
+		return "/view/product/addProduct";
 		
 	}
 	
@@ -56,7 +56,7 @@ public class ProductController {
 		product.setStore(user);
 		productService.addProduct(product, mRequest);
 				
-		return "index";
+		return "/index";
 		
 	}
 	

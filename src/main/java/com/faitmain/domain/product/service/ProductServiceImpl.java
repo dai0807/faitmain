@@ -13,8 +13,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -46,24 +48,31 @@ public class ProductServiceImpl implements ProductService {
 		MultipartFile mainFile = mRequest.getFile("mainImage");
 		List<MultipartFile> subFile = mRequest.getFiles("subImage");
 		
+		System.out.println("fileStorageLocation : " + fileStorageLocation);
+		
 		if(!mainFile.isEmpty()) {
+			 System.out.println("mainFile");
 			 String fileName = storeFile(mainFile);
 			 product.setProductMainImage(fileName);
 		}	
 		
 		productMapper.addProduct(product);	
+		System.out.println("groupNumber : " + product.getProductGroupNumber());
 		
 		if (!subFile.isEmpty()) {
-			Image image = new Image();
-			image.setImageClassificationNumber(product.getProductGroupNumber());
-			
-			for(MultipartFile mf : subFile) {
+			if(subFile.size() > 1) {
+				System.out.println("subFile");
+				Image image = new Image();
+				image.setImageClassificationNumber(product.getProductGroupNumber());
 				
-				String fileName = storeFile(mf);
-				image.setImageName(fileName);
-				productMapper.addProductImage(image) ;
-				
-			}
+				for(MultipartFile mf : subFile) {
+					
+					String fileName = storeFile(mf);
+					image.setImageName(fileName);
+					productMapper.addProductImage(image) ;
+					
+				}
+			}		
 		}
 		
 		if(product.getProductOptions() != null) {
@@ -155,12 +164,20 @@ public class ProductServiceImpl implements ProductService {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		String timeStamp = sdf.format(timestamp);
 		
-		String fileName =  fileStorageLocation + timeStamp + file.getOriginalFilename();
+//		System.out.println("fileStorageLocation : " + fileStorageLocation);
+		String fileName =  timeStamp + file.getOriginalFilename();
 		
-//		Path targetLocation = (Paths.get(fileStorageLocation).toAbsolutePath().normalize()).resolve(fileName); 
-//		Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+		Path targetLocation = (Paths.get(fileStorageLocation).toAbsolutePath().normalize()).resolve(fileName);
+		System.out.println("targetLocation : " + targetLocation);
+		Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+//		FileCopyUtils.copy(file.getBytes(), new File(targetLocation.toString(), fileName));
+//		File files = new File(targetLocation.toString());
 		
-		file.transferTo(new File(fileName));
+		
+		
+//		FileCopyUtils.copy(file.getBytes(), new File(fileStorageLocation, fileName));
+		
+//		file.transferTo(files);
 		return fileName;
 	}
 

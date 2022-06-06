@@ -5,7 +5,7 @@
 					
 <mapper namespace="com.faitmain.domain.product.mapper.ProductMapper">
 
-	<resultMap id="productSelectMap" type="com.faitmain.domain.product.domain.Product">
+	<resultMap id="productSelectMap" type="Product">
 		<result property="productNumber" 		column="product_number" 		jdbcType="INTEGER"/>
 		<result property="productName"			column="product_name" 			jdbcType="VARCHAR" />
 		<result property="price" 				column="price" 					jdbcType="INTEGER" />
@@ -18,7 +18,7 @@
 		<result property="deliveryCharge" 		column="delivery_charge" 		jdbcType="INTEGER" />
 		<result property="productGroupNumber" 	column="product_group_number" 	jdbcType="INTEGER" />
 		
-		<association property="store"  javaType="com.faitmain.domain.user.domain.User">
+		<association property="store"  javaType="User">
 			<id property="id" column="store_id" jdbcType="VARCHAR"/>
 		</association>		
 		
@@ -32,13 +32,13 @@
 	</resultMap>
 	
 	<!-- 상품 등록 -->
-	<insert id="addProduct" parameterType="com.faitmain.domain.product.domain.Product">		
+	<insert id="addProduct" parameterType="Product">		
 		INSERT
 		INTO product(product_name, price, store_id, product_main_image, product_detail, product_category_code, reg_date, delivery_charge, product_quantity, product_group_number)
 		VALUES (#{productName}, #{price}, #{store.id}, #{productMainImage}, #{productDetail:LONGVARCHAR}, #{categoryCode}, NOW(), 3000, #{productQuantity}, 
 				<if test="productGroupNumber == 0">null</if>
-				<if test="productGroupNumber != 0">#{product_group_number}</if>)
-		<selectKey keyProperty="productGroupNumber" resultType="int" order="AFTER">
+				<if test="productGroupNumber != 0">#{productGroupNumber}</if>)
+		<selectKey keyProperty="productGroupNumber" resultType="INTEGER" order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 	</insert>	
@@ -134,7 +134,7 @@
 	 </select> 
 
 	<!-- 상품 수정 -->	
-	<update id="updateProduct" parameterType="com.faitmain.domain.product.domain.Product" >
+	<update id="updateProduct" parameterType="Product" >
 		UPDATE product
 		<set>
 			product_name = #{productName},
@@ -158,7 +158,7 @@
 		WHERE image_number = #{imageNumber}
 	</update>
 	
-	<update id="updateProductStatus" parameterType="com.faitmain.domain.product.domain.Product">
+	<update id="updateProductStatus" parameterType="Product">
 		UPDATE product
 		SET product_status = #{productStatus}
 		WHERE product_number = #{productNumber} 
