@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.faitmain.domain.product.domain.Review;
+import com.faitmain.global.common.Search;
 
 @Mapper
 public interface ReviewMapper {
@@ -17,7 +18,10 @@ public interface ReviewMapper {
 	public Review getReview(int reviewNumber) throws Exception;
 	
 	//SELECT - 리뷰 목록 조회
-	public List<Review> getReviewList(Map<String, String> map) throws Exception;
+	public List<Review> getReviewList(Search search) throws Exception;
+	
+	//SELECT - 리뷰 count
+	public int getTotalCount(Search search) throws Exception;
 	
 	//UPDATE - 리뷰 수정
 	public void updateReview(Review review) throws Exception;

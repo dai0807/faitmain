@@ -1,12 +1,23 @@
 package com.faitmain.domain.product.service;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.mapper.ProductMapper;
@@ -19,6 +30,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
+	@Value("${upload-path}")
+	private String fileStorageLocation;
+	
 	@Autowired
 	private ProductMapper productMapper;
 	
@@ -27,9 +41,46 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public int addProduct(Product product) throws Exception {
-		productMapper.addProduct(product);		
-		return productMapper.getProductNumber();
+	public void addProduct(Product product, MultipartHttpServletRequest mRequest) throws Exception {
+				
+		MultipartFile mainFile = mRequest.getFile("mainImage");
+		List<MultipartFile> subFile = mRequest.getFiles("subImage");
+		
+		if(!mainFile.isEmpty()) {
+			 String fileName = storeFile(mainFile);
+			 product.setProductMainImage(fileName);
+		}	
+		
+		productMapper.addProduct(product);	
+		
+		if (!subFile.isEmpty()) {
+			Image image = new Image();
+			image.setImageClassificationNumber(product.getProductGroupNumber());
+			
+			for(MultipartFile mf : subFile) {
+				
+				String fileName = storeFile(mf);
+				image.setImageName(fileName);
+				productMapper.addProductImage(image) ;
+				
+			}
+		}
+		
+		if(product.getProductOptions() != null) {
+			for(Product option : product.getProductOptions()) {
+				option.setCategoryCode(product.getCategoryCode());
+				option.setPrice(product.getPrice());
+				option.setProductMainImage(product.getProductMainImage());
+				option.setProductGroupNumber(product.getProductGroupNumber());
+				option.setStore(product.getStore());
+				productMapper.addProduct(option);
+			}
+		}		
+//		for(int i=0; i<product.getProductOptions().size(); i++) {
+//			product.getProductOptions().get(i).setProductGroupNumber(product.getProductGroupNumber());
+//			productMapper.addProduct(product.getProductOptions().get(i));
+//		}
+		
 	}
 
 	@Override
@@ -41,13 +92,15 @@ public class ProductServiceImpl implements ProductService {
 	public Map<String, Object> getProduct(int productNumber) throws Exception {
 		Product product = productMapper.getProduct(productNumber);
 		List<Product> productOptions = productMapper.getProductOption(productNumber);		
+		product.setProductExtraImage(productMapper.getImage(productNumber));
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("mainProduct", product);
 		map.put("productOptions", productOptions);
-		
+				
 		return map;
 	}
+	
 
 	@Override
 	public Map<String, Object> getProductList(Map<String, Object> map) throws Exception {
@@ -88,6 +141,27 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void deleteProductImage(int imageNumber) throws Exception {
 		productMapper.deleteProductImage(imageNumber);		
+	}
+
+	@Override
+	public int getProductQuantity(int productNumber) throws Exception {
+		Product product = productMapper.getProduct(productNumber);
+		return product.getProductQuantity();
+	}
+	
+	public String storeFile(MultipartFile file) throws Exception{
+			
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss_");
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		String timeStamp = sdf.format(timestamp);
+		
+		String fileName =  fileStorageLocation + timeStamp + file.getOriginalFilename();
+		
+//		Path targetLocation = (Paths.get(fileStorageLocation).toAbsolutePath().normalize()).resolve(fileName); 
+//		Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+		
+		file.transferTo(new File(fileName));
+		return fileName;
 	}
 
 }
