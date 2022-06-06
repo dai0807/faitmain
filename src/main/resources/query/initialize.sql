@@ -85,7 +85,7 @@ CREATE TABLE `order` (
                      total_payment_price       INTEGER      NULL ,
                      reward_point              INTEGER      NULL ,
                      using_point               INTEGER      NULL ,
-                     order_claim_request_date  DATE         NOT NULL ,
+                     order_claim_request_date  DATE         NULL ,
                      order_claim_response_date DATE         NULL ,
                      order_claim_reason        VARCHAR(100) NULL ,
 
@@ -94,6 +94,7 @@ CREATE TABLE `order` (
                      FOREIGN KEY ( buyer_id ) REFERENCES user ( id ) ,
                      FOREIGN KEY ( store_id ) REFERENCES user ( id )
                      );
+
 
 CREATE TABLE `store_application_document` (
                                           `store_application_document_number` INT(5)        NOT NULL AUTO_INCREMENT ,

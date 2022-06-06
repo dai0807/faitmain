@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @AllArgsConstructor
 public class WebController{
 
-
     @GetMapping( "/" )
     public String main() throws Exception{
         log.info( "log = {} " , this.getClass().getName() );
@@ -32,6 +31,6 @@ public class WebController{
     @GetMapping( "view/admin/main" )
     public String admin(){
         System.out.println( "WebController.admin" );
-        return "view/admin/main";
+        return "view/common/admin/main";
     }
 }
