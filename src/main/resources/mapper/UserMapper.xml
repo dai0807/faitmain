@@ -76,11 +76,11 @@ VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#
  
  </select>	   
 
-<select id ="getUser" parameterType="User"  resultMap ="userMap" >
+<select id ="getUser" parameterType="String"  resultMap ="userMap" >
 	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
 		FROM user
  		WHERE
- 			id = #{id}
+ 			id = #{value}
 		
 			      
   </select>
@@ -100,7 +100,15 @@ VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#
 		WHERE  phone_number =#{phoneNumber}  
 		AND  ${findcondition}= #{findkeyword} ;
 
-</select>
+	</select>
+	
+   <select id ="findGetId" parameterType="map"  resultType="String" >  <!-- 이것은 findUser 때에따라 들어가는 값 확인하기 -->
+	SELECT COUNT(*)
+	FROM user
+		WHERE  phone_number =#{phoneNumber}  
+		AND  ${findcondition}= #{findkeyword} ;
+
+	</select>
  
  
  <!-- 	이것은 유효성 검사 할때 쓰일 Mapper  아직은 둠    -->
@@ -260,7 +268,7 @@ VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#
 	 
  
  
-  	 <update	id="updatUserStore"	parameterType="User" >
+  	 <update	id="updatUserStore"	parameterType="map" >
 	   	UPDATE user
 	   	<set>
 	   		role = #{role}
