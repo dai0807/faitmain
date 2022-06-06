@@ -27,10 +27,13 @@ public interface UserSerivce {
 	public int getLogin(User user) throws Exception ;
 	
 	//SELECT  유저 상세 조회 
-	public User getUser( User user )  throws Exception;
+	public User getUser( String id )  throws Exception;
 
 	// SELECT 아이디/PW 찾기 할때 사용하는 findUser
 	public int findUser (Map<String, Object> hasMap) throws Exception;
+	// SELECT 아이디/PW 찾기 할때 사용하는 findUser
+	public String findGetId (Map<String, Object> hasMap) throws Exception;
+	
 	
 	//SELECT 충복체크
 	public int getchechDuplication (Map<String, Object> Map) throws Exception;
@@ -61,7 +64,7 @@ public interface UserSerivce {
 
 	//  UPDATE - 스토어로 업데이트 
 
-	public int updatUserStore (User user) throws Exception ;
+	public int updatUserStore (Map<String,Object> map ) throws Exception ;
 
 	 // UPDATE Password 재설정 
 	public int updateUserPassword(User user) throws Exception ;
