@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.faitmain.domain.customer.domain.BanPeriod;
+import com.faitmain.domain.customer.domain.BanStatus;
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.global.common.Image;
 
@@ -44,7 +44,7 @@ public interface CustomerMapper {
 	
 	
 
-	//BanPeriod
-	public int processBanPeriod(int reportNumber) throws Exception;
+	//BanStatus
+	public int updateBanStatus(BanStatus banStatus) throws Exception;
 }
 
