@@ -27,13 +27,13 @@ public class ApiServiceImpl implements ApiService{
 	public String getKaKaoAccessToken(String authorize_code) throws Exception{
 
 
-		log.info("getKaKaoAccessToken 서비스에 옴 ");
-		log.info("getKaKaoAccessToken {} " , authorize_code);
+		log.info("토큰 받으러 getKaKaoAccessToken 서비스에 옴 ");
+		log.info("받은 인가 코드 getKaKaoAccessToken {} " , authorize_code);
 
 		String access_Token = "";
 		String refresh_Token = "";
+		//요청하는 인증 URL		
 		String reqURL = "https://kauth.kakao.com/oauth/token";  
-		/// /토큰 가져와
 
 		try {
 			URL url = new URL(reqURL);
@@ -47,28 +47,30 @@ public class ApiServiceImpl implements ApiService{
             
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 			StringBuilder sb = new StringBuilder();
-			sb.append("grant_type=authorization_code");
+			sb.append("grant_type=authorization_code");  // 인가 코드  요청 authorization_code 
             
 			sb.append("&client_id=f0b36852932e865ae00c9ff2fcd19874&"); //본인이 발급받은 key
 			sb.append("&redirect_uri=http://localhost:8080/user/kakaoLogin"); // 본인이 설정한 주소
             
-			sb.append("&code=" + authorize_code);
+			sb.append("&code=" + authorize_code); // 인가 코드 까지 삽입
 			bw.write(sb.toString());
-			bw.flush();
+			bw.flush(); //bw 출력 
             
 			// 결과 코드가 200이라면 성공
 			int responseCode = conn.getResponseCode();
-			System.out.println("responseCode : " + responseCode);
+			log.info("responseCode : {}" , responseCode);
             
+			
 			// 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			String line = "";
 			String result = "";
             
+			//카카오에서 주는 정보 한줄한줄 읽어서 result에 저장 
 			while ((line = br.readLine()) != null) {
 				result += line;
 			}
-			System.out.println("response body : " + result);
+			log.info("response body : {}" , result);
             
 			// Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
 			JsonParser parser = new JsonParser();
@@ -77,9 +79,10 @@ public class ApiServiceImpl implements ApiService{
 			access_Token = element.getAsJsonObject().get("access_token").getAsString();
 			refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
             
-			System.out.println("access_token : " + access_Token);
-			System.out.println("refresh_token : " + refresh_Token);
-            
+			log.info("access_token : {} " , access_Token);
+			log.info("refresh_token :{} " , refresh_Token);
+			log.info("== kakao 정보 끝 ==");
+
 			br.close();
 			bw.close();
 		} catch (IOException e) {

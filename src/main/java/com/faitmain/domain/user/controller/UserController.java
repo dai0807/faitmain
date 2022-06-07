@@ -134,7 +134,7 @@ public class UserController{
 		   return("redirect:/live/main.jsp");
 	   }
 	   
-	   @PostMapping("updateUSer")
+	   @PostMapping("updateUser")
 	   public String updateUser(@ModelAttribute("user") User user  ) throws Exception{
 		   
 		   log.info("addStore::들어온 user 결과  ::{}" ,user );
@@ -150,26 +150,29 @@ public class UserController{
 	   
 		@GetMapping("kakaoLogin")
 		public String kakaoLogin(@RequestParam(value = "code", required = false) String code , Model model , HttpSession session) throws Exception {
-			   log.info("##kakaoLogin## 페이지 도착 " );
+		// 사용자 로그인 및  동의 후 , 인가 코드를 발급받아 302 redirect를 통해  ,  이 메소드 도착함    
 			
-			   log.info("##code {} ##" , code);
+			log.info("##kakaoLogin## 페이지 도착 " );
+			
+			   log.info("##code {} ##" , code); // 코드 출력 
 
-			//		String access_Token = kakao.getAccessToken(code);
+			// 사용자 정보를 가져오기 위하여 code로  access 토큰 가져오기 ! 
 			   String access_Token = apiServiceImpl.getKaKaoAccessToken(code);
- 			   log.info("##access_Token {} ##" , access_Token);
+ 			   log.info("##access_Token 가져옴 ::  {} ##" , access_Token);
 			
 			
-			//추가추가
-			// 카카오 getUserInfo 에서 access_Token과 userInfo 가져오기 
+ 			// 카카오 getUserInfo 에서 access_Token를 통하여  userInfo 가져오기 
 				Map<String, Object> userInfo = apiServiceImpl.getKakoUserInfo(access_Token);
-	 			   log.info("##access_Token {} ##" , access_Token);
-	 			   log.info("##email {} ##" , userInfo.get("email"));
+	 				log.info("##access_Token {} ##" , access_Token);
+	 			 log.info("##email {} ##" , userInfo.get("email"));
  
 	 			String kakaouserId =  (String) userInfo.get("email");		   
 	 			User user = new User () ;
 	 			user.setId(kakaouserId);
 	 			user.setPassword("12345"); // 카카오 로그인시 비밀번호
 				if(   	userSerivce.getLogin(user) == 0 ) {  // 카카로 로그인 ID가 우리 사이트에 존재 x
+	 				log.info("로그인한 카카오 아이디가 존재 하지 않습니다. ");
+	
  					model.addAttribute("kakaouserId",kakaouserId);
  					
  					
