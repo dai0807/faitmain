@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang = "ko">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
 <head>
     <meta charset = "UTF-8">
     <title>주문페이지</title>
@@ -9,7 +12,7 @@
     <link href = "https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel = "stylesheet" type = "text/css"/>
 
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link rel = "stylesheet" th:href = "@{css/styles.css}"/>
+    <link rel = "stylesheet" th:href = "@{/css/styles.css}"/>
 
     <!-- Font Awesome icons (free version)-->
     <script crossorigin = "anonymous" src = "https://use.fontawesome.com/releases/v6.1.0/js/all.js"></script>
@@ -86,7 +89,7 @@
 
 
 </head>
-<body>
+<body class="d-flex flex-column h-100">
 
 <input type="hidden" value="${user.id }" id="user_id">
 
@@ -96,51 +99,18 @@
     <h1>주문하기</h1>
 </section>
 
-<main>
+<main class="flex-shrink-0">
+
 
     <form>
 
         <ul>
             <li>
                 <div class="order_info">
-                    <h2><span>${cartList.storeName }</span><button type="button" class="delete_all">전체삭제</button></h2><hr>
+                    <h2><button type="button" class="delete_all">전체삭제</button></h2><hr>
 
                     <h2>주문정보</h2>
 
-
-                    <ul>
-
-                            <li>
-                                <div class="food_name_box">
-                                    <div class="food_name">${cart[j].foodName }</div>
-                                    <div><i class="fas fa-times delete"></i></div>
-                                </div>
-                                <div class="price">ㆍ기본가격 <fm:formatNumber value="${cart[j].foodPrice }"  pattern="###,###" />원</div>
-
-
-
-                                        <div class="menu_option">
-                                            <span>ㆍ${cart[j].optionName[i]  }</span>
-                                            <span><fm:formatNumber  value="${cart[j].optionPrice[i] }" pattern="###,###" />원</span>
-                                        </div>
-
-
-                                <div class="amount">
-                                    <div class="sum">
-                                        <fm:formatNumber value="${cart[j].totalPrice }" pattern="###,###" />원
-                                    </div>
-                                    <!-- 메뉴 하나 총합 -->
-                                    <div class="amount_box">
-                                        <button type="button" class="minus">-</button>
-                                        <input type="number" class="amount_text" min="1" value="${cart[j].amount }" readonly >
-                                        <button type="button" class="plus">+</button>
-                                    </div>
-                                </div>
-
-                            </li>
-
-                        </c:forEach>
-                    </ul>
                 </div>
             </li>
 
@@ -230,7 +200,19 @@
     </form>
 </main>
 
-
-
+<!-- Footer-->
+<footer class="bg-dark py-4 mt-auto">
+    <div class="container px-5">
+        <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+            <div class="col-auto"><div class="small m-0 text-white">Copyright &copy; Your Website 2022</div></div>
+            <div class="col-auto">
+                <a class="link-light small" href="#!">Privacy</a>
+                <span class="text-white mx-1">&middot;</span>
+                <a class="link-light small" href="#!">Terms</a>
+                <span class="text-white mx-1">&middot;</span>
+                <a class="link-light small" href="#!">Contact</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
