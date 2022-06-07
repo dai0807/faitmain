@@ -163,7 +163,7 @@ function videoInit() {
         let stream = event.target;
         let html = $('div[name=my_cam]', myWrap);
         if (!html.length) {
-            html = $(res.remoteVideo);
+            html = $(res.myVideo);
             myWrap.prepend(html);
         }
         let video = $('video', html)[0];
@@ -180,7 +180,7 @@ function videoInit() {
         let stream = event.target;
         let html = $(`div[name=${event.clientKey}]`, listWrap);
         if (!html.length) {
-            html = $(res.myVideo).attr({ name: event.clientKey });
+            html = $(res.remoteVideo).attr({ name: event.clientKey });
             listWrap.append(html);
             $('.cam-name p', html).html(event.client.nickName);
         }
