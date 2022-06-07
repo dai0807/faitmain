@@ -4,7 +4,7 @@
         layout:decorate="~{/layout/default_layout}">
 <head>
 
-<head>
+ 
     <meta charset = "UTF-8">
     <title>faitmain login</title>
 
@@ -35,47 +35,100 @@
 					$("form").attr("method","POST").attr("action","/user/login").submit();
 				});
 				
+				
+				
+				 
+				
+				
 			
 		});	
     	
-    	
+    		function addUser(){
+				alert("회원가입으로 ㄱㄱㄱ ");
+					self.location="/user/addUser";
+	
+			}
+			
+    		function findId(){
+				alert("아이디 찾기 ㄱㄱㄱ");
+					self.location="/user/findId";
+	
+			}			
+			
+    		function findPassword(){
+				alert("비밀번호 찾기 기 ㄱㄱㄱ");
+					self.location="/user/findPassword";
+	
+			}				
     	</script>
+    <style>
+	  .wrapper {
+               display: grid;
+  place-items: center;
+        }
+    </style>
+    <!-- 길이는 스타일 건들이 -->
 </head>
 
-<body>
+<div>
  <article layout:fragment = "content">
+<div class="wrapper">
+ 
+ 
+ <section class="py-5" id="features" >
+         <div class="text-center">
 
-	<div class="container">
-		 <h2>로그인 </h2>
-	
-			<form   class="form-horizontal">
-				<div>
+		                <div class="container px-5 my-5">
+		                      <div class="col-lg-4 mb-5 mb-lg-0"><h2 class="fw-bolder mb-0">로그인</h2></div>
+							</br>
+							<form>
+		                    <div class="row gx-5">
+		
+		                        <div class="col-lg-8">
+		                            <div class="row gx-5 row-cols-1 row-cols-md-1">
+		                                <div class="col mb-5 h-100">
+		                                   <div>
+						
+											<input type ="text" 	class="form-control" 	id ="id" 		name = "id"		placeholder="id를 입력하세요"> <br>
+											<input type ="password" class="form-control"	  id ="password"	name="password"	placeholder="password를 입력하세요">
+										</div>
+								
+		                                </div>
+		                                <div class="col mb-5 h-100">
+		                                    <div class="d-grid"><button class="btn btn-primary btn-lg" id="loginButton" type="submit">로그인</button></div>
+		                                    <div class="d-grid">
+		                                    <a class="p-2" th:href="@{https://kauth.kakao.com/oauth/authorize?client_id=f0b36852932e865ae00c9ff2fcd19874&redirect_uri=http://localhost:8080/user/kakaoLogin&response_type=code}">
 				
-					<input type ="text" id ="id" 		name = "id"		placeholder="id를 입력하세요"> <br>
-					<input type ="password" id ="password"	name="password"	placeholder="password를 입력하세요">
-				</div>
+				 								<img src="/img/kakao_login_medium_narrow.png" style="height:60px">
+												<!--  	 <img src="/img/kakao_login_medium_narrow.png" style="height:60px"> -->
+											</a>
+		                                    
+		                                    </div>
 		
-				<button id = "loginButton" class="btn btn-d btn-circle" type="submit" >로그인</button>
-			</form>
-				<div>
-					 <a class="p-2" th:href="@{https://kauth.kakao.com/oauth/authorize?client_id=f0b36852932e865ae00c9ff2fcd19874&redirect_uri=http://localhost:8080/user/kakaoLogin&response_type=code}">
+		                                </div>	
+		                                     
+		                                </div>
+		                           <hr/>
+		                                <div class="col h-100">
+		                                
+		                                    <span class="bi bi-check text-primary" onclick="addUser()">회원가입</span>&nbsp;
+		                                    <span class="bi bi-check text-primary" onclick="findId()">아이디 찾기</span>&nbsp;
+											<span class="bi bi-check text-primary" onclick="findPassword()">비밀번호 찾기 </span>&nbsp;
 		
-		 								<img src="/img/kakao_login_medium_narrow.png" style="height:60px">
-		<!--  	 <img src="/img/kakao_login_medium_narrow.png" style="height:60px"> -->
-					</a>
-				</div>
-					
-			  <div class="form-group">
-						    <div class="col-sm-offset-4 col-sm-6 text-center">
-	 					      <a class="btn btn-info btn" href="#" role="button">회 &nbsp;원 &nbsp;가 &nbsp;입</a>
-	 					      <a class="btn btn-info btn" href="#" role="button">아이디 찾기 &nbsp;</a>
-	 					      <a class="btn btn-info btn" href="#" role="button">비밀번호 찾기 &nbsp; &nbsp;</a>
-	 					      
-						    </div>
-			</div>
- 	</div>
-
+		                                  
+		                                </div>
+		                            </div>
+		                        </div>
+		                        
+		                        
+		                        </form>
+		                    </div>
+		                </div>
+                </div>
+            </section>
+</div>
  </article>
+
  </body>
  
 </html>

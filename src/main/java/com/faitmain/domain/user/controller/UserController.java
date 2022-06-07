@@ -106,6 +106,14 @@ public class UserController{
 	   return "view/user/selectRegisterType";
 	   }
 	   
+	   
+	   @GetMapping("addUser")
+	   public String addUser(Model model)  throws Exception {
+		 
+			log.info("get :: addUser " );
+	      
+	   return "view/user/addUser";
+	   }	   
 	   @PostMapping("addUser")
 	   public String addUser(@ModelAttribute("user") User user) throws Exception{
 		   
