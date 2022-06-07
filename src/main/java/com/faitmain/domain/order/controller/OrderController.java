@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Controller
-@RequestMapping("/order")
+@RequestMapping( "/order" )
 public class OrderController{
 
     private final OrderService orderService;
@@ -22,12 +22,20 @@ public class OrderController{
     @GetMapping( "/getOrder" )
     public String getOrder(){
 
-        log.info( "CONTROLLER = {}", this.getClass() );
+        log.info( "CONTROLLER = {}" , this.getClass() );
         return "view/order/getOrder";
     }
 
 
+    @GetMapping( "/payment" )
+    public String payment(){
 
+        log.info( " CONTROLLER = {} " , this.getClass() );
+        return "view/order/payment";
+    }
 
-
+    @GetMapping( "/testOrder" )
+    public String testORder(){
+        return "view/order/testOrder";
+    }
 }

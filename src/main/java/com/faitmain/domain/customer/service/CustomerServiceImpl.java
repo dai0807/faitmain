@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.faitmain.domain.customer.domain.BanStatus;
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.mapper.CustomerMapper;
 import com.faitmain.global.common.Image;
@@ -18,17 +19,13 @@ import lombok.RequiredArgsConstructor;
 @Slf4j
 @Service("customerServiceImpl")
 @Transactional
-
 public class CustomerServiceImpl implements CustomerService{
 	
 	@Autowired
-	
 	private CustomerMapper customerMapper;
 	
 
-	public void setCustomerMapper(CustomerMapper customerMapper) {
-		this.customerMapper = customerMapper;
-	}
+
 	
 	public CustomerServiceImpl() {
 	}
@@ -69,11 +66,18 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 	
 	@Override
-	public int processBanPeriod(int reportNumber) throws Exception{ 
-		  return customerMapper.processBanPeriod(reportNumber); 
+	public int updateBanStatus(BanStatus banStatus) throws Exception{ 
+		  return customerMapper.updateBanStatus(banStatus); 
+	}
+
+	@Override
+	public BanStatus updateBanStatus(int reportNumber) throws Exception {
+		
+		return null;
 	}
 
 
 	
 	
 }
+

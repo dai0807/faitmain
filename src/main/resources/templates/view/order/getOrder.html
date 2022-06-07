@@ -1,70 +1,61 @@
 <!DOCTYPE html>
-<html lang = "ko">
+<html layout:decorate = "~{layout/default_layout}"
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
+
 <head>
-    <meta charset = "UTF-8">
-    <title>주문페이지</title>
+    <!--  고유 CSS 추가 -->
 
-    <!-- Google fonts-->
-    <link href = "https://fonts.googleapis.com/css?family=Montserrat:400,700" rel = "stylesheet" type = "text/css"/>
-    <link href = "https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel = "stylesheet" type = "text/css"/>
+    <!--    <style>
+            .row {
+                &#45;&#45;bs-gutter-x: 1.5rem;
+                &#45;&#45;bs-gutter-y: 0;
+                display: flex;
+                margin-top: calc(-1 * var(&#45;&#45;bs-gutter-y));
+                margin-right: calc(-0.5 * var(&#45;&#45;bs-gutter-x));
+                margin-left: calc(-0.5 * var(&#45;&#45;bs-gutter-x));
+                flex-direction: column;
+            }
+        </style>-->
 
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link rel = "stylesheet" th:href = "@{css/styles.css}"/>
-
-    <!-- Font Awesome icons (free version)-->
-    <script crossorigin = "anonymous" src = "https://use.fontawesome.com/releases/v6.1.0/js/all.js"></script>
-
-    <!-- jQuery -->
-    <script src = "https://code.jquery.com/jquery-1.12.4.min.js" type = "text/javascript"></script>
-
+    <!--  고유 스크립트 추가 -->
     <!-- iamport.payment.js -->
     <script src = "https://cdn.iamport.kr/js/iamport.payment-1.1.5.js" type = "text/javascript"></script>
-
-    <!-- Bootstrap core JS-->
-    <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src = "https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-
-    <!-- Core theme JS-->
-    <script th:src = "@{js/scripts.js}"></script>
-
+    <!--
     <script>
-
         const data = {
             payMethod: $("input[type='radio']:checked").val(),
             orderNumber: $("#orderNumber").val(),
             totalPaymentPrice: Number($("#totalPaymentPrice").val()) - Number($(".usingPoint_input").val()),
-            receiverName : $("#receiverName").val(),
+            receiverName: $("#receiverName").val(),
             receiverPhone: $("#receiverPhone"),
             receiverAddress: $("#receiverAddress"),
             receiverRequest: $("#receiverRequest"),
-
-
         }
 
-        const { IMP } = window;
+        const {IMP} = window;
         IMP.init("imp76668016");
 
         IMP.request_pay({
-            pg : 'html5_inicis',
-            pay_method : data.payMethod, //card(신용카드), trans(실시간계좌이체), vbank(가상계좌), phone(휴대폰소액결제)
-            merchant_uid : data.orderNumber, //상점에서 관리하시는 고유 주문번호를 전달
-            amount : data.totalPaymentPrice,
+            pg: 'html5_inicis',
+            pay_method: data.payMethod, //card(신용카드), trans(실시간계좌이체), vbank(가상계좌), phone(휴대폰소액결제)
+            merchant_uid: data.orderNumber, //상점에서 관리하시는 고유 주문번호를 전달
+            amount: data.totalPaymentPrice,
             buyer_name: data.receiverName,
             buyer_tel: data.receiverPhone,
-            buyer_addr : data.receiverAddress,
-        }, function(rsp) {
-            if ( rsp.success ) {
+            buyer_addr: data.receiverAddress,
+        }, function (rsp) {
+            if (rsp.success) {
                 //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
                 jQuery.ajax({
                     url: "/payments/complete", //cross-domain error가 발생하지 않도록 주의해주세요
                     type: 'POST',
                     dataType: 'json',
                     data: {
-                        imp_uid : rsp.imp_uid
+                        imp_uid: rsp.imp_uid
                         //기타 필요한 데이터가 있으면 추가 전달
                     }
-                }).done(function(data) {
-                    if ( rsp.success ) {
+                }).done(function (data) {
+                    if (rsp.success) {
                         var msg = '결제가 완료되었습니다.';
                         msg += '고유ID : ' + rsp.imp_uid;
                         msg += '상점 거래ID : ' + rsp.merchant_uid;
@@ -83,153 +74,151 @@
             }
         });
     </script>
-
+    -->
 
 </head>
+
 <body>
 
-<input type="hidden" value="${user.id }" id="user_id">
+<!-- Page Content-->
+<article class = "py-5" layout:fragment = "content">
 
 
 
-<section class="title">
-    <h1>주문하기</h1>
-</section>
+    <!-- Team members section-->
+    <section>
+        <div class = "container">
 
-<main>
+            <div class = "row">
+                <div class = "col-xs-12">
+                    <div class="text-center mb-5">
+                        <h1 class="fw-bolder">주문 / 결제</h1>
+                        <p class="lead fw-normal text-muted mb-0">상품을 구매하는 화면입니다.</p>
+                    </div>
+                </div>
+            </div>
 
-    <form>
-
-        <ul>
-            <li>
-                <div class="order_info">
-                    <h2><span>${cartList.storeName }</span><button type="button" class="delete_all">전체삭제</button></h2><hr>
-
-                    <h2>주문정보</h2>
-
-
-                    <ul>
-
-                            <li>
-                                <div class="food_name_box">
-                                    <div class="food_name">${cart[j].foodName }</div>
-                                    <div><i class="fas fa-times delete"></i></div>
-                                </div>
-                                <div class="price">ㆍ기본가격 <fm:formatNumber value="${cart[j].foodPrice }"  pattern="###,###" />원</div>
+            <div class = "row">
+                <div class = "col">
+                    <div class = "d-flex align-items-center mt-lg-5 mb-4">
+                        <img alt = "..." class = "img-fluid rounded-circle"
+                             src = "https://dummyimage.com/50x50/ced4da/6c757d.jpg"/>
+                        <div class = "ms-3">
+                            <div class = "fw-bold">상품명</div>
+                            <div class = "text-muted">상점이름</div>
+                        </div>
+                    </div>
+                </div>
 
 
+            </div>
+            <div class = "row">
+                <div class = "col-md-6">
+                    <!-- Contact form-->
+                    <div class = "bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+                        <div class = "text-center mb-5">
+                            <h1 class = "fw-bolder">구매자 정보</h1>
+                            <p class = "lead fw-normal text-muted mb-0">필수 입력사항</p>
+                        </div>
+                        <div class = "row gx-5 justify-content-center">
+                            <div class = "col-lg-8 col-xl-6">
 
-                                        <div class="menu_option">
-                                            <span>ㆍ${cart[j].optionName[i]  }</span>
-                                            <span><fm:formatNumber  value="${cart[j].optionPrice[i] }" pattern="###,###" />원</span>
+                                <form data-sb-form-api-token = "API_TOKEN" id = "contactForm">
+                                    <!-- Name input-->
+                                    <div class = "form-floating mb-3">
+                                        <input class = "form-control" data-sb-validations = "required" id = "name"
+                                               placeholder = "Enter your name..." type = "text"/>
+                                        <label for = "name">Full name</label>
+                                        <div class = "invalid-feedback" data-sb-feedback = "name:required">A name is required.
                                         </div>
-
-
-                                <div class="amount">
-                                    <div class="sum">
-                                        <fm:formatNumber value="${cart[j].totalPrice }" pattern="###,###" />원
                                     </div>
-                                    <!-- 메뉴 하나 총합 -->
-                                    <div class="amount_box">
-                                        <button type="button" class="minus">-</button>
-                                        <input type="number" class="amount_text" min="1" value="${cart[j].amount }" readonly >
-                                        <button type="button" class="plus">+</button>
+                                    <!-- Email address input-->
+                                    <div class = "form-floating mb-3">
+                                        <input class = "form-control" data-sb-validations = "required,email" id = "email"
+                                               placeholder = "name@example.com" type = "email"/>
+                                        <label for = "email">Email address</label>
+                                        <div class = "invalid-feedback" data-sb-feedback = "email:required">An email is required.
+                                        </div>
+                                        <div class = "invalid-feedback" data-sb-feedback = "email:email">Email is not valid.
+                                        </div>
                                     </div>
-                                </div>
-
-                            </li>
-
-                        </c:forEach>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="delevery_cont">
-
-                <div class="delevery_info">
-                    <h2>배달정보 </h2>
-                    <div>
-                        <span>주소 :</span>
-                        <span class="address1">${BMaddress.address2}</span>
-                        <button type="button" onclick="modifyAddress()" id="delevery_modify" >주소 변경하기</button>
-                        <%@ include file="/WEB-INF/view/include/modifyAddress.jsp" %>
+                                    <!-- Phone number input-->
+                                    <div class = "form-floating mb-3">
+                                        <input class = "form-control" data-sb-validations = "required" id = "phone"
+                                               placeholder = "(123) 456-7890" type = "tel"/>
+                                        <label for = "phone">Phone number</label>
+                                        <div class = "invalid-feedback" data-sb-feedback = "phone:required">A phone number is required.
+                                        </div>
+                                    </div>
+                                    <!-- Message input-->
+                                    <div class = "form-floating mb-3">
+                                        <textarea class = "form-control" data-sb-validations = "required" id = "message"
+                                                  placeholder = "Enter your message here..." style = "height: 10rem"
+                                                  type = "text"></textarea>
+                                        <label for = "message">Message</label>
+                                        <div class = "invalid-feedback" data-sb-feedback = "message:required">A message is required.
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-
-                    <input type="hidden" id="deleveryAddress1" value="${BMaddress.address1 }" name="deleveryAddress1">
-                    <input type="hidden" id="deleveryAddress2" value="${BMaddress.address2 }" name="deleveryAddress2">
-
-
-                    <div>상세 주소</div>
-                    <div class="input_area"><input type="text" id="deleveryAddress3" maxlength="100" value="${BMaddress3 }"  name="deleveryAddress3"> </div>
-
-                    <div>전화번호</div>
-                        <div class="input_area"> <input type="number" value="${user.phone }" name="phone" readonly required onkeypress="return lenthCheck(this, 11)" autocomplete="off" > </div>
                 </div>
-                <hr>
-            </li>
-
-            <li class="request">
-                <div>요청사항</div>
-                <label>
-                    <textarea rows="5" cols="50" name="request" maxlength="500"  ></textarea>
-                </label>
-                <hr>
-            </li>
-
-
-            <li>
-                <h2>결제수단</h2>
-
-                <label><input type="radio" checked="checked" value="신용카드" name="payMethod" >신용카드</label>
-
-                <label><input type="radio" value="현장결제" name="payMethod">현장결제</label>
-                <hr>
-            </li>
-
-            <li class="point_area">
-                <h2>포인트</h2>
-
-                <div class="point">
-                    <div class="point_click">
-                            <span><fm:formatNumber value="${user.point }"  pattern="###,###" />원 사용 가능</span>
-                            <input type="hidden" value="${user.point }" id="point">
-
-
-                        <span class="icon"> <i class="fas fa-chevron-down"></i>  </span>
+                <div class = "col-md-6">
+                    <div class = "card mb-5 mb-xl-0">
+                        <div class = "card-body p-5">
+                            <div class = "small text-uppercase fw-bold">
+                                <i class = "bi bi-star-fill text-warning"></i>
+                                총 결제금액
+                            </div>
+                            <div class = "mb-3">
+                                <span class = "display-4 fw-bold">99.999</span>
+                                <span class = "text-muted">/원</span>
+                            </div>
+                            <ul class = "list-unstyled mb-4">
+                                <li class = "mb-2">
+                                    <i class = "bi bi-check text-primary"></i>
+                                    <strong>5 users</strong>
+                                </li>
+                                <li class = "mb-2">
+                                    <i class = "bi bi-check text-primary"></i>
+                                    5GB storage
+                                </li>
+                                <li class = "mb-2">
+                                    <i class = "bi bi-check text-primary"></i>
+                                    Unlimited public projects
+                                </li>
+                                <li class = "mb-2">
+                                    <i class = "bi bi-check text-primary"></i>
+                                    Community access
+                                </li>
+                                <li class = "mb-2">
+                                    <i class = "bi bi-check text-primary"></i>
+                                    Unlimited private projects
+                                </li>
+                                <li class = "mb-2">
+                                    <i class = "bi bi-check text-primary"></i>
+                                    Dedicated support
+                                </li>
+                                <li class = "mb-2">
+                                    <i class = "bi bi-check text-primary"></i>
+                                    Free linked domain
+                                </li>
+                                <li class = "text-muted">
+                                    <i class = "bi bi-x"></i>
+                                    Monthly status reports
+                                </li>
+                            </ul>
+                            <div class = "d-grid"><a class = "btn btn-primary" href = "#!">결제하기</a></div>
+                        </div>
                     </div>
-
-                    <div class="point_input_box" >
-                        <input type="number" name="usedPoint" value="0" pattern="/d" class="point_input" placeholder="사용 할 포인트"  >
-                        <button class="use_point" type="button">사용하기</button>
-                    </div>
-
-                </div><hr>
-
-            </li>
-
-            <li class="pay">
-                <div class="order_price">주문금액 : <fm:formatNumber value="${cartList.cartTotal }"  pattern="###,###" />원</div>
-                <div>배달팁 <fm:formatNumber value="${cartList.deleveryTip }"  pattern="###,###" />원 </div>
-
-                <div class="point_dis"><span>포인트 할인 </span><span></span> </div>
-
-                <div class="total">
-                    <fm:formatNumber value="${cartList.cartTotal + cartList.deleveryTip}"  pattern="###,###" />원 결제하기
                 </div>
+            </div>
 
-                <input type="hidden" value="${cartList.cartTotal + cartList.deleveryTip}" name="total" id="total">
-                <input type="hidden" value="${cartList.deleveryTip }" name="deleveryTip" id="delevery_tip">
-                <input type="hidden" value="${orderNum }" id="order_num">
-
-                <input type="button" value="주문하기" class="order_btn">
-            </li>
-
-
-        </ul>
-
-    </form>
-</main>
-
+            </div>
+        </div>
+    </section>
+</article>
 
 
 </body>

@@ -1,6 +1,8 @@
+var channelKey = "zrWskFNzrd-41toO2KQAc-20220604114542";
+
+// login.js
 const vChatCloud = new VChatCloud();
-let channel, userNick, userKey, channelKey = "",
-    youtubeId;
+let channel, userNick, userKey; //, channelKey;
 
 var getParameters = function(paramName) {
     // 리턴값을 위한 변수 선언
@@ -21,81 +23,60 @@ var getParameters = function(paramName) {
         }
     }
 };
-channelKey = 'zrWskFNzrd-41toO2KQAc-20220604114542';
+
 
 $(function() {
-    if (getParameters('youtubeId') != undefined) {
-        youtubeId = getParameters('youtubeId');
-        $("#ytplayer").attr("src", "https://www.youtube.com/embed/" + youtubeId + "?autoplay=1&controls=0&mute=1&modestbranding=1&rel=0&loop=1" + youtubeId + "&loop=1");
-    }
+    // channelKey = getParameters('channelKey');
+    let p = $('div.login').show();
 
-    let p = $('div.dim').show(),
-        l = $('div.login').show(),
-        c = $('div.chat_contents').hide();
-    likeInif();
-    //        cb = $('div.chat_bottom').hide();
-    //        tc = $('article.title .close').hide();
     $('button.popupbtn', p).click(function() {
-        console.log("click")
         let r = { nick: $('input#name', p).val() };
         if (r.nick) {
-            $('div.bottom div.name').text(r.nick);
             joinRoom(channelKey, 'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }), r.nick, function(err, history) {
                 if (err) {
-                    openError(err.code, function() {
-                        p.show();
-                        l.show();
-                        c.hide();
-                        //cb.hide();
-                        //tc.hide();
-                        vChatCloud.disconnect();
-                    });
-                    p.show();
-                    l.hide();
-                    c.show();
-                    //cb.show();
-                    //tc.show();
-
+                    console.log(err)
+                    res.toastPopup((errMsg[err.code] == undefined) ? err.code : errMsg[err.code].kor);
+                    vChatCloud.disconnect();
                 } else {
-
-                    // 채팅영역에 글쓰기가 활성화될시 활성화(최신공지 한개만 남기기)
-                    let flag = undefined;
-                    if (typeof write == 'function') history && history.forEach(function(m) {
-                        if (m.messageType == 'notice') {
-                            if (flag == undefined) {
-                                flag = true;
-                                write(m, 'notice', 'history');
-                            }
-                        } else {
-                            write(m, '', 'history');
-                        }
-                    });
-
                     p.hide();
-                    c.show();
-                    //cb.show();
-                    //tc.show();
-
+                    $("#wrap > section > div > article.contents > div.webcam > div.cam-footer > p.roomtitle").text(channel.roomName);
                     // 이벤트 바인딩 시작
-                    chatInit();
-                    personalInit();
-                    msgInit();
-                    getRoomInfo();
-                    //likeInif();
+                    videoInit();
                 }
             });
         }
     });
 
-    /*$('a.closebtn').click(function() {
-        p.show();
-        c.hide();
-        //cb.hide();
-        //tc.hide();
-        likeEnd();
-        vChatCloud.disconnect();
-    })*/
+    $('.exit.btn_on').click(function() {
+        exit(p)
+    })
+
+    $('#wrap > section > div > article.contents > div.webcam > div.cam-footer > p.present-btn').click(function() {
+        if (channel) {
+            channel.toggleRTCMedia('display')
+        } else {
+            res.toastPopup("로그인을 해주세요");
+        }
+    })
 })
+
+function exit(p) {
+    if (channel) {
+        var exit_chk = confirm('종료 하시겠습니까?')
+        if (!exit_chk)
+            return;
+
+        $("#wrap > section > div > article.contents > div.webcam > div.cam-footer > p.roomtitle").text('')
+        p.show();
+        $('.cam-footer .cam-btn .mic').off("click.rtc")
+        $('.cam-footer .cam-btn .cam').off("click.rtc")
+        vChatCloud.disconnect();
+        $("#likeCounter").text("0");
+        channel = undefined;
+    } else {
+        res.toastPopup("로그인을 해주세요");
+    }
+}
 
 function joinRoom(roomId, clientKey, nickName, callback) {
     // vchatcloud 객체
@@ -104,17 +85,11 @@ function joinRoom(roomId, clientKey, nickName, callback) {
         clientKey: clientKey,
         nickName: nickName
     }, function(error, history) {
-        $('div#content1 p').remove();
         if (error) {
             if (callback) return callback(error, null);
             return error;
         }
-        if (callback) callback(null, history);
-        // 채팅영역에 글쓰기가 활성화될시 활성화
-        // setTimeout(function(){write("① 이벤트미션 하나<br>쇼핑 LIVE 채팅창에 응원 메시지 입력(●'◡'●)", "market")}, 5 * 1000);
-        // setTimeout(function(){write("② 이벤트미션 두울<br>쇼핑 영상 댓글에 시청소감 또는 응원메시지 입력 :)", "market")}, 30 * 1000);
-        // setInterval(function(){write("★라이브 커머스 이벤트! 댓글을 달면 선물이 내 품으로!★", "market")}, 5 * 60 * 1000);
-        // if (typeof write == 'function') write("📢채팅 참여하고! ☕커피 한잔까지!<br>추첨을 통해 스타벅스 아메리카노를 드립니다!", 'notice');
+        callback(error, history);
     })
 }
 
@@ -129,46 +104,157 @@ function openError(code, callback) {
     p.show();
 }
 
-// 채팅방 제목 (채팅방 입장시 제목 변경)
-function getRoomInfo() {
-    const api_url = "https://vchatcloud.com/api/openapi/getChatRoomInfo";
-    let param = {
-        "room_id": channelKey
-    };
-    $.post(api_url, param, function(data) {
-        if (data.result_cd == 1) {
-            $("#roomNm").append(data.param.room_nm);
+// rtc.js
+let res, myWrap, listWrap;
+
+window.addEventListener('load', function() {
+    // 리소스 로드
+    if (res === undefined) {
+        res = new resources('.toast', 400, 1000, 400);
+    }
+    myWrap = $('#wrap > section > div > article.contents > div.webcam > div.cam-area');
+    listWrap = $('#wrap > section > div > article.contents > div.webcam > div.cam-area > div.cam-list');
+});
+
+function mic_on_off(item) {
+    if (channel) {
+        var chk = $(item).attr('class');
+        var img = $(item).children('img')[0];
+        var cam_mic = $('div[name=my_cam]').children('img')[0];
+        if (chk == 'mic btn_on') {
+            $(item).attr('class', 'mic btn_off');
+            $(img).attr('src', 'https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/off_mic.png');
+            $(cam_mic).show();
+            res.toastPopup("마이크 꺼짐.");
         } else {
-            console.log("조회 실패")
+            $(item).attr('class', 'mic btn_on');
+            $(img).attr('src', 'https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/on_mic.png');
+            $(cam_mic).hide();
+            res.toastPopup("마이크 켜짐.");
         }
-    }, "json");
+    } else {
+        res.toastPopup("로그인을 해주세요");
+    }
 }
 
+function cam_on_off(item) {
+    if (channel) {
+        var chk = $(item).attr('class');
+        var img = $(item).children('img')[0];
+        var video = $('div[name=my_cam]').children('div.camvideo')[0];
 
-
-
-/* function openLayer(e) {
-    let sWidth = window.innerWidth;
-    let sHeight = window.innerHeight;
-    let oWidth = $('.popupLayer').width();
-    let oHeight = $('.popupLayer').height();
-    let fWidth = $("#chat").offset().left;
-    let fHeight = $("#chat").offset().top;
-    let cHeight = $("#content1").height();
-    // 레이어가 나타날 위치를 셋팅한다.
-    let divLeft = e.clientX - fWidth;
-    let divTop = e.clientY - fHeight;
-    // 레이어가 화면 크기를 벗어나면 위치를 바꾸어 배치한다.
-    if (divLeft + oWidth > sWidth) divLeft -= oWidth;
-    if (divTop + oHeight > sHeight) divTop -= oHeight;
-    if (divTop > (cHeight - oHeight)) {
-        divTop = divTop - oHeight;
+        if (chk == 'cam btn_on') {
+            $(item).attr('class', 'cam btn_off');
+            $(img).attr('src', 'https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/off_cam.png');
+            res.toastPopup("카메라 꺼짐.");
+        } else {
+            $(item).attr('class', 'cam btn_on');
+            $(img).attr('src', 'https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/on_cam.png');
+            res.toastPopup("카메라 켜짐.");
+        }
+    } else {
+        res.toastPopup("로그인을 해주세요");
     }
-    $('.popupLayer').data($(this).data()).css({
-        "top": Math.max(0, divTop),
-        "left": Math.max(0, divLeft),
-        "position": "absolute",
-        "z-index": 1
-    }).show();
-    $("#whisper").show();
-} */
+}
+
+function videoInit() {
+    // 채널에 local video or audio 추가시
+    channel.on('rtcLocalStreamAppend', function(event) {
+        let stream = event.target;
+        let html = $('div[name=my_cam]', myWrap);
+        if (!html.length) {
+            html = $(res.myVideo);
+            myWrap.prepend(html);
+        }
+        let video = $('video', html)[0];
+        video.srcObject = stream;
+        channel.setRTCLocalMedia(video)
+    });
+    channel.on('rtcLocalStreamRemove', function(event) {
+        let html = $('div[name=my_cam]', myWrap);
+        if (html.length) {
+            html.remove();
+        }
+    });
+    channel.on('rtcRemoteStreamAppend', function(event) {
+        let stream = event.target;
+        let html = $(`div[name=${event.clientKey}]`, listWrap);
+        if (!html.length) {
+            html = $(res.remoteVideo).attr({ name: event.clientKey });
+            listWrap.append(html);
+            $('.cam-name p', html).html(event.client.nickName);
+        }
+        let video = $('video', html)[0];
+        video.srcObject = stream;
+
+        $('.nocam', html).toggleClass('active', (stream.getVideoTracks().length == 0));
+        $('.nomic', html).toggleClass('active', (stream.getAudioTracks().length == 0));
+
+        channel.setRTCRemoteMedia(video, event.clientKey)
+    });
+    channel.on('rtcRemoteStreamRemove', function(event) {
+        let html = $(`div.camvideo-wrap[name=${event.clientKey}]`, listWrap);
+        if (html.length) {
+            html.remove();
+        }
+    });
+
+    channel.on('rtcLocalAudioChanged', function(event) {
+        console.log("Local audio", event)
+        let is_mic = event.enable;
+        let html = $('div[name=my_cam]', myWrap);
+        $('.nomic', html).toggleClass('active', !is_mic);
+        $('.cam-footer .cam-btn .mic').off('.rtc').on('click.rtc', function() {
+            channel.toggleRTCAudioControl(!is_mic);
+        })
+        $('.cam-footer .cam-btn .mic').toggleClass('btn_on', is_mic).toggleClass('btn_off', !is_mic);
+        $('.cam-footer .cam-btn .mic img').attr('src', is_mic ? 'https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/on_mic.png' : 'https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/off_mic.png');
+    });
+
+    channel.on('rtcLocalVideoChanged', function(event) {
+        console.log("Local video", event)
+        let is_cam = event.enable;
+        let html = $('div[name=my_cam]', myWrap);
+        $('.nocam', html).toggleClass('active', !is_cam);
+        $('.camvideo video', html).css('display', is_cam ? '' : 'none');
+        $('.cam-footer .cam-btn .cam').off('.rtc').on('click.rtc', function() {
+            channel.toggleRTCVideoControl(!is_cam);
+        })
+        $('.cam-footer .cam-btn .cam').toggleClass('btn_on', is_cam).toggleClass('btn_off', !is_cam);
+        $('.cam-footer .cam-btn .cam img').attr('src', is_cam ? 'https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/on_cam.png' : 'https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/off_cam.png');
+    });
+
+    channel.on('rtcRemoteAudioChanged', function(event) {
+        console.log("Remote audio", event)
+        let is_mic = event.enable;
+        let html = $(`div.camvideo-wrap[name=${event.clientKey}]`, listWrap);
+        $('.nomic', html).toggleClass('active', !is_mic);
+    });
+
+    channel.on('rtcRemoteVideoChanged', function(event) {
+        console.log("Remote video", event)
+        let is_cam = event.enable;
+        let html = $(`div.camvideo-wrap[name=${event.clientKey}]`, listWrap);
+        $('.nocam', html).toggleClass('active', !is_cam);
+        $('.camvideo video', html).css({ 'display': is_cam ? '' : 'none' });
+    });
+}
+
+// video 태그 리소스
+class resources {
+    constructor(target, in_fi, in_de, in_fo) {
+        this.toastLayer = $(target);
+        this.fi = in_fi;
+        this.de = in_de;
+        this.fo = in_fo;
+    }
+    get myVideo() {
+        return '<!-- 내 비디오 --><div class="mycam" name="my_cam"><div class="camvideo"><video autoplay style="position: absolute;left: 0;top: 0;width: 100%;height: 100%;"></video><img src="https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/mycam-nocam.png" class="nocam" alt="영상없음"></div><img src="https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/mycam-nosound.png" class="nomic" alt="소리없음"><div class="cam-name"><p>나</p></div></div>';
+    }
+    get remoteVideo() {
+        return '<div class="camvideo-wrap"><div class="camvideo"><video autoplay style="position: absolute;left: 0;top: 0;width: 100%;height: 100%;"></video><img src="https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/user.png" class="nocam" alt="영상없음"></div><img src="https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/nosound.png" class="nomic" alt="소리없음"><div class="cam-name"><p>사용자 이름 노출 영역입니다.</p></div></div>';
+    }
+    toastPopup(msg) {
+        this.toastLayer.finish().fadeIn(this.fi).delay(this.de).fadeOut(this.fo).text(msg);
+    }
+}

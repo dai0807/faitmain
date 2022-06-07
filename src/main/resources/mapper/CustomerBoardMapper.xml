@@ -2,15 +2,14 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.faitmain.domain.customer.mapper.CustomerMapper">
-<!-- com.faitmain.domain.Customer.mapper.CustomerBoardMapper -->
+
 	<resultMap id="customerMap" type="com.faitmain.domain.customer.domain.Customer">
 		<result property="boardNumber"  				column="customer_board_number"		jdbcType="INTEGER"/>
 		<result property="boardTitle"					column="customer_board_title" 		jdbcType="VARCHAR" />
 		<result property="boardContent"					column="customer_board_content" 	jdbcType="VARCHAR" />
-		<result property="regDate"						column="reg_date"	 				jdbcType="DATE" />
-		<result property= "updateDate"					column="update_date" 				jdbcType="DATE" />
+		<result property="boardRegDate"					column="reg_date"	 				jdbcType="DATE" />
+		<result property="boardUpdateDate"				column="update_date" 				jdbcType="DATE" />
 		<result property="FAQCategoryCode"			 	column="customer_FAQ_category_code" jdbcType="INTEGER" />
 		<result property="boardType"  					column="customer_board_type" 		jdbcType="CHAR" />
 	 	<!-- <result property="customerId"					column="customer_id"  				jdbcType="VARCHAR" /> -->
@@ -24,7 +23,7 @@
 		
 	</resultMap>
 	
-	<resultMap id="banPeriodMap" type="com.faitmain.domain.customer.domain.BanPeriod">
+	<resultMap id="banStatusMap" type="com.faitmain.domain.customer.domain.BanStatus">
 		<result property="reportNumber"				column="report_number" 			jdbcType="INTEGER"/>
 		<result property="respondentId"				column="respondent_id"			jdbcType="VARCHAR" />
 		<result property="respondentNickname"  		column="respondent_nickname"	jdbcType="VARCHAR" />
@@ -62,13 +61,13 @@
     	VALUES('C', #{boardNumber}, #{boardImage})
     </insert>
     
-    <insert id="processBanPeriod" parameterType="BanPeriod">
+    <!-- <insert id="updateBanStatus" parameterType="BanStatus">
     	INSERT INTO ban_period
 		    ( respondent_id, respondent_nickname, respondent_store_name, status_number, ban_period_number, ban_end_date )
 		VALUES
 		    ( #{respondentId}, #{respondentNickname}, #{respondentStoreName}, #{statusNumber}, #{periodNumber}, #{endDate} )
     
-    </insert>
+    </insert> -->
     
     <!-- 상세보기 -->
     <select id="getCustomerBoard" parameterType="int" resultMap ="customerMap">
@@ -95,7 +94,7 @@
     		customer_board_type		= #{boardType},
     		customer_board_title	= #{boardTitle},
     		customer_board_content	= #{boardContent},
-    		update_date				= #{updateDate},
+    		update_date				= #{boardUpdateDate},
     		customer_FAQ_category_code = #{FAQCategoryCode},
     		customer_board_type		= #{boardType},
     	<!-- 	image_number			= #{imageNumber}, -->
@@ -116,19 +115,10 @@
     	</where>
     </update>
     
-   	<update id="updateBanStatus" parameterType="BanPeriod">
-   		UPDATE banPeriod
+   	<update id="updateBanStatus" parameterType="BanStatus">
+   		UPDATE ban_period
    		<set>
    			status_number = #{statusNumber}
-   		</set>
-   		<where>
-   			report_number = #{reportNumber}
-   		</where>
-   	</update>
-   	
-   	<update id="updateBanPeriod" parameterType="BanPeriod">
-   		UPDATE banPeriod
-   		<set>
    			period_number = #{periodNumber}
    		</set>
    		<where>
@@ -151,37 +141,45 @@
     </delete>
     
     <!-- SQL : SELECT LIST -->
-    <select id="getCustomerBoardList" parameterType="Customer" >
+    <!-- <select id="getCustomerBoardList" parameterType="Customer" >
     
     	SELECT * 
     	FROM customer
     	
-    </select>
+    </select> -->
     
-	<!-- <select  id="getCustomerBoardList"  parameterType="search"	resultMap="customerSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+  
+	<select  id="getCustomerBoardList"  parameterType="map"	resultMap="customerMap">
+   							
+   		SELECT c1.* 
+   		FROM (SELECT @ROWNUM:=@ROWNUM+1 AS row_num, 
+   			n.* FROM customer AS c,(SELECT @ROWNUM:=0) AS c ORDER BY reg_date DESC) AS c1 
+				WHERE row_num &gt; #{startRowNum} AND row_num &lt;= #{endRowNum}; 
+	  	<!-- SELECT *
+	  	FROM (	SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq
 	  					FROM		(	SELECT customer_board_number, prod_name, price, reg_date 
-	  										FROM product 
-	  										<if test="searchCondition != null">
-												<where>
-													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				customer_board_number = #{searchKeyword}
-													</if>
-													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				prod_name = #{searchKeyword}
-													</if>
-													<if test="searchCondition == 2 and searchKeyword !='' ">
-														price = #{searchKeyword}
-													</if>
-													<if test="searchCondition == 3 and searchKeyword !='' ">
-														reg_date = #{searchKeyword}
-													</if>
-												</where>
-											</if>
-														ORDER BY prod_no ) inner_table
-											WHERE ROWNUM &lt;=#{endRowNum}	)
-										WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
+	  										FROM report r 
+	  							<where>
+									customer_board_number is null
+									
+									<if test="searchCondition != null">
+										<if test="searchCondition == 알파벳순 and searchKeyword !='' ">
+							 				AND r.respondent_id IN (${searchKeyword})
+										</if> 
+										<if test="searchCondition == 등록일순 and searchKeyword !='' ">
+							 				AND c.reg_date LIKE '%'||#{searchKeyword}||'%'
+										</if>										
+										<if test="searchCondition == 카테고리로 검색 and searchKeyword !='' ">
+							 				AND p.product_category_code = #{searchKeyword}
+										</if>																			
+									</if>
+									<if test="boardRegDate != null">
+										AND c.reg_date BETWEEN #{beforeDate} and #{afterDate}
+									</if>
+								</where>
+						ORDER BY ${orderName} ) inner_table
+				WHERE (@ROWNUM:=0)=0 limit #{endRowNum} ) result_table
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
 	
 	SQL : SELECT ROW Count	 
@@ -200,10 +198,10 @@
 							</where>
 						</if> ) countTable						
 	 </select>
-     -->
+     
     
-    <!-- get Customer -->
-	
+     get Customer -->
+	</select>
 
    
 
