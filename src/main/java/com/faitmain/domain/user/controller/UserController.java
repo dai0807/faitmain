@@ -21,7 +21,7 @@ import com.faitmain.domain.live.service.LiveService;
 import com.faitmain.domain.user.domain.StoreApplicationDocument;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserSerivce;
-import com.mysql.cj.Session;
+
 
 import lombok.extern.slf4j.Slf4j;
 
