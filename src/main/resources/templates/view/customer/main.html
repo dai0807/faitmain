@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns xmlns:th="http://www.w3.org/1999/xhtml" : th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+        <th>글번호</th>
+        <th>작성자</th>
+        <th>제목</th>
+        <th>등록일</th>
+        </thead>
+        <tr th:each="list :${list}"> // 타임리프를 이용해 리스트 형식의 데이터를 가공할 수 있도록 함.
+            <td>[[${list.boardNumber}]]</td>
+            <td>[[${list.customerId}]]</td>
+            <td>[[${list.boardTitle}]]</td>
+            <td>[[${list.regDate}]]</td>
+            
+        </tr>
+    </table>
+</div>
+</body>
+</html>

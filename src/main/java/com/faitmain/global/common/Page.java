@@ -9,13 +9,16 @@ public class Page {
 
     ///Field
     private int currentPage;		// 현재페이지
+    private int startPage;			// 시작페이지
+    private int endPage;			// 끝 페이지
     private int totalCount;			// 총 게시물 수
     private int pageUnit;			// 하단 페이지 번호 화면에 보여지는 수
     private int pageSize;			// 한 페이지당 보여지는 게시물수
     private int maxPage;			// 최대 페이지 번호(전체 페이지)
-    private int beginUnitPage;	//화면에 보여지는 페이지 번호의 최소수
+    private int beginUnitPage;		//화면에 보여지는 페이지 번호의 최소수
     private int endUnitPage;		//화면에 보여지는 페이지 번호의 최대수
-
+    private int lastPage;			// 마지막 페이지
+    
     ///Constructor
     public Page() {
     }
@@ -38,6 +41,8 @@ public class Page {
             }
         }
     }
+    
+    
 
     ///Mehtod
     public int getCurrentPage() {

@@ -8,8 +8,8 @@
 		<result property="boardNumber"  				column="customer_board_number"		jdbcType="INTEGER"/>
 		<result property="boardTitle"					column="customer_board_title" 		jdbcType="VARCHAR" />
 		<result property="boardContent"					column="customer_board_content" 	jdbcType="VARCHAR" />
-		<result property="boardRegDate"					column="reg_date"	 				jdbcType="DATE" />
-		<result property="boardUpdateDate"				column="update_date" 				jdbcType="DATE" />
+		<result property="regDate"						column="reg_date"	 				jdbcType="DATE" />
+		<result property="updateDate"					column="update_date" 				jdbcType="DATE" />
 		<result property="FAQCategoryCode"			 	column="customer_FAQ_category_code" jdbcType="INTEGER" />
 		<result property="boardType"  					column="customer_board_type" 		jdbcType="CHAR" />
 	 	<!-- <result property="customerId"					column="customer_id"  				jdbcType="VARCHAR" /> -->
@@ -46,6 +46,19 @@
 		<result property="imageName" column="image_name" jdbcType="VARCHAR"/>
 	</resultMap>
 	
+<!-- ============================================================================= -->	
+	<select id="customerCount" resultType ="int">
+ 		SELECT COUNT(customer_board_number) cnt FROM customer
+ 	</select>  
+ 	
+ 	<select id="getCustomerBoardList" resultMap="customerMap">
+		SELECT * FROM customer
+	</select>
+	
+	<select id="getCustomerBoard" parameterType="int" resultMap="customerMap">
+		SELECT * FROM customer WHERE customer_board_number=#{boardNumber}
+	</select>
+<!-- ============================================================================= -->	
 	<!-- SQL : INSERT -->
 	<insert id="addCustomerBoard" parameterType="Customer">
     	INSERT INTO customer
@@ -70,14 +83,14 @@
     </insert> -->
     
     <!-- 상세보기 -->
-    <select id="getCustomerBoard" parameterType="int" resultMap ="customerMap">
+    <!-- <select id="getCustomerBoard" parameterType="int" resultMap ="customerMap">
     	SELECT 
     	customer_board_title, customer_board_content, customer_FAQ_category_code, customer_board_type, reg_date, update_date, customer_id
     	FROM customer 
     	<where>
     		customer_board_number = #{boardNumber}
     	</where>
-    </select>
+    </select> -->
     
     <select id="getCustomerBoardImage" parameterType="int" resultMap="customerMap">
     	SELECT *
@@ -149,12 +162,16 @@
     </select> -->
     
   
-	<select  id="getCustomerBoardList"  parameterType="map"	resultMap="customerMap">
+	<!-- <select  id="getCustomerBoardList"  parameterType="map"	resultMap="customerMap"> -->
    							
-   		SELECT c1.* 
+   		<!-- SELECT c1.* 
    		FROM (SELECT @ROWNUM:=@ROWNUM+1 AS row_num, 
-   			n.* FROM customer AS c,(SELECT @ROWNUM:=0) AS c ORDER BY reg_date DESC) AS c1 
-				WHERE row_num &gt; #{startRowNum} AND row_num &lt;= #{endRowNum}; 
+   			c.* FROM customer AS c,(SELECT @ROWNUM:=0) AS r ORDER BY reg_date DESC) AS c1 
+				WHERE row_num &gt; #{startRowNum} AND row_num &lt;= #{endRowNum};  -->
+		<!-- 		SELECT c1.* 
+   		FROM (SELECT @ROWNUM:=@ROWNUM+1 AS row_num, 
+   			c.* FROM customer AS c,(SELECT @ROWNUM:=0) AS r ORDER BY reg_date DESC) AS c1 
+				WHERE row_num &gt; #{start} AND row_num &lt; #{end};  -->
 	  	<!-- SELECT *
 	  	FROM (	SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq
 	  					FROM		(	SELECT customer_board_number, prod_name, price, reg_date 
@@ -201,8 +218,7 @@
      
     
      get Customer -->
-	</select>
+	
 
-   
-
+ 	
 </mapper>
