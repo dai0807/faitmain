@@ -57,12 +57,12 @@ window.addEventListener("load", function () {
     					c.hide();
     					vChatCloud.disconnect();
     				});
-    				p.hide();
+    				p.show();
     				l.hide();
-    				c.hide();
+    				c.show();
     		
     			}else{
-    		
+    				videoInit();
     				//채팅영역에 글쓰기가 활성화될시 활성화(최신공지 한개만 남기기)
     				let flag = undefined;
     				if(typeof write == 'function') history && history.forEach(function(m){
@@ -75,7 +75,7 @@ window.addEventListener("load", function () {
     						write(m, '', 'history');
     					}
     				});
-    				$('div.my_cam').show();
+    				
     				p.hide();
     				l.hide();
     				c.show();
@@ -85,10 +85,12 @@ window.addEventListener("load", function () {
     				personalInit();
     				msgInit();
     				getRoomInfo();
+    				likeInif();
     			}	
     		});
    		}
 	});
+	
     /*$('a.closebtn').click(function() {
         p.show();
         c.hide();
@@ -101,6 +103,7 @@ window.addEventListener("load", function () {
 
 function joinRoom(roomId, clientKey, nickName, callback) {
   // vchatcloud 객체
+  console.log("clientKey : " + clientKey);
   channel = vChatCloud.joinChannel(
     {
       roomId: roomId,

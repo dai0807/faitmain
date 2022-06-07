@@ -3,11 +3,12 @@ body{
 	font-family: "Noto Sans KR"; /* dr 변경 210630 */
 	font-weight: 400;
 }
-/* #wrap{
+ #wrap{
 	width: 1500px;
 	height: 845px;
-	display: inline-flex;
-} */
+	display: flex;
+	
+} 
 
 /* 샘플 화면 메뉴 스타일 */
 nav{
@@ -620,7 +621,8 @@ div.livecommerce{
 	overflow: hidden;
 	position: relative;
 	border: 8px solid #fff;
-	float: left;
+	float: center;
+	margin:0 auto;
 }
 .livecommerce .cam{
 	width: 100%;
