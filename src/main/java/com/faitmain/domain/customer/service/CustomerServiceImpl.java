@@ -76,7 +76,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public BanStatus updateBanStatus(int reportNumber) throws Exception {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
