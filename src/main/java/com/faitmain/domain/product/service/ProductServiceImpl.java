@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -98,16 +99,16 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Map<String, Object> getProduct(int productNumber) throws Exception {
+	public Product getProduct(int productNumber) throws Exception {
 		Product product = productMapper.getProduct(productNumber);
-		List<Product> productOptions = productMapper.getProductOption(productNumber);		
+//		List<Product> productOptions = productMapper.getProductOption(productNumber);		
 		product.setProductExtraImage(productMapper.getImage(productNumber));
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("mainProduct", product);
-		map.put("productOptions", productOptions);
+		product.setProductOptions(productMapper.getProductOption(productNumber));
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("mainProduct", product);
+//		map.put("productOptions", productOptions);
 				
-		return map;
+		return product;
 	}
 	
 
@@ -164,8 +165,11 @@ public class ProductServiceImpl implements ProductService {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		String timeStamp = sdf.format(timestamp);
 		
+		String originalFileName = file.getOriginalFilename();	//오리지날 파일명
+        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
+				
 //		System.out.println("fileStorageLocation : " + fileStorageLocation);
-		String fileName =  timeStamp + file.getOriginalFilename();
+		String fileName =  timeStamp + UUID.randomUUID() + extension;
 		
 		Path targetLocation = (Paths.get(fileStorageLocation).toAbsolutePath().normalize()).resolve(fileName);
 		System.out.println("targetLocation : " + targetLocation);

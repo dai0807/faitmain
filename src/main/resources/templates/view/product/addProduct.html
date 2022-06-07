@@ -112,9 +112,9 @@
 				contentType: false,
 				enctype: "multipart/form-data",
 				processData: false,
-				success: function(url){
-					console.log(data);
-					$(el).summernote("editor.insertImage", url);					
+				success: function(data){
+					console.log(data.url);
+            		$(el).summernote("editor.insertImage", data.url);				
 				}				
 			});
 		}
@@ -124,7 +124,8 @@
 <body>
 <div class="container">
 	<form th:action="@{/product/addProduct}" method="post" name="addProductForm" id="addProductForm" enctype="multipart/form-data" class="form-horizontal">
-			<!--<img src="../images/20220606053730_logo.png" />-->
+	<!--	<img src="../img/이미지1.PNG" />
+			<img th:src="@{/img/이미지1.PNG}" /> -->
 			<!-- 상품등록 -->					
 			<div class="form-group">
 			    <label for="categoryCode" class="col-sm-offset-1 col-sm-3 control-label">상품 카테고리</label>
@@ -190,7 +191,7 @@
 			</div>
 			
 			<div  class="form-group">
-				<textarea id="summernote" name="content" rows="10"></textarea>
+				<textarea id="summernote" name="productDetail" rows="10"></textarea>
 			</div>
 			
 			<button class="btn btn-d btn-circle" type="submit">상품등록</button>

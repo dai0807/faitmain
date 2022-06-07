@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.service.ProductService;
@@ -47,7 +48,7 @@ public class ProductController {
 	}
 	
 	@PostMapping("addProduct")
-	public String addProduct(@ModelAttribute Product product, MultipartHttpServletRequest mRequest) throws Exception{
+	public RedirectView addProduct(@ModelAttribute Product product, MultipartHttpServletRequest mRequest) throws Exception{
 		
 		log.info("/product/addProduct : POST");
 		
@@ -56,7 +57,7 @@ public class ProductController {
 		product.setStore(user);
 		productService.addProduct(product, mRequest);
 				
-		return "/index";
+		return new RedirectView("/");
 		
 	}
 	
@@ -65,12 +66,13 @@ public class ProductController {
 		
 		log.info("/product/getProduct");
 		
-		Map<String, Object> map = productService.getProduct(productNumber);
+		Product product = productService.getProduct(productNumber);
 		
-		model.addAttribute("mainProduct", map.get("mainProduct"));
-		model.addAttribute("productOptions", map.get("productOptions"));
+		log.info("product : " + product);
 		
-		return "forward:/product/getProduct.jsp";
+		model.addAttribute("product", product);
+		
+		return "/view/product/getProduct";
 	}
 	
 	@GetMapping("getProductList")
@@ -119,10 +121,9 @@ public class ProductController {
 		
 		log.info("/product/updateProduct : GET");
 		
-		Map<String, Object> map = productService.getProduct(productNumber);
+		Product product = productService.getProduct(productNumber);
 		
-		model.addAttribute("mainProduct", map.get("mainProduct"));
-		model.addAttribute("productOptions", map.get("productOptions"));
+		model.addAttribute("product", product);
 		
 		return "forward:/product/updateProduct.jsp";
 	}

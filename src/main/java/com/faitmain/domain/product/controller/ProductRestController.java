@@ -1,14 +1,20 @@
 package com.faitmain.domain.product.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FileUtils;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.faitmain.domain.product.service.ProductService;
+import com.google.gson.JsonObject;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,44 +53,37 @@ public class ProductRestController {
 	}
 	
 //	/product/json/uploadSummernoteImageFile
-	@PostMapping("json/uploadSummernoteImageFile")
+	@PostMapping(value = "json/uploadSummernoteImageFile", produces = "application/json")
 	@ResponseBody
-	public ResponseEntity<?> uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request) throws Exception{
+	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
+		
 		System.out.println("uploadSummernoteImageFile");
 		
-		if(multipartFile != null && !multipartFile.isEmpty()) {
-			
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss_");
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			String timeStamp = sdf.format(timestamp);
-			
-			String fileName =  timeStamp + multipartFile.getOriginalFilename();
-			
-			Path targetLocation = (Paths.get(fileStorageLocation).toAbsolutePath().normalize()).resolve(fileName);
-					
-			Files.copy(multipartFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-			
-			Resource resource = new UrlResource(targetLocation.toUri());
-			System.out.println("resource" + resource);
-			HttpHeaders header = new HttpHeaders();
-			header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") + "\"");
-//			
-			header.setContentType(MediaType.IMAGE_JPEG);
-//			System.out.println("resource2 : " + ResponseEntity.ok().body(resource));
-			return ResponseEntity.ok().headers(header).body(resource);
-//			jsonObject.addProperty("url", targetLocation.toString());
-//			jsonObject.addProperty("responseCode", "success");
-//			result = fileName;
-//			result = targetLocation.toString();
-			
-		}else {
-//			jsonObject.addProperty("responseCode", "error");
-			return ResponseEntity.badRequest().build();
-		}
+		JSONObject jsonObject = new JSONObject();
 		
-//		System.out.println("url" + jsonObject.toString());
-//		result = jsonObject.toString();
-//		return null;
+		String fileRoot = "C:\\summernote_image\\";	//저장될 파일 경로
+				
+		String originalFileName = multipartFile.getOriginalFilename();	//오리지날 파일명
+        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
+		
+        // 랜덤 UUID+확장자로 저장될 savedFileName
+        String savedFileName = UUID.randomUUID() + extension;	
+		
+        File targetFile = new File(fileRoot + savedFileName);
+		
+		try {
+			InputStream fileStream = multipartFile.getInputStream();
+            FileUtils.copyInputStreamToFile(fileStream, targetFile);	//파일 저장
+//            jsonObject.addProperty("url", "/summernoteImage/"+fileName);
+//            jsonObject.addProperty("responseCode", "good");
+            jsonObject.put("url", "/summernoteImage/" + savedFileName);
+            jsonObject.put("responseCode", "success");
+		}catch(IOException e) {
+			FileUtils.deleteQuietly(targetFile);	// 실패시 저장된 파일 삭제
+//            jsonObject.addProperty("responseCode", "fail");
+            e.printStackTrace();
+		}
+		return jsonObject.toJSONString();
 	}
 	
 }

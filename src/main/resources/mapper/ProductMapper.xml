@@ -20,6 +20,8 @@
 		
 		<association property="store"  javaType="User">
 			<id property="id" column="store_id" jdbcType="VARCHAR"/>
+			<result property="storeName" 			column="store_name" 				jdbcType="VARCHAR"/>
+			<result property="storelogoImage" 		column="store_logo_image" 			jdbcType="VARCHAR"/>
 		</association>		
 		
 	</resultMap>
@@ -60,9 +62,13 @@
 	
 	<!-- 상품 상세 조회 (상품, 상품 추가 사진, 상품 옵션 가져와야 됨)-->	    
     <select id="getProduct" parameterType="int"	resultMap="productSelectMap">
-    	SELECT * 
+    	SELECT p.*, u.store_name, u.store_logo_image 
+    	FROM product p, user u 
+    	WHERE p.store_id = u.id 
+    		  AND product_number = #{productNumber};
+    	<!-- SELECT * 
     	FROM product
-    	WHERE product_number = #{productNumber} 
+    	WHERE product_number = #{productNumber} --> 
     </select>
 	
 	<select id="getImage" parameterType="int"	resultMap="imageSelectMap">

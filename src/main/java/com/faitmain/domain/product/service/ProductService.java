@@ -17,7 +17,7 @@ public interface ProductService {
 	public void addProductImage(Image image) throws Exception;
 		
 	//상품 상세 조회
-	public Map<String, Object> getProduct(int productNumber) throws Exception;
+	public Product getProduct(int productNumber) throws Exception;
 	
 	public int getProductQuantity(int productNumber) throws Exception;
 	
