@@ -23,12 +23,12 @@
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
 
-    <script src="/view/js/vchatcloud-1.2.0.min.js"></script>
-    <script src="/view/js/login.js"></script>
-    <script src="/view/js/like.js"></script>
-    <script src="/view/js/draw.js"></script>
+    <script src="/live/js/vchatcloud-1.2.0.min.js"></script>
+    <script src="/live/js/login.js"></script>
+    <script src="/live/js/like.js"></script>
+    <script src="/live/js/draw.js"></script>
 
-    <script src="/view/js/errMsg.js"></script>
+    <script src="/live/js/errMsg.js"></script>
 </head>
 
 <style>
@@ -45,13 +45,59 @@
 </style>
 
 <body>
+
+<script th:inline="javascript">
+    
+    /*<![CDATA[*/
+    
+function videoInit() {
+  channel.on("rtcLocalStreamAppend", function (event) {
+    // 입장하기 이벤트 발생
+    myVideo = document.createElement("video"); // video 태그 생성
+    let stream = event.target; // event.target에 들어있는 미디어 스트림 정보 획득
+    myVideo.srcObject = stream; // video의 srcObject 속성에 미디어 스트림 정보 입력
+    myVideo.setAttribute("autoplay", true); // video에 자동재생 설정 (기본값이 멈춘 상태에서 시작함)
+    myCam.append(myVideo); // cam
+  });
+}
+
+let myCam;
+
+window.addEventListener("load", function () {
+
+  // 닉네임 입력 후 등록 버튼 클릭했을 때
+  $("#확인").click(function (e) {
+	alert("이잉");
+    myCam = $(".my_cam");
+    joinRoom(
+      channelKey, // CMS에서 발급받은 키 값
+      clientKey, // 사용자의 고유 키 값
+      userNick, // 유저 닉네임
+      alert(channelKey),
+      // 채널 생성 후 실행할 콜백 함수
+      function (err, history) {
+        if (err) {
+          openError(err.code, function () {
+            vChatCloud.disconnect(); // 오류 발생으로 인한 연결 종료
+          });
+        } else {
+          videoInit(); // videoInit(); 실행
+        }
+      }
+    );
+  });
+});
+    
+    /*]]>*/
+    
+</script>
+  
     <div id="wrap">
         <section>
             <!-- 샘플 화면 -->
             <div class="livecommerce">
-                <div class="video">
-                    <iframe id="ytplayer" type="text/html" width="100%" height="100%" src="https://www.youtube.com/embed/l82gMvnnUyA?autoplay=1&controls=0&mute=1&modestbranding=1&rel=0&loop=1" frameborder="0"></iframe>
-                </div>
+
+
                 <!-- 로그인 -->
                 <div class="dim">
                     <div class="login">
@@ -60,7 +106,7 @@
                             <label for="name">대화명</label>
                             <input class="name" type="text" id="name" value="" placeholder="로그인 할 대화명을 입력 해주세요.">
                         </div>
-                        <button class="popupbtn" onclick="location.href='#!'">확인</a></button>
+                        <button id='확인' class="popupbtn" onclick="location.href='#!'">확인</a></button>
                     </div>
                 </div>
                 <!-- 에러 팝업 -->
