@@ -6,7 +6,7 @@ import lombok.Data;
 
 
 @Data
-public class BanPeriod {
+public class BanStatus {
 	
 	private int reportNumber;
 	private String respondentId;

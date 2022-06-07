@@ -3,6 +3,7 @@ package com.faitmain.domain.customer.service;
 
 import java.util.List;
 
+import com.faitmain.domain.customer.domain.BanStatus;
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.global.common.Image;
 
@@ -21,7 +22,12 @@ public interface CustomerService {
 
 	public List<Customer> getCustomerBoardList() throws Exception;
 	
-	public int processBanPeriod(int reportNumber) throws Exception;
+	public BanStatus updateBanStatus(int reportNumber) throws Exception;
+
+	public int updateBanStatus(BanStatus banStatus) throws Exception;
+
+
+	
 	
 	/*
 	 * public void increaseViewCount(int customer_board_number, HttpSession session)

@@ -14,7 +14,7 @@ import com.faitmain.global.common.Search;
 
 
 @Mapper
-@Repository
+
 public interface UserMapper {
 
 
@@ -28,12 +28,14 @@ public interface UserMapper {
 	 int getLogin(User user) ;
 	 
 	//SELECT  유저 상세 조회 
-	 User getUser(User User) ;	 
+	 User getUser(String id) ;	 
 	 //select 유저 상세 조회 2 
 	 User getMapUser( Map<String, Object> map ) ;
 	
 	 //SELECT 아이디/PW 찾기 할때 사용하는 findUser
 	 int findUser(Map<String, Object> hashMap);
+	 
+	 String findGetId(Map<String, Object> map);
 	 
 	 //SELECT 충복체크
 	 int getchechDuplicationCount(  Map<String, Object> map) ;
@@ -63,7 +65,7 @@ public interface UserMapper {
 	 //유저 UPDATE - 유저 상태 update
 	 int updateUser(User user);	 
 	 //  UPDATE - 스토어로 업데이트 
-	 int updatUserStore(User user);	
+	 int updatUserStore(Map<String,Object> map );	
 	 // UPDATE Password 재설정
 	 int updateUserPassword(User user) ;	 
 	// UPDATE 스토어문서 상태 examination_status
