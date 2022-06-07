@@ -19,17 +19,13 @@ import lombok.RequiredArgsConstructor;
 @Slf4j
 @Service("customerServiceImpl")
 @Transactional
-
 public class CustomerServiceImpl implements CustomerService{
 	
 	@Autowired
-	
 	private CustomerMapper customerMapper;
 	
 
-	public void setCustomerMapper(CustomerMapper customerMapper) {
-		this.customerMapper = customerMapper;
-	}
+
 	
 	public CustomerServiceImpl() {
 	}
@@ -76,7 +72,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public BanStatus updateBanStatus(int reportNumber) throws Exception {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -84,3 +80,4 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	
 }
+

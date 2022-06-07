@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.faitmain.domain.customer.mapper.CustomerMapper">
 
-	<resultMap id="customerMap" type="Customer">
+	<resultMap id="customerMap" type="com.faitmain.domain.customer.domain.Customer">
 		<result property="boardNumber"  				column="customer_board_number"		jdbcType="INTEGER"/>
 		<result property="boardTitle"					column="customer_board_title" 		jdbcType="VARCHAR" />
 		<result property="boardContent"					column="customer_board_content" 	jdbcType="VARCHAR" />
@@ -23,7 +23,7 @@
 		
 	</resultMap>
 	
-	<resultMap id="banStatusMap" type="BanStatus">
+	<resultMap id="banStatusMap" type="com.faitmain.domain.customer.domain.BanStatus">
 		<result property="reportNumber"				column="report_number" 			jdbcType="INTEGER"/>
 		<result property="respondentId"				column="respondent_id"			jdbcType="VARCHAR" />
 		<result property="respondentNickname"  		column="respondent_nickname"	jdbcType="VARCHAR" />
@@ -115,8 +115,8 @@
     	</where>
     </update>
     
-   	<update id="updateBanStatus" parameterType="BanPeriod">
-   		UPDATE banPeriod
+   	<update id="updateBanStatus" parameterType="BanStatus">
+   		UPDATE ban_period
    		<set>
    			status_number = #{statusNumber}
    			period_number = #{periodNumber}
@@ -141,12 +141,12 @@
     </delete>
     
     <!-- SQL : SELECT LIST -->
-    <select id="getCustomerBoardList" parameterType="Customer" >
+    <!-- <select id="getCustomerBoardList" parameterType="Customer" >
     
     	SELECT * 
     	FROM customer
     	
-    </select>
+    </select> -->
     
   
 	<select  id="getCustomerBoardList"  parameterType="map"	resultMap="customerMap">
