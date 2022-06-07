@@ -3,11 +3,12 @@ body{
 	font-family: "Noto Sans KR"; /* dr 변경 210630 */
 	font-weight: 400;
 }
-/* #wrap{
+ #wrap{
 	width: 1500px;
 	height: 845px;
-	display: inline-flex;
-} */
+	display: flex;
+	
+} 
 
 /* 샘플 화면 메뉴 스타일 */
 nav{
@@ -85,7 +86,7 @@ article.header ul li:nth-child(2){ background: #2bc48a;}
 div.pc article.contents{ margin:20px; display: flex;}
 
 /* 비디오 영역 스타일 */
-div.pc article.contents div.video{
+div.pc article.contents div.cam{
 	width: 800px;
 	height: 450px;
 	background: #999;
@@ -101,7 +102,7 @@ div.pc article.contents ul.like{
 ul.like li{ display: inline-block; vertical-align: middle; text-align: right; font-size: 12px;}
 ul.like li i{ font-size: 25px; }
 ul.like li i:hover{ color: #ff2d2d;}
-div.mobile article.contents div.video{
+div.mobile article.contents div.cam{
 	width: 100%;
 	height: 210px;
 	background: #999;
@@ -113,12 +114,8 @@ div.moblie .chat{ width: 100%; height: 435px; }
 
 /* 로그인 스타일 */
 .login{
-	width: 280px;
-	background: #fff;
-	box-shadow: 3px 4px 8px 0 rgba(240,240,240,0.5);
-	border:1px solid #eaeaea;
-	box-sizing: border-box;
-	display: none;
+	 margin-top: 100px;
+  	text-align: center;
 }
 .pc .login{ position: absolute; top: 135px; left: 440px; }
 .mobile .login{ margin: 45px auto 0; }
@@ -186,6 +183,11 @@ div.moblie .chat{ width: 100%; height: 435px; }
 	cursor: pointer;
 	background: #2bc48a;
 	color: #fff;	
+}
+
+.login input,
+.login button {
+  padding: 10px;
 }
 
 /* 에러 팝업 210628 추가*/
@@ -619,9 +621,10 @@ div.livecommerce{
 	overflow: hidden;
 	position: relative;
 	border: 8px solid #fff;
-	float: left;
+	float: center;
+	margin:0 auto;
 }
-.livecommerce .video{
+.livecommerce .cam{
 	width: 100%;
 	height: 100%;
 	position: absolute;
