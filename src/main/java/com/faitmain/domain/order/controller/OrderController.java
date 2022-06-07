@@ -33,4 +33,9 @@ public class OrderController{
         log.info( " CONTROLLER = {} " , this.getClass() );
         return "view/order/payment";
     }
+
+    @GetMapping( "/testOrder" )
+    public String testORder(){
+        return "view/order/testOrder";
+    }
 }
