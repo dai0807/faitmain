@@ -45,109 +45,63 @@
 </style>
 
 <body>
+   <div id="wrap">
+  <section>
+    <div class="pc">
+      <article class="header">
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </article>
 
-<script th:inline="javascript">
-    
-    /*<![CDATA[*/
-    
-function videoInit() {
-  channel.on("rtcLocalStreamAppend", function (event) {
-    // 입장하기 이벤트 발생
-    myVideo = document.createElement("video"); // video 태그 생성
-    let stream = event.target; // event.target에 들어있는 미디어 스트림 정보 획득
-    myVideo.srcObject = stream; // video의 srcObject 속성에 미디어 스트림 정보 입력
-    myVideo.setAttribute("autoplay", true); // video에 자동재생 설정 (기본값이 멈춘 상태에서 시작함)
-    myCam.append(myVideo); // cam
-  });
-}
-
-let myCam;
-
-window.addEventListener("load", function () {
-
-  // 닉네임 입력 후 등록 버튼 클릭했을 때
-  $("#확인").click(function (e) {
-	alert("이잉");
-    myCam = $(".my_cam");
-    joinRoom(
-      channelKey, // CMS에서 발급받은 키 값
-      clientKey, // 사용자의 고유 키 값
-      userNick, // 유저 닉네임
-      alert(channelKey),
-      // 채널 생성 후 실행할 콜백 함수
-      function (err, history) {
-        if (err) {
-          openError(err.code, function () {
-            vChatCloud.disconnect(); // 오류 발생으로 인한 연결 종료
-          });
-        } else {
-          videoInit(); // videoInit(); 실행
-        }
-      }
-    );
-  });
-});
-    
-    /*]]>*/
-    
-</script>
-  
-    <div id="wrap">
-        <section>
-            <!-- 샘플 화면 -->
-            <div class="livecommerce">
-
-
-                <!-- 로그인 -->
-                <div class="dim">
-                    <div class="login">
-                        <p class="login-title">채팅방 설정</p>
-                        <div class="name">
-                            <label for="name">대화명</label>
-                            <input class="name" type="text" id="name" value="" placeholder="로그인 할 대화명을 입력 해주세요.">
-                        </div>
-                        <button id='확인' class="popupbtn" onclick="location.href='#!'">확인</a></button>
-                    </div>
-                </div>
-                <!-- 에러 팝업 -->
-                <div class="errorpopup">
-                    <p><i class="fas fa-exclamation-circle"></i></p>
-                    <p>시스템이 원활하지 않아 오류가 발생하였습니다. 잠시 후, 다시 참여해 주시기 바랍니다.</p>
-                    <a class="popupbtn" href="#!">닫기</a>
-                </div>
-                <!-- 커스텀 팝업 -->
-                <div class="custompopup">
-                    <p>팝업</p>
-                    <a class="popupbtn" href="#!">확인</a><a class="popupbtn" href="#!">취소</a>
-                </div>
-                <!-- 방제 / 채팅방 정보 불러오는 api가 없어 하드코딩 -->
-                <article class="title">
-                    <p id=roomNm><span>Live</span></p>
-                    <!-- 나가기 버튼 -->
-                </article>
-                <!-- 채팅방 -->
-                <article class="chat">
-                    <!-- 채팅 -->
-                    <div class="chat_contents">
-                        <div id="content1">
-                        </div>
-                    </div>
-                    <div class="chat_bottom">
-                        <!-- 메시지 작성 -->
-                        <div class="chat_input">
-                            <div class="textbox" id="content" contenteditable="true" placeholder="메세지 입력하기"></div>
-                            <div class="send"><a href="#!" id="sendCounter">전송</a></div>
-                        </div>
-                        <!-- 좋아요 -->
-                        <div class="like">
-                            <a href="#!" id="sendLike"><i class="fas fa-heart"></i></a>
-                            <span id="likeCounter"></span>
-                        </div>
-                    </div>
-                </article>
+      <article class="contents">
+        <div class="toast" style='display:none'></div>
+        <!-- 비디오 영역 -->
+        <div class="webcam">
+          <div class="login" style="display: block;">
+            <p class="login-title">채팅방 설정</p>
+            <div class="name">
+              <label for="name">대화명</label>
+              <input class="name" type="text" id="name" value="" placeholder="로그인 할 대화명을 입력 해주세요.">
+              <p></p>
             </div>
-        </section>
+            <button class="popupbtn">확인</button>
+          </div>
+          <div class="cam-area">
+
+            <div class="cam-list">
+            </div>
+          </div>
+
+          <!-- 비디오 버튼 영역 -->
+          <div class="cam-footer">
+            <p class="roomtitle"></p>
+            <ul class="cam-btn">
+              <li class="mic btn_on" onclick="mic_on_off(this)">
+                <img src="https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/on_mic.png" alt="마이크 재생">
+              </li>
+              <li class="exit btn_on">
+                <img src="https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/exit.png" alt="화상채팅 종료">
+              </li>
+              <li class="cam btn_on" onclick="cam_on_off(this)">
+                <img src="https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/on_cam.png" alt="카메라 재생">
+              </li>
+            </ul>
+            <p class="present-btn">
+              <img src="https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/present.png" alt="Present now"> Present now
+            </p>
+          </div>
+        </div>
+        <!-- 비디오 영역 끝 -->
+
+      </article>
     </div>
+    <!-- 샘플 화면 끝 -->
+  </section>
+</div>
+
 </body>
 
 </html>
