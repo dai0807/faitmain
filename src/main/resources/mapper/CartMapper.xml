@@ -18,6 +18,8 @@
 		</association>		
 		
 	</resultMap>
+
+
 	
 	<!-- 장바구니 추가 -->
 	<insert id="addCart" parameterType="com.faitmain.domain.product.domain.Cart">		
