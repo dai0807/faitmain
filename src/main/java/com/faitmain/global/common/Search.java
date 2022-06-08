@@ -11,6 +11,7 @@ public class Search{
 	private int pageSize;
 	private String searchCondition;
 	private String searchKeyword;
+	private String orderName;
 	
 	@Getter(AccessLevel.NONE)
 	private int endRowNum;

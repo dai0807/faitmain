@@ -13,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.faitmain.domain.product.domain.Product;
-import com.faitmain.domain.user.domain.StoreApplicationDocument;
+ import com.faitmain.domain.user.domain.StoreApplicationDocument;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.mapper.UserMapper;
 import com.faitmain.global.common.Image;
@@ -62,8 +61,8 @@ public class UserServiceImpl implements UserSerivce {
 		
 		//SELECT  유저 상세 조회 
 	 	public User getUser(String id) throws Exception {
-	 		return userMapper.getUser(id);
-		}
+			return userMapper.getUser(id);
+ 		}
  
 
 	 	

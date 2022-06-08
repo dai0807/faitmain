@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.global.common.Image;
+import com.faitmain.global.common.Search;
 
 public interface ProductService {
 
@@ -18,6 +19,9 @@ public interface ProductService {
 	
 	//상품 목록 조회
 	public Map<String, Object> getProductList(Map<String, Object> map) throws Exception;
+	
+	//유저별 상품 목록 조회
+	public Map<String, Object> getProductListByStoreId(String storeId) throws Exception;
 	
 	//상품 수정
 	public void updateProduct(Product product) throws Exception;
