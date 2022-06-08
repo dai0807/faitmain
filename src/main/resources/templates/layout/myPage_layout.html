@@ -28,6 +28,13 @@
                 <!-- jQuery -->
                 <script src = "https://code.jquery.com/jquery-1.12.4.min.js" type = "text/javascript"></script>
 
+				<style>
+					h4.myShopping {
+						padding-left: 15px;
+						padding-top: 20px;
+						margin-bottom: 0px;
+					}
+				</style>
         </head>
         <!-- [head] 영역 끝 -->
 
@@ -40,19 +47,21 @@
 	        <!-- [header] 영역 끝 -->
 		
 			<!-- bottom content -->
-			<div class="row">
-			
-				<div class="col-md-2" >
-					<!-- [sidebar] 영역 시작 -->
-					<th:block th:replace = "/layout/fragment/sidebar :: sidebar"></th:block>
-					<!-- [sidebar] 영역 끝 -->
-				</div>
-				<div class="col-md-10">
-					<!-- [content] 영역 시작 -->
-					<article layout:fragment = "content"></article>
-					<!-- [content] 영역 끝 -->
+			<div>
+				<div class="row">
+				
+					<div class="col-md-2" >
+						<!-- [sidebar] 영역 시작 -->
+						<th:block th:replace = "/layout/fragment/sidebar :: sidebar"></th:block>
+						<!-- [sidebar] 영역 끝 -->
+					</div>
+					<div class="col-md-10" style="border-left: 3px solid #aaa">
+						<!-- [content] 영역 시작 -->
+						<article layout:fragment = "content"></article>
+						<!-- [content] 영역 끝 -->
+			        </div>
+			        
 		        </div>
-		        
 	        </div>
 	        <!-- [footer] 영역 시작 -->
 		    <footer th:replace = "/layout/fragment/footer :: footer"></footer>
