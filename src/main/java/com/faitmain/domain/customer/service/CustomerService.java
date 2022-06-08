@@ -7,16 +7,25 @@ import org.springframework.stereotype.Service;
 
 import com.faitmain.domain.customer.domain.BanStatus;
 import com.faitmain.domain.customer.domain.Customer;
+import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Image;
 
 
 public interface CustomerService {
-
-	public int customerCount();
 	
 	public List<Customer> getCustomerBoardList() throws Exception;
 	
 	public Customer getCustomerBoard(int boardNumber); 
+	
+	public void addCustomerBoard(Customer customer);
+	
+	public Object updateCustomerBoard(Customer customer);
+	
+	public void deleteCustomerBoard(int boardNumber);
+	
+	public int getViewCount(int boardNumber);
+
+	public void updateViewCount(int boardNumber, int temp);
 	
 //	//INSERT BOARD
 //	public int addCustomerBoard(Customer customer) throws Exception;

@@ -250,6 +250,11 @@ ALTER TABLE `order` AUTO_INCREMENT = 10000;
 ---ALERT customer
 
 ALTER TABLE customer MODIFY COLUMN customer_FAQ_category_code INT NULL;
+ALTER TABLE customer ADD boardImage LONGBLOB NULL;
+ALTER TABLE customer ADD hit int null;
+ALTER TABLE customer MODIFY COLUMN reg_date TIMESTAMP ;
+ALTER TABLE customer MODIFY COLUMN update_date timestamp ;
+ALTER TABLE customer ALTER COLUMN hit SET DEFAULT '0' ;
 
 ---ALERT ban_period
 

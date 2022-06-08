@@ -8,16 +8,25 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.faitmain.domain.customer.domain.BanStatus;
 import com.faitmain.domain.customer.domain.Customer;
+import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Image;
 
 @Mapper
 public interface CustomerMapper {
 	
-	public int customerCount();
+	public int addCustomerBoard(Customer customer);
+	
+	public int updateCustomerBoard(Customer customer);
 	
 	public List<Customer> getCustomerBoardList();
 	
 	public Customer getCustomerBoard(int boardNumber);
+		
+	public int deleteCustomerBoard(int boardNumber);
+	
+	public int getViewCount(int boardNumber);
+	
+	public int updateViewCount(int boardNumber, int temp);
 
 //	//CustomerBoard
 //	

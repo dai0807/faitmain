@@ -21,7 +21,7 @@ public class Customer{
 	private char boardType;
 	private User customerId;
 //	private int totalCount;
-//  private int hitCnt;
+	private int hitCnt;
 	
 	
 	

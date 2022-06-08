@@ -2,20 +2,22 @@ package com.faitmain.domain.customer.controller;
 
 import java.util.List;
 
-
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-
+import org.springframework.web.servlet.ModelAndView;
 
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.service.CustomerService;
+import com.faitmain.domain.user.domain.User;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,25 +32,6 @@ public class CustomerController{
 	@Qualifier("customerServiceImpl")
 	private final CustomerService customerService;
 	
-	@GetMapping("/hello")
-	public String Hello() {
-		return "/view/customer/hello";
-	}
-	
-	@GetMapping("/test")
-	public String test(Model model) throws Exception {
-		int a = customerService.customerCount();
-		List<Customer> list = customerService.getCustomerBoardList();
-		System.out.println(list);
-		System.out.println("list : "+list.get(0).getBoardTitle());
-		System.out.println("a : " + a);
-		model.addAttribute("cnt", customerService.customerCount());
-		model.addAttribute("test", customerService.getCustomerBoardList());
-		
-		// Spring이 "cnt"라는 Model 객체에 customerService.customerCount()를 통해 받은 data를 넣어 뷰(hello.html)쪽으로 넘겨준다는 뜻
-		// 그렇다면 View(hello.html)에서는 ${}를 통해 값을 가져와 출력하게 된다.
-		return "/view/customer/hello";
-	}
 	
 	@GetMapping("/main")
 	public String main(Model model) throws Exception {
@@ -57,16 +40,53 @@ public class CustomerController{
 		return "/view/customer/main";
 	}
 	
-	@GetMapping("/viewCustomer")
+	@GetMapping("/getCustomer")
 	public String viewCustomerBoard(Model model, int boardNumber) {
-		Customer customer = customerService.getCustomerBoard(boardNumber);
-		System.out.println("customer :"+customer);
-		
+		int temp = customerService.getViewCount(boardNumber);
+		customerService.updateViewCount(boardNumber, (temp+1) );
 		model.addAttribute("halo", customerService.getCustomerBoard(boardNumber));
 		
-		return "/view/customer/viewCustomer";
+		return "/view/customer/getCustomer";
 		//return "/boards/view"; 란   "halo" 라는 변수를 가지고 있는 (예를 들어, [[${halo.title}]] 가 이에 해당한다.) boards/view 페이지를 반환해 사용자가 볼 수 있게 동작한다.
 	}
+	
+	@GetMapping("/addCustomer")
+	public String addCustomerBoardForm() {
+		return "/view/customer/addCustomer";
+	}
+	//@GetMapping("/addCustomer")를 통해 localhost:8080/customer/addCustomer address로 이동하면 templates>view>customer folder에 있는
+	// addCustomer.html로 이동하는 입력페이지로의 이동 mapping을 한다. 
+	
+	@PostMapping("/addCustomer")
+	public String addCustomerBoard(@ModelAttribute("customer") Customer customer,
+								   @ModelAttribute("user") User user) {
+		customer.setCustomerId(user);
+		customerService.addCustomerBoard(customer);
+		return "redirect:/customer/main"; 
+	}
+	//PostMapping("/addCustomer"):localhost:8080/customer/addCustomer address로 post 방식으로 이동하면 customerService -> mapper interface ->mapper.xml의 
+	//과정을 거쳐 CustomerBoardMapper.xml에 작성한 query에서 insert문을 보낸다.
+	//그 후 업로드 버튼을 누르면 업로드를 시행하고, 다시 main page로 redirect한다. 
+	
+	@GetMapping("/updateCustomer")
+	public String updateCustomerBoardForm(Model model, int boardNumber) {
+		model.addAttribute("update", customerService.getCustomerBoard(boardNumber));
+		
+		return "/view/customer/updateCustomer";
+	}
+	
+	@PostMapping("/updateCustomer")
+	public String updateCustomerBoard(Customer customer) {
+		customerService.updateCustomerBoard(customer);
+		return "redirect:/customer/main";
+	}
+	
+	@GetMapping("/deleteCustomer")
+	public String deleteCustomerBoard(int boardNumber) {
+		customerService.deleteCustomerBoard(boardNumber);
+		return "redirect:/customer/main";
+	}
+	
 	
 //	@Autowired
 //	@Qualifier("customerServiceImpl")
