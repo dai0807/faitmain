@@ -9,28 +9,22 @@
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
-	<style>
- 		body {
-            padding-top : 50px;
-        }
-    </style>
-    
-    <script th:inline="javascript">
-    	
+	 		    
+    <script th:inline="javascript">    	
+		
     	/*<![CDATA[*/
-			let productNumber = [[${ product.productNumber }]];
-			let productName = [[${ product.productName }]];
-			let productPrice = [[${ product.price }]];
-			let productMainImage = [[${ product.productMainImage }]];
-			let productQuantity = [[${ product.productQuantity }]];
+			let productNumber = '[[${ product.productNumber }]]';
+			let productName = '[[${ product.productName }]]';
+			let productPrice = '[[${ product.price }]]';
+			let productMainImage = '[[${ product.productMainImage }]]';
+			let productQuantity = '[[${ product.productQuantity }]]';
 		/*]]>*/
 		
 		
 		$(function(){		
-			
 			
 			$(".plus").click(function(){
 			   var num = $(".numBox").val();
@@ -57,11 +51,7 @@
 			   }
 			   
 			});
-			
-			$("#cartQuantity").on("keyup", function(){
-				this.value=this.value.replace(/[^0-9]/g,'');
-			});
-			
+						
 			$("#addCart").on("click", function(){
 				
 				console.log(productNumber);
@@ -71,6 +61,10 @@
 				let cartQuantity = $(".numBox").val();
 				console.log(cartQuantity); 
 				
+				if($("#optionExist").val() > 0){
+					console.log("cart : " + $("#optionExist").val());
+				}
+				/*
 				if(cartQuantity > productQuantity){
 					alert("수량을 다시 적어주세요");
 				}else{
@@ -111,8 +105,8 @@
 					});
 				}
 				
-				/*옵션은 생각이 필요	*/						
-				
+				옵션은 생각이 필요							
+				*/
 				
 				
 			});
@@ -125,9 +119,9 @@
     </script>
 </head>
 <body>
-	
+    
 	<div class="container">
-		
+		<input type="hidden" id="optionExist" th:value="${#lists.size(product.productOptions)}"/>
 		<div class="page-header">
 	       <h3 class=" text-info">상품상세조회</h3>
 	    </div>
@@ -145,7 +139,7 @@
 		
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2"><strong>상품사진</strong></div>
-	  		<!--<img class="img-thumbnail" th:src="|../img/upload/${ product.productMainImage }|" width="30%" height="auto"/>-->			
+	  		<!----><img class="img-thumbnail" th:src="|../img/upload/${ product.productMainImage }|" width="30%" height="auto"/>			
 		</div>
 		
 		<div class="row">
@@ -164,33 +158,57 @@
 		</div>
 		
 		<div class="row">
+			<div class="col-xs-4 col-md-2"><strong>상품 추가 사진</strong></div>
+			<div th:if="${#lists.size(product.productExtraImage) > 0}">
+				<img class="img-thumbnail" 
+					 th:each="extraImg : ${product.productExtraImage}"
+					 th:src="|../img/upload/${ extraImg.imageName }|" width="10%" height="auto"/>
+			</div>
+			
+		</div>
+		
+		<div class="row">
 	  		<div class="col-xs-4 col-md-2"><strong>상품 옵션</strong></div>
 	  		
-	  		<select th:if="${#lists.size(product.productOptions) > 0}" id="productOption" name="optionss">
+	  		<select th:if="${#lists.size(product.productOptions) > 0}" id="productOption" name="options">
 	  			<option selected disabled>=== 옵션 ===</option>
 	  			<option 
 	  				th:each="productOption : ${product.productOptions}" 
 	  				th:value="${productOption.productNumber}"
 	  				th:value1="${productOption.productQuantity}" 
-	  				th:text="${productOption.productName}"
-	  				th:parameterName="${productOption}">
+	  				th:text="${productOption.productName}">
 	  			</option>
 	  		</select>
 	  		
 	  		<script type="text/javascript">
-		    	$("select[name=optionss]").change(function(){
+		    	$("select[name=options]").change(function(){
 				  console.log($(this).val()); //value값 가져오기
-				  console.log($("select[name=optionss] option:selected").attr("value1")); //value값 가져오기
-				  console.log($("select[name=optionss] option:selected").text()); //text값 가져오기
+				  console.log($("select[name=options] option:selected").attr("value1")); //value값 가져오기
+				  console.log($("select[name=options] option:selected").text()); //text값 가져오기
+				  //$("select[name=options] option:selected").attr('disabled', 'true');
+				  
 				  
 				  let productNumber = $(this).val();
-				  let optionQuantity = $("select[name=optionss] option:selected").attr("value1");
-				  let productName = $("select[name=optionss] option:selected").text();				 
+				  let optionQuantity = $("select[name=options] option:selected").attr("value1");
+				  let productName = $("select[name=options] option:selected").text();	
+				 
+				  var list = new Array();
+				  $(".selectName").each(function(index, item){
+						list.push($(item).text());
+				  });
 				  
-				  $("#selectOptionView").append(
+				  console.log("selectNames : " + list[0]);
+				  
+				  if (list.includes(productName)) {
+					
+					alert("이미 선택된 상품입니다");
+					
+				  }else{
+					
+					$("#selectOptionView").append(
 						"<div>" 
 							//+ "<input type='hidden' value='" + productNumber + "' class='selectNumber' />"
-							+ "<span>" + productName + "</span>"
+							+ "<span class='selectName'>" + productName + "</span>"
 							
 							+ "<button type='button' class='minus_btn'>-</button>"	 
 							+ "<input type='text' style='width:100px;' value='1' readonly/>"
@@ -199,6 +217,10 @@
 							+ "<button type='button' style='float:right;' id='optionDelBtn' class='btn-btn dark'>"+ "삭제" + "</button>"
 						+ "</div>" 				  
 					);
+					
+				  }			 
+				  
+				  
 				  
 				});
 				
