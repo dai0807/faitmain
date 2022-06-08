@@ -103,6 +103,15 @@
 				WHERE (@ROWNUM:=0)=0 limit #{endRowNum} ) result_table
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
+
+	<!-- 판매자 상품 목록 조회 (현재 search 없어서 if문 수정 필요) -->
+	 <select  id="getProductListByStoreId"  parameterType="String"	resultMap="productSelectMap">
+	  							SELECT *
+								FROM product
+								<where>
+									store_id = #{value}
+								</where>
+	 </select>
 	 		
 	<!-- SQL : SELECT ROW Count (현재 search 없음) -->	 
 	<select  id="getTotalCount"  parameterType="com.faitmain.global.common.Search"	 resultType="int">

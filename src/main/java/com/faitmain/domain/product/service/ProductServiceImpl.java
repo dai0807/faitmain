@@ -61,6 +61,14 @@ public class ProductServiceImpl implements ProductService {
 		
 		return resultMap;
 	}
+	
+	@Override
+	public Map<String, Object> getProductListByStoreId(String storeId) throws Exception {
+		List<Product> list = productMapper.getProductListByStoreId(storeId);
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("list", list);
+		return resultMap;
+	}
 
 	@Override
 	public void updateProduct(Product product) throws Exception {

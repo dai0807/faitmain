@@ -40,13 +40,13 @@ public class WebController{
 		
 		map = productService.getProductList(map);
         log.info("after getProductList");
-		
+
 		map.put("liveList", liveService.getLiveList().get("liveList"));
 		log.info("after getLiveList");
 		
-        System.out.println("map : " + map);
         model.addAttribute("map", map);
         
+        System.out.println(model);
         return "index";
     }
 
