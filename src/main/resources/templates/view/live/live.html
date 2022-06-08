@@ -13,7 +13,7 @@
     <meta property="og:image" content="https://www.vchatcloud.com/img/common/og_img.png" />
     <meta property="og:url" content="https://www.vchatcloud.com" />
 
-    <title>라이브커머스형</title>
+    <title>Fait-Main Live</title>
     <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
     <link href="/css/liveReset.css" rel="stylesheet" />
     <link href="/css/liveStyle.css" rel="stylesheet" />
@@ -33,6 +33,19 @@
 
 <style>
     /* 210625 추가 */
+	
+	body {
+	background-color:black;
+	}
+    
+    div.pc {
+	background-color:black;
+	width: 1520px;
+	height: 700px;
+	}
+	div.webcam {
+		width: 1045px;
+	}
     
     .title p {
         text-align: right;
@@ -42,10 +55,20 @@
         font-size: 20px;
         color: #fff;
     }
+    
 </style>
 
 <body>
-   <div id="wrap">
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-2">
+				
+				</div>
+				<div class="col-md-8">
+				   <div id="wrap">
   <section>
     <div class="pc">
       <article class="header">
@@ -71,13 +94,10 @@
           </div>
           <div class="cam-area">
 
-            <div class="cam-list">
-            </div>
           </div>
 
           <!-- 비디오 버튼 영역 -->
           <div class="cam-footer">
-            <p class="roomtitle"></p>
             <ul class="cam-btn">
               <li class="mic btn_on" onclick="mic_on_off(this)">
                 <img src="https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/on_mic.png" alt="마이크 재생">
@@ -95,12 +115,37 @@
           </div>
         </div>
         <!-- 비디오 영역 끝 -->
+                	<!-- 채팅 영역 -->
+      <iframe
+        src="https://www.vchatcloud.com/chat-demo/iframe/iframe_pc/index.html?channelKey=VBrhzLZgGG-nAFo5CS7jp-20210802120142"
+        frameborder="no"
+        scrolling="no"
+        marginwidth="0"
+        marginheight="0"
+        width="396"
+        height="736"
+      ></iframe>
 
       </article>
     </div>
     <!-- 샘플 화면 끝 -->
   </section>
 </div>
+				</div>
+				<div class="col-md-2">
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
 
 </body>
 
