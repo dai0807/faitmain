@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.faitmain.domain.live.controller.LiveController;
 import com.faitmain.domain.live.domain.Live;
 import com.faitmain.domain.live.domain.LiveChat;
 import com.faitmain.domain.live.domain.LiveProduct;
@@ -17,7 +18,9 @@ import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.live.mapper.LiveMapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service("liveServiceImpl")
 @Transactional
 @RequiredArgsConstructor
@@ -62,12 +65,13 @@ public class LiveServiceImpl implements LiveService {
 	}
 	
 	public Map<String, Object> getLiveList() throws Exception {
+		log.info("Impl getLiveList start...");
 		List<Live> list = liveMapper.getLiveList();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		map.put("list", list);
-		
+		map.put("liveList", list);
+		log.info("Impl getLiveList end...");
 		return map;
 	}
 	
