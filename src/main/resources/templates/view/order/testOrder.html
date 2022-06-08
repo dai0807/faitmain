@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html layout:decorate = "~{layout/default_layout}"
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+  <!--  고유 CSS 추가 -->
+
+
+  <!--  고유 스크립트 추가 -->
+  <!-- iamport.payment.js -->
+  <script src = "https://cdn.iamport.kr/js/iamport.payment-1.1.5.js" type = "text/javascript"></script>
+  <!--
+  <script>
+      const data = {
+          payMethod: $("input[type='radio']:checked").val(),
+          orderNumber: $("#orderNumber").val(),
+          totalPaymentPrice: Number($("#totalPaymentPrice").val()) - Number($(".usingPoint_input").val()),
+          receiverName: $("#receiverName").val(),
+          receiverPhone: $("#receiverPhone"),
+          receiverAddress: $("#receiverAddress"),
+          receiverRequest: $("#receiverRequest"),
+      }
+
+      const {IMP} = window;
+      IMP.init("imp76668016");
+
+      IMP.request_pay({
+          pg: 'html5_inicis',
+          pay_method: data.payMethod, //card(신용카드), trans(실시간계좌이체), vbank(가상계좌), phone(휴대폰소액결제)
+          merchant_uid: data.orderNumber, //상점에서 관리하시는 고유 주문번호를 전달
+          amount: data.totalPaymentPrice,
+          buyer_name: data.receiverName,
+          buyer_tel: data.receiverPhone,
+          buyer_addr: data.receiverAddress,
+      }, function (rsp) {
+          if (rsp.success) {
+              //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+              jQuery.ajax({
+                  url: "/payments/complete", //cross-domain error가 발생하지 않도록 주의해주세요
+                  type: 'POST',
+                  dataType: 'json',
+                  data: {
+                      imp_uid: rsp.imp_uid
+                      //기타 필요한 데이터가 있으면 추가 전달
+                  }
+              }).done(function (data) {
+                  if (rsp.success) {
+                      var msg = '결제가 완료되었습니다.';
+                      msg += '고유ID : ' + rsp.imp_uid;
+                      msg += '상점 거래ID : ' + rsp.merchant_uid;
+                      msg += '결제 금액 : ' + rsp.paid_amount;
+                      msg += '카드 승인번호 : ' + rsp.apply_num;
+                  } else {
+                      var msg = '결제에 실패하였습니다.';
+                      msg += '에러내용 : ' + rsp.error_msg;
+                  }
+              });
+          } else {
+              var msg = '결제에 실패하였습니다.';
+              msg += '에러내용 : ' + rsp.error_msg;
+
+              alert(msg);
+          }
+      });
+  </script>
+  -->
+
+</head>
+<style>
+
+  .row-cols-1 > * {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+</style>
+
+<body>
+
+<!-- Page Content-->
+<article class="py-5" layout:fragment="content"  >
+
+  <!-- Team members section-->
+  <section class="py-5 bg-light">
+    <div class="container px-5 my-5">
+      <div class="text-center">
+        <h2 class="fw-bolder">Our team</h2>
+        <p class="lead fw-normal text-muted mb-5">Dedicated to quality and your success</p>
+      </div>
+      <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
+        <div class="col mb-5 mb-5 mb-xl-0 temp">
+          <div class="text-center">
+            <img class="img-fluid rounded-circle mb-4 px-4" src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..." />
+            <h5 class="fw-bolder">Ibbie Eckart</h5>
+            <div class="fst-italic text-muted">Founder &amp; CEO</div>
+          </div>
+        </div>
+
+        <br>
+        <div class="col mb-5 mb-5 mb-xl-0 temp">
+          <div class="text-center">
+            <img class="img-fluid rounded-circle mb-4 px-4" src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..." />
+            <h5 class="fw-bolder">Arden Vasek</h5>
+            <div class="fst-italic text-muted">CFO</div>
+          </div>
+        </div>
+        <div class="col mb-5 mb-5 mb-sm-0 temp">
+          <div class="text-center">
+            <img class="img-fluid rounded-circle mb-4 px-4" src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..." />
+            <h5 class="fw-bolder">Toribio Nerthus</h5>
+            <div class="fst-italic text-muted">Operations Manager</div>
+          </div>
+        </div>
+        <div class="col mb-5 temp">
+          <div class="text-center">
+            <img class="img-fluid rounded-circle mb-4 px-4" src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..." />
+            <h5 class="fw-bolder">Malvina Cilla</h5>
+            <div class="fst-italic text-muted">CTO</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="container px-5">
+    <h1 class="fw-bolder fs-5 mb-4">Company Blog</h1>
+    <div class="card border-0 shadow rounded-3 overflow-hidden">
+      <div class="card-body p-0">
+        <div class="row gx-0">
+          <div class="col-lg-6 col-xl-5 py-lg-5">
+            <div class="p-4 p-md-5">
+              <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
+              <div class="h2 fw-bolder">Article heading goes here</div>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique delectus ab doloremque, qui doloribus ea officiis...</p>
+              <a class="stretched-link text-decoration-none" href="#!">
+                Read more
+                <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-6 col-xl-7"><div class="bg-featured-blog" style="background-image: url('https://dummyimage.com/700x350/343a40/6c757d')"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Page content-->
+  <section class="py-5">
+    <div class="container px-5">
+      <!-- Contact form-->
+      <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+        <div class="text-center mb-5">
+          <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
+          <h1 class="fw-bolder">Get in touch</h1>
+          <p class="lead fw-normal text-muted mb-0">We'd love to hear from you</p>
+        </div>
+        <div class="row gx-5 justify-content-center">
+          <div class="col-lg-8 col-xl-6">
+            <!-- * * * * * * * * * * * * * * *-->
+            <!-- * * SB Forms Contact Form * *-->
+            <!-- * * * * * * * * * * * * * * *-->
+            <!-- This form is pre-integrated with SB Forms.-->
+            <!-- To make this form functional, sign up at-->
+            <!-- https://startbootstrap.com/solution/contact-forms-->
+            <!-- to get an API token!-->
+            <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+              <!-- Name input-->
+              <div class="form-floating mb-3">
+                <input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
+                <label for="name">Full name</label>
+                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+              </div>
+              <!-- Email address input-->
+              <div class="form-floating mb-3">
+                <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
+                <label for="email">Email address</label>
+                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
+                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+              </div>
+              <!-- Phone number input-->
+              <div class="form-floating mb-3">
+                <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
+                <label for="phone">Phone number</label>
+                <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
+              </div>
+              <!-- Message input-->
+              <div class="form-floating mb-3">
+                <textarea class="form-control" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
+                <label for="message">Message</label>
+                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
+              </div>
+              <!-- Submit success message-->
+              <!---->
+              <!-- This is what your users will see when the form-->
+              <!-- has successfully submitted-->
+              <div class="d-none" id="submitSuccessMessage">
+                <div class="text-center mb-3">
+                  <div class="fw-bolder">Form submission successful!</div>
+                  To activate this form, sign up at
+                  <br />
+                  <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                </div>
+              </div>
+              <!-- Submit error message-->
+              <!---->
+              <!-- This is what your users will see when there is-->
+              <!-- an error submitting the form-->
+              <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+              <!-- Submit Button-->
+              <div class="d-grid"><button class="btn btn-primary btn-lg disabled" id="submitButton" type="submit">Submit</button></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pricing section-->
+      <section class="bg-light py-5">
+        <div class="container px-5 my-5">
+          <div class="text-center mb-5">
+            <h1 class="fw-bolder">Pay as you grow</h1>
+            <p class="lead fw-normal text-muted mb-0">With our no hassle pricing plans</p>
+          </div>
+          <div class="row gx-5 justify-content-center">
+            <!-- Pricing card pro-->
+            <div class="col-lg-6 col-xl-4">
+              <div class="card mb-5 mb-xl-0">
+                <div class="card-body p-5">
+                  <div class="small text-uppercase fw-bold">
+                    <i class="bi bi-star-fill text-warning"></i>
+                    Pro
+                  </div>
+                  <div class="mb-3">
+                    <span class="display-4 fw-bold">$9</span>
+                    <span class="text-muted">/ mo.</span>
+                  </div>
+                  <ul class="list-unstyled mb-4">
+                    <li class="mb-2">
+                      <i class="bi bi-check text-primary"></i>
+                      <strong>5 users</strong>
+                    </li>
+                    <li class="mb-2">
+                      <i class="bi bi-check text-primary"></i>
+                      5GB storage
+                    </li>
+                    <li class="mb-2">
+                      <i class="bi bi-check text-primary"></i>
+                      Unlimited public projects
+                    </li>
+                    <li class="mb-2">
+                      <i class="bi bi-check text-primary"></i>
+                      Community access
+                    </li>
+                    <li class="mb-2">
+                      <i class="bi bi-check text-primary"></i>
+                      Unlimited private projects
+                    </li>
+                    <li class="mb-2">
+                      <i class="bi bi-check text-primary"></i>
+                      Dedicated support
+                    </li>
+                    <li class="mb-2">
+                      <i class="bi bi-check text-primary"></i>
+                      Free linked domain
+                    </li>
+                    <li class="text-muted">
+                      <i class="bi bi-x"></i>
+                      Monthly status reports
+                    </li>
+                  </ul>
+                  <div class="d-grid"><a class="btn btn-primary" href="#!">Choose plan</a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+</article>
+
+</body>
+</html>

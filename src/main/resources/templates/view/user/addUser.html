@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{/layout/default_layout}">
+ 
+
+<head>
+    <meta charset = "UTF-8">
+    <title>회원 가입 </title>
+    <style>
+	  .align-center {
+  text-align: center;
+}
+    </style>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<!-- 주소 api-->
+<script type="text/javascript">
+		
+		
+		
+		function email_check( id ) {
+
+				var emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/ ;
+			    return (id != '' && id != 'undefined' && emailRule.test(id));
+			
+			}
+			
+ 		
+ 			 $(function() {	
+				$("#password2").on("keyup",function (){
+					console.log($("input[name='password']"))
+					
+							var pw=$("input[name='password']").val();
+							var pw_confirm=$("input[name='password2']").val();
+						console.log(pw);
+						console.log(pw_confirm);
+						
+							
+							if( pw != pw_confirm ) {				
+ 								$("input:text[name='password2']").focus();
+							 $('.pw_ok').css("display", "none");
+							 $('.text-dange').css("display", "inline-block");
+				
+								return;
+							}
+							 $('.pw_ok').css("display", "inline-block");
+							 $('.text-dange').css("display", "none");
+				
+					})		
+						
+			});
+			
+ 		
+ 				
+ 		$(function() {	
+			$("#id").on("keyup",function (){ 		
+			  var  id = $('#id').val(); //id값이 "id"인 입력란의 값을 저장
+			
+				console.log("id :: "+ id ) ;
+					if(id == null || id.length <9 ){
+					console.log("이메일 검사 ")
+						return false;
+					} 
+					
+					if(email_check(id)){
+										console.log("이메일 검사 통과!! 중복 검사하러감 !!  ")
+
+						 $.ajax({
+				             url:"/user/idCheck?id="+id,
+				             type:'GET',
+				             
+				             success:function(cnt){ //컨트롤러에서 넘어온 cnt값을 받는다 
+				                 if(cnt != 1){ //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 아이디 
+				             
+									 $('.text-danger').css("display","none");
+				                     $('.id_ok').css("display", "inline-block");
+				                     $('.id_info').css("display", "none");
+
+
+
+
+				                 } else { // cnt가 1일 경우 -> 이미 존재하는 아이디
+				                     $('.text-danger').css("display","inline-block");
+				                     $('.id_ok').css("display", "none");
+				                     $('.id_info').css("display", "none");
+
+				                     
+				                 }
+				             },
+				             error:function(){
+				                 alert("에러입니다");
+				             }
+						         });		
+						      }
+						         
+						})	
+			});
+			
+ 		function findAddr(){
+				new daum.Postcode({
+			        oncomplete: function(data) {
+			        	
+			        	console.log(data);
+			        	
+			            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+			            // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+			            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+			            var roadAddr = data.roadAddress; // 도로명 주소 변수
+			            var jibunAddr = data.jibunAddress; // 지번 주소 변수
+			            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+			            $("#member_post").val(data.zonecode) ;
+			            
+//			            document.getElementById('member_post').value = data.zonecode;
+			            if(roadAddr !== ''){
+ 				            $("#member_addr").val(roadAddr) ;
+
+			              //  document.getElementById("member_addr").value = roadAddr;
+			            } 
+			            else if(jibunAddr !== ''){
+ 				            $("#member_addr").val(jibunAddr) ;
+
+			               // document.getElementById("member_addr").value = jibunAddr;
+			            }
+			        }
+			    }).open();
+			}
+			</script>		
+ 		
+ 		
+ 		
+	</script>						
+							
+							
+			 
+			 
+			 
+		     
+		
+
+
+
+
+
+
+
+</head>
+
+	<body>
+	
+<article class="py-5" layout:fragment="content"  >
+
+    <!-- Team members section-->
+    <section class="py-5">
+    
+        <div class="container px-5 my-5">
+        
+            <div class="text-center">
+                <h2 class="fw-bolder">회원 가입 </h2>
+                <p class="lead fw-normal text-muted mb-5">회원 정보를 입력해주세요 </p>
+            </div>
+            
+             
+            
+            
+            
+         <div class="col mb-5 h-10">
+		<form class="form-horizontal">
+		
+		  <div class="form-group">
+		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">아 이 디</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" id="id" name="id" placeholder="이메일을 입력하세요"  >
+		       <span id="helpBlock" class="help-block">
+ 		     	 <span class="id_ok" 		style="display:none;" >사용 가능한 id 입니다.</span>
+				 <span class="text-danger" 	style="display:none;" >사용 불가한 id입니다.</span>
+				 <span class="id_info"  >사용 가능한 이메일을 입력해주세요</span>
+		      </span>
+		    </div>
+		  
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="password" class="col-sm-offset-1 col-sm-3 control-label">비밀번호</label>
+		    <div class="col-sm-4">
+		      <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호">
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="password2" class="col-sm-offset-1 col-sm-3 control-label">비밀번호 확인</label>
+		    <div class="col-sm-4">
+		      <input type="password" class="form-control" id="password2" name="password2" placeholder="비밀번호 확인" >
+		    </div>
+		    <span id="helpBlock" class="help-block">
+ 		     	 <span class="pw_ok" 		style="display:none;" >패스워드가 일치합니다.</span>
+ 				 <span class="text-dange"  >일치하는 패스워드를 입력해주세요</span>
+		      </span>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="userName" class="col-sm-offset-1 col-sm-3 control-label">이름</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" id="userName" name="userName" placeholder="회원이름"  oninput ="checkName()" >
+		    </div>
+		    
+	    
+		  </div>
+		  <div class="form-group">
+		    <label for="userName" class="col-sm-offset-1 col-sm-3 control-label">닉네임</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" id="userName" name="userName" placeholder="닉네임 유효성 검사 "  oninput ="checkName()" >
+		    </div>
+		    
+	    
+		  </div>		  
+		
+		  
+		  <div class="form-group">
+	
+
+ 				    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">주소</label>
+				    <div class="col-sm-6">
+				       <div class="input-group mb-2">
+                                    <input class="form-control" id="member_post" type="text" placeholder="우편주소." readonly />
+                                    <button class="btn btn-success" id="button-newsletter" type="button" onclick="findAddr()">주소찾기</button>
+                                </div>
+ 				       <input type="text" id="member_addr" class="form-control"  placeholder="주소"  readonly>
+				       <input type="text" id="member_addr1" class="form-control"  placeholder="추가입력" >
+				       
+ 				    </div>
+				     
+		  </div>
+		  
+
+
+
+
+
+		 
+		  <div class="form-group">
+	 
+		  </div>
+		  
+		  <div>
+		  <table class="mobileNo"> 
+		  <th> 
+		  <label for="phone">휴대폰 번호</label> 
+		  </th>
+		   <td> <p> <input id="phone" type="text" name="phone" title="전화번호 입력" required/> 
+		   
+		   
+		  <!--  <button id="phoneChk" class="doubleChk"  > 인증번호 보내    </button> <br/>--> 
+		 <span id="phoneChk" class="doubleChk">인증번호 보내기</span><br/>   
+		   <input id="phone2" type="text" name="CertificationNumber" title="인증번호 입력" disabled required/> 
+		   
+		   
+		 <!--  <button id="phoneChk2" class="doubleChk"  > 본인인증   </button> <br/> -->
+		   
+		   <span id="phoneChk2" class="doubleChk3">본인인증</span>  <br/>  
+		   <span class="point successPhoneChk">휴대폰 번호 입력후 인증번호 보내기를 해주십시오.</span>  
+		   <input type="hidden" id="phoneDoubleChk"/> </p> <p class="tip"> 최초 가입 시에만 사용하고 있습니다. 따로 저장되지 않습니다.(번호만 입력해주세요.)
+		    </p> 
+		    </td> 
+		  
+		  
+		  
+		  		
+		  
+ 		    </table>
+
+ 		  
+		  </div>
+		  
+		  
+		  
+		               <div class="d-grid"><button class="btn btn-dark btn-lg" id="loginButton" type="submit">회원가입</button></div>
+
+            </form>
+        </div>
+        </div>
+        
+    </section>
+
+</article>
+	
+	
+	
+	
+	</body>
+
+
+</html>

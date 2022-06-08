@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.mapper.ProductMapper;
 import com.faitmain.global.common.Image;
+import com.faitmain.global.common.Search;
 
 import lombok.RequiredArgsConstructor;
 
