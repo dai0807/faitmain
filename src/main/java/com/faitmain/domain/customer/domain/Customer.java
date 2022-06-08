@@ -15,12 +15,14 @@ public class Customer{
 	private String boardTitle;
 	private String boardContent;
 //	private List<Image> boardImage;
-	private Date regDate;
-	private Date updateDate;
+	private Date BoardRegDate;
+	private Date BoardUpdateDate;
 	private int FAQCategoryCode;
 	private char boardType;
 	private User customerId;
 //	private int totalCount;
+	private int viewCnt;
+	private String delete_yn;
 
 
 

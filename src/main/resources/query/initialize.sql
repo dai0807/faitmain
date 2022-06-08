@@ -250,6 +250,10 @@ ALTER TABLE `order` AUTO_INCREMENT = 10000;
 ---ALERT customer
 
 ALTER TABLE customer MODIFY COLUMN customer_FAQ_category_code INT NULL;
+ALTER TABLE customer MODIFY reg_date TIMESTAMP; 
+ALTER TABLE customer MODIFY update_date TIMESTAMP;
+ALTER TABLE customer ADD view_cnt INT DEFAULT 0;
+ALTER TABLE customer ADD delete_yn ENUM('Y', 'N') NOT NULL DEFAULT 'N' ;
 
 ---ALERT ban_period
 

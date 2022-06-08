@@ -2,6 +2,9 @@ package com.faitmain.domain.customer.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +16,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.mapper.UserMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.io.JsonEOFException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -35,8 +42,8 @@ public class CustomerMapperTest{
 		user.setId("admin@naver.com");
 		
 		//customer.setBoardNumber(5);
-		customer.setBoardTitle("TITLE 1");
-		customer.setBoardContent("CONTENT 1");
+		customer.setBoardTitle("TITLE 17");
+		customer.setBoardContent("CONTENT 17");
 		customer.setFAQCategoryCode(1);
 		customer.setBoardType('c');
 		customer.setCustomerId(user);
@@ -46,20 +53,20 @@ public class CustomerMapperTest{
 		int result = customerMapper.addCustomerBoard(customer);
 		System.out.println("result = " + result);
 		
-		customer = customerMapper.getCustomerBoard(7);
-		System.out.println(customer);
-		
-		//assertThat(customer.getBoardNumber()).isEqualTo(5);
-		assertThat(customer.getBoardTitle()).isEqualTo("TITLE 1");
-		assertThat(customer.getBoardContent()).isEqualTo("CONTENT 1");
-		assertThat(customer.getFAQCategoryCode()).isEqualTo(1);
-		assertThat(customer.getBoardType()).isEqualTo('c');
-		assertThat(customer.getCustomerId().getId()).isEqualTo("admin@naver.com");
-		
+//		customer = customerMapper.getCustomerBoard(7);
+//		System.out.println(customer);
+//		
+//		//assertThat(customer.getBoardNumber()).isEqualTo(5);
+//		assertThat(customer.getBoardTitle()).isEqualTo("TITLE 17");
+//		assertThat(customer.getBoardContent()).isEqualTo("CONTENT 17");
+//		assertThat(customer.getFAQCategoryCode()).isEqualTo(1);
+//		assertThat(customer.getBoardType()).isEqualTo('c');
+//		assertThat(customer.getCustomerId().getId()).isEqualTo("admin@naver.com");
+//		
 		System.out.println("addCustomerBoardTest end");
 	}
 	
-	//@Test
+//	@Test
 	public void updateCustomerBoardTest() throws Exception{
 		System.out.println("updateCustomerBoardTest start");
 		
@@ -67,52 +74,125 @@ public class CustomerMapperTest{
 		User user = new User();
 		user.setId("admin@naver.com");
 		
-		customer.setBoardNumber(15);
-		customer.setBoardTitle("TITLE correction");
-		customer.setBoardContent("CONTENT correction");
+		customer.setBoardNumber(17);
+		customer.setBoardTitle("공지사항17");
+		customer.setBoardContent("17번째 공지사항입니다.");
 		customer.setFAQCategoryCode(3);
-		customer.setBoardType('r');
+		customer.setBoardType('N');
 		customer.setCustomerId(user);
 		
 		System.out.println(customer);
 		
 		int result = customerMapper.updateCustomerBoard(customer);
 		System.out.println("result = " + result);
+		if(result == 17) {
+			Customer customer1 = customerMapper.getCustomerBoard(17);
+			try {
+				String boardJson = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(customer1);
+				
+				System.out.println("====================");
+				System.out.println(boardJson);
+				System.out.println("====================");
+			}catch(JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		}
 		
-		Customer updateCustomerBoard = customerMapper.getCustomerBoard(15);
-		System.out.println(updateCustomerBoard);
-		
-		//assertThat(customer.getBoardNumber()).isEqualTo(5);
-		assertThat(updateCustomerBoard.getBoardTitle()).isEqualTo("TITLE correction");
-		assertThat(updateCustomerBoard.getBoardContent()).isEqualTo("CONTENT correction");
-		assertThat(updateCustomerBoard.getFAQCategoryCode()).isEqualTo(3);
-		assertThat(updateCustomerBoard.getBoardType()).isEqualTo('r');
-		assertThat(updateCustomerBoard.getCustomerId().getId()).isEqualTo("admin@naver.com");
-		
-		System.out.println("updateCustomerBoardTest end");
+//		Customer updateCustomerBoard = customerMapper.getCustomerBoard(15);
+//		System.out.println(updateCustomerBoard);
+//		
+//		//assertThat(customer.getBoardNumber()).isEqualTo(5);
+//		assertThat(updateCustomerBoard.getBoardTitle()).isEqualTo("TITLE correction");
+//		assertThat(updateCustomerBoard.getBoardContent()).isEqualTo("CONTENT correction");
+//		assertThat(updateCustomerBoard.getFAQCategoryCode()).isEqualTo(3);
+//		assertThat(updateCustomerBoard.getBoardType()).isEqualTo('r');
+//		assertThat(updateCustomerBoard.getCustomerId().getId()).isEqualTo("admin@naver.com");
+//		
+//		System.out.println("updateCustomerBoardTest end");
 	}
 	
-	//@Test
+//	@Test
 	public void getCustomerBoardTest() throws Exception{
 		System.out.println("getCustomerBoardTest start");
 		
-		Customer getCustomerBoard = customerMapper.getCustomerBoard(19);
+		Customer customer = customerMapper.getCustomerBoard(16);
 		
-		assertThat(getCustomerBoard.getBoardTitle()).isEqualTo("TITLE correction");
-		assertThat(getCustomerBoard.getBoardContent()).isEqualTo("CONTENT correction");
-		assertThat(getCustomerBoard.getFAQCategoryCode()).isEqualTo(4);
-		assertThat(getCustomerBoard.getBoardType()).isEqualTo('N');
-		assertThat(getCustomerBoard.getCustomerId().getId()).isEqualTo("admin@naver.com");
-		
-		System.out.println("getCustomerBoardTest end");
+		try {
+			String boardJson = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(customer);
+			
+			System.out.println("=================");
+			System.out.println(boardJson);
+			System.out.println("=================");
+		}catch(JsonEOFException e) {
+			e.printStackTrace();
+		}
+//		
+//		assertThat(getCustomerBoard.getBoardTitle()).isEqualTo("TITLE correction");
+//		assertThat(getCustomerBoard.getBoardContent()).isEqualTo("CONTENT correction");
+//		assertThat(getCustomerBoard.getFAQCategoryCode()).isEqualTo(4);
+//		assertThat(getCustomerBoard.getBoardType()).isEqualTo('N');
+//		assertThat(getCustomerBoard.getCustomerId().getId()).isEqualTo("admin@naver.com");
+//		
+//		System.out.println("getCustomerBoardTest end");
 				
 	}
 	
-	@Test
-	public void getCustomerBoardListTest() throws Exception{
-		System.out.println("getCustomerBoardListTest start");
+//	@Test
+	public void multipleAddTest() throws Exception{
+		System.out.println("multipleAddTest start");
 		
-		System.out.println("getCustomerBoardListTest end");
+		Customer customer = new Customer();
+		User user = new User();
+		
+		for(int i =2; i<10; i++) {
+			
+			user.setId("admin@naver.com");
+			customer.setBoardNumber(i);
+			customer.setBoardTitle(i + "번 게시글 제목");
+			customer.setBoardContent(i + "번 게시글 내용");
+			customer.setCustomerId(user);
+			customer.setBoardType('N');
+			customer.setDelete_yn("N");
+			customerMapper.addCustomerBoard(customer);
+		}
+		System.out.println("multipleAddTest end");
+	}
+	
+	@Test
+	public void getCustomerBoardList() throws Exception{
+		int boardTotalCount = customerMapper.getBoardTotalCount();
+		
+		if(boardTotalCount > 0) {
+			List<Customer> list = customerMapper.getCustomerBoardList();
+			if(CollectionUtils.isEmpty(list)) {
+				for(Customer customer : list) {
+					System.out.println("============================");
+					System.out.println(customer.getBoardTitle());
+					System.out.println(customer.getBoardContent());
+					System.out.println(customer.getCustomerId());
+					System.out.println(customer.getBoardRegDate());
+					System.out.println("============================");
+				}
+			}
+		}
+	}
+	
+//	@Test
+	public void deleteCustomerBoard() throws Exception {
+		int result = customerMapper.deleteCustomerBoard(17);
+		if(result == 17) {
+			Customer customer = customerMapper.getCustomerBoard(17);
+			
+			try {
+				String boardJson = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(customer);
+				
+				System.out.println("=================");
+				System.out.println(boardJson);
+				System.out.println("=================");
+			}catch(JsonEOFException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 
