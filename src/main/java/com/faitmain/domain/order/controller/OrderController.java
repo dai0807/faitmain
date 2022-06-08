@@ -34,8 +34,8 @@ public class OrderController{
         return "view/order/payment";
     }
 
-    @GetMapping( "/testOrder" )
+    @GetMapping( "/orderList" )
     public String testORder(){
-        return "view/order/testOrder";
+        return "view/order/getOrderList";
     }
 }
