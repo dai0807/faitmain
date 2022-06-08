@@ -305,6 +305,13 @@ public class LiveController {
 	   return "/view/live/premieumLiveCal";
    }
    
-      
+   @GetMapping("getPremeiumLiveList")
+   public String getPremieumLiveList() {
+	   log.info("getPremieumLiveList() : GET start... ");
+	   
+	   
+	   log.info("getPremieumLiveList() : GET end... ");
+	   return "/view/live/premieumLiveList";
+   }
 
 }
