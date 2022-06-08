@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.global.common.Image;
+import com.faitmain.global.common.Search;
 
 @Mapper
 public interface ProductMapper {

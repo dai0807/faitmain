@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.global.common.Image;
+import com.faitmain.global.common.Search;
 
 public interface ProductService {
 
