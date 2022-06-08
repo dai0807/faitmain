@@ -24,7 +24,6 @@ public interface CartService {
 
 
 
-	Cart cartList( Cart cart) throws Exception;
 
 
 

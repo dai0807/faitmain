@@ -27,6 +27,11 @@ public class OrderController{
     }
 
 
+    @GetMapping( "/payment" )
+    public String papay(){
+        return "view/order/payment";
+    }
+
     @GetMapping( "/createOrder" )
     public String payment(){
 

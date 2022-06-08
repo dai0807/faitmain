@@ -144,6 +144,8 @@ public class CartRestController{
             cart.setCartCookieId( cartCookie );
 //            list = cartService.cartList(  );
         }
+
+        return null;
     }
 
 }
