@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,17 +43,23 @@ public class CartRestController {
 		
 		log.info("/cart/json/addCart");
 		
-		boolean result = false;
+		log.info("받은 카트 정보 : " + cart.getCartProduct().getProductName());
 		
+		cart.setUserId("user01@naver.com");
+				
 		Cart prevCart = cartService.getCart(cart);
+		
+		boolean result = false;
 		
 		if(prevCart == null) {
 			cartService.addCart(cart);
 			result = true;
-		}		
+		}
 		
-		return Collections.singletonMap("success", result);
+		return Collections.singletonMap("result", result);
+		
 	}
+	
 	
 	@PostMapping("json/updateCart")
 	public Map<String, Boolean> updateCart(@RequestBody Cart cart) throws Exception{
