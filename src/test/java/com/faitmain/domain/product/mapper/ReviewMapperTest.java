@@ -1,5 +1,7 @@
 package com.faitmain.domain.product.mapper;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.faitmain.domain.order.mapper.OrderMapper;
 import com.faitmain.domain.product.domain.Cart;
 import com.faitmain.domain.product.domain.Review;
+import com.faitmain.global.common.Search;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -30,7 +33,7 @@ public class ReviewMapperTest {
 	@Autowired
 	private ProductMapper productMapper;
 	
-	@Test
+//	@Test
 	@DisplayName("addReview Mapper Test")
 	public void addReviewTest() throws Exception{
 		
@@ -47,7 +50,7 @@ public class ReviewMapperTest {
 		System.out.println("addReviewTest end");
 	}
 	
-	@Test
+//	@Test
 	@DisplayName("getReview Mapper Test")
 	public void getReviewTest() throws Exception{
 		
@@ -65,17 +68,22 @@ public class ReviewMapperTest {
 		
 		System.out.println("getReviewListTest start");
 		
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("startRowNum", 1+"");
-		map.put("endRowNum", 5+"");
+		Search search = new Search();
+		search.setStartRowNum(1);
+		search.setEndRowNum(5);
 		
-		List<Review> reviews = reviewMapper.getReviewList(map);
+		List<Review> reviews = reviewMapper.getReviewList(search);
+		int totalCount = reviewMapper.getTotalCount(search);
 		
 		System.out.println(reviews);		
+		System.out.println(totalCount);
+		
+		assertThat(totalCount).isEqualTo(0);
+		
 		System.out.println("getReviewListTest end");
 	}
 	
-	@Test
+//	@Test
 	@DisplayName("updateReview Mapper Test")
 	public void updateReviewTest() throws Exception{
 		
@@ -92,7 +100,7 @@ public class ReviewMapperTest {
 		System.out.println("updateReviewTest end");
 	}
 	
-	@Test
+//	@Test
 	@DisplayName("deleteReview Mapper Test")
 	public void deleteReviewTest() throws Exception{
 		

@@ -5,7 +5,7 @@
 					
 <mapper namespace="com.faitmain.domain.product.mapper.ProductMapper">
 
-	<resultMap id="productSelectMap" type="com.faitmain.domain.product.domain.Product">
+	<resultMap id="productSelectMap" type="Product">
 		<result property="productNumber" 		column="product_number" 		jdbcType="INTEGER"/>
 		<result property="productName"			column="product_name" 			jdbcType="VARCHAR" />
 		<result property="price" 				column="price" 					jdbcType="INTEGER" />
@@ -18,8 +18,10 @@
 		<result property="deliveryCharge" 		column="delivery_charge" 		jdbcType="INTEGER" />
 		<result property="productGroupNumber" 	column="product_group_number" 	jdbcType="INTEGER" />
 		
-		<association property="store"  javaType="com.faitmain.domain.user.domain.User">
+		<association property="store"  javaType="User">
 			<id property="id" column="store_id" jdbcType="VARCHAR"/>
+			<result property="storeName" 			column="store_name" 				jdbcType="VARCHAR"/>
+			<result property="storelogoImage" 		column="store_logo_image" 			jdbcType="VARCHAR"/>
 		</association>		
 		
 	</resultMap>
@@ -32,19 +34,22 @@
 	</resultMap>
 	
 	<!-- 상품 등록 -->
-	<insert id="addProduct" parameterType="com.faitmain.domain.product.domain.Product">		
+	<insert id="addProduct" parameterType="Product">		
 		INSERT
 		INTO product(product_name, price, store_id, product_main_image, product_detail, product_category_code, reg_date, delivery_charge, product_quantity, product_group_number)
-		VALUES (#{productName}, #{price}, #{store.id}, #{productMainImage}, #{productDetail:LONGVARCHAR}, #{categoryCode}, NOW(), #{deliveryCharge}, #{productQuantity}, 
+		VALUES (#{productName}, #{price}, #{store.id}, #{productMainImage}, #{productDetail:LONGVARCHAR}, #{categoryCode}, NOW(), 3000, #{productQuantity}, 
 				<if test="productGroupNumber == 0">null</if>
-				<if test="productGroupNumber != 0">#{product_group_number}</if>)
+				<if test="productGroupNumber != 0">#{productGroupNumber}</if>)
+		<selectKey keyProperty="productGroupNumber" resultType="INTEGER" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 	</insert>	
 	
 	<!-- 상품 추가 이미지 등록 (최대 6개) -->
 	<insert id="addProductImage" parameterType="com.faitmain.global.common.Image">
 		INSERT 
 		INTO image (image_classification_code, image_classification_number, image_name)
-		VALUES ('P', #{productNumber}, #{productImage})
+		VALUES ('P', #{imageClassificationNumber}, #{imageName})
 	</insert>
 	
 	<!-- 마지막 상품번호 조회 -->
@@ -57,12 +62,16 @@
 	
 	<!-- 상품 상세 조회 (상품, 상품 추가 사진, 상품 옵션 가져와야 됨)-->	    
     <select id="getProduct" parameterType="int"	resultMap="productSelectMap">
-    	SELECT * 
+    	SELECT p.*, u.store_name, u.store_logo_image 
+    	FROM product p, user u 
+    	WHERE p.store_id = u.id 
+    		  AND product_number = #{productNumber};
+    	<!-- SELECT * 
     	FROM product
-    	WHERE product_number = #{productNumber} 
+    	WHERE product_number = #{productNumber} --> 
     </select>
 	
-	<select id="getImage" parameterType="int"	resultMap="productSelectMap">
+	<select id="getImage" parameterType="int"	resultMap="imageSelectMap">
 		SELECT * 
 		FROM image 
 		WHERE image_classification_code = 'P' AND image_classification_number = #{value}
@@ -85,17 +94,17 @@
 									product_group_number is null
 									
 									<if test="searchCondition != null">
-										<if test="searchCondition == 상품상태로 검색 and searchKeyword !='' ">
-							 				AND p.product_status IN (${searchKeyword})
+										<if test="searchStatus !='' ">
+							 				AND p.product_status IN (${searchStatus})
 										</if> 
-										<if test="searchCondition == 검색어로 검색 and searchKeyword !='' ">
+										<if test="searchKeyword !='' ">
 							 				AND p.product_name LIKE '%'||#{searchKeyword}||'%'
 										</if>										
-										<if test="searchCondition == 카테고리로 검색 and searchKeyword !='' ">
-							 				AND p.product_category_code = #{searchKeyword}
+										<if test="searchCategory !='' ">
+							 				AND p.product_category_code = #{searchCategory}
 										</if>																			
 									</if>
-									<if test="productRegDate != null">
+									<if test="beforeDate != null and afterDate != null">
 										AND p.reg_date BETWEEN #{beforeDate} and #{afterDate}
 									</if>
 								</where>
@@ -131,7 +140,7 @@
 	 </select> 
 
 	<!-- 상품 수정 -->	
-	<update id="updateProduct" parameterType="com.faitmain.domain.product.domain.Product" >
+	<update id="updateProduct" parameterType="Product" >
 		UPDATE product
 		<set>
 			product_name = #{productName},
@@ -155,7 +164,7 @@
 		WHERE image_number = #{imageNumber}
 	</update>
 	
-	<update id="updateProductStatus" parameterType="com.faitmain.domain.product.domain.Product">
+	<update id="updateProductStatus" parameterType="Product">
 		UPDATE product
 		SET product_status = #{productStatus}
 		WHERE product_number = #{productNumber} 

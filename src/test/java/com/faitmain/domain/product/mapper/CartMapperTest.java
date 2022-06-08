@@ -53,9 +53,9 @@ public class CartMapperTest {
 		map.put("startRowNum", 1+"");
 		map.put("endRowNum", 5+"");
 		
-		List<Cart> carts = cartMapper.getCartList(map);
+//		List<Cart> carts = cartMapper.getCartList(map);
 		
-		System.out.println(carts);		
+//		System.out.println(carts);		
 		System.out.println("getCartListTest end");
 	}
 	

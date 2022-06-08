@@ -1,5 +1,6 @@
 package com.faitmain.domain.product.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.faitmain.domain.product.domain.Cart;
 import com.faitmain.domain.product.mapper.CartMapper;
+import com.faitmain.global.common.Search;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,9 +32,20 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public List<Cart> getCartList(Map<String, String> map) throws Exception {
-		List<Cart> list = cartMapper.getCartList(map);		
-		return list;
+	public Cart getCart(Cart cart) throws Exception {
+		return cartMapper.getCart(cart);
+	}
+	
+	@Override
+	public Map<String, Object> getCartList(Search search) throws Exception {
+		List<Cart> list = cartMapper.getCartList(search);
+		int totalCount = cartMapper.getTotalCount(search);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("list", list);
+		resultMap.put("totalCount", new Integer(totalCount));
+				
+		return resultMap;
 	}
 
 	@Override

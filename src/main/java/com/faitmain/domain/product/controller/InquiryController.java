@@ -29,7 +29,7 @@ public class InquiryController {
 	InquiryService inquiryService;
 
 	public InquiryController() {
-		System.out.println(this.getClass());
+		log.info("Controller = {} ", InquiryController.class);
 	}
 	
 	@GetMapping("addInquiry")
@@ -62,10 +62,10 @@ public class InquiryController {
 		return "forward:/inquiry/getInquiry.jsp";
 	}
 	
-	@GetMapping("listInquiry")
-	public String listInquiry(@ModelAttribute("search") Search search, @RequestParam("resultJsp") String resultJsp, Model model) throws Exception{
+	@GetMapping("getInquiryList")
+	public String getInquiryList(@ModelAttribute("search") Search search, @RequestParam("resultJsp") String resultJsp, Model model) throws Exception{
 		
-		log.info("/inquiry/listInquiry");
+		log.info("/inquiry/getInquiryList");
 		
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
@@ -87,7 +87,7 @@ public class InquiryController {
 	}
 	
 	@GetMapping("updateInquiry")
-	public String updateInquiry(@RequestParam("inquiryNumber") int inquiryNumber, Model model) throws Exception{
+	public String updateInquiry(@RequestParam("inquiryNumber") int inquiryNumber, @RequestParam("resultJsp") String resultJsp, Model model) throws Exception{
 		
 		log.info("/inquiry/updateInquiry : GET");
 		
@@ -97,7 +97,7 @@ public class InquiryController {
 		
 		log.info("inquiry : " + inquiry);
 		
-		return "forward:/inquiry/addInquiryReply.jsp";
+		return "forward:/inquiry/" + resultJsp;
 	}
 	
 	@PostMapping("updateInquiry")
@@ -117,7 +117,7 @@ public class InquiryController {
 		
 		inquiryService.deleteInquiry(inquiryNumber);
 		
-		return "redirect:/inquiry/listInquiry?currentPage=1&resultJsp=" + resultJsp;
+		return "redirect:/inquiry/listInquiry?resultJsp=" + resultJsp;
 	}
 	
 }

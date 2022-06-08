@@ -25,20 +25,36 @@
 		INTO cart(user_id, cart_quantity, product_number, product_name, product_price, product_main_image)
 		VALUES (#{userId}, #{cartQuantity}, #{cartProduct.productNumber}, #{cartProduct.productName}, #{cartProduct.price}, #{cartProduct.productMainImage})
 	</insert>	
+	
+	<select id="getCart"  parameterType="com.faitmain.domain.product.domain.Cart"	resultMap="cartSelectMap">
+		SELECT * FROM cart 
+		WHERE user_id = #{userId} AND product_number = #{cartProduct.productNumber};
+	</select>
 			
 	<!-- 장바구니 목록 조회 -->
-	<select  id="getCartList"  parameterType="map"	resultMap="cartSelectMap">
+	<select  id="getCartList"  parameterType="com.faitmain.global.common.Search"	resultMap="cartSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq
 	  			FROM		(	SELECT *
 								FROM cart
 								<where>
-									user_id = #{userId}
+									user_id = #{searchKeyword}
 								</where>
 						ORDER BY cart_number DESC ) inner_table
-				WHERE (@ROWNUM:=0)=0 limit #{endRowNum} )
+				WHERE (@ROWNUM:=0)=0 limit #{endRowNum} ) result_table
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
+	 
+	 <!-- SQL : SELECT ROW Count (현재 search 없음) -->	 
+	<select  id="getTotalCount"  parameterType="com.faitmain.global.common.Search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT *
+				FROM cart
+				<where>
+					user_id = #{searchKeyword}
+				</where>
+			) countTable						
+	 </select> 
 		
 	<!-- 장바구니 수정 -->	
 	<update id="updateCart" parameterType="com.faitmain.domain.product.domain.Cart" >

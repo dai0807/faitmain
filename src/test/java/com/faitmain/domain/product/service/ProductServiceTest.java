@@ -33,7 +33,7 @@ public class ProductServiceTest {
 	}
 	
 	//add
-//	@Test
+	@Test
 	@DisplayName("addProduct : 상품 등록")
 	void addProduct() throws Exception{
 		
@@ -42,7 +42,7 @@ public class ProductServiceTest {
 		
 		Product mockProduct = Product.builder().productNumber(productNumber).productName(productName).build();
 		
-		productServiceImpl.addProduct(mockProduct);
+//		productServiceImpl.addProduct(mockProduct);
 		
 		verify(productMapper).addProduct(mockProduct);		
 		
@@ -77,7 +77,7 @@ public class ProductServiceTest {
 		
 		Product mockProduct = Product.builder().productNumber(productNumber).productName(productName).build();
 		
-		productServiceImpl.addProduct(mockProduct);
+//		productServiceImpl.addProduct(mockProduct);
 		
 		mockProduct = Product.builder().productNumber(productNumber).productName("abc").build();
 		
