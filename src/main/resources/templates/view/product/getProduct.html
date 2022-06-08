@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang = "ko">
+<head>
+    <meta charset = "UTF-8">
+    <title>상품 조회</title>
+    <!-- 참조 : http://getbootstrap.com/css/   참조 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+	<style>
+ 		body {
+            padding-top : 50px;
+        }
+    </style>
+    
+    <script th:inline="javascript">
+    	function selectOption(productNumber, productQuantity, productName) {
+				      	
+			console.log("productName : " + productName);
+			
+			$("#selectOptionView").append(
+					"<div>"  
+						+ "<span>" + productName + "</span>"
+						+ "<input type='number' class='form-control' name='cartQuantity' min='1' max='" + productQuantity + "'/>"
+						+ "<button type='button' style='float:right;' id='optionDelBtn' class='btn-btn dark'>"+ "삭제" + "</button>"
+					+ "</div>" 				  
+			);				
+			
+
+			$(document).on("click", "#optionDelBtn", function() {
+				$(this).parent().remove();
+			});
+
+		};
+    </script>
+</head>
+<body>
+	
+	<div class="container">
+		
+		<div class="page-header">
+	       <h3 class=" text-info">상품상세조회</h3>
+	    </div>
+	
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상품번호</strong></div>
+			<div class="col-xs-8 col-md-4" th:text="${ product.productNumber }"></div>
+		</div>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상품명</strong></div>
+			<div class="col-xs-8 col-md-4" th:text="${ product.productName }"></div>
+		</div>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상품사진</strong></div>
+	  		<!--<img class="img-thumbnail" th:src="|../img/upload/${ product.productMainImage }|" width="30%" height="auto"/>-->			
+		</div>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>스토어아이디</strong></div>
+	  		<div class="col-xs-8 col-md-4" th:text="${ product.store.id }"></div>	  					
+		</div>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>스토어명</strong></div>
+	  		<div class="col-xs-8 col-md-4" th:text="${ product.store.storeName }"></div>	  					
+		</div>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>스토어 로고</strong></div>
+	  		<div class="col-xs-8 col-md-4" th:text="${ product.store.storelogoImage }"></div>	  					
+		</div>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상품 옵션</strong></div>
+	  		<select th:if="${#lists.size(product.productOptions) > 0}" id="productOption" name="optionss">
+	  			<option selected>=== 선택 ===</option>
+	  			<option 
+	  				th:each="productOption : ${product.productOptions}" 
+	  				th:value="${productOption.productNumber}"
+	  				th:value1="${productOption.productQuantity}" 
+	  				th:text="${productOption.productName}"
+	  				th:parameterName="${productOption}">
+	  			</option>
+	  		</select>
+	  		<script type="text/javascript">
+		    	$("select[name=optionss]").change(function(){
+				  console.log($(this).val()); //value값 가져오기
+				  console.log($("select[name=optionss] option:selected").attr("value1")); //value값 가져오기
+				  console.log($("select[name=optionss] option:selected").text()); //text값 가져오기
+				  
+				  let productNumber = $(this).val();
+				  let productQuantity = $("select[name=optionss] option:selected").attr("value1");
+				  let productName = $("select[name=optionss] option:selected").text();
+				  
+				  selectOption(productNumber, productPrice, productName);
+				});
+		    </script>  					
+		</div>
+		
+		<div id="selectOptionView" class="row">
+		</div>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상품 설명</strong></div>
+	  		<div class="col-xs-8 col-md-4" th:utext="${ product.productDetail }"></div>	  					
+		</div>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상품 수량</strong></div>
+	  		<div class="col-xs-8 col-md-4" th:utext="${ product.productQuantity }"></div>	  					
+		</div>
+	</div>
+		
+</body>
+</html>
