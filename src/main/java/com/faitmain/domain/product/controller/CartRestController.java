@@ -1,9 +1,11 @@
 package com.faitmain.domain.product.controller;
 
 import com.faitmain.domain.product.domain.Cart;
+import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.service.CartService;
 import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.global.common.Search;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -121,13 +125,27 @@ public class CartRestController{
 
     // 로그인 POST
     @PostMapping( "/cartOnLogin" )
-    private String cartOnLogin( User user, HttpSession session, HttpServletRequest request, HttpServletResponse response,
-    RedirectAttributes rttr, Model model ) throws Exception{
-
+    private String cartOnLogin( User user , HttpSession session , HttpServletRequest request , HttpServletResponse response ,
+                                RedirectAttributes rttr , Model model ) throws Exception{
 
 
         return "/main/index";
     }
+
+    @GetMapping( "/cartHeaderView" )
+    private List<Product> cartHeaderView(HttpServletResponse response, HttpServletRequest request,Cart cart, Model model, HttpSession session)throws Exception{
+
+        Cookie cookie = WebUtils.getCookie( request , "cartCookie" );
+        List<Cart> list = new ArrayList<>();
+
+        //비회원시 쿠키사용
+        if ( cookie != null && session.getAttribute( "user" ) == null ) {
+            String cartCookie = cookie.getValue();
+            cart.setCartCookieId( cartCookie );
+//            list = cartService.cartList(  );
+        }
+    }
+
 }
 
 
