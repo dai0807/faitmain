@@ -310,6 +310,14 @@ public class LiveController {
 	   return "forward:/live/getAlarmList.jsp";
    }
    
+   @GetMapping("getPremeiumLiveCal")
+   public String getPremieumLiveCal() {
+	   log.info("getPremieumLiveCal() : GET start... ");
+	   
+	   
+	   log.info("getPremieumLiveCal() : GET end... ");
+	   return "/view/live/premieumLiveCal";
+   }
    
       
 
