@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+
+	<!-- SideBar -->
+	<th:block th:fragment="sidebar">
+		<!-- Sidebar -->
+		<div class="container">
+			<div th:if="${session.user.role == 'user'}">
+				<p>UserTest01
+				<p>UserTest02
+				<p>UserTest03
+			</div>
+			<div th:if="${session.user.role == 'store'}">
+				<p>StoreTest01
+				<p>StoreTest02
+				<p>StoreTest03
+			</div>
+			<div th:if="${session.user.role == 'storeX'}">
+				<p>StoreXTest01
+				<p>StoreXTest02
+				<p>StoreXTest03
+			</div>
+			<div th:if="${session.user.role == 'admin'}">
+				<p>AdminTest01
+				<p>AdminTest02
+				<p>AdminTest03
+			</div>
+			
+		</div>
+	</th:block>
+</html>

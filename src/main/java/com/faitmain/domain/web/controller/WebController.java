@@ -49,6 +49,15 @@ public class WebController{
         
         return "index";
     }
+    
+    @GetMapping("/myPage")
+    public String getMyPage() {
+    	log.info("getMyPage : GET start...");
+    	
+    	log.info("getMyPage : GET end...");
+    	return "myPage";
+    }
+    
 
     @GetMapping( "view/error" )
     public String register(){
