@@ -58,8 +58,8 @@
 
     <insert id ="addUser"   parameterType="User"  >
     
-    INSERT INTO user (id,	 password,	 gender, 	address, postal_code, 	nickname, 	phone_number, 	name, 	reg_date, 	join_path,	store_logo_image, store_introduction, bank_account_copy_image, bank_name,bank_account_number, role, store_name)
-VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#{phoneNumber}, #{name},now(),		#{joinPath},	NULL		,			NULL	,	NULL				 ,NULL		,NULL			,	#{role},#{storeName});
+    INSERT INTO user (id,	 password,	 gender, 	address, postal_code, 	nickname, 	phone_number, 	name, 	reg_date, 	join_path,	store_logo_image, store_introduction, bank_account_copy_image, bank_name,	bank_account_number, role, store_name)
+VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#{phoneNumber}, #{name},now(),		#{joinPath},#{storelogoImage},#{storeIntroduction},#{bankAccountCopyImage},#{bankName},	#{bankAccountNumber},#{role},#{storeName} );
     
     </insert>  
     
