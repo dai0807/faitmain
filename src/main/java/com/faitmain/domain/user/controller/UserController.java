@@ -322,12 +322,22 @@ public class UserController{
 	    	}
 		
 		//유저 상세 정보
-		//
+		//			//id가 있으면 list에서 온거 , 아니면 내 정보 조회에서 온 것 
+//getUser 유저 상세 
 		@GetMapping("getUser")
-		   public String getUser( Model model , @RequestParam("id") String id) throws Exception {
-			   log.info(" GestUSer에 옴 출력하라 id {}" ,id );
+		   public String getUser( Model model , @RequestParam(value = "id" , required=false ) String id 
+				   , HttpSession session   , HttpServletRequest request ) throws Exception {
+			
+			   log.info(" GestUSer에 옴 출력하라 id  {}" ,id );
+			   User user = null ;
+			   
+			   if(id == null) {
+ 				   user = (User)request.getSession(true).getAttribute("user") ; 
+ 			   }else {
+				   user = userSerivce.getUser(id) ;
+				   
+			   }
 
-			   User user = userSerivce.getUser(id) ;
 			   if(user.getRole().equals("Store") || user.getRole().equals("StoreX")) {
 				   //롤이 스토어면 스토어 넘버 가져와서 user에 넣어라 
 				   int storeNumber = userSerivce.getStoreApplicationDocumenNumber(user.getId());
@@ -335,9 +345,10 @@ public class UserController{
 			   } 
 			
 			   log.info(" 출력하라 getUSer {}" ,user );
-			   model.addAttribute("user",user) ;
 			   
-		      return "forward:/user/getUser.jsp";
+			   
+			   model.addAttribute("getuser",user) ;
+		      return "view/user/getUser";
 		   }
 		   
 		//스토어 신청서 상세 보기 
