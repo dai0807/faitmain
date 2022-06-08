@@ -115,13 +115,14 @@ public class UserController{
 	   return "view/user/addUser";
 	   }	   
 	   @PostMapping("addUser")
-	   public String addUser(@ModelAttribute("user") User user) throws Exception{
+	   public RedirectView addUser(@ModelAttribute("user") User user) throws Exception{
 		   
 		   log.info("addUser::들어온 user 결과  ::{}" ,user );
+		   user.setRole("user");
 		   int result = userSerivce.addUser(user) ;
 		   log.info("restut {}" , result);
 		   
-		   return("redirect:/live/main.jsp");
+		    return new RedirectView("/");
 	   }
 	   
 	   
