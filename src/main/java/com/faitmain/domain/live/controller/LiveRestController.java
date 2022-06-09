@@ -99,7 +99,7 @@ public class LiveRestController {
 	}
 
 	@PostMapping("json/deleteLiveReservation")
-	public Map<String, Object> deleteLiveReservation(@RequestBody LiveReservation liveReservation) throws Exception {
+	public Map<String, Object> deleteLiveReservation(@RequestBody LiveReservation liveReservation ) throws Exception {
 		System.out.println("/live/json/deleteLiveReservation : POST start...");
 
 		System.out.println("deleteLiveReservation result : "

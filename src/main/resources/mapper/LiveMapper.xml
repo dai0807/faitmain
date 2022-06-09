@@ -6,6 +6,7 @@
    
    <resultMap id="liveMap" type="Live">
       <result property="liveNumber"    column="live_number"       jdbcType="INTEGER"/>
+      <result property="roomId"		   column="room_id"			  jdbcType="VARCHAR"/>
       <result property="storeId"       column="store_id"             jdbcType="VARCHAR"/>
       <result property="liveTitle"       column="live_title"             jdbcType="VARCHAR"/>
       <result property="liveIntro"       column="live_intro"             jdbcType="VARCHAR"/>
@@ -49,9 +50,9 @@
     <!-- ADD Live -->
     <insert id="addLive" parameterType="Live">
        INSERT INTO live
-          ( store_id, live_title, live_intro, live_image, chatting_status, live_status )
+          ( room_id, store_id, live_title, live_intro, live_image, chatting_status, live_status )
       VALUES
-          ( #{storeId}, #{liveTitle}, #{liveIntro}, #{liveImage}, #{chattingStatus}, 1 )
+          ( #{roomId}, #{storeId}, #{liveTitle}, #{liveIntro}, #{liveImage}, #{chattingStatus}, 1 )
     
     </insert>
     
@@ -128,6 +129,12 @@
     <select id="getLive" parameterType="int" resultMap="liveMap">
        SELECT * FROM live
       WHERE live_number = #{liveNumber}
+    </select>
+    
+    <!-- GET Live By Store Id -->
+    <select id="getLiveByStoreId" parameterType="String" resultMap="liveMap">
+       SELECT * FROM live
+      WHERE store_id = #{storeId}
     </select>
     
     <!-- GET LiveProduct -->

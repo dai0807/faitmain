@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-				layout:decorate = "~{layout/default_layout}"
+				layout:decorate = "~{layout/myPage_layout}"
       			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
     <head>
         <meta charset="utf-8" />
@@ -47,8 +47,8 @@
                 <p class="lead fw-normal text-muted ">방송 정보를 입력해주세요 </p>
             </div>
             <br/>
-         <div   class="container col-md-9">         
-		<form name ="form"   class="form-horizontal">		
+         <div class="container col-md-9">         
+		<form class="m-t" role="form" action="/live/create" id="Form" method="post">	
 		  <div class="form-group">
 		    <h5 class="fw-bolder">방송 제목</h5>
 		    <div >
@@ -60,10 +60,10 @@
 		  <br/>
 		  <div class="form-group">
 		     <h5 class="fw-bolder">방송에서 판매할 상품</h5><h7><strong>상품은 최대 5개까지 선택 가능합니다</strong></h7>
-		      <div class="alert alert-primary" role="alert">
+		      <div class="alert alert-primary" role="alert">   
             <strong>
 		    <div th:each="lol : ${map.list}">   
-		      <input type="checkbox"  id="liveProduct" name="liveProduct" value="${lol.productName}"><span th:text="${lol.productName}"/><!-- forEach 돌릴 예정 -->
+		      <input type="checkbox"  id="liveProduct" name="liveProduct" th:value="${lol.productNumber}">[[${lol.productName}]]<!-- forEach 돌릴 예정 -->
 		    </div>
 		    </strong>
       		 </div>
@@ -71,7 +71,8 @@
 		  <br/>
 		  	 <div class="form-group">
 		   		  <div >
-		          	<span class="fw-bolder btn btn-success col-md-12" id="liveStart">방송 시작</span></div>
+		          	<button type="submit" class="fw-bolder btn btn-success col-md-12">방송 시작</button>
+		          	</div>
 				 </form>
 			 <div  class="container col-lg-3">
 		  </div>
