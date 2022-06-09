@@ -36,7 +36,38 @@ public class ProductMapperTest {
 		Product product = new Product();
 		
 		product.setProductName("오레오마카롱");
-		product.setPrice(3800);
+		product.setProductPrice(3800);
+		
+		User store = new User();
+		store.setId("store01@naver.com");
+		
+		product.setStore(store);
+		product.setProductMainImage("oreo.jpg");
+		product.setCategoryCode("01");
+		product.setDeliveryCharge(3000);
+		product.setProductQuantity(30);
+		
+		productMapper.addProduct(product);
+		
+		System.out.println("insert 완료 : " + product.getProductGroupNumber());
+		
+		Product resultProduct = productMapper.getProduct(10016);
+		assertThat(resultProduct.getProductNumber()).isEqualTo(10016);
+		System.out.println("addProductTest end");
+		
+	}
+	
+	//insert
+//	@Test
+	@DisplayName("addImage Mapper Test")
+	public void addImageTest() throws Exception{
+		
+		System.out.println("addImageTest start");
+		
+		Product product = new Product();
+		
+		product.setProductName("오레오마카롱");
+		product.setProductPrice(3800);
 		
 		User store = new User();
 		store.setId("store01@naver.com");
@@ -68,7 +99,7 @@ public class ProductMapperTest {
 		
 		System.out.println(product);
 		
-		assertThat(product.getPrice()).isEqualTo(5000);
+		assertThat(product.getProductPrice()).isEqualTo(5000);
 		assertThat(product.getStore().getId()).isEqualTo("store03@naver.com");
 		
 		System.out.println("getProductTest end");
@@ -88,7 +119,7 @@ public class ProductMapperTest {
 		
 		List<Product> list = productMapper.getProductList(map);
 		assertThat(list.get(0).getProductName()).isEqualTo("프랑스에서 만든 마카롱 10개 세트");	
-		
+		System.out.println(list);
 		System.out.println("getProductListTest end");
 		
 	}
@@ -104,7 +135,7 @@ public class ProductMapperTest {
 		product.setProductNumber(10016);
 		product.setProductName("딸기맛마카롱");
 		product.setProductMainImage("akzkfhd.png");
-		product.setPrice(3000);
+		product.setProductPrice(3000);
 		product.setProductDetail("마카롱 10세트 딸기맛 특별 할인");
 		product.setCategoryCode("01");
 		product.setProductQuantity(5);

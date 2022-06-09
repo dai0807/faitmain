@@ -1,7 +1,7 @@
 package com.faitmain.domain.order.mapper;
 
 import com.faitmain.domain.order.domain.Order;
-import groovy.util.logging.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith( SpringExtension.class )
 @SpringBootTest
-@Log4j2
+@Slf4j
 class OrderMappperTest{
 
     @Autowired

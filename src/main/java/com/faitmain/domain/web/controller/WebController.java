@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.faitmain.domain.live.service.LiveService;
 import com.faitmain.domain.product.service.ProductService;
@@ -29,7 +31,7 @@ public class WebController{
 	private LiveService liveService;
 	
     @GetMapping( "/" )
-    public String main(Model model) throws Exception{
+    public String main( Model model ) throws Exception{
         log.info( "log = {} " , this.getClass().getName() );
         
         Map<String, Object> map = new HashMap<String, Object>();
@@ -40,13 +42,13 @@ public class WebController{
 		
 		map = productService.getProductList(map);
         log.info("after getProductList");
-		
+
 		map.put("liveList", liveService.getLiveList().get("liveList"));
 		log.info("after getLiveList");
 		
-        System.out.println("map : " + map);
         model.addAttribute("map", map);
         
+        System.out.println(model);
         return "index";
     }
     

@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.faitmain.domain.live.service.LiveService;
+import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.user.domain.StoreApplicationDocument;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.ApiService;
@@ -38,6 +41,14 @@ public class UserController{
 	   @Autowired
 	   @Qualifier("userServiceImpl")
 	   private UserSerivce userSerivce;
+	   
+	   @Autowired
+	   @Qualifier("productServiceImpl")
+	   private ProductService productService;
+	   
+	   @Autowired
+	   @Qualifier("liveServiceImpl")
+	   private LiveService liveService;
 	   
 	   @Autowired
 	   @Qualifier("apiServiceImpl")
@@ -61,7 +72,7 @@ public class UserController{
 	   
 	   
 	   @PostMapping( "login" )
-	   public RedirectView longin( Model model , @ModelAttribute("user") User loginuser,  HttpSession session) throws Exception {
+	   public RedirectView longin( RedirectAttributes model , @ModelAttribute("user") User loginuser,  HttpSession session) throws Exception {
 	      
 		   log.info("Post login Page 도착");
 		   log.info("user 출력  :: {}" , loginuser);
@@ -78,6 +89,20 @@ public class UserController{
  			   
  		   }
 		   log.info("Post login 끝 ");
+		   
+	        Map<String, Object> map = new HashMap<String, Object>();
+	        
+	        map.put("orderName", "product_name DESC");
+			map.put("startRowNum", 1);
+			map.put("endRowNum", 5);
+			
+			map = productService.getProductList(map);
+	        log.info("after getProductList");
+
+			map.put("liveList", liveService.getLiveList().get("liveList"));
+			log.info("after getLiveList");
+			
+	        model.addFlashAttribute("map", map);
  		   
 	      return new RedirectView("/");
 	   }

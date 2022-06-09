@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang = "ko">
+<head>
+    <meta charset = "UTF-8">
+    <title>상품 조회</title>
+    <!-- 참조 : http://getbootstrap.com/css/   참조 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+		    
+    <script th:inline="javascript">    	
+		
+    	/*<![CDATA[*/
+			let productNumber = '[[${ product.productNumber }]]';
+			let productName = '[[${ product.productName }]]';
+			let productPrice = '[[${ product.productPrice }]]';
+			let productMainImage = '[[${ product.productMainImage }]]';
+			let productQuantity = '[[${ product.productQuantity }]]';
+		/*]]>*/
+		
+		
+		$(function(){		
+			
+			$(".plus").click(function(){
+			   var num = $(".numBox").val();
+			   var plusNum = Number(num) + 1;
+			   
+			    if(plusNum >= productQuantity) {
+					$(".numBox").val(num);
+				} else {
+				    $(".numBox").val(plusNum);   
+				    $("#totalPrice").text(Number($("#totalPrice").text()) + productPrice);       
+				}			  
+			   
+			});
+			  
+			$(".minus").click(function(){
+			   var num = $(".numBox").val();
+			   var minusNum = Number(num) - 1;
+			   
+			   if(minusNum <= 0) {
+			   		$(".numBox").val(num);
+			   } else {
+			   		$(".numBox").val(minusNum);
+			   		$("#totalPrice").text(Number($("#totalPrice").text()) - productPrice);          
+			   }
+			   
+			});
+						
+			$("#addCart").on("click", function(){
+				
+				console.log(productNumber);
+				console.log(productName);
+				console.log(productPrice);
+				console.log(productMainImage);
+				let cartQuantity = $(".numBox").val();
+				console.log(cartQuantity); 
+				
+				if($("#optionExist").val() > 0){
+					console.log("cart : " + $("#optionExist").val());
+				}
+				/*
+				if(cartQuantity > productQuantity){
+					alert("수량을 다시 적어주세요");
+				}else{
+					var jsonData = {
+									"cartQuantity" : cartQuantity,
+									"cartProduct" : {
+										"productNumber" : productNumber,
+										"productName" : productName,
+										"price" : productPrice,
+										"productMainImage" : productMainImage
+									}
+															
+					};
+				*/	
+				console.log("이게 뭘까요 : " + $("#getProductForm").serialize());
+					
+					$.ajax({
+						url: "/cart/json/addCart", // 주소
+						//data: JSON.stringify(jsonData), // 전송 데이터
+						data: $("#getProductForm").serialize(),
+						type: "POST", // 전송 타입
+						dataType: "JSON", // 응답 받을 데이터 타입
+						//contentType: "application/json; charset=utf-8",
+						success : function (data){
+							console.log("result : " + data.result);
+							if(data.result){
+								alert("장바구니에 추가되었습니다.");
+							}else{
+								alert("장바구니에 이미 담긴 상품입니다.");
+							}
+	                    },                    
+	                    //요청 실패 시 이벤트
+	                    //응답 status code가 2xx가 아닌 경우 
+	                    error : function (jqXHR, textStatus, errorThrown){
+	                    	console.log(jqXHR);  //응답 메시지
+	                    	console.log(textStatus); //"error"로 고정인듯함
+	                    	console.log(errorThrown);
+	                    }
+						
+					});
+				
+				/*
+				}
+				옵션은 생각이 필요							
+				*/
+				
+				
+			});
+			
+			$("#addOrder").on("click", function(){
+				
+			});
+			
+		});
+    </script>
+</head>
+<body>
+    
+	<div class="container">
+	<form id="getProductForm" th:object="${product}" method="post">
+		<div class="page-header">
+	       <h3 class=" text-info">상품상세조회</h3>
+	    </div>
+	
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상품번호</strong></div>
+			<div class="col-xs-8 col-md-4" th:text="*{productNumber}"></div>
+			<input type="hidden" th:field="*{productNumber}" />
+		</div>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상품명</strong></div>
+			<div class="col-xs-8 col-md-4" th:text="${ product.productName }"></div>
+			<input type="hidden" th:field="*{productName}" />
+		</div>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상품사진</strong></div>
+	  		<!----><img class="img-thumbnail" th:src="|../img/upload/${ product.productMainImage }|" width="30%" height="auto"/>
+	  		<input type="hidden" th:field="*{productMainImage}" />			
+		</div>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>스토어아이디</strong></div>
+	  		<div class="col-xs-8 col-md-4" th:text="${ product.store.id }"></div>	  					
+		</div>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>스토어명</strong></div>
+	  		<div class="col-xs-8 col-md-4" th:text="${ product.store.storeName }"></div>	  					
+		</div>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>스토어 로고</strong></div>
+	  		<div class="col-xs-8 col-md-4" th:text="${ product.store.storelogoImage }"></div>	  					
+		</div>
+		
+		<div class="row">
+			<div class="col-xs-4 col-md-2"><strong>상품 추가 사진</strong></div>
+			<div th:if="${#lists.size(product.productExtraImage) > 0}">
+				<img class="img-thumbnail" 
+					 th:each="extraImg : ${product.productExtraImage}"
+					 th:src="|../img/upload/${ extraImg.imageName }|" width="10%" height="auto"/>
+			</div>
+			
+		</div>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상품 옵션</strong></div>
+	  		
+	  		<select th:if="${#lists.size(product.productOptions) > 0}" id="productOption" name="options">
+	  			<option selected disabled>=== 옵션 ===</option>
+	  			<option 
+	  				th:each="productOption : ${product.productOptions}" 
+	  				th:value="${productOption.productNumber}"
+	  				th:value1="${productOption.productQuantity}" 
+	  				th:text="${productOption.productName}">
+	  			</option>
+	  		</select>
+	  		
+	  		<script type="text/javascript">
+	  			var optionIndex = 0;
+		    	$("select[name=options]").change(function(){
+				  console.log($(this).val()); //value값 가져오기
+				  console.log($("select[name=options] option:selected").attr("value1")); //value값 가져오기
+				  console.log($("select[name=options] option:selected").text()); //text값 가져오기
+				  //$("select[name=options] option:selected").attr('disabled', 'true');
+				  
+				  
+				  let productNumber = $(this).val();
+				  let optionQuantity = $("select[name=options] option:selected").attr("value1");
+				  let productName = $("select[name=options] option:selected").text();	
+				 
+				  var list = new Array();
+				  $(".selectName").each(function(index, item){
+						list.push($(item).text());
+				  });
+				  
+				  console.log("selectNames : " + list[0]);
+				  
+				  if (list.includes(productName)) {
+					
+					alert("이미 선택된 상품입니다");
+					
+				  }else{
+					
+					$("#selectOptionView").append(
+						"<div>" 
+							+ "<input type='hidden' value='" + productNumber + "' name='productOptions[" + optionIndex + "].productNumber' />"
+							+ "<input type='hidden' value='" + productName + "' class='selectNumber' name='productOptions[" + optionIndex + "].productName'/>"
+							+ "<span class='selectName'>" + productName + "</span>"							
+							+ "<button type='button' class='minus_btn'>-</button>"	 
+							+ "<input type='text' class='quantity' style='width:100px;' value='1' readonly name='productOptions[" + optionIndex + "].productQuantity' />"
+							+ "<button type='button' class='plus_btn'>+</button>"
+							/**/ 	
+							+ "<button type='button' style='float:right;' id='optionDelBtn' class='btn-btn dark'>"+ "삭제" + "</button>"
+						+ "</div>" 	
+									  
+					);
+					optionIndex++;
+				  }			 
+				  
+				  
+				  
+				});
+				
+				/* 수량버튼 */
+				$(document).on("click", ".plus_btn", function() {
+					let quantity = $(this).parent("div").find(".quantity").val();
+					$(this).parent("div").find(".quantity").val(++quantity);
+				});
+				
+				$(document).on("click", ".minus_btn", function() {
+					let quantity = $(this).parent("div").find(".quantity").val();
+					if(quantity > 1){
+						$(this).parent("div").find(".quantity").val(--quantity);		
+					}
+				});	
+					
+				$(document).on("click", "#optionDelBtn", function() {
+					$(this).parent().remove();
+					$("#totalPrice").text(productPrice);
+					optionIndex--;
+				});
+				
+		    </script>  					
+		</div>
+		
+		<div id="selectOptionView" class="row">
+		</div>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상품 설명</strong></div>
+	  		<div class="col-xs-8 col-md-4" th:utext="${ product.productDetail }"></div>	  					
+		</div>
+		
+		<div class="row" id="productQuantityArea" th:if="${#lists.size(product.productOptions) == 0}">
+	  		<div class="col-xs-4 col-md-2"><strong>상품 수량</strong></div>
+	  		<div class="col-xs-8 col-md-4">	 
+	  			<button type="button" class="minus">-</button>	  			
+			 	<input type="number" class="numBox" min="1" th:max="${product.productQuantity}" value="1" readonly="readonly" name="productQuantity"/>
+			 	<button type="button" class="plus">+</button>			
+	  		</div>		
+		</div>
+		
+		
+	
+		<div >총 상품금액 : 
+			<strong id="totalPrice" th:if="${#lists.size(product.productOptions) == 0}" th:text="${product.productPrice}"></strong>
+			<strong id="totalPrice" th:if="${#lists.size(product.productOptions) != 0}">0</strong>
+		</div>
+		<button type="button" id="addCart">장바구니</button>
+		<button type="button" id="addOrder">구매</button>	
+	
+		</form>
+	</div>
+								
+</body>
+</html>

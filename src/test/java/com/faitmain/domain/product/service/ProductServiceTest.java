@@ -33,7 +33,7 @@ public class ProductServiceTest {
 	}
 	
 	//add
-//	@Test
+	@Test
 	@DisplayName("addProduct : 상품 등록")
 	void addProduct() throws Exception{
 		
@@ -42,7 +42,7 @@ public class ProductServiceTest {
 		
 		Product mockProduct = Product.builder().productNumber(productNumber).productName(productName).build();
 		
-		productServiceImpl.addProduct(mockProduct);
+//		productServiceImpl.addProduct(mockProduct);
 		
 		verify(productMapper).addProduct(mockProduct);		
 		
@@ -60,10 +60,9 @@ public class ProductServiceTest {
 		
 		given(productMapper.getProduct(productNumber)).willReturn(mockProduct);
 		
-		Map<String, Object> responseProduct = productServiceImpl.getProduct(productNumber);
+		Product responseProduct = productServiceImpl.getProduct(productNumber);
 		System.out.println(responseProduct);
-		Product product = (Product)responseProduct.get("mainProduct");
-		assertThat(product.getProductName()).isEqualTo(productName);
+		assertThat(responseProduct.getProductName()).isEqualTo(productName);
 		
 	}
 	
@@ -77,7 +76,7 @@ public class ProductServiceTest {
 		
 		Product mockProduct = Product.builder().productNumber(productNumber).productName(productName).build();
 		
-		productServiceImpl.addProduct(mockProduct);
+//		productServiceImpl.addProduct(mockProduct);
 		
 		mockProduct = Product.builder().productNumber(productNumber).productName("abc").build();
 		
@@ -85,11 +84,10 @@ public class ProductServiceTest {
 		
 		given(productMapper.getProduct(productNumber)).willReturn(mockProduct);
 		
-		Map<String, Object> responseProduct = productServiceImpl.getProduct(productNumber);
+		Product responseProduct = productServiceImpl.getProduct(productNumber);
 		System.out.println(responseProduct);
-		Product product = (Product)responseProduct.get("mainProduct");
-		
-		assertThat(product.getProductName()).isEqualTo("abc");
+
+		assertThat(responseProduct.getProductName()).isEqualTo("abc");
 		
 	}
 	

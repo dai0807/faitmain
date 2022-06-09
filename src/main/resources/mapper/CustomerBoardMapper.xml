@@ -12,6 +12,8 @@
 		<result property="boardUpdateDate"				column="update_date" 				jdbcType="DATE" />
 		<result property="FAQCategoryCode"			 	column="customer_FAQ_category_code" jdbcType="INTEGER" />
 		<result property="boardType"  					column="customer_board_type" 		jdbcType="CHAR" />
+		<result property="viewCount"  					column="view_cnt" 					jdbcType="INTEGER" />
+		<result property="selectDelete"  				column="delete_yn" 					jdbcType="VARCHAR" />
 	 	<!-- <result property="customerId"					column="customer_id"  				jdbcType="VARCHAR" /> -->
 		
 		<association property="customerId" javaType="User" >	
@@ -52,14 +54,14 @@
 		    ( customer_board_title, customer_board_content, reg_date, update_date, 
 		     customer_FAQ_category_code, customer_board_type, customer_id )
 		VALUES
-		    (  #{boardTitle}, #{boardContent}, NOW(), NOW(),#{FAQCategoryCode}, #{boardType}, #{customerId.id} )
+		    (  #{boardTitle}, #{boardContent}, NOW(), NULL, #{FAQCategoryCode}, #{boardType}, #{customerId.id} )
 	</insert>
 	
-    <insert id="addCustomerBoardImage" parameterType="com.faitmain.global.common.Image" >
+   <!--  <insert id="addCustomerBoardImage" parameterType="com.faitmain.global.common.Image" >
     	INSERT
     	INTO image(image_classification_code, image_classification_number, image_name)
     	VALUES('C', #{boardNumber}, #{boardImage})
-    </insert>
+    </insert> -->
     
     <!-- <insert id="updateBanStatus" parameterType="BanStatus">
     	INSERT INTO ban_period
@@ -70,22 +72,22 @@
     </insert> -->
     
     <!-- 상세보기 -->
-    <select id="getCustomerBoard" parameterType="int" resultMap ="customerMap">
+    <select id="getCustomerBoard" parameterType="int" resultType="Customer" resultMap ="customerMap">
     	SELECT 
     	customer_board_title, customer_board_content, customer_FAQ_category_code, customer_board_type, reg_date, update_date, customer_id
     	FROM customer 
     	<where>
-    		customer_board_number = #{boardNumber}
-    	</where>
+    		delete_yn = 'N' AND customer_board_number = #{boardNumber}
+    	</where>  	
     </select>
     
-    <select id="getCustomerBoardImage" parameterType="int" resultMap="customerMap">
+   <!--  <select id="getCustomerBoardImage" parameterType="int" resultMap="customerMap">
     	SELECT *
     	FROM image
     	<where>
     		 image_classification_code = 'C' AND image_classification_number = #{value}
 		</where>    
-    </select>
+    </select> -->
     
     <!-- SQL : UPDATE -->
     <update id="updateCustomerBoard" parameterType="Customer">
@@ -94,9 +96,9 @@
     		customer_board_type		= #{boardType},
     		customer_board_title	= #{boardTitle},
     		customer_board_content	= #{boardContent},
-    		update_date				= #{boardUpdateDate},
+    		update_date				= NOW(),
     		customer_FAQ_category_code = #{FAQCategoryCode},
-    		customer_board_type		= #{boardType},
+    		
     	<!-- 	image_number			= #{imageNumber}, -->
     		customer_id				= #{customerId.id}
     	</set>
@@ -105,7 +107,7 @@
     	</where>
     </update>
     
-    <update id="updateCustomerBoardImage" parameterType="com.faitmain.global.common.Image">
+   <!--  <update id="updateCustomerBoardImage" parameterType="com.faitmain.global.common.Image">
     	UPDATE image
     	<set>
     		image_name = #{imageName}
@@ -113,9 +115,9 @@
     	<where>
     		image_number = #{imageNumber}
     	</where>
-    </update>
+    </update> -->
     
-   	<update id="updateBanStatus" parameterType="BanStatus">
+   	<!-- <update id="updateBanStatus" parameterType="BanStatus">
    		UPDATE ban_period
    		<set>
    			status_number = #{statusNumber}
@@ -123,38 +125,59 @@
    		</set>
    		<where>
    			report_number = #{reportNumber}
-   		</where>
-   	</update>
+   		</where> 
+   	</update>-->
    	
-    <delete id="deleteCustomerBoard" parameterType="Customer">
+    <update id="deleteCustomerBoard" parameterType="Customer" >
+    	UPDATE FROM customer
+    	<set>
+    		delete_yn = 'Y'
+    	</set>
+    	<where>
+    		customer_board_number = #{boardNumber}
+    	</where>
+    </update>
+    
+   <!--  <delete id="deleteCustomerBoard" parameterType="Customer">
     	DELETE FROM customer
     	<where>
     		customer_board_number = #{boardNumber}
     	</where>
-    </delete>
+    </delete> -->
     
-    <delete id="deleteCustomerBoardImage" parameterType="int">
+   <!--  <delete id="deleteCustomerBoardImage" parameterType="int">
     	DELETE FROM image
     	<where>
     		image_number = #{imageNumber}
     	</where>
-    </delete>
+    </delete> -->
     
     <!-- SQL : SELECT LIST -->
-    <!-- <select id="getCustomerBoardList" parameterType="Customer" >
+    <select id="getCustomerBoardList" parameterType="Customer" resultType="Customer">
     
     	SELECT * 
     	FROM customer
+    	WHERE delete_yn = 'N'
+    	ORDER BY reg_date DESC
     	
-    </select> -->
+    </select> 
+    
+    <!-- 게시글 수  -->
+    <select id="getBoardTotalCount" parameterType="Customer" resultType="int">
+    
+    	SELECT COUNT(*)
+    	FROM customer
+    	WHERE delete_yn = 'N'
+    
+    </select> 
     
   
-	<select  id="getCustomerBoardList"  parameterType="map"	resultMap="customerMap">
+	<!-- <select  id="getCustomerBoardList"  parameterType="map"	resultMap="customerMap">
    							
    		SELECT c1.* 
    		FROM (SELECT @ROWNUM:=@ROWNUM+1 AS row_num, 
    			n.* FROM customer AS c,(SELECT @ROWNUM:=0) AS c ORDER BY reg_date DESC) AS c1 
-				WHERE row_num &gt; #{startRowNum} AND row_num &lt;= #{endRowNum}; 
+				WHERE row_num &gt; #{startRowNum} AND row_num &lt;= #{endRowNum};  -->
 	  	<!-- SELECT *
 	  	FROM (	SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq
 	  					FROM		(	SELECT customer_board_number, prod_name, price, reg_date 
@@ -200,8 +223,8 @@
 	 </select>
      
     
-     get Customer -->
-	</select>
+     get Customer 
+	</select>-->
 
    
 
