@@ -12,6 +12,9 @@ public class Cart {
 
 	private String userId;
 
+//	private Product product;
+
+
 	private int productNumber;
 
 	private Date cartCookieLimit;
@@ -23,6 +26,7 @@ public class Cart {
 	private int cartOptionNumber;
 
 	private Product cartProduct;
+
 	private int cartQuantity;
 
 	@Builder
