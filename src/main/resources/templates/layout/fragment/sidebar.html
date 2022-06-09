@@ -28,7 +28,7 @@
 			<div th:if="${session.user.role == 'user'}" class="list-group list-group-flush">
 				<h4 class="myShopping">나의 쇼핑활동</h4>
 				<hr/>
-				<a href="#" class="list-group-item list-group-item-action">상세 정보 보기</a>
+				<a th:href="@{/user/getUser}" class="list-group-item list-group-item-action">상세 정보 보기</a>
 				<a href="#" class="list-group-item list-group-item-action">주문 / 배송 내역</a>
 				<a href="#" class="list-group-item list-group-item-action">반품 / 교환</a>
 				<a href="#" class="list-group-item list-group-item-action">취소 / 환불</a>
@@ -42,7 +42,7 @@
 				<h4 class="myShopping">나의 스토어</h4>
 				<hr/>
 				<a href="#" class="list-group-item list-group-item-action">상품 등록</a>
-				<a href="#" class="list-group-item list-group-item-action">스토어 정보</a>
+				<a th:href="@{/user/getUser}" class="list-group-item list-group-item-action">스토어 정보</a>
 				<a href="#" class="list-group-item list-group-item-action">문의 내역</a>
 				<a href="#" class="list-group-item list-group-item-action">주문 내역</a>
 				<a href="#" class="list-group-item list-group-item-action">반품 신청 내역</a>
