@@ -210,6 +210,8 @@ CREATE TABLE live_reservation (
                               `live_reservation_number` integer(5)  NOT NULL AUTO_INCREMENT ,
                               `store_id`                varchar(25) NULL ,
                               `reservation_date`        varchar(25)        NULL ,
+                              'title'					varchar(25) NULL,
+                              'reservation_time'		varchar(25) NULL,
 
                               PRIMARY KEY ( live_reservation_number ) ,
                               FOREIGN KEY ( store_id ) REFERENCES user ( id )

@@ -33,11 +33,17 @@
    
    <resultMap id="liveReservationMap" type="LiveReservation">
        <result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
-       <result property="storeId" column="store_id" jdbcType="VARCHAR" />
-       <result property="reservaiontDate" column="reservation_date" jdbcType="DATE" />
+       <result property="reservationDate" column="reservation_date" jdbcType="DATE" />
        <result property="title" column="title" jdbcType="VARCHAR" />
        <result property="start" column="start" jdbcType="DATE" />
        <result property="end" column="end" jdbcType="DATE" />
+       
+       <association property="store" javaType="User">
+       		<id property="id" column="store_id" jdbcType="VARCHAR" />
+       		<result property="storeName" column="store_name" jdbcType="VARCHAR" />
+       		<result property="storelogoImage" column="store_logo_image" jdbcType="VARCHAR" />
+       </association>
+     
     </resultMap>
     
     <resultMap id="liveUserStatusMap" type="LiveUserStatus">
@@ -174,26 +180,26 @@
     </select>
     
     <!-- GET LIST LiveProduct -->
-    <select id="getLiveProductList" parameterType="LiveProduct" resultMap="liveProductMap">
+    <select id="getLiveProductList" parameterType="int" resultMap="liveProductMap">
        SELECT * FROM live_product
-       <if test="#{liveReservationNumber} == 0">
-          <where>
-             live_number = #{liveNumber}
-          </where>
-       </if>
-       <if test="#{liveNumber} == 0">
-          <where>
-             live_reservation_number = #{liveReservationNumber}
-          </where>
-       </if>
+       <where>
+       		live_reservation_number = #{value}
+       </where>
     </select>
 	
 	<!-- GET LIST ListReservationCal -->
-	<select id="getLiveReservationCal" parameterType="LiveReservation" resultMap="liveReservationMap">
-		SELECT * FROM live_reservaion
-		<where>
-			reservation_date BETWEEN #{start} AND #{end}
-		</where>
+	<select id="getLiveReservationCal" resultMap="liveReservationMap">
+		SELECT reservation_date, COUNT(*) AS title FROM live_reservation
+		group by reservation_date
+	</select>
+	    
+	<!-- GET LIST ListReservationList -->
+	<select id="getLiveReservationList" parameterType="String" resultMap="liveReservationMap">
+		SELECT l.*, u.store_name, u.store_logo_image
+        FROM live_reservation l, user u
+		WHERE l.store_id = u.id
+			  AND reservation_date = #{value};
+		
 	</select>
 	    
     <!-- GET LIST ListUserStatus -->

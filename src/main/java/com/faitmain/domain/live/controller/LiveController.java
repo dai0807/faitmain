@@ -3,6 +3,9 @@ package com.faitmain.domain.live.controller;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -23,15 +26,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.live.domain.Live;
+import com.faitmain.domain.live.domain.LiveProduct;
+import com.faitmain.domain.live.domain.LiveReservation;
 import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.live.service.LiveService;
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.domain.user.service.UserSerivce;
 
 @Slf4j
 @Controller
@@ -40,11 +47,16 @@ public class LiveController {
    
    // Field
    @Autowired
+   @Qualifier("liveServiceImpl")
    private LiveService liveService;
    
    @Autowired
    @Qualifier("productServiceImpl")
    private ProductService productService;
+   
+   @Autowired
+   @Qualifier("userServiceImpl")
+   private UserSerivce userSerivce;
    
    public LiveController() {
 	   log.info( "Controller = {} ", this.getClass() );
@@ -296,22 +308,41 @@ public class LiveController {
 	   return "forward:/live/getAlarmList.jsp";
    }
    
-   @GetMapping("getPremeiumLiveCal")
-   public String getPremieumLiveCal() {
-	   log.info("getPremieumLiveCal() : GET start... ");
+   @GetMapping("getLiveReservationCal")
+   public String getLiveReservationCal() {
+	   log.info("getLiveReservationCal() : GET start... ");
 	   
+	   // 단순 네비게이션
 	   
-	   log.info("getPremieumLiveCal() : GET end... ");
-	   return "/view/live/premieumLiveCal";
+	   log.info("getLiveReservationCal() : GET end... ");
+	   return "/view/live/liveReservationCal";
    }
    
-   @GetMapping("getPremeiumLiveList")
-   public String getPremieumLiveList() {
-	   log.info("getPremieumLiveList() : GET start... ");
+   @GetMapping("getLiveReservationList")
+   public String getLiveReservationList(@RequestParam String date) throws Exception {
+	   log.info("getLiveReservationList() : GET start... ");
+	   
+	   log.info("date : " + date);
+	   
+	   List<LiveReservation> list = liveService.getLiveReservationList(date);
+	   log.info("list : {}", list);
+	   List<LiveReservation> resultList = new ArrayList<LiveReservation>();
+	   
+	   for(LiveReservation obj : list) {
+		   obj.setLiveProduct(liveService.getLiveProductList(obj.getLiveReservationNumber()));
+		   obj.setStore(userSerivce.getUser(obj.getStore().getId()));
+		   
+		   resultList.add(obj);
+	   }
+	   
+	   // 결과 확인용 for문
+	   for(LiveReservation obj : resultList) {
+		   log.info("resultList : {}", obj);
+	   }
 	   
 	   
-	   log.info("getPremieumLiveList() : GET end... ");
-	   return "/view/live/premieumLiveList";
+	   log.info("getLiveReservationList() : GET end... ");
+	   return "/view/live/liveReservationList";
    }
 
 }

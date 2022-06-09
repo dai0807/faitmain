@@ -32,19 +32,21 @@
 			<h3>프리미엄 라이브 예약 목록</h3>
 			<div>
 				<table class="table table-striped">
+				
 					<colgroup>
 						<col width="10%">
-						<col width="40%">
-						<col width="20%">
-						<col width="10%">
+						<col width="75%">
+						<col width="15%">
 					</colgroup>
+					
 					<thead>
 				    	<tr>
 				      		<th scope="col">시간</th>
-				      		<th colspan="2" scope="colgroup">상품</th>
+				      		<th scope="col">상품</th>
 				      		<th scope="col">비고</th>
 				    	</tr>
 				  	</thead>
+				  	
 				  	<tbody>
 				  		<tr th:each="num : ${#numbers.sequence(00,23)}">
 				  			<th scope="row">
@@ -54,10 +56,11 @@
 				  			</th>
 				  			<td></td>
 				  			<td></td>
-				  			<td></td>
 				  		</tr>
 				  	</tbody>
+				  	
 				</table>
+				
 			</div>
 		</div>
 	</article>

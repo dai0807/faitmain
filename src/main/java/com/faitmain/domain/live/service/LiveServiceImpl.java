@@ -103,15 +103,8 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.getLiveProduct(liveProductNumber);
 	}
 	
-	public Map<String, Object> getLiveProductList(LiveProduct liveProduct) throws Exception {
-		
-		List<LiveProduct> list = liveMapper.getLiveProductList(liveProduct);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		map.put("list", list);
-		
-		return map;
+	public List<LiveProduct> getLiveProductList(int liveReservationNumber) throws Exception {
+		return liveMapper.getLiveProductList(liveReservationNumber);
 	}
 	
 	public int deleteLiveProduct(int liveNumber) throws Exception {
@@ -128,11 +121,12 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.deleteLiveReservation(liveReservationNumber);
 	}
 	
-	public List<LiveReservation> getLiveReservationList(LiveReservation liveReservation) throws Exception{
-		
-		List<LiveReservation> list = liveMapper.getLiveReservationList(liveReservation);
-		
-		return list;
+	public List<LiveReservation> getLiveReservationCal() throws Exception{
+		return liveMapper.getLiveReservationCal();
+	}
+	
+	public List<LiveReservation> getLiveReservationList(String date) throws Exception{
+		return liveMapper.getLiveReservationList(date);
 	}
 	
 	//liveUserStatus

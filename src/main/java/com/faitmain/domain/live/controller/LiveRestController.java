@@ -1,9 +1,6 @@
 package com.faitmain.domain.live.controller;
 
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,11 +26,12 @@ import com.faitmain.domain.live.service.LiveService;
 
 @Slf4j
 @RestController
-@RequestMapping("/openapi/*")
+@RequestMapping("/live/*")
 public class LiveRestController {
 
 	// Field
 	@Autowired
+	@Qualifier("liveServiceImpl")
 	private LiveService liveService;
 
 	// METHOD
@@ -47,16 +46,16 @@ public class LiveRestController {
 		return map;
 	}
 
-	@GetMapping("json/getLiveProduct")
-	public Map<String, Object> getLiveProduct(@RequestBody LiveProduct liveProduct) throws Exception {
-		System.out.println("/live/json/getLiveProduct : GET start...");
-
-		Map<String, Object> map = liveService.getLiveProductList(liveProduct);
-
-		System.out.println("/live/json/getLiveProduct : GET end...");
-
-		return map;
-	}
+//	@GetMapping("json/getLiveProduct")
+//	public Map<String, Object> getLiveProduct(@RequestBody LiveProduct liveProduct) throws Exception {
+//		System.out.println("/live/json/getLiveProduct : GET start...");
+//
+//		Map<String, Object> map = liveService.getLiveProductList(liveProduct);
+//
+//		System.out.println("/live/json/getLiveProduct : GET end...");
+//
+//		return map;
+//	}
 
 	@PostMapping("json/updateLive")
 	public Live updateLive(@RequestBody Live live) throws Exception {
@@ -102,18 +101,22 @@ public class LiveRestController {
 	public List<Map<String, Object>> getLiveReservationCal() throws Exception {
 		log.info("/live/json/getLiveReservationCal : GET start...");
 		
-		List<LiveReservation> list = new ArrayList<LiveReservation>();
+		List<LiveReservation> list = liveService.getLiveReservationCal();
 		
-		Map<String, Object> map = new HashMap<>();
-		Date date = new Date(2022, 5, 9);
+		log.info("{}", list);
 		
-		map.put("title", "예약 수 : 5");
-		map.put("start", new SimpleDateFormat("yyyy-MM-dd").format(date));
-		
+		JSONObject jsonObj = new JSONObject();
 		JSONArray jsonArr = new JSONArray();
 		
-		JSONObject jsonObj = new JSONObject(map);
-		jsonArr.add(jsonObj);
+		Map<String, Object> map = new HashMap<>();
+		
+		for(LiveReservation obj : list) {
+			map.put("title", "예약 수 : " + obj.getTitle());
+			map.put("start", obj.getReservationDate());
+			
+			jsonObj = new JSONObject(map);
+			jsonArr.add(jsonObj);
+		}
 		
 		log.info("jsonArrCheck: {}", jsonArr);
 		
