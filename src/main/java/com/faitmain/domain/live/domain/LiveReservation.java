@@ -14,6 +14,5 @@ public class LiveReservation {
 	private Date reservationDate;
 	private List<LiveProduct> liveProduct;
 	private String title;
-	private String start;
-	private String end;
+	private String reservationTime;
 }

@@ -28,6 +28,9 @@
        <result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
        <result property="productNumber" column="product_number" jdbcType="INTEGER"/>
        <result property="productMainImage" column="product_main_image" jdbcType="VARCHAR"/>
+       <result property="productName" column="product_name" jdbcType="VARCHAR"/>
+       <result property="productDetail" column="product_detail" jdbcType="VARCHAR"/>
+       
     </resultMap>
    
    
@@ -36,8 +39,7 @@
        <result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
        <result property="reservationDate" column="reservation_date" jdbcType="DATE" />
        <result property="title" column="title" jdbcType="VARCHAR" />
-       <result property="start" column="start" jdbcType="DATE" />
-       <result property="end" column="end" jdbcType="DATE" />
+       <result property="reservationTime" column="reservation_time" jdbcType="VARCHAR" />
        
        <association property="store" javaType="User">
        		<id property="id" column="store_id" jdbcType="VARCHAR" />

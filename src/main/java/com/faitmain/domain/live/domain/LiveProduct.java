@@ -9,4 +9,6 @@ public class LiveProduct {
 	private int liveReservationNumber;
 	private int productNumber;
 	private String productMainImage;
+	private String productName;
+	private String productDetail;
 }
