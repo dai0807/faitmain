@@ -12,45 +12,34 @@ import com.faitmain.global.common.Image;
 
 
 public interface CustomerService {
-	
-	public List<Customer> getCustomerBoardList() throws Exception;
-	
-	public Customer getCustomerBoard(int boardNumber); 
-	
-	public void addCustomerBoard(Customer customer);
-	
-	public Object updateCustomerBoard(Customer customer);
-	
-	public void deleteCustomerBoard(int boardNumber);
-	
-	public int getViewCount(int boardNumber);
 
-	public void updateViewCount(int boardNumber, int temp);
+
+	//INSERT, UPDATE 두가지 모두 등록하는 기능, BoardNumber 유무 기준으로 실행
+
+	public boolean registerCustomerBoard(Customer customer) throws Exception;
 	
-//	//INSERT BOARD
 //	public int addCustomerBoard(Customer customer) throws Exception;
 //	
-//	//INSERT IMAGE
-//	public void addCustomerBoard(Image image) throws Exception;
-//	
-//	//GET BOARD DETAIL
-//	public Customer getCustomerBoard(int boardNumber) throws Exception;
-//	
-//	//UPDATE BOARD
 //	public int updateCustomerBoard(Customer customer) throws Exception;
-//	
-//	//DELETE BOARD
-//	public int deleteCustomerBoard(int boardNumber) throws Exception;
-//
-//	//GET BOARD LIST
-//	List<Customer> getCustomerBoardList() throws Exception;
-//	
-//	//UPDATE BANSTATUS
+	
+	public Customer getCustomerBoard(int boardNumber) throws Exception;
+	
+	public boolean deleteCustomerBoard(int boardNumber) throws Exception;
+	
+
+	public List<Customer> getCustomerBoardList() throws Exception;
+	
+
 //	public BanStatus updateBanStatus(int reportNumber) throws Exception;
-//
 //	
 //	public int updateBanStatus(BanStatus banStatus) throws Exception;
-
+//	
+//	public void addCustomerBoard(Image image) throws Exception;
+	
+	
+	
+	
+	
 
 	
 	

@@ -28,9 +28,19 @@ public class OrderController{
 
 
     @GetMapping( "/payment" )
+    public String papay(){
+        return "view/order/payment";
+    }
+
+    @GetMapping( "/createOrder" )
     public String payment(){
 
         log.info( " CONTROLLER = {} " , this.getClass() );
-        return "view/order/payment";
+        return "view/order/createOrder";
+    }
+
+    @GetMapping( "/orderList" )
+    public String testORder(){
+        return "view/order/getOrderList";
     }
 }

@@ -3,7 +3,6 @@ package com.faitmain.domain.product.domain;
 import java.sql.Date;
 import java.util.List;
 
-import com.faitmain.domain.live.domain.Live;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Image;
 
@@ -26,6 +25,7 @@ public class Product {
 	private Date productRegDate;
 	private int deliveryCharge;
 	private int productGroupNumber;
+	private List<Product> productOptions;
 	
 	@Builder
 	public Product(int productNumber, String productName) {

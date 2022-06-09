@@ -27,11 +27,42 @@ public class ProductMapperTest {
 	private ProductMapper productMapper;
 	
 	//insert
-//	@Test
+	@Test
 	@DisplayName("addProduct Mapper Test")
 	public void addProductTest() throws Exception{
 		
 		System.out.println("addProductTest start");
+		
+		Product product = new Product();
+		
+		product.setProductName("오레오마카롱");
+		product.setPrice(3800);
+		
+		User store = new User();
+		store.setId("store01@naver.com");
+		
+		product.setStore(store);
+		product.setProductMainImage("oreo.jpg");
+		product.setCategoryCode("01");
+		product.setDeliveryCharge(3000);
+		product.setProductQuantity(30);
+		
+		productMapper.addProduct(product);
+		
+		System.out.println("insert 완료 : " + product.getProductGroupNumber());
+		
+		Product resultProduct = productMapper.getProduct(10016);
+		assertThat(resultProduct.getProductNumber()).isEqualTo(10016);
+		System.out.println("addProductTest end");
+		
+	}
+	
+	//insert
+//	@Test
+	@DisplayName("addImage Mapper Test")
+	public void addImageTest() throws Exception{
+		
+		System.out.println("addImageTest start");
 		
 		Product product = new Product();
 		
