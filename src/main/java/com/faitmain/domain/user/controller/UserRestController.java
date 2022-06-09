@@ -44,7 +44,8 @@ public class UserRestController {
 				@RequestParam("address") String address,
 				@RequestParam("postalCode") int postalCode,
 				@RequestParam("nickname") String nickname,
-				@RequestParam("phoneNumber") String phoneNumber) throws Exception {
+				@RequestParam("phoneNumber") String phoneNumber     
+				 , HttpSession session   , HttpServletRequest request ) throws Exception {
 			
 			User user = new User();
 			user.setId(id);
@@ -56,13 +57,22 @@ public class UserRestController {
 		//아직  checkDuplication 없음 
 			int result = 0 ;
 
-			log.info("updateUser :: user 출력   {} "  ,  user );
+			//log.info("updateUser :: user 출력   {} "  ,  user );
 		
 		//	result = userSerivce.updateUser(user);
  			
 			result = userSerivce.updateUser(user) ;
 			log.info("updateUser :: result 출력   {} "  ,  result );
 		
+			
+		//	log.info("updateUser ::  user 세션 값 변경 전   {} "  ,  (User)request.getSession(true).getAttribute("user"));
+
+			
+			
+			user = userSerivce.getUser(user.getId()) ;
+			
+			session.setAttribute("user", user);
+			log.info("updateUser ::  user 세션 값 변경 후   {} "  ,  (User)request.getSession(true).getAttribute("user"));
 			
 			return result ;
 		}
@@ -75,12 +85,12 @@ public class UserRestController {
 		//아직  checkDuplication 없음 
 			
 
-			log.info("중복체크 id  {} "  , id);
+			//log.info("중복체크 id  {} "  , id);
 			Map<String, Object> map = new HashMap<>();
 			map.put("checkcondition" , "id") ;
 			map.put("checkkeyword" , id) ;
 			int cnt = userSerivce.getchechDuplication(map) ;
-			log.info("id의 중복 검사 결과 {}"   +  cnt );		
+		//	log.info("id의 중복 검사 결과 {}"   +  cnt );		
 			// 숫자가 1 이면 중복 , 0이면 없음 
 			
 			return cnt ;
@@ -91,7 +101,7 @@ public class UserRestController {
 		public int nameCheck( @RequestParam ("nickname") String  nickname ) throws Exception {
 		//아직  checkDuplication 없음 
 						
-			log.info("중복체크 닉네임 {} " ,  nickname);
+		//	log.info("중복체크 닉네임 {} " ,  nickname);
 			
 			Map<String, Object> map = new HashMap<>();
 			map.put("checkcondition" , "nickname") ;
@@ -108,7 +118,7 @@ public class UserRestController {
 		public int phoneNumber( @RequestParam ("phoneNumber") String  phoneNumber ) throws Exception {
 		//아직  checkDuplication 없음 
 						
-			log.info("중복체크 nicknameCheck {} " ,  phoneNumber);
+			log.info("중복체크 phoneNumber {} " ,  phoneNumber);
 			
 			Map<String, Object> map = new HashMap<>();
 			map.put("checkcondition" , "phone_number") ;
