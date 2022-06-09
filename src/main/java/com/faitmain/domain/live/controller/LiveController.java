@@ -2,13 +2,16 @@ package com.faitmain.domain.live.controller;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +32,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.live.domain.Live;
+import com.faitmain.domain.live.domain.LiveProduct;
 import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.live.service.LiveService;
 import com.faitmain.domain.user.domain.User;
@@ -40,6 +44,7 @@ public class LiveController {
    
    // Field
    @Autowired
+   @Qualifier("liveServiceImpl")
    private LiveService liveService;
    
    @Autowired
@@ -129,6 +134,128 @@ public class LiveController {
       
       return "view/live/live";
    }
+   
+   
+   
+   
+	@PostMapping("create")
+	public String createRoom(  HttpServletRequest req,
+							   @RequestParam("roomName") String liveTitle,
+								HttpSession session ) throws Exception {
+		log.info( "createRoom = {} ", this.getClass() );
+		
+		String[] liveProducts = req.getParameterValues("liveProduct");
+		
+		System.out.println(liveTitle);
+		
+		for(String product : liveProducts) {
+		System.out.println(product);
+		}
+		
+		JSONObject result = null;
+		StringBuilder sb = new StringBuilder();
+		
+		 TrustManager[] trustCerts = new TrustManager[]{
+	                new X509TrustManager() {
+	                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+	                        return null;
+	                    }
+	                    public void checkClientTrusted(
+	                        java.security.cert.X509Certificate[] certs, String authType) {
+	                    }
+	                    public void checkServerTrusted(
+	                        java.security.cert.X509Certificate[] certs, String authType) {
+	                    }
+	                }
+	            };
+	 
+	         SSLContext sc = SSLContext.getInstance("TLSv1.2");
+	         sc.init(null, trustCerts, new java.security.SecureRandom());
+	         
+	         URL url = new URL("https://vchatcloud.com/openapi/v1/rooms");
+	 
+	         HttpsURLConnection conn = (HttpsURLConnection)url.openConnection();
+	         conn.setSSLSocketFactory(sc.getSocketFactory());
+	         
+	         conn.setRequestMethod("POST");
+	         
+	         conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+	         conn.setRequestProperty("accept", "*/*");
+	         conn.setRequestProperty("api_key", "kmLueZ-chdq38-O7LGgP-Ggd14x-20220604144349");
+	         conn.setRequestProperty("X-AUTH-TOKEN", "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ2Y3h6dmN4ejE1OUBnbWFpbC5jb20iLCJleHAiOjE2NTQ3NzQxOTYsImlhdCI6MTY1NDc1NjE5NiwiYXV0aG9yaXRpZXMiOiJbUk9MRV9VU0VSXSJ9.AXFLJ3ohZbkiUVBtUa9DIMzpd8txXSwb8ttebAuxInk");
+	         conn.setDoOutput(true);
+	        
+	         String Data = "roomName="+ liveTitle + "&maxUser=5&webrtc=91";
+	         
+//	         JSONObject Data = new JSONObject();
+//	         Data.put("maxUser", "5");
+//	         Data.put("roomName", "CreateRoomTest");
+//	         System.out.println("JSONData : " + Data.toString());
+	        
+	         OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+	         wr.write(Data);
+	         wr.flush();
+	         
+	         // 데이터 입력 스트림에 담기
+	         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+	         while(br.ready()) {
+	        	 sb.append(br.readLine());
+	         }
+	         conn.disconnect();
+	         System.out.println("br" + br);
+	         System.out.println("wr" + wr);
+	         result = (JSONObject) new JSONParser().parse(sb.toString());
+	         
+	         // REST API 호출 상태 출력하기
+	         StringBuilder out = new StringBuilder();
+	         out.append(result.get("status") + " : " + result.get("status_message")+"\n");
+	         
+	         // JSON데이터에서 "data"라는 JSONObject를 가져온다.
+	         JSONObject data = (JSONObject) result.get("data");
+	         String roomId = (String) data.get("roomId"); 
+	         long Code = (long)result.get("result_cd");
+	         System.out.println("Code : " + Code);
+	         System.out.println("data : " + data);
+	         System.out.println("roomId : " + roomId);
+	         
+	         //라이브 방송 등록 후 DB에 데이터 입력
+	         //라이브
+	         User user = (User)session.getAttribute("user");
+	         
+	         Live live = new Live();
+	         
+	         live.setRoomId(roomId);
+	         live.setStoreId(user.getId());
+	         live.setLiveTitle(liveTitle);
+	         live.setLiveIntro(liveTitle);
+	         live.setLiveImage("라이브 대표사진.png");
+	         
+	         liveService.addLive(live);
+	         System.out.println("이잉" + liveService.getLive(10011));
+	         live = null;
+	         
+//	 		for(String product : liveProducts) {
+//	 			System.out.println(product);
+//	 			}
+	         
+	         //라이브 판매 상품
+	         live = liveService.getLiveByStoreId(user.getId());
+	        
+	         LiveProduct liveProduct = new LiveProduct();
+	         
+	         for(String product : liveProducts) {
+	        	 liveProduct.setLiveNumber(live.getLiveNumber());
+	        	 liveProduct.setLiveReservationNumber(0);
+	        	 liveProduct.setProductNumber(Integer.parseInt(product));
+	        	 liveProduct.setProductMainImage(productService.getProduct(Integer.parseInt(product)).getProductMainImage());
+	        	 liveService.addLiveProduct(liveProduct);
+	         	}
+	         
+	         
+	         
+	         return "view/live/live";
+	         
+	}
    
    @GetMapping( "addLiveView" )
    public String addLiveView( HttpSession session,
