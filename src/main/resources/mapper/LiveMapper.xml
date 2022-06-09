@@ -34,7 +34,10 @@
    <resultMap id="liveReservationMap" type="LiveReservation">
        <result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
        <result property="storeId" column="store_id" jdbcType="VARCHAR" />
-       <result property="reservationDate" column="resevation_date" jdbcType="DATE" />
+       <result property="reservaiontDate" column="reservation_date" jdbcType="DATE" />
+       <result property="title" column="title" jdbcType="VARCHAR" />
+       <result property="start" column="start" jdbcType="DATE" />
+       <result property="end" column="end" jdbcType="DATE" />
     </resultMap>
     
     <resultMap id="liveUserStatusMap" type="LiveUserStatus">
@@ -184,7 +187,15 @@
           </where>
        </if>
     </select>
-    
+	
+	<!-- GET LIST ListReservationCal -->
+	<select id="getLiveReservationCal" parameterType="LiveReservation" resultMap="liveReservationMap">
+		SELECT * FROM live_reservaion
+		<where>
+			reservation_date BETWEEN #{start} AND #{end}
+		</where>
+	</select>
+	    
     <!-- GET LIST ListUserStatus -->
     <select id="getLiveUserStatusList" parameterType="LiveUserStatus" resultMap="liveUserStatusMap">
       SELECT * FROM live_user_status

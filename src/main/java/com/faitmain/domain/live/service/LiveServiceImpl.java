@@ -128,15 +128,11 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.deleteLiveReservation(liveReservationNumber);
 	}
 	
-	public Map<String, Object> getLiveReservationList(String reservationDate) throws Exception{
+	public List<LiveReservation> getLiveReservationList(LiveReservation liveReservation) throws Exception{
 		
-		List<LiveReservation> list = liveMapper.getLiveReservationList(reservationDate);
+		List<LiveReservation> list = liveMapper.getLiveReservationList(liveReservation);
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		map.put("list", list);
-		
-		return map;
+		return list;
 	}
 	
 	//liveUserStatus

@@ -48,7 +48,7 @@ public interface LiveMapper {
 	
 	public int deleteLiveReservation(int liveReservationNumber) throws Exception;
 	
-	public List<LiveReservation> getLiveReservationList(String reservationDate) throws Exception;
+	public List<LiveReservation> getLiveReservationList(LiveReservation liveReservation) throws Exception;
 	
 	//liveUserStatus
 	public int addLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception;

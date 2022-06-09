@@ -1,9 +1,17 @@
 package com.faitmain.domain.live.controller;
 
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -91,26 +99,41 @@ public class LiveRestController {
 
 	// LIVE RESERVATION
 	@GetMapping("json/getLiveReservationCal")
-	public Map<String, Integer> getLiveReservationCal() throws Exception {
-		System.out.println("/live/json/getLiveReservationCal : GET start...");
-
-		System.out.println("/live/json/getLiveReservationCal : GET end...");
-		return null;
+	public List<Map<String, Object>> getLiveReservationCal() throws Exception {
+		log.info("/live/json/getLiveReservationCal : GET start...");
+		
+		List<LiveReservation> list = new ArrayList<LiveReservation>();
+		
+		Map<String, Object> map = new HashMap<>();
+		Date date = new Date(2022, 5, 9);
+		
+		map.put("title", "예약 수 : 5");
+		map.put("start", new SimpleDateFormat("yyyy-MM-dd").format(date));
+		
+		JSONArray jsonArr = new JSONArray();
+		
+		JSONObject jsonObj = new JSONObject(map);
+		jsonArr.add(jsonObj);
+		
+		log.info("jsonArrCheck: {}", jsonArr);
+		
+		log.info("/live/json/getLiveReservationCal : GET end...");
+		return jsonArr;
 	}
 
-	@PostMapping("json/deleteLiveReservation")
-	public Map<String, Object> deleteLiveReservation(@RequestBody LiveReservation liveReservation) throws Exception {
-		System.out.println("/live/json/deleteLiveReservation : POST start...");
-
-		System.out.println("deleteLiveReservation result : "
-				+ liveService.deleteLiveReservation(liveReservation.getLiveReservationNumber()));
-
-		Map<String, Object> map = liveService.getLiveReservationList(liveReservation.getReservationDate());
-
-		System.out.println("/live/json/deleteLiveReservation : POST end...");
-
-		return map;
-	}
+//	@PostMapping("json/deleteLiveReservation")
+//	public Map<String, Object> deleteLiveReservation(@RequestBody LiveReservation liveReservation) throws Exception {
+//		System.out.println("/live/json/deleteLiveReservation : POST start...");
+//
+//		System.out.println("deleteLiveReservation result : "
+//				+ liveService.deleteLiveReservation(liveReservation.getLiveReservationNumber()));
+//
+//		Map<String, Object> map = liveService.getLiveReservationList(liveReservation.getReservationDate());
+//
+//		System.out.println("/live/json/deleteLiveReservation : POST end...");
+//
+//		return map;
+//	}
 	
 	
 	
