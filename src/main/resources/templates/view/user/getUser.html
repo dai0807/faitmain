@@ -179,7 +179,7 @@
 					var phoneNumber = $("#phoneNumber").val()
 					$("input[name='phoneNumber']").attr("readonly",true);
 
-					alert("인증번호 누르기 클릭 "+ phoneNumber)
+				//	alert("인증번호 누르기 클릭 "+ phoneNumber)
 					 $("#phone_C").css("display", "inline-block"); // 휴대폰 인증 보이기
 					$("#phoneCheck").css("display", "inline-block"); //
 					 $("#phoneCheck").attr("readonly",false);
@@ -491,7 +491,11 @@
 			<a href="javascript:history.back()" class="btn btn-secondary btn-xs" role="button">확인</a>
  				<button type="button" id ="updatebutton"class="btn btn-success"  >정보수정</button>
 
+			<!-- 가입 경로가 자사 회원이 유저들만 이용 가능-->
+			<div th:if="${session.user.joinPath == 'HOME'}"  >
+
 				 <a th:href="@{/user/updatePassword}"  class="btn btn-info" role="button">비밀번호 재설정</a>
+			<div>
 			
 				<br/><br/>
 				<hr/>
