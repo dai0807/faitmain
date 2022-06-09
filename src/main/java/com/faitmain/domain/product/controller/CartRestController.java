@@ -3,18 +3,15 @@ package com.faitmain.domain.product.controller;
 import java.util.Collections;
 import java.util.Map;
 
-import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.faitmain.domain.product.domain.Cart;
@@ -45,31 +42,30 @@ public class CartRestController {
 	@PostMapping("json/addCart")	
 //	@ResponseBody
 //	public Map<String, Boolean> addCart(@RequestBody Cart cart) throws Exception{
-	public Map<String, Boolean> addCart(Product product) throws Exception{
+	public Map<String, Boolean> addCart(Cart cart, HttpServletRequest request) throws Exception{
 		log.info("/cart/json/addCart");
 		
 //		log.info("받은 카트 정보 : " + cart.getProduct().getProductName());
-		log.info("받은 카트 정보 : " + product);
-		log.info("받은 카트 정보 : " + product.getProductNumber());
+		log.info("받은 카트 정보 = {}", cart.getProduct());
+		log.info("받은 카트 정보 = {}", cart.getProduct().get(0).getProductNumber());
 		
-		Cart cart = new Cart();
-		cart.setUserId("user01@naver.com");
-		
-		if(product.getProductOptions().size() > 0) {
-			for(Product prod : product.getProductOptions()) {
-				cart.setCartProduct(prod);
-				cartService.addCart(cart);
-			}
-		}
-		
-//		Cart prevCart = cartService.getCart(cart);
+		cart.setUserId("user03@naver.com");
 		
 		boolean result = false;
 		
-//		if(prevCart == null) {
-//			cartService.addCart(cart);
-//			result = true;
-//		}
+		//if(cart.getProduct().size() > 1) {
+			for(Product prod : cart.getProduct()) {
+				if(prod.getProductNumber()!=0) {
+					cart.setCartProduct(prod);
+					cart.setCartQuantity(prod.getProductQuantity());
+					Cart prevCart = cartService.getCart(cart);
+					if(prevCart == null) {
+						cartService.addCart(cart);
+						result = true;
+					}
+				}				
+			}
+		//}
 		
 		return Collections.singletonMap("result", result);
 		

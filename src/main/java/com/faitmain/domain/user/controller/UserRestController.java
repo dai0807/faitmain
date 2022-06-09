@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.faitmain.domain.user.domain.StoreApplicationDocument;
+import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserSerivce;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,37 @@ public class UserRestController {
 	   }
 	
 	// 중복 체크 4개 나 있음 !!!
+
+		@PostMapping( value="json/updateUser"  )
+		public int ajaxupdateUser( @RequestParam ("id") String id ,
+				@RequestParam("address") String address,
+				@RequestParam("postalCode") int postalCode,
+				@RequestParam("nickname") String nickname,
+				@RequestParam("phoneNumber") String phoneNumber) throws Exception {
+			
+			User user = new User();
+			user.setId(id);
+			user.setAddress(address);
+			user.setPostalCode(postalCode);
+			user.setNickname(nickname);
+			user.setPhoneNumber(phoneNumber) ;
+			
+		//아직  checkDuplication 없음 
+			int result = 0 ;
+
+			log.info("updateUser :: user 출력   {} "  ,  user );
+		
+		//	result = userSerivce.updateUser(user);
+ 			
+			result = userSerivce.updateUser(user) ;
+			log.info("updateUser :: result 출력   {} "  ,  result );
+		
+			
+			return result ;
+		}
+//		
+	   
+	   
 	   
 		@GetMapping( value="idCheck" )
 		public int idCheck( @RequestParam ("id") String  id ) throws Exception {
