@@ -32,12 +32,6 @@ public class CustomerController{
 	@Qualifier("customerServiceImpl")
 	private CustomerService customerService;
 
-
-//	public CustomerController() {
-//		log.info("Controller = {}", this.getClass());
-//		
-//		System.out.println(this.getClass());
-//	}
 	
 	@GetMapping("write")
 	public String openBoardWrite(@RequestParam(value = "boardNumber", required = false) Integer boardNumber, Model model) throws Exception {
@@ -117,15 +111,7 @@ public class CustomerController{
 	
 	
 	
-	@GetMapping("updateCustomerBoard")
-	public String updateCustomerBoard() throws Exception{
-		
-		System.out.println("/customer/updateCustomerBoard : GET start..");
-		
-		System.out.println("/customer/updateCustomerBoard : GET end..");
-		
-		return null;
-	}
+}
 	
 //	@PostMapping("updateCustomerBoard")
 //	public String updateCustomerBoard(@ModelAttribute("customer") Customer customer,@RequestParam("file") Multipart file, Model model) throws Exception{

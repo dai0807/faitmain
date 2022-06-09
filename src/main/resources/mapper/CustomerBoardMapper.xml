@@ -8,16 +8,14 @@
 		<result property="boardNumber"  				column="customer_board_number"		jdbcType="INTEGER"/>
 		<result property="boardTitle"					column="customer_board_title" 		jdbcType="VARCHAR" />
 		<result property="boardContent"					column="customer_board_content" 	jdbcType="VARCHAR" />
-		<result property="regDate"						column="reg_date"	 				jdbcType="DATE" />
-		<result property="updateDate"					column="update_date" 				jdbcType="DATE" />
+		<result property="boardRegDate"					column="reg_date"	 				jdbcType="DATE" />
+		<result property="boardUpdateDate"				column="update_date" 				jdbcType="DATE" />
 		<result property="FAQCategoryCode"			 	column="customer_FAQ_category_code" jdbcType="INTEGER" />
 		<result property="boardType"  					column="customer_board_type" 		jdbcType="CHAR" />
-<<<<<<< HEAD
-		<result property="hitCnt"  						column="hit" 						jdbcType="INTEGER" />
-=======
 		<result property="viewCount"  					column="view_cnt" 					jdbcType="INTEGER" />
-		<result property="selectDelete"  				column="delete_yn" 					jdbcType="VARCHAR" />
->>>>>>> refs/remotes/origin/master
+		<result property="delete_yn"  					column="delete_yn" 					jdbcType="VARCHAR" />
+		<result property="Image"  						column="boardImage" 				jdbcType="VARCHAR" />
+
 	 	<!-- <result property="customerId"					column="customer_id"  				jdbcType="VARCHAR" /> -->
 		
 		<association property="customerId" javaType="com.faitmain.domain.user.domain.User" >	
@@ -56,29 +54,33 @@
 	<select id="customerCount" resultType ="int">
  		SELECT COUNT(customer_board_number) cnt FROM customer
  	</select>  
- 	
- 	<select id="getCustomerBoardList" resultMap="customerMap">
-		SELECT * FROM customer ORDER BY reg_date DESC
-	</select>
 	
-	<select id="getCustomerBoard" parameterType="int" resultMap="customerMap">
-		SELECT * FROM customer WHERE customer_board_number=#{boardNumber}
-	</select>
+	 <select id="getCustomerBoard" parameterType="int" resultType="Customer" resultMap ="customerMap">
+
+    	SELECT 
+    	customer_board_title, customer_board_content, customer_FAQ_category_code, customer_board_type, reg_date, update_date, customer_id
+    	FROM customer 
+    	<where>
+			delete_yn = "N" AND customer_board_number = #{boardNumber}
+      	</where>    			  	
+    </select>
 	
-	<insert id="addCustomerBoard" parameterType="com.faitmain.domain.customer.domain.Customer">
+	<insert id="addCustomerBoard" parameterType="Customer">
     	INSERT INTO customer
-		    ( customer_board_title, customer_board_content, reg_date, update_date, 
+		    ( customer_board_title, customer_board_content, reg_date, 
 		     customer_FAQ_category_code, customer_board_type, customer_id )
 		VALUES
-		    (  #{boardTitle}, #{boardContent}, NOW(), NOW(), 1 , 'c' , #{customerId.id} )
+		    (  #{boardTitle}, #{boardContent}, NOW(), 1 , 'c' , #{customerId.id} )
 	</insert>
 	
-	<update id="updateCustomerBoard" parameterType="com.faitmain.domain.customer.domain.Customer">
+	<update id="updateCustomerBoard" parameterType="Customer">
     	UPDATE customer
     	<set>
-    		<!-- customer_board_type		= #{boardType}, -->
+    		customer_board_type		= #{boardType}, 
     		customer_board_title	= #{boardTitle},
     		customer_board_content	= #{boardContent}
+    		update_date				= NOW()
+    		customer_id				= #{customerId.id}
     		<!-- customer_FAQ_category_code = #{FAQCategoryCode}, -->
     		<!-- image_number			= #{imageNumber}, -->
     	</set>
@@ -87,12 +89,15 @@
     	</where>
     </update>
     
-     <delete id="deleteCustomerBoard" parameterType="int">
-    	DELETE FROM customer
+      <update id="deleteCustomerBoard" parameterType="Customer" >
+    	UPDATE FROM customer
+    	<set>
+    		delete_yn = "Y"
+    	</set>
     	<where>
     		customer_board_number = #{boardNumber}
     	</where>
-    </delete>
+    </update>
     
     <select id="getViewCount" parameterType="int" resultMap="customerMap">
     	SELECT hit
@@ -102,24 +107,28 @@
     	</where>
     </select>
     
-    <update id="updateViewCount" parameterType="int">
-    	UPDATE hit
-    	<set>
-    		hit = #{hitCnt}+1
-    	</set>
-    	<where>
-    		customer_board_number = #{boardNumber}
-    	</where>
-    </update>
+    <!-- SQL : SELECT LIST -->
+    <select id="getCustomerBoardList" parameterType="Customer" resultType="Customer">
+    
+    	SELECT * 
+    	FROM customer
+    	WHERE delete_yn = "N"
+    	ORDER BY reg_date DESC
+    	
+    </select> 
+    
+     <!-- 게시글 수  -->
+    <select id="getBoardTotalCount" parameterType="Customer" resultType="int">
+    
+    	SELECT COUNT(*)
+    	FROM customer
+    	WHERE delete_yn = "N"
+    
+    </select> 
+    
+    
 <!-- ============================================================================= -->	
 	<!-- SQL : INSERT -->
-	<!-- <insert id="addCustomerBoard" parameterType="Customer">
-    	INSERT INTO customer
-		    ( customer_board_title, customer_board_content, reg_date, update_date, 
-		     customer_FAQ_category_code, customer_board_type, customer_id )
-		VALUES
-		    (  #{boardTitle}, #{boardContent}, NOW(), NULL, #{FAQCategoryCode}, #{boardType}, #{customerId.id} )
-	</insert>
 	
    <!--  <insert id="addCustomerBoardImage" parameterType="com.faitmain.global.common.Image" >
     	INSERT
@@ -153,7 +162,7 @@
     </select>
 
     
-   <!--  <select id="getCustomerBoardImage" parameterType="int" resultMap="customerMap">
+   <select id="getCustomerBoardImage" parameterType="int" resultMap="customerMap">
     	SELECT *
     	FROM image
     	<where>
@@ -200,19 +209,7 @@
    		<where>
    			report_number = #{reportNumber}
    		</where> 
-   	</update>-->
-   	
-
-    <update id="deleteCustomerBoard" parameterType="Customer" >
-    	UPDATE FROM customer
-    	<set>
-    		delete_yn = 'Y'
-    	</set>
-    	<where>
-    		customer_board_number = #{boardNumber}
-    	</where>
-    </update>
-    
+   	</update>-->    
 
    <!--  <delete id="deleteCustomerBoard" parameterType="Customer">
     	DELETE FROM customer
@@ -227,32 +224,12 @@
     		image_number = #{imageNumber}
     	</where>
     </delete> -->
-    
-    <!-- SQL : SELECT LIST -->
-    <select id="getCustomerBoardList" parameterType="Customer" resultType="Customer">
-    
-    	SELECT * 
-    	FROM customer
-    	WHERE delete_yn = 'N'
-    	ORDER BY reg_date DESC
-    	
-    </select> 
-    
-    <!-- 게시글 수  -->
-    <select id="getBoardTotalCount" parameterType="Customer" resultType="int">
-    
-    	SELECT COUNT(*)
-    	FROM customer
-    	WHERE delete_yn = 'N'
-    
-    </select> 
-    
-  
+     
 
 	<!-- <select  id="getCustomerBoardList"  parameterType="map"	resultMap="customerMap">
 
    							
-   		<!-- SELECT c1.* 
+  		SELECT c1.* 
    		FROM (SELECT @ROWNUM:=@ROWNUM+1 AS row_num, 
 
    			c.* FROM customer AS c,(SELECT @ROWNUM:=0) AS r ORDER BY reg_date DESC) AS c1 

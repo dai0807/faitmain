@@ -2,9 +2,10 @@ package com.faitmain.domain.customer.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.util.CollectionUtils;
 
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.user.domain.User;
@@ -159,7 +161,7 @@ public class CustomerMapperTest{
 	}
 	
 	@Test
-	public void getCustomerBoardList() throws Exception{
+	public void getCustomerBoardListTest() throws Exception{
 		int boardTotalCount = customerMapper.getBoardTotalCount();
 		
 		if(boardTotalCount > 0) {
@@ -178,7 +180,7 @@ public class CustomerMapperTest{
 	}
 	
 //	@Test
-	public void deleteCustomerBoard() throws Exception {
+	public void deleteCustomerBoardTest() throws Exception {
 		int result = customerMapper.deleteCustomerBoard(17);
 		if(result == 17) {
 			Customer customer = customerMapper.getCustomerBoard(17);

@@ -21,8 +21,9 @@ public class Customer{
 	private char boardType;
 	private User customerId;
 //	private int totalCount;
-	private int viewCnt;
+	private int viewCount;
 	private String delete_yn;
+	private String Image;
 
 
 

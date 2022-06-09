@@ -4,19 +4,13 @@ package com.faitmain.domain.customer.service;
 import java.util.Collections;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
-import org.intellij.lang.annotations.JdkConstants.TreeSelectionMode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.faitmain.domain.customer.domain.BanStatus;
+
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.mapper.CustomerMapper;
-import com.faitmain.domain.user.domain.User;
-import com.faitmain.global.common.Image;
 
 import lombok.RequiredArgsConstructor;
 
@@ -52,11 +46,6 @@ public class CustomerServiceImpl implements CustomerService{
 
 	}
 	
-
-	@Transactional
-	public void addCustomerBoard(Customer customer) {
-		 customerMapper.addCustomerBoard(customer);
-	}
 //	@Override
 //	public int addCustomerBoard(Customer customer) throws Exception {
 //		customerMapper.addCustomerBoard(customer);
@@ -101,15 +90,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 	
 	
-	public int getViewCount(int boardNumber) {
-		return customerMapper.getViewCount(boardNumber);
-	}
 	
-	public void updateViewCount(int boardNumber, int temp) {
-		customerMapper.updateViewCount(boardNumber, temp);
-	}
-
-
 	
 	
 }
