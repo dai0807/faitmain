@@ -1,6 +1,7 @@
 package com.faitmain.domain.order.mapper;
 
 import com.faitmain.domain.order.domain.Order;
+import com.faitmain.domain.order.domain.OrderOne;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +25,120 @@ class OrderMappperTest{
     @Autowired
     private OrderMapper orderMapper;
 
+
+    /* 상품 정보 (주문처리) */
     @Test
+    public void getOrdetInfoTest(){
+
+        OrderOne orderInfo = orderMapper.getOrderInfo( 10001 );
+        log.info( "orderInfo = {}" , orderInfo );
+
+    }
+
+    /* 주문 테이블 등록 */
+/*
+    @Test
+    public void enrollOrderTest(){
+
+        Order order = new Order();
+        List<OrderOne> orderBundle = new ArrayList<>();
+
+        OrderOne orderOne = new OrderOne();
+        orderOne.setOrderOneNumber(0);
+        orderOne.setOrderNumber("");
+        orderOne.setProductNumber(0);
+        orderOne.setProductQuantity(0);
+        orderOne.setProductPrice(0);
+        orderOne.setProductDiscount(0.0D);
+        orderOne.setRewardPoint(0);
+        orderOne.setSalePrice(0);
+        orderOne.setTotalPrice(0);
+        orderOne.setTotalRewardPoint(0);
+
+        order.setOrderBundle( orderBundle );
+
+        order.setOrderNumber(0);
+        order.setProductNumber(0);
+        order.setBuyerId("");
+        order.setStoreId("");
+        order.setOrderStatus("");
+        order.setOrderBundle(Lists.newArrayList());
+        order.setDeliveryCharge(0);
+        order.setOrderDate(new Date(new java.util.Date().getTime()));
+        order.setReceiverName("");
+        order.setReceiverPhone("");
+        order.setReceiverAddress1("");
+        order.setReceiverAddress2("");
+        order.setReceiverAddress3("");
+        order.setUsingPoint(0);
+        order.setOrderSalePrice(0);
+        order.setOrderRewardPoint(0);
+        order.setOrderFinalSalePrice(0);
+
+        orderMapper.enrollOrder( order );
+    }
+*/
+
+/*    *//* vam_itemorder 테이블 등록 *//*
+    @Test
+    public void enrollOrderItemTest() {
+
+        OrderItemDTO oid = new OrderItemDTO();
+
+        oid.setOrderId("2021_test1");
+        oid.setBookId(61);
+        oid.setBookCount(1);
+        oid.setBookPrice(70000);
+        oid.setBookDiscount(0.1);
+
+        oid.initSaleTotal();
+
+        mapper.enrollOrderItem(oid);
+
+    }
+
+    *//* 회원 돈, 포인트 정보 변경 *//*
+    @Test
+    public void deductMoneyTest() {
+
+        MemberVO member = new MemberVO();
+
+        member.setMemberId("admin");
+        member.setMoney(500000);
+        member.setPoint(10000);
+
+        mapper.deductMoney(member);
+    }
+
+    *//* 상품 재고 변경 *//*
+    @Test
+    public void deductStockTest() {
+        BookVO book = new BookVO();
+
+        book.setBookId(61);
+        book.setBookStock(77);
+
+        mapper.deductStock(book);
+    }*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   /* @Test
     @DisplayName( "주문등록 테스트" )
     public void addOrderTest(){
 
@@ -142,8 +257,7 @@ class OrderMappperTest{
             System.out.println( "order = " + order );
         }
 
-    }
-
+    }*/
 
 
 }
