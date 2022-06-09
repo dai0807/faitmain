@@ -65,14 +65,20 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public List<Customer> getCustomerBoardList() throws Exception {
 		
-		List<Customer> list = Collections.emptyList();
+		System.out.println("getList mapper start");
 		
+		
+		List<Customer> list = Collections.emptyList();
+		System.out.println(list);
 		int boardTotalCount = customerMapper.getBoardTotalCount();
+		System.out.println(boardTotalCount);
 		
 		if(boardTotalCount > 0) {
 			list = customerMapper.getCustomerBoardList();
 		}
-		  return list; 
+		System.out.println("getList mapper end");
+			return list; 
+		  
 	}
 	  
 	@Override

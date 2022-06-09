@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<body th:fragment="main-body">
+	
+	<style>
+		div.fixed-navbar {
+		background-color:#212529;
+		}
+	
+	</style>
+	
 		<div class="fixed-navbar">
 			<div class="pull-left">
 				<h1 class="page-title">Board</h1>
@@ -52,7 +60,13 @@
 			<!-- /.main-content -->
 		</div>
 		<!-- /#wrapper -->
+		<script th:src="@{/customerCssDemo/scripts/jquery.min.js}"></script>
+		<script th:src="@{/customerCssDemo/plugin/bootstrap/js/bootstrap.min.js}"></script>
+		<script th:src="@{/customerCssDemo/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js}"></script>
+		
+		<script th:src="@{/customerCssDemo/scripts/main.js}"></script>
+		<script th:src="@{/customerCssDemo/scripts/common.js}"></script>
 
-		<script th:src="@{/scripts/jquery.min.js}"></script>
-		<script th:src="@{/plugin/bootstrap/js/bootstrap.min.js}"></script>
-		<script th:src="@{/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js}"></script>
+		<th:block layout:fragment="script"></th:block>
+	</body>
+</html>

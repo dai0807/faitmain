@@ -14,7 +14,7 @@
 		<result property="boardType"  					column="customer_board_type" 		jdbcType="CHAR" />
 		<result property="viewCount"  					column="view_cnt" 					jdbcType="INTEGER" />
 		<result property="delete_yn"  					column="delete_yn" 					jdbcType="VARCHAR" />
-		<result property="Image"  						column="boardImage" 				jdbcType="VARCHAR" />
+		<result property="image"  						column="boardImage" 				jdbcType="VARCHAR" />
 
 	 	<!-- <result property="customerId"					column="customer_id"  				jdbcType="VARCHAR" /> -->
 		
@@ -58,7 +58,7 @@
 	 <select id="getCustomerBoard" parameterType="int" resultType="Customer" resultMap ="customerMap">
 
     	SELECT 
-    	customer_board_title, customer_board_content, customer_FAQ_category_code, customer_board_type, reg_date, update_date, customer_id
+    	customer_board_number, customer_board_title, customer_board_content, customer_FAQ_category_code, customer_board_type, reg_date, update_date, customer_id
     	FROM customer 
     	<where>
 			delete_yn = "N" AND customer_board_number = #{boardNumber}
@@ -78,8 +78,8 @@
     	<set>
     		customer_board_type		= #{boardType}, 
     		customer_board_title	= #{boardTitle},
-    		customer_board_content	= #{boardContent}
-    		update_date				= NOW()
+    		customer_board_content	= #{boardContent},
+    		update_date				= NOW(),
     		customer_id				= #{customerId.id}
     		<!-- customer_FAQ_category_code = #{FAQCategoryCode}, -->
     		<!-- image_number			= #{imageNumber}, -->
@@ -90,7 +90,7 @@
     </update>
     
       <update id="deleteCustomerBoard" parameterType="Customer" >
-    	UPDATE FROM customer
+    	UPDATE customer
     	<set>
     		delete_yn = "Y"
     	</set>
@@ -99,16 +99,16 @@
     	</where>
     </update>
     
-    <select id="getViewCount" parameterType="int" resultMap="customerMap">
+   <!--  <select id="getViewCount" parameterType="int" resultMap="customerMap">
     	SELECT hit
     	FROM customer
     	<where>
     		customer_board_number = ${boardNumber}
     	</where>
-    </select>
+    </select> -->
     
     <!-- SQL : SELECT LIST -->
-    <select id="getCustomerBoardList" parameterType="Customer" resultType="Customer">
+    <select id="getCustomerBoardList" parameterType="map" resultMap="customerMap" >
     
     	SELECT * 
     	FROM customer

@@ -76,12 +76,13 @@ public class CustomerMapperTest{
 		User user = new User();
 		user.setId("admin@naver.com");
 		
-		customer.setBoardNumber(17);
-		customer.setBoardTitle("공지사항17");
-		customer.setBoardContent("17번째 공지사항입니다.");
+		customer.setBoardNumber(33);
+		customer.setBoardTitle("공지사항3");
+		customer.setBoardContent("공지사항 세번째");
 		customer.setFAQCategoryCode(3);
 		customer.setBoardType('N');
 		customer.setCustomerId(user);
+		customer.setDelete_yn("N");
 		
 		System.out.println(customer);
 		
@@ -160,7 +161,7 @@ public class CustomerMapperTest{
 		System.out.println("multipleAddTest end");
 	}
 	
-	@Test
+//	@Test
 	public void getCustomerBoardListTest() throws Exception{
 		int boardTotalCount = customerMapper.getBoardTotalCount();
 		
