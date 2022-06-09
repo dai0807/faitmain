@@ -9,11 +9,13 @@ import java.util.Map;
 
 public interface OrderService{
 
+
     /* 주문정보 */
     List<OrderPageOne> getProductInfo( List<OrderPageOne> orderBundle );
 
-    /* 주문자 정보 */
-    User getBuyerInfo( int UserNumber );
+    /* 주문 */
+    void order( Order order ) throws Exception;
+
 
 
     /********************************************************/

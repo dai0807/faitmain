@@ -6,6 +6,21 @@
 <mapper namespace="com.faitmain.domain.user.mapper.UserMapper">
 
 
+
+
+	<select id="getBuyerInfo" resultType="User">
+		SELECT user_number, name, address, total_point FROM user WHERE user_number=#{userNumber}
+	</select>
+
+
+
+
+
+	<!-- **************************************************************** -->
+
+
+
+
 <resultMap id="userMap" type="User">
 <result property="userNumber" 					column="user_number" 				jdbcType="INTEGER"/>
 		<result property="id" 					column="id" 						jdbcType="VARCHAR"/>
@@ -81,8 +96,6 @@ VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#
 		FROM user
  		WHERE
  			id = #{value}
-		
-			      
   </select>
  
  <select id ="getMapUser" parameterType="map"  resultMap ="userMap" >
