@@ -9,13 +9,24 @@ import java.util.Date;
 public class Cart {
 
 	private int cartNumber;
+
 	private String userId;
+
+//	private Product product;
+
+
 	private int productNumber;
+
 	private Date cartCookieLimit;
+
 	private String cartCookieId;
+
 	private String cartOptionContent;
+
 	private int cartOptionNumber;
+
 	private Product cartProduct;
+
 	private int cartQuantity;
 
 	@Builder

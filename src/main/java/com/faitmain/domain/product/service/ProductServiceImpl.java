@@ -80,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
 		if(product.getProductOptions() != null) {
 			for(Product option : product.getProductOptions()) {
 				option.setCategoryCode(product.getCategoryCode());
-				option.setPrice(product.getPrice());
+				option.setProductPrice(product.getProductPrice());
 				option.setProductMainImage(product.getProductMainImage());
 				option.setProductGroupNumber(product.getProductGroupNumber());
 				option.setStore(product.getStore());
