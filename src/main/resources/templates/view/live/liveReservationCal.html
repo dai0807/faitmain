@@ -5,21 +5,14 @@
 <head>
 
 <meta charset="EUC-KR">
-<title>Premium Live Calendar</title>
+<title>Live Reservation Calendar</title>
 
 	<!-- Full Calendar CDN -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.css" integrity="sha256-jLWPhwkAHq1rpueZOKALBno3eKP3m4IMB131kGhAlRQ=" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.js" integrity="sha256-bFpArdcNM5XcSM+mBAUSDAt4YmEIeSAdUASB2rrSli4=" crossorigin="anonymous"></script>
 
-	<script>
-	document.addEventListener('DOMContentLoaded', function() {
-		var calendarEl = document.getElementById('calendar');
-		var calendar = new FullCalendar.Calendar(calendarEl, {
-			initialView: 'dayGridMonth'
-		});
-		calendar.render();
-	});
-	</script>
+
+	<script th:src="@{/js/liveFullCalendar.js}"><</script>
 	
 	<style>
 		h2 {
@@ -40,8 +33,11 @@
 	<article layout:fragment="content"  >
 		<div class="container-fluid">
 			<h2>프리미엄 라이브 캘린더</h2>
-			<div id='calendar'>
-			</div>
+			<form>
+				<div id='calendar'>
+				</div>
+				<input type="hidden" name="date" value="">
+			</form>
 		</div>
 	</article>
 

@@ -194,8 +194,7 @@ CREATE TABLE `live` (
                     `live_image`      varchar(30) DEFAULT 'noimage.jpg' ,
                     `live_status`     tinyint     DEFAULT '0' ,
                     `chatting_status` tinyint     DEFAULT '0' ,
-                    PRIMARY KEY ( `live_number`, 'room_id' ) ,
-                    FOREIGN KEY ( store_id ) REFERENCES user ( id )
+                    PRIMARY KEY ( `live_number`, 'room_id' ) 
                     );
 
 CREATE TABLE `live_user_status` (
@@ -203,17 +202,17 @@ CREATE TABLE `live_user_status` (
                                 `id`           varchar(25) NOT NULL ,
                                 `alarm_status` tinyint DEFAULT '0' ,
                                 `kick_status`  tinyint DEFAULT '0' ,
-                                `dumb_status`  tinyint DEFAULT '0' ,
-                                FOREIGN KEY ( live_number ) REFERENCES live ( live_number )
+                                `dumb_status`  tinyint DEFAULT '0'
                                 );
 
 CREATE TABLE live_reservation (
                               `live_reservation_number` integer(5)  NOT NULL AUTO_INCREMENT ,
                               `store_id`                varchar(25) NULL ,
                               `reservation_date`        varchar(25)        NULL ,
+                              'title'					varchar(25) NULL,
+                              'reservation_time'		varchar(25) NULL,
 
-                              PRIMARY KEY ( live_reservation_number ) ,
-                              FOREIGN KEY ( store_id ) REFERENCES user ( id )
+                              PRIMARY KEY ( live_reservation_number )
                               );
 
 CREATE TABLE live_product (
@@ -222,9 +221,9 @@ CREATE TABLE live_product (
                                `live_reservation_number` INTEGER(5)  NOT NULL ,
                                `product_number`          INTEGER(5)  NOT NULL ,
                                `product_main_image`      VARCHAR(30) NOT NULL ,
-                               PRIMARY KEY ( live_product_number ) ,
-                               FOREIGN KEY ( live_number ) REFERENCES live ( live_number ) ,
-                               FOREIGN KEY ( product_number ) REFERENCES product ( product_number )
+                               'product_name'			 VARCHAR(25) NOT NULL ,
+                               'product_detail'			 VARCHAR(30) NULL,
+                               PRIMARY KEY ( live_product_number )
                                );
 
 CREATE TABLE live_chat (
@@ -232,8 +231,7 @@ CREATE TABLE live_chat (
                        `writer`           VARCHAR(20) NOT NULL ,
                        `chatting_message` VARCHAR(30) NOT NULL ,
                        `send_date`        DATE        NOT NULL ,
-                       FOREIGN KEY ( live_number ) REFERENCES live ( live_number ) ,
-                       FOREIGN KEY ( writer ) REFERENCES user ( id )
+                       FOREIGN KEY ( live_number ) REFERENCES live ( live_number )
                        );
 
 ALTER TABLE user AUTO_INCREMENT = 10000;
@@ -347,21 +345,26 @@ INSERT INTO live_user_status (live_number, id, alarm_status, kick_status, dumb_s
 INSERT INTO live_user_status (live_number, id, alarm_status, kick_status, dumb_status) VALUES (10001, 'user02@naver.com', 00, 02, 01);
 INSERT INTO live_user_status (live_number, id, alarm_status, kick_status, dumb_status) VALUES (10002, 'user03@naver.com', 03, 01, 02);
 
-INSERT INTO live_reservation (store_id, reservation_date) VALUES ('admin@naver.com', '2022-05-31 13:00');
-INSERT INTO live_reservation (store_id, reservation_date) VALUES ('store01@naver.com', '2022-04-21 09:00');
-INSERT INTO live_reservation (store_id, reservation_date) VALUES ('store02@naver.com', '2022-07-15 12:00');
-INSERT INTO live_reservation (store_id, reservation_date) VALUES ('store03@naver.com', '2022-06-4 18:00');
+INSERT INTO live_reservation (store_id, reservation_date, title, reservation_time) VALUES ('admin@naver.com', '2022-06-09', null, 1);
+INSERT INTO live_reservation (store_id, reservation_date, title, reservation_time) VALUES ('store01@naver.com', '2022-06-09', null, 2);
+INSERT INTO live_reservation (store_id, reservation_date, title, reservation_time) VALUES ('store01@naver.com', '2022-06-10', null, 2);
+INSERT INTO live_reservation (store_id, reservation_date, title, reservation_time) VALUES ('store02@naver.com', '2022-06-09', null, 3);
+INSERT INTO live_reservation (store_id, reservation_date, title, reservation_time) VALUES ('store02@naver.com', '2022-06-10', null, 3);
+INSERT INTO live_reservation (store_id, reservation_date, title, reservation_time) VALUES ('store03@naver.com', '2022-06-09', null, 4);
+INSERT INTO live_reservation (store_id, reservation_date, title, reservation_time) VALUES ('store03@naver.com', '2022-06-10', null, 4);
+INSERT INTO live_reservation (store_id, reservation_date, title, reservation_time) VALUES ('store03@naver.com', '2022-06-11', null, 4);
+INSERT INTO live_reservation (store_id, reservation_date, title, reservation_time) VALUES ('store04@naver.com', '2022-07-04', null, 2);
 
-INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10001, 10001, 10011, 'product_main_image 01');
-INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10001, 10001, 10012, 'product_main_image 02');
-INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10001, 10001, 10013, 'product_main_image 03');
-INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10002, 10002, 10005, 'product_main_image 04');
-INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10002, 10002, 10006, 'product_main_image 05');
-INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10002, 10002, 10007, 'product_main_image 06');
-INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10003, 10003, 10000, 'product_main_image 07');
-INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10003, 10003, 10001, 'product_main_image 08');
-INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10003, 10003, 10003, 'product_main_image 09');
-INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image) VALUES (10003, 10003, 10015, 'product_main_image 10');
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image, product_name, product_detail) VALUES (10001, 10001, 10011, 'product_main_image 01', 아디다스 티셔츠 한정판, product_detail 02);
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image, product_name, product_detail) VALUES (10001, 10001, 10012, 'product_main_image 02', 감성 무드등, product_detail 02);
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image, product_name, product_detail) VALUES (10001, 10001, 10013, 'product_main_image 03', 순면 100% 턱받침, product_detail 02);
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image, product_name, product_detail) VALUES (10002, 10002, 10005, 'product_main_image 04', 식빵 쿠키커터 스마일식빵 쿠키틀, product_detail 02);
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image, product_name, product_detail) VALUES (10002, 10002, 10006, 'product_main_image 05', 진정밤 멀티밤 트러블에 정말 좋아요~, product_detail 02);
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image, product_name, product_detail) VALUES (10002, 10002, 10007, 'product_main_image 06', 성분: 라벤더, product_detail 02);
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image, product_name, product_detail) VALUES (10003, 10003, 10000, 'product_main_image 07', 수제청 딸기청 패션후르츠 결혼식 답례품 생일선물, product_detail 02);
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image, product_name, product_detail) VALUES (10003, 10003, 10001, 'product_main_image 08', 종류: 딸기청best / 용량: 250ml, product_detail 02);
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image, product_name, product_detail) VALUES (10003, 10003, 10003, 'product_main_image 09', 종류: 오렌지청best / 용량: 250ml, product_detail 02);
+INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image, product_name, product_detail) VALUES (10003, 10003, 10015, 'product_main_image 10', 프랑스에서 만든 마카롱 10개 세트, product_detail 02);
 
 INSERT INTO live_chat (live_number, writer, chatting_message, send_date) VALUES (10001, 'user01@naver.com', 'user01의 message 01', NOW());
 INSERT INTO live_chat (live_number, writer, chatting_message, send_date) VALUES (10001, 'user01@naver.com', 'user01의 message 02', NOW());
