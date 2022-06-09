@@ -269,8 +269,6 @@
 			 	<button type="button" class="plus">+</button>			
 	  		</div>		
 		</div>
-		
-		
 	
 		<div >총 상품금액 : 
 			<strong id="totalPrice" th:if="${#lists.size(product.productOptions) == 0}" th:text="${product.productPrice}"></strong>
@@ -280,6 +278,23 @@
 		<button type="button" id="addOrder">구매</button>	
 	
 		</form>
+
+
+		<!-- 주문 form -->
+		<form th:action="/order/${user.id}" method="get" class="order_form">
+			<input type = "hidden" name = "orderBundle[0].productNumber" th:value = "${product.productNumber}"/>
+			<input type = "hidden" name = "orderBundle[0].productQuantity" value = ""/>
+		</form>
+
+		<!-- 바로구매 버튼 -->
+		<script th:inline="javascript">
+			$(".btn_buy").on("click", function () {
+				let productQuantity = [[${.quantity_input}]].values();
+				$(".order_form").find("input[name='orders[0].productQuantity']").val(productQuantity);
+				$(".order_form").submit();
+
+			});
+		</script>
 	</div>
 								
 </body>

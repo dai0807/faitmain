@@ -1,13 +1,17 @@
 package com.faitmain.domain.order.service;
 
 import com.faitmain.domain.order.domain.Order;
+import com.faitmain.domain.order.domain.OrderPageOne;
 import com.faitmain.domain.order.mapper.OrderMapper;
+import com.faitmain.domain.user.domain.User;
+import com.faitmain.domain.user.mapper.UserMapper;
+import com.faitmain.domain.web.domain.AttachImage;
+import com.faitmain.domain.web.mapper.AttachMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +22,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,14 +35,51 @@ public class OrderServiceImpl implements OrderService{
 
     @Autowired
     OrderMapper orderMapper;
-    @Value( "${pgmodule.app-id}" )
-    private String apiKey;
-    @Value( "${pgmodule.secret-key}" )
-    private String apiSecret;
+
+    @Autowired
+    AttachMapper attachMapper;
+
+
+
 
     @Override
-    public void addOrder( Order order ){
-        orderMapper.addOrder( order );
+    public List<OrderPageOne> getProductInfo( List<OrderPageOne> orderBundle ){
+
+        ArrayList<OrderPageOne> result = new ArrayList<>();
+        for ( OrderPageOne orderPageOne : orderBundle ) {
+            OrderPageOne productInfo = orderMapper.getProductInfo( orderPageOne.getProductNumber() );
+
+            productInfo.setProductQuantity( orderPageOne.getProductQuantity() );
+            productInfo.initSaleTotal();
+
+            List<AttachImage> imageList = attachMapper.getAttachList( productInfo.getProductNumber() );
+            productInfo.setImageList( imageList );
+
+            result.add( productInfo );
+        }
+
+        return result;
+    }
+
+    @Override
+    public User getBuyerInfo( int userNumber ){
+        return orderMapper.getBuyerInfo( userNumber );
+    }
+
+
+
+
+    /*****************************************************************************************************************/
+
+
+
+
+
+
+
+
+    @Override
+    public void addOrder( Order order ) throws Exception{
 
     }
 
@@ -77,8 +119,8 @@ public class OrderServiceImpl implements OrderService{
 
         JsonObject json = new JsonObject();
 
-        json.addProperty( "apiKey" , apiKey );
-        json.addProperty( "apiScret" , apiSecret );
+//        json.addProperty( "apiKey" , apiKey );
+//        json.addProperty( "apiScret" , apiSecret );
 
         BufferedWriter bw = new BufferedWriter( new OutputStreamWriter( conn.getOutputStream() ) );
 

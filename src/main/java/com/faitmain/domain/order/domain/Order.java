@@ -30,9 +30,6 @@ public class Order{
     /* 주문상태 */
     private String orderStatus;
 
-    /* 주문묶음번호 */
-    private Timestamp orderBundleNumber;
-
     /* 주문상품 */
     private List<OrderOne> orderBundle;
 
