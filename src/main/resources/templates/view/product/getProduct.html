@@ -133,7 +133,8 @@
 		
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2"><strong>상품번호</strong></div>
-			<div class="col-xs-8 col-md-4" th:text="*{productNumber}"></div>			
+			<div class="col-xs-8 col-md-4" th:text="*{productNumber}"></div>
+			<div class="col-xs-8 col-md-4" th:text="*{productRegDate}"></div>			
 		</div>
 		
 		<div class="row">
@@ -212,16 +213,19 @@
 					
 				  }else{
 					
+					$("#totalPrice").text( Number($("#totalPrice").text()) + productPrice );
+					
 					$("#selectOptionView").append(
 						"<div>" 
 							+ "<input type='hidden' value='" + productNumber + "' name='product[" + optionIndex + "].productNumber' />"
 							+ "<input type='hidden' value='" + productName + "' name='product[" + optionIndex + "].productName'/>"
 							+ "<input type='hidden' value='" + productPrice + "' name='product[" + optionIndex + "].productPrice'/>"
 							+ "<input type='hidden' value='" + productMainImage + "' name='product[" + optionIndex + "].productMainImage'/>"
+							+ "<input type='hidden' value='" + optionQuantity + "' class='optionQuantity' />"
 							+ "<span class='selectName'>" + productName + "</span>"							
-							+ "<button type='button' class='optionQuantity_minus_btn' onclick='minusOptionQuantity(" + optionQuantity + ")'>-</button>"	 
+							+ "<button type='button' class='optionQuantity_minus_btn'>-</button>"	 
 							+ "<input type='text' class='quantity_input' style='width:100px;' value='1' readonly name='product[" + optionIndex + "].productQuantity' />"
-							+ "<button type='button' class='optionQuantity_plus_btn' onclick='plusOptionQuantity(" + optionQuantity + ")'>+</button>"
+							+ "<button type='button' class='optionQuantity_plus_btn'>+</button>"
 							/**/ 	
 							+ "<button type='button' style='float:right;' id='optionDelBtn' class='btn-btn dark'>"+ "삭제" + "</button>"
 						+ "</div>" 	
@@ -233,9 +237,9 @@
 				  
 				  
 				});
-				
-				function minusOptionQuantity(optionQuantity){
-					let quantity = $(document).parent("div").find(".quantity_input").val();
+				/*
+				function minusOptionQuantity(optionQuantity, evt){
+					let quantity = $(evt).parent("div").find(".quantity_input").val();
 					if(quantity > 1){
 						$(this).parent("div").find(".quantity_input").val(--quantity);		
 						$("#totalPrice").text(Number($("#totalPrice").text()) - productPrice);
@@ -243,9 +247,9 @@
 								
 				}
 				
-				function plusOptionQuantity(optionQuantity){
+				function plusOptionQuantity(optionQuantity, evt){
 					console.log("optionQuantity ~~~ " + optionQuantity);
-					let quantity = $(this).parent("div").find(".quantity_input").val();
+					let quantity = $(evt).parent("div").find(".quantity_input").val();
 					console.log("quantity ~~~ " + quantity);
 					if(quantity < optionQuantity){
 						$(this).parent("div").find(".quantity_input").val(++quantity);
@@ -254,25 +258,41 @@
 						alert("수량 초과");
 					}						
 				}
-				
-				/* 수량버튼 
+				*/
+				/* 수량버튼 */
 				$(document).on("click", ".optionQuantity_plus_btn", function() {
-					let quantity = $(this).parent("div").find(".optionQuantity_text").val();
-					$(this).parent("div").find(".optionQuantity_text").val(++quantity);
-					$("#totalPrice").text(Number($("#totalPrice").text()) + productPrice);
+					let quantity = Number($(this).parent("div").find(".quantity_input").val());
+					let maxQuantity = Number($(this).parent("div").find(".optionQuantity").val());
+					console.log("quantity : " + quantity);
+					console.log("maxQuantity : " + maxQuantity);
+					console.log("result : " + quantity < maxQuantity);
+					if(quantity < maxQuantity){
+						$(this).parent("div").find(".quantity_input").val(++quantity);
+						$("#totalPrice").text(Number($("#totalPrice").text()) + productPrice);	
+					}else{
+						alert("수량 초과");
+					}					
 				});
 				
 				$(document).on("click", ".optionQuantity_minus_btn", function() {
-					let quantity = $(this).parent("div").find(".optionQuantity_text").val();
+					let quantity = $(this).parent("div").find(".quantity_input").val();
 					if(quantity > 1){
-						$(this).parent("div").find(".optionQuantity_text").val(--quantity);		
+						$(this).parent("div").find(".quantity_input").val(--quantity);		
 						$("#totalPrice").text(Number($("#totalPrice").text()) - productPrice);
 					}
 				});	
-				*/	
+					
 				$(document).on("click", "#optionDelBtn", function() {
+					let quantity = Number($(this).parent("div").find(".quantity_input").val());
+					let totalPrice = $("#totalPrice").text();
+					totalPrice = totalPrice - (productPrice * quantity);
+					if(totalPrice < 0){
+						totalPrice = 0;
+					}
+					console.log("totalPrice : " + totalPrice);
+					
 					$(this).parent().remove();
-					$("#totalPrice").text(productPrice);
+					$("#totalPrice").text(totalPrice);
 					optionIndex--;
 				});
 				
@@ -283,11 +303,11 @@
 		</div>
 		
 		<div >총 상품금액 : 
-		<!--
+		
 			<strong id="totalPrice" th:if="${#lists.size(product.productOptions) == 0}" th:text="${product.productPrice}"></strong>
 			<strong id="totalPrice" th:if="${#lists.size(product.productOptions) != 0}">0</strong>
-		-->
-			<strong id="totalPrice" th:text="${product.productPrice}"></strong>
+		
+			<!--<strong id="totalPrice" th:text="${product.productPrice}"></strong>-->
 		</div>
 		<button type="button" id="addCart">장바구니</button>
 		<button type="button" id="addOrder">구매</button>	

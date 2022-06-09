@@ -124,7 +124,7 @@ public class ProductController {
 		
 		model.addAttribute("product", product);
 		
-		return "forward:/product/updateProduct.jsp";
+		return "/view/product/updateProduct";
 	}
 	
 	@PostMapping("updateProduct")
