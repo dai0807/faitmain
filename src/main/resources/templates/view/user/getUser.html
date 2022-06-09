@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-
-<html
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  >
+<html layout:decorate = "~{layout/myPage_layout}"
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout" >
  
 
 <head>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
  
     <meta charset = "UTF-8">
     <title>상세정보 </title>
@@ -24,8 +24,128 @@
 
 <script type="text/javascript">
 		
+ 		$(function(){
+			 
+			$("#updatebutton").on("click",function(){
+				 
+				 if($(this).html() == '정보수정'){
+					
+							console.log("회원정보 수정 눌림 ")
+							 $(this).html('정보수정완료')
+							
+			 				$("input[name='nickname']").attr("readonly",false); 
+						 	$("input[name='phoneNumber']").attr("readonly",false); 
+						 	$("input[name='postalCode']").attr("readonly",false); 
+						 	$("input[name='address']").attr("readonly",false); 
+						 	$("#member_addr1").css("display", "inline-block");
+						 	$("#phoneChk").css("display", "inline-block"); 
+						 	$("#phone_C").css("display", "inline-block"); // 휴대폰 인증 보이기
+					
+				}else{
+					
+						console.log("정보수정 완료 클릭 ")
+						 $(this).html('정보수정')
+						
+		 				$("input[name='nickname']").attr("readonly",true); 
+					 	$("input[name='phoneNumber']").attr("readonly",true); 
+					 	$("input[name='postalCode']").attr("readonly",true); 
+					 	$("input[name='address']").attr("readonly",true); 
+					 	$("#member_addr1").css("display", "none");
+					 	$("#phoneChk").css("display", "none"); 
+						 	$("#phone_C").css("display", "none"); // 휴대폰 인증 보이기
+					 	
+					 	 
+					 	
+					 	
+					 	
+							
+							var addr = $("#member_addr" ).val() +" ";
+ 							addr += $("#member_addr1").val(); 
+ 							alert(addr)
+		
+						 	$('input[name=address]').attr('value',addr);	
+		
+		
+        				   var formdata = $("#form").serialize(); 
+        				   formdata = decodeURIComponent(formdata);
 
- 		
+ 
+
+        				   // 제이커ㅜ리의 serailaize 메소드가 form 태그 자동으로 읽어와서 quert String으로 형 변황 해줌 
+
+ 						 alert(  formdata )
+					
+						$.ajax({
+							type:"POST",
+							url:"/user/json/updateUser", 
+ 							data: formdata,
+							
+							success: function(data){
+									if(data !=1){  alert("수정XXx ") }
+							
+							},
+							complete: function(data){
+								
+								alert("수정완료 ")
+							
+							},
+							 error: function (request, status, error) {
+			                    console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			
+			                }
+										
+						
+						 
+							
+						}); //ajax
+
+
+					
+					
+				}
+				 
+				 
+					
+			});
+			
+				
+			
+		});
+		
+		
+ 
+ 
+ 			
+ 		function findAddr(){
+				new daum.Postcode({
+			        oncomplete: function(data) {
+			        	
+			        	console.log(data);
+			        	
+			            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+			            // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+			            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+			            var roadAddr = data.roadAddress; // 도로명 주소 변수
+			            var jibunAddr = data.jibunAddress; // 지번 주소 변수
+			            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+			            $("#member_post").val(data.zonecode) ;
+			            
+//			            document.getElementById('member_post').value = data.zonecode;
+			            if(roadAddr !== ''){
+ 				            $("#member_addr").val(roadAddr) ;
+
+			              //  document.getElementById("member_addr").value = roadAddr;
+			            } 
+			            else if(jibunAddr !== ''){
+ 				            $("#member_addr").val(jibunAddr) ;
+
+			               // document.getElementById("member_addr").value = jibunAddr;
+			            }
+			        }
+			    }).open();
+			}
+			
+ 
  		
 	</script>						
 							
@@ -41,34 +161,104 @@
 
 
 			
-			<div  class="container ">
+<div  class="container ">
 			
 			
 			
-			     <div class="text-center">
+	<div class="text-center">
                 <h2 class="fw-bolder"> 상세 정보  </h2>    
- 	            </div>
+                <p>데이터 다 뽑으면  , 정신 차리고 화면 꾸미기 </p>
+                
+ 	   </div>
             
-              <div   class="container col-md-9">
+      <div   class="container col-md-9">
          
-		<form name ="form"   class="form-horizontal">
+		<form id ="form" name ="form"   class="form-horizontal">
 		
 		  <div class="form-group">
 		    <h5 class="fw-bolder"> 아이디</h5>
-		    <div >
-		      <!--<input type="text" class="form-control" id="id" name="id"  vale="${getuser.id}" > -->
- 	
-		    </div>
-		  
-		  </div>
-		  
+			    <div >
+			    <input type="text" class="form-control" th:id="id" th:name="id"  th:value="${getuser.id}"  readonly>  
+	 
+			    </div>
+		  	<h5 class="fw-bolder"> 이름 </h5>
+			    <div >
+			   <input type="text" class="form-control" th:id="name" th:name="name"  th:value="${getuser.name}"  readonly>  
+	 
+			    </div>
+			<!--여기에 스토어 유저 가르는 if 쓰기  -->    
+			<h5 class="fw-bolder"> 닉네임 </h5>
+			    <div >
+			   <input type="text" class="form-control" th:id="id" th:name="nickname"  th:value="${getuser.nickname}"  readonly>  
+	 
+			    </div>		  
+		
+			<h5 class="fw-bolder"> 휴대폰번호 </h5>
+			    <div >
+			   <input type="text" class="form-control" th:id="id" th:name="phoneNumber"  th:value="${getuser.phoneNumber}"  readonly>  
+			     <span class="btn btn-success" id="phoneChk"  style="display:none" ; > 인증번호 보내기</span>
 
-		  		  
+	 
+			    </div>
+			    			  				
+			  
+			  		<div  id ="phone_C" class="input-group mb-2" style="display:none" ; >
+                                   <input id="phone2"	 class="form-control"  type="number" name="CertificationNumber" placeholder="인증번호 입력" disabled required/> 
+
+ 									 <span class="btn btn-success" id="phoneChk2" name="CertificationNumber" placeholder="인증번호 입력" disabled required  >  본인인증</span>
+                         <span class="point successPhoneChk">휴대폰 번호 입력후 인증번호 보내기를 해주십시오.</span>  
+
+                     </div>
+
+ 		    </div>
+			    
+			    
+			    
+			    
+			    		  
+ 				<div >
+			<h5 class="fw-bolder"> 성별 </h5>
+			   
+			   <span th:text="${getuser.gender}" >  
+	 
+			    </div>		  
+		 
+  <div >
+
+			<h5 class="fw-bolder"> 가입일자 </h5>
+			   <span th:text="${getuser.regDate}" >  
+	 
+			    </div>		  
+		 
+ 	  
+ 	  
+
+  			<h5 class="fw-bolder"> 주소 </h5>
+				    <div >
+				       <div class="input-group mb-2">
+                                    <input class="form-control" id="member_post" type="text" name ="postalCode" th:value="${getuser.postalCode}" readonly />
+                                    <button class="btn btn-success" id="button-newsletter" type="button" onclick="findAddr()" style="display:none" ; >주소찾기</button>
+                                </div>
+ 				       <input type="text" id="member_addr" class="form-control"    th:value="${getuser.address}"  readonly>
+				       <input type="text" id="member_addr1" class="form-control"  placeholder="추가입력"  style="display:none" ; >
+ 				       <input type="hidden" id="address" name="address" value="" >
+
+ 				    </div>
+		 		 		 		  		  
 		  </div>
-			  
-			  
-			  
-			  
+		</form> 
+			<br/>  
+			<a href="javascript:history.back()" class="btn btn-secondary btn-xs" role="button">확인</a>
+ 				<button type="button" id ="updatebutton"class="btn btn-success"  >정보수정</button>
+
+				 <button type="button" class="btn btn-info">비밀번호 재설정</button>
+				
+				<br/><br/>
+				<hr/>
+ 			 	회원탈퇴를 원하시면 눌러주세요 <a href="#" class="btn btn-secondary btn-xs" role="button">회원 탈퇴</a>
+
+ 
+</div><!-- 컨테이너 끝-->		  
   
 </article>
 	
