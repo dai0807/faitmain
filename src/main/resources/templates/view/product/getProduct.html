@@ -18,7 +18,7 @@
     	/*<![CDATA[*/
 			let productNumber = '[[${ product.productNumber }]]';
 			let productName = '[[${ product.productName }]]';
-			let productPrice = '[[${ product.price }]]';
+			let productPrice = '[[${ product.productPrice }]]';
 			let productMainImage = '[[${ product.productMainImage }]]';
 			let productQuantity = '[[${ product.productQuantity }]]';
 		/*]]>*/
@@ -273,7 +273,7 @@
 		
 	
 		<div >총 상품금액 : 
-			<strong id="totalPrice" th:if="${#lists.size(product.productOptions) == 0}" th:text="${product.price}"></strong>
+			<strong id="totalPrice" th:if="${#lists.size(product.productOptions) == 0}" th:text="${product.productPrice}"></strong>
 			<strong id="totalPrice" th:if="${#lists.size(product.productOptions) != 0}">0</strong>
 		</div>
 		<button type="button" id="addCart">장바구니</button>

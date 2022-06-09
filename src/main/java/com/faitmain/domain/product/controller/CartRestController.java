@@ -55,10 +55,13 @@ public class CartRestController {
 		Cart cart = new Cart();
 		cart.setUserId("user01@naver.com");
 		
-		
-		for(Product prod : product.getProductOptions()) {
-			cart.set
+		if(product.getProductOptions().size() > 0) {
+			for(Product prod : product.getProductOptions()) {
+				cart.setCartProduct(prod);
+				cartService.addCart(cart);
+			}
 		}
+		
 //		Cart prevCart = cartService.getCart(cart);
 		
 		boolean result = false;
@@ -80,7 +83,7 @@ public class CartRestController {
 		
 		boolean result = false;
 		
-		int quantity = productService.getProductQuantity(cart.getProduct().getProductNumber());
+		int quantity = productService.getProductQuantity(cart.getCartProduct().getProductNumber());
 		
 		if(cart.getCartQuantity() <= quantity) {
 			cartService.updateCart(cart);

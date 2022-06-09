@@ -12,7 +12,7 @@ public class Cart {
 
 	private String userId;
 
-	private Product product;
+//	private Product product;
 
 
 	private int productNumber;
