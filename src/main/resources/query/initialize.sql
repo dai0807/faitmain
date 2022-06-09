@@ -54,7 +54,7 @@ CREATE TABLE `product` (
                        `product_name`          VARCHAR(50) NOT NULL ,
                        `product_price`                 INT         NOT NULL ,
                        `store_id`              VARCHAR(25) NOT NULL ,
-                       `product_main_image`    VARCHAR(30) NOT NULL ,
+                       `product_main_image`    VARCHAR(100) NOT NULL ,
                        `product_detail`        LONGTEXT    NULL ,
                        `product_category_code` CHAR(2)     NOT NULL ,
                        `product_status`        CHAR(2) DEFAULT '01' ,
@@ -136,7 +136,7 @@ CREATE TABLE `image` (
                      `image_number`                INT(5)      NOT NULL AUTO_INCREMENT ,
                      `image_classification_code`   CHAR(1)     NOT NULL ,
                      `image_classification_number` INT(5)      NOT NULL ,
-                     `image_name`                  VARCHAR(30) NOT NULL ,
+                     `image_name`                  VARCHAR(100) NOT NULL ,
                      PRIMARY KEY ( `image_number` )
                      );
 
