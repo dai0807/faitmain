@@ -4,6 +4,8 @@ import com.faitmain.domain.order.domain.Order;
 import com.faitmain.domain.order.domain.OrderOne;
 import com.faitmain.domain.order.domain.OrderPageOne;
 import com.faitmain.domain.order.mapper.OrderMapper;
+import com.faitmain.domain.product.domain.Cart;
+import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.mapper.CartMapper;
 import com.faitmain.domain.product.mapper.ProductMapper;
 import com.faitmain.domain.user.domain.User;
@@ -75,7 +77,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     @Transactional
-    public void order( Order order ){
+    public void order( Order order ) throws Exception{
 
         /* 사용할 데이터 가져오기 */
         /* 회원정보 */
@@ -91,6 +93,7 @@ public class OrderServiceImpl implements OrderService{
             /* LIST 객체 추가 */
             orderBundle.add( ordOne );
         }
+
         /* ORDER 세팅 */
         order.setOrderBundle( orderBundle );
         order.getOrderPriceInfo();
@@ -113,6 +116,25 @@ public class OrderServiceImpl implements OrderService{
         int calTotalPoint = user.getTotalPoint();
         calTotalPoint = calTotalPoint - order.getUsingPoint() + order.getOrderRewardPoint();
         user.setTotalPoint( calTotalPoint );
+
+        /* 포인트 DB 적용 */
+        orderMapper.deductMoney( user );
+
+        /* 재고 변동 적용 */
+        for ( OrderOne orderOne : order.getOrderBundle() ) {
+            /* 변동 재고 값 구하기 */
+            Product product = productMapper.getProduct( order.getProductNumber() );
+            product.setProductQuantity( product.getProductQuantity() - orderOne.getProductQuantity() );
+            /* 변동 값 DB 적용 */
+            orderMapper.deductStock( product );
+        }
+
+        /* 장바구니 제거 */
+        for ( OrderOne orderOne : order.getOrderBundle() ) {
+            Cart cart = new Cart();
+            cart.setUserId( order.getBuyerId() );
+            cart.setProductNumber( order.getProductNumber());
+        }
     }
 
 

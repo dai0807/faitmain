@@ -14,7 +14,7 @@ public interface OrderService{
     List<OrderPageOne> getProductInfo( List<OrderPageOne> orderBundle );
 
     /* 주문 */
-    void order( Order order );
+    void order( Order order ) throws Exception;
 
 
 

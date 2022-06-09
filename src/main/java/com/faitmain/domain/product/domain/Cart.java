@@ -9,7 +9,8 @@ import java.util.List;
 @Data
 public class Cart {
 
-	private int cartNumber;
+    public int ProductNumber;
+    private int cartNumber;
 
 	private String userId;
 	
