@@ -39,9 +39,7 @@
          WHERE product_number = #{productNumber};
     </select>
 
-    <select id="getBuyerInfo" resultType="User">
-        SELECT user_number, name, address, total_point FROM user WHERE user_number=#{userNumber}
-    </select>
+
 
     <select id="getOrderInfo" resultType="com.faitmain.domain.order.domain.OrderOne">
         SELECT product_number, product_price, product_discount

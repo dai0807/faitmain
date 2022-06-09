@@ -29,14 +29,14 @@ public class OrderController{
     @Autowired
     private UserSerivce userSerivce;
 
-    @GetMapping( "/order/{userNumber}" )
-    public String orderPageGET( @PathVariable int userNumber , OrderPage orderPage , Model model ){
+    @GetMapping( "/order/{id}" )
+    public String orderPageGET( @PathVariable String id , OrderPage orderPage , Model model ){
 
-        log.info( "uesrNumber = {} " , userNumber );
+        log.info( "id = {} " , id );
         log.info( "orderBundle = {} " , orderPage.getOrderBundle() );
 
         model.addAttribute( "orderList" , orderService.getProductInfo( orderPage.getOrderBundle() ) );
-        model.addAttribute( "buyerInfo" , orderService.getBuyerInfo( userNumber ) );
+        model.addAttribute( "buyerInfo" , userSerivce.getBuyerInfo( id ) );
 
         return "view/order/order";
     }
