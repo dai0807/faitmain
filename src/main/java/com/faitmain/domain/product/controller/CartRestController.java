@@ -3,6 +3,8 @@ package com.faitmain.domain.product.controller;
 import java.util.Collections;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -12,9 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.faitmain.domain.product.domain.Cart;
+import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.service.CartService;
 import com.faitmain.domain.product.service.ProductService;
 
@@ -38,23 +42,31 @@ public class CartRestController {
 		log.info("Controller = {} ", CartRestController.class);
 	}
 	
-	@PostMapping("json/addCart")
-	public Map<String, Boolean> addCart(@RequestBody Cart cart) throws Exception{
-		
+	@PostMapping("json/addCart")	
+//	@ResponseBody
+//	public Map<String, Boolean> addCart(@RequestBody Cart cart) throws Exception{
+	public Map<String, Boolean> addCart(Product product) throws Exception{
 		log.info("/cart/json/addCart");
 		
-		log.info("받은 카트 정보 : " + cart.getCartProduct().getProductName());
+//		log.info("받은 카트 정보 : " + cart.getProduct().getProductName());
+		log.info("받은 카트 정보 : " + product);
+		log.info("받은 카트 정보 : " + product.getProductNumber());
 		
+		Cart cart = new Cart();
 		cart.setUserId("user01@naver.com");
-				
-		Cart prevCart = cartService.getCart(cart);
+		
+		
+		for(Product prod : product.getProductOptions()) {
+			cart.set
+		}
+//		Cart prevCart = cartService.getCart(cart);
 		
 		boolean result = false;
 		
-		if(prevCart == null) {
-			cartService.addCart(cart);
-			result = true;
-		}
+//		if(prevCart == null) {
+//			cartService.addCart(cart);
+//			result = true;
+//		}
 		
 		return Collections.singletonMap("result", result);
 		
@@ -68,7 +80,7 @@ public class CartRestController {
 		
 		boolean result = false;
 		
-		int quantity = productService.getProductQuantity(cart.getCartProduct().getProductNumber());
+		int quantity = productService.getProductQuantity(cart.getProduct().getProductNumber());
 		
 		if(cart.getCartQuantity() <= quantity) {
 			cartService.updateCart(cart);

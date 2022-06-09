@@ -12,7 +12,7 @@
 	
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	 		    
+		    
     <script th:inline="javascript">    	
 		
     	/*<![CDATA[*/
@@ -78,14 +78,16 @@
 									}
 															
 					};
-					
+				*/	
+				console.log("이게 뭘까요 : " + $("#getProductForm").serialize());
 					
 					$.ajax({
 						url: "/cart/json/addCart", // 주소
-						data: JSON.stringify(jsonData), // 전송 데이터
+						//data: JSON.stringify(jsonData), // 전송 데이터
+						data: $("#getProductForm").serialize(),
 						type: "POST", // 전송 타입
 						dataType: "JSON", // 응답 받을 데이터 타입
-						contentType: "application/json; charset=utf-8",
+						//contentType: "application/json; charset=utf-8",
 						success : function (data){
 							console.log("result : " + data.result);
 							if(data.result){
@@ -103,8 +105,9 @@
 	                    }
 						
 					});
-				}
 				
+				/*
+				}
 				옵션은 생각이 필요							
 				*/
 				
@@ -121,25 +124,27 @@
 <body>
     
 	<div class="container">
-		<input type="hidden" id="optionExist" th:value="${#lists.size(product.productOptions)}"/>
+	<form id="getProductForm" th:object="${product}" method="post">
 		<div class="page-header">
 	       <h3 class=" text-info">상품상세조회</h3>
 	    </div>
 	
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2"><strong>상품번호</strong></div>
-			<div class="col-xs-8 col-md-4" th:text="${ product.productNumber }"></div>
-			<input type="hidden" th:value="${ product.productNumber }" name="productNumber" />
+			<div class="col-xs-8 col-md-4" th:text="*{productNumber}"></div>
+			<input type="hidden" th:field="*{productNumber}" />
 		</div>
 		
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2"><strong>상품명</strong></div>
 			<div class="col-xs-8 col-md-4" th:text="${ product.productName }"></div>
+			<input type="hidden" th:field="*{productName}" />
 		</div>
 		
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2"><strong>상품사진</strong></div>
-	  		<!----><img class="img-thumbnail" th:src="|../img/upload/${ product.productMainImage }|" width="30%" height="auto"/>			
+	  		<!----><img class="img-thumbnail" th:src="|../img/upload/${ product.productMainImage }|" width="30%" height="auto"/>
+	  		<input type="hidden" th:field="*{productMainImage}" />			
 		</div>
 		
 		<div class="row">
@@ -181,6 +186,7 @@
 	  		</select>
 	  		
 	  		<script type="text/javascript">
+	  			var optionIndex = 0;
 		    	$("select[name=options]").change(function(){
 				  console.log($(this).val()); //value값 가져오기
 				  console.log($("select[name=options] option:selected").attr("value1")); //value값 가져오기
@@ -207,17 +213,18 @@
 					
 					$("#selectOptionView").append(
 						"<div>" 
-							//+ "<input type='hidden' value='" + productNumber + "' class='selectNumber' />"
-							+ "<span class='selectName'>" + productName + "</span>"
-							
+							+ "<input type='hidden' value='" + productNumber + "' name='productOptions[" + optionIndex + "].productNumber' />"
+							+ "<input type='hidden' value='" + productName + "' class='selectNumber' name='productOptions[" + optionIndex + "].productName'/>"
+							+ "<span class='selectName'>" + productName + "</span>"							
 							+ "<button type='button' class='minus_btn'>-</button>"	 
-							+ "<input type='text' style='width:100px;' value='1' readonly/>"
+							+ "<input type='text' class='quantity' style='width:100px;' value='1' readonly name='productOptions[" + optionIndex + "].productQuantity' />"
 							+ "<button type='button' class='plus_btn'>+</button>"
 							/**/ 	
 							+ "<button type='button' style='float:right;' id='optionDelBtn' class='btn-btn dark'>"+ "삭제" + "</button>"
-						+ "</div>" 				  
+						+ "</div>" 	
+									  
 					);
-					
+					optionIndex++;
 				  }			 
 				  
 				  
@@ -226,20 +233,21 @@
 				
 				/* 수량버튼 */
 				$(document).on("click", ".plus_btn", function() {
-					let quantity = $(this).parent("div").find("input").val();
-					$(this).parent("div").find("input").val(++quantity);
+					let quantity = $(this).parent("div").find(".quantity").val();
+					$(this).parent("div").find(".quantity").val(++quantity);
 				});
 				
 				$(document).on("click", ".minus_btn", function() {
-					let quantity = $(this).parent("div").find("input").val();
+					let quantity = $(this).parent("div").find(".quantity").val();
 					if(quantity > 1){
-						$(this).parent("div").find("input").val(--quantity);		
+						$(this).parent("div").find(".quantity").val(--quantity);		
 					}
 				});	
 					
 				$(document).on("click", "#optionDelBtn", function() {
 					$(this).parent().remove();
 					$("#totalPrice").text(productPrice);
+					optionIndex--;
 				});
 				
 		    </script>  					
@@ -257,7 +265,7 @@
 	  		<div class="col-xs-4 col-md-2"><strong>상품 수량</strong></div>
 	  		<div class="col-xs-8 col-md-4">	 
 	  			<button type="button" class="minus">-</button>	  			
-			 	<input type="number" class="numBox" min="1" th:max="${product.productQuantity}" value="1" readonly="readonly"/>
+			 	<input type="number" class="numBox" min="1" th:max="${product.productQuantity}" value="1" readonly="readonly" name="productQuantity"/>
 			 	<button type="button" class="plus">+</button>			
 	  		</div>		
 		</div>
@@ -271,6 +279,7 @@
 		<button type="button" id="addCart">장바구니</button>
 		<button type="button" id="addOrder">구매</button>	
 	
+		</form>
 	</div>
 								
 </body>

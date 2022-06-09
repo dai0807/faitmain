@@ -8,7 +8,7 @@ public class Cart {
 
 	private int cartNumber;
 	private String userId;
-	private Product cartProduct;
+	private Product product;
 	private int cartQuantity;
 	
 	@Builder
