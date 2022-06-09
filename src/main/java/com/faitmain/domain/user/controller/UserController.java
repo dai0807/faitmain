@@ -71,6 +71,22 @@ public class UserController{
 	      return "view/user/login";
 	   }
 	   
+	   //userList
+	   @GetMapping("getUserlist")
+	   public String getUserList  ()throws Exception {
+		
+		   
+		   log.info("getUserList  도착 !! ");
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   return "view/user/getUserList";
+		   
+	   }
 	   
 	   @PostMapping( "login" )
 	   public RedirectView longin( RedirectAttributes model , @ModelAttribute("user") User loginuser,  HttpSession session) throws Exception {
