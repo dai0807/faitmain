@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -265,21 +266,28 @@ public class UserController{
 		
 	   
 		//UpdatePassword
-		@PostMapping("updatePassword")
-  		public String updatePassword( @ModelAttribute("user") User user  )throws Exception {
-			log.info("##updatePassword {} ##" , user);
-			
-			 int result = userSerivce.updateUserPassword(user);
-			log.info("##kakaoUser 결과  {} ##" , result);
+		@GetMapping("updatePassword")
+  		public String updatePassword( @RequestParam(value ="id" ,required =false) String id  ,  Model model , HttpSession session , HttpServletRequest request)throws Exception {
+			log.info("##updatePassword {} ##" );
 			
 			
-			log.info("User Password 바뀐 결과 {}" , userSerivce.getUser(user.getId()).getPassword() );
+				if(id == null) {
+					  id =  ((User) request.getSession(true).getAttribute("user")).getId() ;
+				}
+				log.info("updatePassword id :: {}  "+id);
+  			
 			
-			
-			return("redirect:/live/main.jsp");
+				
+				model.addAttribute("id", id) ;
+			return("view/user/updatePassword");
 
 	 				
-	    	}				
+	    	}		
+		
+		
+
+			
+		
 		
 		// find Id Rest Control로 갈 운명 
 		@PostMapping("findId")

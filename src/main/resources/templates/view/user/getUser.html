@@ -331,8 +331,9 @@
  
  $(function() {	
 			
-				 total_check_nickname = 0 ;
-			$("#nickname").on("keyup",function (){ 		
+				 
+			$("#nickname").on("keyup",function (){ 
+				total_check_nickname = 0 ;		
 				  var  nickname = $('#nickname').val(); //id값이 "id"인 입력란의 값을 저장
 					console.log("nickname :: "+ nickname ) ;
 					 if(nickname== null  || nickname.length <2) {
@@ -489,11 +490,11 @@
 			<a href="javascript:history.back()" class="btn btn-secondary btn-xs" role="button">확인</a>
  				<button type="button" id ="updatebutton"class="btn btn-success"  >정보수정</button>
 
-				 <button type="button" class="btn btn-info">비밀번호 재설정</button>
-				
+				 <a th:href="@{/user/updatePassword}"  class="btn btn-info" role="button">비밀번호 재설정</a>
+			
 				<br/><br/>
 				<hr/>
- 			 	회원탈퇴를 원하시면 눌러주세요 <a href="#" class="btn btn-secondary btn-xs" role="button">회원 탈퇴</a>
+ 			 	회원탈퇴를 원하시면 눌러주세요 <a  href="#" class="btn btn-secondary btn-xs" role="button">회원 탈퇴</a>
 
  
 </div><!-- 컨테이너 끝-->		  
