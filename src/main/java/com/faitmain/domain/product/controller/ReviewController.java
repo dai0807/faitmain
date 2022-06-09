@@ -41,7 +41,7 @@ public class ReviewController {
 	private ReviewService reviewService;
 
 	public ReviewController() {
-		System.out.println(this.getClass());
+		log.info("Controller = {}", this.getClass());
 	}
 	
 	@GetMapping("addReview")

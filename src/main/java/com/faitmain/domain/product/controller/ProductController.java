@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -50,7 +49,7 @@ public class ProductController {
 	@PostMapping("addProduct")
 	public RedirectView addProduct(@ModelAttribute Product product, MultipartHttpServletRequest mRequest) throws Exception{
 		
-		log.info("/product/addProduct : POST");
+		log.info("/product/addProduct = {}", "POST");
 		
 		User user = new User();
 		user.setId("store01@naver.com");
@@ -68,7 +67,7 @@ public class ProductController {
 		
 		Product product = productService.getProduct(productNumber);
 		
-		log.info("product : " + product);
+		log.info("product = {}", product);
 		
 		model.addAttribute("product", product);
 		
@@ -119,7 +118,7 @@ public class ProductController {
 	@GetMapping("updateProduct")
 	public String updateProduct(@RequestParam("productNumber") int productNumber, Model model) throws Exception{
 		
-		log.info("/product/updateProduct : GET");
+		log.info("/product/updateProduct = {}", "GET");
 		
 		Product product = productService.getProduct(productNumber);
 		
