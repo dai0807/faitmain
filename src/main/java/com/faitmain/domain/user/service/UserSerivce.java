@@ -12,6 +12,10 @@ import  com.faitmain.global.common.Search;
 
 public interface UserSerivce {
 
+
+
+
+
 	
 	//  insert 유저
 	public int addUser (User user) throws Exception;

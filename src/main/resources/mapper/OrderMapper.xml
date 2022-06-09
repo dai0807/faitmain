@@ -5,6 +5,74 @@
 
 <mapper namespace="com.faitmain.domain.order.mapper.OrderMapper">
 
+    <!-- 주문 테이블 등록 -->
+    <insert id="enrollOrder">
+
+    </insert>
+
+    <!-- 주문 상품 테이블 등록 -->
+    <insert id="enrollOrderOne">
+
+    </insert>
+
+
+    <!-- 주문 금액 차감 -->
+    <update id="deductMoney">
+        update user
+           set total_point = #{totalPoint}
+         where user_number=#{userNumber}
+    </update>
+
+    <!-- 주문 재고 차감 -->
+    <update id="deductStock">
+        update product
+           set product_quantity = #{productQuantity}
+         where product_number = #{productNumber}
+    </update>
+
+
+
+
+    <select id="getProductInfo" resultType="OrderPageOne">
+        SELECT product_number, product_name, product_price, product_discount
+          FROM product
+         WHERE product_number = #{productNumber};
+    </select>
+
+    <select id="getBuyerInfo" resultType="User">
+        SELECT user_number, name, address, total_point FROM user WHERE user_number=#{userNumber}
+    </select>
+
+    <select id="getOrderInfo" resultType="com.faitmain.domain.order.domain.OrderOne">
+        SELECT product_number, product_price, product_discount
+          FROM product
+         WHERE product_number = #{productNumber};
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+    <!--                                              -->
+
+
+
+
+
+
+
+
+
+
+
+
+
     <insert id="addOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="orderNumber">
         INSERT INTO `order` ( product_number
                             , buyer_id
@@ -50,6 +118,8 @@
                );
     </insert>
 
+
+
     <update id="updateOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="orderNumber">
         UPDATE `order`
            SET order_number             = #{orderNumber}
@@ -63,6 +133,7 @@
              , order_claim_reason       = #{orderClaimReason}
          WHERE order_number = #{orderNumber};
     </update>
+
 
     <select id="getOrder" parameterType="Order" resultType="Order">
         SELECT *
