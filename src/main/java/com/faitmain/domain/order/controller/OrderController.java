@@ -1,20 +1,22 @@
 package com.faitmain.domain.order.controller;
 
 import com.faitmain.domain.order.domain.Order;
+import com.faitmain.domain.order.domain.OrderPage;
 import com.faitmain.domain.order.service.OrderService;
-import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.service.ProductService;
-import com.faitmain.domain.user.domain.User;
-import lombok.RequiredArgsConstructor;
+import com.faitmain.domain.user.service.UserSerivce;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @Controller
-@RequestMapping( "/order" )
 public class OrderController{
 
 
@@ -24,43 +26,69 @@ public class OrderController{
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private UserSerivce userSerivce;
 
+    @GetMapping( "/order/{userNumber}" )
+    public String orderPageGET( @PathVariable int userNumber , OrderPage orderPage , Model model ){
 
+        log.info( "uesrNumber = {} " , userNumber );
+        log.info( "orderBundle = {} " , orderPage.getOrderBundle() );
 
-    @GetMapping( "/getOrder" )
-    public String getOrder(){
+        model.addAttribute( "orderList" , orderService.getProductInfo( orderPage.getOrderBundle() ) );
+        model.addAttribute( "buyerInfo" , orderService.getBuyerInfo( userNumber ) );
 
-        log.info( "CONTROLLER = {}" , this.getClass() );
-        return "view/order/getOrder";
+        return "view/order/order";
     }
 
+    @PostMapping( "/order" )
+    private String orderPagePOIST( Order order , HttpServletRequest request ){
 
-    @GetMapping( "/payment" )
-    public String papay(){
-        return "view/order/payment";
-    }
+        log.info( "order ={}" , order );
 
-    @GetMapping( "/createOrder" )
-    public String payment(){
-
-        log.info( " CONTROLLER = {} " , this.getClass() );
-        return "view/order/createOrder";
-    }
-
-    @GetMapping( "/orderList" )
-    public String testORder(){
-        return "view/order/getOrderList";
-    }
-
-
-    /*============================================================================*/
-
-    @PostMapping( "/{id}" )
-    public String ready( @PathVariable User user , @RequestParam Product product , Order order, Model model ) throws Exception{
-
-        productService.getProduct( product.getProductNumber() );
-        orderService.addOrder( order );
-        model.addAttribute( "order" , order );
-        return "getOrder";
+        return "redirect:/index";
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

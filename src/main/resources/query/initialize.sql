@@ -187,13 +187,14 @@ CREATE TABLE `inquiry` (
 
 CREATE TABLE `live` (
                     `live_number`     int         NOT NULL AUTO_INCREMENT ,
+	        'room_id'	     varchar(40) NOT NULL , 
                     `store_id`        varchar(25) NOT NULL ,
                     `live_title`      varchar(20) NOT NULL ,
                     `live_intro`      varchar(30) DEFAULT NULL ,
                     `live_image`      varchar(30) DEFAULT 'noimage.jpg' ,
                     `live_status`     tinyint     DEFAULT '0' ,
                     `chatting_status` tinyint     DEFAULT '0' ,
-                    PRIMARY KEY ( `live_number` ) ,
+                    PRIMARY KEY ( `live_number`, 'room_id' ) ,
                     FOREIGN KEY ( store_id ) REFERENCES user ( id )
                     );
 
@@ -225,7 +226,6 @@ CREATE TABLE live_product (
                                `product_main_image`      VARCHAR(30) NOT NULL ,
                                PRIMARY KEY ( live_product_number ) ,
                                FOREIGN KEY ( live_number ) REFERENCES live ( live_number ) ,
-                               FOREIGN KEY ( live_reservation_number ) REFERENCES live_reservation ( live_reservation_number ) ,
                                FOREIGN KEY ( product_number ) REFERENCES product ( product_number )
                                );
 
