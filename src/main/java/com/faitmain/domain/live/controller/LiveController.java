@@ -241,6 +241,7 @@ public class LiveController {
 	         live.setLiveTitle(liveTitle);
 	         live.setLiveIntro(liveTitle);
 	         live.setLiveImage("라이브 대표사진.png");
+	     
 	         
 	         liveService.addLive(live);
 	         System.out.println("이잉" + liveService.getLive(10011));
@@ -260,6 +261,8 @@ public class LiveController {
 	        	 liveProduct.setLiveReservationNumber(0);
 	        	 liveProduct.setProductNumber(Integer.parseInt(product));
 	        	 liveProduct.setProductMainImage(productService.getProduct(Integer.parseInt(product)).getProductMainImage());
+	        	 liveProduct.setProductName(productService.getProduct(Integer.parseInt(product)).getProductName());
+	        	 liveProduct.setProductDetail(productService.getProduct(Integer.parseInt(product)).getProductDetail());
 	        	 liveService.addLiveProduct(liveProduct);
 	         	}
 	         

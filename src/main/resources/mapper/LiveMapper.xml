@@ -78,9 +78,9 @@
     <!-- ADD LiveProduct -->
      <insert id="addLiveProduct" parameterType="LiveProduct">
        INSERT INTO live_product
-          (live_number, live_reservation_number, product_number, product_main_image)
+          (live_number, live_reservation_number, product_number, product_main_image, product_name, product_detail)
       VALUES
-          (#{liveNumber}, #{liveReservationNumber}, #{productNumber}, #{productMainImage})
+          (#{liveNumber}, #{liveReservationNumber}, #{productNumber}, #{productMainImage}, #{productName}, #{productDetail})
     </insert>
     
     <!-- ADD LiveReservation -->
