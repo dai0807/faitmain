@@ -27,7 +27,7 @@ public class ProductMapperTest {
 	private ProductMapper productMapper;
 	
 	//insert
-	@Test
+//	@Test
 	@DisplayName("addProduct Mapper Test")
 	public void addProductTest() throws Exception{
 		
@@ -119,7 +119,7 @@ public class ProductMapperTest {
 		
 		List<Product> list = productMapper.getProductList(map);
 		assertThat(list.get(0).getProductName()).isEqualTo("프랑스에서 만든 마카롱 10개 세트");	
-		
+		System.out.println(list);
 		System.out.println("getProductListTest end");
 		
 	}
