@@ -147,9 +147,6 @@ public class LiveController {
       return "view/live/live";
    }
    
-   
-   
-   
 	@PostMapping("create")
 	public String createRoom(  HttpServletRequest req,
 							   @RequestParam("roomName") String liveTitle,
@@ -336,8 +333,7 @@ public class LiveController {
 	   
 	   return "forward://live/getLiveProductList.jsp";
    }
-   
-   
+      
    @GetMapping("watchLive")
    public String watchLive( @RequestParam( "liveNumber" ) int liveNumber,
 		   												  Model model) throws Exception {
@@ -449,7 +445,7 @@ public class LiveController {
    }
    
    @GetMapping("getLiveReservationList")
-   public String getLiveReservationList(@RequestParam String date) throws Exception {
+   public String getLiveReservationList(@RequestParam String date, Model model) throws Exception {
 	   log.info("getLiveReservationList() : GET start... ");
 	   
 	   log.info("date : " + date);
@@ -470,6 +466,7 @@ public class LiveController {
 		   log.info("resultList : {}", obj);
 	   }
 	   
+	   model.addAttribute("list", resultList);
 	   
 	   log.info("getLiveReservationList() : GET end... ");
 	   return "/view/live/liveReservationList";

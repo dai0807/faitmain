@@ -54,8 +54,11 @@
 				  				<h5 style="display : inline">~</h5><br/>
 				  				<h5 th:text="${num+1}" style="display : inline">endHour</h5><h5 style="display : inline">:00</h5><br/>
 				  			</th>
-				  			<td></td>
-				  			<td></td>
+				  			<th:block th:each="liveProduct : ${list}" th:if="${num == liveProduct.reservationTime}">
+							  	<td>상품 있음</td>
+							  	<td>수정/삭제</td>
+				  			</th:block>
+				  			
 				  		</tr>
 				  	</tbody>
 				  	
