@@ -60,10 +60,9 @@ public class ProductServiceTest {
 		
 		given(productMapper.getProduct(productNumber)).willReturn(mockProduct);
 		
-		Map<String, Object> responseProduct = productServiceImpl.getProduct(productNumber);
+		Product responseProduct = productServiceImpl.getProduct(productNumber);
 		System.out.println(responseProduct);
-		Product product = (Product)responseProduct.get("mainProduct");
-		assertThat(product.getProductName()).isEqualTo(productName);
+		assertThat(responseProduct.getProductName()).isEqualTo(productName);
 		
 	}
 	
@@ -85,11 +84,10 @@ public class ProductServiceTest {
 		
 		given(productMapper.getProduct(productNumber)).willReturn(mockProduct);
 		
-		Map<String, Object> responseProduct = productServiceImpl.getProduct(productNumber);
+		Product responseProduct = productServiceImpl.getProduct(productNumber);
 		System.out.println(responseProduct);
-		Product product = (Product)responseProduct.get("mainProduct");
-		
-		assertThat(product.getProductName()).isEqualTo("abc");
+
+		assertThat(responseProduct.getProductName()).isEqualTo("abc");
 		
 	}
 	

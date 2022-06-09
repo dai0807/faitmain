@@ -3,6 +3,7 @@ package com.faitmain.domain.user.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +16,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
-import com.faitmain.domain.live.controller.LiveController;
 import com.faitmain.domain.live.service.LiveService;
+import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.user.domain.StoreApplicationDocument;
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.domain.user.service.ApiService;
 import com.faitmain.domain.user.service.UserSerivce;
-import com.mysql.cj.Session;
-
+ 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -39,6 +42,20 @@ public class UserController{
 	   @Qualifier("userServiceImpl")
 	   private UserSerivce userSerivce;
 	   
+	   @Autowired
+	   @Qualifier("productServiceImpl")
+	   private ProductService productService;
+	   
+	   @Autowired
+	   @Qualifier("liveServiceImpl")
+	   private LiveService liveService;
+	   
+	   @Autowired
+	   @Qualifier("apiServiceImpl")
+	   private ApiService apiServiceImpl;
+	   
+	   
+	   
 	   public UserController() {
 		   log.info( "Controller = {} " , this.getClass() );
 	   }
@@ -48,59 +65,89 @@ public class UserController{
 	   public String longin( Model model ) throws Exception {
 	      
 		   
-		   log.info( " login Page로 이동"  );
+		   log.info( " 컨트롤러 탐 login Page로 이동"  );
 		   
-	      return "forward:/user/login.jsp";
+	      return "view/user/login";
 	   }
 	   
 	   
 	   @PostMapping( "login" )
-	   public String longin( Model model , @ModelAttribute("user") User loginuser,  HttpSession session) throws Exception {
+	   public RedirectView longin( RedirectAttributes model , @ModelAttribute("user") User loginuser,  HttpSession session) throws Exception {
 	      
+		   log.info("Post login Page 도착");
+		   log.info("user 출력  :: {}" , loginuser);
+		   
  		   int result = 0;
  		  result = userSerivce.getLogin(loginuser) ; // id/ pw 값 있으면 1 없으면 0 ,,
  		   
  		   if(result == 1) {
  			   User user = userSerivce.getUser(loginuser.getId()) ;  
- 			   log.info("User 출력 " + user);
+ 			   log.info("{}의 로그인이 완료 되었습니다  " , user.getId());
  			   session.setAttribute("user", user) ; // user 정보 u로그인 
  		   }else {
  			   log.info("로그인 실패");
  			   
  		   }
+		   log.info("Post login 끝 ");
 		   
+	        Map<String, Object> map = new HashMap<String, Object>();
+	        
+	        map.put("orderName", "product_name DESC");
+			map.put("startRowNum", 1);
+			map.put("endRowNum", 5);
+			
+			map = productService.getProductList(map);
+	        log.info("after getProductList");
+
+			map.put("liveList", liveService.getLiveList().get("liveList"));
+			log.info("after getLiveList");
+			
+	        model.addFlashAttribute("map", map);
  		   
-	      return "forward:/live/main.jsp";
+	      return new RedirectView("/");
 	   }
 	      
 	   
 	   
 	   
 	   @GetMapping("logout")
-	   public String logout(HttpSession session) throws Exception {
+	   public RedirectView logout(HttpSession session ,HttpServletRequest request) throws Exception {
+		   
+		   
 		 log.info("get :: logout    " );
+		log.info("  {} 의 로그아웃  " , ((User) request.getSession(true).getAttribute("user")).getId()   );
 
 		   session.invalidate() ; 
 		      
-	   return "forward:/live/main.jsp";
+		      return new RedirectView("/");
 	   }
+	   
 	   
 	   @GetMapping("selectRegisterType")
 	   public String selectRegisterType(Model model)  throws Exception {
 		 
 			log.info("get :: selectRegisterType    " );
 	      
-	   return "forward:/user/selectRegisterType.jsp";
+	   return "view/user/selectRegisterType";
 	   }
 	   
+	   
+	   @GetMapping("addUser")
+	   public String addUser(Model model)  throws Exception {
+		 
+			log.info("get :: addUser " );
+	      
+	   return "view/user/addUser";
+	   }	   
 	   @PostMapping("addUser")
-	   public String addUser(@ModelAttribute("user") User user) throws Exception{
+	   public RedirectView addUser(@ModelAttribute("user") User user) throws Exception{
 		   
 		   log.info("addUser::들어온 user 결과  ::{}" ,user );
+		   user.setRole("user");
 		   int result = userSerivce.addUser(user) ;
 		   log.info("restut {}" , result);
 		   
-		   return("redirect:/live/main.jsp");
+		    return new RedirectView("/");
 	   }
 	   
 	   
@@ -121,7 +168,7 @@ public class UserController{
 		   return("redirect:/live/main.jsp");
 	   }
 	   
-	   @PostMapping("updateUSer")
+	   @PostMapping("updateUser")
 	   public String updateUser(@ModelAttribute("user") User user  ) throws Exception{
 		   
 		   log.info("addStore::들어온 user 결과  ::{}" ,user );
@@ -137,29 +184,33 @@ public class UserController{
 	   
 		@GetMapping("kakaoLogin")
 		public String kakaoLogin(@RequestParam(value = "code", required = false) String code , Model model , HttpSession session) throws Exception {
-			System.out.println("#########" + code);
+		// 사용자 로그인 및  동의 후 , 인가 코드를 발급받아 302 redirect를 통해  ,  이 메소드 도착함    
+			
+			log.info("##kakaoLogin## 페이지 도착 " );
+			
+			   log.info("##code {} ##" , code); // 코드 출력 
+
+			// 사용자 정보를 가져오기 위하여 code로  access 토큰 가져오기 ! 
+			   String access_Token = apiServiceImpl.getKaKaoAccessToken(code);
+ 			   log.info("##access_Token 가져옴 ::  {} ##" , access_Token);
 			
 			
-			//		String access_Token = kakao.getAccessToken(code);
-			String access_Token = userSerivce.getAccessToken(code);
- 			   log.info("##access_Token {} ##" , access_Token);
-			
-			
-			//추가추가
-			// 카카오 getUserInfo 에서 access_Token과 userInfo 가져오기 
-				Map<String, Object> userInfo = userSerivce.getUserInfo(access_Token);
-	 			   log.info("##access_Token {} ##" , access_Token);
-	 			   log.info("##email {} ##" , userInfo.get("email"));
+ 			// 카카오 getUserInfo 에서 access_Token를 통하여  userInfo 가져오기 
+				Map<String, Object> userInfo = apiServiceImpl.getKakoUserInfo(access_Token);
+	 				log.info("##access_Token {} ##" , access_Token);
+	 			 log.info("##email {} ##" , userInfo.get("email"));
  
 	 			String kakaouserId =  (String) userInfo.get("email");		   
 	 			User user = new User () ;
 	 			user.setId(kakaouserId);
 	 			user.setPassword("12345"); // 카카오 로그인시 비밀번호
 				if(   	userSerivce.getLogin(user) == 0 ) {  // 카카로 로그인 ID가 우리 사이트에 존재 x
+	 				log.info("로그인한 카카오 아이디가 존재 하지 않습니다. ");
+	
  					model.addAttribute("kakaouserId",kakaouserId);
  					
  					
- 					return "/user/kakaoAdd.jsp"; // 추가 kakao로그인 화면 
+ 					return "view/user/kakaoAdd"; // 추가 kakao로그인 화면 
  					
 
  				}else {  
@@ -171,7 +222,7 @@ public class UserController{
  					
  				} // 존재 할때 
   				
-				  return("redirect:/live/main.jsp");
+				  return("redirect:/");
 		 
 	    	}	   
 		
@@ -185,7 +236,7 @@ public class UserController{
  			
 			
 	 			kuser.setPassword("12345") ; //  패스워드 고정 
-				kuser.setJoinPath("K") ; // 카카오는 K로 고정 , 자사는 H 로 고정 
+				kuser.setJoinPath("kakao") ; // 카카오는 K로 고정 , 자사는 H 로 고정 
 	
 				log.info("##kuser {} ##" , kuser);
 				log.info("회원가입이 완료 되었습니다. ");

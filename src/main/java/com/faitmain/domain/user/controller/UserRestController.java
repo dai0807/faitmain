@@ -133,7 +133,7 @@ public class UserRestController {
 		public  String smsCertificationRequest(@RequestParam("phone") String userPhoneNumber ,  @RequestParam("phone2") String smsCertification ,  HttpSession session ,HttpServletRequest request) throws Exception {
 			log.info(" 인증 하러옴  "  );
 
-			String result = "F" ;
+			String result = "F";
 			log.info(" userPhoneNumber {} :  smsCertification {} ",userPhoneNumber,smsCertification  );
 			log.info(" session.getAttributeNames{}" + session.getAttributeNames());
 
@@ -147,10 +147,11 @@ public class UserRestController {
 					log.info("userAuth의 인증 값은 {} " , sessionAuth) ;
 					log.info("입력받은 번호 값 {}  , 세션 인증값 {}" , smsCertification,sessionAuth) ;
 		 						if   (      sessionAuth.equals(smsCertification)             ) {
-									result = "T" ;
+		 							result = "T";
 									log.info("인증완료 ") ;
 		
 								}else {
+									result = "F" ;
 											log.info("인증값 틀림 ") ;
 											
 								}
@@ -166,7 +167,7 @@ public class UserRestController {
 			
 			
 			
-			return "result" ;
+			return result ;
 		}		
 		
 		//스토어 권한 업데이트

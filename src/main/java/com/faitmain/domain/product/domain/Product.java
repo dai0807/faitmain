@@ -15,7 +15,7 @@ public class Product {
 	private int productNumber;
 	private String productName;
 	private User store;
-	private int price;
+	private int productPrice;
 	private String productMainImage;
 	private List<Image> productExtraImage;
 	private String productDetail;

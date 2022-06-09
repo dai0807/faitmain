@@ -52,7 +52,7 @@ CREATE TABLE `user` (
 CREATE TABLE `product` (
                        `product_number`        INT(5)      NOT NULL AUTO_INCREMENT ,
                        `product_name`          VARCHAR(50) NOT NULL ,
-                       `price`                 INT         NOT NULL ,
+                       `product_price`                 INT         NOT NULL ,
                        `store_id`              VARCHAR(25) NOT NULL ,
                        `product_main_image`    VARCHAR(30) NOT NULL ,
                        `product_detail`        LONGTEXT    NULL ,
@@ -250,6 +250,10 @@ ALTER TABLE `order` AUTO_INCREMENT = 10000;
 ---ALERT customer
 
 ALTER TABLE customer MODIFY COLUMN customer_FAQ_category_code INT NULL;
+ALTER TABLE customer MODIFY reg_date TIMESTAMP; 
+ALTER TABLE customer MODIFY update_date TIMESTAMP;
+ALTER TABLE customer ADD view_cnt INT DEFAULT 0;
+ALTER TABLE customer ADD delete_yn ENUM('Y', 'N') NOT NULL DEFAULT 'N' ;
 
 ---ALERT ban_period
 
@@ -294,37 +298,37 @@ INSERT INTO store_application_document (`store_application_document_number`,`id`
 
 
 -- product
-INSERT INTO product (product_number, product_name, price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
 VALUES (10000, '수제청 딸기청 패션후르츠 결혼식 답례품 생일선물', 5000, 'store03@naver.com', 'product_main_image.jpg', 'product_detail 01', '01', '01', NOW(), 3000, 10);
-INSERT INTO product (product_name, price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
 VALUES ('종류: 딸기청best / 용량: 250ml', 6000, 'store03@naver.com', 'product_main_image.jpg', '01', '01', NOW(), 3000, 10, 10000);
-INSERT INTO product (product_name, price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
 VALUES ('종류: 자몽청best / 용량: 250ml', 6000, 'store03@naver.com', 'product_main_image.jpg', '01', '01', NOW(), 3000, 10, 10000);
-INSERT INTO product (product_name, price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
 VALUES ('종류: 오렌지청best / 용량: 250ml', 6000, 'store03@naver.com', 'product_main_image.jpg', '01', '02', NOW(), 3000, 10, 10000);
-INSERT INTO product (product_name, price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
 VALUES ('종류: 포도청best / 용량: 250ml', 6000, 'store03@naver.com', 'product_main_image.jpg', '01', '03', NOW(), 3000, 0, 10000);
-INSERT INTO product (product_name, price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
 VALUES ('식빵 쿠키커터 스마일식빵 쿠키틀', 7000, 'store02@naver.com', 'product_main_image.jpg', 'product_detail 02', '02', '01', NOW(), 3000, 20);
-INSERT INTO product (product_name, price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
 VALUES ('진정밤 멀티밤 트러블에 정말 좋아요~', 10000, 'store02@naver.com', 'product_main_image.jpg', 'product_detail 03', '03', '01', NOW(), 3000, 30);
-INSERT INTO product (product_name, price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
 VALUES ('성분: 라벤더', 6000, 'store02@naver.com', 'product_main_image.jpg', '03', '01', NOW(), 3000, 10, 10006);
-INSERT INTO product (product_name, price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
 VALUES ('성분: 로즈마리', 6000, 'store02@naver.com', 'product_main_image.jpg', '03', '01', NOW(), 3000, 10, 10006);
-INSERT INTO product (product_name, price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
 VALUES ('성분: 로즈', 6000, 'store02@naver.com', 'product_main_image.jpg', '03', '02', NOW(), 3000, 10, 10006);
-INSERT INTO product (product_name, price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
 VALUES ('성분: 카모마일', 6000, 'store02@naver.com', 'product_main_image.jpg', '03', '03', NOW(), 3000, 0, 10006);
-INSERT INTO product (product_name, price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
 VALUES ('아디다스 티셔츠 한정판', 12000, 'store01@naver.com', 'product_main_image.jpg', 'product_detail 02', '04', '01', NOW(), 3000, 10);
-INSERT INTO product (product_name, price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
 VALUES ('감성 무드등', 30000, 'store01@naver.com', 'product_main_image.jpg', 'product_detail 02', '05', '01', NOW(), 3000, 10);
-INSERT INTO product (product_name, price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
 VALUES ('순면 100% 턱받침', 15300, 'store01@naver.com', 'product_main_image.jpg', 'product_detail 02', '06', '01', NOW(), 3000, 10);
-INSERT INTO product (product_name, price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
 VALUES ('수제 터키 과자 딜라이트', 10000, 'store03@naver.com', 'product_main_image.jpg', 'product_detail 02', '01', '01', NOW(), 3000, 10);
-INSERT INTO product (product_name, price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
 VALUES ('프랑스에서 만든 마카롱 10개 세트', 20000, 'store03@naver.com', 'product_main_image.jpg', 'product_detail 02', '01', '01', NOW(), 3000, 10);
 
 

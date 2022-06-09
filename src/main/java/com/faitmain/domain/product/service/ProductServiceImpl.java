@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.mapper.ProductMapper;
 import com.faitmain.global.common.Image;
+import com.faitmain.global.common.Search;
 
 import lombok.RequiredArgsConstructor;
 
@@ -79,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
 		if(product.getProductOptions() != null) {
 			for(Product option : product.getProductOptions()) {
 				option.setCategoryCode(product.getCategoryCode());
-				option.setPrice(product.getPrice());
+				option.setProductPrice(product.getProductPrice());
 				option.setProductMainImage(product.getProductMainImage());
 				option.setProductGroupNumber(product.getProductGroupNumber());
 				option.setStore(product.getStore());
@@ -121,6 +122,14 @@ public class ProductServiceImpl implements ProductService {
 		resultMap.put("list", list);
 		resultMap.put("totalCount", new Integer(totalCount));
 		
+		return resultMap;
+	}
+	
+	@Override
+	public Map<String, Object> getProductListByStoreId(String storeId) throws Exception {
+		List<Product> list = productMapper.getProductListByStoreId(storeId);
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("list", list);
 		return resultMap;
 	}
 

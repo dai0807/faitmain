@@ -13,17 +13,19 @@
 		<association property="cartProduct"  javaType="com.faitmain.domain.product.domain.Product">
 			<id property="productNumber" column="product_number" jdbcType="INTEGER"/>
 			<result property="productName"			column="product_name" 			jdbcType="VARCHAR" />
-			<result property="price" 				column="product_price" 			jdbcType="INTEGER" />
+			<result property="productPrice" 				column="product_price" 			jdbcType="INTEGER" />
 			<result property="productMainImage" 	column="product_main_image" 	jdbcType="VARCHAR" />
 		</association>		
 		
 	</resultMap>
+
+
 	
 	<!-- 장바구니 추가 -->
 	<insert id="addCart" parameterType="com.faitmain.domain.product.domain.Cart">		
 		INSERT
 		INTO cart(user_id, cart_quantity, product_number, product_name, product_price, product_main_image)
-		VALUES (#{userId}, #{cartQuantity}, #{cartProduct.productNumber}, #{cartProduct.productName}, #{cartProduct.price}, #{cartProduct.productMainImage})
+		VALUES (#{userId}, #{cartQuantity}, #{cartProduct.productNumber}, #{cartProduct.productName}, #{cartProduct.productPrice}, #{cartProduct.productMainImage})
 	</insert>	
 	
 	<select id="getCart"  parameterType="com.faitmain.domain.product.domain.Cart"	resultMap="cartSelectMap">

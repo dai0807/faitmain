@@ -44,7 +44,7 @@ public class CartController {
 		
 		Map<String, Object> map = cartService.getCartList(search);
 				
-		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 4, 10);
+		Page resultPage = new Page( search.getCurrentPage(), ( Integer ) map.get( "totalCount" ) , 4, 10);
 		
 		log.info("resultPage : " + resultPage);
 		

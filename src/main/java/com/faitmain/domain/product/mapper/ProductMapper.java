@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.global.common.Image;
+import com.faitmain.global.common.Search;
 
 @Mapper
 public interface ProductMapper {
@@ -31,6 +32,9 @@ public interface ProductMapper {
 	
 	//SELECT - 상품 목록 조회
 	public List<Product> getProductList(Map<String, Object> map) throws Exception;
+	
+	//SELECT - 상품 목록 조회
+	public List<Product> getProductListByStoreId(String storeId) throws Exception;
 	
 	//SELECT - 상품 count
 	public int getTotalCount(Map<String, Object> map) throws Exception;

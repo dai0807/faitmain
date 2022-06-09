@@ -29,6 +29,7 @@ public interface UserMapper {
 	 
 	//SELECT  유저 상세 조회 
 	 User getUser(String id) ;	 
+ 
 	 //select 유저 상세 조회 2 
 	 User getMapUser( Map<String, Object> map ) ;
 	
