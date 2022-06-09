@@ -15,8 +15,6 @@ import java.util.Optional;
 public interface OrderMapper{
 
 
-    /* 주문자 주소 정보 */
-    User getBuyerInfo( int userNumber );
 
     /* 주문 상품 정보 (주문 페이지) */
     OrderPageOne getProductInfo( int productNumber );

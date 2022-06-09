@@ -1,8 +1,11 @@
 package com.faitmain.domain.order.service;
 
 import com.faitmain.domain.order.domain.Order;
+import com.faitmain.domain.order.domain.OrderOne;
 import com.faitmain.domain.order.domain.OrderPageOne;
 import com.faitmain.domain.order.mapper.OrderMapper;
+import com.faitmain.domain.product.mapper.CartMapper;
+import com.faitmain.domain.product.mapper.ProductMapper;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.mapper.UserMapper;
 import com.faitmain.domain.web.domain.AttachImage;
@@ -22,10 +25,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 @Transactional
@@ -35,9 +36,20 @@ public class OrderServiceImpl implements OrderService{
 
     @Autowired
     OrderMapper orderMapper;
-
     @Autowired
     AttachMapper attachMapper;
+
+    @Autowired
+    UserMapper userMapper;
+
+    @Autowired
+    ProductMapper productMapper;
+
+    @Autowired
+    CartMapper cartMapper;
+
+
+
 
 
 
@@ -62,8 +74,45 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public User getBuyerInfo( int userNumber ){
-        return orderMapper.getBuyerInfo( userNumber );
+    @Transactional
+    public void order( Order order ){
+
+        /* 사용할 데이터 가져오기 */
+        /* 회원정보 */
+        User user = userMapper.getBuyerInfo( order.getBuyerId() );
+        /* 주문정보 */
+        ArrayList<OrderOne> orderBundle = new ArrayList<>();
+        for ( OrderOne orderOne : order.getOrderBundle() ) {
+            OrderOne ordOne = orderMapper.getOrderInfo( orderOne.getProductNumber() );
+            /* 수량세팅 */
+            ordOne.setProductQuantity( orderOne.getProductQuantity() );
+            /* 기본정보 세팅 */
+            ordOne.initSaleTotal();
+            /* LIST 객체 추가 */
+            orderBundle.add( ordOne );
+        }
+        /* ORDER 세팅 */
+        order.setOrderBundle( orderBundle );
+        order.getOrderPriceInfo();
+
+        /* DB 주문,주문상품(,배송정보) 넣기*/
+
+        /* ORDERNUMBER 만들기 및 ORDER 객체 저장 */
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat( "_yyyyMMdd" );
+        int orderNumber = Integer.parseInt( user.getUserNumber() + format.format(date) );
+        order.setOrderNumber(orderNumber);
+
+        /* DB 넣기 */
+        orderMapper.enrollOrder( order );
+        for ( OrderOne orderOne : order.getOrderBundle() ) {
+            orderOne.setOrderNumber( String.valueOf( orderNumber ) );
+        }
+
+        /* 포인트 변동 적용 */
+        int calTotalPoint = user.getTotalPoint();
+        calTotalPoint = calTotalPoint - order.getUsingPoint() + order.getOrderRewardPoint();
+        user.setTotalPoint( calTotalPoint );
     }
 
 
