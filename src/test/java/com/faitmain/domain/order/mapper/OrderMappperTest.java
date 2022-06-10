@@ -38,7 +38,7 @@ class OrderMappperTest{
         orderOne.setOrderOneNumber(0);
         orderOne.setOrderNumber("");
         orderOne.setProductNumber(0);
-        orderOne.setProductQuantity(0);
+        orderOne.setProductOrderCount(0);
         orderOne.setProductPrice(0);
         orderOne.setProductDiscount(0.0D);
         orderOne.setRewardPoint(0);
