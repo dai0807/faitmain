@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" layout:decorate="~{layout/myPage_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/default_layout}">
 <head>
     <meta charset = "UTF-8">
     <title>상품 수정</title>
@@ -24,6 +24,7 @@
 			optionAdd();
 		});
 		
+		var optionIndex = $(".existOption:last > input[type='hidden']");
     	function optionAdd() {
 			console.log('optionadd');
 			var optionIndex = 0;
@@ -172,10 +173,11 @@
 					<button id="optionAdd_btn" class="btn btn-primary mb-3 col-sm-offset-1 col-sm-3" type="button">옵션추가</button>
 	
 					<div id="optionIndex" class="col-sm-4">
-						<div th:if="${#lists.size(product.productOptions) > 0}" th:each="productOption, index : ${product.productOptions}">
+						<div th:if="${#lists.size(product.productOptions) > 0}" th:each="productOption, index : ${product.productOptions}" class="existOption">
+							<input type="hidden" th:value="${productOption.productNumber}" th:name="|productOption[${index.index}].productNumber|" />
 							<input type="hidden" th:value="${productOption.productNumber}" th:name="|productOption[${index.index}].productNumber|" />  
-							<input type="text"  class="form-control" th:value="${productOption.productName}" th:name="productOption[index].productName">
-							<input type="text" class="form-control"  th:value="${productOption.productQuantity}" th:name="productOption[index].productName" id='item_vol'>
+							<input type="text"  class="form-control" th:value="${productOption.productName}" th:name="|productOption[${index.index}].productName|">
+							<input type="text" class="form-control"  th:value="${productOption.productQuantity}" th:name="|productOption[${index.index}].productQuantity|" id="item_vol">
 							<button type="button" style="float:right;" id="optionDelBtn" class="btn-btn dark">삭제</button>
 						</div>					
 					</div>
