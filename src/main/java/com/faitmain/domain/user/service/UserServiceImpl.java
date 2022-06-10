@@ -29,11 +29,6 @@ public class UserServiceImpl implements UserSerivce{
         log.info( "Service = {} " , this.getClass() );
     }
 
-    @Override
-    public User getBuyerInfo( String id ){
-        return userMapper.getBuyerInfo( id );
-    }
-
 
 
 
@@ -171,9 +166,9 @@ public class UserServiceImpl implements UserSerivce{
     }
     //  UPDATE - 스토어로 업데이트
 
-    public int updatUserStore( Map<String, Object> map ) throws Exception{
+    public int updateUserStore( Map<String, Object> map ) throws Exception{
         // TODO Auto-generated method stub
-        return userMapper.updatUserStore( map );
+        return userMapper.updateUserStore( map );
     }
 
     // UPDATE 스토어문서 상태 examination_status

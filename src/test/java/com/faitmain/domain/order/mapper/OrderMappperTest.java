@@ -1,6 +1,6 @@
 package com.faitmain.domain.order.mapper;
 
-import com.faitmain.domain.order.domain.OrderOne;
+import com.faitmain.domain.order.domain.OrderProduct;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +21,7 @@ class OrderMappperTest{
     @Test
     public void getOrdetInfoTest(){
 
-        OrderOne orderInfo = orderMapper.getOrderInfo( 10001 );
+        OrderProduct orderInfo = orderMapper.getOrderInfo( 10001 );
         log.info( "orderInfo = {}" , orderInfo );
 
     }
