@@ -90,7 +90,7 @@ public class ReviewController {
 		search.setPageSize(10);
 		
 		Map<String, Object> map = reviewService.getReviewList(search);
-		
+/*		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 4, 10);
 		
 		log.info("resultPage : " + resultPage);
@@ -98,7 +98,7 @@ public class ReviewController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
-		
+*/		
 		return "forward:/review/" + resultJsp + ".jsp";
 	}
 	

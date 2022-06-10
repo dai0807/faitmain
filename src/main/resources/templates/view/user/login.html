@@ -33,8 +33,41 @@
 						$("#password").focus();
 						return;
 					}
+				
+ 				
+				$.ajax({
+					url:"/user/json/login", //주소
+					type:"POST", //전송타입
+					data: $("#form").serialize(), //봬는 데이터
+					dataType:"JSON", // 응답 받을 데이터
+					success:function(data){
+						console.log("로그인 결과는 "+data) ;
+						if(data ==1){
+							 location.href="/"
+						}else if( data == 0){
+								alert("아이디 비밀번호를 확인해 주세요 ");
+							
+						}
+						
+					},
+					//요청 실패시 나오는 
+					   error : function (jqXHR, textStatus, errorThrown){
+	                   console.log(jqXHR);  //응답 메시지
+	                   console.log(textStatus); //"error"로 고정인듯함
+	                   console.log(errorThrown);
+	                  }
 					
-					$("form").attr("method","POST").attr("action","/user/login").submit();
+					
+				});
+				
+					
+				//	$("form").attr("method","POST").attr("action","/user/login").submit();
+				
+				
+				
+				
+				
+				
 				});
 				
 				
@@ -51,13 +84,13 @@
 			}
 			
     		function findId(){
-				alert("아이디 찾기 ㄱㄱㄱ");
+				alert("아직구현중");
 					self.location="/user/findId";
 	
 			}			
 			
     		function findPassword(){
-				alert("비밀번호 찾기 기 ㄱㄱㄱ");
+				alert("아직구현중");
 					self.location="/user/findPassword";
 	
 			}				
@@ -109,7 +142,7 @@ html {
      </div>
 
     <!-- Login Form -->
-    <form>
+    <form id="form" onsubmit="return false">
     
         <div>
 						

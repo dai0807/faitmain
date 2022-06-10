@@ -87,6 +87,8 @@ public class UserController{
 		   
 	   }
 	   
+//로그인 ajax로 바꾸면서 RestController 탐	   
+/*	   
 	   @PostMapping( "login" )
 	   public RedirectView longin( RedirectAttributes model , @ModelAttribute("user") User loginuser,  HttpSession session) throws Exception {
 	      
@@ -123,7 +125,7 @@ public class UserController{
 	      return new RedirectView("/");
 	   }
 	      
-	   
+*/	   
 	   
 	   
 	   @GetMapping("logout")
@@ -200,7 +202,9 @@ public class UserController{
 	   }	
 	   
 		@GetMapping("kakaoLogin")
-		public RedirectView kakaoLogin(@RequestParam(value = "code", required = false) String code , RedirectAttributes model , HttpSession session) throws Exception {
+	//	public RedirectView kakaoLogin(@RequestParam(value = "code", required = false) String code , RedirectAttributes model , HttpSession session) throws Exception {
+		public String kakaoLogin(@RequestParam(value = "code", required = false) String code , Model model , HttpSession session) throws Exception {
+
 		// 사용자 로그인 및  동의 후 , 인가 코드를 발급받아 302 redirect를 통해  ,  이 메소드 도착함    
 			
 			log.info("##kakaoLogin## 페이지 도착 " );
@@ -230,12 +234,18 @@ public class UserController{
 	 					
 	 				}
 	 				
- 					model.addFlashAttribute("kakaouserId",kakaouserId);
+ 				 	//model.addFlashAttribute("kakaouserId",kakaouserId);
  					
  					
  					//return "view/user/kakaoAdd"; // 추가 kakao로그인 화면 
- 				    return new RedirectView("view/user/kakaoAdd");	 
+ 				 	
+ 				 	
+ 				   // return new RedirectView("/view/user/kakaoAdd");	 
+ 				 	model.addAttribute("kakaouserId",kakaouserId) ;
+ 				 	
+ 					return("view/user/kakaoAdd");
 
+ 				 	
 
  				}else {  
  					// 카카오 로그인시 ID가 우리 사이트에 존재 할때 
@@ -264,13 +274,19 @@ public class UserController{
 				map = productService.getProductList(map);
 		        log.info("after getProductList");
 
+		        System.out.println(map);
+
 				map.put("liveList", liveService.getLiveList().get("liveList"));
+		        System.out.println(map);
+
 				log.info("after getLiveList");
 				
-		        model.addFlashAttribute("map", map);
+		        model.addAttribute("map", map);
 	 		   
-			    return new RedirectView("/");	 
-		 
+			  //  return new RedirectView("/");	 
+		return "/" ; 
+		
+		
 	    	}	   
 		
 		// RedirectView longin( RedirectAttributes model ,
