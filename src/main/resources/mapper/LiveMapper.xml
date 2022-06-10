@@ -44,7 +44,7 @@
        <association property="store" javaType="User">
        		<id property="id" column="store_id" jdbcType="VARCHAR" />
        		<result property="storeName" column="store_name" jdbcType="VARCHAR" />
-       		<result property="storelogoImage" column="store_logo_image" jdbcType="VARCHAR" />
+       		<result property="storeLogoImage" column="store_logo_image" jdbcType="VARCHAR" />
        </association>
      
     </resultMap>
