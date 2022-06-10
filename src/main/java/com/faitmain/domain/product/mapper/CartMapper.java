@@ -18,9 +18,7 @@ public interface CartMapper{
     /*****************************************************************/
 
 
-    @Insert( " INSERT INTO cart(user_id, cart_quantity, product_number, product_name, product_price, product_main_image) " +
-            " VALUES (#{userId}, #{cartQuantity}, #{cartProduct.productNumber}, #{cartProduct.productName}, #{cartProduct.price}, #{cartProduct.productMainImage})" )
-    void insertCart( Cart cart );
+
 
     //INSERT - 장바구니 등록
     void addCart( Cart cart ) throws Exception;

@@ -1,7 +1,6 @@
 package com.faitmain.domain.product.mapper;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
@@ -36,7 +35,7 @@ public class CartMapperTest {
 		
 		Product product = productMapper.getProduct(10016);
 		cart.setCartProduct(product);
-		cart.setCartQuantity(1);
+		cart.setProductOrderCount(1);
 		cart.setUserId("user01@naver.com");
 		
 		System.out.println("addCartTest end");
@@ -67,7 +66,7 @@ public class CartMapperTest {
 		
 		Cart cart = new Cart();
 		cart.setCartNumber(10007);
-		cart.setCartQuantity(2);
+		cart.setProductOrderCount(2);
 		
 		cartMapper.updateCart(cart);
 				

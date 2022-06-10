@@ -81,22 +81,30 @@ public class UserRestController{
 	 
 //업데이트 유저 
     @PostMapping( value = "json/updateUser" )
-    public int ajaxupdateUser( @RequestParam( "id" ) String id ,
-                               @RequestParam String userAdress1 ,
-                               @RequestParam String userAdress2 ,
-                               @RequestParam String userAdress3 ,
-                               @RequestParam String nickname ,
-                               @RequestParam String phoneNumber ,
-							   HttpSession session ,
-							   HttpServletRequest request ) throws Exception{
-        User user = new User();
-        user.setId( id );
-        user.setNickname( nickname );
-        user.setPhoneNumber( phoneNumber );
-		user.setUserAddress1( userAdress1 );
-		user.setUserAddress2( userAdress2 );
-		user.setUserAddress3( userAdress3 );
+//    public int ajaxupdateUser( @RequestParam( "id" ) String id ,
+//                               @RequestParam String userAdrress1 ,
+//                               @RequestParam String userAdrress2 ,
+//                               @RequestParam String userAdrress3 ,
+//                               @RequestParam String nickname ,
+//                               @RequestParam String phoneNumber ,
+//                               @RequestParam String storeName ,
+//
+//							   HttpSession session ,
+//							   HttpServletRequest request ) throws Exception{
+    public int ajaxupdateUser( User user ,
 
+			   HttpSession session ,
+			   HttpServletRequest request ) throws Exception{
+//        User user = new User();
+//        user.setId( id );
+//        user.setNickname( nickname );
+//        user.setPhoneNumber( phoneNumber );
+//		user.setUserAddress1( userAdrress1 );
+//		user.setUserAddress2( userAdrress2 );
+//		user.setUserAddress3( userAdrress3 );
+    	
+    	log.info("ajax Updtae에 옴  user 값은 = {}" , user) ;
+    	
         //아직  checkDuplication 없음
         int result = 0;
         //log.info("updateUser :: user 출력   {} "  ,  user );

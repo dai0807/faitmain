@@ -79,18 +79,15 @@
     </update>
 
     <!-- 주문 상품 정보(주문취소) -->
-    <select id="getOrderOneInfo" >
-
-
+    <select id="getOrderProductInfo" resultType="com.faitmain.domain.order.domain.OrderProduct" >
+        SELECT * FROM order_product WHERE order_number = #{orderNumber}
     </select>
 
     <!-- 주문 정보(주문 취소) -->
     <select id="getOrder" resultType="Order">
-
         SELECT *
           FROM `order`
-         WHERE order_number = #{orderId}
-
+         WHERE order_number = #{orderNumber}
     </select>
 
 

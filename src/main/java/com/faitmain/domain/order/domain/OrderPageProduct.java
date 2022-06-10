@@ -11,7 +11,7 @@ public class OrderPageProduct{
     /* 뷰로부터 전달받을 값 */
     private int productNumber;
 
-    private int productQuantity;
+    private int producOrderCount;
 
     /* DB로부터 꺼내올 값 */
     private String productName;
@@ -32,9 +32,10 @@ public class OrderPageProduct{
 
 
     public void initSaleTotal(){
-        this.totalPrice = this.salePrice * this.productQuantity;
+        this.salePrice = this.productPrice;
+        this.totalPrice = this.salePrice * this.producOrderCount;
         this.point = ( int ) ( Math.floor( this.salePrice * 0.05 ) );
-        this.totalPoint = this.point * this.productQuantity;
+        this.totalPoint = this.point * this.producOrderCount;
     }
 
 

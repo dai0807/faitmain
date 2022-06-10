@@ -37,9 +37,9 @@ public class OrderController{
     public String orderPageGET( @PathVariable String buyerId , OrderPage orderPage , Model model ){
 
         log.info( "buyerId = {} " , buyerId );
-        log.info( "orderBundle = {} " , orderPage.getOrderBundle() );
+        log.info( "orderBundle = {} " , orderPage.getOrderPageBundle() );
 
-        model.addAttribute( "orderList" , orderService.getProductInfo( orderPage.getOrderBundle() ) );
+        model.addAttribute( "orderList" , orderService.getProductInfo( orderPage.getOrderPageBundle()) );
         model.addAttribute( "buyerInfo" , orderService.getBuyerInfo( buyerId ) );
 
         return "view/order/order";

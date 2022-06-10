@@ -48,13 +48,13 @@ public class OrderServiceImpl implements OrderService{
 
     /* 주문정보 */
     @Override
-    public List<OrderPageProduct> getProductInfo( List<OrderPageProduct> orderBundle ){
+    public List<OrderPageProduct> getProductInfo( List<OrderPageProduct> orderPageBundle ){
 
-        ArrayList<OrderPageProduct> result = new ArrayList<>();
-        for ( OrderPageProduct orderPageProduct : orderBundle ) {
+        List<OrderPageProduct> result = new ArrayList<>();
+        for ( OrderPageProduct orderPageProduct : orderPageBundle ) {
 
             OrderPageProduct opp = orderMapper.getProductInfo( orderPageProduct.getProductNumber() );
-            opp.setProductQuantity( orderPageProduct.getProductQuantity() );
+            opp.setProducOrderCount( orderPageProduct.getProducOrderCount() );
             opp.initSaleTotal();
 
             List<AttachImage> imageList = attachMapper.getAttachList( opp.getProductNumber() );
@@ -75,11 +75,11 @@ public class OrderServiceImpl implements OrderService{
         /* 회원정보 */
         User user = orderMapper.getBuyerInfo( order.getBuyerId() );
         /* 주문정보 */
-        ArrayList<OrderProduct> orderBundle = new ArrayList<>();
+        List<OrderProduct> orderBundle = new ArrayList<>();
         for ( OrderProduct op : order.getOrderBundle() ) {
             OrderProduct orderProduct = orderMapper.getOrderInfo( op.getProductNumber() );
             /* 수량세팅 */
-            orderProduct.setProductQuantity( op.getProductQuantity() );
+            orderProduct.setProductOrderCount( op.getProductOrderCount() );
             /* 기본정보 세팅 */
             orderProduct.initSaleTotal();
             /* LIST 객체 추가 */
@@ -118,7 +118,7 @@ public class OrderServiceImpl implements OrderService{
         for ( OrderProduct orderProduct : order.getOrderBundle() ) {
             /* 변동 재고 값 구하기 */
             Product product = productMapper.getProduct( orderProduct.getProductNumber() );
-            product.setProductQuantity( product.getProductQuantity() - orderProduct.getProductQuantity() );
+            product.setProductQuantity( product.getProductQuantity() - orderProduct.getProductOrderCount() );
             /* 변동 값 DB 적용 */
             orderMapper.deductStock( product );
         }
@@ -152,7 +152,7 @@ public class OrderServiceImpl implements OrderService{
         /* 회원 */
         User user = orderMapper.getBuyerInfo( orderCancle.getBuyerId() );
         /* 주문상품 */
-        List<OrderProduct> orderBundle = orderMapper.getOrderOneInfo( orderCancle.getOrderNumber() );
+        List<OrderProduct> orderBundle = orderMapper.getOrderProductInfo( orderCancle.getOrderNumber() );
         for ( OrderProduct orderProduct : orderBundle ) {
             orderProduct.initSaleTotal();
         }
@@ -176,7 +176,7 @@ public class OrderServiceImpl implements OrderService{
         /* 재고 */
         for ( OrderProduct orderProduct : order.getOrderBundle() ) {
             Product product = productMapper.getProduct( orderProduct.getProductNumber() );
-            product.setProductQuantity( product.getProductQuantity() + orderProduct.getProductQuantity() );
+            product.setProductQuantity( product.getProductQuantity() + orderProduct.getProductOrderCount() );
             orderMapper.deductStock( product );
         }
     }
