@@ -7,6 +7,7 @@ import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Criterion;
 import com.faitmain.global.common.Search;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -43,6 +44,15 @@ public interface OrderMapper{
     /* 주문 총 개수 */
     int getOrderTotal( Criterion criterion );
 
+    /* 주문 취소 */
+    int orderCancle( int orderNumber );
+
+    /* 주문 상품 정보 (주문취소) */
+    List<OrderOne> getOrderOneInfo( int orderNumber );
+
+    /* 주문 정보 (주문취소) */
+    Order getOrder( int orderNumber );
+
 
     /**************************************************************************/
 
@@ -52,9 +62,6 @@ public interface OrderMapper{
 
     //update
     int updateOrder( Order order );
-
-    //selectOne
-    Order getOrder( int orderNumber );
 
     //selectList
     List<Order> getOrderList();

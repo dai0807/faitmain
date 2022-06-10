@@ -1,6 +1,7 @@
 package com.faitmain.domain.order.service;
 
 import com.faitmain.domain.order.domain.Order;
+import com.faitmain.domain.order.domain.OrderCancle;
 import com.faitmain.domain.order.domain.OrderPageOne;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Criterion;
@@ -9,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface OrderService{
-
 
 
     /* 주문자 주소 정보 */
@@ -27,7 +27,8 @@ public interface OrderService{
     /* 주문 총 개수 */
     int getOrderTotal( Criterion criterion );
 
-
+    /* 주문 취소 */
+    void orderCancle( OrderCancle orderCancle ) throws Exception;
 
 
     /********************************************************/

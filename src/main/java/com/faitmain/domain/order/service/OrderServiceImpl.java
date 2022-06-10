@@ -1,6 +1,7 @@
 package com.faitmain.domain.order.service;
 
 import com.faitmain.domain.order.domain.Order;
+import com.faitmain.domain.order.domain.OrderCancle;
 import com.faitmain.domain.order.domain.OrderOne;
 import com.faitmain.domain.order.domain.OrderPageOne;
 import com.faitmain.domain.order.mapper.OrderMapper;
@@ -139,14 +140,54 @@ public class OrderServiceImpl implements OrderService{
     }
 
     /* 주문 상품 리스트 */
+    @Override
     public List<Order> getOrderList( Criterion criterion ){
         return orderMapper.getOrderList( criterion );
     }
 
     /* 주문 총 개수 */
+    @Override
     public int getOrderTotal( Criterion criterion ){
         return orderMapper.getOrderTotal( criterion );
     }
+
+    /* 주문 취소 */
+    @Override
+    @Transactional
+    public void orderCancle( OrderCancle orderCancle ) throws Exception{
+        /* 주문 & 주문상품 객체 */
+        /* 회원 */
+        User user = orderMapper.getBuyerInfo( orderCancle.getBuyerId() );
+        /* 주문상품 */
+        List<OrderOne> orderBundle = orderMapper.getOrderOneInfo( orderCancle.getOrderNumber() );
+        for ( OrderOne orderOne : orderBundle ) {
+            orderOne.initSaleTotal();
+        }
+        /* 주문 */
+        Order order = orderMapper.getOrder( orderCancle.getOrderNumber() );
+        order.setOrderBundle( orderBundle );
+        order.getOrderPriceInfo();
+
+        /* 주문상품 취소 DB */
+        orderMapper.orderCancle( order.getOrderNumber() );
+
+        /* 포인트 & 재고 변환 */
+        /* 포인트 */
+        int calTotalPoint = user.getTotalPoint();
+        calTotalPoint = calTotalPoint - order.getUsingPoint() + order.getOrderRewardPoint();
+        user.setTotalPoint( calTotalPoint );
+
+        /* DB 적용 */
+        orderMapper.deductMoney( user );
+
+        /* 재고 */
+        for ( OrderOne orderOne : order.getOrderBundle() ) {
+            Product product = productMapper.getProduct( order.getProductNumber() );
+            product.setProductQuantity( product.getProductQuantity() + orderOne.getProductQuantity() );
+            orderMapper.deductStock( product );
+        }
+    }
+
 
 
     /*****************************************************************************************************************/

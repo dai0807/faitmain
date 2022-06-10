@@ -1,6 +1,7 @@
 package com.faitmain.domain.order.controller;
 
 import com.faitmain.domain.order.domain.Order;
+import com.faitmain.domain.order.domain.OrderCancle;
 import com.faitmain.domain.order.domain.OrderPage;
 import com.faitmain.domain.order.service.OrderService;
 import com.faitmain.domain.product.service.ProductService;
@@ -8,7 +9,6 @@ import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserSerivce;
 import com.faitmain.global.common.Criterion;
 import com.faitmain.global.common.Page;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -89,6 +89,17 @@ public class OrderController{
         }
 
         return "/admin/orderList";
+    }
+
+    /* 주문삭제 */
+    @PostMapping( "/orderCancle" )
+    public String orderCanclePOST( OrderCancle orderCancle ) throws Exception{
+
+        orderService.orderCancle( orderCancle );
+
+        return "redirect:/admin/orderList?keyword=" + orderCancle.getKeyword() +
+                "&PageAmount=" + orderCancle.getPageAmount() +
+                "&pageNumber" + orderCancle.getPageNumber();
     }
 }
 
