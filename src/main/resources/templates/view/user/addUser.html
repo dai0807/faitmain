@@ -7,6 +7,8 @@
 <head>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="@{/css/styles.css}" rel="stylesheet" />
+
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap" rel="stylesheet">
 
     <meta charset = "UTF-8">
@@ -412,7 +414,8 @@
 				
 					if( total_check_phoneNumber !=1){
 							alert("휴대폰 인증을 확인해 주세요 ") 
-											 		
+							 	$("input:text[name='password2']").focus();				
+	 		
 							return  ; 
 						}
 		
@@ -625,7 +628,7 @@
 		                   <span class="fw-bolder btn btn-success col-md-12" id="loginButton" > 회원가입</span></div>
 		  
 		  		  </div>   
-		  </div>
+		 	</div>
 			  
 			  
 			  		

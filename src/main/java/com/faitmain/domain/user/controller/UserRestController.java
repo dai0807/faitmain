@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,13 +39,17 @@ public class UserRestController {
 	   }
 	
 	// 중복 체크 4개 나 있음 !!!
-
+//업데이트 유저 
 		@PostMapping( value="json/updateUser"  )
 		public int ajaxupdateUser( @RequestParam ("id") String id ,
-				@RequestParam("address") String address,
-				@RequestParam("postalCode") int postalCode,
-				@RequestParam("nickname") String nickname,
-				@RequestParam("phoneNumber") String phoneNumber) throws Exception {
+				@RequestParam(value = "address" , required=false ) String address,
+				@RequestParam(value = "postalCode", required=false ) int postalCode,
+				@RequestParam(value = "nickname" , required=false  ) String nickname,
+				@RequestParam("phoneNumber") String phoneNumber     
+				 , HttpSession session   , HttpServletRequest request ) throws Exception {
+		
+			
+ 			
 			
 			User user = new User();
 			user.setId(id);
@@ -56,7 +61,7 @@ public class UserRestController {
 		//아직  checkDuplication 없음 
 			int result = 0 ;
 
-			log.info("updateUser :: user 출력   {} "  ,  user );
+			//log.info("updateUser :: user 출력   {} "  ,  user );
 		
 		//	result = userSerivce.updateUser(user);
  			
@@ -64,23 +69,32 @@ public class UserRestController {
 			log.info("updateUser :: result 출력   {} "  ,  result );
 		
 			
+		//	log.info("updateUser ::  user 세션 값 변경 전   {} "  ,  (User)request.getSession(true).getAttribute("user"));
+
+			
+			
+			user = userSerivce.getUser(user.getId()) ;
+			
+			session.setAttribute("user", user);
+			log.info("updateUser ::  user 세션 값 변경 후   {} "  ,  (User)request.getSession(true).getAttribute("user"));
+			
 			return result ;
 		}
 //		
 	   
 	   
-	   
+// 아이디 중복 체크	   
 		@GetMapping( value="idCheck" )
 		public int idCheck( @RequestParam ("id") String  id ) throws Exception {
 		//아직  checkDuplication 없음 
 			
 
-			log.info("중복체크 id  {} "  , id);
+			//log.info("중복체크 id  {} "  , id);
 			Map<String, Object> map = new HashMap<>();
 			map.put("checkcondition" , "id") ;
 			map.put("checkkeyword" , id) ;
 			int cnt = userSerivce.getchechDuplication(map) ;
-			log.info("id의 중복 검사 결과 {}"   +  cnt );		
+		//	log.info("id의 중복 검사 결과 {}"   +  cnt );		
 			// 숫자가 1 이면 중복 , 0이면 없음 
 			
 			return cnt ;
@@ -91,7 +105,7 @@ public class UserRestController {
 		public int nameCheck( @RequestParam ("nickname") String  nickname ) throws Exception {
 		//아직  checkDuplication 없음 
 						
-			log.info("중복체크 닉네임 {} " ,  nickname);
+		//	log.info("중복체크 닉네임 {} " ,  nickname);
 			
 			Map<String, Object> map = new HashMap<>();
 			map.put("checkcondition" , "nickname") ;
@@ -103,12 +117,12 @@ public class UserRestController {
 			// 숫자가 1 이면 중복 , 0이면 없음 
 			 return cnt ;
 		}	
-	
+//폰번호 검사 	
 		@GetMapping( value="phoneNumbereCheck")
 		public int phoneNumber( @RequestParam ("phoneNumber") String  phoneNumber ) throws Exception {
 		//아직  checkDuplication 없음 
 						
-			log.info("중복체크 nicknameCheck {} " ,  phoneNumber);
+			log.info("중복체크 phoneNumber {} " ,  phoneNumber);
 			
 			Map<String, Object> map = new HashMap<>();
 			map.put("checkcondition" , "phone_number") ;
@@ -140,7 +154,7 @@ public class UserRestController {
 		}		
 	
 		
-		// 휴대폰 문자보내기
+		// sms 휴대폰 문자보내기
 		@GetMapping( value="uphoneCheck")
 		public  String sendSMS(@RequestParam("phone") String userPhoneNumber ,  HttpSession session) throws Exception {
 			
@@ -160,9 +174,9 @@ public class UserRestController {
 			return "ddd" ;
 		}		
 		
-		// 휴대폰 문자보내기
+		// 휴대폰 문자 인증
 		@GetMapping( value="smsCertificationRequest")
-		public  String smsCertificationRequest(@RequestParam("phone") String userPhoneNumber ,  @RequestParam("phone2") String smsCertification ,  HttpSession session ,HttpServletRequest request) throws Exception {
+		public  String smsCertificationRequest(@RequestParam("phone" ) String userPhoneNumber ,  @RequestParam("phone2") String smsCertification ,  HttpSession session ,HttpServletRequest request) throws Exception {
 			log.info(" 인증 하러옴  "  );
 
 			String result = "F";
@@ -201,6 +215,30 @@ public class UserRestController {
 			
 			return result ;
 		}		
+	
+		
+//updatePassword		
+		@PostMapping("updatePassword") 
+  		public int updatePassword( @ModelAttribute("user") User user   )throws Exception {
+			log.info("##POST ##updatePassword {} ##" , user);
+			
+			 
+
+			
+			int restult = userSerivce.updateUserPassword(user) ;
+			log.info("update Password 결과 {}" , restult );
+
+
+			
+			
+			return restult;
+
+	 				
+	    	}		
+		
+		
+		
+		
 		
 		//스토어 권한 업데이트
 	    @PostMapping("/updateStoreApplicationDocument")

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -33,7 +34,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping( "/user/*" )
 public class UserController{
 	
-	//리스트 제외한 , Controller 1차완성 
 
  
 	   
@@ -70,6 +70,22 @@ public class UserController{
 	      return "view/user/login";
 	   }
 	   
+	   //userList
+	   @GetMapping("getUserlist")
+	   public String getUserList  ()throws Exception {
+		
+		   
+		   log.info("getUserList  도착 !! ");
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   return "view/user/getUserList";
+		   
+	   }
 	   
 	   @PostMapping( "login" )
 	   public RedirectView longin( RedirectAttributes model , @ModelAttribute("user") User loginuser,  HttpSession session) throws Exception {
@@ -183,7 +199,7 @@ public class UserController{
 	   }	
 	   
 		@GetMapping("kakaoLogin")
-		public String kakaoLogin(@RequestParam(value = "code", required = false) String code , Model model , HttpSession session) throws Exception {
+		public RedirectView kakaoLogin(@RequestParam(value = "code", required = false) String code , RedirectAttributes model , HttpSession session) throws Exception {
 		// 사용자 로그인 및  동의 후 , 인가 코드를 발급받아 302 redirect를 통해  ,  이 메소드 도착함    
 			
 			log.info("##kakaoLogin## 페이지 도착 " );
@@ -207,11 +223,18 @@ public class UserController{
 				if(   	userSerivce.getLogin(user) == 0 ) {  // 카카로 로그인 ID가 우리 사이트에 존재 x
 	 				log.info("로그인한 카카오 아이디가 존재 하지 않습니다. ");
 	
- 					model.addAttribute("kakaouserId",kakaouserId);
+	 				if(userSerivce.getUser(user.getId()) != null ) {
+		 				log.info("이미 가입된 아이디가 있습니다. ");
+
+	 					
+	 				}
+	 				
+ 					model.addFlashAttribute("kakaouserId",kakaouserId);
  					
  					
- 					return "view/user/kakaoAdd"; // 추가 kakao로그인 화면 
- 					
+ 					//return "view/user/kakaoAdd"; // 추가 kakao로그인 화면 
+ 				    return new RedirectView("view/user/kakaoAdd");	 
+
 
  				}else {  
  					// 카카오 로그인시 ID가 우리 사이트에 존재 할때 
@@ -222,21 +245,45 @@ public class UserController{
  					
  				} // 존재 할때 
   				
-				  return("redirect:/");
+				
+		 
+				
+				
+				
+				
+				
+				
+				
+	        Map<String, Object> map = new HashMap<String, Object>();
+		        
+		        map.put("orderName", "product_name DESC");
+				map.put("startRowNum", 1);
+				map.put("endRowNum", 5);
+				
+				map = productService.getProductList(map);
+		        log.info("after getProductList");
+
+				map.put("liveList", liveService.getLiveList().get("liveList"));
+				log.info("after getLiveList");
+				
+		        model.addFlashAttribute("map", map);
+	 		   
+			    return new RedirectView("/");	 
 		 
 	    	}	   
 		
-		
+		// RedirectView longin( RedirectAttributes model ,
 		//kakao회원 추가 가입 
 		@PostMapping("kakaoaddUser")
-  		public String kakaoaddUser(@RequestParam(value = "code", required = false) String code , Model model , @ModelAttribute("user") User kuser , HttpSession session )throws Exception {
+  		public RedirectView kakaoaddUser(@RequestParam(value = "code", required = false) String code , RedirectAttributes model ,
+  										 	@ModelAttribute("user") User kuser , HttpSession session )throws Exception {
 			   log.info("##code {} ##" , code);
 			   log.info("##kuser {} ##" , kuser);
 
- 			
-			
+  				kuser.setRole("user");
+
 	 			kuser.setPassword("12345") ; //  패스워드 고정 
-				kuser.setJoinPath("kakao") ; // 카카오는 K로 고정 , 자사는 H 로 고정 
+				kuser.setJoinPath("KAKAO") ; // 카카오는 K로 고정 , 자사는 H 로 고정 
 	
 				log.info("##kuser {} ##" , kuser);
 				log.info("회원가입이 완료 되었습니다. ");
@@ -245,9 +292,30 @@ public class UserController{
 				log.info("##kakaoUser 결과  {} ##" , result);
 	
 				session.setAttribute("user", kuser );
+				
+				
 
-				  return("redirect:/live/main.jsp");
-	 				
+				
+				
+				
+				
+				
+				
+		        Map<String, Object> map = new HashMap<String, Object>();
+		        
+		        map.put("orderName", "product_name DESC");
+				map.put("startRowNum", 1);
+				map.put("endRowNum", 5);
+				
+				map = productService.getProductList(map);
+		        log.info("after getProductList");
+
+				map.put("liveList", liveService.getLiveList().get("liveList"));
+				log.info("after getLiveList");
+				
+		        model.addFlashAttribute("map", map);
+	 		   
+			    return new RedirectView("/");	 				
 
 	 				
 	    	}
@@ -265,21 +333,28 @@ public class UserController{
 		
 	   
 		//UpdatePassword
-		@PostMapping("updatePassword")
-  		public String updatePassword( @ModelAttribute("user") User user  )throws Exception {
-			log.info("##updatePassword {} ##" , user);
-			
-			 int result = userSerivce.updateUserPassword(user);
-			log.info("##kakaoUser 결과  {} ##" , result);
+		@GetMapping("updatePassword")
+  		public String updatePassword( @RequestParam(value ="id" ,required =false) String id  ,  Model model , HttpSession session , HttpServletRequest request)throws Exception {
+			log.info("##updatePassword {} ##" );
 			
 			
-			log.info("User Password 바뀐 결과 {}" , userSerivce.getUser(user.getId()).getPassword() );
+				if(id == null) {
+					  id =  ((User) request.getSession(true).getAttribute("user")).getId() ;
+				}
+				log.info("updatePassword id :: {}  "+id);
+  			
 			
-			
-			return("redirect:/live/main.jsp");
+				
+				model.addAttribute("id", id) ;
+			return("view/user/updatePassword");
 
 	 				
-	    	}				
+	    	}		
+		
+		
+
+			
+		
 		
 		// find Id Rest Control로 갈 운명 
 		@PostMapping("findId")

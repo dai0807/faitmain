@@ -1,11 +1,25 @@
 package com.faitmain.domain.order.service;
 
 import com.faitmain.domain.order.domain.Order;
+import com.faitmain.domain.order.domain.OrderPageOne;
+import com.faitmain.domain.user.domain.User;
 
 import java.util.List;
 import java.util.Map;
 
 public interface OrderService{
+
+
+    /* 주문정보 */
+    List<OrderPageOne> getProductInfo( List<OrderPageOne> orderBundle );
+
+    /* 주문 */
+    void order( Order order ) throws Exception;
+
+
+
+    /********************************************************/
+
 
     //주문추가
     void addOrder( Order order ) throws Exception;
@@ -17,7 +31,7 @@ public interface OrderService{
     Order getOrder( int OrderNumber ) throws Exception;
 
     //주문조회
-    Map< String, Object > getOrderList( ) throws Exception;
+    Map<String, Object> getOrderList() throws Exception;
 
 
     //////////// iamport ///////////

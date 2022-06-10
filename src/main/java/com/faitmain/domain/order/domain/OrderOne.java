@@ -15,7 +15,7 @@ public class OrderOne{
     private int productNumber;
 
     /* 주문수량 */
-    private int productCount;
+    private int productQuantity;
 
     /* 상품 한 개 가격 */
     private int productPrice;
@@ -42,9 +42,9 @@ public class OrderOne{
 
     public void initSaleTotal(){
         this.salePrice = ( int ) ( this.productPrice * ( 1 - this.productDiscount ) );
-        this.totalPrice = this.salePrice * this.productCount;
+        this.totalPrice = this.salePrice * this.productQuantity;
         this.rewardPoint = ( int ) Math.floor( this.salePrice * 0.05 );
-        this.totalRewardPoint = this.rewardPoint * this.productCount;
+        this.totalRewardPoint = this.rewardPoint * this.productQuantity;
     }
 
 }
