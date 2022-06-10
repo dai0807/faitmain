@@ -18,16 +18,67 @@ import java.util.Map;
 @RequestMapping( "/user/*" )
 public class UserRestController{
 
-    @Autowired
-    @Qualifier( "userServiceImpl" )
-    private UserSerivce userSerivce;
-
-    public UserRestController(){
-        log.info( "Controller {}" , this.getClass() );
-
-    }
-
-    // 중복 체크 4개 나 있음 !!!
+ 
+	   @Autowired
+	   @Qualifier("userServiceImpl")	   
+	   private UserSerivce userSerivce;
+	   
+	   public UserRestController() {
+		    log.info(  "Controller {}" , this.getClass() );
+		   
+	   }
+	
+	   
+	   @PostMapping( "json/login" )
+	   public String RESTlongin(  User loginuser,  HttpSession session) throws Exception {
+	      
+		   log.info("LostController 탔어용 login Page 도착");
+		   log.info("받은 유저 user 출력  :: {}" , loginuser);
+		   
+ 		   String result = "";
+ 		  result = userSerivce.getLogin(loginuser)+"" ; // id/ pw 값 있으면 1 없으면 0 ,,
+		   log.info("받은 유저 result 출력  :: {}" , result);
+ 
+ 		   if(result.equals("1")) { //1 이면 로그인 된거임 
+ 			   User user = userSerivce.getUser(loginuser.getId()) ;   // 로그인 된 사람 정보 가져와서 회월탈퇴 값 있는지 검증 
+ 			   
+			 			  System.out.println("너의 값은 무엇이냐" +user.getWithdrawalStatus()) ;
+				 			   if(user.getWithdrawalStatus() == true) { // true 는 회원 탈퇴
+				 				   result="withdraw" ; //
+				 				   
+				 			      return result;
+				    
+				 			   }
+				 			   
+ 			   
+ 			   
+ 			   log.info("{}의 로그인이 완료 되었습니다  " , user.getId());
+ 			   session.setAttribute("user", user) ; // user 정보 u로그인 
+ 		   }else {
+ 			   log.info("로그인 실패");
+ 			   
+ 		   }
+ 		   
+ 		   
+		   log.info("json login 끝 ");
+		   
+ 
+ 		   
+	      return result;
+	   }
+	      
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	 
 //업데이트 유저 
     @PostMapping( value = "json/updateUser" )
     public int ajaxupdateUser( @RequestParam( "id" ) String id ,
