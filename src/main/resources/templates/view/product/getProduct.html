@@ -115,7 +115,7 @@
                             <img class = "img-thumbnail" th:src = "|../img/upload/${ product.productMainImage }|" alt="" src=""/>
                         </div>
                         <div class = "col-md-8">
-                            <p class = "goods_name">
+                            <p class = "product_name">
                                 <span class = "short_desc" th:text = "*{store.storeName}"></span><br/>
                                 <strong class = "name" th:text = "*{ productName }">
                                 </strong>
@@ -140,7 +140,7 @@
                                 <dd class="desc" th:text="*{store.storeName}"></dd>
                             </dl>
                             -->
-                            <div class = "good_info">
+                            <div class = "product_info">
                                 <dl class = "list">
                                     <dt class = "tit">가격</dt>
                                     <dd class = "desc" th:text = "|*{ productPrice } 원|"></dd>

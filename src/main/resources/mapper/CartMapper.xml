@@ -5,7 +5,7 @@
 
 <mapper namespace="com.faitmain.domain.product.mapper.CartMapper">
 
-    <!-- 카트 제거 (주문) -->
+   <!-- 카트 제거 (주문) -->
     <delete id="deleteOrderCart">
         DELETE
           FROM cart
@@ -19,10 +19,6 @@
           FROM cart
          WHERE cart_number = #{cartNumber}
     </delete>
-
-
-
-
 
     <!-- 장바구니 추가 -->
     <insert id="addCart" parameterType="com.faitmain.domain.product.domain.Cart">
