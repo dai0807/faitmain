@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/basicDemo">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+				layout:decorate = "~{layout/default_layout}"
+      			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
 	<th:block layout:fragment="title">
 		<title>This page is a list page</title>
 	</th:block>
@@ -29,7 +31,7 @@
 					<tr th:if="${not #lists.isEmpty( boardList )}" th:each="row : ${boardList}">
 						<!-- <td scope="row" th:text="${#strings.equals( row.noticeYn, 'Y' ) ? '공지' : row.idx}"></td> -->
 						 <td class="text-left">
-							<a th:href="@{/customer/view( boardNumber=${row.boardNumber} )}" th:text="${row.boardTitle}"></a>
+							<a th:href="@{/customer/detailNotice( boardNumber=${row.boardNumber} )}" th:text="${row.boardTitle}"></a>
 						</td>
 						<td th:text="${row.customerId.id}"></td> 
 						<td th:text="${row.boardRegDate}"></td>
@@ -42,7 +44,7 @@
 			</table>
 
 			<div class="btn_wrap text-right">
-				<a th:href="@{/customer/write}" class="btn btn-primary waves-effect waves-light">Write</a>
+				<a th:href="@{/customer/addNotice}" class="btn btn-primary waves-effect waves-light">등록</a>
 			</div>
 
 			<th:block layout:fragment="paging">

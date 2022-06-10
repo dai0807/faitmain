@@ -24,7 +24,8 @@ public class Customer{
 	private User customerId;
 //	private int totalCount;
 	private int viewCount;
-	private String delete_yn;
+	private String deleteYn;
+	private String highlightNoticeYn;
 //	private Image image;
 
 

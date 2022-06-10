@@ -1,10 +1,5 @@
 package com.faitmain.domain.customer.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
@@ -28,70 +23,89 @@ public class CustomerController{
 	@Autowired
 	@Qualifier("customerServiceImpl")
 	private CustomerService customerService;
+	
+	@GetMapping("noticeIndex")
+	public String openBoardNoticeIndex(){
+		return "view/customer/noticeIndex";
+	}
 
 	
-	@GetMapping("write")
-	public String getBoardWrite(@RequestParam(value = "boardNumber", required = false) Integer boardNumber, Model model) throws Exception {
+	@GetMapping("addNotice")
+	public String openBoardWrite(@RequestParam(value = "boardNumber", required = false) Integer boardNumber, Model model) throws Exception {
 		
 		if(boardNumber == null) {
 			model.addAttribute("customer", new Customer());
 		}else {
 			Customer customer = customerService.getCustomerBoard(boardNumber);
 			if(customer == null) {
-				return "redirect:/customer/write";
+				return "redirect: /customer/listNotice";
 			}
 			model.addAttribute("customer", customer);
 		}
 		
-		return "view/customer/write";
+		return "view/customer/addNotice";
 	}
 	
-	@PostMapping("registerBoard")
-	public String registerBoard(final Customer customer) {
-		try {
+	@PostMapping("registerNotice")
+	public String registerBoard(final Customer customer) throws Exception {
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAA");
+		System.out.println(customer);
+
 			boolean register = customerService.registerCustomerBoard(customer);
+			//System.out.println(customer);
+			
 			if(register == false) {
 				//게시글 "등록실패"
-			}
-		}catch(DataAccessException e) {
-			
-		}catch(Exception e) {
-			
+				System.out.println("등록 실패");
 		}
 		
-		return "redirect:/customer/list";
+		return "redirect:/customer/listNotice";
 	}
 	
-	@GetMapping("list")
+	@GetMapping("listNotice")
 	public String openBoardList(Model model) throws Exception {
 
 		model.addAttribute("boardList", customerService.getCustomerBoardList());
 		
 		System.out.println("테스트" + model);
 		
-		return "view/customer/list";
+		return "view/customer/listNotice";
 		
 	}
 	
-	@GetMapping("view")
+	@GetMapping("detailNotice")
 	public String openBoardDetail(@RequestParam(value="boardNumber", required = false) Integer boardNumber, Model model) throws Exception {
 		
 		
 		if(boardNumber == null) {
-			return "redirect:/customer/list";
+			return "redirect:/customer/listNotice";
 		}
 		
 		Customer customer = customerService.getCustomerBoard(boardNumber);
 		
-		if(customer == null || "Y".equals(customer.getDelete_yn())) {
+		if(customer == null || "Y".equals(customer.getDeleteYn())) {
 			
-			return "redirect:/customer/list";
+			return "redirect:/customer/listNotice";
 		}
 		
 		System.out.println(customer);
 		model.addAttribute("customer", customer);
 		
-		return "view/customer/view";
+		return "view/customer/detailNotice";
+	}
+	
+	@PostMapping("deleteNotice")
+	public String deleteBoard(@RequestParam(value = "boardNumber", required = false) Integer boardNumber) throws Exception  {
+		if(boardNumber == null) {
+			return "redirect: /customer/listNotice";
+		}
+		
+		boolean delete = customerService.deleteCustomerBoard(boardNumber);
+		if(delete == false){
+			
+		}
+		
+		return "redirect:/customer/listNotice";
 	}
 	
 //	@GetMapping("getCustomerBoard")

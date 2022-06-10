@@ -13,7 +13,8 @@
 		<result property="FAQCategoryCode"			 	column="customer_FAQ_category_code" jdbcType="INTEGER" />
 		<result property="boardType"  					column="customer_board_type" 		jdbcType="CHAR" />
 		<result property="viewCount"  					column="view_cnt" 					jdbcType="INTEGER" />
-		<result property="delete_yn"  					column="delete_yn" 					jdbcType="VARCHAR" />
+		<result property="deleteYn"  					column="delete_yn" 					jdbcType="VARCHAR" />
+		<result property="highlightNoticeYn"  			column="highlightNotice_yn" 		jdbcType="VARCHAR" />
 		<result property="image"  						column="boardImage" 				jdbcType="VARCHAR" />
 
 	 	<!-- <result property="customerId"					column="customer_id"  				jdbcType="VARCHAR" /> -->
@@ -58,7 +59,8 @@
 	 <select id="getCustomerBoard" parameterType="int" resultType="Customer" resultMap ="customerMap">
 
     	SELECT 
-    	customer_board_number, customer_board_title, customer_board_content, customer_FAQ_category_code, customer_board_type, reg_date, update_date, customer_id
+    	customer_board_number, customer_board_title, customer_board_content, view_cnt, 
+		highlightNotice_yn, delete_yn, reg_date, update_date, customer_board_type, boardImage, customer_id
     	FROM customer 
     	<where>
 			delete_yn = "N" AND customer_board_number = #{boardNumber}
@@ -66,17 +68,18 @@
     </select>
 	
 	<insert id="addCustomerBoard" parameterType="Customer">
-    	INSERT INTO customer
-		    ( customer_board_title, customer_board_content, reg_date, 
-		     customer_FAQ_category_code, customer_board_type, customer_id )
+		    INSERT INTO customer
+		    ( customer_board_title, customer_board_content, 
+		    highlightNotice_yn, delete_yn, reg_date, update_date, customer_board_type, boardImage, customer_id )
 		VALUES
-		    (  #{boardTitle}, #{boardContent}, NOW(), 1 , 'c' , #{customerId.id} )
+		    ( #{boardTitle}, #{boardContent}, IFNULL(#{highlightNoticeYn}, 'N'), 'N', NOW(), NULL, 'C', NULL, #{customerId.id} )
+		    
 	</insert>
 	
 	<update id="updateCustomerBoard" parameterType="Customer">
     	UPDATE customer
     	<set>
-    		customer_board_type		= #{boardType}, 
+    		<!-- customer_board_type		= #{boardType},  -->
     		customer_board_title	= #{boardTitle},
     		customer_board_content	= #{boardContent},
     		update_date				= NOW(),
