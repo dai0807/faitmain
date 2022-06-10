@@ -30,20 +30,17 @@ public class OrderController{
     private OrderService orderService;
 
     @Autowired
-    private ProductService productService;
-
-    @Autowired
     private UserSerivce userSerivce;
 
 
-    @GetMapping( "/order/{id}" )
-    public String orderPageGET( @PathVariable String id , OrderPage orderPage , Model model ){
+    @GetMapping( "/order/{buyerId}" )
+    public String orderPageGET( @PathVariable String buyerId , OrderPage orderPage , Model model ){
 
-        log.info( "id = {} " , id );
+        log.info( "buyerId = {} " , buyerId );
         log.info( "orderBundle = {} " , orderPage.getOrderBundle() );
 
         model.addAttribute( "orderList" , orderService.getProductInfo( orderPage.getOrderBundle() ) );
-        model.addAttribute( "buyerInfo" , orderService.getBuyerInfo( id ) );
+        model.addAttribute( "buyerInfo" , orderService.getBuyerInfo( buyerId ) );
 
         return "view/order/order";
     }
@@ -70,14 +67,11 @@ public class OrderController{
         return "redirect:/index";
     }
 
-
-
-
     /* ************************* ADMIN *************************** */
 
     /* 주문현황 페이지*/
     @GetMapping( "/orderList" )
-    public String orderListGET( Criterion criterion , Model model ){
+    public String orderListGET( Criterion criterion , Model model ) throws Exception{
 
         List<Order> orderList = orderService.getOrderList( criterion );
 

@@ -7,7 +7,9 @@
 
     <!-- 주문자 주소 정보 -->
     <select id="getBuyerInfo" resultType="User">
-        SELECT user_number, name, address, total_point FROM user WHERE user_number=#{userNumber}
+        SELECT user_number, name, address, total_point
+          FROM user
+         WHERE user_number = #{userNumber}
     </select>
 
     <!-- 주문 테이블 등록 -->
@@ -16,34 +18,34 @@
     </insert>
 
     <!-- 주문 상품 테이블 등록 -->
-    <insert id="enrollOrderOne">
+    <insert id="enrollOrderProduct">
 
     </insert>
 
     <!-- 주문 금액 차감 -->
-    <update id="deductMoney">
-        update user
-           set total_point = #{totalPoint}
-         where user_number=#{userNumber}
+    <update id="deductPoint">
+        UPDATE user
+           SET total_point = #{totalPoint}
+         WHERE user_number = #{userNumber}
     </update>
 
     <!-- 주문 재고 차감 -->
     <update id="deductStock">
-        update product
-           set product_quantity = #{productQuantity}
-         where product_number = #{productNumber}
+        UPDATE product
+           SET product_quantity = #{productQuantity}
+         WHERE product_number = #{productNumber}
     </update>
 
     <!-- 주문 상품 정보 (주문 페이지) -->
-    <select id="getProductInfo" resultType="OrderPageOne">
-        SELECT product_number, product_name, product_price, product_discount
+    <select id="getProductInfo" resultType="com.faitmain.domain.order.domain.OrderPageProduct">
+        SELECT product_number, product_name, product_price
           FROM product
          WHERE product_number = #{productNumber};
     </select>
 
     <!--  주문 상품 정보 (주문 처리) -->
-    <select id="getOrderInfo" resultType="com.faitmain.domain.order.domain.OrderOne">
-        SELECT product_number, product_price, product_discount
+    <select id="getOrderInfo" resultType="com.faitmain.domain.order.domain.OrderProduct">
+        SELECT product_number, product_price
           FROM product
          WHERE product_number = #{productNumber};
     </select>
@@ -74,144 +76,27 @@
 
     <!-- 주문취소 -->
     <update id="orderCancle">
-        update `order` set order_status = '주문취소' where order_number = #{orderId}
+        UPDATE `order`
+           SET order_status = '주문취소'
+         WHERE order_number = #{orderId}
     </update>
 
     <!-- 주문 상품 정보(주문취소) -->
     <select id="getOrderOneInfo" resultType="com.vam.model.OrderOne">
 
-        select * from order_One
-         where orderId = #{orderId}
+        SELECT *
+          FROM order_one
+         WHERE orderid = #{orderId}
 
     </select>
 
     <!-- 주문 정보(주문 취소) -->
     <select id="getOrder" resultType="Order">
 
-        select * from `order`
-         where order_number = #{orderId}
-
-    </select>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!--                                              -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <insert id="addOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="orderNumber">
-        INSERT INTO `order` ( product_number
-                            , buyer_id
-                            , store_id
-                            , order_bundle_number
-                            , order_date
-                            , order_quantity
-                            , order_status
-                            , receiver_name
-                            , receiver_phone
-                            , receiver_address
-                            , receiver_request
-                            , delivery_tracking_number
-                            , delivery_company_code
-                            , payment_option
-                            , total_payment_price
-                            , reward_point
-                            , using_point
-                            , order_claim_request_date
-                            , order_claim_response_date
-                            , order_claim_reason
-                            )
-        VALUES ( #{productNumber}
-               , #{buyerId}
-               , #{storeId}
-               , #{orderBundleNumber}
-               , #{orderDate}
-               , #{orderQuantity}
-               , #{orderStatus}
-               , #{receiverName}
-               , #{receiverPhone}
-               , #{receiverAddress}
-               , #{receiverRequest}
-               , #{deliveryTrackingNumber}
-               , #{deliveryCompanyCode}
-               , #{paymentOption}
-               , #{totalPaymentPrice}
-               , #{rewardPoint}
-               , #{usingPoint}
-               , #{orderClaimRequestDate}
-               , #{orderClaimResponseDate}
-               , #{orderClaimReason}
-               );
-    </insert>
-
-
-
-    <update id="updateOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="orderNumber">
-        UPDATE `order`
-           SET order_number             = #{orderNumber}
-             , order_status             = #{orderStatus}
-             , receiver_name            = #{receiverName}
-             , receiver_phone           = #{receiverPhone}
-             , receiver_address         = #{receiverAddress}
-             , receiver_request         = #{receiverRequest}
-             , delivery_tracking_number = #{deliveryTrackingNumber}
-             , delivery_company_code    = #{deliveryCompanyCode}
-             , order_claim_reason       = #{orderClaimReason}
-         WHERE order_number = #{orderNumber};
-    </update>
-
-
-    <select id="getOrder" parameterType="Order" resultType="Order">
         SELECT *
           FROM `order`
-         WHERE order_number = #{orderNumber}
-    </select>
+         WHERE order_number = #{orderId}
 
-    <select id="getOrderList" resultType="Order">
-        SELECT *
-          FROM `order`
-         ORDER BY order_number DESC
-         LIMIT 0, 10;
-    </select>
-
-    <select id="getTotalCount" parameterType="com.faitmain.global.common.Search" resultType="int">
-        SELECT COUNT(*)
-        FROM (SELECT order_number
-                   , order_bundle_number
-                   , order_date
-                   , order_status
-                FROM 'order'
-        <if test="searchCondition != null">
-            <where>
-                <if test="searchCondition == 0 and searchKeyword !='' ">
-                    order_number = #{searchKeyword}
-                </if>
-                <if test="searchCondition == 1 and searchKeyword !='' ">
-                    order_status = #{searchKeyword}
-                </if>
-            </where>
-        </if>
-        ) countTable
     </select>
 
 
