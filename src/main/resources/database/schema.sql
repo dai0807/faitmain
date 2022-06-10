@@ -149,11 +149,13 @@ CREATE TABLE `customer` (
                         `customer_board_number`      int           NOT NULL AUTO_INCREMENT ,
                         `customer_board_title`       varchar(30)   NOT NULL ,
                         `customer_board_content`     varchar(1000) NOT NULL ,
-                        `reg_date`                   date          NOT NULL ,
-                        `update_date`                date DEFAULT NULL ,
-                        `customer_FAQ_category_code` 	int    		NOT NULL,
+                        `reg_date`                   TIMESTAMP     NOT NULL ,
+                        `update_date`                TIMESTAMP		DEFAULT NULL ,
+                        `customer_FAQ_category_code` 	int    		DEFAULT NULL,
                         `customer_board_type`        char(1)       NOT NULL ,
                         `customer_id`                varchar(25)   NOT NULL ,
+                        'delete_yn'					 ENUM('Y','Y') DEFAULT 'N',
+                        'view_cnt'					 int			DEFAULT NULL, 
                         PRIMARY KEY ( `customer_board_number` ) ,
                         FOREIGN KEY ( `customer_id` ) REFERENCES `user` ( `id` )
                         );
@@ -163,8 +165,8 @@ CREATE TABLE `customer` (
 CREATE TABLE `ban_period` (
                           `report_number`         int         NOT NULL ,
                           `respondent_id`         varchar(25) NOT NULL ,
-                          `respondent_nickname`   varchar(20) NOT NULL,
-                          `respondent_store_name` varchar(20) NOT NULL,
+                          `respondent_nickname`   varchar(20) DEFAULT NULL,
+                          `respondent_store_name` varchar(20) DEFAULT NULL,
                           `status_number`         int DEFAULT NULL ,
                           `ban_period_number`     int DEFAULT NULL ,
                           `ban_end_date`          date        NOT NULL ,
@@ -250,15 +252,7 @@ ALTER TABLE live_reservation AUTO_INCREMENT = 10000;
 ALTER TABLE live_product AUTO_INCREMENT = 10000;
 ALTER TABLE `order` AUTO_INCREMENT = 10000;
 
-# ALERT customer
 
-ALTER TABLE customer MODIFY COLUMN customer_FAQ_category_code INT NULL;
-ALTER TABLE customer MODIFY reg_date TIMESTAMP;
-ALTER TABLE customer MODIFY update_date TIMESTAMP;
-ALTER TABLE customer ADD view_cnt INT DEFAULT 0;
-ALTER TABLE customer ADD delete_yn ENUM('Y', 'N') NOT NULL DEFAULT 'N' ;
 
-# ALERT ban_period
 
-ALTER TABLE ban_period MODIFY COLUMN respondent_nickname VARCHAR(20) NULL;
-ALTER TABLE ban_period MODIFY COLUMN respondent_store_name VARCHAR(20) NULL;
+

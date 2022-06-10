@@ -100,3 +100,16 @@ INSERT INTO order_product (order_number, product_number, product_quantity, produ
      VALUES ('order_number 4', 4, 4, 4, 4);
 INSERT INTO order_product (order_number, product_number, product_quantity, product_price, reward_point)
      VALUES ('order_number 5', 5, 5, 5, 5);
+     
+/* CUSTOMER */     
+ALTER TABLE customer MODIFY COLUMN customer_FAQ_category_code INT NULL;
+ALTER TABLE customer MODIFY reg_date TIMESTAMP;
+ALTER TABLE customer MODIFY update_date TIMESTAMP;
+ALTER TABLE customer ADD view_cnt INT DEFAULT 0;
+ALTER TABLE customer ADD delete_yn ENUM('Y', 'N') NOT NULL DEFAULT 'N' ; 
+
+/*BAN PERIOD*/
+ALTER TABLE ban_period MODIFY COLUMN respondent_nickname VARCHAR(20) NULL ;
+ALTER TABLE ban_period MODIFY COLUMN respondent_store_name VARCHAR(20) NULL;
+ALTER TABLE ban_period ADD FOREIGN KEY(respondent_nickname) REFERENCES user (nickname);
+ALTER TABLE ban_period ADD FOREIGN KEY(respondent_store_name) REFERENCES user (store_name);
