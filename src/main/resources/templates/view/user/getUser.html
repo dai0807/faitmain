@@ -117,7 +117,7 @@
 		  		  console.log("phone :"  +phone)
 		  		  console.log("phone2 :"  +phone2)
 		  console.log("체크체크까ㅣㅈ 옴 ")
-		alert("휴대폰 번호 검증")
+	//	alert("휴대폰 번호 검증")
 		 $.ajax({ 
 				 type:"GET", 
 				 url:"/user/smsCertificationRequest?phone="+phone+"&phone2="+phone2 ,
@@ -144,9 +144,10 @@
 									 $(".successPhoneChk").css("color","green");
 									 $("#phoneDoubleChk").val("true"); 
 									 $("#phone2").attr("disabled",true);
+									 $("#phoneCheck").attr("readonly",true);
+
 									 total_check_phoneNumber = 1 ; 
- 
-									 
+								 
 									 
 									 
 								 }
@@ -205,16 +206,15 @@
 							console.log("회원정보 수정 눌림 ")
 							 $(this).html('정보수정완료')
 							
-			 				$("input[name='nickname']").attr("readonly",false); 
+			 				$("input[name='nickname']").attr("readonly",false);    		//닉네임 칸 리드온니 풀림
 						 // 	$("input[name='phoneNumber']").attr("readonly",false);  곧쓸일이 있음 
 						 	//$("input[name='postalCode']").attr("readonly",false); 
-						 	$("input[name='address']").attr("readonly",false); 
-						 	
-						 	$("#member_addr1").css("display", "inline-block");
-						 	$("#phoneChk").css("display", "inline-block"); 
-							$("#member_addr1").css("display", "inline-block"); // 주소 추가 입력 
-							$("#button-newsletter").css("display", "inline-block"); // 주소 추가 버튼 
+ 						 	 $("#userAddress3").attr("readonly",false);  // 주소 추가 입력  리드온니 풀림 
 
+						 	$("#button-newsletter").css("display" , "inline-block" ) ; // 주소 찾기 버튼 보이기
+ 						 	$("#phoneChk").css("display", "inline-block"); 			//번호 변경 버튼 보이기 
+ 							$("#button-newsletter").css("display", "inline-block"); // 주소 추가 버튼 
+ 							$("#userAddress3").attr("readonly" , false) ; 
 					
 				}else{
 					
@@ -223,27 +223,23 @@
 						console.log("정보수정 완료 클릭 ")
 						 $(this).html('정보수정')
 						
-		 				$("input[name='nickname']").attr("readonly",true); 
-					 	$("input[name='phoneNumber']").attr("readonly",true); 
+		 				$("input[name='nickname']").attr("readonly",true);     // 닉네임 리드온니로
+					 	$("input[name='phoneNumber']").attr("readonly",true); //폰넘버 리드 온니
 					 //	$("input[name='postalCode']").attr("readonly",true); 
-					 	$("input[name='address']").attr("readonly",true); 
-					 	$("#member_addr1").css("display", "none");
-					 	$("#phoneChk").css("display", "none"); 
-						 $("#phone_C").css("display", "none"); // 휴대폰 인증 보이기
-					 	 $("#button-newsletter").css("display", "none"); // 주소 추가 버튼 
- 						  $('#nickname_info').css("display", "none");
+ 						  $("#userAddress3").attr("readonly",true);  // 주소 추가 입력  리드온니  
+
+						 	$("#button-newsletter").css("display" , "none" ) ; // 주소 찾기 버튼 보이기 x
+ 						 	$("#phoneChk").css("display","none"); 			//번호 변경 버튼 보이기  x
+ 							$("#button-newsletter").css("display", "none"); // 주소 추가 버튼  x
+
+
+ 						 $("#phone_C").css("display", "none"); // 휴대폰 인증 보이기
+  						  $('#nickname_info').text(" ");
+ 							$("#userAddress3").attr("readonly" , true) ; 
 
 					 	 
-					 	
-					 	
-					 	
-							
-							var addr = $("#member_addr" ).val() +" ";
- 							addr += $("#member_addr1").val(); 
- 							alert(addr)
-		
-						 	$('input[name=address]').attr('value',addr);	
-		
+				
+ 		
 		
 		
 		
@@ -298,34 +294,39 @@
  
  
  // 주소 			
- 		function findAddr(){
-				new daum.Postcode({
-			        oncomplete: function(data) {
-			        	
-			        	console.log(data);
-			        	
-			            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-			            // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-			            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-			            var roadAddr = data.roadAddress; // 도로명 주소 변수
-			            var jibunAddr = data.jibunAddress; // 지번 주소 변수
-			            // 우편번호와 주소 정보를 해당 필드에 넣는다.
-			            $("#member_post").val(data.zonecode) ;
-			            
+        function findAddr() {
+            new daum.Postcode({
+                oncomplete: function (data) {
+
+                    console.log(data);
+
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+                    // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var roadAddr = data.roadAddress; // 도로명 주소 변수
+                    var jibunAddr = data.jibunAddress; // 지번 주소 변수
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    $("#userAddress1").val(data.zonecode);
+
 //			            document.getElementById('member_post').value = data.zonecode;
-			            if(roadAddr !== ''){
- 				            $("#member_addr").val(roadAddr) ;
+                    if (roadAddr !== '') {
+                        $("#userAddress2").val(roadAddr);
 
-			              //  document.getElementById("member_addr").value = roadAddr;
-			            } 
-			            else if(jibunAddr !== ''){
- 				            $("#member_addr").val(jibunAddr) ;
+                        //  document.getElementById("member_addr").value = roadAddr;
+                    } else if (jibunAddr !== '') {
+                        $("#userAddress2").val(jibunAddr);
 
-			               // document.getElementById("member_addr").value = jibunAddr;
-			            }
-			        }
-			    }).open();
-			}
+                        // document.getElementById("member_addr").value = jibunAddr;
+                    }
+                    
+               $("#userAddress3").val(" ");
+             $("#userAddress3").focus();
+               
+                }
+            }).open();
+      
+
+        }
 			
  
  // 닉네임 검사
@@ -476,14 +477,15 @@
   			<h5 class="fw-bolder"> 주소 </h5>
 				    <div >
 				      	 <div class="input-group mb-2">
-                                    <input class="form-control" id="member_post" type="text" name ="postalCode" th:value="${getuser.postalCode}" readonly />
-                                    <button class="btn btn-success" id="button-newsletter" type="button" onclick="findAddr()" style="display:none" ; >주소찾기</button>
-                                </div>
- 				       <input type="text" id="member_addr" class="form-control"    th:value="${getuser.address}"  readonly>
-				       <input type="text" id="member_addr1" class="form-control"  placeholder="추가입력"    style="display:none" ;  >
- 				       <input type="hidden" id="address" name="address" value="" >
-
- 				    </div>
+                                      
+	                       <input class = "form-control" id = "userAddress1" name = "userAddress1" placeholder = "우편주소." th:value="${getuser.userAddress1}"  readonly type = "text"/>
+	                           <button class = "btn btn-success" id = "button-newsletter" onclick = "findAddr()" type = "button" style="display:none"  >주소찾기</button>
+                        </div>
+                        
+                        <input class = "form-control" id = "userAddress2"  name = "userAddress2" placeholder = "주소"    th:value="${getuser.userAddress2}" readonly type = "text">
+                        <input class = "form-control" id = "userAddress3"   name = "userAddress3" placeholder = "추가입력" th:value="${getuser.userAddress3}" readonly type = "text`">
+  
+                        </div>
 		 		 		 		  		  
 		  </div>
 		</form> 

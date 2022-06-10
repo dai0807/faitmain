@@ -38,14 +38,14 @@ public class User {
 	private Integer totalPoint;
 
 	private String storeLogoImage;
-
+				 
 	private String storeIntroduction;
 
 	private String role;
 
 	private String storeName;
 
-	private Boolean withdrawalStatus;
+	private Boolean withdrawalStatus;  // on 탈퇴 , off 탈퇴 상퇴 x 
 
 	private int storeApplicationDocumentNumber;
 
