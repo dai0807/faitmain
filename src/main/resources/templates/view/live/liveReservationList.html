@@ -50,13 +50,13 @@
 			<hr/>
 			
 			<div class="row">
-				<div class="col-md-1">
+				<div class="col-md-1" style="text-align : center;">
 					<h5>시간</h5>
 				</div>
-				<div class="col-md-9">
+				<div class="col-md-9" style="text-align : center;">
 					<h5>상품</h5>
 				</div>
-				<div class="col-md-2">
+				<div class="col-md-2" style="text-align : center;">
 					<h5>비고</h5>
 				</div>
 			</div>
@@ -64,24 +64,31 @@
 			<hr/>
 				
 				<div th:each="prodList : ${list}">
-					<div th:if="${#lists.size(prodList.liveProduct)==1}" class="row" style="margin-bottom: 10px;">
+					<div th:if="${#lists.size(prodList.liveProduct)==1  or #lists.size(prodList.liveProduct)==0}" class="row" style="margin-bottom: 10px; background-color : #D8D8D8;">
 						<div class="col-md-1">
 							<h5 th:text="${prodList.reservationTime}" style="display : inline">hour</h5><h5 style="display : inline">:00</h5>
 						</div>
 						<div class="col-md-9">
 							<div>
-								<span><img src="https://dummyimage.com/150x150/343a40/6c757d"></span>
+								<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
 								<span>
 									<th:block th:text="${prodList.liveReservationNumber}">number</th:block>
 								</span>
 							</div>
 						</div>
 						<div  class="col-md-2">
-							수정/삭제
+							<div style="position: absolute; left:50%; top:50%; margin-left: -47px; margin-top: -39px;">
+								<th:block th:if="${session.user != null}">
+									<th:block th:if="${prodList.store.userNumber} == ${session.user.userNumber}">
+										<button type="button" class="btn btn-outline-info" style="margin-bottom: 8px;">수정 하기</button>
+										<button type="button" class="btn btn-outline-danger">삭제 하기</button>
+									</th:block>
+								</th:block>
+							</div>
 						</div>
 					</div>
 					
-					<div th:unless="${#lists.size(prodList.liveProduct)==1}" class="row" style="margin-bottom: 10px;">
+					<div th:unless="${#lists.size(prodList.liveProduct)==1  or #lists.size(prodList.liveProduct)==0}" class="row" style="margin-bottom: 10px; background-color : #D8D8D8;">
 						<div class="col-md-1">
 							<h5 th:text="${prodList.reservationTime}" style="display : inline">hour</h5><h5 style="display : inline">:00</h5>
 						</div>
@@ -89,22 +96,16 @@
 						<div class="col-md-9">
 							<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
 								<div class="carousel-inner">
-								
-									 <ol class="carousel-indicators">
-							            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-							            <li data-target="#myCarousel" data-slide-to="1"></li>
-							            <li data-target="#myCarousel" data-slide-to="2"></li>
-							        </ol>
 									
 									<th:block th:each="productList : ${prodList.liveProduct}" >
 										<div th:if="${productListStat.first}" class="carousel-item active">
-											<span><img src="https://dummyimage.com/150x150/343a40/6c757d"></span>
+											<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
 											<span>
 												<th:block th:text="${productList.productName}">name</th:block>
 											</span>
 										</div>
 										<div th:unless="${productListStat.first}" class="carousel-item">
-											<span><img src="https://dummyimage.com/150x150/343a40/6c757d"></span>
+											<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
 											<span>
 												<th:block th:text="${productList.productName}">name</th:block>
 											</span>
@@ -115,13 +116,27 @@
 							</div>
 						</div>
 						
-						<div  class="col-md-2">
-							수정/삭제
+						<div class="col-md-2" style="position: relative;">
+							<div style="position: absolute; left:50%; top:50%; margin-left: -47px; margin-top: -39px;">
+								<th:block th:if="${session.user != null}">
+									<th:block th:if="${prodList.store.userNumber} == ${session.user.userNumber}">
+										<button type="button" class="btn btn-info" style="margin-bottom: 8px;">수정 하기</button>
+										<button type="button" class="btn btn-danger">삭제 하기</button>
+									</th:block>
+								</th:block>
+							</div>
 						</div>
 					</div>
 					
 				</div>
 				
+				<div>
+					<th:block th:if="${session.user != null}">
+						<th:block th:if="${session.user.role} == store">
+							<button type="button" class="btn btn-success">등록 하기</button>
+						</th:block>
+					</th:block>
+				</div>
 		</div>
 	</article>
 </body>
