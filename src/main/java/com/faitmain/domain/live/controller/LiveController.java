@@ -352,7 +352,7 @@ public class LiveController {
 								HttpSession session ) throws Exception {
 		
 		log.info( "editRoom = {} ", this.getClass() );
-		
+		System.out.println("방송 정보 수정");
 		String token = getToken(req, session);
 		
 		User user = (User)session.getAttribute("user");
