@@ -1,20 +1,22 @@
 -- init sql
-
-DROP TABLE IF EXISTS ban_period CASCADE;
-DROP TABLE IF EXISTS cart CASCADE;
-DROP TABLE IF EXISTS customer CASCADE;
-DROP TABLE IF EXISTS image CASCADE;
 DROP TABLE IF EXISTS inquiry CASCADE;
+DROP TABLE IF EXISTS cart CASCADE;
+DROP TABLE IF EXISTS review CASCADE;
+DROP TABLE IF EXISTS `order_product` CASCADE;
+DROP TABLE IF EXISTS `order` CASCADE;
+DROP TABLE IF EXISTS product CASCADE;
+DROP TABLE IF EXISTS store_application_document CASCADE;
+DROP TABLE IF EXISTS ban_period CASCADE;
+DROP TABLE IF EXISTS customer CASCADE;
+DROP TABLE IF EXISTS user CASCADE;
+DROP TABLE IF EXISTS image CASCADE;
 DROP TABLE IF EXISTS live_chat CASCADE;
 DROP TABLE IF EXISTS live_product CASCADE;
 DROP TABLE IF EXISTS live_reservation CASCADE;
 DROP TABLE IF EXISTS live_user_status CASCADE;
 DROP TABLE IF EXISTS live CASCADE;
-DROP TABLE IF EXISTS review CASCADE;
-DROP TABLE IF EXISTS `order` CASCADE;
-DROP TABLE IF EXISTS product CASCADE;
-DROP TABLE IF EXISTS store_application_document CASCADE;
-DROP TABLE IF EXISTS user CASCADE;
+
+
 
 
 
@@ -192,14 +194,14 @@ CREATE TABLE `inquiry` (
 
 CREATE TABLE `live` (
                     `live_number`     int         NOT NULL AUTO_INCREMENT ,
-	        'room_id'	     varchar(40) NOT NULL ,
+	                `room_id`	      varchar(40) NULL ,
                     `store_id`        varchar(25) NOT NULL ,
                     `live_title`      varchar(20) NOT NULL ,
                     `live_intro`      varchar(30) DEFAULT NULL ,
                     `live_image`      varchar(30) DEFAULT 'noimage.jpg' ,
                     `live_status`     tinyint     DEFAULT '0' ,
                     `chatting_status` tinyint     DEFAULT '0' ,
-                    PRIMARY KEY ( `live_number`, 'room_id' )
+                    PRIMARY KEY ( `live_number` )
                     );
 
 CREATE TABLE `live_user_status` (
@@ -213,9 +215,9 @@ CREATE TABLE `live_user_status` (
 CREATE TABLE live_reservation (
                               `live_reservation_number` integer(5)  NOT NULL AUTO_INCREMENT ,
                               `store_id`                varchar(25) NULL ,
-                              `reservation_date`        varchar(25)        NULL ,
-                              'title'					varchar(25) NULL,
-                              'reservation_time'		varchar(25) NULL,
+                              `reservation_date`        varchar(25) NULL ,
+                              `title`					varchar(25) NULL,
+                              `reservation_time`		varchar(25) NULL,
 
                               PRIMARY KEY ( live_reservation_number )
                               );
@@ -226,8 +228,8 @@ CREATE TABLE live_product (
                                `live_reservation_number` INTEGER(5)  NOT NULL ,
                                `product_number`          INTEGER(5)  NOT NULL ,
                                `product_main_image`      VARCHAR(30) NOT NULL ,
-                               'product_name'			 VARCHAR(25) NOT NULL ,
-                               'product_detail'			 VARCHAR(30) NULL,
+                               `product_name`			 VARCHAR(25) NOT NULL ,
+                               `product_detail`			 VARCHAR(30) NULL,
                                PRIMARY KEY ( live_product_number )
                                );
 
@@ -250,7 +252,7 @@ ALTER TABLE live_reservation AUTO_INCREMENT = 10000;
 ALTER TABLE live_product AUTO_INCREMENT = 10000;
 ALTER TABLE `order` AUTO_INCREMENT = 10000;
 
----ALERT customer
+# ALERT customer
 
 ALTER TABLE customer MODIFY COLUMN customer_FAQ_category_code INT NULL;
 ALTER TABLE customer MODIFY reg_date TIMESTAMP;
@@ -258,7 +260,7 @@ ALTER TABLE customer MODIFY update_date TIMESTAMP;
 ALTER TABLE customer ADD view_cnt INT DEFAULT 0;
 ALTER TABLE customer ADD delete_yn ENUM('Y', 'N') NOT NULL DEFAULT 'N' ;
 
----ALERT ban_period
+# ALERT ban_period
 
 ALTER TABLE ban_period MODIFY COLUMN respondent_nickname VARCHAR(20) NULL;
 ALTER TABLE ban_period MODIFY COLUMN respondent_store_name VARCHAR(20) NULL;
