@@ -47,7 +47,7 @@ public class ProductController {
 	}
 	
 	@PostMapping("addProduct")
-	public RedirectView addProduct(@ModelAttribute Product product, MultipartHttpServletRequest mRequest) throws Exception{
+	public String addProduct(@ModelAttribute Product product, MultipartHttpServletRequest mRequest) throws Exception{
 		
 		log.info("/product/addProduct = {}", "POST");
 		
@@ -55,8 +55,10 @@ public class ProductController {
 		user.setId("store01@naver.com");
 		product.setStore(user);
 		productService.addProduct(product, mRequest);
+		
+		log.info("productNumber 확인 = {} ", product.getProductGroupNumber());
 				
-		return new RedirectView("/");
+		return "redirect:/product/getProduct?productNumber=" + product.getProductGroupNumber();
 		
 	}
 	
@@ -82,7 +84,7 @@ public class ProductController {
 								 @RequestParam(value = "afterDate", required = false) String afterDate, Model model) throws Exception{
 		
 		log.info("/product/getProductList");
-		
+		/*
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
@@ -111,8 +113,8 @@ public class ProductController {
 		model.addAttribute("searchCategory", searchCategory);
 		model.addAttribute("beforeDate", beforeDate);
 		model.addAttribute("afterDate", afterDate);		
-		
-		return "forward:/product/listProduct.jsp";
+		*/
+		return "/view/product/listProduct";
 	}
 	
 	@GetMapping("updateProduct")
@@ -124,7 +126,7 @@ public class ProductController {
 		
 		model.addAttribute("product", product);
 		
-		return "forward:/product/updateProduct.jsp";
+		return "/view/product/updateProduct";
 	}
 	
 	@PostMapping("updateProduct")
