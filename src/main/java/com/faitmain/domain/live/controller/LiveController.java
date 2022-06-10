@@ -190,8 +190,8 @@ public class LiveController {
 	         
 	         conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
 	         conn.setRequestProperty("accept", "*/*");
-	         conn.setRequestProperty("api_key", "kmLueZ-chdq38-O7LGgP-Ggd14x-20220604144349");
-	         conn.setRequestProperty("X-AUTH-TOKEN", "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ2Y3h6dmN4ejE1OUBnbWFpbC5jb20iLCJleHAiOjE2NTQ3NzQxOTYsImlhdCI6MTY1NDc1NjE5NiwiYXV0aG9yaXRpZXMiOiJbUk9MRV9VU0VSXSJ9.AXFLJ3ohZbkiUVBtUa9DIMzpd8txXSwb8ttebAuxInk");
+	         conn.setRequestProperty("api_key", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
+	         conn.setRequestProperty("X-AUTH-TOKEN", "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ2Y3h6dmN4ejE1OUBnbWFpbC5jb20iLCJleHAiOjE2NTQ4NDU2MTksImlhdCI6MTY1NDgyNzYxOSwiYXV0aG9yaXRpZXMiOiJbUk9MRV9VU0VSXSJ9.jsEB-G_BefupCPvo5KmPaW3CA76T9DUusYYs7rOme94");
 	         conn.setDoOutput(true);
 	        
 	         String Data = "roomName="+ liveTitle + "&maxUser=5&webrtc=91";

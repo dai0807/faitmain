@@ -39,7 +39,7 @@
        <result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
        <result property="reservationDate" column="reservation_date" jdbcType="DATE" />
        <result property="title" column="title" jdbcType="VARCHAR" />
-       <result property="reservationTime" column="reservation_time" jdbcType="VARCHAR" />
+       <result property="reservationTime" column="reservation_time" jdbcType="INTEGER" />
        
        <association property="store" javaType="User">
        		<id property="id" column="store_id" jdbcType="VARCHAR" />
@@ -86,9 +86,9 @@
     <!-- ADD LiveReservation -->
      <insert id="addLiveReservation" parameterType="LiveReservation">
        INSERT INTO live_reservation
-          (store_id, reservation_date)
+          (store_id, reservation_date, reservation_time)
       VALUES
-          (#{storeId}, #{reservationDate})
+          (#{storeId}, #{reservationDate}, #{reservationTime})
     </insert>
     
     <!-- ADD LiveUserStatus -->
