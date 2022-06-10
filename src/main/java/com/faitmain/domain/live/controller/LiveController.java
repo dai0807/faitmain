@@ -147,11 +147,77 @@ public class LiveController {
       return "view/live/live";
    }
    
+   public String getToken(  HttpServletRequest req,
+		   					HttpSession session ) throws Exception {
+		JSONObject result = null;
+		StringBuilder sb = new StringBuilder();
+	   
+	   TrustManager[] trustCerts = new TrustManager[]{
+               new X509TrustManager() {
+                   public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                       return null;
+                   }
+                   public void checkClientTrusted(
+                       java.security.cert.X509Certificate[] certs, String authType) {
+                   }
+                   public void checkServerTrusted(
+                       java.security.cert.X509Certificate[] certs, String authType) {
+                   }
+               }
+           };
+	
+   SSLContext sc = SSLContext.getInstance("TLSv1.2");
+   sc.init(null, trustCerts, new java.security.SecureRandom());
+   
+   URL url = new URL("https://vchatcloud.com/openapi/token");
+
+   HttpsURLConnection conn = (HttpsURLConnection)url.openConnection();
+   conn.setSSLSocketFactory(sc.getSocketFactory());
+   
+
+   conn.setRequestMethod("GET");
+   conn.setRequestProperty("api_key", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
+  
+   
+   
+   // 데이터 입력 스트림에 담기
+   BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+   while(br.ready()) {
+  	 sb.append(br.readLine());
+   }
+   conn.disconnect();
+   System.out.println("br" + br);
+   result = (JSONObject) new JSONParser().parse(sb.toString());
+   
+   // REST API 호출 상태 출력하기
+   StringBuilder out = new StringBuilder();
+   out.append(result.get("status") + " : " + result.get("status_message")+"\n");
+   
+   // JSON데이터에서 "data"라는 JSONObject를 가져온다.
+   JSONObject data = (JSONObject) result.get("data");
+   String dataa = (String)data.get("X-AUTH-TOKEN");
+   long Code = (long)result.get("result_cd");
+
+   System.out.println(dataa);
+	   
+	   return dataa;
+   }
+   
+   
+   
+   // 방송 시작
 	@PostMapping("create")
 	public String createRoom(  HttpServletRequest req,
 							   @RequestParam("roomName") String liveTitle,
 								HttpSession session ) throws Exception {
+		
 		log.info( "createRoom = {} ", this.getClass() );
+		
+		String token = getToken(req, session);
+		
+		User user = (User)session.getAttribute("user");
+	
+		Live validation = liveService.getLiveByStoreId(user.getId());
 		
 		String[] liveProducts = req.getParameterValues("liveProduct");
 		
@@ -163,6 +229,10 @@ public class LiveController {
 		
 		JSONObject result = null;
 		StringBuilder sb = new StringBuilder();
+		
+		validation = liveService.getLiveByStoreId(user.getId());
+		
+		if( validation == null ) {
 		
 		 TrustManager[] trustCerts = new TrustManager[]{
 	                new X509TrustManager() {
@@ -190,8 +260,8 @@ public class LiveController {
 	         
 	         conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
 	         conn.setRequestProperty("accept", "*/*");
-	         conn.setRequestProperty("api_key", "kmLueZ-chdq38-O7LGgP-Ggd14x-20220604144349");
-	         conn.setRequestProperty("X-AUTH-TOKEN", "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ2Y3h6dmN4ejE1OUBnbWFpbC5jb20iLCJleHAiOjE2NTQ3NzQxOTYsImlhdCI6MTY1NDc1NjE5NiwiYXV0aG9yaXRpZXMiOiJbUk9MRV9VU0VSXSJ9.AXFLJ3ohZbkiUVBtUa9DIMzpd8txXSwb8ttebAuxInk");
+	         conn.setRequestProperty("api_key", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
+	         conn.setRequestProperty("X-AUTH-TOKEN", token);
 	         conn.setDoOutput(true);
 	        
 	         String Data = "roomName="+ liveTitle + "&maxUser=5&webrtc=91";
@@ -229,7 +299,7 @@ public class LiveController {
 	         
 	         //라이브 방송 등록 후 DB에 데이터 입력
 	         //라이브
-	         User user = (User)session.getAttribute("user");
+	         
 	         
 	         Live live = new Live();
 	         
@@ -241,7 +311,8 @@ public class LiveController {
 	     
 	         
 	         liveService.addLive(live);
-	         System.out.println("이잉" + liveService.getLive(10011));
+	         
+	         System.out.println("라이브 방송 정보 : " + liveService.getLive(liveService.getLiveByStoreId(user.getId()).getLiveNumber()));
 	         live = null;
 	         
 //	 		for(String product : liveProducts) {
@@ -262,8 +333,143 @@ public class LiveController {
 	        	 liveProduct.setProductDetail(productService.getProduct(Integer.parseInt(product)).getProductDetail());
 	        	 liveService.addLiveProduct(liveProduct);
 	         	}
+		}else {
+			
+			System.out.println("응 벌써 방송했어");
+			editRoom(req, liveTitle, session);
+			
+			
+		}
 	         
 	         
+	         return "view/live/live";
+	         
+	}
+	
+	// 방송 정보 수정
+	public String editRoom(  HttpServletRequest req,
+							   String liveTitle,
+								HttpSession session ) throws Exception {
+		
+		log.info( "editRoom = {} ", this.getClass() );
+		System.out.println("방송 정보 수정");
+		String token = getToken(req, session);
+		
+		User user = (User)session.getAttribute("user");
+		
+		Live live = liveService.getLiveByStoreId(user.getId());
+		
+		String[] liveProducts = req.getParameterValues("liveProduct");
+		
+		System.out.println(liveTitle);
+		
+		for(String product : liveProducts) {
+		System.out.println(product);
+		}
+		
+		JSONObject result = null;
+		StringBuilder sb = new StringBuilder();
+		
+		 TrustManager[] trustCerts = new TrustManager[]{
+	                new X509TrustManager() {
+	                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+	                        return null;
+	                    }
+	                    public void checkClientTrusted(
+	                        java.security.cert.X509Certificate[] certs, String authType) {
+	                    }
+	                    public void checkServerTrusted(
+	                        java.security.cert.X509Certificate[] certs, String authType) {
+	                    }
+	                }
+	            };
+	 
+	         SSLContext sc = SSLContext.getInstance("TLSv1.2");
+	         sc.init(null, trustCerts, new java.security.SecureRandom());
+
+	         URL url = new URL("https://vchatcloud.com/openapi/v1/rooms/" + live.getRoomId());
+	 
+	         HttpsURLConnection conn = (HttpsURLConnection)url.openConnection();
+	         conn.setSSLSocketFactory(sc.getSocketFactory());
+	         
+	         conn.setRequestMethod("POST");
+	         
+	         conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+	         conn.setRequestProperty("accept", "*/*");
+	         conn.setRequestProperty("api_key", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
+	         conn.setRequestProperty("X-AUTH-TOKEN", token);
+	         conn.setDoOutput(true);
+	        
+	         String Data = "maxUser=5&roomName=" + liveTitle +"&roomStatus=A&webrtc=91";
+	        
+	         OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+	         wr.write(Data);
+	         wr.flush();
+	         
+	         // 데이터 입력 스트림에 담기
+	         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+	         while(br.ready()) {
+	        	 sb.append(br.readLine());
+	         }
+	         conn.disconnect();
+	         System.out.println("br" + br);
+	         System.out.println("wr" + wr);
+	         result = (JSONObject) new JSONParser().parse(sb.toString());
+	         
+	         // REST API 호출 상태 출력하기
+	         StringBuilder out = new StringBuilder();
+	         out.append(result.get("status") + " : " + result.get("status_message")+"\n");
+	         
+	         // JSON데이터에서 "data"라는 JSONObject를 가져온다.
+	         Long data = (Long) result.get("result_cd");
+	         System.out.println(data);
+	         
+	         if( data == 1  ) {
+	        	 
+	        	 
+	     
+	         
+	         //라이브 방송 등록 후 DB에 데이터 입력
+	         //라이브
+	         
+	         
+	         live = new Live();
+	     
+	         live.setLiveNumber((liveService.getLiveByStoreId(user.getId())).getLiveNumber());
+	         live.setLiveTitle(liveTitle);
+	         live.setLiveIntro(liveTitle);
+	     
+	         liveService.updateLive(live);
+	         
+	         System.out.println("라이브 방송 정보 : " + liveService.getLive(liveService.getLiveByStoreId(user.getId()).getLiveNumber()));
+	        
+	         live = new Live();
+	         
+//	 		for(String product : liveProducts) {
+//	 			System.out.println(product);
+//	 			}
+	         
+	         //라이브 판매 상품
+	         
+	         
+	         live = liveService.getLiveByStoreId(user.getId());
+	         
+	         liveService.deleteLiveProduct(live.getLiveNumber());
+	        
+	         LiveProduct liveProduct = new LiveProduct();
+	         
+	         for(String product : liveProducts) {
+	        	 liveProduct.setLiveNumber(live.getLiveNumber());
+	        	 liveProduct.setLiveReservationNumber(0);
+	        	 liveProduct.setProductNumber(Integer.parseInt(product));
+	        	 liveProduct.setProductMainImage(productService.getProduct(Integer.parseInt(product)).getProductMainImage());
+	        	 liveProduct.setProductName(productService.getProduct(Integer.parseInt(product)).getProductName());
+	        	 liveProduct.setProductDetail(productService.getProduct(Integer.parseInt(product)).getProductDetail());
+	        	 liveService.addLiveProduct(liveProduct);
+	         	}
+	         }else {
+	        	 System.out.println("오류남");
+	         }
 	         
 	         return "view/live/live";
 	         
