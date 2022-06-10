@@ -62,7 +62,7 @@ public interface UserSerivce{
 
     //  UPDATE - 스토어로 업데이트
 
-    int updatUserStore( Map<String, Object> map ) throws Exception;
+    int updateUserStore( Map<String, Object> map ) throws Exception;
 
     // UPDATE Password 재설정
 	int updateUserPassword( User user ) throws Exception;
