@@ -215,6 +215,8 @@
  						 	$("#phoneChk").css("display", "inline-block"); 			//번호 변경 버튼 보이기 
  							$("#button-newsletter").css("display", "inline-block"); // 주소 추가 버튼 
  							$("#userAddress3").attr("readonly" , false) ; 
+ 							$("#storeIntroduction").attr("readonly" , false) ; 
+ 							
 					
 				}else{
 					
@@ -237,7 +239,8 @@
   						  $('#nickname_info').text(" ");
  							$("#userAddress3").attr("readonly" , true) ; 
 
-					 	 
+					 	  	 $("#storeIntroduction").attr("readonly" , true) ; 
+
 				
  		
 		
@@ -426,7 +429,24 @@
 		
 			</div>
 			
-		
+		 <div th:if="${getuser.role == 'store' || getuser.role =='storeX'}" >
+				<div>
+				<h5 class="fw-bolder"> 스토어 이름  </h5>
+				    <div >
+				   <input type="text" class="form-control" th:id="storeName" th:name="storeName" maxlength='10' th:value="${getuser.storeName}"   readonly>  
+				    </div>		  
+				    <span id="storeName_info">  &nbsp; </span>
+				    
+				   	<h5 class="fw-bolder"> 스토어 소개  </h5>
+				    <div >
+				   <input type="text" class="form-control" th:id="storeIntroduction" th:name="storeIntroduction"   th:value="${getuser.storeIntroduction}"   readonly>  
+				    </div>		  
+				    
+				     
+				    
+				</div>
+			</div>
+			
 			<h5 class="fw-bolder"> 휴대폰번호 </h5>
 			     <div class="input-group">
 
@@ -462,9 +482,10 @@
 			   
 			   <span th:text="${getuser.gender == 'W' ? '여성' :'남성'}" >  
 	 
+	 
 			    </div>		  
 		 
-  <div >
+ 			 <div >
 
 			<h5 class="fw-bolder"> 가입일자 </h5>
 			   <span th:text="${getuser.regDate}" >  
@@ -473,7 +494,7 @@
 		 
  	  
  	  
-
+ 
   			<h5 class="fw-bolder"> 주소 </h5>
 				    <div >
 				      	 <div class="input-group mb-2">
