@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko" layout:decorate="~{layout/myPage_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset = "UTF-8">
+    <title>상품 수정</title>
+    	
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+	
+	<style>
+	
+ 		.form-group{ 
+			margin-top:10px ; 	 
+		}
+		
+		h5,span{font-family: 'Nanum Gothic Coding', monospace;}
+		
+    </style>
+    
+    <script type="text/javascript">
+    	$(document).ready(function() {
+			console.log('ready');
+
+			optionAdd();
+		});
+		
+    	function optionAdd() {
+			console.log('optionadd');
+			var optionIndex = 0;
+			//$("#fileIndex").append("<div><input type='file' style='float:left;' name='file_"+(fileIndex++)+"'>"+"<button type='button' style='float:right;' id='fileAddBtn'>"+"추가"+"</button></div>");
+			$("#optionAdd_btn").on("click",	function() {
+				console.log('옵션추가');
+				
+				$("#optionIndex").append(
+					"<div>"  
+						+ "<input placeholder='옵션' class='form-control' type='text' name='productOptions[" + optionIndex + "].productName' id='productOptions'>"
+						+ "<input type='text' class='form-control' name='productOptions[" + optionIndex +"].productQuantity' id='item_vol' placeholder='수량'>"
+						+ "<button type='button' style='float:right;' id='optionDelBtn' class='btn-btn dark'>"+ "삭제" + "</button>"
+					+ "</div>" 
+				  
+				);
+				
+				optionIndex++;
+				console.log(optionIndex);
+			});
+
+			$(document).on("click", "#optionDelBtn", function() {
+				$(this).parent().remove();
+				optionIndex--;
+			});
+
+		};
+		
+		$(function(){
+			
+			/*<![CDATA[*/
+				let productDetail = '[[${ product.productDetail }]]';
+			/*]]>*/
+			
+			$('#summernote').summernote('editor.insertText', productDetail);	
+				
+			 $('#summernote').summernote({
+					// 에디터 높이
+			        height: 300,
+			        // 에디터 한글 설정
+			        lang: "ko-KR",
+			        // 에디터에 커서 이동 (input창의 autofocus라고 생각)
+			        focus : true,
+			        toolbar: [
+			            // 글꼴 설정
+			            ['fontname', ['fontname']],
+			            // 글자 크기 설정
+			            ['fontsize', ['fontsize']],
+			            // 굵기, 기울임꼴, 밑줄,취소 선, 서식지우기
+			            ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+			            // 글자색
+			            ['color', ['forecolor','color']],
+			            // 표만들기
+			            ['table', ['table']],
+			            // 글머리 기호, 번호매기기, 문단정렬
+			            ['para', ['ul', 'ol', 'paragraph']],
+			            // 줄간격
+			            ['height', ['height']],
+			         	// 그림첨부
+			            ['insert', ['picture']],
+			            // 코드보기, 확대해서보기, 도움말
+			            ['view', ['fullscreen', 'help']]			            
+			        ],
+			        // 추가한 글꼴
+			        fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
+			        // 추가한 폰트사이즈
+			        fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+			        
+			        callbacks: {
+			            onImageUpload: function(files, editor, welEditable) {
+			            	// 파일 업로드(다중업로드를 위해 반복문 사용)
+			            	for(var i=files.length-1; i>=0; i--){
+			            		console.log("aaa");
+			            		uploadSummernoteImageFile(files[i], this);	
+			            	}
+			            }
+			        }    
+			        
+			 });	
+			 
+			 	
+		});
+		
+		function uploadSummernoteImageFile(file, el) {
+			console.log("bbb");
+			data = new FormData();
+			data.append('file', file);
+			$.ajax({
+				data: data,
+				type: "POST",
+				url: "/product/json/uploadSummernoteImageFile",
+				contentType: false,
+				enctype: "multipart/form-data",
+				processData: false,
+				success: function(data){
+					console.log(data.url);
+            		$(el).summernote("editor.insertImage", data.url);				
+				}				
+			});
+		}
+		
+    </script>
+</head>
+<body>
+<article  class="py-5" layout:fragment="content">
+	<div class="container">
+		<form th:action="@{/product/updateProduct}" method="post" name="updateProductForm" id="updateProductForm" enctype="multipart/form-data" class="form-horizontal" th:object="${product}">
+				<!-- 상품등록 -->					
+				<div class="form-group">
+				    <label for="categoryCode" class="col-sm-offset-1 col-sm-3 control-label">상품 카테고리</label>
+				    <div class="col-sm-4">
+				      <select class="form-control" id="categoryCode" name="categoryCode">
+				      	<option value='01'>식품</option>
+				      	<option value='02'>생활</option>
+				      	<option value='03'>뷰티</option>
+				      	<option value='04'>패션</option>
+				      	<option value='05'>인테리어</option>
+				      	<option value='06'>출산/유아동</option>
+				      </select>
+				    </div>
+				</div>
+									
+				<div class="form-group">
+					<label for="productName" class="col-sm-offset-1 col-sm-3 control-label">상품명</label>
+					<div class="col-sm-4">
+				      <input type="text" class="form-control" th:field="*{productName}" placeholder="상품명"/>
+				    </div>
+				</div>
+				
+				<div class="form-group">
+					<label for="productPrice" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
+					<div class="col-sm-4">
+				      <input type="text" class="form-control" th:field="*{productPrice}"/>
+				    </div>
+				</div>
+					
+				<div class="form-group">
+					<label for="productQuantity" class="col-sm-offset-1 col-sm-3 control-label">상품 수량</label>
+					<div class="col-sm-4">
+				      <input type="text" class="form-control" th:field="*{productQunatity}"/>
+				    </div>
+				</div>	
+	
+				<!--  상품옵션 -->
+				<div class="form-group">
+	
+					<button id="optionAdd_btn" class="btn btn-primary mb-3 col-sm-offset-1 col-sm-3" type="button">옵션추가</button>
+	
+					<div id="optionIndex" class="col-sm-4">
+					</div>
+	
+				</div>
+				<!--  상품옵션 끝 -->
+	
+	
+				<!--  상품이미지 -->
+				<div  class="form-group">
+					<label for="mainImage" class="col-sm-offset-1 col-sm-3 control-label">상품 메인 이미지</label>
+					<div class="col-sm-4">
+				      <input type="file" class="form-control" id="mainImage" name="mainImage"/>
+				    </div>
+				</div>
+				
+				<div  class="form-group">
+					<label for="subImage" class="col-sm-offset-1 col-sm-3 control-label">상품 추가 이미지</label>
+					<div class="col-sm-4">
+				      <input type="file" class="form-control" id="subImage" name="subImage" multiple/>
+				    </div>
+	
+				</div>
+				
+				<div  class="form-group">
+					<textarea id="summernote" name="productDetail" rows="10"></textarea>
+				</div>
+				
+				<button class="btn btn-d btn-circle" type="submit">상품등록</button>
+	</form>
+</div>
+</article>
+</body>
+</html>

@@ -6,6 +6,7 @@
    
    <resultMap id="liveMap" type="Live">
       <result property="liveNumber"    column="live_number"       jdbcType="INTEGER"/>
+      <result property="roomId"		   column="room_id"			  jdbcType="VARCHAR"/>
       <result property="storeId"       column="store_id"             jdbcType="VARCHAR"/>
       <result property="liveTitle"       column="live_title"             jdbcType="VARCHAR"/>
       <result property="liveIntro"       column="live_intro"             jdbcType="VARCHAR"/>
@@ -27,14 +28,25 @@
        <result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
        <result property="productNumber" column="product_number" jdbcType="INTEGER"/>
        <result property="productMainImage" column="product_main_image" jdbcType="VARCHAR"/>
+       <result property="productName" column="product_name" jdbcType="VARCHAR"/>
+       <result property="productDetail" column="product_detail" jdbcType="VARCHAR"/>
+       
     </resultMap>
    
    
    
    <resultMap id="liveReservationMap" type="LiveReservation">
        <result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
-       <result property="storeId" column="store_id" jdbcType="VARCHAR" />
-       <result property="reservationDate" column="resevation_date" jdbcType="DATE" />
+       <result property="reservationDate" column="reservation_date" jdbcType="DATE" />
+       <result property="title" column="title" jdbcType="VARCHAR" />
+       <result property="reservationTime" column="reservation_time" jdbcType="VARCHAR" />
+       
+       <association property="store" javaType="User">
+       		<id property="id" column="store_id" jdbcType="VARCHAR" />
+       		<result property="storeName" column="store_name" jdbcType="VARCHAR" />
+       		<result property="storelogoImage" column="store_logo_image" jdbcType="VARCHAR" />
+       </association>
+     
     </resultMap>
     
     <resultMap id="liveUserStatusMap" type="LiveUserStatus">
@@ -49,9 +61,9 @@
     <!-- ADD Live -->
     <insert id="addLive" parameterType="Live">
        INSERT INTO live
-          ( store_id, live_title, live_intro, live_image, chatting_status, live_status )
+          ( room_id, store_id, live_title, live_intro, live_image, chatting_status, live_status )
       VALUES
-          ( #{storeId}, #{liveTitle}, #{liveIntro}, #{liveImage}, #{chattingStatus}, 1 )
+          ( #{roomId}, #{storeId}, #{liveTitle}, #{liveIntro}, #{liveImage}, #{chattingStatus}, 1 )
     
     </insert>
     
@@ -66,9 +78,9 @@
     <!-- ADD LiveProduct -->
      <insert id="addLiveProduct" parameterType="LiveProduct">
        INSERT INTO live_product
-          (live_number, live_reservation_number, product_number, product_main_image)
+          (live_number, live_reservation_number, product_number, product_main_image, product_name, product_detail)
       VALUES
-          (#{liveNumber}, #{liveReservationNumber}, #{productNumber}, #{productMainImage})
+          (#{liveNumber}, #{liveReservationNumber}, #{productNumber}, #{productMainImage}, #{productName}, #{productDetail})
     </insert>
     
     <!-- ADD LiveReservation -->
@@ -93,12 +105,8 @@
     <update id="updateLive" parameterType="Live">
        UPDATE live
        <set>
-          store_id = #{storeId}, 
           live_title = #{liveTitle}, 
-          live_intro = #{liveIntro}, 
-          live_image = #{liveImage}, 
-          chatting_status = #{chattingStatus},
-          live_status = #{liveStatus}
+          live_intro = #{liveIntro}
        </set>
        WHERE live_number = #{liveNumber}
     </update>
@@ -128,6 +136,12 @@
     <select id="getLive" parameterType="int" resultMap="liveMap">
        SELECT * FROM live
       WHERE live_number = #{liveNumber}
+    </select>
+    
+    <!-- GET Live By Store Id -->
+    <select id="getLiveByStoreId" parameterType="String" resultMap="liveMap">
+       SELECT * FROM live
+      WHERE store_id = #{storeId}
     </select>
     
     <!-- GET LiveProduct -->
@@ -171,20 +185,28 @@
     </select>
     
     <!-- GET LIST LiveProduct -->
-    <select id="getLiveProductList" parameterType="LiveProduct" resultMap="liveProductMap">
+    <select id="getLiveProductList" parameterType="int" resultMap="liveProductMap">
        SELECT * FROM live_product
-       <if test="#{liveReservationNumber} == 0">
-          <where>
-             live_number = #{liveNumber}
-          </where>
-       </if>
-       <if test="#{liveNumber} == 0">
-          <where>
-             live_reservation_number = #{liveReservationNumber}
-          </where>
-       </if>
+       <where>
+       		live_reservation_number = #{value}
+       </where>
     </select>
-    
+	
+	<!-- GET LIST ListReservationCal -->
+	<select id="getLiveReservationCal" resultMap="liveReservationMap">
+		SELECT reservation_date, COUNT(*) AS title FROM live_reservation
+		group by reservation_date
+	</select>
+	    
+	<!-- GET LIST ListReservationList -->
+	<select id="getLiveReservationList" parameterType="String" resultMap="liveReservationMap">
+		SELECT l.*, u.store_name, u.store_logo_image
+        FROM live_reservation l, user u
+		WHERE l.store_id = u.id
+			  AND reservation_date = #{value};
+		
+	</select>
+	    
     <!-- GET LIST ListUserStatus -->
     <select id="getLiveUserStatusList" parameterType="LiveUserStatus" resultMap="liveUserStatusMap">
       SELECT * FROM live_user_status

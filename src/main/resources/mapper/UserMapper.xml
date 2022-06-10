@@ -6,64 +6,46 @@
 <mapper namespace="com.faitmain.domain.user.mapper.UserMapper">
 
 
-<resultMap id="userMap" type="User">
-<result property="userNumber" 					column="user_number" 				jdbcType="INTEGER"/>
-		<result property="id" 					column="id" 						jdbcType="VARCHAR"/>
-		<result property="password"				column="password" 					jdbcType="VARCHAR" />
-		<result property="address" 				column="address" 					jdbcType="VARCHAR"/>
-		<result property="postalCode"			column="postal_code" 				jdbcType="INTEGER" />
- 		<result property="nickname"				column="nickname" 					jdbcType="VARCHAR" />
- 		<result property="storeName" 			column="store_name" 				jdbcType="VARCHAR"/>
- 		<result property="name" 				column="name" 						jdbcType="VARCHAR"/>
- 	
- 		<result property="phoneNumber"			column="phone_number" 				jdbcType="VARCHAR" />
- 		<result property="regDate"				column="reg_date" 					jdbcType="DATE" />
-		<result property="joinPath" 			column="join_path" 					jdbcType="VARCHAR"/>
-		
- 		<result property="bookNumber"			column="book_number" 				jdbcType="INTEGER" />
-		<result property="totalPoint" 			column="total_point" 				jdbcType="INTEGER"/>
-		<result property="storelogoImage" 		column="store_logo_image" 			jdbcType="VARCHAR"/>
- 		<result property="storeIntroduction"	column="store_introduction" 		jdbcType="VARCHAR" /> 	
- 		<result property="bankAccountCopyImage" column="bank_account_copy_image" 	jdbcType="VARCHAR"/> 			
- 		<result property="bankName" 			column="bank_name" 					jdbcType="VARCHAR"/>
- 		<result property="bankAccountNumber" 	column="bank_account_number" 		jdbcType="VARCHAR"/>
- 		<result property="role"					column="role" 						jdbcType="VARCHAR" />
- 		<result property="withdrawalStatus"		column="withdrawal_status" 			jdbcType="TINYINT" />
- 		<result property="storeApplicationDocumentNumber" 					column="store_application_document_number" 	jdbcType="INTEGER"/>
- 		  		 			
-
-</resultMap>
 
 
-<resultMap id="StoreApplicationDocumentMap" type="StoreApplicationDocument">
-		<result property="storeApplicationDocumentNumber" 					column="store_application_document_number" 	jdbcType="INTEGER"/>
-		<result property="id" 												column="id" 								jdbcType="VARCHAR"/>
-		<result property="examinationStatus"								column="examination_status" 				jdbcType="VARCHAR" />
-		<result property="productDetial" 									column="product_detail" 					jdbcType="VARCHAR"/>
- 		<result property="regDate"											column="reg_date" 							jdbcType="DATE" />
- 		<result property="storeIntroduction"								column="store_introduction" 				jdbcType="VARCHAR" /> 	
- 		<result property="storeName" 										column="store_name" 						jdbcType="VARCHAR"/>
-	  						
+    <insert id ="addUser"   parameterType="User"   >
 
-</resultMap>
+		INSERT INTO user ( id
+						 , password
+						 , gender
+						 , user_address1
+						 , user_address2
+						 , user_address3
+						 , nickname
+						 , phone_number
+						 , name
+						 , reg_date
+						 , join_path
+						 , store_logo_image
+						 , store_introduction
+						 , role
+						 , store_name
+						 )
+		VALUES ( #{id}
+			   , #{password}
+			   , #{gender}
+			   , #{userAddress1}
+			   , #{userAddress2}
+			   , #{userAddress3}
+			   , #{nickname}
+			   , #{phoneNumber}
+			   , #{name}
+			   , NOW( )
+			   , #{joinPath}
+			   , #{storeLogoImage}
+			   , #{storeIntroduction}
+			   , #{role}
+			   , #{storeName}
+			   );
 
-	<resultMap id="imageSelectMap" type="com.faitmain.global.common.Image">
-		<result property="imageNumber" column="image_number" jdbcType="INTEGER"/>
-		<result property="imageClassificationCode" column="image_classification_code" jdbcType="CHAR"/>
-		<result property="imageClassificationNumber" column="image_classification_number" jdbcType="INTEGER"/>
-		<result property="imageName" column="image_name" jdbcType="VARCHAR"/>
-	</resultMap>
+	</insert>
 
-
-
-    <insert id ="addUser"   parameterType="User"  >
-    
-    INSERT INTO user (id,	 password,	 gender, 	address, postal_code, 	nickname, 	phone_number, 	name, 	reg_date, 	join_path,	store_logo_image, store_introduction, bank_account_copy_image, bank_name,	bank_account_number, role, store_name)
-VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#{phoneNumber}, #{name},now(),		#{joinPath},#{storelogoImage},#{storeIntroduction},#{bankAccountCopyImage},#{bankName},	#{bankAccountNumber},#{role},#{storeName} );
-    
-    </insert>  
-    
-   	<insert id ="addStoreApplicationDocument" parameterType="StoreApplicationDocument"  >
+	<insert id ="addStoreApplicationDocument" parameterType="StoreApplicationDocument"     >
 		INSERT INTO store_application_document ( id, examination_status, product_detail, reg_date)
 		VALUES
 		    (#{id}, 'W', #{product_detail}, NOW() )
@@ -76,17 +58,15 @@ VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#
  
  </select>	   
 
-<select id ="getUser" parameterType="String"  resultMap ="userMap" >
-	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
+<select id ="getUser" parameterType="String"    resultMap="userMap" >
+	SELECT user_number, id, `password`, gender, user_address1 , user_address2, user_address3, nickname, phone_number, `name`, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, `role`, store_name, withdrawal_status
 		FROM user
  		WHERE
  			id = #{value}
-		
-			      
   </select>
  
- <select id ="getMapUser" parameterType="map"  resultMap ="userMap" >
-	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
+ <select id ="getMapUser" parameterType="map"   resultMap="userMap"  >
+	SELECT user_number, id, password, gender, user_address1 , user_address2, user_address3, nickname, phone_number, `name`, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction,  `role`, store_name, withdrawal_status
 		FROM user
  			<where>
  			${userCondition} = #{userKeyword}
@@ -128,7 +108,7 @@ VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#
 	</select>
  
  <!--  //SELECT 스토어 신청서 넘버로 스토어 가져오기   -->
- 	 <select id ="getStoreApplicationDocument" parameterType="int" resultMap ="StoreApplicationDocumentMap">
+ 	 <select id ="getStoreApplicationDocument" parameterType="int"  resultMap="StoreApplicationDocumentMap" >
 		SELECT	 s.* , u.store_name , u.store_introduction 
 			FROM	 store_application_document s ,user u  
 			WHERE	  s.id = u.id and store_application_document_number = #{value}
@@ -150,10 +130,10 @@ VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#
 </select>
 --> 
   <!-- 키워드나 정렬 조건 새로 붙이기   , 이름 / 키워드 등 서치 키워드 다시 설정해서 넣기  0 전체 1 유저 , 2 스토어 검색 -->
-	  <select id ="getUserList" parameterType="map"  resultMap ="userMap" > <!-- role 따라  -->
+	  <select id ="getUserList" parameterType="map"   > <!-- role 따라  -->
 		SELECT *
 		  	FROM (	SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq
-			  			FROM(	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
+			  			FROM(	SELECT user_number, id, password, gender,  user_address1 , user_address2, user_address3, nickname, phone_number, `name`, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, `role`, store_name, withdrawal_status
 								FROM user
 									<where>
 							 		<if test="searchCondition == 0 and searchKeyword !=''  ">
@@ -241,17 +221,12 @@ VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#
   	 <update	id="updateUser"	parameterType="User" >
 	   	UPDATE user
 	   	<set>
-	   		nickname 		= #{nickname} ,	   	
- 			address			= #{address},
-			postal_code 	= #{postalCode} ,			 			
+	   		nickname 		= #{nickname} ,
+			user_address1 = #{userAddress1}
+			user_address2 = #{userAddress2}
+			user_address3 = #{userAddress3}
 			phone_number	=	#{phoneNumber} ,
-		
-			store_introduction				=	#{storeIntroduction} ,
-			bank_account_copy_image			=	#{bankAccountCopyImage} ,
-			bank_name						=	#{bankName} ,
-			bank_account_number				=	#{bankAccountNumber} ,
-
-			
+			store_introduction				=	#{storeIntroduction}
 	   	</set>
 	   	WHERE  id = #{id}
 	 </update>
@@ -268,7 +243,7 @@ VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#
 	 
  
  
-  	 <update	id="updatUserStore"	parameterType="map" >
+  	 <update	id="updateUserStore"	parameterType="map" >
 	   	UPDATE user
 	   	<set>
 	   		role = #{role}
@@ -326,7 +301,7 @@ VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#
 	</select>
 	  -->
 	<!-- 0 전체 1 - R , 2 -A , 3 - W -->
-	  <select id ="getStoreApplicationDocumentList" parameterType="map"  resultMap ="StoreApplicationDocumentMap" > <!-- role 따라  -->
+	  <select id ="getStoreApplicationDocumentList" parameterType="map"  > <!-- role 따라  -->
 		SELECT *
 		  	FROM (	SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq
 			  			FROM(	SELECT *
@@ -394,7 +369,7 @@ VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#
 	</insert>
 	
 	<!-- 스토어 이미지 조회 -->
- 	<select id="getImage" parameterType="int"	resultMap="imageSelectMap">
+ 	<select id="getImage" parameterType="int">
 		SELECT image_number, image_name
 		FROM image 
 		WHERE image_classification_code = 'S' AND image_classification_number = #{value}
@@ -405,8 +380,8 @@ VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#
 	
 	
 	<!-- delect User -->
-	<delete id= "delectUser"   parameterType="String"  >
-	DELECT FROM user  WHERE id = #{value}
+	<delete id= "deleteUser"   parameterType="String"  >
+	DELETE FROM user  WHERE id = #{value}
 	
 	</delete>
 	
@@ -419,6 +394,91 @@ VALUES 				(#{id}, #{password},#{gender}, #{address},#{postalCode},#{nickname},#
 	   	</set>
 	   	WHERE  id = #{value}
 	 </update>
-	  
-	
-	</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+    <resultMap id="userMap" type="User">
+    <result property="userNumber" 					column="user_number" 				jdbcType="INTEGER"/>
+            <result property="id" 					column="id" 						jdbcType="VARCHAR"/>
+                <result property="gender"				column="gender" 					jdbcType="VARCHAR" />
+            
+            
+            <result property="password"				column="password" 					jdbcType="VARCHAR" />
+            <result property="userAddress1" 				column="user_address1" 					jdbcType="VARCHAR"/>
+            <result property="userAddress2" 				column="user_address2" 					jdbcType="VARCHAR"/>
+            <result property="userAddress3" 				column="user_address3" 					jdbcType="VARCHAR"/>
+
+             <result property="nickname"				column="nickname" 					jdbcType="VARCHAR" />
+             <result property="storeName" 			column="store_name" 				jdbcType="VARCHAR"/>
+             <result property="name" 				column="name" 						jdbcType="VARCHAR"/>
+
+             <result property="phoneNumber"			column="phone_number" 				jdbcType="VARCHAR" />
+             <result property="regDate"				column="reg_date" 					jdbcType="DATE" />
+            <result property="joinPath" 			column="join_path" 					jdbcType="VARCHAR"/>
+
+             <result property="bookNumber"			column="book_number" 				jdbcType="INTEGER" />
+            <result property="totalPoint" 			column="total_point" 				jdbcType="INTEGER"/>
+            
+            <result property="storeLogoImage" 		column="store_logo_image" 			jdbcType="VARCHAR"/>
+            
+             <result property="storeIntroduction"	column="store_introduction" 		jdbcType="VARCHAR" />
+             <result property="role"					column="role" 						jdbcType="VARCHAR" />
+             <result property="withdrawalStatus"		column="withdrawal_status" 			jdbcType="TINYINT" />
+             
+             
+             <result property="storeApplicationDocumentNumber" 					column="store_application_document_number" 	jdbcType="INTEGER"/>
+
+
+    </resultMap>
+   
+    <resultMap id="StoreApplicationDocumentMap" type="StoreApplicationDocument">
+            <result property="storeApplicationDocumentNumber" 					column="store_application_document_number" 	jdbcType="INTEGER"/>
+            <result property="id" 												column="id" 								jdbcType="VARCHAR"/>
+            <result property="examinationStatus"								column="examination_status" 				jdbcType="VARCHAR" />
+            <result property="productDetial" 									column="product_detail" 					jdbcType="LONGVARCHAR"/>
+             <result property="regDate"											column="reg_date" 							jdbcType="DATE" />
+             <result property="storeIntroduction"								column="store_introduction" 				jdbcType="VARCHAR" />
+             <result property="storeName" 										column="store_name" 						jdbcType="VARCHAR"/>
+
+
+    </resultMap>
+
+        <resultMap id="imageSelectMap" type="com.faitmain.global.common.Image">
+            <result property="imageNumber" column="image_number" jdbcType="INTEGER"/>
+            <result property="imageClassificationCode" column="image_classification_code" jdbcType="CHAR"/>
+            <result property="imageClassificationNumber" column="image_classification_number" jdbcType="INTEGER"/>
+            <result property="imageName" column="image_name" jdbcType="VARCHAR"/>
+        </resultMap>
+ 
+ 
+
+
+</mapper>

@@ -1,10 +1,16 @@
 package com.faitmain.domain.live.controller;
 
+
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,11 +26,12 @@ import com.faitmain.domain.live.service.LiveService;
 
 @Slf4j
 @RestController
-@RequestMapping("/openapi/*")
+@RequestMapping("/live/*")
 public class LiveRestController {
 
 	// Field
 	@Autowired
+	@Qualifier("liveServiceImpl")
 	private LiveService liveService;
 
 	// METHOD
@@ -39,16 +46,16 @@ public class LiveRestController {
 		return map;
 	}
 
-	@GetMapping("json/getLiveProduct")
-	public Map<String, Object> getLiveProduct(@RequestBody LiveProduct liveProduct) throws Exception {
-		System.out.println("/live/json/getLiveProduct : GET start...");
-
-		Map<String, Object> map = liveService.getLiveProductList(liveProduct);
-
-		System.out.println("/live/json/getLiveProduct : GET end...");
-
-		return map;
-	}
+//	@GetMapping("json/getLiveProduct")
+//	public Map<String, Object> getLiveProduct(@RequestBody LiveProduct liveProduct) throws Exception {
+//		System.out.println("/live/json/getLiveProduct : GET start...");
+//
+//		Map<String, Object> map = liveService.getLiveProductList(liveProduct);
+//
+//		System.out.println("/live/json/getLiveProduct : GET end...");
+//
+//		return map;
+//	}
 
 	@PostMapping("json/updateLive")
 	public Live updateLive(@RequestBody Live live) throws Exception {
@@ -91,26 +98,47 @@ public class LiveRestController {
 
 	// LIVE RESERVATION
 	@GetMapping("json/getLiveReservationCal")
-	public Map<String, Integer> getLiveReservationCal() throws Exception {
-		System.out.println("/live/json/getLiveReservationCal : GET start...");
-
-		System.out.println("/live/json/getLiveReservationCal : GET end...");
-		return null;
+	public List<Map<String, Object>> getLiveReservationCal() throws Exception {
+		log.info("/live/json/getLiveReservationCal : GET start...");
+		
+		List<LiveReservation> list = liveService.getLiveReservationCal();
+		
+		log.info("{}", list);
+		
+		JSONObject jsonObj = new JSONObject();
+		JSONArray jsonArr = new JSONArray();
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		for(LiveReservation obj : list) {
+			map.put("title", "예약 수 : " + obj.getTitle());
+			map.put("start", obj.getReservationDate());
+			
+			jsonObj = new JSONObject(map);
+			jsonArr.add(jsonObj);
+		}
+		
+		log.info("jsonArrCheck: {}", jsonArr);
+		
+		log.info("/live/json/getLiveReservationCal : GET end...");
+		return jsonArr;
 	}
 
-	@PostMapping("json/deleteLiveReservation")
-	public Map<String, Object> deleteLiveReservation(@RequestBody LiveReservation liveReservation) throws Exception {
-		System.out.println("/live/json/deleteLiveReservation : POST start...");
 
-		System.out.println("deleteLiveReservation result : "
-				+ liveService.deleteLiveReservation(liveReservation.getLiveReservationNumber()));
+//	@PostMapping("json/deleteLiveReservation")
+//	public Map<String, Object> deleteLiveReservation(@RequestBody LiveReservation liveReservation) throws Exception {
+//		System.out.println("/live/json/deleteLiveReservation : POST start...");
+//
+//		System.out.println("deleteLiveReservation result : "
+//				+ liveService.deleteLiveReservation(liveReservation.getLiveReservationNumber()));
+//
+//		Map<String, Object> map = liveService.getLiveReservationList(liveReservation.getReservationDate());
+//
+//		System.out.println("/live/json/deleteLiveReservation : POST end...");
+//
+//		return map;
+//	}
 
-		Map<String, Object> map = liveService.getLiveReservationList(liveReservation.getReservationDate());
-
-		System.out.println("/live/json/deleteLiveReservation : POST end...");
-
-		return map;
-	}
 	
 	
 	

@@ -8,7 +8,7 @@
 	<resultMap id="productSelectMap" type="Product">
 		<result property="productNumber" 		column="product_number" 		jdbcType="INTEGER"/>
 		<result property="productName"			column="product_name" 			jdbcType="VARCHAR" />
-		<result property="price" 				column="price" 					jdbcType="INTEGER" />
+		<result property="productPrice" 		column="product_price" 			jdbcType="INTEGER" />
 		<result property="productMainImage" 	column="product_main_image" 	jdbcType="VARCHAR" />
 		<result property="productDetail" 		column="product_detail"			jdbcType="LONGVARCHAR" />
 		<result property="productQuantity" 		column="product_quantity" 		jdbcType="INTEGER" />
@@ -36,8 +36,8 @@
 	<!-- 상품 등록 -->
 	<insert id="addProduct" parameterType="Product">		
 		INSERT
-		INTO product(product_name, price, store_id, product_main_image, product_detail, product_category_code, reg_date, delivery_charge, product_quantity, product_group_number)
-		VALUES (#{productName}, #{price}, #{store.id}, #{productMainImage}, #{productDetail:LONGVARCHAR}, #{categoryCode}, NOW(), 3000, #{productQuantity}, 
+		INTO product(product_name, product_price, store_id, product_main_image, product_detail, product_category_code, reg_date, delivery_charge, product_quantity, product_group_number)
+		VALUES (#{productName}, #{productPrice}, #{store.id}, #{productMainImage}, #{productDetail:LONGVARCHAR}, #{categoryCode}, NOW(), 3000, #{productQuantity},
 				<if test="productGroupNumber == 0">null</if>
 				<if test="productGroupNumber != 0">#{productGroupNumber}</if>)
 		<selectKey keyProperty="productGroupNumber" resultType="INTEGER" order="AFTER">
@@ -59,6 +59,14 @@
     	WHERE product_group_number is null
     	ORDER BY product_number DESC LIMIT 1 
     </select>
+    
+    <!-- 
+    <select id="getProductQuantity" resultType="int">
+	    SELECT product_quantity 
+	    FROM product 
+	    WHERE product_number = #{productNumber};
+    </select>
+     -->
 	
 	<!-- 상품 상세 조회 (상품, 상품 추가 사진, 상품 옵션 가져와야 됨)-->	    
     <select id="getProduct" parameterType="int"	resultMap="productSelectMap">
@@ -153,7 +161,7 @@
 		UPDATE product
 		<set>
 			product_name = #{productName},
-			price = #{price},
+			product_Price = #{productPrice},
 			product_main_image = #{productMainImage},
 			product_detail = #{productDetail:LONGVARCHAR},
 			product_category_code = #{categoryCode},

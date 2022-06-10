@@ -49,6 +49,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 	}
 	
+
 //	@Override
 //	public int addCustomerBoard(Customer customer) throws Exception {
 //		customerMapper.addCustomerBoard(customer);
@@ -98,9 +99,6 @@ public class CustomerServiceImpl implements CustomerService{
 		return (queryResult == 1) ? true : false;
 	}
 
-	
-	
-	
 	
 	
 }

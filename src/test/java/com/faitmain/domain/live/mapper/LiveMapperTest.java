@@ -203,8 +203,8 @@ public class LiveMapperTest {
 		
 		LiveReservation liveReservation = new LiveReservation();
 		
-		liveReservation.setStoreId("store03@naver.com");
-		liveReservation.setReservationDate("2022-07-14 09:00");
+//		liveReservation.setStoreId("store03@naver.com");
+//		liveReservation.setReservationDate("2022-07-14 09:00");
 		
 		assertThat(liveMapper.addLiveReservation(liveReservation) == 1);
 		

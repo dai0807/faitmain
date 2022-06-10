@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Live {
 	private int liveNumber;
+	private String roomId;
 	private String storeId;
 	private String liveTitle;
 	private String liveIntro;
