@@ -59,6 +59,14 @@
     	WHERE product_group_number is null
     	ORDER BY product_number DESC LIMIT 1 
     </select>
+    
+    <!-- 
+    <select id="getProductQuantity" resultType="int">
+	    SELECT product_quantity 
+	    FROM product 
+	    WHERE product_number = #{productNumber};
+    </select>
+     -->
 	
 	<!-- 상품 상세 조회 (상품, 상품 추가 사진, 상품 옵션 가져와야 됨)-->	    
     <select id="getProduct" parameterType="int"	resultMap="productSelectMap">
