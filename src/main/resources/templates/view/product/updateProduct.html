@@ -129,18 +129,18 @@
 <body>
 <article  class="py-5" layout:fragment="content">
 	<div class="container">
-		<form th:action="@{/product/updateProduct}" method="post" name="updateProductForm" id="updateProductForm" enctype="multipart/form-data" class="form-horizontal" th:object="${product}">
+		<form th:action="@{/product/updateProduct}" th:object="${product}" method="post" name="updateProductForm" id="updateProductForm" enctype="multipart/form-data" class="form-horizontal">
 				<!-- 상품등록 -->					
 				<div class="form-group">
 				    <label for="categoryCode" class="col-sm-offset-1 col-sm-3 control-label">상품 카테고리</label>
 				    <div class="col-sm-4">
 				      <select class="form-control" id="categoryCode" name="categoryCode">
-				      	<option value='01'>식품</option>
-				      	<option value='02'>생활</option>
-				      	<option value='03'>뷰티</option>
-				      	<option value='04'>패션</option>
-				      	<option value='05'>인테리어</option>
-				      	<option value='06'>출산/유아동</option>
+				      	<option value='01' th:selected="*{categoryCode eq '01'}">식품</option>
+				      	<option value='02' th:selected="*{categoryCode eq '02'}">생활</option>
+				      	<option value='03' th:selected="*{categoryCode eq '03'}">뷰티</option>
+				      	<option value='04' th:selected="*{categoryCode eq '04'}">패션</option>
+				      	<option value='05' th:selected="*{categoryCode eq '05'}">인테리어</option>
+				      	<option value='06' th:selected="*{categoryCode eq '06'}">출산/유아동</option>
 				      </select>
 				    </div>
 				</div>
@@ -162,7 +162,7 @@
 				<div class="form-group">
 					<label for="productQuantity" class="col-sm-offset-1 col-sm-3 control-label">상품 수량</label>
 					<div class="col-sm-4">
-				      <input type="text" class="form-control" th:field="*{productQunatity}"/>
+				      <input type="text" class="form-control" th:field="*{productQuantity}"/>
 				    </div>
 				</div>	
 	
@@ -172,6 +172,12 @@
 					<button id="optionAdd_btn" class="btn btn-primary mb-3 col-sm-offset-1 col-sm-3" type="button">옵션추가</button>
 	
 					<div id="optionIndex" class="col-sm-4">
+						<div th:if="${#lists.size(product.productOptions) > 0}" th:each="productOption, index : ${product.productOptions}">
+							<input type="hidden" th:value="${productOption.productNumber}" th:name="|productOption[${index.index}].productNumber|" />  
+							<input type="text"  class="form-control" th:value="${productOption.productName}" th:name="productOption[index].productName">
+							<input type="text" class="form-control"  th:value="${productOption.productQuantity}" th:name="productOption[index].productName" id='item_vol'>
+							<button type="button" style="float:right;" id="optionDelBtn" class="btn-btn dark">삭제</button>
+						</div>					
 					</div>
 	
 				</div>
@@ -198,7 +204,7 @@
 					<textarea id="summernote" name="productDetail" rows="10"></textarea>
 				</div>
 				
-				<button class="btn btn-d btn-circle" type="submit">상품등록</button>
+				<button class="btn btn-d btn-circle" type="submit">수정하기</button>
 	</form>
 </div>
 </article>
