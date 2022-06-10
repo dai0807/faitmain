@@ -234,20 +234,22 @@
                     var roadAddr = data.roadAddress; // 도로명 주소 변수
                     var jibunAddr = data.jibunAddress; // 지번 주소 변수
                     // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                    $("#member_post").val(data.zonecode);
+                    $("#userAddress1").val(data.zonecode);
 
 //			            document.getElementById('member_post').value = data.zonecode;
                     if (roadAddr !== '') {
-                        $("#member_addr").val(roadAddr);
+                        $("#userAddress2").val(roadAddr);
 
                         //  document.getElementById("member_addr").value = roadAddr;
                     } else if (jibunAddr !== '') {
-                        $("#member_addr").val(jibunAddr);
+                        $("#userAddress2").val(jibunAddr);
 
                         // document.getElementById("member_addr").value = jibunAddr;
                     }
                 }
             }).open();
+                 $("#userAddress3").focus();
+
         }
 
 
@@ -360,7 +362,7 @@
             $("#loginButton").on("click", function () {
                 alert("회원가입 눌림")
                 var name = $("input[name='name']").val();
-                var postalCode = $("input[name='postalCode']")
+                var userAddress1 = $("input[name='userAddress1']")
 
 
                 if (total_check_id != 1) {
@@ -394,21 +396,20 @@
                     return;
                 }
 
-                if (postalCode == null) {
+                if (userAddress1 == null) {
                     alert("우편주소를 확인해주세요 ")
 
                     return;
                 }
 
 
-                var addr = $("#member_addr").val() + " ";
+                var addr =$("#userAddress1").val() + " ";
+                addr= $("#userAddress2").val() + " ";
                 console.log("주소 찍어라 " + addr)
-                addr += $("#member_addr1").val();
+                addr += $("#userAddress3").val();
                 console.log("주소 찍어라 " + addr)
-                alert(addr)
-
-                $('input[name=address]').attr('value', addr);
-
+ 
+ 
 
                 $("form").attr("method", "POST").attr("action", "/user/addUser").submit();
 
@@ -524,16 +525,19 @@
                                    value = "${vo.useraddress}">
                             <input class = "form-control" id = "detailAddress" name = "detailAddress" placeholder = "상세주소"
                                    type = "text">-->
-                            <!--           <input class = "form-control" id = "member_post" name = "postalCode" placeholder = "우편주소."
+                            
+                            
+                            
+                             <input class = "form-control" id = "userAddress1" name = "userAddress1" placeholder = "우편주소."
                                    readonly type = "text"/>
                             <button class = "btn btn-success" id = "button-newsletter" onclick = "findAddr()"
                                     type = "button">주소찾기
                             </button>
                         </div>
-                        <input class = "form-control" id = "member_addr" placeholder = "주소" readonly type = "text">
-                        <input class = "form-control" id = "member_addr1" placeholder = "추가입력" type = "text">
+                        <input class = "form-control" id = "userAddress2"  name = "userAddress2" placeholder = "주소" readonly type = "text">
+                        <input class = "form-control" id = "userAddress3"   name = "userAddress3" placeholder = "추가입력" type = "text">
                         <input id = "address" name = "address" type = "hidden" value = "">
--->
+ 
                         </div>
 
                         <input name = "joinPath" type = "hidden" value = "HOME">

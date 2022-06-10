@@ -105,12 +105,8 @@
     <update id="updateLive" parameterType="Live">
        UPDATE live
        <set>
-          store_id = #{storeId}, 
           live_title = #{liveTitle}, 
-          live_intro = #{liveIntro}, 
-          live_image = #{liveImage}, 
-          chatting_status = #{chattingStatus},
-          live_status = #{liveStatus}
+          live_intro = #{liveIntro}
        </set>
        WHERE live_number = #{liveNumber}
     </update>
