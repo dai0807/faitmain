@@ -156,7 +156,8 @@ public class UserController{
 			log.info("get :: addUser " );
 	      
 	   return "view/user/addUser";
-	   }	   
+	   }
+
 	   @PostMapping("addUser")
 	   public RedirectView addUser(@ModelAttribute("user") User user) throws Exception{
 		   

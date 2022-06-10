@@ -11,10 +11,6 @@ import java.util.Map;
 public interface UserSerivce{
 
 
-    /* 주문자 주소 정보 */
-    User getBuyerInfo( String id );
-
-    /* ***************************************************************** */
 
     //  insert 유저
 	int addUser( User user ) throws Exception;
@@ -66,7 +62,7 @@ public interface UserSerivce{
 
     //  UPDATE - 스토어로 업데이트
 
-    int updatUserStore( Map<String, Object> map ) throws Exception;
+    int updateUserStore( Map<String, Object> map ) throws Exception;
 
     // UPDATE Password 재설정
 	int updateUserPassword( User user ) throws Exception;

@@ -41,7 +41,7 @@
 			<div th:if="${session.user.role == 'store'}" class="list-group list-group-flush">
 				<h4 class="myShopping">나의 스토어</h4>
 				<hr/>
-				<a href="#" class="list-group-item list-group-item-action">상품 등록</a>
+				<a th:href="@{/product/addProduct}" class="list-group-item list-group-item-action">상품 등록</a>
 				<a th:href="@{/user/getUser}" class="list-group-item list-group-item-action">스토어 정보</a>
 				<a href="#" class="list-group-item list-group-item-action">문의 내역</a>
 				<a href="#" class="list-group-item list-group-item-action">주문 내역</a>
