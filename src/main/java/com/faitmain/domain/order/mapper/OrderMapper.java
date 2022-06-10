@@ -45,7 +45,7 @@ public interface OrderMapper{
     int orderCancle( int orderNumber );
 
     /* 주문 상품 정보 (주문취소) */
-    List<OrderProduct> getOrderOneInfo( int orderNumber );
+    List<OrderProduct> getOrderProductInfo( int orderNumber );
 
     /* 주문 정보 (주문취소) */
     Order getOrder( int orderNumber );

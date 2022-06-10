@@ -21,36 +21,21 @@
     </delete>
 
 
-    <!-- ******************************************************************  -->
 
-
-    <resultMap id="cartSelectMap" type="com.faitmain.domain.product.domain.Cart">
-        <result property="cartNumber" column="cart_number" jdbcType="INTEGER"/>
-        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
-        <result property="cartQuantity" column="cart_quantity" jdbcType="INTEGER"/>
-
-        <association property="cartProduct" javaType="com.faitmain.domain.product.domain.Product">
-            <id property="productNumber" column="product_number" jdbcType="INTEGER"/>
-            <result property="productName" column="product_name" jdbcType="VARCHAR"/>
-            <result property="productPrice" column="product_price" jdbcType="INTEGER"/>
-            <result property="productMainImage" column="product_main_image" jdbcType="VARCHAR"/>
-        </association>
-
-    </resultMap>
 
 
     <!-- 장바구니 추가 -->
     <insert id="addCart" parameterType="com.faitmain.domain.product.domain.Cart">
         INSERT
             INTO cart( user_id
-                     , cart_quantity
+                     , product_order_count
                      , product_number
                      , product_name
                      , product_price
                      , product_main_image
                      )
         VALUES ( #{userId}
-               , #{cartQuantity}
+               , #{productOrderCount}
                , #{cartProduct.productNumber}
                , #{cartProduct.productName}
                , #{cartProduct.productPrice}

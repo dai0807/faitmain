@@ -7,7 +7,7 @@ import java.util.List;
 @Data
 public class OrderPage{
 
-    private List<OrderPageProduct> orderBundle;
+    private List<OrderPageProduct> orderPageBundle;
 
 
 }

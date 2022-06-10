@@ -9,21 +9,43 @@ import java.util.List;
 @Data
 public class Cart {
 
-    public int ProductNumber;
+	/* 장바구니 -> 주문 */
     private int cartNumber;
 
 	private String userId;
-	
-	private int cartQuantity;
-	
+	private int productOrderCount;
+
+	private int ProductNumber;
+
 	private Product cartProduct;
 
-	//Product	
-	private List<Product> product;
-	
 	//추가
 	private int totalPrice;
-	
+
+
+
+	/* 상품상세 -> 주문 */
+	private List<Product> product;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/***********************************/
+
+
+
+
 	//사용할지 안할지 모름//
 	private Date cartCookieLimit;
 
@@ -37,7 +59,7 @@ public class Cart {
 	@Builder
 	public Cart(int cartNumber, int cartQuantity) {
 		this.cartNumber = cartNumber;
-		this.cartQuantity = cartQuantity;
+		this.productOrderCount = cartQuantity;
 	}
 	
 	public Cart() {
