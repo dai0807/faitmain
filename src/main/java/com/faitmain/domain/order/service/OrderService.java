@@ -15,6 +15,7 @@ public interface OrderService{
     User getBuyerInfo( String id );
 
     /* 주문정보 */
+    /* 주문 페이지로 전송할 상품 정보 메소드 */
     List<OrderPageProduct> getProductInfo( List<OrderPageProduct> orderBundle );
 
     /* 주문 상품 리스트 */

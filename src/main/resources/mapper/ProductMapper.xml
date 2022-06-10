@@ -61,7 +61,7 @@
     </select>
     
     <!-- 
-    <select id="getProductQuantity" resultType="int">
+    <select id="getProductOrderCount" resultType="int">
 	    SELECT product_quantity 
 	    FROM product 
 	    WHERE product_number = #{productNumber};
