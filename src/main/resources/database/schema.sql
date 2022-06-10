@@ -76,7 +76,7 @@ CREATE TABLE `order` (
                    `receiver_address1` varchar(100) NOT NULL ,
                    `receiver_address2` varchar(100) NOT NULL ,
                    `receiver_address3` varchar(100) NOT NULL ,
-                   `order_state`       varchar(30)  NOT NULL ,
+                   `order_status`       varchar(30)  NOT NULL ,
                    `delivery_charge`   int          NOT NULL ,
                    `using_point`       int          NOT NULL ,
                    `order_date`        timestamp    NULL DEFAULT NOW( ) ,

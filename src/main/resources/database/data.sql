@@ -50,15 +50,15 @@ INSERT INTO product (product_name, product_price, store_id, product_main_image, 
 
 /* ORDER */
 
-INSERT INTO `order` (receiver_name, buyer_id, receiver_address1, receiver_address2, receiver_address3, order_state, delivery_charge, using_point, order_date)
+INSERT INTO `order` (receiver_name, buyer_id, receiver_address1, receiver_address2, receiver_address3, order_status, delivery_charge, using_point, order_date)
      VALUES ('receiver_name 1', 'id 1', 'receiver_address1 1', 'receiver_address2 1', 'receiver_address3 1', 'order_state 1', 1, 1, NOW());
-INSERT INTO `order` (receiver_name, buyer_id, receiver_address1, receiver_address2, receiver_address3, order_state, delivery_charge, using_point, order_date)
+INSERT INTO `order` (receiver_name, buyer_id, receiver_address1, receiver_address2, receiver_address3, order_status, delivery_charge, using_point, order_date)
      VALUES ('receiver_name 2', 'id 2', 'receiver_address1 2', 'receiver_address2 2', 'receiver_address3 2', 'order_state 2', 2, 2, NOW());
-INSERT INTO `order` (receiver_name, buyer_id, receiver_address1, receiver_address2, receiver_address3, order_state, delivery_charge, using_point, order_date)
+INSERT INTO `order` (receiver_name, buyer_id, receiver_address1, receiver_address2, receiver_address3, order_status, delivery_charge, using_point, order_date)
      VALUES ('receiver_name 3', 'id 3', 'receiver_address1 3', 'receiver_address2 3', 'receiver_address3 3', 'order_state 3', 3, 3, NOW());
-INSERT INTO `order` (receiver_name, buyer_id, receiver_address1, receiver_address2, receiver_address3, order_state, delivery_charge, using_point, order_date)
+INSERT INTO `order` (receiver_name, buyer_id, receiver_address1, receiver_address2, receiver_address3, order_status, delivery_charge, using_point, order_date)
      VALUES ('receiver_name 4', 'id 4', 'receiver_address1 4', 'receiver_address2 4', 'receiver_address3 4', 'order_state 4', 4, 4, NOW());
-INSERT INTO `order` (receiver_name, buyer_id, receiver_address1, receiver_address2, receiver_address3, order_state, delivery_charge, using_point, order_date)
+INSERT INTO `order` (receiver_name, buyer_id, receiver_address1, receiver_address2, receiver_address3, order_status, delivery_charge, using_point, order_date)
      VALUES ('receiver_name 5', 'id 5', 'receiver_address1 5', 'receiver_address2 5', 'receiver_address3 5', 'order_state 5', 5, 5, NOW());
 
 
