@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.faitmain.domain.user.domain.StoreApplicationDocument;
 import com.faitmain.domain.user.domain.User;
@@ -38,6 +40,44 @@ public class UserRestController {
 		   
 	   }
 	
+	   
+	   @PostMapping( "json/login" )
+	   public int RESTlongin(  User loginuser,  HttpSession session) throws Exception {
+	      
+		   log.info("LostController 탔어용 login Page 도착");
+		   log.info("받은 유저 user 출력  :: {}" , loginuser);
+		   
+ 		   int result = 0;
+ 		  result = userSerivce.getLogin(loginuser) ; // id/ pw 값 있으면 1 없으면 0 ,,
+ 		   
+ 		   if(result == 1) {
+ 			   User user = userSerivce.getUser(loginuser.getId()) ;  
+ 			   log.info("{}의 로그인이 완료 되었습니다  " , user.getId());
+ 			   session.setAttribute("user", user) ; // user 정보 u로그인 
+ 		   }else {
+ 			   log.info("로그인 실패");
+ 			   
+ 		   }
+ 		   
+ 		   
+		   log.info("json login 끝 ");
+		   
+ 
+ 		   
+	      return result;
+	   }
+	      
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
 	// 중복 체크 4개 나 있음 !!!
 //업데이트 유저 
 		@PostMapping( value="json/updateUser"  )
