@@ -156,7 +156,8 @@ public class UserController{
 			log.info("get :: addUser " );
 	      
 	   return "view/user/addUser";
-	   }	   
+	   }
+
 	   @PostMapping("addUser")
 	   public RedirectView addUser(@ModelAttribute("user") User user) throws Exception{
 		   
@@ -287,6 +288,8 @@ public class UserController{
 		
 		
 	    	}	   
+		
+		
 		
 		// RedirectView longin( RedirectAttributes model ,
 		//kakao회원 추가 가입 
