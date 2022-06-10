@@ -226,7 +226,7 @@ CREATE TABLE live_product (
                                `live_reservation_number` INTEGER(5)  NOT NULL ,
                                `product_number`          INTEGER(5)  NOT NULL ,
                                `product_main_image`      VARCHAR(30) NOT NULL ,
-                               `product_name`			 VARCHAR(25) NOT NULL ,
+                               `product_name`			 VARCHAR(45) NOT NULL ,
                                `product_detail`			 VARCHAR(30) NULL,
                                PRIMARY KEY ( live_product_number )
                                );
@@ -235,8 +235,7 @@ CREATE TABLE live_chat (
                        `live_number`      INTEGER     NOT NULL ,
                        `writer`           VARCHAR(20) NOT NULL ,
                        `chatting_message` VARCHAR(30) NOT NULL ,
-                       `send_date`        DATE        NOT NULL ,
-                       FOREIGN KEY ( live_number ) REFERENCES live ( live_number )
+                       `send_date`        DATE        NOT NULL 
                        );
 
 ALTER TABLE user AUTO_INCREMENT = 10000;
