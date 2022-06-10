@@ -274,6 +274,8 @@ public class UserController{
 		 
 	    	}	   
 		
+		
+		
 		// RedirectView longin( RedirectAttributes model ,
 		//kakao회원 추가 가입 
 		@PostMapping("kakaoaddUser")
