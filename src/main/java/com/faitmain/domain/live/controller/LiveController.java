@@ -399,7 +399,7 @@ public class LiveController {
 	         conn.setRequestProperty("api_key", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
 	         conn.setRequestProperty("X-AUTH-TOKEN", token);
 	         conn.setDoOutput(true);
-	        
+	        System.out.println("기모링");
 	         String Data = "maxUser=5&roomName=" + liveTitle +"&roomStatus=A&webrtc=91";
 	        
 	         OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
