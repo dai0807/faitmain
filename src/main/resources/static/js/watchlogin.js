@@ -1,7 +1,7 @@
 
 // 채널에 접속하기 위해서 사용자의 userNick, userKey와 CMS에서 발급받은 channelKey가 필요합니다.
 
-var channelKey = "phiEhgSYhp-pd21rZO6SI-20220610161734"; // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
+var channelKey = "avCnOcnEgL-9QB706d2aj-20220610152648"; // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
 
 
 function videoInit() {
@@ -42,7 +42,7 @@ window.addEventListener("load", function () {
   	  	c = $('div.chat_contents').hide();
   	likeInif();
   
-  	remoteCam = $('#remote_cam');
+  	remoteCam = $('.remote_cam');
   	remoteCam.attr('name', 'remote_cam');
   	
   	$('button.popupbtn', p).click(function () {
@@ -82,8 +82,11 @@ window.addEventListener("load", function () {
     				c.show();
     		
     				//이벤트 바인딩 시작
+    				chatInit();
+    				personalInit();
+    				msgInit();
     				getRoomInfo();
-
+    				likeInif();
     			}	
     		});
    		}
@@ -116,6 +119,11 @@ function joinRoom(roomId, clientKey, nickName, callback) {
       }
       if (callback) callback(null, history);
       // 채팅영역에 글쓰기가 활성화될시 활성화
+      if (typeof write == "function")
+        write(
+          "실시간 채팅에 오신 것을 환영합니다. 개인정보를 보호하고 커뮤니티 가이드를 준수하는 것을 잊지 마세요!",
+          "notice"
+        );
     }
   );
 }
@@ -142,6 +150,93 @@ function getRoomInfo() {
   );
 }
 
+function openError(code, callback) {
+  let p = $("div.errorpopup").hide();
+  if (errMsg[code] == undefined) {
+    $("p:nth-child(2)", p).text(code);
+  } else {
+    $("p:nth-child(2)", p).text(errMsg[code].kor);
+  }
+  $("a", p)
+    .off()
+    .click(function () {
+      p.hide();
+      if (typeof callback == "function") {
+        callback();
+      }
+    });
+  p.show();
+}
 
+// 마이크 온/오프
+function mic_on_off(item) {
+  if (channel) {
+    var chk = $(item).attr("class");
+    var img = $(item).children("img")[0];
+    var cam_mic = $("div[name=my_cam]").children("img")[0];
+    if (chk == "mic btn_on") {
+      // 마이크 끄기
+      channel.toggleRTCAudioControl(false);
+      $(item).attr("class", "mic btn_off");
+      $(img).attr(
+        "src",
+        "https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_1/img/webRTC/off_mic.png"
+      );
+      $(cam_mic).show();
+    } else {
+      // 마이크 켜기
+      channel.toggleRTCAudioControl(true);
+      $(item).attr("class", "mic btn_on");
+      $(img).attr(
+        "src",
+        "https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_1/img/webRTC/on_mic.png"
+      );
+      $(cam_mic).hide();
+    }
+  } else {
+    // 로그인이 필요함
+  }
+}
 
+// 카메라 온/오프
+function cam_on_off(item) {
+  if (channel) {
+    var chk = $(item).attr("class");
+    var img = $(item).children("img")[0];
+    var video = $("div[name=my_cam]").children("div.camvideo")[0];
 
+    if (chk == "cam btn_on") {
+      // 카메라 끄기
+      channel.toggleRTCVideoControl(false);
+      $(item).attr("class", "cam btn_off");
+      $(img).attr(
+        "src",
+        "https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_1/img/webRTC/off_cam.png"
+      );
+    } else {
+      // 카메라 끄기
+      channel.toggleRTCVideoControl(true);
+      $(item).attr("class", "cam btn_on");
+      $(img).attr(
+        "src",
+        "https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_1/img/webRTC/on_cam.png"
+      );
+      // 카메라 켜짐
+    }
+  } else {
+    // 미 로그인 상태
+  }
+}
+
+function exit() {
+  if (channel) {
+    var exit_chk = confirm("종료 하시겠습니까?");
+    if (!exit_chk) return;
+    $(".cam-footer .cam-btn .mic").off("click.rtc");
+    $(".cam-footer .cam-btn .cam").off("click.rtc");
+    vChatCloud.disconnect();
+    channel = undefined;
+  } else {
+    // 로그인 되지 않았음!
+  }
+}

@@ -35,7 +35,8 @@
 	                  		</a>
 	                  	</div>
 	                  	
-                        <div class="col-md-3 text-center" style="width:324px"><img class="img-fluid rounded-3 my-5" src="https://dummyimage.com/300x500/343a40/6c757d" alt="..." /></div>
+                        <div id="remote_cam" class="col-md-3 text-center" style="width:324px"></div>
+                    	
                     	
                     	<div class="col-md-3 text-center" style="overflow:auto; height:500px; width: 424px;">
 	                  		<h5 style="color : white">오늘 예약 목록</h5>
@@ -55,7 +56,7 @@
 							
 								<div class="col-md-3 pb-3" th:each="live : ${map.liveList}">
 									<div class="card" style="height : 530px">
-										<img class="card-img-top" alt="Bootstrap Thumbnail First" src="https://dummyimage.com/235x400/343a40/6c757d" style="height : 400px">
+										<a th:href="@{live/watchLive}"><img class="card-img-top" alt="Bootstrap Thumbnail First" src="https://dummyimage.com/235x400/343a40/6c757d" style="height : 400px"></a>
 											
 										</img>
 										<div class="card-block">

@@ -335,21 +335,11 @@ public class LiveController {
    }
       
    @GetMapping("watchLive")
-   public String watchLive( @RequestParam( "liveNumber" ) int liveNumber,
-		   												  Model model) throws Exception {
+   public String watchLive() throws Exception {
+	   log.info("watchLive() : GET start...");
 	   
-	      System.out.println("/live/watchLive : GET start...");
-	      
-	      Live live = liveService.getLive(liveNumber);
-	     
-	      System.out.println("Controller watchLive liveInfo : " + live);
-	     
-	      model.addAttribute("live", live);
-	      
-	      System.out.println("/live/watchLive : GET end...");
-	      
-	      return "forward:/live/watchLive.jsp";
-	   
+	   log.info("watchLive() : GET start...");
+	   return "view/live/watchLive"; 
    }
    
    @GetMapping("updateLive")
