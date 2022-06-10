@@ -90,14 +90,15 @@ INSERT INTO `order` (receiver_name, buyer_id, receiver_address1, receiver_addres
 
 /* ORDER PRODUCT */
 
-INSERT INTO order_product (order_number, product_number, product_quantity, product_price, reward_point)
+INSERT INTO order_product (order_number, product_number, product_order_count, product_price, reward_point)
      VALUES ('order_number 1', 1, 1, 1, 1);
-INSERT INTO order_product (order_number, product_number, product_quantity, product_price, reward_point)
+INSERT INTO order_product (order_number, product_number, product_order_count, product_price, reward_point)
      VALUES ('order_number 2', 2, 2, 2, 2);
-INSERT INTO order_product (order_number, product_number, product_quantity, product_price, reward_point)
+INSERT INTO order_product (order_number, product_number, product_order_count, product_price, reward_point)
      VALUES ('order_number 3', 3, 3, 3, 3);
-INSERT INTO order_product (order_number, product_number, product_quantity, product_price, reward_point)
+INSERT INTO order_product (order_number, product_number, product_order_count, product_price, reward_point)
      VALUES ('order_number 4', 4, 4, 4, 4);
+<<<<<<< HEAD
 INSERT INTO order_product (order_number, product_number, product_quantity, product_price, reward_point)
      VALUES ('order_number 5', 5, 5, 5, 5);
      
@@ -113,3 +114,6 @@ ALTER TABLE ban_period MODIFY COLUMN respondent_nickname VARCHAR(20) NULL ;
 ALTER TABLE ban_period MODIFY COLUMN respondent_store_name VARCHAR(20) NULL;
 ALTER TABLE ban_period ADD FOREIGN KEY(respondent_nickname) REFERENCES user (nickname);
 ALTER TABLE ban_period ADD FOREIGN KEY(respondent_store_name) REFERENCES user (store_name);
+
+INSERT INTO order_product (order_number, product_number, product_order_count, product_price, reward_point)
+     VALUES ('order_number 5', 5, 5, 5, 5);

@@ -222,11 +222,12 @@
 	   	UPDATE user
 	   	<set>
 	   		nickname 		= #{nickname} ,
-			user_address1 = #{userAddress1}
-			user_address2 = #{userAddress2}
-			user_address3 = #{userAddress3}
+			user_address1 = #{userAddress1} ,
+			user_address2 = #{userAddress2},
+			user_address3 = #{userAddress3},
 			phone_number	=	#{phoneNumber} ,
 			store_introduction				=	#{storeIntroduction}
+			
 	   	</set>
 	   	WHERE  id = #{id}
 	 </update>

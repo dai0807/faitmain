@@ -25,7 +25,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
 
     <script src="/js/vchatcloud-1.2.0.min.js"></script>
-    <script src="/js/login.js"></script>
+    <script src="/js/watchlogin.js"></script>
     <script src="/js/like.js"></script>
     <script src="/js/draw.js"></script>
 
@@ -93,14 +93,24 @@
 
 <body>
 
+<script th:inline="javascript">
+    
+    /*<![CDATA[*/
+    function nav() {
+   location.href="/";
+}
+
+    
+    /*]]>*/
+    
+</script>
+
    <div id="wrap">
         <section>
             <!-- 샘플 화면 -->
             <div class="livecommerce">
-                
-                    <div class="my_cam" style="height : 675px"></div>
-                    
-                    <div class="remote_cam"></div>
+               
+                    <div class="remote_cam" style="height : 675px"></div>
                
                 <!-- 로그인 -->
                 <div class="dim">

@@ -57,7 +57,7 @@ public class CartRestController {
 			for(Product prod : cart.getProduct()) {
 				if(prod.getProductNumber()!=0) {
 					cart.setCartProduct(prod);
-					cart.setCartQuantity(prod.getProductQuantity());
+					cart.setProductOrderCount(prod.getProductQuantity());
 					Cart prevCart = cartService.getCart(cart);
 					if(prevCart == null) {
 						cartService.addCart(cart);
@@ -81,7 +81,7 @@ public class CartRestController {
 		
 		int quantity = productService.getProductQuantity(cart.getCartProduct().getProductNumber());
 		
-		if(cart.getCartQuantity() <= quantity) {
+		if(cart.getProductOrderCount() <= quantity) {
 			cartService.updateCart(cart);
 			result = true;
 		}
