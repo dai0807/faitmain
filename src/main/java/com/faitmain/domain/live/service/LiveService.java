@@ -1,5 +1,6 @@
 package com.faitmain.domain.live.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.faitmain.domain.live.domain.Live;
@@ -34,7 +35,7 @@ public interface LiveService {
 	
 	public LiveProduct getLiveProduct(int liveProductNumber) throws Exception;
 	
-	public Map<String, Object> getLiveProductList(LiveProduct liveProduct) throws Exception;
+	public List<LiveProduct> getLiveProductList(int liveReservationNumber) throws Exception;
 	
 	public int deleteLiveProduct(int liveNumber) throws Exception;
 	
@@ -44,7 +45,9 @@ public interface LiveService {
 	
 	public int deleteLiveReservation(int liveReservationNumber) throws Exception;
 	
-	public Map<String, Object> getLiveReservationList(String reservationDate) throws Exception;
+	public List<LiveReservation> getLiveReservationCal() throws Exception;
+	
+	public List<LiveReservation> getLiveReservationList(String date) throws Exception;
 	
 	//liveUserStatus
 	public int addLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception;

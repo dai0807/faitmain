@@ -53,10 +53,7 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 	
 
-	@Transactional
-	public void addCustomerBoard(Customer customer) {
-		 customerMapper.addCustomerBoard(customer);
-	}
+
 //	@Override
 //	public int addCustomerBoard(Customer customer) throws Exception {
 //		customerMapper.addCustomerBoard(customer);
@@ -101,14 +98,6 @@ public class CustomerServiceImpl implements CustomerService{
 
 	
 	
-	public int getViewCount(int boardNumber) {
-		return customerMapper.getViewCount(boardNumber);
-	}
-	
-	public void updateViewCount(int boardNumber, int temp) {
-		customerMapper.updateViewCount(boardNumber, temp);
-	}
-
 
 	
 	

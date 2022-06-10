@@ -17,12 +17,16 @@ configurations {
 repositories {
 	mavenCentral()
 	maven { url 'https://jitpack.io' }
+
+
 }
 
 dependencies {
 
+
 	implementation 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok'
+	compileOnly 'org.projectlombok:lombok'
 	
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
 	testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
@@ -31,29 +35,33 @@ dependencies {
 //	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'org.mockito:mockito-all:1.10.19'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.2.2'
-	
-   
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+	implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
+	implementation 'commons-io:commons-io:2.11.0'
+
+//	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
 //	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	implementation 'com.google.code.gson:gson:2.9.0'
 	implementation 'log4j:log4j:1.2.17'
 	implementation 'javax.servlet:jstl:1.2'
-	implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
+
+
 	implementation 'com.github.iamport:iamport-rest-client-java:0.2.21'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-	implementation 'javax.servlet:jstl:1.2'
+//	implementation 'javax.servlet:jstl:1.2'
 
 	implementation group: 'net.nurigo', name: 'javaSDK', version: '2.2' // smsAPI 
 	
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	compileOnly 'org.projectlombok:lombok'
 
 	runtimeOnly 'mysql:mysql-connector-java'
 

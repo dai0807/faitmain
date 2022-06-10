@@ -1,46 +1,141 @@
 package com.faitmain.domain.order.controller;
 
+import com.faitmain.domain.order.domain.Order;
+import com.faitmain.domain.order.domain.OrderCancle;
+import com.faitmain.domain.order.domain.OrderPage;
 import com.faitmain.domain.order.service.OrderService;
+import com.faitmain.domain.product.service.ProductService;
+import com.faitmain.domain.user.domain.User;
+import com.faitmain.domain.user.service.UserSerivce;
+import com.faitmain.global.common.Criterion;
+import com.faitmain.global.common.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Slf4j
 @Controller
-@RequestMapping( "/order" )
 public class OrderController{
 
-    private final OrderService orderService;
 
     @Autowired
-    public OrderController( OrderService orderService ){
-        this.orderService = orderService;
+    private OrderService orderService;
+
+    @Autowired
+    private UserSerivce userSerivce;
+
+
+    @GetMapping( "/order/{buyerId}" )
+    public String orderPageGET( @PathVariable String buyerId , OrderPage orderPage , Model model ){
+
+        log.info( "buyerId = {} " , buyerId );
+        log.info( "orderBundle = {} " , orderPage.getOrderBundle() );
+
+        model.addAttribute( "orderList" , orderService.getProductInfo( orderPage.getOrderBundle() ) );
+        model.addAttribute( "buyerInfo" , orderService.getBuyerInfo( buyerId ) );
+
+        return "view/order/order";
     }
 
-    @GetMapping( "/getOrder" )
-    public String getOrder(){
+    @PostMapping( "/order" )
+    private String orderPagePOST( Order order , HttpServletRequest request ) throws Exception{
 
-        log.info( "CONTROLLER = {}" , this.getClass() );
-        return "view/order/getOrder";
+        log.info( "order ={}" , order );
+
+        orderService.order( order );
+
+        User user = new User();
+        user.setId( order.getBuyerId() );
+
+        HttpSession session = request.getSession();
+
+        try {
+            User userLogin = userSerivce.getUser( user.getId() );
+            userLogin.setPassword( "" );
+            session.setAttribute( "user" , userLogin );
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
+        return "redirect:/index";
     }
 
+    /* ************************* ADMIN *************************** */
 
-    @GetMapping( "/payment" )
-    public String papay(){
-        return "view/order/payment";
-    }
-
-    @GetMapping( "/createOrder" )
-    public String payment(){
-
-        log.info( " CONTROLLER = {} " , this.getClass() );
-        return "view/order/createOrder";
-    }
-
+    /* 주문현황 페이지*/
     @GetMapping( "/orderList" )
-    public String testORder(){
-        return "view/order/getOrderList";
+    public String orderListGET( Criterion criterion , Model model ) throws Exception{
+
+        List<Order> orderList = orderService.getOrderList( criterion );
+
+        if ( !orderList.isEmpty() ) {
+            model.addAttribute( "orderList" , orderList );
+            model.addAttribute( "pagemMaker" , new Page( criterion , orderService.getOrderTotal( criterion ) ) );
+        } else {
+            model.addAttribute( "listCheck" , "empty" );
+        }
+
+        return "/admin/orderList";
+    }
+
+    /* 주문삭제 */
+    @PostMapping( "/orderCancle" )
+    public String orderCanclePOST( OrderCancle orderCancle ) throws Exception{
+
+        orderService.orderCancle( orderCancle );
+
+        return "redirect:/admin/orderList?keyword=" + orderCancle.getKeyword() +
+                "&PageAmount=" + orderCancle.getPageAmount() +
+                "&pageNumber" + orderCancle.getPageNumber();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

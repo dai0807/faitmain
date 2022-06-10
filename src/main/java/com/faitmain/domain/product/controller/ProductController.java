@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -48,16 +47,18 @@ public class ProductController {
 	}
 	
 	@PostMapping("addProduct")
-	public RedirectView addProduct(@ModelAttribute Product product, MultipartHttpServletRequest mRequest) throws Exception{
+	public String addProduct(@ModelAttribute Product product, MultipartHttpServletRequest mRequest) throws Exception{
 		
-		log.info("/product/addProduct : POST");
+		log.info("/product/addProduct = {}", "POST");
 		
 		User user = new User();
 		user.setId("store01@naver.com");
 		product.setStore(user);
 		productService.addProduct(product, mRequest);
+		
+		log.info("productNumber 확인 = {} ", product.getProductGroupNumber());
 				
-		return new RedirectView("/");
+		return "redirect:/product/getProduct?productNumber=" + product.getProductGroupNumber();
 		
 	}
 	
@@ -68,7 +69,7 @@ public class ProductController {
 		
 		Product product = productService.getProduct(productNumber);
 		
-		log.info("product : " + product);
+		log.info("product = {}", product);
 		
 		model.addAttribute("product", product);
 		
@@ -83,7 +84,7 @@ public class ProductController {
 								 @RequestParam(value = "afterDate", required = false) String afterDate, Model model) throws Exception{
 		
 		log.info("/product/getProductList");
-		
+		/*
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
@@ -112,20 +113,20 @@ public class ProductController {
 		model.addAttribute("searchCategory", searchCategory);
 		model.addAttribute("beforeDate", beforeDate);
 		model.addAttribute("afterDate", afterDate);		
-		
-		return "forward:/product/listProduct.jsp";
+		*/
+		return "/view/product/listProduct";
 	}
 	
 	@GetMapping("updateProduct")
 	public String updateProduct(@RequestParam("productNumber") int productNumber, Model model) throws Exception{
 		
-		log.info("/product/updateProduct : GET");
+		log.info("/product/updateProduct = {}", "GET");
 		
 		Product product = productService.getProduct(productNumber);
 		
 		model.addAttribute("product", product);
 		
-		return "forward:/product/updateProduct.jsp";
+		return "/view/product/updateProduct";
 	}
 	
 	@PostMapping("updateProduct")

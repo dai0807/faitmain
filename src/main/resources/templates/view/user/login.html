@@ -9,6 +9,10 @@
     <title>faitmain login</title>
 
 <!-- 카카오  API -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+    <link href="/css/login.css" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/10b89606ac.js" crossorigin="anonymous"></script>
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
  
@@ -31,8 +35,45 @@
 						$("#password").focus();
 						return;
 					}
+				
+ 				
+				$.ajax({
+					url:"/user/json/login", //주소
+					type:"POST", //전송타입
+					data: $("#form").serialize(), //봬는 데이터
+					dataType:"JSON", // 응답 받을 데이터
+					success:function(data){
+						console.log("로그인 결과는 "+data) ;
+						if(data =="1"){
+							 location.href="/"
+							 
+						}else if( data == "0"){
+								alert("아이디 비밀번호를 확인해 주세요 ");
+							
+						}else if (data =="withdraw"){
+							 alert("로그인 할 수 없는 회원입니다. ");
+
+						}
+						
+					},
+					//요청 실패시 나오는 
+					   error : function (jqXHR, textStatus, errorThrown){
+	                   console.log(jqXHR);  //응답 메시지
+	                   console.log(textStatus); //"error"로 고정인듯함
+	                   console.log(errorThrown);
+	                  }
 					
-					$("form").attr("method","POST").attr("action","/user/login").submit();
+					
+				});
+				
+					
+				//	$("form").attr("method","POST").attr("action","/user/login").submit();
+				
+				
+				
+				
+				
+				
 				});
 				
 				
@@ -49,13 +90,13 @@
 			}
 			
     		function findId(){
-				alert("아이디 찾기 ㄱㄱㄱ");
+				alert("아직구현중");
 					self.location="/user/findId";
 	
 			}			
 			
     		function findPassword(){
-				alert("비밀번호 찾기 기 ㄱㄱㄱ");
+				alert("아직구현중");
 					self.location="/user/findPassword";
 	
 			}				
@@ -65,6 +106,25 @@
                display: grid;
   place-items: center;
         }
+        
+        
+        
+        
+        
+        
+        
+        
+
+/* BASIC */
+ /*
+html {
+  background-color: #56baed;
+}
+ #cccccc;
+ */
+  
+        
+        
     </style>
     <!-- 길이는 스타일 건들이 -->
 </head>
@@ -75,57 +135,62 @@
  
  
  <section class="py-5" id="features" >
-         <div class="text-center">
+     
+                
+   <div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+    <h2 class="active"> Sign In </h2>
+   <!-- <h2 class="inactive underlineHover">Sign Up </h2> -->
 
-		                <div class="container px-5 my-5">
-		                      <div class="col-lg-4 mb-5 mb-lg-0"><h2 class="fw-bolder mb-0">로그인</h2></div>
-							</br>
-							<form>
-		                    <div class="row gx-5">
-		
-		                        <div class="col-lg-8">
-		                            <div class="row gx-5 row-cols-1 row-cols-md-1">
-		                                <div class="col mb-5 h-100">
-		                                   <div>
+    <!-- Icon -->
+    <div class="fadeIn first">
+     </div>
+
+    <!-- Login Form -->
+    <form id="form" onsubmit="return false">
+    
+        <div>
 						
-											<input type ="text" 	class="form-control" 	id ="id" 		name = "id"		placeholder="id를 입력하세요"> <br>
-											<input type ="password" class="form-control"	  id ="password"	name="password"	placeholder="password를 입력하세요">
-										</div>
-								
-		                                </div>
-		                                <div class="col mb-5 h-100">
-		                                    <div class="d-grid"><button class="btn btn-primary btn-lg" id="loginButton" type="submit">로그인</button></div>
-		                                    <div class="d-grid">
-		                                    <a class="p-2" th:href="@{https://kauth.kakao.com/oauth/authorize?client_id=f0b36852932e865ae00c9ff2fcd19874&redirect_uri=http://localhost:8080/user/kakaoLogin&response_type=code}">
+	 	 
+    
+      <input type="text" id="id" class="fadeIn second" name="id" placeholder="login">
+      <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
+      <input type="submit" id="loginButton" class="fadeIn fourth " value="Log In"  style="margin-bottom: 5px";>
+      
+      <a class="p-2" th:href="@{https://kauth.kakao.com/oauth/authorize?client_id=f0b36852932e865ae00c9ff2fcd19874&redirect_uri=http://localhost:8080/user/kakaoLogin&response_type=code}">
 				
-				 								<img src="/img/kakao_login_medium_narrow.png" style="height:60px">
+	 <img src="/img/kakao_login_medium_narrow.png" style="height:50px">
 												<!--  	 <img src="/img/kakao_login_medium_narrow.png" style="height:60px"> -->
-											</a>
+	 </a>
 		                                    
-		                                    </div>
-		
-		                                </div>	
 		                                     
-		                                </div>
-		                           <hr/>
-		                                <div class="col h-100">
-		                                
-		                                    <span class="bi bi-check text-primary" onclick="addUser()">회원가입</span>&nbsp;
-		                                    <span class="bi bi-check text-primary" onclick="findId()">아이디 찾기</span>&nbsp;
-											<span class="bi bi-check text-primary" onclick="findPassword()">비밀번호 찾기 </span>&nbsp;
 		
-		                                  
-		                                </div>
-		                            </div>
-		                        </div>
-		                        
-		                        
-		                        </form>
-		                    </div>
-		                </div>
-                </div>
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+         <a class="underlineHover bi-check" onclick="addUser()">sign up</a> &nbsp;
+      <a class="underlineHover" onclick="findId()">Forgot Password?</a> &nbsp;
+      <a class="underlineHover" onclick="findId()">Forgot id?</a>
+
+                
+
+    </div>
+
+  </div>
+</div>             
+                
+                
+                
+                
+                
             </section>
 </div>
+
+
+  
+
  </article>
 
  </body>
