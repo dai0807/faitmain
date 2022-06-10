@@ -22,7 +22,8 @@ public interface ProductMapper {
 	public int getProductNumber() throws Exception;
 	
 	//SELECT - 상품 상세 조회
-	public Product getProduct(int productNumber) throws Exception;
+	public Product
+	getProduct(int productNumber) throws Exception;
 	
 	//SELECT - 상품 추가 이미지 조회
 	public List<Image> getImage(int productNumber) throws Exception;

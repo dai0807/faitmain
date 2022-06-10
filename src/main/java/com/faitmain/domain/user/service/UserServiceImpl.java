@@ -29,11 +29,6 @@ public class UserServiceImpl implements UserSerivce{
         log.info( "Service = {} " , this.getClass() );
     }
 
-    @Override
-    public User getBuyerInfo( String id ){
-        return userMapper.getBuyerInfo( id );
-    }
-
 
 
 

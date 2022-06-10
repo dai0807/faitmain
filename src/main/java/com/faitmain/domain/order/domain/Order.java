@@ -18,20 +18,11 @@ public class Order{
     /* 주문번호 */
     private int orderNumber;
 
-    /* 상품번호 */
-    private int productNumber;
-
     /* 구매자 PK */
     private String buyerId;
 
-    /* 판매자 PK */
-    private String storeId;
-
     /* 주문상태 */
     private String orderStatus;
-
-    /* 주문상품 */
-    private List<OrderOne> orderBundle;
 
     /* 배송비 */
     private int deliveryCharge;
@@ -61,7 +52,10 @@ public class Order{
     /* DB에 존재하지 않는 데이터 */
     /* ===================== */
 
-    /* 판매가 ( 모든 상품 ) */
+    /* 주문상품 */
+    private List<OrderProduct> orderBundle;
+
+    /* 판매가 (모든 상품) */
     private int orderSalePrice;
 
     /* 적립 포인트 */
@@ -74,25 +68,19 @@ public class Order{
     public void getOrderPriceInfo(){
 
         /* 상품 비용 & 적립포인트 */
-        for ( OrderOne order : orderBundle ) {
-            orderSalePrice += order.getTotalPrice();
-            orderRewardPoint += order.getTotalRewardPoint();
+        for ( OrderProduct op : orderBundle ) {
+            orderSalePrice += op.getTotalPrice();
+            orderRewardPoint += op.getTotalRewardPoint();
         }
-
         /* 배송비용 */
         if ( orderSalePrice >= 30000 ) {
             deliveryCharge = 0;
         } else {
             deliveryCharge = 3000;
         }
-
         /* 최종비용 */
         orderFinalSalePrice = orderSalePrice + deliveryCharge - usingPoint;
     }
-
-
-
-
 
 
 

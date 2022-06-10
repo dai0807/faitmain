@@ -11,10 +11,6 @@ import java.util.Map;
 public interface UserSerivce{
 
 
-    /* 주문자 주소 정보 */
-    User getBuyerInfo( String id );
-
-    /* ***************************************************************** */
 
     //  insert 유저
 	int addUser( User user ) throws Exception;

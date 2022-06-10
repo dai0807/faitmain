@@ -8,9 +8,7 @@
 
 
 
-	<select id="getBuyerInfo" resultType="User">
-		SELECT user_number, name, address, total_point FROM user WHERE user_number=#{userNumber}
-	</select>
+
 
 
 
