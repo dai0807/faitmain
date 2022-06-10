@@ -1,7 +1,7 @@
  
-body {
+body ,article {
   font-family: "Poppins", sans-serif;
-  height: 100vh;
+  height: 80vh;
     background-color: #92badd;
 
 }

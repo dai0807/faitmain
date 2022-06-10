@@ -87,6 +87,8 @@ public class UserController{
 		   
 	   }
 	   
+//로그인 ajax로 바꾸면서 RestController 탐	   
+/*	   
 	   @PostMapping( "login" )
 	   public RedirectView longin( RedirectAttributes model , @ModelAttribute("user") User loginuser,  HttpSession session) throws Exception {
 	      
@@ -123,7 +125,7 @@ public class UserController{
 	      return new RedirectView("/");
 	   }
 	      
-	   
+*/	   
 	   
 	   
 	   @GetMapping("logout")
