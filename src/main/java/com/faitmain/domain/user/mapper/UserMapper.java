@@ -17,16 +17,6 @@ import com.faitmain.global.common.Search;
 
 public interface UserMapper {
 
-
-
-
-
-	/* 주문자 주소 정보 */
-	User getBuyerInfo( String id );
-
-
-	/* ******************************************************** */
-
 	//유저 insert 
 	 int addUser(User user) ;	 
 	 //insert 신청서 
@@ -63,7 +53,7 @@ public interface UserMapper {
 	 List<User> getUserList(Map<String, Object> map ) ;	
 	 
 	 //SELECT 스토어 신청서 total Count
-	 int getStoreApplicationDocumenTotalCount(Map<String,Object> map) ;	 
+	 int getStoreApplicationDocumenTotalCount(Map<String,Object> map) ;
 	
 	 //SELECT 스토어 리스트 조회
 	 List<StoreApplicationDocument> getStoreApplicationDocumentList(Map<String, Object> map ) ;	
@@ -77,7 +67,7 @@ public interface UserMapper {
 	 //유저 UPDATE - 유저 상태 update
 	 int updateUser(User user);	 
 	 //  UPDATE - 스토어로 업데이트 
-	 int updatUserStore(Map<String,Object> map );	
+	 int updateUserStore(Map<String,Object> map );
 	 // UPDATE Password 재설정
 	 int updateUserPassword(User user) ;	 
 	// UPDATE 스토어문서 상태 examination_status
