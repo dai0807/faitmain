@@ -3,90 +3,103 @@ package com.faitmain.global.common;
 
 import lombok.Data;
 
-//==> PageNavigation 을 위한 Bean
 @Data
-public class Page {
+public class Page{
 
-    ///Field
-    private int currentPage;		// 현재페이지
-    private int totalCount;			// 총 게시물 수
-    private int pageUnit;			// 하단 페이지 번호 화면에 보여지는 수
-    private int pageSize;			// 한 페이지당 보여지는 게시물수
-    private int maxPage;			// 최대 페이지 번호(전체 페이지)
-    private int beginUnitPage;	//화면에 보여지는 페이지 번호의 최소수
-    private int endUnitPage;		//화면에 보여지는 페이지 번호의 최대수
+    /* 페이지 시작 번호 */
+    private int pageStart;
 
-    ///Constructor
-    public Page() {
-    }
-    public Page( int currentPage, int totalCount,	int pageUnit, int pageSize ) {
-        this.totalCount = totalCount;
-        this.pageUnit = pageUnit;
-        this.pageSize = pageSize;
+    /* 페이지 끝 번호 */
+    private int pageEnd;
 
-        this.maxPage = (pageSize == 0) ? totalCount :  (totalCount-1)/pageSize +1;
-        this.currentPage = Math.min( currentPage , maxPage );
+    /* 이전, 다음 버튼 존재 유무 */
+    private boolean next, prev;
 
-        this.beginUnitPage = ( (currentPage-1) / pageUnit ) * pageUnit +1 ;
+    /* 행 전체 개수 */
+    private int total;
 
-        if( maxPage <= pageUnit ){
-            this.endUnitPage = maxPage;
-        }else{
-            this.endUnitPage = beginUnitPage + (pageUnit -1);
-            if( maxPage <= endUnitPage){
-                this.endUnitPage = maxPage;
-            }
+    /* 현재페이지 번호(pageNumber), 행 표시 수(pageAmount), 검색 키워드(keyword), 검색 종류(type) */
+    private Criterion criterion;
+
+
+
+    /* 생성자(클래스 호출 시 각 변수 값 초기화) */
+    public Page( Criterion criterion , int total ){
+
+        /* cri, total 초기화 */
+        this.criterion = criterion;
+        this.total = total;
+
+        /* 페이지 끝 번호 */
+        this.pageEnd = ( int ) ( Math.ceil( criterion.getPageNumber() / 10.0 ) ) * 10;
+
+        /* 페이지 시작 번호 */
+        this.pageStart = this.pageEnd - 9;
+
+        /* 전체 마지막 페이지 번호 */
+        int realEnd = ( int ) ( Math.ceil( total * 1.0 / criterion.getPageAmount() ) );
+
+        /* 페이지 끝 번호 유효성 체크 */
+        if ( realEnd < pageEnd ) {
+            this.pageEnd = realEnd;
         }
+
+        /* 이전 버튼 값 초기화 */
+        this.prev = this.pageStart > 1;
+
+        /* 다음 버튼 값 초기화 */
+        this.next = this.pageEnd < realEnd;
+
     }
 
-    ///Mehtod
-    public int getCurrentPage() {
-        return currentPage;
+    public int getPageStart(){
+        return pageStart;
     }
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
+
+    public void setPageStart( int pageStart ){
+        this.pageStart = pageStart;
     }
-    public int getTotalCount() {
-        return totalCount;
+
+    public int getPageEnd(){
+        return pageEnd;
     }
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
+
+    public void setPageEnd( int pageEnd ){
+        this.pageEnd = pageEnd;
     }
-    public int getPageUnit() {
-        return pageUnit;
+
+    public boolean isNext(){
+        return next;
     }
-    public void setPageUnit(int pageUnit) {
-        this.pageUnit = pageUnit;
+
+    public void setNext( boolean next ){
+        this.next = next;
     }
-    public int getPageSize() {
-        return pageSize;
+
+    public boolean isPrev(){
+        return prev;
     }
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
+
+    public void setPrev( boolean prev ){
+        this.prev = prev;
     }
-    public int getMaxPage() {
-        return maxPage;
+
+    public int getTotal(){
+        return total;
     }
-    public void setMaxPage(int maxPage) {
-        this.maxPage = maxPage;
+
+    public void setTotal( int total ){
+        this.total = total;
     }
-    public int getBeginUnitPage() {
-        return beginUnitPage;
+
+    public Criterion getCri(){
+        return criterion;
     }
-    public void setBeginUnitPage(int beginUnitPage) {
-        this.beginUnitPage = beginUnitPage;
+
+    public void setCri( Criterion criterion ){
+        this.criterion = criterion;
     }
-    public int getEndUnitPage() {
-        return endUnitPage;
-    }
-    public void setEndUnitPage(int endUnitPage) {
-        this.endUnitPage = endUnitPage;
-    }
-    @Override
-    public String toString() {
-        return "Page [currentPage=" + currentPage + ", totalCount="
-                + totalCount + ", pageUnit=" + pageUnit + ", pageSize="
-                + pageSize + ", maxPage=" + maxPage + ", beginUnitPage="
-                + beginUnitPage + ", endUnitPage=" + endUnitPage + "]";
-    }
+
+
+
 }

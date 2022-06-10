@@ -17,16 +17,6 @@ import com.faitmain.global.common.Search;
 
 public interface UserMapper {
 
-
-
-
-
-	/* 주문자 주소 정보 */
-	User getBuyerInfo( String id );
-
-
-	/* ******************************************************** */
-
 	//유저 insert 
 	 int addUser(User user) ;	 
 	 //insert 신청서 

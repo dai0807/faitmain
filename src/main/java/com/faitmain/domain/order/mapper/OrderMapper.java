@@ -5,6 +5,7 @@ import com.faitmain.domain.order.domain.OrderOne;
 import com.faitmain.domain.order.domain.OrderPageOne;
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.global.common.Criterion;
 import com.faitmain.global.common.Search;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,6 +16,8 @@ import java.util.Optional;
 public interface OrderMapper{
 
 
+    /* 주문자 주소 정보 */
+    User getBuyerInfo( String id );
 
     /* 주문 상품 정보 (주문 페이지) */
     OrderPageOne getProductInfo( int productNumber );
@@ -33,6 +36,12 @@ public interface OrderMapper{
 
     /* 주문 재고 차감 */
     int deductStock( Product product );
+
+    /* 주문 상품 리스트 */
+    List<Order> getOrderList( Criterion criterion );
+
+    /* 주문 총 개수 */
+    int getOrderTotal( Criterion criterion );
 
 
     /**************************************************************************/

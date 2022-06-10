@@ -6,6 +6,9 @@ import com.faitmain.domain.order.service.OrderService;
 import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserSerivce;
+import com.faitmain.global.common.Criterion;
+import com.faitmain.global.common.Page;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -31,6 +35,7 @@ public class OrderController{
     @Autowired
     private UserSerivce userSerivce;
 
+
     @GetMapping( "/order/{id}" )
     public String orderPageGET( @PathVariable String id , OrderPage orderPage , Model model ){
 
@@ -38,7 +43,7 @@ public class OrderController{
         log.info( "orderBundle = {} " , orderPage.getOrderBundle() );
 
         model.addAttribute( "orderList" , orderService.getProductInfo( orderPage.getOrderBundle() ) );
-        model.addAttribute( "buyerInfo" , userSerivce.getBuyerInfo( id ) );
+        model.addAttribute( "buyerInfo" , orderService.getBuyerInfo( id ) );
 
         return "view/order/order";
     }
@@ -65,6 +70,26 @@ public class OrderController{
         return "redirect:/index";
     }
 
+
+
+
+    /* ************************* ADMIN *************************** */
+
+    /* 주문현황 페이지*/
+    @GetMapping( "/orderList" )
+    public String orderListGET( Criterion criterion , Model model ){
+
+        List<Order> orderList = orderService.getOrderList( criterion );
+
+        if ( !orderList.isEmpty() ) {
+            model.addAttribute( "orderList" , orderList );
+            model.addAttribute( "pagemMaker" , new Page( criterion , orderService.getOrderTotal( criterion ) ) );
+        } else {
+            model.addAttribute( "listCheck" , "empty" );
+        }
+
+        return "/admin/orderList";
+    }
 }
 
 

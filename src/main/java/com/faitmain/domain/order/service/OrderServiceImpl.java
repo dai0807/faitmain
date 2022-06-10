@@ -9,9 +9,9 @@ import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.mapper.CartMapper;
 import com.faitmain.domain.product.mapper.ProductMapper;
 import com.faitmain.domain.user.domain.User;
-import com.faitmain.domain.user.mapper.UserMapper;
 import com.faitmain.domain.web.domain.AttachImage;
 import com.faitmain.domain.web.mapper.AttachMapper;
+import com.faitmain.global.common.Criterion;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
@@ -41,8 +41,6 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     AttachMapper attachMapper;
 
-    @Autowired
-    UserMapper userMapper;
 
     @Autowired
     ProductMapper productMapper;
@@ -51,11 +49,13 @@ public class OrderServiceImpl implements OrderService{
     CartMapper cartMapper;
 
 
+    /* 주문자 주소 정보 */
+    @Override
+    public User getBuyerInfo( String id ){
+        return orderMapper.getBuyerInfo( id );
+    }
 
-
-
-
-
+    /* 주문정보 */
     @Override
     public List<OrderPageOne> getProductInfo( List<OrderPageOne> orderBundle ){
 
@@ -75,13 +75,14 @@ public class OrderServiceImpl implements OrderService{
         return result;
     }
 
+    /* 주문 */
     @Override
     @Transactional
     public void order( Order order ) throws Exception{
 
         /* 사용할 데이터 가져오기 */
         /* 회원정보 */
-        User user = userMapper.getBuyerInfo( order.getBuyerId() );
+        User user = orderMapper.getBuyerInfo( order.getBuyerId() );
         /* 주문정보 */
         ArrayList<OrderOne> orderBundle = new ArrayList<>();
         for ( OrderOne orderOne : order.getOrderBundle() ) {
@@ -103,8 +104,8 @@ public class OrderServiceImpl implements OrderService{
         /* ORDERNUMBER 만들기 및 ORDER 객체 저장 */
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat( "_yyyyMMdd" );
-        int orderNumber = Integer.parseInt( user.getUserNumber() + format.format(date) );
-        order.setOrderNumber(orderNumber);
+        int orderNumber = Integer.parseInt( user.getUserNumber() + format.format( date ) );
+        order.setOrderNumber( orderNumber );
 
         /* DB 넣기 */
         orderMapper.enrollOrder( order );
@@ -133,20 +134,22 @@ public class OrderServiceImpl implements OrderService{
         for ( OrderOne orderOne : order.getOrderBundle() ) {
             Cart cart = new Cart();
             cart.setUserId( order.getBuyerId() );
-            cart.setProductNumber( order.getProductNumber());
+            cart.setProductNumber( order.getProductNumber() );
         }
     }
 
+    /* 주문 상품 리스트 */
+    public List<Order> getOrderList( Criterion criterion ){
+        return orderMapper.getOrderList( criterion );
+    }
 
+    /* 주문 총 개수 */
+    public int getOrderTotal( Criterion criterion ){
+        return orderMapper.getOrderTotal( criterion );
+    }
 
 
     /*****************************************************************************************************************/
-
-
-
-
-
-
 
 
     @Override
@@ -165,9 +168,9 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Map< String, Object > getOrderList(){
-        List< Order > orderList = orderMapper.getOrderList();
-        Map< String, Object > map = new HashMap<>();
+    public Map<String, Object> getOrderList(){
+        List<Order> orderList = orderMapper.getOrderList();
+        Map<String, Object> map = new HashMap<>();
         map.put( "list" , orderList );
         return map;
     }
@@ -225,5 +228,5 @@ public class OrderServiceImpl implements OrderService{
 
     }
 
-   
+
 }
