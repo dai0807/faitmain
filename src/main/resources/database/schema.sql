@@ -1,20 +1,22 @@
 -- init sql
-
-DROP TABLE IF EXISTS ban_period CASCADE;
-DROP TABLE IF EXISTS cart CASCADE;
-DROP TABLE IF EXISTS customer CASCADE;
-DROP TABLE IF EXISTS image CASCADE;
 DROP TABLE IF EXISTS inquiry CASCADE;
+DROP TABLE IF EXISTS cart CASCADE;
+DROP TABLE IF EXISTS review CASCADE;
+DROP TABLE IF EXISTS `order_product` CASCADE;
+DROP TABLE IF EXISTS `order` CASCADE;
+DROP TABLE IF EXISTS product CASCADE;
+DROP TABLE IF EXISTS store_application_document CASCADE;
+DROP TABLE IF EXISTS ban_period CASCADE;
+DROP TABLE IF EXISTS customer CASCADE;
+DROP TABLE IF EXISTS user CASCADE;
+DROP TABLE IF EXISTS image CASCADE;
 DROP TABLE IF EXISTS live_chat CASCADE;
 DROP TABLE IF EXISTS live_product CASCADE;
 DROP TABLE IF EXISTS live_reservation CASCADE;
 DROP TABLE IF EXISTS live_user_status CASCADE;
 DROP TABLE IF EXISTS live CASCADE;
-DROP TABLE IF EXISTS review CASCADE;
-DROP TABLE IF EXISTS `order` CASCADE;
-DROP TABLE IF EXISTS product CASCADE;
-DROP TABLE IF EXISTS store_application_document CASCADE;
-DROP TABLE IF EXISTS user CASCADE;
+
+
 
 
 
@@ -25,23 +27,21 @@ CREATE TABLE `user` (
                     `id`                      VARCHAR(25)  NOT NULL ,
                     `password`                VARCHAR(15)  NOT NULL ,
                     `gender`                  CHAR(4)      NULL ,
-                    `address`                 VARCHAR(80)  NOT NULL ,
-                    `postal_code`             INT(5)       NULL ,
+                    `user_address1`            VARCHAR(100) NOT NULL,
+                    `user_address2`            VARCHAR(100) NOT NULL,
+                    `user_address3`            VARCHAR(100) NOT NULL,
                     `nickname`                VARCHAR(20)  NULL ,
-                    `phone_number`            VARCHAR(12)  NOT NULL ,
+                    `phone_number`            VARCHAR(12)  NULL ,
                     `name`                    VARCHAR(10)  NOT NULL ,
                     `reg_date`                DATE         NULL ,
                     `join_path`               VARCHAR(5)   NOT NULL DEFAULT 'HOME' ,
                     `book_number`             INT(5)       NULL ,
                     `total_point`             INT          NULL ,
-                    `store_logo_image`        VARCHAR(100)  NULL ,
+                    `store_logo_image`        VARCHAR(100) NULL ,
                     `store_introduction`      VARCHAR(200) NULL ,
-                    `bank_account_copy_image` VARCHAR(100)  NULL ,
-                    `bank_name`               VARCHAR(15)  NULL ,
-                    `bank_account_number`     VARCHAR(15)  NULL ,
                     `role`                    VARCHAR(6)   NOT NULL DEFAULT 'user' ,
                     `store_name`              VARCHAR(20)  NULL ,
-                    `withdrawal_status`       TINYINT               DEFAULT 0 ,
+                    `withdrawal_status`       TINYINT      DEFAULT 0 ,
                     PRIMARY KEY ( `user_number` ) ,
                     UNIQUE INDEX `id_UNIQUE` ( `id` ASC ) VISIBLE ,
                     UNIQUE INDEX `phone_number_UNIQUE` ( `phone_number` ASC ) VISIBLE ,
@@ -52,7 +52,7 @@ CREATE TABLE `user` (
 CREATE TABLE `product` (
                        `product_number`        INT(5)      NOT NULL AUTO_INCREMENT ,
                        `product_name`          VARCHAR(50) NOT NULL ,
-                       `product_price`                 INT         NOT NULL ,
+                       `product_price`         INT         NOT NULL ,
                        `store_id`              VARCHAR(25) NOT NULL ,
                        `product_main_image`    VARCHAR(100) NOT NULL ,
                        `product_detail`        LONGTEXT    NULL ,
@@ -76,7 +76,7 @@ CREATE TABLE `order` (
                    `receiver_address1` varchar(100) NOT NULL ,
                    `receiver_address2` varchar(100) NOT NULL ,
                    `receiver_address3` varchar(100) NOT NULL ,
-                   `order_state`       varchar(30)  NOT NULL ,
+                   `order_status`       varchar(30)  NOT NULL ,
                    `delivery_charge`   int          NOT NULL ,
                    `using_point`       int          NOT NULL ,
                    `order_date`        timestamp    NULL DEFAULT NOW( ) ,
@@ -92,7 +92,7 @@ CREATE TABLE order_product (
                            `product_quantity`     int         NOT NULL ,
                            `product_price`        int         NOT NULL ,
                            `reward_point`         int         NOT NULL ,
-                           PRIMARY KEY ( order_product_number ),
+                           PRIMARY KEY (order_product_number),
                            FOREIGN KEY (order_number) REFERENCES `order` (order_number),
                            FOREIGN KEY (product_number) REFERENCES product (product_number)
                            );
@@ -105,7 +105,7 @@ CREATE TABLE `store_application_document` (
                                           `store_application_document_number` INT(5)        NOT NULL AUTO_INCREMENT ,
                                           `id`                                VARCHAR(25)   NOT NULL ,
                                           `examination_status`                VARCHAR(4)    NOT NULL ,
-                                          `product_detail`                    VARCHAR(1000) NOT NULL ,
+                                          `product_detail`                    LONGTEXT      NOT NULL ,
                                           `reg_date`                          DATE          NOT NULL ,
                                           PRIMARY KEY ( `store_application_document_number` ) ,
                                           FOREIGN KEY ( id ) REFERENCES user ( id )
@@ -125,7 +125,7 @@ CREATE TABLE `review` (
                       );
 
 CREATE TABLE `cart` (
-                    `cart_number`        INT(5)      NOT NULL AUTO_INCREMENT ,
+                    `cart_number`        INT         NOT NULL AUTO_INCREMENT ,
                     `user_id`            VARCHAR(25) NOT NULL ,
                     `cart_quantity`      INT         NOT NULL ,
                     `product_number`     INT(5)      NOT NULL ,
@@ -192,14 +192,14 @@ CREATE TABLE `inquiry` (
 
 CREATE TABLE `live` (
                     `live_number`     int         NOT NULL AUTO_INCREMENT ,
-	        'room_id'	     varchar(40) NOT NULL ,
+	                `room_id`	      varchar(40) NULL ,
                     `store_id`        varchar(25) NOT NULL ,
                     `live_title`      varchar(20) NOT NULL ,
                     `live_intro`      varchar(30) DEFAULT NULL ,
                     `live_image`      varchar(30) DEFAULT 'noimage.jpg' ,
                     `live_status`     tinyint     DEFAULT '0' ,
                     `chatting_status` tinyint     DEFAULT '0' ,
-                    PRIMARY KEY ( `live_number`, 'room_id' )
+                    PRIMARY KEY ( `live_number` )
                     );
 
 CREATE TABLE `live_user_status` (
@@ -213,9 +213,9 @@ CREATE TABLE `live_user_status` (
 CREATE TABLE live_reservation (
                               `live_reservation_number` integer(5)  NOT NULL AUTO_INCREMENT ,
                               `store_id`                varchar(25) NULL ,
-                              `reservation_date`        varchar(25)        NULL ,
-                              'title'					varchar(25) NULL,
-                              'reservation_time'		varchar(25) NULL,
+                              `reservation_date`        varchar(25) NULL ,
+                              `title`					varchar(25) NULL,
+                              `reservation_time`		varchar(25) NULL,
 
                               PRIMARY KEY ( live_reservation_number )
                               );
@@ -226,8 +226,8 @@ CREATE TABLE live_product (
                                `live_reservation_number` INTEGER(5)  NOT NULL ,
                                `product_number`          INTEGER(5)  NOT NULL ,
                                `product_main_image`      VARCHAR(30) NOT NULL ,
-                               'product_name'			 VARCHAR(25) NOT NULL ,
-                               'product_detail'			 VARCHAR(30) NULL,
+                               `product_name`			 VARCHAR(25) NOT NULL ,
+                               `product_detail`			 VARCHAR(30) NULL,
                                PRIMARY KEY ( live_product_number )
                                );
 
@@ -250,7 +250,7 @@ ALTER TABLE live_reservation AUTO_INCREMENT = 10000;
 ALTER TABLE live_product AUTO_INCREMENT = 10000;
 ALTER TABLE `order` AUTO_INCREMENT = 10000;
 
----ALERT customer
+# ALERT customer
 
 ALTER TABLE customer MODIFY COLUMN customer_FAQ_category_code INT NULL;
 ALTER TABLE customer MODIFY reg_date TIMESTAMP;
@@ -258,7 +258,7 @@ ALTER TABLE customer MODIFY update_date TIMESTAMP;
 ALTER TABLE customer ADD view_cnt INT DEFAULT 0;
 ALTER TABLE customer ADD delete_yn ENUM('Y', 'N') NOT NULL DEFAULT 'N' ;
 
----ALERT ban_period
+# ALERT ban_period
 
 ALTER TABLE ban_period MODIFY COLUMN respondent_nickname VARCHAR(20) NULL;
 ALTER TABLE ban_period MODIFY COLUMN respondent_store_name VARCHAR(20) NULL;

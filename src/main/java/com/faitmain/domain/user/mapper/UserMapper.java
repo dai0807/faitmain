@@ -53,7 +53,7 @@ public interface UserMapper {
 	 List<User> getUserList(Map<String, Object> map ) ;	
 	 
 	 //SELECT 스토어 신청서 total Count
-	 int getStoreApplicationDocumenTotalCount(Map<String,Object> map) ;	 
+	 int getStoreApplicationDocumenTotalCount(Map<String,Object> map) ;
 	
 	 //SELECT 스토어 리스트 조회
 	 List<StoreApplicationDocument> getStoreApplicationDocumentList(Map<String, Object> map ) ;	
@@ -67,7 +67,7 @@ public interface UserMapper {
 	 //유저 UPDATE - 유저 상태 update
 	 int updateUser(User user);	 
 	 //  UPDATE - 스토어로 업데이트 
-	 int updatUserStore(Map<String,Object> map );	
+	 int updateUserStore(Map<String,Object> map );
 	 // UPDATE Password 재설정
 	 int updateUserPassword(User user) ;	 
 	// UPDATE 스토어문서 상태 examination_status

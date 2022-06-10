@@ -56,8 +56,6 @@ public class UserMapperTest {
  		log.info("getUser :: 후 출력  {} " ,user);
  		
 		assertThat(user.getName()).isEqualTo("이순신");
-		assertThat(user.getAddress()).isEqualTo("서울시강남구");
-		assertThat(user.getPostalCode()).isEqualTo(1234);
 		assertThat(user.getPhoneNumber()).isEqualTo("01022222222");
 		assertThat(user.getJoinPath()).isEqualTo("HOME");
 
@@ -77,16 +75,12 @@ public class UserMapperTest {
 		user=usermapper.getUser(user.getId()) ;
 		System.out.println(user);
 
-		user.setAddress("업데이트 어드민주소");
-		user.setPostalCode(54321);
 		user.setPhoneNumber("01099999999");
 		user.setStoreIntroduction("스토어 업데이트!!! ");
 		int result = usermapper.updateUser(user);
 		System.out.println("result:: "+ result +" getUser  "+user);
  
 		
-		assertThat(user.getAddress()).isEqualTo("업데이트 어드민주소");
-		assertThat(user.getPostalCode()).isEqualTo(54321);
 		assertThat(user.getStoreIntroduction()).isEqualTo("스토어 업데이트!!! ");
  		log.info("getUserUpdateTest end");
 
@@ -109,7 +103,7 @@ public class UserMapperTest {
 			map.put("role", "store") ;
 			map.put("id", user.getId()) ;
  			log.info("map 값은 :  {}" ,map);
- 			int   result = usermapper.updatUserStore(map);
+ 			int   result = usermapper.updateUserStore(map);
 				log.info("##신청서 승인된 User , Role 권한 상승  결과  {} ##" , result);
 			
 			
@@ -148,17 +142,11 @@ public class UserMapperTest {
 					user.setId("test033@naver.com");
 					user.setPassword("test01");
 					user.setGender(null);
-					user.setAddress("구리시 ");
-					user.setPostalCode(12354);
 					user.setNickname("테스트1");
 					user.setName("양지원");
 					user.setPhoneNumber("0106511987");
 					
 					user.setJoinPath("HOME");
-					user.setStorelogoImage(null);
-					user.setBankAccountCopyImage(null);
-					user.setBankName(null);
-					user.setBankName(null);
 
 					user.setRole("user");
 					user.setStoreName(null);
