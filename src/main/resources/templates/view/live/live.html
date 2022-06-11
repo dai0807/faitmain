@@ -93,6 +93,16 @@
 
 <body>
 
+<script th:inline="javascript">
+    
+    /*<![CDATA[*/
+    function nav(){
+    self.location="/";
+    }
+    /*]]>*/
+    
+</script>
+
    <div id="wrap">
         <section>
             <!-- 샘플 화면 -->
@@ -140,7 +150,7 @@
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="button" class="btn btn-warning" th:href="${/}">나가기</button>
+                    <button type="button" class="btn btn-warning" onclick="nav()">나가기</button>
                 </article>
                 <!-- 채팅방 -->
                 <article class="chat">
