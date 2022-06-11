@@ -15,13 +15,13 @@ public interface OrderMapper{
 
 
     /* 주문자 주소 정보 */
-    User getBuyerInfo( String id );
+    User getBuyer( String id );
 
     /* 주문 상품 정보 (주문 페이지) */
-    OrderPageProduct getProductInfo( int productNumber );
+    OrderPageProduct getOrderPageProduct( int productNumber );
 
     /* 주문 상품 정보 (주문 처리) */
-    OrderProduct getOrderInfo( int productNumber );
+    OrderProduct getOrderProduct( int productNumber );
 
     /* 주문 테이블 등록 */
     int enrollOrder( Order order );
@@ -45,7 +45,7 @@ public interface OrderMapper{
     int orderCancle( int orderNumber );
 
     /* 주문 상품 정보 (주문취소) */
-    List<OrderProduct> getOrderProductInfo( int orderNumber );
+    List<OrderProduct> getOrderProductList( int orderNumber );
 
     /* 주문 정보 (주문취소) */
     Order getOrder( int orderNumber );

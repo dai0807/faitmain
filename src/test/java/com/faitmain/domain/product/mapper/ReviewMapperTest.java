@@ -2,9 +2,7 @@ package com.faitmain.domain.product.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.faitmain.domain.order.mapper.OrderMapper;
-import com.faitmain.domain.product.domain.Cart;
 import com.faitmain.domain.product.domain.Review;
 import com.faitmain.global.common.Search;
 
