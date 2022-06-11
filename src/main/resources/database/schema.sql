@@ -168,13 +168,8 @@ CREATE TABLE `customer` (
 CREATE TABLE `ban_period` (
                           `report_number`         int         NOT NULL ,
                           `respondent_id`         varchar(25) NOT NULL ,
-<<<<<<< HEAD
-                          `respondent_nickname`   varchar(20) DEFAULT NULL,
-                          `respondent_store_name` varchar(20) DEFAULT NULL,
-=======
                           `respondent_nickname`   varchar(20) NOT NULL ,
                           `respondent_store_name` varchar(20) NOT NULL ,
->>>>>>> refs/remotes/origin/master
                           `status_number`         int DEFAULT NULL ,
                           `ban_period_number`     int DEFAULT NULL ,
                           `ban_end_date`          date        NOT NULL ,

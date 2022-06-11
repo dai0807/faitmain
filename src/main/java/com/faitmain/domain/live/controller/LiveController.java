@@ -197,7 +197,8 @@ public class LiveController {
 
 	// 방송 시작
 	@PostMapping("create")
-	public String createRoom(HttpServletRequest req, @RequestParam("roomName") String liveTitle, HttpSession session)
+	public String createRoom(HttpServletRequest req, @RequestParam("roomName") String liveTitle, HttpSession session, 
+			                 Model model)
 			throws Exception {
 
 		log.info("createRoom = {} ", this.getClass());
@@ -270,14 +271,13 @@ public class LiveController {
 			}
 			conn.disconnect();
 
-			log.info("data from v.chat Server : {}", br);
-
 			result = (JSONObject) new JSONParser().parse(sb.toString());
 
 			// REST API 호출 상태 출력하기
 			StringBuilder out = new StringBuilder();
 			out.append(result.get("status") + " : " + result.get("status_message") + "\n");
-
+			log.info("status / status_message : {}", out);
+			
 			// JSON데이터에서 "data"라는 JSONObject를 가져온다.
 			JSONObject data = (JSONObject) result.get("data");
 			String roomId = (String) data.get("roomId");
@@ -331,20 +331,23 @@ public class LiveController {
 		} else {
 
 			log.info("room aready exist");
-			editRoom(req, liveTitle, session);
+			editRoom(req, liveTitle, session, token);
 
 		}
+			List<LiveProduct> list = liveService.getLiveProductListByLiveNumber(liveService.getLiveByStoreId(user.getId()).getLiveNumber());
+			model.addAttribute("listProduct", list);
+			
+			log.info("model status : " + model);
 
 		return "view/live/live";
 
 	}
 
 	// 방송 정보 수정
-	public String editRoom(HttpServletRequest req, String liveTitle, HttpSession session) throws Exception {
+	public String editRoom(HttpServletRequest req, String liveTitle, HttpSession session, String token) throws Exception {
 
 		log.info("editRoom = {} ", this.getClass());
 		System.out.println("방송 정보 수정");
-		String token = getToken(req, session);
 
 		User user = (User) session.getAttribute("user");
 
@@ -355,7 +358,7 @@ public class LiveController {
 		System.out.println(liveTitle);
 
 		for (String product : liveProducts) {
-			System.out.println(product);
+			log.info("product : {}", product);
 		}
 
 		JSONObject result = null;
@@ -522,10 +525,17 @@ public class LiveController {
 	}
 
 	@GetMapping("watchLive")
-	public String watchLive() throws Exception {
+	public String watchLive( Model model) throws Exception {
 		log.info("watchLive() : GET start...");
-
+			
+		User user = new User();
+		
 		log.info("watchLive() : GET start...");
+		
+		List<LiveProduct> list = liveService.getLiveProductListByLiveNumber(10000);
+		model.addAttribute("listProduct", list);
+		
+		log.info("model status : " + model);
 		return "view/live/watchLive";
 	}
 

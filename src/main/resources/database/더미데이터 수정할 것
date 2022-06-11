@@ -86,10 +86,10 @@ VALUES ('프랑스에서 만든 마카롱 10개 세트', 20000, 'store03@naver.c
 
 
 -- live
-INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_status, chatting_status) VALUES ('admin@naver.com', 'adsv45dfsd', 'live_title 01', 'live_intro 01', 'live_image 01', 1, 1);
-INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_status, chatting_status) VALUES ('store01@naver.com', 'xlfmkme3434', 'live_title 02', 'live_intro 02', 'live_image 02', 1, 1);
-INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_status, chatting_status) VALUES ('store02@naver.com', 'blvcda545', 'live_title 03', 'live_intro 03', 'live_image 03', 1, 1);
-INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_status, chatting_status) VALUES ('store03@naver.com', '56722dfdf', 'live_title 04', 'live_intro 04', 'live_image 04', 1, 1);
+INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_status, chatting_status) VALUES ('admin@naver.com', 'WNJOYtULLN-qPbfm8l9nO-20220610231056', 'live_title 01', 'live_intro 01', 'live_image 01', 1, 1);
+INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_status, chatting_status) VALUES ('store01@naver.com', 'PaMxkbiFMY-a9vKJcy17y-20220610185606', 'live_title 02', 'live_intro 02', 'live_image 02', 1, 1);
+INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_status, chatting_status) VALUES ('store02@naver.com', 'wXyJnGvvoV-9mDm7PXtJY-20220610165414', 'live_title 03', 'live_intro 03', 'live_image 03', 1, 1);
+INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_status, chatting_status) VALUES ('store03@naver.com', 'phiEhgSYhp-pd21rZO6SI-20220610161734', 'live_title 04', 'live_intro 04', 'live_image 04', 1, 1);
 
 INSERT INTO live_user_status (live_number, id, alarm_status, kick_status, dumb_status) VALUES (10000, 'user01@naver.com', 01, 00, 00);
 INSERT INTO live_user_status (live_number, id, alarm_status, kick_status, dumb_status) VALUES (10001, 'user02@naver.com', 00, 02, 01);
