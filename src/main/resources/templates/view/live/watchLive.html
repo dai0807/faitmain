@@ -201,6 +201,34 @@
         
       </div>
    </div>
+   
+      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+   	  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+								
+								
+					<div th:unless="${#lists.size(listProduct)==1  or #lists.size(listProduct)==0}" class="row" style="margin-bottom: 10px; background-color : #D8D8D8;">
+						<div class="col-md-9">
+							<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+								<div class="carousel-inner">
+									
+									<th:block th:each="productList : ${listProduct}" >
+										<div th:if="${productListStat.first}" class="carousel-item active">
+											<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
+											<span>
+												<th:block th:text="${productList.productName}">name</th:block>
+											</span>
+										</div>
+										<div th:unless="${productListStat.first}" class="carousel-item">
+											<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
+											<span>
+												<th:block th:text="${productList.productName}">name</th:block>
+											</span>
+										</div>
+									</th:block>
+								</div>		
+							</div>
+						</div>
 </body>
 
 </html>
