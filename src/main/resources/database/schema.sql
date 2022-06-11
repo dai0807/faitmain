@@ -123,11 +123,11 @@ CREATE TABLE `review` (
 
 CREATE TABLE `cart` (
                     `cart_number`         INT         NOT NULL AUTO_INCREMENT ,
-                    `user_id`             VARCHAR(25) NOT NULL ,
+                    `buyer_id`             VARCHAR(25) NOT NULL ,
                     `product_order_count` INT         NOT NULL ,
                     `product_number`      INT(5)      NOT NULL ,
                     PRIMARY KEY ( `cart_number` ) ,
-                    FOREIGN KEY ( user_id ) REFERENCES user ( id ) ,
+                    FOREIGN KEY ( buyer_id ) REFERENCES user ( id ) ,
                     FOREIGN KEY ( product_number ) REFERENCES product ( product_number )
                     );
 

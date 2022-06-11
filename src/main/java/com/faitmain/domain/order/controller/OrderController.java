@@ -1,10 +1,9 @@
 package com.faitmain.domain.order.controller;
 
 import com.faitmain.domain.order.domain.Order;
-import com.faitmain.domain.order.domain.OrderCancle;
+import com.faitmain.domain.order.domain.OrderCancel;
 import com.faitmain.domain.order.domain.OrderPage;
 import com.faitmain.domain.order.service.OrderService;
-import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserSerivce;
 import com.faitmain.global.common.Criterion;
@@ -37,9 +36,9 @@ public class OrderController{
     public String orderPageGET( @PathVariable String buyerId , OrderPage orderPage , Model model ){
 
         log.info( "buyerId = {} " , buyerId );
-        log.info( "orderBundle = {} " , orderPage.getOrderPageBundle() );
+        log.info( "orderPageProductList = {} " , orderPage.getOrderPageProductList() );
 
-        model.addAttribute( "orderList" , orderService.getProductInfo( orderPage.getOrderPageBundle()) );
+        model.addAttribute( "orderList" , orderService.getOrderPageProductList( orderPage.getOrderPageProductList()) );
         model.addAttribute( "buyerInfo" , orderService.getBuyerInfo( buyerId ) );
 
         return "view/order/order";
@@ -87,13 +86,13 @@ public class OrderController{
 
     /* 주문삭제 */
     @PostMapping( "/orderCancle" )
-    public String orderCanclePOST( OrderCancle orderCancle ) throws Exception{
+    public String orderCanclePOST( OrderCancel orderCancel ) throws Exception{
 
-        orderService.orderCancle( orderCancle );
+        orderService.orderCancel( orderCancel );
 
-        return "redirect:/admin/orderList?keyword=" + orderCancle.getKeyword() +
-                "&PageAmount=" + orderCancle.getPageAmount() +
-                "&pageNumber" + orderCancle.getPageNumber();
+        return "redirect:/admin/orderList?keyword=" + orderCancel.getKeyword() +
+                "&PageAmount=" + orderCancel.getPageAmount() +
+                "&pageNumber" + orderCancel.getPageNumber();
     }
 }
 
