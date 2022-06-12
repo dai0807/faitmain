@@ -52,12 +52,9 @@ public class OrderController{
         log.info( "order ={}" , order );
 
         orderService.order( order );
-
         User user = new User();
         user.setId( order.getBuyerId() );
-
         HttpSession session = request.getSession();
-
         try {
             User userLogin = userSerivce.getUser( user.getId() );
             userLogin.setPassword( "" );
@@ -75,14 +72,12 @@ public class OrderController{
     public String orderListGET( Criterion criterion , Model model ) throws Exception{
 
         List<Order> orderList = orderService.getOrderList( criterion );
-
         if ( !orderList.isEmpty() ) {
             model.addAttribute( "orderList" , orderList );
             model.addAttribute( "pagemMaker" , new Page( criterion , orderService.getOrderTotal( criterion ) ) );
         } else {
             model.addAttribute( "listCheck" , "empty" );
         }
-
         return "/admin/orderList";
     }
 
@@ -91,7 +86,6 @@ public class OrderController{
     public String orderCanclePOST( OrderCancel orderCancel ) throws Exception{
 
         orderService.orderCancel( orderCancel );
-
         return "redirect:/admin/orderList?keyword=" + orderCancel.getKeyword() + "&PageAmount=" + orderCancel.getPageAmount() + "&pageNumber" + orderCancel.getPageNumber();
     }
 }
