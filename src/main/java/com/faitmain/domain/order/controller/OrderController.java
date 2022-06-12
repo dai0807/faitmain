@@ -40,10 +40,10 @@ public class OrderController{
         log.info( "buyerId = {} " , buyerId );
         log.info( "orderPageProductList = {} " , orderPage.getOrderPageProductList() );
 
-        model.addAttribute( "orderList" , orderService.getOrderPageProductList( orderPage.getOrderPageProductList() ) );
-        model.addAttribute( "buyerInfo" , orderService.getBuyerInfo( buyerId ) );
+        model.addAttribute( "orderPageProductList" , orderService.getOrderPageProductList( orderPage.getOrderPageProductList() ) );
+        model.addAttribute( "buyer" , orderService.getBuyer( buyerId ) );
 
-        return "view/order/order";
+        return "/order";
     }
 
     @PostMapping( "/order" )
