@@ -43,14 +43,18 @@ public interface ProductMapper {
 	//UPDATE - 상품 수정
 	public void updateProduct(Product product) throws Exception;
 	
+	public void updateProductOption(Product product) throws Exception;
+	
 	//UPDATE - 상품 추가 이미지 수정
 	public void updateProductImage(Image image) throws Exception;
 	
 	//UPDATE - 상품 상태 수정
 	public void updateProductStatus(Product product) throws Exception;
-	
+		
 	//DELETE - 상품 삭제
 	public void deleteProduct(int productNumber) throws Exception;
+	
+	public void deleteProductOption(int productNumber) throws Exception;
 	
 	//DELETE - 상품 추가 이미지 삭제
 	public void deleteProductImage(int imageNumber) throws Exception;
