@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -158,6 +159,18 @@ public class UserController{
 	   return "view/user/addUser";
 	   }
 
+	   
+	   
+	   
+	   @GetMapping("addStore")
+	   public String addStore(Model model)  throws Exception {
+		 
+			log.info("get :: addStore " );
+	      
+	   return "view/user/addStore";
+	   }
+	   
+	   
 	   @PostMapping("addUser")
 	   public RedirectView addUser(@ModelAttribute("user") User user) throws Exception{
 		   
@@ -171,35 +184,27 @@ public class UserController{
 	   
 	   
 	   // 최대한 ,,, 써머노트 구현해보자
+	   //MultipartHttpServletRequest 는 서버에서 오는 파일 받음
 	   @PostMapping("addStore")
-	   public String addStore(@ModelAttribute("user") User user , @ModelAttribute("storeApplicationDocument")StoreApplicationDocument storeApplicatDoc ) throws Exception{
-		   
+	   public RedirectView addStore(@ModelAttribute("user") User user , MultipartHttpServletRequest mRequest ,
+			   @ModelAttribute("storeApplicationDocument")StoreApplicationDocument storeApplicatDoc ) throws Exception{
+		   log.info("::시작 :::addStore:: " );
+
 		   log.info("addStore::들어온 user 결과  ::{}" ,user );
 		   log.info("addStore::들어온 storeApplicationDocument 결과  ::{}" ,storeApplicatDoc );
 
-		   int addStoreresult = userSerivce.addUser(user) ;
+		   int addStoreresult = userSerivce.addStore(user,mRequest) ;
 		   log.info("addStoreresult {}" , addStoreresult);
 		   
 		   int storeApplicatDocresult = userSerivce.AddStoreApplicationDocument(storeApplicatDoc) ;
 		   log.info("addStoreresult {}" , storeApplicatDocresult);
-		   
-		   
-		   return("redirect:/live/main.jsp");
+//		   
+//	
+		   log.info("::끝 :::addStore:: " );
+
+		   return new RedirectView("/");	 
 	   }
-	   
-	   @PostMapping("updateUser")
-	   public String updateUser(@ModelAttribute("user") User user  ) throws Exception{
-		   
-		   log.info("addStore::들어온 user 결과  ::{}" ,user );
- 
-		   int addStoreresult = userSerivce.addUser(user) ;
-		   log.info("addStoreresult {}" , addStoreresult);
-		   
-		   
- 		   
-		   
-		   return("redirect:/live/main.jsp");
-	   }	
+
 	   
 		@GetMapping("kakaoLogin")
 	//	public RedirectView kakaoLogin(@RequestParam(value = "code", required = false) String code , RedirectAttributes model , HttpSession session) throws Exception {
@@ -457,7 +462,7 @@ public class UserController{
 				   
 			   }
 
-			   if(user.getRole().equals("Store") || user.getRole().equals("StoreX")) {
+			   if(user.getRole().equals("store") || user.getRole().equals("storeX")) {
 				   //롤이 스토어면 스토어 넘버 가져와서 user에 넣어라 
 				   int storeNumber = userSerivce.getStoreApplicationDocumenNumber(user.getId());
  				   user.setStoreApplicationDocumentNumber(storeNumber);
@@ -480,7 +485,7 @@ public class UserController{
  			  
  			  model.addAttribute("StoreApplicationDocument" , storeApplicationDocument);
  			  
-		      return "forward:/user/getStoreApplicationDocument.jsp";
+		      return "view/user/getStoreApplicationDocument";
 		   }
 		   		
 		//스토어 재 신청 Add 

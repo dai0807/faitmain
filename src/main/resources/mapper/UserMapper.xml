@@ -48,7 +48,7 @@
 	<insert id ="addStoreApplicationDocument" parameterType="StoreApplicationDocument"     >
 		INSERT INTO store_application_document ( id, examination_status, product_detail, reg_date)
 		VALUES
-		    (#{id}, 'W', #{product_detail}, NOW() )
+		    (#{id}, 'W', #{productDetial}, NOW() )
 		 
  	</insert>
  	
@@ -406,20 +406,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 
 
 
@@ -427,7 +414,7 @@
  
  
     <resultMap id="userMap" type="User">
-    <result property="userNumber" 					column="user_number" 				jdbcType="INTEGER"/>
+   			 <result property="userNumber" 					column="user_number" 				jdbcType="INTEGER"/>
             <result property="id" 					column="id" 						jdbcType="VARCHAR"/>
                 <result property="gender"				column="gender" 					jdbcType="VARCHAR" />
             
