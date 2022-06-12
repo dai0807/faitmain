@@ -12,7 +12,7 @@ public interface OrderService{
 
 
     /* 주문자 주소 정보 */
-    User getBuyerInfo( String id );
+    User getBuyer( String id );
 
     /* 주문 정보 */
     /* 주문 페이지로 전송할 상품 정보 메소드 */

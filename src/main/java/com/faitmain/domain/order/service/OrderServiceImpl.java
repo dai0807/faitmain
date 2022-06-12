@@ -44,7 +44,7 @@ public class OrderServiceImpl implements OrderService{
 
     /* 주문자 주소 정보 */
     @Override
-    public User getBuyerInfo( String id ){
+    public User getBuyer( String id ){
         return orderMapper.getBuyer( id );
     }
 
