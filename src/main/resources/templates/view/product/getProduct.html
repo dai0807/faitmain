@@ -136,14 +136,14 @@
                             </dl>
                             -->
                             <div class = "product_info">
-                                <dl class = "list">
+                                <dlv class = "list">
                                     <dt class = "tit">가격</dt>
                                     <dd class = "desc" th:text = "|*{ productPrice } 원|"></dd>
-                                </dl>
-                                <dl class = "list">
+                                </dlv>
+                                <dlv class = "list">
                                     <dt class = "tit">배송비</dt>
                                     <dd class = "desc">3000원</dd>
-                                </dl>
+                                </dlv>
                             </div>
                             <!-- 단일 상품(옵션 없는 상품) 정보 -->
                             <th:block th:if = "${#lists.size(product.productOptions) <= 0}">
@@ -190,6 +190,9 @@
                                         th:text = "${product.productPrice}"></strong>
                                 <strong id = "totalPrice"
                                         th:if = "${#lists.size(product.productOptions) != 0}">0</strong>
+                            </div>
+                            <div>
+                                적립 포인트 : <span class="point_span"></span>원
                             </div>
 
                             <div class = "row">

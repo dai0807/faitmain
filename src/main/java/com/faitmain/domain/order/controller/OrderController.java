@@ -23,7 +23,7 @@ import java.util.List;
 
 @Slf4j
 @Controller
-@RequestMapping("/order")
+@RequestMapping( "/order" )
 public class OrderController{
 
 
@@ -40,7 +40,7 @@ public class OrderController{
         log.info( "buyerId = {} " , buyerId );
         log.info( "orderPageProductList = {} " , orderPage.getOrderPageProductList() );
 
-        model.addAttribute( "orderList" , orderService.getOrderPageProductList( orderPage.getOrderPageProductList()) );
+        model.addAttribute( "orderList" , orderService.getOrderPageProductList( orderPage.getOrderPageProductList() ) );
         model.addAttribute( "buyerInfo" , orderService.getBuyerInfo( buyerId ) );
 
         return "view/order/order";
@@ -92,9 +92,7 @@ public class OrderController{
 
         orderService.orderCancel( orderCancel );
 
-        return "redirect:/admin/orderList?keyword=" + orderCancel.getKeyword() +
-                "&PageAmount=" + orderCancel.getPageAmount() +
-                "&pageNumber" + orderCancel.getPageNumber();
+        return "redirect:/admin/orderList?keyword=" + orderCancel.getKeyword() + "&PageAmount=" + orderCancel.getPageAmount() + "&pageNumber" + orderCancel.getPageNumber();
     }
 }
 
