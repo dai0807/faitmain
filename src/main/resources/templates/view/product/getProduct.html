@@ -64,19 +64,14 @@
                 }
 
                 $.ajax({
-                    url: "/cart/json/addCart", // 주소
+                    url: "/cart/add", // 주소
                     //data: JSON.stringify(jsonData), // 전송 데이터
                     data: $("#getProductForm").serialize(),
                     type: "POST", // 전송 타입
                     dataType: "JSON", // 응답 받을 데이터 타입
                     //contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        console.log("result : " + data.result);
-                        if (data.result) {
-                            alert("장바구니에 추가되었습니다.");
-                        } else {
-                            alert("장바구니에 이미 담긴 상품입니다.");
-                        }
+                    success: function (result) {
+                        cartAlert(result)
                     },
                     //요청 실패 시 이벤트
                     //응답 status code가 2xx가 아닌 경우 

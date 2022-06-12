@@ -100,7 +100,7 @@ public class OrderServiceImpl implements OrderService{
 
         /* DB 넣기 */
         /* ORDER 등록 */
-        orderMapper.enrollOrder( order );
+        orderMapper.addOrder( order );
         /* ORDER PRODUCT 등록 */
         for ( OrderProduct orderProduct : order.getOrderProductList() ) {
             orderProduct.setOrderNumber( orderNumber );
