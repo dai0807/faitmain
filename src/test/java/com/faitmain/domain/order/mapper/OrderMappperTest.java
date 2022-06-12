@@ -66,7 +66,7 @@ class OrderMappperTest{
         order.setOrderRewardPoint(0);
         order.setOrderFinalSalePrice(0);
 
-        orderMapper.enrollOrder( order );
+        orderMapper.addOrder( order );
     }
 */
 

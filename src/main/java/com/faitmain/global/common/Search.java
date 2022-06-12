@@ -12,7 +12,8 @@ public class Search{
 	private String searchCondition;
 	private String searchKeyword;
 	private String orderName;
-	
+
+
 	@Getter(AccessLevel.NONE)
 	private int endRowNum;
 	
