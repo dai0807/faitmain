@@ -52,7 +52,26 @@
 
 		};
 		
+		function setThumbnail(event) {
+        var reader = new FileReader();
+
+        reader.onload = function(event) {
+          	//var img = document.createElement("img");
+          	var img = "<img src='" + event.target.result + "' width=70%' />";
+          	//img.setAttribute("src", event.target.result);
+          
+			$("#image_container > img").replaceWith(img);
+          
+        };
+
+        reader.readAsDataURL(event.target.files[0]);
+      }
+		
 		$(function(){
+			
+			$("#mainImage").change(function(){
+				console.log("file : " + $(this).val());
+			});
 			
 			/*<![CDATA[*/
 				let productDetail = '[[${ product.productDetail }]]';
@@ -132,8 +151,8 @@
 	<div class="container">
 		<form th:action="@{/product/updateProduct}" th:object="${product}" method="post" name="updateProductForm" id="updateProductForm" enctype="multipart/form-data" class="form-horizontal">
 				<!-- 상품등록 -->					
-				<div class="form-group">
-				    <label for="categoryCode" class="col-sm-offset-1 col-sm-3 control-label">상품 카테고리</label>
+				<div class="row">
+				    <!--<label for="categoryCode" class="col-sm-offset-1 col-sm-3 control-label">상품 카테고리</label>-->
 				    <div class="col-sm-4">
 				      <select class="form-control" id="categoryCode" name="categoryCode">
 				      	<option value='01' th:selected="*{categoryCode eq '01'}">식품</option>
@@ -144,15 +163,18 @@
 				      	<option value='06' th:selected="*{categoryCode eq '06'}">출산/유아동</option>
 				      </select>
 				    </div>
-				</div>
-									
-				<div class="form-group">
-					<label for="productName" class="col-sm-offset-1 col-sm-3 control-label">상품명</label>
-					<div class="col-sm-4">
+				    <div class="col-sm-8">
 				      <input type="text" class="form-control" th:field="*{productName}" placeholder="상품명"/>
 				    </div>
 				</div>
-				
+				<!--					
+				<div class="form-group">
+					<label for="productName" class="col-sm-offset-1 col-sm-3 control-label">상품명</label>
+					<div class="col-sm-8">
+				      <input type="text" class="form-control" th:field="*{productName}" placeholder="상품명"/>
+				    </div>
+				</div>
+				-->
 				<div class="form-group">
 					<label for="productPrice" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
 					<div class="col-sm-4">
@@ -190,16 +212,22 @@
 				<div  class="form-group">
 					<label for="mainImage" class="col-sm-offset-1 col-sm-3 control-label">상품 메인 이미지</label>
 					<div class="col-sm-4">
-				      <input type="file" class="form-control" id="mainImage" name="mainImage"/>
+						<div id="image_container">
+		    				<img th:src = "|../img/upload/*{ productMainImage }|" width="70%">
+		    			</div>
+				    	<input type="file" class="form-control" id="mainImage" name="mainImage"  onchange="setThumbnail(event);"/>
 				    </div>
 				</div>
 				
 				<div  class="form-group">
 					<label for="subImage" class="col-sm-offset-1 col-sm-3 control-label">상품 추가 이미지</label>
-					<div class="col-sm-4">
-				      <input type="file" class="form-control" id="subImage" name="subImage" multiple/>
+					<div class="col-sm-12" th:if="${#lists.size(product.productExtraImage) > 0}" th:each="productExtraImage, index : ${product.productExtraImage}">
+						<div style="width:300px; height:250px; border:1px solid red; float:left; margin-right:10px;">
+				    	<img th:src="|../img/upload/${ productExtraImage.imageName }|" style="width:250px; height:150px; object-fit:cover;" />
+				    	<button type="button" >삭제</button>
+				    	</div>
 				    </div>
-	
+					<input type="file" class="form-control" id="subImage" name="subImage" multiple/>
 				</div>
 				
 				<div  class="form-group">
