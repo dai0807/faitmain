@@ -143,13 +143,13 @@ CREATE TABLE `customer` (
                         `customer_board_number`      int           NOT NULL AUTO_INCREMENT ,
                         `customer_board_title`       varchar(30)   NOT NULL ,
                         `customer_board_content`     varchar(1000) NOT NULL ,
-                        `reg_date`                   date          NOT NULL ,
-                        `update_date`                date DEFAULT NULL ,
-                        `customer_FAQ_category_code` int           NOT NULL ,
+                        `reg_date`                   TIMESTAMP     NOT NULL ,
+                        `update_date`                TIMESTAMP		DEFAULT NULL ,
+                        `customer_FAQ_category_code` 	int    		DEFAULT NULL,                        
                         `customer_board_type`        char(1)       NOT NULL ,
                         `customer_id`                varchar(25)   NOT NULL ,
                         `delete_yn`					 ENUM('Y','N') DEFAULT 'N',
-                        `view_cnt`					 int			DEFAULT NULL,
+                        `view_cnt`					 int			DEFAULT NULL
                         PRIMARY KEY ( `customer_board_number` ) ,
                         FOREIGN KEY ( `customer_id` ) REFERENCES `user` ( `id` )
                         );
@@ -165,8 +165,11 @@ CREATE TABLE `ban_period` (
                           `ban_period_number`     int DEFAULT NULL ,
                           `ban_end_date`          date        NOT NULL ,
                           FOREIGN KEY ( `report_number` ) REFERENCES `customer` ( `customer_board_number` ) ,
-                          FOREIGN KEY ( `respondent_id` ) REFERENCES `user` ( `id` )
+                          FOREIGN KEY ( `respondent_id` ) REFERENCES `user` ( `id` ),
+                          FOREIGN KEY ('respondent_nickname') REFERENCES user (nickname),
+                          FOREIGN KEY ('respondent_store_name') REFERENCES user (store_name)
                           );
+
 
 CREATE TABLE `inquiry` (
                        `inquiry_number`        INT(5)       NOT NULL AUTO_INCREMENT ,
