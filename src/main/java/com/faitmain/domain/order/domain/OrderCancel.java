@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OrderCancle{
+public class OrderCancel{
 
     private String buyerId;
 
