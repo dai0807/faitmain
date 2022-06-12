@@ -24,9 +24,9 @@ public class CustomerController{
 	@Qualifier("customerServiceImpl")
 	private CustomerService customerService;
 	
-	@GetMapping("customerHome")
+	@GetMapping("noticeIndex")
 	public String openBoardNoticeIndex(){
-		return "view/customer/customerHome";
+		return "view/customer/noticeIndex";
 	}
 
 	
