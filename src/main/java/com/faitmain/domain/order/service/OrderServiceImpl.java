@@ -128,7 +128,7 @@ public class OrderServiceImpl implements OrderService{
             cart.setUserId( order.getBuyerId() );
             cart.setProductNumber( orderProduct.getProductNumber() );
 
-            cartMapper.deleteOrderCart( cart );
+            cartMapper.deleteCart( cart );
         }
     }
 

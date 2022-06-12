@@ -48,9 +48,9 @@ public class Order{
     /* 사용 포인트 */
     private int usingPoint;
 
-    /* ===================== */
-    /* DB에 존재하지 않는 데이터 */
-    /* ===================== */
+    /* =====================  */
+    /* DB에 존재하지 않는 데이터   */
+    /* =====================  */
 
     /* 주문상품 */
     private List<OrderProduct> orderBundle;

@@ -7,8 +7,8 @@ import com.faitmain.global.common.Search;
 
 public interface CartService {
 	
-	//장바구니 등록
-	public void addCart(Cart cart) throws Exception;
+	/* 장바구니 추가 */
+	int addCart(Cart cart) throws Exception;
 	
 	//장바구니 조회
 	public Cart getCart(Cart cart) throws Exception;

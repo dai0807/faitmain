@@ -2,7 +2,6 @@ package com.faitmain.domain.product.mapper;
 
 import com.faitmain.domain.product.domain.Cart;
 import com.faitmain.global.common.Search;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -10,32 +9,19 @@ import java.util.List;
 @Mapper
 public interface CartMapper{
 
+    /* 카트 추가 */
+    int addCart( Cart cart ) throws Exception;
 
     /* 카트 제거 (주문) */
-    int deleteOrderCart( Cart cart );
+    int deleteCart( Cart cart );
 
+    /* 카트 수량 수정 */
+    int updateCart( Cart cart ) throws Exception;
 
-    /*****************************************************************/
-
-
-
-
-    //INSERT - 장바구니 등록
-    void addCart( Cart cart ) throws Exception;
-
-    //SELECT - 장바구니 조회
+    /* 카트 확인 */
     Cart getCart( Cart cart ) throws Exception;
 
-    //SELECT - 장바구니 목록 조회
+    /* 카트 목록 */
     List<Cart> getCartList( Search search ) throws Exception;
-
-    //SELECT - 장바구니 count
-    int getTotalCount( Search search ) throws Exception;
-
-    //UPDATE - 장바구니 수정
-    void updateCart( Cart cart ) throws Exception;
-
-    //DELETE - 장바구니 삭제
-    void deleteCart( int cartNumber ) throws Exception;
 
 }

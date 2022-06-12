@@ -4,17 +4,17 @@ DROP TABLE IF EXISTS cart CASCADE;
 DROP TABLE IF EXISTS review CASCADE;
 DROP TABLE IF EXISTS `order_product` CASCADE;
 DROP TABLE IF EXISTS `order` CASCADE;
+DROP TABLE IF EXISTS live_product CASCADE;
 DROP TABLE IF EXISTS product CASCADE;
 DROP TABLE IF EXISTS store_application_document CASCADE;
 DROP TABLE IF EXISTS ban_period CASCADE;
 DROP TABLE IF EXISTS customer CASCADE;
-DROP TABLE IF EXISTS user CASCADE;
-DROP TABLE IF EXISTS image CASCADE;
 DROP TABLE IF EXISTS live_chat CASCADE;
-DROP TABLE IF EXISTS live_product CASCADE;
-DROP TABLE IF EXISTS live_reservation CASCADE;
 DROP TABLE IF EXISTS live_user_status CASCADE;
 DROP TABLE IF EXISTS live CASCADE;
+DROP TABLE IF EXISTS live_reservation CASCADE;
+DROP TABLE IF EXISTS user CASCADE;
+DROP TABLE IF EXISTS image CASCADE;
 
 
 -- create sql
@@ -126,9 +126,6 @@ CREATE TABLE `cart` (
                     `user_id`             VARCHAR(25) NOT NULL ,
                     `product_order_count` INT         NOT NULL ,
                     `product_number`      INT(5)      NOT NULL ,
-                    `product_name`        VARCHAR(50) NOT NULL ,
-                    `product_main_image`  VARCHAR(30) NOT NULL ,
-                    `product_price`       INT         NOT NULL ,
                     PRIMARY KEY ( `cart_number` ) ,
                     FOREIGN KEY ( user_id ) REFERENCES user ( id ) ,
                     FOREIGN KEY ( product_number ) REFERENCES product ( product_number )
@@ -148,14 +145,11 @@ CREATE TABLE `customer` (
                         `customer_board_content`     varchar(1000) NOT NULL ,
                         `reg_date`                   TIMESTAMP     NOT NULL ,
                         `update_date`                TIMESTAMP		DEFAULT NULL ,
-                        `customer_FAQ_category_code` 	int    		DEFAULT NULL,=======
-                        `reg_date`                   date          NOT NULL ,
-                        `update_date`                date 		   DEFAULT NULL ,
-                        `customer_FAQ_category_code` int           NOT NULL ,
+                        `customer_FAQ_category_code` 	int    		DEFAULT NULL,                        
                         `customer_board_type`        char(1)       NOT NULL ,
                         `customer_id`                varchar(25)   NOT NULL ,
-                        'delete_yn'					 ENUM('Y','N') DEFAULT 'N',
-                        'view_cnt'					 int			DEFAULT NULL, 
+                        `delete_yn`					 ENUM('Y','N') DEFAULT 'N',
+                        `view_cnt`					 int			DEFAULT NULL
                         PRIMARY KEY ( `customer_board_number` ) ,
                         FOREIGN KEY ( `customer_id` ) REFERENCES `user` ( `id` )
                         );
@@ -226,22 +220,22 @@ CREATE TABLE live_reservation (
                               );
 
 CREATE TABLE live_product (
-                               `live_product_number`     INTEGER(5)  NOT NULL AUTO_INCREMENT ,
-                               `live_number`             INTEGER(5)  NOT NULL ,
-                               `live_reservation_number` INTEGER(5)  NOT NULL ,
-                               `product_number`          INTEGER(5)  NOT NULL ,
-                               `product_main_image`      VARCHAR(30) NOT NULL ,
-                               `product_name`			 VARCHAR(45) NOT NULL ,
-                               `product_detail`			 VARCHAR(30) NULL,
-                               PRIMARY KEY ( live_product_number )
-                               );
+                          `live_product_number`     INTEGER(5)  NOT NULL AUTO_INCREMENT ,
+                          `live_number`             INTEGER(5)  NOT NULL ,
+                          `live_reservation_number` INTEGER(5)  NOT NULL ,
+                          `product_number`          INTEGER(5)  NOT NULL ,
+                          `product_main_image`      VARCHAR(30) NOT NULL ,
+                          `product_name`			 VARCHAR(45) NOT NULL ,
+                          `product_detail`			 VARCHAR(30) NULL,
+                          PRIMARY KEY ( live_product_number )
+                          );
 
 
 CREATE TABLE live_chat (
                        `live_number`      INTEGER     NOT NULL ,
                        `writer`           VARCHAR(20) NOT NULL ,
                        `chatting_message` VARCHAR(30) NOT NULL ,
-                       `send_date`        DATE        NOT NULL 
+                       `send_date`        DATE        NOT NULL
                        );
 
 ALTER TABLE user AUTO_INCREMENT = 10000;

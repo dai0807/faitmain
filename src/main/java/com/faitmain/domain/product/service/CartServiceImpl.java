@@ -1,7 +1,5 @@
 package com.faitmain.domain.product.service;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,16 +25,48 @@ public class CartServiceImpl implements CartService {
 	}
 	
 	@Override
-	public void addCart(Cart cart) throws Exception {
-		cartMapper.addCart(cart);
+	public int addCart( Cart cart) throws Exception{
+
+		/* 장바구니 데이터 체크*/
+		Cart checkCart = cartMapper.getCart( cart );
+
+		if ( checkCart != null ) {
+			return 2;
+		}
+
+		/* 장바구니 등록 & 에러 시 0 반환 */
+		try {
+			return cartMapper.addCart( cart );
+		} catch ( Exception e ) {
+			return 0;
+		}
+
 	}
 
 	@Override
 	public Cart getCart(Cart cart) throws Exception {
 		return cartMapper.getCart(cart);
 	}
-	
+
 	@Override
+	public Map<String, Object> getCartList( Search search ) throws Exception{
+		return null;
+	}
+
+	@Override
+	public void updateCart( Cart cart ) throws Exception{
+
+	}
+
+	@Override
+	public void deleteCart( int cartNumber ) throws Exception{
+
+	}
+
+
+
+	
+	/*@Override
 	public Map<String, Object> getCartList(Search search) throws Exception {
 		List<Cart> list = cartMapper.getCartList(search);
 		int totalCount = cartMapper.getTotalCount(search);
@@ -54,8 +84,9 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public void deleteCart(int cartNumber) throws Exception {
-		cartMapper.deleteCart(cartNumber);		
-	}
+	public int deleteCart(int cartNumber) throws Exception {
+		cartMapper.deleteCart( cartNumber );
+		return cartNumber;
+	}*/
 	
 }
