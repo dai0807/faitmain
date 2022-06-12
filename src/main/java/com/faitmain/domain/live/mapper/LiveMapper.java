@@ -40,6 +40,8 @@ public interface LiveMapper {
 	
 	public List<LiveProduct> getLiveProductList(int liveReservationNumber) throws Exception;
 	
+	public List<LiveProduct> getLiveProductListByLiveNumber(int liveNumber) throws Exception;
+	
 	public int deleteLiveProduct(int liveNumber) throws Exception;
 	
 	
