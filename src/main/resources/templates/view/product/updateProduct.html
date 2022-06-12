@@ -18,6 +18,13 @@
     </style>
     
     <script type="text/javascript">
+    
+    	/*<![CDATA[*/
+			let productDetail = '[[${ product.productDetail }]]';
+			let productExtraImageSize = '[[${#lists.size(product.productExtraImage)}]]';
+			console.log("productExtraImageSize : " + productExtraImageSize);
+		/*]]>*/
+			
     	$(document).ready(function() {
 			console.log('ready');
 
@@ -71,11 +78,12 @@
 			
 			$("#mainImage").change(function(){
 				console.log("file : " + $(this).val());
-			});
+			});	
 			
-			/*<![CDATA[*/
-				let productDetail = '[[${ product.productDetail }]]';
-			/*]]>*/
+			$(".prevOptionDelBtn").on("click", function() {
+				$(this).parent().remove();
+				optionIndex--;
+			});	
 			
 			$('#summernote').summernote('editor.insertText', productDetail);	
 				
@@ -144,6 +152,47 @@
 			});
 		}
 		
+		$(function(){
+			
+			$(document).on("click", ".extraImageDelete", function() {
+				
+				console.log($(this).parent().children("input[type=hidden]").val());
+				let imageNumber = $(this).parent().children("input[type=hidden]").val();
+				
+				$.ajax(
+					{
+						url: "/product/json/deleteProductExtraImage/" + imageNumber,
+						method: "GET",
+						dataType: "json",
+						headers: {
+							"Accept": "application/json",
+							"Content-Type": "application/json"
+						},
+						success: function (JSONData, status) {
+							console.log(JSONData.responseCode);
+						}
+					}).done(function () {
+						//$(this).parent().remove();
+					});
+				$(this).parent().remove();	
+				alert('삭제되었습니다');	
+			});
+		});
+		
+		
+		/* 첨부파일 추가 */
+		function addFile(obj) {
+			var maxFileCnt = 6 - productExtraImageSize;   // 첨부파일 최대 개수
+			var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
+
+			// 첨부파일 개수 확인
+			if (curFileCnt > maxFileCnt) {
+				alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
+				$("input[name='subImage']").val("");
+			}
+		}
+			
+		
     </script>
 </head>
 <body>
@@ -200,7 +249,7 @@
 							<input type="hidden" th:value="${productOption.productNumber}" th:name="|productOption[${index.index}].productNumber|" />  
 							<input type="text"  class="form-control" th:value="${productOption.productName}" th:name="|productOption[${index.index}].productName|">
 							<input type="text" class="form-control"  th:value="${productOption.productQuantity}" th:name="|productOption[${index.index}].productQuantity|" id="item_vol">
-							<button type="button" style="float:right;" id="optionDelBtn" class="btn-btn dark">삭제</button>
+							<button type="button" style="float:right;" class="prevOptionDelBtn">삭제</button>
 						</div>					
 					</div>
 	
@@ -223,11 +272,12 @@
 					<label for="subImage" class="col-sm-offset-1 col-sm-3 control-label">상품 추가 이미지</label>
 					<div class="col-sm-12" th:if="${#lists.size(product.productExtraImage) > 0}" th:each="productExtraImage, index : ${product.productExtraImage}">
 						<div style="width:300px; height:250px; border:1px solid red; float:left; margin-right:10px;">
-				    	<img th:src="|../img/upload/${ productExtraImage.imageName }|" style="width:250px; height:150px; object-fit:cover;" />
-				    	<button type="button" >삭제</button>
+							<input type="hidden" th:value="${productExtraImage.imageNumber}" />
+				    		<img th:src="|../img/upload/${ productExtraImage.imageName }|" style="width:250px; height:150px; object-fit:cover;" />
+				    		<button type="button" class="extraImageDelete">삭제</button>
 				    	</div>
 				    </div>
-					<input type="file" class="form-control" id="subImage" name="subImage" multiple/>
+					<input class="form-control" type="file" onchange="addFile(this);" name="subImage" multiple />
 				</div>
 				
 				<div  class="form-group">
