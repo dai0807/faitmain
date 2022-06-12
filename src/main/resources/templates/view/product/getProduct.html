@@ -64,19 +64,14 @@
                 }
 
                 $.ajax({
-                    url: "/cart/json/addCart", // 주소
+                    url: "/cart/add", // 주소
                     //data: JSON.stringify(jsonData), // 전송 데이터
                     data: $("#getProductForm").serialize(),
                     type: "POST", // 전송 타입
                     dataType: "JSON", // 응답 받을 데이터 타입
                     //contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        console.log("result : " + data.result);
-                        if (data.result) {
-                            alert("장바구니에 추가되었습니다.");
-                        } else {
-                            alert("장바구니에 이미 담긴 상품입니다.");
-                        }
+                    success: function (result) {
+                        cartAlert(result)
                     },
                     //요청 실패 시 이벤트
                     //응답 status code가 2xx가 아닌 경우 
@@ -141,14 +136,14 @@
                             </dl>
                             -->
                             <div class = "product_info">
-                                <dl class = "list">
+                                <dlv class = "list">
                                     <dt class = "tit">가격</dt>
                                     <dd class = "desc" th:text = "|*{ productPrice } 원|"></dd>
-                                </dl>
-                                <dl class = "list">
+                                </dlv>
+                                <dlv class = "list">
                                     <dt class = "tit">배송비</dt>
                                     <dd class = "desc">3000원</dd>
-                                </dl>
+                                </dlv>
                             </div>
                             <!-- 단일 상품(옵션 없는 상품) 정보 -->
                             <th:block th:if = "${#lists.size(product.productOptions) <= 0}">
@@ -195,6 +190,9 @@
                                         th:text = "${product.productPrice}"></strong>
                                 <strong id = "totalPrice"
                                         th:if = "${#lists.size(product.productOptions) != 0}">0</strong>
+                            </div>
+                            <div>
+                                적립 포인트 : <span class="point_span"></span>원
                             </div>
 
                             <div class = "row">

@@ -24,10 +24,10 @@ public interface OrderMapper{
     OrderProduct getOrderProduct( int productNumber );
 
     /* 주문 테이블 등록 */
-    int enrollOrder( Order order );
+    int addOrder( Order order );
 
     /* 주문 상품 테이블 등록 */
-    int enrollOrderProduct( OrderProduct orderProduct );
+    int addOrderProduct( OrderProduct orderProduct );
 
     /* 주문 금액 차감 */
     int deductPoint( User user );

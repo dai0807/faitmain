@@ -1,13 +1,13 @@
 package com.faitmain.domain.order.service;
 
+import com.faitmain.domain.cart.domain.Cart;
+import com.faitmain.domain.cart.mapper.CartMapper;
 import com.faitmain.domain.order.domain.Order;
 import com.faitmain.domain.order.domain.OrderCancel;
-import com.faitmain.domain.order.domain.OrderProduct;
 import com.faitmain.domain.order.domain.OrderPageProduct;
+import com.faitmain.domain.order.domain.OrderProduct;
 import com.faitmain.domain.order.mapper.OrderMapper;
-import com.faitmain.domain.cart.domain.Cart;
 import com.faitmain.domain.product.domain.Product;
-import com.faitmain.domain.cart.mapper.CartMapper;
 import com.faitmain.domain.product.mapper.ProductMapper;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.web.domain.AttachImage;
@@ -20,7 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -100,7 +102,7 @@ public class OrderServiceImpl implements OrderService{
 
         /* DB 넣기 */
         /* ORDER 등록 */
-        orderMapper.enrollOrder( order );
+        orderMapper.addOrder( order );
         /* ORDER PRODUCT 등록 */
         for ( OrderProduct orderProduct : order.getOrderProductList() ) {
             orderProduct.setOrderNumber( orderNumber );
@@ -129,6 +131,7 @@ public class OrderServiceImpl implements OrderService{
             cart.setProductNumber( orderProduct.getProductNumber() );
 
             cartMapper.deleteCart( cart.getCartNumber() );
+
         }
     }
 
@@ -180,8 +183,6 @@ public class OrderServiceImpl implements OrderService{
             orderMapper.deductStock( product );
         }
     }
-
-
 
 
 }

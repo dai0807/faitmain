@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,6 +23,7 @@ import java.util.List;
 
 @Slf4j
 @Controller
+@RequestMapping( "/order" )
 public class OrderController{
 
 
@@ -32,13 +34,13 @@ public class OrderController{
     private UserSerivce userSerivce;
 
 
-    @GetMapping( "/order/{buyerId}" )
+    @GetMapping( "/{buyerId}" )
     public String orderPageGET( @PathVariable String buyerId , OrderPage orderPage , Model model ){
 
         log.info( "buyerId = {} " , buyerId );
         log.info( "orderPageProductList = {} " , orderPage.getOrderPageProductList() );
 
-        model.addAttribute( "orderList" , orderService.getOrderPageProductList( orderPage.getOrderPageProductList()) );
+        model.addAttribute( "orderList" , orderService.getOrderPageProductList( orderPage.getOrderPageProductList() ) );
         model.addAttribute( "buyerInfo" , orderService.getBuyerInfo( buyerId ) );
 
         return "view/order/order";
@@ -69,7 +71,7 @@ public class OrderController{
     /* ************************* ADMIN *************************** */
 
     /* 주문현황 페이지*/
-    @GetMapping( "/orderList" )
+    @GetMapping( "/list" )
     public String orderListGET( Criterion criterion , Model model ) throws Exception{
 
         List<Order> orderList = orderService.getOrderList( criterion );
@@ -85,14 +87,12 @@ public class OrderController{
     }
 
     /* 주문삭제 */
-    @PostMapping( "/orderCancle" )
+    @PostMapping( "/cancle" )
     public String orderCanclePOST( OrderCancel orderCancel ) throws Exception{
 
         orderService.orderCancel( orderCancel );
 
-        return "redirect:/admin/orderList?keyword=" + orderCancel.getKeyword() +
-                "&PageAmount=" + orderCancel.getPageAmount() +
-                "&pageNumber" + orderCancel.getPageNumber();
+        return "redirect:/admin/orderList?keyword=" + orderCancel.getKeyword() + "&PageAmount=" + orderCancel.getPageAmount() + "&pageNumber" + orderCancel.getPageNumber();
     }
 }
 

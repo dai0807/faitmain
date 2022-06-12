@@ -10,12 +10,12 @@
     </select>
 
     <!-- 주문 테이블 등록 -->
-    <insert id="enrollOrder">
+    <insert id="addOrder">
 
     </insert>
 
     <!-- 주문 상품 테이블 등록 -->
-    <insert id="enrollOrderProduct">
+    <insert id="addOrderProduct">
 
     </insert>
 

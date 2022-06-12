@@ -191,6 +191,14 @@
        		live_reservation_number = #{value}
        </where>
     </select>
+    
+        <!-- GET LIST LiveProduct By LiveNumber -->
+    <select id="getLiveProductListByLiveNumber" parameterType="int" resultMap="liveProductMap">
+       SELECT * FROM live_product
+       <where>
+       		live_number = #{value}
+       </where>
+    </select>
 	
 	<!-- GET LIST ListReservationCal -->
 	<select id="getLiveReservationCal" resultMap="liveReservationMap">

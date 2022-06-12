@@ -107,6 +107,10 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.getLiveProductList(liveReservationNumber);
 	}
 	
+	public List<LiveProduct> getLiveProductListByLiveNumber(int liveNumber) throws Exception {
+		return liveMapper.getLiveProductListByLiveNumber(liveNumber);
+	}
+	
 	public int deleteLiveProduct(int liveNumber) throws Exception {
 		return liveMapper.deleteLiveProduct(liveNumber);
 	}

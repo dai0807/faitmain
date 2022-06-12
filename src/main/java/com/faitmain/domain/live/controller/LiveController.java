@@ -197,7 +197,8 @@ public class LiveController {
 
 	// 방송 시작
 	@PostMapping("create")
-	public String createRoom(HttpServletRequest req, @RequestParam("roomName") String liveTitle, HttpSession session)
+	public String createRoom(HttpServletRequest req, @RequestParam("roomName") String liveTitle, HttpSession session, 
+			                 Model model)
 			throws Exception {
 
 		log.info("createRoom = {} ", this.getClass());
@@ -333,6 +334,10 @@ public class LiveController {
 			editRoom(req, liveTitle, session, token);
 
 		}
+			List<LiveProduct> list = liveService.getLiveProductListByLiveNumber(liveService.getLiveByStoreId(user.getId()).getLiveNumber());
+			model.addAttribute("listProduct", list);
+			
+			log.info("model status : " + model);
 
 		return "view/live/live";
 
@@ -520,10 +525,17 @@ public class LiveController {
 	}
 
 	@GetMapping("watchLive")
-	public String watchLive() throws Exception {
+	public String watchLive( Model model) throws Exception {
 		log.info("watchLive() : GET start...");
-
+			
+		User user = new User();
+		
 		log.info("watchLive() : GET start...");
+		
+		List<LiveProduct> list = liveService.getLiveProductListByLiveNumber(10000);
+		model.addAttribute("listProduct", list);
+		
+		log.info("model status : " + model);
 		return "view/live/watchLive";
 	}
 

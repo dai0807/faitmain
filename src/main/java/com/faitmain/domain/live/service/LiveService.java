@@ -37,6 +37,8 @@ public interface LiveService {
 	
 	public List<LiveProduct> getLiveProductList(int liveReservationNumber) throws Exception;
 	
+	public List<LiveProduct> getLiveProductListByLiveNumber(int liveReservationNumber) throws Exception;
+	
 	public int deleteLiveProduct(int liveNumber) throws Exception;
 	
 	
