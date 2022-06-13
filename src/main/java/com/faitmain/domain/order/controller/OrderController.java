@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,6 +23,7 @@ import java.util.List;
 
 @Slf4j
 @Controller
+@RequestMapping( "/order" )
 public class OrderController{
 
 
@@ -32,30 +34,27 @@ public class OrderController{
     private UserSerivce userSerivce;
 
 
-    @GetMapping( "/order/{buyerId}" )
-    public String orderPageGET( @PathVariable String buyerId , OrderPage orderPage , Model model ){
+    @GetMapping( "/{buyerId}" )
+    public String orderPage( @PathVariable String buyerId , OrderPage orderPage , Model model ){
 
         log.info( "buyerId = {} " , buyerId );
         log.info( "orderPageProductList = {} " , orderPage.getOrderPageProductList() );
 
-        model.addAttribute( "orderList" , orderService.getOrderPageProductList( orderPage.getOrderPageProductList()) );
-        model.addAttribute( "buyerInfo" , orderService.getBuyerInfo( buyerId ) );
+        model.addAttribute( "orderPageProductList" , orderService.getOrderPageProductList( orderPage.getOrderPageProductList() ) );
+        model.addAttribute( "buyer" , orderService.getBuyer( buyerId ) );
 
-        return "view/order/order";
+        return "/insertOrder";
     }
 
-    @PostMapping( "/order" )
-    private String orderPagePOST( Order order , HttpServletRequest request ) throws Exception{
+    @PostMapping( "/add" )
+    private String orderAdd( Order order , HttpServletRequest request ) throws Exception{
 
-        log.info( "order ={}" , order );
+        log.info( "insertOrder ={}" , order );
 
-        orderService.order( order );
-
+        orderService.addOrder( order );
         User user = new User();
         user.setId( order.getBuyerId() );
-
         HttpSession session = request.getSession();
-
         try {
             User userLogin = userSerivce.getUser( user.getId() );
             userLogin.setPassword( "" );
@@ -69,30 +68,25 @@ public class OrderController{
     /* ************************* ADMIN *************************** */
 
     /* 주문현황 페이지*/
-    @GetMapping( "/orderList" )
-    public String orderListGET( Criterion criterion , Model model ) throws Exception{
+    @GetMapping( "/list" )
+    public String orderList( Criterion criterion , Model model ) throws Exception{
 
         List<Order> orderList = orderService.getOrderList( criterion );
-
         if ( !orderList.isEmpty() ) {
             model.addAttribute( "orderList" , orderList );
             model.addAttribute( "pagemMaker" , new Page( criterion , orderService.getOrderTotal( criterion ) ) );
         } else {
             model.addAttribute( "listCheck" , "empty" );
         }
-
         return "/admin/orderList";
     }
 
     /* 주문삭제 */
-    @PostMapping( "/orderCancle" )
-    public String orderCanclePOST( OrderCancel orderCancel ) throws Exception{
+    @PostMapping( "/cancle" )
+    public String orderCancel( OrderCancel orderCancel ) throws Exception{
 
-        orderService.orderCancel( orderCancel );
-
-        return "redirect:/admin/orderList?keyword=" + orderCancel.getKeyword() +
-                "&PageAmount=" + orderCancel.getPageAmount() +
-                "&pageNumber" + orderCancel.getPageNumber();
+        orderService.cancelOrder( orderCancel );
+        return "redirect:/admin/orderList?keyword=" + orderCancel.getKeyword() + "&PageAmount=" + orderCancel.getPageAmount() + "&pageNumber" + orderCancel.getPageNumber();
     }
 }
 

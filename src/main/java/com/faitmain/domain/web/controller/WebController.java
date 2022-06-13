@@ -59,23 +59,5 @@ public class WebController{
     	log.info("getMyPage : GET end...");
     	return "myPage";
     }
-    
 
-    @GetMapping( "view/error" )
-    public String register(){
-        log.info( "log = {} " , log );
-        return "view/404";
-    }
-
-    @GetMapping( "view/loginin" )
-    public String login(){
-        log.info( "log = {} " , log );
-        return "view/login";
-    }
-
-    @GetMapping( "view/admin/main" )
-    public String admin(){
-        System.out.println( "WebController.admin" );
-        return "view/common/admin/main";
-    }
 }

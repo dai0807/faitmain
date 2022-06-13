@@ -21,7 +21,7 @@ class OrderMappperTest{
     @Test
     public void getOrdetInfoTest(){
 
-        OrderProduct orderInfo = orderMapper.getOrderProduct( 10001 );
+        OrderProduct orderInfo = orderMapper.selectOrderProduct( 10001 );
         log.info( "orderInfo = {}" , orderInfo );
 
     }
@@ -31,7 +31,7 @@ class OrderMappperTest{
     @Test
     public void enrollOrderTest(){
 
-        Order order = new Order();
+        Order insertOrder = new Order();
         List<OrderOne> orderProductList = new ArrayList<>();
 
         OrderOne orderOne = new OrderOne();
@@ -46,27 +46,27 @@ class OrderMappperTest{
         orderOne.setTotalPrice(0);
         orderOne.setTotalRewardPoint(0);
 
-        order.setOrderProductList( orderProductList );
+        insertOrder.setOrderProductList( orderProductList );
 
-        order.setOrderNumber(0);
-        order.setProductNumber(0);
-        order.setBuyerId("");
-        order.setStoreId("");
-        order.setOrderStatus("");
-        order.setOrderProductList(Lists.newArrayList());
-        order.setDeliveryCharge(0);
-        order.setOrderDate(new Date(new java.util.Date().getTime()));
-        order.setReceiverName("");
-        order.setReceiverPhone("");
-        order.setReceiverAddress1("");
-        order.setReceiverAddress2("");
-        order.setReceiverAddress3("");
-        order.setUsingPoint(0);
-        order.setOrderSalePrice(0);
-        order.setOrderRewardPoint(0);
-        order.setOrderFinalSalePrice(0);
+        insertOrder.setOrderNumber(0);
+        insertOrder.setProductNumber(0);
+        insertOrder.setBuyerId("");
+        insertOrder.setStoreId("");
+        insertOrder.setOrderStatus("");
+        insertOrder.setOrderProductList(Lists.newArrayList());
+        insertOrder.setDeliveryCharge(0);
+        insertOrder.setOrderDate(new Date(new java.util.Date().getTime()));
+        insertOrder.setReceiverName("");
+        insertOrder.setReceiverPhone("");
+        insertOrder.setReceiverAddress1("");
+        insertOrder.setReceiverAddress2("");
+        insertOrder.setReceiverAddress3("");
+        insertOrder.setUsingPoint(0);
+        insertOrder.setOrderSalePrice(0);
+        insertOrder.setOrderRewardPoint(0);
+        insertOrder.setOrderFinalSalePrice(0);
 
-        orderMapper.enrollOrder( order );
+        orderMapper.insertOrder( insertOrder );
     }
 */
 
@@ -109,7 +109,7 @@ class OrderMappperTest{
         book.setBookId(61);
         book.setBookStock(77);
 
-        mapper.deductStock(book);
+        mapper.updateStock(book);
     }*/
 
 
@@ -135,56 +135,56 @@ class OrderMappperTest{
 
         System.out.println( "addOrderTest Start" );
 
-        Order order = new Order();
+        Order insertOrder = new Order();
 
-//        order.setProductNumber( 10001 );
-//        order.setBuyerId( "user01@naver.com" );
-//        order.setStoreId( "store03@naver.com" );
-//        order.setOrderBundleNumber( new Timestamp( new java.util.Date().getTime() ) );
-//        order.setOrderDate( new Timestamp( new java.util.Date().getTime() ) );
-//        order.setOrderQuantity( 1 );
-//        order.setOrderStatus( "주문접수" );
-//        order.setReceiverName( "홍길동" );
-//        order.setReceiverPhone( "01039372812" );
-//        order.setReceiverAddress( "어쩌구 어쩔동 어쩔아파트" );
-//        order.setReceiverRequest( "어쩔티비 저쩔티비" );
-//        order.setDeliveryTrackingNumber( 1 );
-//        order.setDeliveryCompanyCode( "ABCDE" );
-//        order.setPaymentOption( "카카오페이" );
-//        order.setTotalPaymentPrice( 12345 );
-//        order.setRewardPoint( 1 );
-//        order.setUsingPoint( 0 );
-//        order.setOrderClaimRequestDate( new Date( new java.util.Date().getTime() ) );
-//        order.setOrderClaimResponseDate( new Date( new java.util.Date().getTime() ) );
-//        order.setOrderClaimReason( 0 );
+//        insertOrder.setProductNumber( 10001 );
+//        insertOrder.setBuyerId( "user01@naver.com" );
+//        insertOrder.setStoreId( "store03@naver.com" );
+//        insertOrder.setOrderBundleNumber( new Timestamp( new java.util.Date().getTime() ) );
+//        insertOrder.setOrderDate( new Timestamp( new java.util.Date().getTime() ) );
+//        insertOrder.setOrderQuantity( 1 );
+//        insertOrder.setOrderStatus( "주문접수" );
+//        insertOrder.setReceiverName( "홍길동" );
+//        insertOrder.setReceiverPhone( "01039372812" );
+//        insertOrder.setReceiverAddress( "어쩌구 어쩔동 어쩔아파트" );
+//        insertOrder.setReceiverRequest( "어쩔티비 저쩔티비" );
+//        insertOrder.setDeliveryTrackingNumber( 1 );
+//        insertOrder.setDeliveryCompanyCode( "ABCDE" );
+//        insertOrder.setPaymentOption( "카카오페이" );
+//        insertOrder.setTotalPaymentPrice( 12345 );
+//        insertOrder.setRewardPoint( 1 );
+//        insertOrder.setUsingPoint( 0 );
+//        insertOrder.setOrderClaimRequestDate( new Date( new java.util.Date().getTime() ) );
+//        insertOrder.setOrderClaimResponseDate( new Date( new java.util.Date().getTime() ) );
+//        insertOrder.setOrderClaimReason( 0 );
 
 
-        System.out.println( "result = " + orderMapper.addOrder( order ) );
-        System.out.println( "orderNumber = " + order.getOrderNumber() );
+        System.out.println( "result = " + orderMapper.insertOrder( insertOrder ) );
+        System.out.println( "orderNumber = " + insertOrder.getOrderNumber() );
 
-        order = orderMapper.getOrder( order.getOrderNumber() );
-        System.out.println( "order = " + order );
+        insertOrder = orderMapper.selectOrder( insertOrder.getOrderNumber() );
+        System.out.println( "insertOrder = " + insertOrder );
 
-//        assertThat( order.getProductNumber() ).isEqualTo( 10001 );
-//        assertThat( order.getBuyerId() ).isEqualTo( "user01@naver.com" );
-//        assertThat( order.getStoreId() ).isEqualTo( "store03@naver.com" );
-////        assertThat( order.getOrderBundleNumber() ).isEqualTo( new Timestamp( new java.util.Date().getTime() ) );
-////        assertThat( order.getOrderDate() ).isEqualTo( new Timestamp( new java.util.Date().getTime() ) );
-//        assertThat( order.getOrderQuantity() ).isEqualTo( 1 );
-//        assertThat( order.getOrderStatus() ).isEqualTo( "주문접수" );
-//        assertThat( order.getReceiverName() ).isEqualTo( "홍길동" );
-//        assertThat( order.getReceiverPhone() ).isEqualTo( "01039372812" );
-//        assertThat( order.getReceiverAddress() ).isEqualTo( "어쩌구 어쩔동 어쩔아파트" );
-//        assertThat( order.getReceiverRequest() ).isEqualTo( "어쩔티비 저쩔티비" );
-//        assertThat( order.getDeliveryTrackingNumber() ).isEqualTo( 1 );
-//        assertThat( order.getDeliveryCompanyCode() ).isEqualTo( "ABCDE" );
-//        assertThat( order.getPaymentOption() ).isEqualTo( "카카오페이" );
-//        assertThat( order.getTotalPaymentPrice() ).isEqualTo( 12345 );
-//        assertThat( order.getRewardPoint() ).isEqualTo( 1 );
-//        assertThat( order.getUsingPoint() ).isEqualTo( 0 );
-////        assertThat( order.getOrderClaimRequestDate() ).isEqualTo( "2022-06-02" );
-////        assertThat( order.getOrderClaimResponseDate() ).isEqualTo( "2022-06-02" );
-//        assertThat( order.getOrderClaimReason() ).isEqualTo( 0 );
+//        assertThat( insertOrder.getProductNumber() ).isEqualTo( 10001 );
+//        assertThat( insertOrder.getBuyerId() ).isEqualTo( "user01@naver.com" );
+//        assertThat( insertOrder.getStoreId() ).isEqualTo( "store03@naver.com" );
+////        assertThat( insertOrder.getOrderBundleNumber() ).isEqualTo( new Timestamp( new java.util.Date().getTime() ) );
+////        assertThat( insertOrder.getOrderDate() ).isEqualTo( new Timestamp( new java.util.Date().getTime() ) );
+//        assertThat( insertOrder.getOrderQuantity() ).isEqualTo( 1 );
+//        assertThat( insertOrder.getOrderStatus() ).isEqualTo( "주문접수" );
+//        assertThat( insertOrder.getReceiverName() ).isEqualTo( "홍길동" );
+//        assertThat( insertOrder.getReceiverPhone() ).isEqualTo( "01039372812" );
+//        assertThat( insertOrder.getReceiverAddress() ).isEqualTo( "어쩌구 어쩔동 어쩔아파트" );
+//        assertThat( insertOrder.getReceiverRequest() ).isEqualTo( "어쩔티비 저쩔티비" );
+//        assertThat( insertOrder.getDeliveryTrackingNumber() ).isEqualTo( 1 );
+//        assertThat( insertOrder.getDeliveryCompanyCode() ).isEqualTo( "ABCDE" );
+//        assertThat( insertOrder.getPaymentOption() ).isEqualTo( "카카오페이" );
+//        assertThat( insertOrder.getTotalPaymentPrice() ).isEqualTo( 12345 );
+//        assertThat( insertOrder.getRewardPoint() ).isEqualTo( 1 );
+//        assertThat( insertOrder.getUsingPoint() ).isEqualTo( 0 );
+////        assertThat( insertOrder.getOrderClaimRequestDate() ).isEqualTo( "2022-06-02" );
+////        assertThat( insertOrder.getOrderClaimResponseDate() ).isEqualTo( "2022-06-02" );
+//        assertThat( insertOrder.getOrderClaimReason() ).isEqualTo( 0 );
     }
 
     @Test
@@ -194,34 +194,34 @@ class OrderMappperTest{
         System.out.println( "updateOrderTest Start" );
 
         //given
-        Order order = new Order();
+        Order insertOrder = new Order();
 
-        order.setOrderNumber( 10001 );
-        order.setOrderStatus( "주문접수" );
-        order.setReceiverName( "홍길동" );
-        order.setReceiverPhone( "01039372812" );
-//        order.setReceiverAddress( "어쩌구 어쩔동 어쩔아파트" );
-//        order.setReceiverRequest( "어쩔티비 저쩔티비" );
-//        order.setDeliveryTrackingNumber( 1 );
-//        order.setDeliveryCompanyCode( "ABCDE" );
-//        order.setOrderClaimReason( 0 );
+        insertOrder.setOrderNumber( 10001 );
+        insertOrder.setOrderStatus( "주문접수" );
+        insertOrder.setReceiverName( "홍길동" );
+        insertOrder.setReceiverPhone( "01039372812" );
+//        insertOrder.setReceiverAddress( "어쩌구 어쩔동 어쩔아파트" );
+//        insertOrder.setReceiverRequest( "어쩔티비 저쩔티비" );
+//        insertOrder.setDeliveryTrackingNumber( 1 );
+//        insertOrder.setDeliveryCompanyCode( "ABCDE" );
+//        insertOrder.setOrderClaimReason( 0 );
 
         //when
-        System.out.println( "result = " + orderMapper.updateOrder( order ) );
-        System.out.println( "orderNumber = " + order.getOrderNumber() );
+        System.out.println( "result = " + orderMapper.updateOrder( insertOrder ) );
+        System.out.println( "orderNumber = " + insertOrder.getOrderNumber() );
 
-        order = orderMapper.getOrder( order.getOrderNumber() );
-        System.out.println( "order = " + order );
+        insertOrder = orderMapper.selectOrder( insertOrder.getOrderNumber() );
+        System.out.println( "insertOrder = " + insertOrder );
 
         //then
-        assertThat( order.getOrderStatus() ).isEqualTo( "주문접수" );
-        assertThat( order.getReceiverName() ).isEqualTo( "홍길동" );
-        assertThat( order.getReceiverPhone() ).isEqualTo( "01039372812" );
-//        assertThat( order.getReceiverAddress() ).isEqualTo( "어쩌구 어쩔동 어쩔아파트" );
-//        assertThat( order.getReceiverRequest() ).isEqualTo( "어쩔티비 저쩔티비" );
-//        assertThat( order.getDeliveryTrackingNumber() ).isEqualTo( 1 );
-//        assertThat( order.getDeliveryCompanyCode() ).isEqualTo( "ABCDE" );
-//        assertThat( order.getOrderClaimReason() ).isEqualTo( 0 );
+        assertThat( insertOrder.getOrderStatus() ).isEqualTo( "주문접수" );
+        assertThat( insertOrder.getReceiverName() ).isEqualTo( "홍길동" );
+        assertThat( insertOrder.getReceiverPhone() ).isEqualTo( "01039372812" );
+//        assertThat( insertOrder.getReceiverAddress() ).isEqualTo( "어쩌구 어쩔동 어쩔아파트" );
+//        assertThat( insertOrder.getReceiverRequest() ).isEqualTo( "어쩔티비 저쩔티비" );
+//        assertThat( insertOrder.getDeliveryTrackingNumber() ).isEqualTo( 1 );
+//        assertThat( insertOrder.getDeliveryCompanyCode() ).isEqualTo( "ABCDE" );
+//        assertThat( insertOrder.getOrderClaimReason() ).isEqualTo( 0 );
     }
 
     @Test
@@ -232,20 +232,20 @@ class OrderMappperTest{
         int orderNumber = 10001;
 
         //when
-        Order order = orderMapper.getOrder( 10001 );
-        System.out.println( "order = " + order );
+        Order insertOrder = orderMapper.selectOrder( 10001 );
+        System.out.println( "insertOrder = " + insertOrder );
 
         //then
-        assertThat( order.getOrderNumber() ).isEqualTo( 10001 );
+        assertThat( insertOrder.getOrderNumber() ).isEqualTo( 10001 );
     }
 
     @Test
     @DisplayName( "전체 주문조회 테스트" )
     public void getOrderListTest(){
 
-        List< Order > orderList = orderMapper.getOrderList();
-        for ( Order order : orderList ) {
-            System.out.println( "order = " + order );
+        List< Order > orderList = orderMapper.selectOrderList();
+        for ( Order insertOrder : orderList ) {
+            System.out.println( "insertOrder = " + insertOrder );
         }
 
     }*/

@@ -10,13 +10,17 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.service.ProductService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -70,6 +74,45 @@ public class ProductRestController {
             e.printStackTrace();
 		}
 		return jsonObject.toJSONString();
-	}	
+	}
+	
+	@PostMapping("json/updateProductOption")
+	public String updateProductOption(@RequestBody Product productOption) throws Exception{
+		System.out.println("updateProductOption : " + productOption);
+		
+		JSONObject jsonObject = new JSONObject();
+		
+		System.out.println("productNumber : " + productOption.getProductNumber());
+		if(productOption.getProductQuantity() > 0) {
+			productOption.setProductStatus("01");			
+		}else {
+			productOption.setProductStatus("03");
+		}
+		productService.updateProductOption(productOption);
+		
+		jsonObject.put("responseCode", "success");
+		
+		return jsonObject.toJSONString();
+	}
+	
+	@GetMapping("json/deleteProductOption/{productOptionNumber}")
+	public String deleteProductOption(@PathVariable int productOptionNumber) throws Exception{
+		
+		JSONObject jsonObject = new JSONObject();
+		productService.deleteProductOption(productOptionNumber);
+		jsonObject.put("responseCode", "success");
+		
+		return jsonObject.toJSONString();
+	}
+	
+	@GetMapping("json/deleteProductExtraImage/{imageNumber}")
+	public String deleteProductExtraImage(@PathVariable int imageNumber) throws Exception{
+		
+		JSONObject jsonObject = new JSONObject();
+		productService.deleteProductImage(imageNumber);
+		jsonObject.put("responseCode", "success");
+		
+		return jsonObject.toJSONString();
+	}
 	
 }

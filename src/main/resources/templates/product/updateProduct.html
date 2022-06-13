@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/default_layout}">
+<head>
+   	<meta charset = "UTF-8">
+   	<title>상품 수정</title>
+    	
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+   	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+	
+	<style>
+	
+ 		.form-group{ 
+			margin-top:10px ; 	 
+		}
+		
+		h5,span{font-family: 'Nanum Gothic Coding', monospace;}
+		
+   	</style>
+    
+   	<script type="text/javascript">
+    
+    	/*<![CDATA[*/			
+			let productExtraImageSize = '[[${#lists.size(product.productExtraImage)}]]';
+			console.log("productExtraImageSize : " + productExtraImageSize);
+		/*]]>*/
+			
+    	$(document).ready(function() {
+			console.log('ready');
+
+			optionAdd();
+		});
+		
+    	function optionAdd() {
+			console.log('optionadd');
+			var optionIndex = 0;
+			//$("#fileIndex").append("<div><input type='file' style='float:left;' name='file_"+(fileIndex++)+"'>"+"<button type='button' style='float:right;' id='fileAddBtn'>"+"추가"+"</button></div>");
+			$("#optionAdd_btn").on("click",	function() {
+				console.log('옵션추가');
+				
+				$("#optionArea").append(
+					"<div>"  
+						+ "<input placeholder='옵션' class='form-control' type='text' name='productOptions[" + optionIndex + "].productName' id='productOptions'>"
+						+ "<input type='text' class='form-control' name='productOptions[" + optionIndex +"].productQuantity' id='item_vol' placeholder='수량'>"
+						+ "<button type='button' style='float:right;' id='optionDelBtn' class='btn-btn dark'>"+ "삭제" + "</button>"
+					+ "</div>" 
+				  
+				);
+				
+				optionIndex++;
+				console.log(optionIndex);
+			});
+
+			$(document).on("click", "#optionDelBtn", function() {
+				$(this).parent().remove();
+				optionIndex--;
+			});
+
+		};
+		
+		function setThumbnail(event) {
+				var reader = new FileReader();
+
+				reader.onload = function (event) {
+					//var img = document.createElement("img");
+					var img = "<img src='" + event.target.result + "' width=70%' />";
+					//img.setAttribute("src", event.target.result);
+
+					$("#image_container > img").replaceWith(img);
+
+				};
+
+				reader.readAsDataURL(event.target.files[0]);
+			}
+		
+		$(function(){
+			$(".prevOptionUpdateBtn").on("click", function(){
+				console.log($(this).parent().children(".optionNumber").val());
+				let productOptionNumber = $(this).parent().children(".optionNumber").val();
+				let productOptionName = $(this).parent().children(".optionName").val();
+				let productOptionQuantity = $(this).parent().children(".optionQuantity").val();
+				
+				$.ajax(
+					{
+						url: "/product/json/updateProductOption",
+						method: "POST",
+						dataType: "json",
+						headers: {
+							"Accept": "application/json",
+							"Content-Type": "application/json"
+						},
+						data: JSON.stringify({
+							productNumber: productOptionNumber,
+							productName: productOptionName,
+							productQuantity: productOptionQuantity							
+						}),
+						success: function (JSONData, status) {
+							console.log(JSONData.responseCode);
+							alert('수정되었습니다');
+						}
+					})
+				
+			});
+					
+			$(".prevOptionDelBtn").on("click", function() {
+				console.log($(this).parent().children(".optionNumber").val());
+				let productOptionNumber = $(this).parent().children(".optionNumber").val();
+				$.ajax(
+					{
+						url: "/product/json/deleteProductOption/" + productOptionNumber,
+						method: "GET",
+						dataType: "json",
+						headers: {
+							"Accept": "application/json",
+							"Content-Type": "application/json"
+						},
+						success: function (JSONData, status) {
+							console.log(JSONData.responseCode);
+						}
+					})
+					
+				$(this).parent().remove();
+					
+				alert('삭제되었습니다');	
+				//$(this).parent().remove();
+			});
+			
+			
+			
+			$("#mainImage").change(function(){
+				console.log("file : " + $(this).val());
+			});
+					
+			
+			$(document).on("click", ".extraImageDelete", function() {
+				
+				console.log($(this).parent().children("input[type=hidden]").val());
+				let imageNumber = $(this).parent().children("input[type=hidden]").val();
+				
+				$.ajax(
+					{
+						url: "/product/json/deleteProductExtraImage/" + imageNumber,
+						method: "GET",
+						dataType: "json",
+						headers: {
+							"Accept": "application/json",
+							"Content-Type": "application/json"
+						},
+						success: function (JSONData, status) {
+							console.log(JSONData.responseCode);
+						}
+					}).done(function () {
+						//$(this).parent().remove();
+					});
+				$(this).parent().remove();	
+				alert('삭제되었습니다');	
+			});
+		});
+		
+		
+		/* 첨부파일 추가 */
+		function addFile(obj) {
+			var maxFileCnt = 6 - productExtraImageSize;   // 첨부파일 최대 개수
+			var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
+
+			// 첨부파일 개수 확인
+			if (curFileCnt > maxFileCnt) {
+				alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
+				$("input[name='subImage']").val("");
+			}
+		}
+		
+		
+		
+		$(function(){		
+			
+			//$('#summernote').summernote('editor.insertText', productDetail);	
+			//console.log("dmdkdkdkdkd : " + productDetail);
+				
+			 $('#summernote').summernote({
+					// 에디터 높이
+			        height: 300,
+			        // 에디터 한글 설정
+			        lang: "ko-KR",
+			        // 에디터에 커서 이동 (input창의 autofocus라고 생각)
+			        focus : true,
+			        toolbar: [
+			            // 글꼴 설정
+			            ['fontname', ['fontname']],
+			            // 글자 크기 설정
+			            ['fontsize', ['fontsize']],
+			            // 굵기, 기울임꼴, 밑줄,취소 선, 서식지우기
+			            ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+			            // 글자색
+			            ['color', ['forecolor','color']],
+			            // 표만들기
+			            ['table', ['table']],
+			            // 글머리 기호, 번호매기기, 문단정렬
+			            ['para', ['ul', 'ol', 'paragraph']],
+			            // 줄간격
+			            ['height', ['height']],
+			         	// 그림첨부
+			            ['insert', ['picture']],
+			            // 코드보기, 확대해서보기, 도움말
+			            ['view', ['fullscreen', 'help']]			            
+			        ],
+			        // 추가한 글꼴
+			        fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
+			        // 추가한 폰트사이즈
+			        fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+			        
+			        callbacks: {
+			            onImageUpload: function(files, editor, welEditable) {
+			            	// 파일 업로드(다중업로드를 위해 반복문 사용)
+			            	for(var i=files.length-1; i>=0; i--){
+			            		console.log("aaa");
+			            		uploadSummernoteImageFile(files[i], this);	
+			            	}
+			            }
+			        }    
+			        
+			 });	
+			 
+			 	
+		});
+		
+		function uploadSummernoteImageFile(file, el) {
+			console.log("bbb");
+			data = new FormData();
+			data.append('file', file);
+			$.ajax({
+				data: data,
+				type: "POST",
+				url: "/product/json/uploadSummernoteImageFile",
+				contentType: false,
+				enctype: "multipart/form-data",
+				processData: false,
+				success: function(data){
+					console.log(data.url);
+					console.log("dmdkdkdkdkd : " + productDetail);
+            		$(el).summernote("editor.insertImage", data.url);	
+            					
+				}				
+			});
+		}
+		
+		
+			
+		
+    </script>
+</head>
+<body>
+<article  class="py-5" layout:fragment="content">
+	<div class="container">
+		<form th:action="@{/product/updateProduct}" method="post" th:object="${product}" name="updateProductForm" id="updateProductForm" enctype="multipart/form-data" class="form-horizontal">
+				<!-- 상품수정 -->
+				<input type="hidden" th:field="*{productNumber}" />					
+				<div class="row">
+				    <!--<label for="categoryCode" class="col-sm-offset-1 col-sm-3 control-label">상품 카테고리</label>-->
+				    <div class="col-sm-4">
+				      <select class="form-control" id="categoryCode" name="categoryCode">
+				      	<option value='01' th:selected="*{categoryCode eq '01'}">식품</option>
+				      	<option value='02' th:selected="*{categoryCode eq '02'}">생활</option>
+				      	<option value='03' th:selected="*{categoryCode eq '03'}">뷰티</option>
+				      	<option value='04' th:selected="*{categoryCode eq '04'}">패션</option>
+				      	<option value='05' th:selected="*{categoryCode eq '05'}">인테리어</option>
+				      	<option value='06' th:selected="*{categoryCode eq '06'}">출산/유아동</option>
+				      </select>
+				    </div>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" th:field="*{productName}" placeholder="상품명"/>
+				    </div>
+				</div>
+				<!--					
+				<div class="form-group">
+					<label for="productName" class="col-sm-offset-1 col-sm-3 control-label">상품명</label>
+					<div class="col-sm-8">
+				      <input type="text" class="form-control" th:field="*{productName}" placeholder="상품명"/>
+				    </div>
+				</div>
+				-->
+				<div class="form-group">
+					<label for="productPrice" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
+					<div class="col-sm-4">
+				      <input type="text" class="form-control" th:field="*{productPrice}"/>
+				    </div>
+				</div>
+					
+				<div class="form-group">
+					<label for="productQuantity" class="col-sm-offset-1 col-sm-3 control-label">상품 수량</label>
+					<div class="col-sm-4">
+				      <input type="text" class="form-control" th:field="*{productQuantity}"/>
+				    </div>
+				</div>	
+	
+				<!--  상품옵션 -->
+				<div class="form-group">
+	
+					<button id="optionAdd_btn" class="btn btn-primary mb-3 col-sm-offset-1 col-sm-3" type="button">옵션추가</button>
+	
+					<div class="col-sm-6" id="optionArea">
+						<div th:if="${#lists.size(product.productOptions) > 0}" th:each="productOption : ${product.productOptions}" class="existOption">
+							<input type="hidden" th:value="${productOption.productNumber}" class="optionNumber"/>							  
+							<input type="text"  th:value="${productOption.productName}" class="optionName"/>
+							<input type="text" th:value="${productOption.productQuantity}" class="optionQuantity"/>
+							<button type="button" style="float:right;" class="prevOptionUpdateBtn">수정</button>
+							<button type="button" style="float:right;" class="prevOptionDelBtn">삭제</button>
+						</div>					
+					</div>
+	
+				</div>
+				<!--  상품옵션 끝 -->
+	
+	
+				<!--  상품이미지 -->
+				<div  class="form-group">
+					<label for="mainImage" class="col-sm-offset-1 col-sm-3 control-label">상품 메인 이미지</label>
+					<div class="col-sm-4">
+						<div id="image_container">
+		    				<img th:src = "|../img/upload/*{ productMainImage }|" width="70%">
+		    			</div>
+		    			<input type="hidden" th:field=*{productMainImage}/>
+				    	<input type="file" class="form-control" id="mainImage" name="mainImage"  onchange="setThumbnail(event);" />
+				    </div>
+				</div>
+				
+				<div  class="form-group">
+					<label for="subImage" class="col-sm-offset-1 col-sm-3 control-label">상품 추가 이미지</label>
+					<div class="col-sm-12" th:if="${#lists.size(product.productExtraImage) > 0}" th:each="productExtraImage, index : ${product.productExtraImage}">
+						<div style="width:300px; height:250px; border:1px solid red; float:left; margin-right:10px;">
+							<input type="hidden" th:value="${productExtraImage.imageNumber}" />
+				    		<img th:src="|../img/upload/${ productExtraImage.imageName }|" style="width:250px; height:150px; object-fit:cover;" />
+				    		<button type="button" class="extraImageDelete">삭제</button>
+				    	</div>
+				    </div>
+					<input class="form-control" type="file" onchange="addFile(this);" name="subImage" multiple />
+				</div>
+				
+				<div  class="form-group">
+					<textarea id="summernote" name="productDetail" rows="10">
+						<div th:utext = "*{ productDetail }"></div>
+					</textarea>
+				</div>
+				
+				<div  class="form-group">
+					<select name="productStatus">
+						<option value="01" th:selected="*{productStatus eq '01'}">판매중</option>
+						<option value="02" th:selected="*{productStatus eq '02'}">판매중지</option>
+						<option value="03" th:selected="*{productStatus eq '03'}">품절</option>
+					</select>
+				</div>
+				
+				<button class="btn btn-d btn-circle" type="submit">수정하기</button>
+	</form>
+</div>
+</article>
+</body>
+</html>

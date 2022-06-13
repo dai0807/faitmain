@@ -4,21 +4,33 @@ import com.faitmain.domain.user.domain.StoreApplicationDocument;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserSerivce;
 import lombok.extern.slf4j.Slf4j;
+
+import org.apache.commons.io.FileUtils;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @RestController
 @RequestMapping( "/user/*" )
 public class UserRestController{
 
- 
+	@Value("${upload-path}")
+	private String fileStorageLocation; 
 	   @Autowired
 	   @Qualifier("userServiceImpl")	   
 	   private UserSerivce userSerivce;
@@ -28,6 +40,40 @@ public class UserRestController{
 		   
 	   }
 	
+	   @PostMapping(value = "json/uploadSummernoteImageFile", produces = "application/json")
+		@ResponseBody
+		public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
+			
+			System.out.println("uploadSummernoteImageFile");
+			
+			JSONObject jsonObject = new JSONObject();
+			
+			String fileRoot = "C:\\summernote_image\\";	//저장될 파일 경로
+					
+			String originalFileName = multipartFile.getOriginalFilename();	//오리지날 파일명
+	        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
+			
+	        // 랜덤 UUID+확장자로 저장될 savedFileName
+	        String savedFileName = UUID.randomUUID() + extension;	
+			
+	        File targetFile = new File(fileRoot + savedFileName);
+			
+			try {
+				InputStream fileStream = multipartFile.getInputStream();
+	            FileUtils.copyInputStreamToFile(fileStream, targetFile);	//파일 저장
+ 
+	            jsonObject.put("url", "/summernoteImage/" + savedFileName);  //JSONObjct에 정보 삽임 
+	            jsonObject.put("responseCode", "success");
+			}catch(IOException e) {
+				FileUtils.deleteQuietly(targetFile);	// 실패시 저장된 파일 삭제
+
+	            e.printStackTrace();
+			}
+			
+			log.info(" 끝 = {} " ,jsonObject.toJSONString()) ;
+			return jsonObject.toJSONString();
+		}	
+	   
 	   
 	   @PostMapping( "json/login" )
 	   public String RESTlongin(  User loginuser,  HttpSession session) throws Exception {
@@ -92,7 +138,8 @@ public class UserRestController{
 //							   HttpSession session ,
 //							   HttpServletRequest request ) throws Exception{
     public int ajaxupdateUser( User user ,
-
+    		 MultipartHttpServletRequest mRequest ,
+			 
 			   HttpSession session ,
 			   HttpServletRequest request ) throws Exception{
 //        User user = new User();
@@ -109,7 +156,7 @@ public class UserRestController{
         int result = 0;
         //log.info("updateUser :: user 출력   {} "  ,  user );
         //	result = userSerivce.updateUser(user);
-        result = userSerivce.updateUser( user );
+        result = userSerivce.updateUser( user  , mRequest);
         log.info( "updateUser :: result 출력  = {} " , result );
         //	log.info("updateUser ::  user 세션 값 변경 전   {} "  ,  (User)request.getSession(true).getAttribute("user"));
         user = userSerivce.getUser( user.getId() );
@@ -136,8 +183,39 @@ public class UserRestController{
 
         return cnt;
     }
+    
 
+    
+    //스토어네임
+    @GetMapping( value = "storeNameCheck" )
+    public int storeNameCheck( @RequestParam( "storeName" ) String storeName ) throws Exception{
+        //아직  checkDuplication 없음
 
+        //	log.info("중복체크 닉네임 {} " ,  nickname);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put( "checkcondition" , "store_name" );
+        map.put( "checkkeyword" , storeName );
+
+        int cnt = userSerivce.getchechDuplication( map );
+
+        log.info( "nicknameCheck {}" , cnt );
+        // 숫자가 1 이면 중복 , 0이면 없음
+       
+        
+        log.info( "nicknameCheck {}" , cnt );
+        log.info( "nicknameCheck {}" , cnt );
+        log.info( "nicknameCheck {}" , cnt );
+        log.info( "nicknameCheck {}" , cnt );
+    
+        
+        return cnt;
+        
+        	
+    }
+
+    
+    
     @GetMapping( value = "nicknameCheck" )
     public int nameCheck( @RequestParam( "nickname" ) String nickname ) throws Exception{
         //아직  checkDuplication 없음

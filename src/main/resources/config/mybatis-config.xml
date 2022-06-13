@@ -14,7 +14,7 @@
 <!--    </settings>-->
 
 <!--    <typeAliases>-->
-<!--        <package name="com.faitmain.domain.order.domain"/>-->
+<!--        <package name="com.faitmain.domain.insertOrder.domain"/>-->
 <!--        <package name="com.faitmain.domain.live.domain"/>-->
 <!--        <package name="com.faitmain.domain.product.domain"/>-->
 <!--        <package name="com.faitmain.domain.user.domain"/>-->

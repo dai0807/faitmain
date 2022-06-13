@@ -22,16 +22,19 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.faitmain.domain.product.controller.ProductController;
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.mapper.ProductMapper;
 import com.faitmain.global.common.Image;
 import com.faitmain.global.common.Search;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service("productServiceImpl")
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class ProductServiceImpl implements ProductService {
 
 	@Value("${upload-path}")
@@ -115,13 +118,16 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Map<String, Object> getProductList(Map<String, Object> map) throws Exception {
+		log.info("serviceImpl");
 		List<Product> list = productMapper.getProductList(map);
+		log.info("list : {}", list);
 		int totalCount = productMapper.getTotalCount(map);
+		log.info("totalCount : {}", totalCount);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("list", list);
 		resultMap.put("totalCount", new Integer(totalCount));
-		
+		/**/
 		return resultMap;
 	}
 	
@@ -134,8 +140,53 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void updateProduct(Product product) throws Exception {
+	public void updateProduct(Product product, MultipartHttpServletRequest mRequest) throws Exception {
+		
+		MultipartFile mainFile = mRequest.getFile("mainImage");
+		List<MultipartFile> subFile = mRequest.getFiles("subImage");
+		
+		System.out.println("fileStorageLocation : " + fileStorageLocation);
+		
+		if(!mainFile.isEmpty()) {
+			 System.out.println("mainFile");
+			 String fileName = storeFile(mainFile);
+			 product.setProductMainImage(fileName);
+		}	
+				
+		if (!subFile.isEmpty()) {
+			if(subFile.size() > 1) {
+				System.out.println("subFile");
+				Image image = new Image();
+				image.setImageClassificationNumber(product.getProductGroupNumber());
+				
+				for(MultipartFile mf : subFile) {
+					
+					String fileName = storeFile(mf);
+					image.setImageName(fileName);
+					productMapper.addProductImage(image) ;
+					
+				}
+			}		
+		}
+		
+		if(product.getProductOptions() != null) {
+			for(Product option : product.getProductOptions()) {
+				option.setCategoryCode(product.getCategoryCode());
+				option.setProductPrice(product.getProductPrice());
+				option.setProductMainImage(product.getProductMainImage());
+				option.setProductGroupNumber(product.getProductGroupNumber());
+				option.setStore(product.getStore());
+				productMapper.addProduct(option);
+			}
+		}
+		
 		productMapper.updateProduct(product);
+		
+	}
+	
+	@Override
+	public void updateProductOption(Product product) throws Exception {
+		productMapper.updateProductOption(product);
 		
 	}
 
@@ -154,6 +205,12 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void deleteProduct(int productNumber) throws Exception {
 		productMapper.deleteProduct(productNumber);
+		
+	}
+	
+	@Override
+	public void deleteProductOption(int productNumber) throws Exception {
+		productMapper.deleteProductOption(productNumber);
 		
 	}
 

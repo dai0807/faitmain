@@ -106,14 +106,14 @@ public class ProductMapperTest {
 		
 	}
 	
-	//@Test
+	@Test
 	@DisplayName("getProductList Mapper Test")
 	public void getProductListTest() throws Exception{
 		
 		System.out.println("getProductListTest start");
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("orderName", "product_name DESC");
+//		map.put("searchOrderName", "product_name DESC");
 		map.put("startRowNum", 1);
 		map.put("endRowNum", 5);
 		
