@@ -8,7 +8,8 @@
     <link href = "https://fonts.googleapis.com" rel = "preconnect">
     <link crossorigin href = "https://fonts.gstatic.com" rel = "preconnect">
     <script src = "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
+    <link href = "https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap"
+          rel = "stylesheet">
     <style>
         .form-group {
 
@@ -64,14 +65,19 @@
                 }
 
                 $.ajax({
-                    url: "/cart/add", // 주소
+                    url: "/cart/json/addCart", // 주소
                     //data: JSON.stringify(jsonData), // 전송 데이터
                     data: $("#getProductForm").serialize(),
                     type: "POST", // 전송 타입
                     dataType: "JSON", // 응답 받을 데이터 타입
                     //contentType: "application/json; charset=utf-8",
-                    success: function (result) {
-                        cartAlert(result)
+                    success: function (data) {
+                        console.log("result : " + data.result);
+                        if (data.result) {
+                            alert("장바구니에 추가되었습니다.");
+                        } else {
+                            alert("장바구니에 이미 담긴 상품입니다.");
+                        }
                     },
                     //요청 실패 시 이벤트
                     //응답 status code가 2xx가 아닌 경우 
@@ -136,29 +142,29 @@
                             </dl>
                             -->
                             <div class = "product_info">
-                                <dlv class = "list">
+                                <dl class = "list">
                                     <dt class = "tit">가격</dt>
                                     <dd class = "desc" th:text = "|*{ productPrice } 원|"></dd>
-                                </dlv>
-                                <dlv class = "list">
+                                </dl>
+                                <dl class = "list">
                                     <dt class = "tit">배송비</dt>
                                     <dd class = "desc">3000원</dd>
-                                </dlv>
+                                </dl>
                             </div>
                             <!-- 단일 상품(옵션 없는 상품) 정보 -->
                             <th:block th:if = "${#lists.size(product.productOptions) <= 0}">
-                                <input id = "" name = "product[0].productNumber" th:value = "*{productNumber}"
+                                <input id = "" name = "orderPageBundle[0].productNumber" th:value = "*{productNumber}"
                                        type = "hidden"/>
-                                <input id = "" name = "product[0].product[0].productName" th:value = "*{productName}"
+                                <input id = "" name = "orderPageBundle[0].productName" th:value = "*{productName}"
                                        type = "hidden"/>
-                                <input name = "product[0].productMainImage" th:value = "*{productMainImage}"
+                                <input name = "orderPageBundle[0].productMainImage" th:value = "*{productMainImage}"
                                        type = "hidden"/>
                                 <div id = "productQuantityArea">
                                     <div>
 											<span>
 												<button class = "minus_btn" type = "button">-</button>
 											</span>
-                                        <input class = "quantity_input" name = "product[0].productQuantity" readonly = "readonly" type = "text"
+                                        <input class = "quantity_input" name = "orderPageBundle[0].producOrderCount" readonly = "readonly" type = "text"
                                                value = "1">
                                         <span>
 												<button class = "plus_btn" type = "button">+</button>
@@ -190,9 +196,6 @@
                                         th:text = "${product.productPrice}"></strong>
                                 <strong id = "totalPrice"
                                         th:if = "${#lists.size(product.productOptions) != 0}">0</strong>
-                            </div>
-                            <div>
-                                적립 포인트 : <span class="point_span"></span>원
                             </div>
 
                             <div class = "row">
@@ -246,13 +249,13 @@
                             "<div>"
                             + "<span class='selectName'>" + productName + "</span>"
                             + "<button type='button' class='optionQuantity_minus_btn'>-</button>"
-                            + "<input type='text' class='quantity_input' style='width:100px;' value='1' readonly name='product[" + optionIndex + "].productQuantity' />"
+                            + "<input type='text' class='quantity_input' style='width:100px;' value='1' readonly name='orderPageBundle[" + optionIndex + "].producOrderCount' />"
                             + "<button type='button' class='optionQuantity_plus_btn'>+</button>"
                             + "<button type='button' style='float:right;' id='optionDelBtn' class='btn-btn dark'>" + "삭제" + "</button>"
-                            + "<input type='hidden' value='" + productNumber + "' name='product[" + optionIndex + "].productNumber' />"
-                            + "<input type='hidden' value='" + productName + "' name='product[" + optionIndex + "].productName'/>"
-                            + "<input type='hidden' value='" + productPrice + "' name='product[" + optionIndex + "].productPrice'/>"
-                            + "<input type='hidden' value='" + productMainImage + "' name='product[" + optionIndex + "].productMainImage'/>"
+                            + "<input type='hidden' value='" + productNumber + "' name='orderPageBundle[" + optionIndex + "].productNumber' />"
+                            + "<input type='hidden' value='" + productName + "' name='orderPageBundle[" + optionIndex + "].productName'/>"
+                            + "<input type='hidden' value='" + productPrice + "' name='orderPageBundle[" + optionIndex + "].productPrice'/>"
+                            + "<input type='hidden' value='" + productMainImage + "' name='orderPageBundle[" + optionIndex + "].productMainImage'/>"
                             + "<input type='hidden' value='" + optionQuantity + "' class='optionQuantity' />"
                             + "</div>"
                         );

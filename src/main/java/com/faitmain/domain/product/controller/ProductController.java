@@ -41,7 +41,7 @@ public class ProductController {
 		
 		log.info("/product/addProduct : GET");
 //		view/common/admin/main
-		return "/view/product/addProduct";
+		return "/product/addProduct";
 		
 	}
 	
@@ -72,7 +72,7 @@ public class ProductController {
 		
 		model.addAttribute("product", product);
 		
-		return "/view/product/getProduct";
+		return "/product/getProduct";
 	}
 	
 	@RequestMapping(value="getProductList")
@@ -112,7 +112,7 @@ public class ProductController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);	
 		/**/
-		return "/view/product/" + resultJsp;
+		return "/product/" + resultJsp;
 	}
 	
 	@GetMapping("updateProduct")
@@ -124,7 +124,7 @@ public class ProductController {
 		
 		model.addAttribute("product", product);
 		
-		return "/view/product/updateProduct";
+		return "/product/updateProduct";
 	}
 	
 	@PostMapping("updateProduct")
@@ -147,7 +147,7 @@ public class ProductController {
 		
 		productService.deleteProduct(productNumber);
 		
-		return "redirect:/inquiry/listInquiry?resultJsp=" + resultJsp;
+		return "redirect:/product/" + resultJsp;
 	}
 	
 	
