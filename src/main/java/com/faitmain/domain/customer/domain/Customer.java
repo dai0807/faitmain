@@ -2,6 +2,9 @@ package com.faitmain.domain.customer.domain;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.transaction.annotation.Transactional;
 
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Image;
@@ -25,10 +28,8 @@ public class Customer{
 //	private int totalCount;
 	private int viewCount;
 	private String deleteYn;
-	private String highlightNoticeYn;
+//	private String highlightNoticeYn;
 //	private Image image;
-
-
 
 
 	

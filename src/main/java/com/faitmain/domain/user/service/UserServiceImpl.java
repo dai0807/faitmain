@@ -7,20 +7,39 @@ import com.faitmain.global.common.Image;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
+
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @Service( "userServiceImpl" )
 @Transactional
 public class UserServiceImpl implements UserSerivce{
 
+	@Value("${upload-path}")  
+	// application.properties  파일올라가는 경로 , 
+	private String fileStorageLocation;
+	
+	
     @Autowired
     private UserMapper userMapper;
 
@@ -50,6 +69,24 @@ public class UserServiceImpl implements UserSerivce{
         // TODO Auto-generated method stub
         return userMapper.addUser( user );
     }
+	public int addStore( User user ,  MultipartHttpServletRequest mRequest) throws Exception{
+		
+		MultipartFile storeLogo =mRequest.getFile("LogoImage");
+		log.info("addStore fileStorageLocation ={}" ,  fileStorageLocation );		
+		
+		if(!storeLogo.isEmpty()) {
+			log.info("addStore  로고사진 " );		
+				String storeLogoFileName = addFile(storeLogo) ;
+				log.info(":::storeLogoFileName ={}", storeLogoFileName);
+				user.setStoreLogoImage(storeLogoFileName);
+		}
+		log.info("addStore  {} " , user );		
+		
+		
+		return userMapper.addUser(user);
+		
+	}
+
 
     //insert 신청서
     public int AddStoreApplicationDocument( StoreApplicationDocument storeApplicationDocument ) throws Exception{
@@ -99,10 +136,10 @@ public class UserServiceImpl implements UserSerivce{
         // TODO Auto-generated method stub
 
         StoreApplicationDocument storeDoc = userMapper.getStoreApplicationDocument( StoreApplicationDocumenNumber );
-        System.out.println( "Impl" );
-        List<Image> list = userMapper.getImage( StoreApplicationDocumenNumber );
-        System.out.println( list );
-        storeDoc.setProductmanufacturingImage( list );
+//        System.out.println( "Impl" );
+//        List<Image> list = userMapper.getImage( StoreApplicationDocumenNumber );
+//        System.out.println( list );
+//        storeDoc.setProductmanufacturingImage( list );
 
         System.out.println( "스토어 신청서 출력 출력 " + storeDoc );
 
@@ -154,7 +191,21 @@ public class UserServiceImpl implements UserSerivce{
 
     //유저 UPDATE - 유저 상태 update
 
-    public int updateUser( User user ) throws Exception{
+    public int updateUser( User user,  MultipartHttpServletRequest mRequest ) throws Exception{
+    	
+		MultipartFile storeLogo =mRequest.getFile("LogoImage");
+		log.info("addStore fileStorageLocation ={}" ,  fileStorageLocation );		
+		
+		if(!storeLogo.isEmpty()) {
+			log.info("addStore  로고사진 " );		
+				String storeLogoFileName = addFile(storeLogo) ;
+				log.info(":::storeLogoFileName ={}", storeLogoFileName);
+				user.setStoreLogoImage(storeLogoFileName);
+		}
+		log.info("addStore  {} " , user );		
+		
+    	
+    	
         return userMapper.updateUser( user );
     }
 
@@ -246,6 +297,43 @@ public class UserServiceImpl implements UserSerivce{
         // TODO Auto-generated method stub
 
     }
+	public String addFile(MultipartFile file) throws Exception {
+		
+	// SimpleDateFormat 형식 지정  
+		//System.currentTimeMillis() 사용해서 현재 시간 출력 
+		SimpleDateFormat time = new SimpleDateFormat ( "yyyyMMddHHmmss");
+		String timeStamp = time.format (System.currentTimeMillis()) ;
+ 
+		String originalFileName = file.getOriginalFilename() ;// 원래 파일명
+		String extension = originalFileName.substring(originalFileName.lastIndexOf(".")) ; 
+		// 확장자  가져오기  원래 파일 이름 에서 뒤 . 기분으로 잘라서 확장자 리턴 
+		
+		String fileName = timeStamp + UUID.randomUUID()+ extension;
+		//   String safeFile = fileStorageLocation + fileName;
+		  // file.transferTo(new File(safeFile));
+	 
+            // inputStream을 가져와서
+            // targetLocation (저장위치)로 파일을 쓴다.
+            // copy의 옵션은 기존에 존재하면 REPLACE(대체한다), 오버라이딩 한다
+     
+		
+		// Path 는 지경지정
+		// toAbsolutePath 메서드는 상대 경로를 절대 경로로 변경
+		// resolve는 고정 경로에 지정 경로를 추가
+		Path targetLocation = (Paths.get(fileStorageLocation).toAbsolutePath()).resolve(fileName);
+		System.out.println("targetLocation : " + targetLocation);
+		Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+		// file.getInputStream()  에 있는 것을 복사
+		
+        ///    File destination = new File(fileStorageLocation + File.separator + fileName );
+        //    file.transferTo(destination); // 사진을 메모리에 저장 함 
+           
+ 		log.info("full 파일 이름 = {}" ,fileName);
+		
+		
+		return fileName ;
+	}
 
+    
 
 }

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html layout:decorate = "~{layout/myPage_layout}"
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout" >
+ 
+
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+     <link href="@{/css/styles.css}" rel="stylesheet" />
+
+    <meta charset = "UTF-8">
+    <title>상세정보 </title>
+    <style>
+	  .form-group{
+ 
+		margin-top:10px ;
+ 	 
+		}
+		
+		form-horizontal{font-family: 'Nanum Gothic Coding', monospace;}
+		 
+    </style>
+    
+</head>
+
+<body>
+	<article  class="py-5" layout:fragment="content"  >
+	
+	<h2> 스토어 신청서 </h2>
+	
+	<div class="form-group">
+		    <h5 class="fw-bolder"> 아이디</h5>
+			    <div >
+			    <input type="text" class="form-control" th:id="id" th:name="id"  th:value="${StoreApplicationDocument.id}"  readonly>  
+			
+			    </div>
+		  	<h5 class="fw-bolder"> 이름 </h5>
+			    <div >
+			   <input type="text" class="form-control" th:id="storeName" th:name="storeName"  th:value="${StoreApplicationDocument.storeName}"  readonly>  
+	 
+			    </div>
+			    
+			    
+			      	<h5 class="fw-bolder"> 스토어 소개 </h5>
+			    <div >
+			   <input type="text" class="form-control" th:id="storeIntroduction" th:name="storeIntroduction"  th:value="${StoreApplicationDocument.storeIntroduction}"  readonly>  
+	 
+			    </div>
+			    
+			    <div >
+			   	<h5 class="fw-bolder"> 스토어 심사 상태 </h5>
+
+			   <input type="text" class="form-control" th:id="examinationStatus" th:name="examinationStatus"  th:value="${StoreApplicationDocument.examinationStatus}"  readonly>  
+	 
+			    </div>			    
+		    <div >
+			   	<h5 class="fw-bolder"> 제품소개 및 심사 사진  </h5>
+
+	 				<span th:utext=${StoreApplicationDocument.productDetial}></span>
+			    </div>			    
+			    			    
+			    
+	</div>
+	
+				<a href="javascript:history.back()" class="btn btn-secondary btn-xs" role="button">확인</a>
+
+	
+	</article>
+
+
+</body>
+</html>

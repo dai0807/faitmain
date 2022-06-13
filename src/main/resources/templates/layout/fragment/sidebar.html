@@ -51,7 +51,7 @@
 				<a href="/live/addLiveView" class="list-group-item list-group-item-action">라이브 방송 시작</a>
 			</div>
 			<div th:if="${session.user.role == 'storeX'}">
-				<p>StoreXTest01
+				<a th:href="@{/user/getUser}" class="list-group-item list-group-item-action">스토어 정보</a>
 				<p>StoreXTest02
 				<p>StoreXTest03
 			</div>
