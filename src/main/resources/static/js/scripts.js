@@ -5,11 +5,7 @@ var channelKey = "phiEhgSYhp-pd21rZO6SI-20220610161734"; // CMS에서 발급받�
 
 
 function videoInit() {
-	// 로컬 접속 종료 시
-	channel.on('rtcLocalStreamRemove', function(event){
-		let html = $('.remote_cam > video');
-		html.remove();
-	})
+
   // 로컬 접속 시
   channel.on("rtcRemoteStreamAppend", function (event) {
      	
@@ -37,30 +33,17 @@ let myCam;
 window.addEventListener("load", function () {
   	// 접속자의 미디어 소스를 보여줄 위치
   
-	let p = $('div.dim').show(),
-  	  	l = $('div.login').show(),
-  	  	c = $('div.chat_contents').hide();
-  	likeInif();
-  
   	remoteCam = $('#remote_cam');
   	remoteCam.attr('name', 'remote_cam');
   	
-  	$('button.popupbtn', p).click(function () {
-  		console.log("click")
-    	userNick = {nick: $('input#name', p).val()}; // 사용자가 입력한 닉네임 설정
-    	if(userNick.nick){
-    		$('div.bottom div.name').text(userNick.nick);
-    		joinRoom(channelKey,  'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }), userNick.nick, function(err, history){
-    			if(err){
-    				openError(err.code, function(){
-    					p.show();
-    					l.show();
-    					c.hide();
-    					vChatCloud.disconnect();
+    userNick = {nick: $('input#name', p).val()}; // 사용자가 입력한 닉네임 설정
+    if(userNick.nick){
+    	$('div.bottom div.name').text(userNick.nick);
+    	joinRoom(channelKey,  'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }), userNick.nick, function(err, history){
+    		if(err){
+    			openError(err.code, function(){
+    				vChatCloud.disconnect();
     				});
-    				p.show();
-    				l.hide();
-    				c.show();
     		
     			}else{
     				videoInit();
@@ -76,27 +59,15 @@ window.addEventListener("load", function () {
     						write(m, '', 'history');
     					}
     				});
-    				
-    				p.hide();
-    				l.hide();
-    				c.show();
     		
     				//이벤트 바인딩 시작
     				getRoomInfo();
 
     			}	
     		});
-   		}
+   		
 	});
 	
-    /*$('a.closebtn').click(function() {
-        p.show();
-        c.hide();
-        //cb.hide();
-        //tc.hide();
-        likeEnd();
-        vChatCloud.disconnect();
-    })*/
 })
 
 function joinRoom(roomId, clientKey, nickName, callback) {
