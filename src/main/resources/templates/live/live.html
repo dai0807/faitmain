@@ -93,16 +93,6 @@
 
 <body>
 
-<script th:inline="javascript">
-    
-    /*<![CDATA[*/
-    function nav(){
-    self.location="/";
-    }
-    /*]]>*/
-    
-</script>
-
    <div id="wrap">
         <section>
             <!-- 샘플 화면 -->
@@ -138,7 +128,7 @@
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="button" class="btn btn-warning" onclick="nav()">나가기</button>
+                    <button type="button" class="btn btn-warning" onclick="exit()">나가기</button>
                 </article>
                 <!-- 채팅방 -->
                 <article class="chat">
@@ -182,21 +172,17 @@
             </li>
           </ul>
         </div>
+       
+		<input type="hidden" id="storeName" th:value="${session.user.storeName}" />   
+		<input type="hidden" id="channelKey" th:value="${channelKey}">   
+      
 
-
-        
-        <input type="hidden" id="channelKey" th:value="${channelKey}"/>
-		<input type="hidden" id="storeName" th:value="${session.user.storeName}" />      
-
-
-        
-  
    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
 								
 								
-					<div th:unless="${#lists.size(listProduct)==0}" class="row" style="margin-bottom: 10px; background-color : #D8D8D8;">
+					<div th:unless="${#lists.size(listProduct)==1  or #lists.size(listProduct)==0}" class="row" style="margin-bottom: 10px; background-color : #D8D8D8;">
 						<div class="col-md-9">
 							<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
 								<div class="carousel-inner">
@@ -225,6 +211,7 @@
 //채널에 접속하기 위해서 사용자의 userNick, userKey와 CMS에서 발급받은 channelKey가 필요합니다.
 
 var channelKey = $('#channelKey').val(); // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
+
 
 function videoInit() {
 	// 로컬 접속 종료 시
@@ -260,7 +247,7 @@ window.addEventListener("load", function () {
   
   	myCam = $('.my_cam');
   	myCam.attr('name', 'my_cam');
-
+  	
     $('div.bottom div.name').text(userNick);
     joinRoom(channelKey,  'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }), userNick, function(err, history){
     	if(err){
@@ -300,6 +287,7 @@ window.addEventListener("load", function () {
 function joinRoom(roomId, clientKey, nickName, callback) {
   // vchatcloud 객체
   console.log("clientKey : " + clientKey);
+  console.log("roomId = " + roomId);
   channel = vChatCloud.joinChannel(
     {
       roomId: roomId,
@@ -431,10 +419,14 @@ function exit() {
     $(".cam-footer .cam-btn .cam").off("click.rtc");
     vChatCloud.disconnect();
     channel = undefined;
+    
+    self.location="/live/liveStatusUpdate";
+    
   } else {
     // 로그인 되지 않았음!
   }
 }
+
 </script>
 
 </html>

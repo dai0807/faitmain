@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.faitmain.domain.live.domain.Live;
 import com.faitmain.domain.live.domain.LiveProduct;
@@ -97,9 +98,9 @@ public class LiveController {
 
 		conn.setRequestProperty("Content-type", "application/json");
 		conn.setRequestProperty("accept", "*/*");
-		conn.setRequestProperty("api_key", "kmLueZ-chdq38-O7LGgP-Ggd14x-20220604144349");
+		conn.setRequestProperty("api_key", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
 		conn.setRequestProperty("X-AUTH-TOKEN",
-				"eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ2Y3h6dmN4ejE1OUBnbWFpbC5jb20iLCJleHAiOjE2NTQ2NzAxMDksImlhdCI6MTY1NDY1MjEwOSwiYXV0aG9yaXRpZXMiOiJbUk9MRV9VU0VSXSJ9.YHpIHG-4HyD-Iib4SRGjwxGkxsyaS5p69E5vLT46Elg");
+				"eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ2Y3h6dmN4ejE1OUBnbWFpbC5jb20iLCJleHAiOjE2NTUxMjE4NzcsImlhdCI6MTY1NTEwMzg3NywiYXV0aG9yaXRpZXMiOiJbUk9MRV9VU0VSXSJ9.wHNAWfW1N54JUu6YMPvCqYzHALvMbs1QmLdEHQ7NW_I");
 		conn.setDoOutput(true);
 
 		// 데이터 입력 스트림에 답기
@@ -130,19 +131,8 @@ public class LiveController {
 		return "/live/liveList";
 	}
 
-	@GetMapping("live")
-	public String getLive() throws Exception {
-
-		System.out.println("/live/getLive : GET start...");
-		log.info("Controller = {} ", "/live/getLive : GET start...");
-
-		log.info("Controller = {} ", "/live/getLive : GET end...");
-
-		return "view/live/live";
-	}
-
 	// 토큰 발급 메서드
-	public String getToken(HttpServletRequest req, HttpSession session) throws Exception {
+	public String getToken() throws Exception {
 
 		log.info("getToken Method start...");
 
@@ -201,18 +191,20 @@ public class LiveController {
 
 	// 방송 시작
 	@PostMapping("create")
-	public void createRoom(HttpServletRequest req, @RequestParam("roomName") String liveTitle, HttpSession session,
+	public String createRoom(HttpServletRequest req, @RequestParam("roomName") String liveTitle, HttpSession session,
 			Model model) throws Exception {
 
-		log.info("createRoom = start ");
+		log.info("createRoom = {} ", this.getClass());
 
-		String token = getToken(req, session);
+		String token = getToken();
 
 		User user = (User) session.getAttribute("user");
 
+		Live validation = liveService.getLiveByStoreId(user.getId());
+
 		String[] liveProducts = req.getParameterValues("liveProduct");
 
-		log.info("liveTitle : {}", liveTitle);
+		System.out.println(liveTitle);
 
 		for (String product : liveProducts) {
 			log.info("liveProduct = {}", product);
@@ -221,9 +213,9 @@ public class LiveController {
 		JSONObject result = null;
 		StringBuilder sb = new StringBuilder();
 
-		Live live = liveService.getLiveByStoreId(user.getId());
+		validation = liveService.getLiveByStoreId(user.getId());
 
-		if (live == null) {
+		if (validation == null) {
 
 			TrustManager[] trustCerts = new TrustManager[] { new X509TrustManager() {
 				public java.security.cert.X509Certificate[] getAcceptedIssuers() {
@@ -288,6 +280,9 @@ public class LiveController {
 
 				// 라이브 방송 등록 후 DB에 데이터 입력
 				// 라이브
+
+				Live live = new Live();
+
 				live.setRoomId(roomId);
 				live.setStoreId(user.getId());
 				live.setLiveTitle(liveTitle);
@@ -322,10 +317,8 @@ public class LiveController {
 				}
 			}
 		} else {
-
 			log.info("room aready exist");
 			editRoom(req, liveTitle, session, token, model);
-
 		}
 		List<LiveProduct> list = liveService
 				.getLiveProductListByLiveNumber(liveService.getLiveByStoreId(user.getId()).getLiveNumber());
@@ -338,6 +331,9 @@ public class LiveController {
 		model.addAttribute("channelKey", roomId);
 
 		log.info("model status : " + model);
+
+		return "/live/live";
+
 	}
 
 	// 방송 정보 수정
@@ -424,18 +420,22 @@ public class LiveController {
 			live.setLiveNumber((liveService.getLiveByStoreId(user.getId())).getLiveNumber());
 			live.setLiveTitle(liveTitle);
 			live.setLiveIntro(liveTitle);
+			live.setLiveStatus(true);
 
 			liveService.updateLive(live);
 
-			System.out.println("라이브 방송 정보 : " + live);
+			System.out.println(
+					"라이브 방송 정보 : " + liveService.getLive(liveService.getLiveByStoreId(user.getId()).getLiveNumber()));
 
 			live = new Live();
 
-//	 		for(String product : liveProducts) {
-//	 			System.out.println(product);
-//	 			}
+//          for(String product : liveProducts) {
+//             System.out.println(product);
+//             }
 
 			// 라이브 판매 상품
+
+			live = liveService.getLiveByStoreId(user.getId());
 
 			liveService.deleteLiveProduct(live.getLiveNumber());
 
@@ -457,13 +457,13 @@ public class LiveController {
 
 		String roomId = liveService.getLiveByStoreId(user.getId()).getRoomId();
 
-		log.info("채널키 파라미터 체크 {} : ", roomId);
+		log.info("채널키 파라미터 체크 = {}", roomId);
 
 		model.addAttribute("channelKey", roomId);
 
 		getLiveUserList(req, session, roomId, model, token);
 
-		return "view/live/live";
+		return "live/live";
 
 	}
 
@@ -497,36 +497,6 @@ public class LiveController {
 		return "/live/addLive";
 	}
 
-	@GetMapping("getLiveList")
-	public String getLiveList(Model model) throws Exception {
-
-		System.out.println("/live/getLiveList : GET start...");
-
-		Map<String, Object> map = liveService.getLiveList();
-
-		model.addAttribute(map);
-
-		System.out.println("/live/getLiveList : GET end...");
-
-		return "forward:/live/main.jsp";
-	}
-
-	@GetMapping("getLiveProductList")
-	public String getLiveProductLivst(HttpSession session, Model model) throws Exception {
-
-		System.out.println("/live/getLiveList : GET start...");
-
-		User user = (User) session.getAttribute("user");
-
-//	   Map<String, Object> map = productService.getProductListByStoreId(user.getId());
-//	      
-//	   model.addAttribute(map);
-
-		System.out.println("/live/getLiveList : GET end...");
-
-		return "forward://live/getLiveProductList.jsp";
-	}
-
 	@GetMapping("watchLive/{liveNumber}")
 	public String watchLive(Model model, @PathVariable int liveNumber) throws Exception {
 		log.info("watchLive() : GET start...");
@@ -542,59 +512,6 @@ public class LiveController {
 		return "live/watchLive";
 	}
 
-	@GetMapping("updateLive")
-	public String updateLive() throws Exception {
-
-		System.out.println("/live/updateLive : Get start...");
-
-		System.out.println("/live/updateLive : Get end...");
-
-		return "forward:/live/updateLiveView.jsp";
-
-	}
-
-	@PostMapping("updateLive")
-	public String updateLive(@ModelAttribute("live") Live live, Model model) throws Exception {
-
-		System.out.println("/live/updateLive : POST start...");
-
-		int result = liveService.updateLive(live);
-
-		System.out.println("Controller updateLive result : " + result);
-
-		System.out.println("/live/updateLive : POST end...");
-
-		// �젙蹂대�寃� �썑 諛⑹넚�솕硫댁쑝濡� �떎�떆 �씠�룞
-		live = liveService.getLive(live.getLiveNumber());
-
-		model.addAttribute("live", live);
-
-		return "forward:/live/transLive.jsp";
-
-	}
-
-	@GetMapping("updateLiveStatusCode")
-	public String updateLiveStatusCode(@RequestParam("liveNumber") int liveNumber, Model model) throws Exception {
-		// 諛⑹넚 醫낅즺 updateLiveStatusCode
-		System.out.println("/live/updateLiveStatusCode : GET start...");
-
-		liveService.updateLiveStatusCode(liveNumber);
-
-		System.out.println("/live/updateLiveStatusCode : GET end...");
-
-		// 諛⑹넚 醫낅즺 �썑 liveList濡� �씠�룞
-		System.out.println("/live/getLiveList : GET start...");
-
-		Map<String, Object> map = liveService.getLiveList();
-
-		model.addAttribute(map);
-
-		System.out.println("/live/getLiveList : GET end...");
-
-		return "forward:/live/updateLive.jsp";
-
-	}
-
 	@GetMapping("addLiveUserStatus")
 	public void addLiveUserStatus(@ModelAttribute("liveUsrStatus") LiveUserStatus liveUserStatus) throws Exception {
 
@@ -604,20 +521,6 @@ public class LiveController {
 
 		System.out.println("/live/addSanctionUser : GET end...");
 
-	}
-
-	@GetMapping("getAlarmList")
-	public String getAlarmList(@RequestParam("liveNumber") int liveNumber, Model model) throws Exception {
-
-		System.out.println("/live/getAlarmList : GET start...");
-
-		Map<String, Object> map = liveService.getLiveUserStatusList(liveNumber);
-
-		model.addAttribute(map);
-
-		System.out.println("/live/getAlarmList : GET end...");
-
-		return "forward:/live/getAlarmList.jsp";
 	}
 
 	@GetMapping("getLiveReservationCal")
@@ -722,4 +625,60 @@ public class LiveController {
 		return map;
 	}
 
+	@GetMapping("liveStatusUpdate")
+	public RedirectView liveStatusUpdate(HttpSession session) throws Exception {
+
+		Live live = liveService.getLiveByStoreId(((User) session.getAttribute("user")).getId());
+		log.info("live : {}", live);
+
+		String token = getToken();
+		log.info("token : {}", token);
+
+		StringBuilder sb = new StringBuilder();
+
+		TrustManager[] trustCerts = new TrustManager[] { new X509TrustManager() {
+			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+				return null;
+			}
+
+			public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+			}
+
+			public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+			}
+		} };
+
+		SSLContext sc = SSLContext.getInstance("TLSv1.2");
+		sc.init(null, trustCerts, new java.security.SecureRandom());
+
+		URL url = new URL("https://vchatcloud.com/openapi/v1/rooms/" + live.getRoomId());
+
+		HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+		conn.setSSLSocketFactory(sc.getSocketFactory());
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+		conn.setRequestProperty("API_KEY", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
+		conn.setRequestProperty("X-AUTH-TOKEN", token);
+		conn.setDoOutput(true);
+
+		// conn body에 데이터 담기
+		String Data = "roomName=" + live.getLiveTitle() + "&roomType=화상&maxUser=5&roomStatus=s&rtcStat=Y&gTransStat=N";
+
+		OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+		wr.write(Data);
+		wr.flush();
+
+		// 데이터 입력 스트림에 답기
+		BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+		while (br.ready()) {
+			sb.append(br.readLine());
+		}
+		conn.disconnect();
+
+		live.setLiveStatus(false);
+
+		liveService.updateLive(live);
+
+		return new RedirectView("/");
+	}
 }
