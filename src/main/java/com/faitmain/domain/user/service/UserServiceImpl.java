@@ -209,6 +209,18 @@ public class UserServiceImpl implements UserSerivce{
         return userMapper.updateUser( user );
     }
 
+    
+	public int updateUser( User user  ) throws Exception{
+		log.info("update Use={} ",  user );		
+
+		  return userMapper.updateUser( user );
+		
+	}
+
+    
+    
+    
+    
 
     //패스워드 재설정
     public int updateUserPassword( User user ) throws Exception{

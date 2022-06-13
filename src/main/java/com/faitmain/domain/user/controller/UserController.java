@@ -1,6 +1,7 @@
 package com.faitmain.domain.user.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,12 +23,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.faitmain.domain.live.service.LiveService;
+import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.user.domain.StoreApplicationDocument;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.ApiService;
 import com.faitmain.domain.user.service.UserSerivce;
- 
+import com.faitmain.global.common.MiniProjectPage;
+import com.faitmain.global.common.Search;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -62,6 +66,52 @@ public class UserController{
 	   }
 	   
 	 
+	   
+	//admin 페이지 리스트 보이기    
+	   @GetMapping("getStoreApplicationDocumentList")
+	   public String getStoreApplicationDocumentList(Model model ,@ModelAttribute Search search   )  throws Exception {
+		 
+		   if(search.getCurrentPage() == 0) {
+				search.setCurrentPage(1);
+			}
+			search.setPageSize(10);
+			
+			Map<String, Object> searchMap = new HashMap<String, Object>();		
+			searchMap.put("searchKeyword", search.getSearchKeyword());
+			
+		 
+			searchMap.put("endRowNum",  search.getEndRowNum());
+			searchMap.put("startRowNum",  search.getStartRowNum());
+			searchMap.put("searchKeyword", search.getSearchKeyword());
+			searchMap.put("searchStatus", search.getSearchStatus());
+			searchMap.put("searchCategory", search.getSearchCategory());
+			searchMap.put("searchOrderName", search.getOrderName());
+			
+			System.out.println("Search : " + search);
+			
+			Map<String, Object> map = userSerivce.getStoreApplicationDocumentList(searchMap);
+					
+			MiniProjectPage resultPage = new MiniProjectPage( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 4, 10);
+			
+			log.info("resultPage : " + resultPage);
+			
+			log.info("list : " + ((List<Product>)map.get("list")).get(0));
+			
+			
+			model.addAttribute("list", map.get("list"));
+			model.addAttribute("resultPage", resultPage);
+			model.addAttribute("search", search);	
+
+			
+			
+		   
+			log.info("get :: addStore " );
+	      
+	   return "/admin/getStoreApplicationDocumentList";
+	   }
+	   
+	   
+	   
 	   @GetMapping( "login" )
 	   public String longin( Model model ) throws Exception {
 	      
@@ -84,7 +134,7 @@ public class UserController{
 		   
 		   
 		   
-		   return "/user/getUserList";
+		   return "/admin/getUserList";
 		   
 	   }
 	   

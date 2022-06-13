@@ -21,6 +21,49 @@
 		form-horizontal{font-family: 'Nanum Gothic Coding', monospace;}
 		 
     </style>
+
+ <script type = "text/javascript">
+
+
+/*
+function showValue(target){
+ console.log(target.value);	
+ let examinationStatus = target.value ;
+}
+*/
+ 
+   $(function () {
+	$("#button").on("click",function(){
+		
+	
+                         alert("버튼울림 :: ") ;
+
+   var queryString = $("#form").serialize() ;
+  alert(queryString) ;
+		$.ajax({
+			 url: "/user/json/updateStoreApplicationDocument" ,
+			 type: 'POST',
+			 data:queryString , 
+			 dataType : 'json',
+
+                        success: function (cnt) { //컨트롤러에서 넘어온 cnt값을 받는다
+                        
+                        alert("결과 :: " + cnt) ;
+                        } 
+           
+			
+		}) //ajax 괄호
+			
+			
+		 
+		
+ 
+	}) ;
+	
+} );	
+
+
+</script>
     
 </head>
 
@@ -30,6 +73,10 @@
 	<h2> 스토어 신청서 </h2>
 	
 	<div class="form-group">
+	
+	<input type="hidden"  th:id="storeApplicationDocumentNumber" th:name="storeApplicationDocumentNumber"    th:value="${StoreApplicationDocument.storeApplicationDocumentNumber}"  >
+		  	 <form id="form">    			    
+
 		    <h5 class="fw-bolder"> 아이디</h5>
 			    <div >
 			    <input type="text" class="form-control" th:id="id" th:name="id"  th:value="${StoreApplicationDocument.id}"  readonly>  
@@ -51,18 +98,44 @@
 			    <div >
 			   	<h5 class="fw-bolder"> 스토어 심사 상태 </h5>
 
-			   <input type="text" class="form-control" th:id="examinationStatus" th:name="examinationStatus"  th:value="${StoreApplicationDocument.examinationStatus}"  readonly>  
+			   <input type="text" class="form-control"  th:value="${StoreApplicationDocument.examinationStatus}"  disabled>  
 	 
 			    </div>			    
 		    <div >
 			   	<h5 class="fw-bolder"> 제품소개 및 심사 사진  </h5>
 
 	 				<span th:utext=${StoreApplicationDocument.productDetial}></span>
-			    </div>			    
-			    			    
+			    </div>			    <br><br>
+			    
+			    <hr>
+			    <div th:if"${user.role == 'admin'}">
+			     	<h5 class="fw-bolder"> 심사  </h5>
+						<select th:id="examinationStatus"    name="examinationStatus" >
+						  <option value="W" selected="selected">대기</option>
+						  <option value="A">승인</option>
+						  <option value="R" >반려</option>
+						</select>
+                         <div>
+                            <span class = "fw-bolder btn btn-success col-md-2" id = "button"> 심사하기</span> 
+
+                    </div>
+ 
+    		
+    		
+    		
+    		</form>	
+			    	
+			    </div>
+			    
+			    
+			    
+			    
+			    
 			    
 	</div>
-	
+	<br><br>
+			    
+			    <hr>
 				<a href="javascript:history.back()" class="btn btn-secondary btn-xs" role="button">확인</a>
 
 	

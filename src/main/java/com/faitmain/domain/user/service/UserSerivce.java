@@ -67,6 +67,9 @@ public interface UserSerivce{
     //유저 UPDATE - 유저 상태 update
 	public int updateUser( User user ,  MultipartHttpServletRequest mRequest) throws Exception;
 
+	public int updateUser( User user  ) throws Exception;
+	
+	
     //  UPDATE - 스토어로 업데이트
 
     int updateUserStore( Map<String, Object> map ) throws Exception;
