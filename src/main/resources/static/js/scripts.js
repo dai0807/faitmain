@@ -1,13 +1,12 @@
-
 // 채널에 접속하기 위해서 사용자의 userNick, userKey와 CMS에서 발급받은 channelKey가 필요합니다.
 
-var channelKey = "phiEhgSYhp-pd21rZO6SI-20220610161734"; // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
+var channelKey = "PaMxkbiFMY-a9vKJcy17y-20220610185606"; // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
 
 
 function videoInit() {
 	// 로컬 접속 종료 시
 	channel.on('rtcLocalStreamRemove', function(event){
-		let html = $('.my_cam > video');
+		let html = $('.remote_cam > video');
 		html.remove();
 	})
   // 로컬 접속 시
@@ -37,67 +36,42 @@ let myCam;
 window.addEventListener("load", function () {
   	// 접속자의 미디어 소스를 보여줄 위치
   
-	let p = $('div.dim').show(),
-  	  	l = $('div.login').show(),
-  	  	c = $('div.chat_contents').hide();
-  	likeInif();
-  
   	remoteCam = $('#remote_cam');
   	remoteCam.attr('name', 'remote_cam');
   	
-  	$('button.popupbtn', p).click(function () {
-  		console.log("click")
-    	userNick = {nick: $('input#name', p).val()}; // 사용자가 입력한 닉네임 설정
-    	if(userNick.nick){
-    		$('div.bottom div.name').text(userNick.nick);
-    		joinRoom(channelKey,  'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }), userNick.nick, function(err, history){
-    			if(err){
-    				openError(err.code, function(){
-    					p.show();
-    					l.show();
-    					c.hide();
-    					vChatCloud.disconnect();
-    				});
-    				p.show();
-    				l.hide();
-    				c.show();
-    		
-    			}else{
-    				videoInit();
-    				//채팅영역에 글쓰기가 활성화될시 활성화(최신공지 한개만 남기기)
-    				let flag = undefined;
-    				if(typeof write == 'function') history && history.forEach(function(m){
-    					if(m.messageType == 'notice'){
-    						if(flag == undefined){
-    							flag = true;
-    							write(m, 'notice', 'history');
-    						}
-    					}else{
-    						write(m, '', 'history');
-    					}
-    				});
-    				
-    				p.hide();
-    				l.hide();
-    				c.show();
-    		
-    				//이벤트 바인딩 시작
-    				getRoomInfo();
 
-    			}	
-    		});
-   		}
-	});
-	
-    /*$('a.closebtn').click(function() {
-        p.show();
-        c.hide();
-        //cb.hide();
-        //tc.hide();
-        likeEnd();
-        vChatCloud.disconnect();
-    })*/
-})
+  	console.log("click")
+    userNick = {nick: $('input#name', p).val()}; // 사용자가 입력한 닉네임 설정
+    if(userNick.nick){
+    	$('div.bottom div.name').text(userNick.nick);
+    	joinRoom(channelKey,  'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }), 'testNick', function(err, history){
+    		if(err){
+    			openError(err.code, function(){
+    				vChatCloud.disconnect();
+    			});
+    		
+    		}else{
+    			videoInit();
+    			//채팅영역에 글쓰기가 활성화될시 활성화(최신공지 한개만 남기기)
+    			let flag = undefined;
+    			if(typeof write == 'function') history && history.forEach(function(m){
+    				if(m.messageType == 'notice'){
+    					if(flag == undefined){
+    						flag = true;
+    						write(m, 'notice', 'history');
+    					}
+    				}else{
+    					write(m, '', 'history');
+    				}
+    			});
+    				
+    			//이벤트 바인딩 시작
+    			getRoomInfo();
+
+    		}	
+    	});
+   	}
+});
 
 function joinRoom(roomId, clientKey, nickName, callback) {
   // vchatcloud 객체
