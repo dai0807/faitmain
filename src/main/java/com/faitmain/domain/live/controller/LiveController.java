@@ -198,20 +198,20 @@ public class LiveController {
 
 	// 방송 시작
 	@PostMapping("create")
-	public String createRoom(HttpServletRequest req, @RequestParam("roomName") String liveTitle, HttpSession session,
+	public void createRoom(HttpServletRequest req, @RequestParam("roomName") String liveTitle, HttpSession session,
 			Model model) throws Exception {
 
-		log.info("createRoom = {} ", this.getClass());
+		log.info("createRoom = start ");
 
 		String token = getToken(req, session);
 
 		User user = (User) session.getAttribute("user");
 
-		Live validation = liveService.getLiveByStoreId(user.getId());
+		log.info("live : {}", live);
 
 		String[] liveProducts = req.getParameterValues("liveProduct");
 
-		System.out.println(liveTitle);
+		log.info("liveTitle : {}", liveTitle);
 
 		for (String product : liveProducts) {
 			log.info("liveProduct = {}", product);
@@ -220,9 +220,9 @@ public class LiveController {
 		JSONObject result = null;
 		StringBuilder sb = new StringBuilder();
 
-		validation = liveService.getLiveByStoreId(user.getId());
+		Live live = liveService.getLiveByStoreId(user.getId());
 
-		if (validation == null) {
+		if (live == null) {
 
 			TrustManager[] trustCerts = new TrustManager[] { new X509TrustManager() {
 				public java.security.cert.X509Certificate[] getAcceptedIssuers() {
@@ -255,11 +255,6 @@ public class LiveController {
 
 			String Data = "roomName=" + liveTitle + "&maxUser=5&webrtc=91";
 
-//	         JSONObject Data = new JSONObject();
-//	         Data.put("maxUser", "5");
-//	         Data.put("roomName", "CreateRoomTest");
-//	         System.out.println("JSONData : " + Data.toString());
-
 			OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 			wr.write(Data);
 			wr.flush();
@@ -286,15 +281,14 @@ public class LiveController {
 			log.info("roomId = {}", roomId);
 			log.info("result_cd = {}", Code);
 
+			Live liv1e = new Live();
+
 			if (Code != 1) {
 				log.info("에러 발생! result_cd : {}", Code);
 			} else {
 
 				// 라이브 방송 등록 후 DB에 데이터 입력
 				// 라이브
-
-				Live live = new Live();
-
 				live.setRoomId(roomId);
 				live.setStoreId(user.getId());
 				live.setLiveTitle(liveTitle);
@@ -337,11 +331,9 @@ public class LiveController {
 		List<LiveProduct> list = liveService
 				.getLiveProductListByLiveNumber(liveService.getLiveByStoreId(user.getId()).getLiveNumber());
 		model.addAttribute("listProduct", list);
+		model.addAttribute("live", list);
 
 		log.info("model status : " + model);
-
-		return "/live/live";
-
 	}
 
 	// 방송 정보 수정
@@ -431,18 +423,13 @@ public class LiveController {
 
 			liveService.updateLive(live);
 
-			System.out.println(
-					"라이브 방송 정보 : " + liveService.getLive(liveService.getLiveByStoreId(user.getId()).getLiveNumber()));
-
-			live = new Live();
+			System.out.println("라이브 방송 정보 : " + live);
 
 //	 		for(String product : liveProducts) {
 //	 			System.out.println(product);
 //	 			}
 
 			// 라이브 판매 상품
-
-			live = liveService.getLiveByStoreId(user.getId());
 
 			liveService.deleteLiveProduct(live.getLiveNumber());
 
