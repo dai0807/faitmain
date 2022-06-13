@@ -5,8 +5,10 @@ import com.faitmain.domain.order.domain.OrderCancel;
 import com.faitmain.domain.order.domain.OrderPageProduct;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Criterion;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 public interface OrderService{
 
