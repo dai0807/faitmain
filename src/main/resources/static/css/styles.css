@@ -11408,59 +11408,7 @@ li {
 	width: 100%
 }
 
-footer{
-	width: 100%;
-	height: 110px;
-	bottom: 0px;
-	position: absolute;
-}
 
-article{
-	padding-bottom: 110px;
-}
-
-#mArticle{
-	padding-top: 0;
-	padding-bottom: 300px;
-}
-
-h2.screen_out{
-	text-align: center;
-}
-
-h3.tit_main{
-	text-align: center;
-}
-
-div.customer_main{
-	text-align: right;
-	margin: 10px
-}
-
-img.thumb_img{
-	width: 180px;
-	height: 180px;
-	display: block;
-	aspect-ratio: auto 140 / 140;
-	
-	
-}
-
-
-li{
-	width:650;
-	margin: 0 auto;
-	padding-top: 10px;
-	overflow: hidden;
-	display: inline-block;
-	list-style: none;
-}
-
-a{
-	float:left;
-	text-align: center;
-	
-}
 
 
 
