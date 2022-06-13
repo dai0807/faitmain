@@ -125,7 +125,7 @@ public class LiveController {
 
 		log.info("Controller = {} ", "/live/liveRoomList : GET end...");
 
-		return "view/live/liveList";
+		return "/live/liveList";
 	}
 
 	@GetMapping("live")
@@ -197,9 +197,8 @@ public class LiveController {
 
 	// 방송 시작
 	@PostMapping("create")
-	public String createRoom(HttpServletRequest req, @RequestParam("roomName") String liveTitle, HttpSession session, 
-			                 Model model)
-			throws Exception {
+	public String createRoom(HttpServletRequest req, @RequestParam("roomName") String liveTitle, HttpSession session,
+			Model model) throws Exception {
 
 		log.info("createRoom = {} ", this.getClass());
 
@@ -277,7 +276,7 @@ public class LiveController {
 			StringBuilder out = new StringBuilder();
 			out.append(result.get("status") + " : " + result.get("status_message") + "\n");
 			log.info("status / status_message : {}", out);
-			
+
 			// JSON데이터에서 "data"라는 JSONObject를 가져온다.
 			JSONObject data = (JSONObject) result.get("data");
 			String roomId = (String) data.get("roomId");
@@ -334,17 +333,19 @@ public class LiveController {
 			editRoom(req, liveTitle, session, token);
 
 		}
-			List<LiveProduct> list = liveService.getLiveProductListByLiveNumber(liveService.getLiveByStoreId(user.getId()).getLiveNumber());
-			model.addAttribute("listProduct", list);
-			
-			log.info("model status : " + model);
+		List<LiveProduct> list = liveService
+				.getLiveProductListByLiveNumber(liveService.getLiveByStoreId(user.getId()).getLiveNumber());
+		model.addAttribute("listProduct", list);
 
-		return "view/live/live";
+		log.info("model status : " + model);
+
+		return "/live/live";
 
 	}
 
 	// 방송 정보 수정
-	public String editRoom(HttpServletRequest req, String liveTitle, HttpSession session, String token) throws Exception {
+	public String editRoom(HttpServletRequest req, String liveTitle, HttpSession session, String token)
+			throws Exception {
 
 		log.info("editRoom = {} ", this.getClass());
 		System.out.println("방송 정보 수정");
@@ -460,7 +461,7 @@ public class LiveController {
 			System.out.println("오류남");
 		}
 
-		return "view/live/live";
+		return "/live/live";
 
 	}
 
@@ -480,7 +481,7 @@ public class LiveController {
 
 		log.info("Controller = {} ", "/live/addLiveView : GET end...");
 
-		return "view/live/addLiveView";
+		return "live/addLiveView";
 	}
 
 	@GetMapping("addLive")
@@ -491,7 +492,7 @@ public class LiveController {
 
 		log.info("Controller = {} ", "/live/addLiveView : GET end...");
 
-		return "view/live/addLive";
+		return "/live/addLive";
 	}
 
 	@GetMapping("getLiveList")
@@ -525,18 +526,18 @@ public class LiveController {
 	}
 
 	@GetMapping("watchLive")
-	public String watchLive( Model model) throws Exception {
+	public String watchLive(Model model) throws Exception {
 		log.info("watchLive() : GET start...");
-			
+
 		User user = new User();
-		
+
 		log.info("watchLive() : GET start...");
-		
+
 		List<LiveProduct> list = liveService.getLiveProductListByLiveNumber(10000);
 		model.addAttribute("listProduct", list);
-		
+
 		log.info("model status : " + model);
-		return "view/live/watchLive";
+		return "live/watchLive";
 	}
 
 	@GetMapping("updateLive")
@@ -624,7 +625,7 @@ public class LiveController {
 		// 단순 네비게이션
 
 		log.info("getLiveReservationCal() : GET end... ");
-		return "/view/live/liveReservationCal";
+		return "live/liveReservationCal";
 	}
 
 	@GetMapping("getLiveReservationList")
@@ -652,7 +653,7 @@ public class LiveController {
 		model.addAttribute("list", resultList);
 
 		log.info("getLiveReservationList() : GET end... ");
-		return "/view/live/liveReservationList";
+		return "/live/liveReservationList";
 	}
 
 }
