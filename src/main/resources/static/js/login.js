@@ -1,7 +1,6 @@
-
 // 채널에 접속하기 위해서 사용자의 userNick, userKey와 CMS에서 발급받은 channelKey가 필요합니다.
 
-var channelKey = "avCnOcnEgL-9QB706d2aj-20220610152648"; // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
+var channelKey = "PaMxkbiFMY-a9vKJcy17y-20220610185606"; // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
 
 
 function videoInit() {

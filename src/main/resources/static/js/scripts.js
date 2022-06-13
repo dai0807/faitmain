@@ -7,7 +7,7 @@ var channelKey = "phiEhgSYhp-pd21rZO6SI-20220610161734"; // CMS에서 발급받�
 function videoInit() {
 	// 로컬 접속 종료 시
 	channel.on('rtcLocalStreamRemove', function(event){
-		let html = $('.my_cam > video');
+		let html = $('.remote_cam > video');
 		html.remove();
 	})
   // 로컬 접속 시
