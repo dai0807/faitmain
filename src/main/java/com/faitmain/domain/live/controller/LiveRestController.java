@@ -123,6 +123,15 @@ public class LiveRestController {
 		log.info("/live/json/getLiveReservationCal : GET end...");
 		return jsonArr;
 	}
+	
+	//라이브 채팅방 유저목록 조회 요청 구현중
+	@PostMapping("json/getLiveUserList")
+	public Map<String, Object> getLiverUserList() throws Exception {
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		return map;
+	}
 
 
 //	@PostMapping("json/deleteLiveReservation")

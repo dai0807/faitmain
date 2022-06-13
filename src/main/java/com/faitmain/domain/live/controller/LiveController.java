@@ -97,9 +97,9 @@ public class LiveController {
 
 		conn.setRequestProperty("Content-type", "application/json");
 		conn.setRequestProperty("accept", "*/*");
-		conn.setRequestProperty("api_key", "kmLueZ-chdq38-O7LGgP-Ggd14x-20220604144349");
+		conn.setRequestProperty("api_key", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
 		conn.setRequestProperty("X-AUTH-TOKEN",
-				"eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ2Y3h6dmN4ejE1OUBnbWFpbC5jb20iLCJleHAiOjE2NTQ2NzAxMDksImlhdCI6MTY1NDY1MjEwOSwiYXV0aG9yaXRpZXMiOiJbUk9MRV9VU0VSXSJ9.YHpIHG-4HyD-Iib4SRGjwxGkxsyaS5p69E5vLT46Elg");
+				"eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ2Y3h6dmN4ejE1OUBnbWFpbC5jb20iLCJleHAiOjE2NTUxMjE4NzcsImlhdCI6MTY1NTEwMzg3NywiYXV0aG9yaXRpZXMiOiJbUk9MRV9VU0VSXSJ9.wHNAWfW1N54JUu6YMPvCqYzHALvMbs1QmLdEHQ7NW_I");
 		conn.setDoOutput(true);
 
 		// 데이터 입력 스트림에 답기
@@ -291,6 +291,7 @@ public class LiveController {
 
 			if (Code != 1) {
 				log.info("에러 발생! result_cd : {}", Code);
+				
 			} else {
 
 				// 라이브 방송 등록 후 DB에 데이터 입력
@@ -305,6 +306,8 @@ public class LiveController {
 				live.setLiveImage("라이브 대표사진.png");
 
 				liveService.addLive(live);
+				
+				model.addAttribute("Live", live);
 
 				System.out.println("라이브 방송 정보 : "
 						+ liveService.getLive(liveService.getLiveByStoreId(user.getId()).getLiveNumber()));
@@ -331,9 +334,10 @@ public class LiveController {
 					liveService.addLiveProduct(liveProduct);
 				}
 			}
+			
 		} else {
 
-			log.info("room aready exist");
+			log.info("room already exist");
 			editRoom(req, liveTitle, session, token, model);
 
 		}
@@ -441,6 +445,8 @@ public class LiveController {
 			live.setLiveIntro(liveTitle);
 
 			liveService.updateLive(live);
+			
+			model.addAttribute("Live", live);
 
 			System.out.println(
 					"라이브 방송 정보 : " + liveService.getLive(liveService.getLiveByStoreId(user.getId()).getLiveNumber()));
