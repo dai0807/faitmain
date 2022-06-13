@@ -78,6 +78,22 @@ public class ProductController {
 		return "/product/getProduct";
 	}
 	
+	///////// Test용 ///////////
+	@GetMapping("getProduct2")
+	public String getProduct2( @RequestParam("productNumber") int productNumber, Model model ) throws Exception {
+		
+		log.info("/product/getProduct2");
+		
+		Product product = productService.getProduct(productNumber);
+		
+		log.info("product = {}", product);
+		
+		model.addAttribute("product", product);
+		
+		return "/product/getProduct2";
+	}
+	//////////////////////////
+	
 	@RequestMapping(value="getProductList")
 	public String getProductList(@ModelAttribute Search search, @RequestParam("resultJsp") String resultJsp, Model model) throws Exception{
 		
