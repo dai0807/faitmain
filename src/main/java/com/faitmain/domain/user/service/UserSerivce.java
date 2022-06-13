@@ -8,41 +8,48 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 public interface UserSerivce{
 
 
 
     //  insert 유저
-	int addUser( User user ) throws Exception;
+	public int addUser( User user ) throws Exception;
 
+	// insert 스토어
+	public int addStore( User user ,  MultipartHttpServletRequest mRequest) throws Exception;
+
+	
     //insert 신청서
-	int AddStoreApplicationDocument( StoreApplicationDocument storeApplicationDocument ) throws Exception;
+	public int AddStoreApplicationDocument( StoreApplicationDocument storeApplicationDocument ) throws Exception;
 
     //insert  이미지
-	int addImage( Image image ) throws Exception;
+	public int addImage( Image image ) throws Exception;
 
     ////////////////////////////////select////////////////////////////////////////////////////
     //SELECT 로그인
-	int getLogin( User user ) throws Exception;
+	public int getLogin( User user ) throws Exception;
 
     //SELECT  유저 상세 조회
-	User getUser( String id ) throws Exception;
+	public User getUser( String id ) throws Exception;
 
     // SELECT 아이디/PW 찾기 할때 사용하는 findUser
-	int findUser( Map<String, Object> hasMap ) throws Exception;
+	public int findUser( Map<String, Object> hasMap ) throws Exception;
 
     // SELECT 아이디/PW 찾기 할때 사용하는 findUser
-	String findGetId( Map<String, Object> hasMap ) throws Exception;
+	public String findGetId( Map<String, Object> hasMap ) throws Exception;
 
 
     //SELECT 충복체크
-	int getchechDuplication( Map<String, Object> Map ) throws Exception;
+	public int getchechDuplication( Map<String, Object> Map ) throws Exception;
 
     //SELECT id로 스토어 신청서 넘버 가져오기
-	int getStoreApplicationDocumenNumber( String id ) throws Exception;
+	public int getStoreApplicationDocumenNumber( String id ) throws Exception;
 
     //SELECT 스토어 신청서 넘버로 스토어 가져오기
-	StoreApplicationDocument getStoreApplicationDocument( int StoreApplicationDocumenNumber ) throws Exception;
+	public StoreApplicationDocument getStoreApplicationDocument( int StoreApplicationDocumenNumber ) throws Exception;
 
 
     //SELECT 스토어 이미지 조회
@@ -58,7 +65,7 @@ public interface UserSerivce{
     ////////////////////////////////UPDATE////////////////////////////////////////////////////
 
     //유저 UPDATE - 유저 상태 update
-	int updateUser( User user ) throws Exception;
+	public int updateUser( User user ,  MultipartHttpServletRequest mRequest) throws Exception;
 
     //  UPDATE - 스토어로 업데이트
 
@@ -72,7 +79,9 @@ public interface UserSerivce{
 
 
     ////////////////////////////////delete////////////////////////////////////////////////////
-
+	public String addFile(MultipartFile file) throws Exception ;
+	
+	
 
     //거의 안할 듯
 	void deleteUser( String id ) throws Exception;

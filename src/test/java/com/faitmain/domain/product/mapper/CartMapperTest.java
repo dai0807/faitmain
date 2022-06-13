@@ -35,9 +35,9 @@ public class CartMapperTest {
 		Cart cart = new Cart();
 		
 		Product product = productMapper.getProduct(10016);
-		cart.setCartProduct(product);
+	//	cart.setCartProduct(product);
 		cart.setProductOrderCount(1);
-		cart.setUserId("user01@naver.com");
+	//	cart.setUserId("user01@naver.com");
 		
 		System.out.println("addCartTest end");
 	}
