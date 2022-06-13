@@ -84,7 +84,7 @@ public class InquiryMapperTest {
 		inquiry.setInquiryContent("배송 언제쯤 될까요?");
 		inquiry.setSecret(false);
 		inquiry.setInquiryReplyStatus(true);
-		inquiry.setInquiryReplyCotent("2~3일 걸립니다.");
+		inquiry.setInquiryReplyContent("2~3일 걸립니다.");
 		inquiryMapper.updateInquiry(inquiry);
 				
 		System.out.println("updateInquiryTest end");
