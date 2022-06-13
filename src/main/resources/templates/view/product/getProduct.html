@@ -152,18 +152,18 @@
                             </div>
                             <!-- 단일 상품(옵션 없는 상품) 정보 -->
                             <th:block th:if = "${#lists.size(product.productOptions) <= 0}">
-                                <input id = "" name = "product[0].productNumber" th:value = "*{productNumber}"
+                                <input id = "" name = "orderPageBundle[0].productNumber" th:value = "*{productNumber}"
                                        type = "hidden"/>
-                                <input id = "" name = "product[0].product[0].productName" th:value = "*{productName}"
+                                <input id = "" name = "orderPageBundle[0].productName" th:value = "*{productName}"
                                        type = "hidden"/>
-                                <input name = "product[0].productMainImage" th:value = "*{productMainImage}"
+                                <input name = "orderPageBundle[0].productMainImage" th:value = "*{productMainImage}"
                                        type = "hidden"/>
                                 <div id = "productQuantityArea">
                                     <div>
 											<span>
 												<button class = "minus_btn" type = "button">-</button>
 											</span>
-                                        <input class = "quantity_input" name = "product[0].productQuantity" readonly = "readonly" type = "text"
+                                        <input class = "quantity_input" name = "orderPageBundle[0].producOrderCount" readonly = "readonly" type = "text"
                                                value = "1">
                                         <span>
 												<button class = "plus_btn" type = "button">+</button>
@@ -245,13 +245,13 @@
                             "<div>"
                             + "<span class='selectName'>" + productName + "</span>"
                             + "<button type='button' class='optionQuantity_minus_btn'>-</button>"
-                            + "<input type='text' class='quantity_input' style='width:100px;' value='1' readonly name='product[" + optionIndex + "].productQuantity' />"
+                            + "<input type='text' class='quantity_input' style='width:100px;' value='1' readonly name='orderPageBundle[" + optionIndex + "].producOrderCount' />"
                             + "<button type='button' class='optionQuantity_plus_btn'>+</button>"
                             + "<button type='button' style='float:right;' id='optionDelBtn' class='btn-btn dark'>" + "삭제" + "</button>"
-                            + "<input type='hidden' value='" + productNumber + "' name='product[" + optionIndex + "].productNumber' />"
-                            + "<input type='hidden' value='" + productName + "' name='product[" + optionIndex + "].productName'/>"
-                            + "<input type='hidden' value='" + productPrice + "' name='product[" + optionIndex + "].productPrice'/>"
-                            + "<input type='hidden' value='" + productMainImage + "' name='product[" + optionIndex + "].productMainImage'/>"
+                            + "<input type='hidden' value='" + productNumber + "' name='orderPageBundle[" + optionIndex + "].productNumber' />"
+                            + "<input type='hidden' value='" + productName + "' name='orderPageBundle[" + optionIndex + "].productName'/>"
+                            + "<input type='hidden' value='" + productPrice + "' name='orderPageBundle[" + optionIndex + "].productPrice'/>"
+                            + "<input type='hidden' value='" + productMainImage + "' name='orderPageBundle[" + optionIndex + "].productMainImage'/>"
                             + "<input type='hidden' value='" + optionQuantity + "' class='optionQuantity' />"
                             + "</div>"
                         );
