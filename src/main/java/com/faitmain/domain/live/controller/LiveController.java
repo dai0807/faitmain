@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -138,8 +139,10 @@ public class LiveController {
 
 		return "view/live/live";
 	}
-
+	
+	//토큰 발급 메서드
 	public String getToken(HttpServletRequest req, HttpSession session) throws Exception {
+		
 		log.info("getToken Method start...");
 
 		JSONObject result = null;
@@ -166,7 +169,7 @@ public class LiveController {
 		conn.setSSLSocketFactory(sc.getSocketFactory());
 
 		conn.setRequestMethod("GET");
-		conn.setRequestProperty("api_key", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
+		conn.setRequestProperty("API_KEY", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
 
 		// 데이터 입력 스트림에 담기
 		BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
@@ -339,9 +342,11 @@ public class LiveController {
 		
 		String roomId = liveService.getLiveByStoreId(user.getId()).getRoomId();
 		
+		
+		
 		log.info("채널키 파라미터 체크 {} : ", roomId);
 		
-		model.addAttribute( roomId );
+		model.addAttribute( "channelKey", roomId );
 
 		log.info("model status : " + model);
 
@@ -471,7 +476,9 @@ public class LiveController {
 		
 		log.info("채널키 파라미터 체크 {} : ", roomId);
 		
-		model.addAttribute( roomId );
+		model.addAttribute( "channelKey", roomId );
+		
+		getLiveUserList(req, session, roomId, model, token);
 		
 		return "view/live/live";
 
@@ -666,6 +673,70 @@ public class LiveController {
 
 		log.info("getLiveReservationList() : GET end... ");
 		return "/live/liveReservationList";
+	}
+	
+	public Map<String, Object> getLiveUserList( HttpServletRequest req, HttpSession session, String roomId, Model model, String token ) throws Exception {
+		
+			log.info("Controller = {} ", "/live/getLiveUserList : GET start...");
+
+			log.info("getLiveUserList = {} ", this.getClass());
+
+			JSONObject result = null;
+			StringBuilder sb = new StringBuilder();
+
+				TrustManager[] trustCerts = new TrustManager[] { new X509TrustManager() {
+					public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+					return null;
+					}
+
+					public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+					}
+
+					public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+					}
+				} 
+			};
+
+		SSLContext sc = SSLContext.getInstance("TLSv1.2");
+		sc.init(null, trustCerts, new java.security.SecureRandom());
+
+		URL url = new URL("https://vchatcloud.com/openapi/v1/users/" + roomId);
+		
+		System.out.println("유우우우우우우우우ㅏㄹ엘    " + url);
+
+		HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+		conn.setSSLSocketFactory(sc.getSocketFactory());
+		conn.setRequestMethod("GET");
+		conn.setRequestProperty("accept", "*/*");
+		conn.setRequestProperty("API_KEY", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
+		conn.setRequestProperty("X-AUTH-TOKEN", token);
+		conn.setDoOutput(true);
+
+		// 데이터 입력 스트림에 답기
+		BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+		while (br.ready()) {
+			sb.append(br.readLine());
+		}
+		conn.disconnect();
+
+		result = (JSONObject) new JSONParser().parse(sb.toString());
+
+		// REST API 호출 상태 출력하기
+		StringBuilder out = new StringBuilder();
+		out.append(result.get("status") + " : " + result.get("status_message") + "\n");
+
+		// JSON데이터에서 "data"라는 JSONObject를 가져온다.
+		JSONArray data = (JSONArray)result.get("list");
+		System.out.println("옴뇸뇸" + data);
+		JSONObject tmp;
+		for (int i = 0; i < data.size(); i++) {
+			tmp = (JSONObject) data.get(i);
+			System.out.println("data[" + i + "] : " + tmp);
+		}
+		System.out.println("data : " + data);
+		Map<String, Object> map = new HashMap();
+		log.info("Controller = {} ", "/live/getLiveUserList : GET end...");
+		return map;
 	}
 
 }

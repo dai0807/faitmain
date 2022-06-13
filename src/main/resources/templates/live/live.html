@@ -195,6 +195,8 @@
             </li>
           </ul>
         </div>
+        
+        <input type="hidden" id="channelKey" th:value="${channelKey}"/>
 		<input type="hidden" id="storeName" th:value="${session.user.storeName}" />      
         
       </div>
@@ -204,7 +206,7 @@
 
 								
 								
-					<div th:unless="${#lists.size(listProduct)==1  or #lists.size(listProduct)==0}" class="row" style="margin-bottom: 10px; background-color : #D8D8D8;">
+					<div th:unless="${#lists.size(listProduct)==0}" class="row" style="margin-bottom: 10px; background-color : #D8D8D8;">
 						<div class="col-md-9">
 							<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
 								<div class="carousel-inner">
@@ -232,7 +234,7 @@
 <script th:inline="javascript">
 //채널에 접속하기 위해서 사용자의 userNick, userKey와 CMS에서 발급받은 channelKey가 필요합니다.
 
-var channelKey = "PaMxkbiFMY-a9vKJcy17y-20220610185606"; // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
+var channelKey = $('#channelKey').val(); // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
 
 
 function videoInit() {
