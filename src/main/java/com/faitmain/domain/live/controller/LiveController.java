@@ -25,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -544,18 +545,18 @@ public class LiveController {
 		return "forward://live/getLiveProductList.jsp";
 	}
 
-	@GetMapping("watchLive")
-	public String watchLive(Model model) throws Exception {
+	@GetMapping("watchLive/{liveNumber}")
+	public String watchLive(Model model, @PathVariable int liveNumber) throws Exception {
 		log.info("watchLive() : GET start...");
 
-		User user = new User();
+		Live live = liveService.getLive(liveNumber);
 
-		log.info("watchLive() : GET start...");
+		List<LiveProduct> list = liveService.getLiveProductListByLiveNumber(live.getLiveNumber());
 
-		List<LiveProduct> list = liveService.getLiveProductListByLiveNumber(10000);
 		model.addAttribute("listProduct", list);
+		model.addAttribute("live", live);
 
-		log.info("model status : " + model);
+		log.info("model live : " + model.getAttribute("live"));
 		return "live/watchLive";
 	}
 

@@ -75,7 +75,7 @@
 							
 								<div class="col-md-3 pb-3" th:each="live : ${map.liveList}">
 									<div class="card" style="height : 530px">
-										<a th:href="@{live/watchLive}"><img class="card-img-top" alt="Bootstrap Thumbnail First" src="https://dummyimage.com/235x400/343a40/6c757d" style="height : 400px"></a>
+										<a th:href="@{'live/watchLive/' + ${live.liveNumber}}"><img class="card-img-top" alt="Bootstrap Thumbnail First" src="https://dummyimage.com/235x400/343a40/6c757d" style="height : 400px"></a>
 											
 										</img>
 										<div class="card-block">
