@@ -204,6 +204,9 @@
                                     <button class = "btn btn-primary btn-block" id = "addOrder" type = "button">
                                         구매하기
                                     </button>
+                                    <th:block th:if = "${session.user != null}">
+                                        <a class = "link-light small" th:href = "@{/order/${buyerId}(buyerId=${session.user.id})}">구매</a>
+                                    </th:block>
                                 </div>
                             </div>
                         </div>

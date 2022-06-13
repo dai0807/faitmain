@@ -28,10 +28,7 @@ public class InquiryController {
 	@Qualifier("inquiryServiceImpl")
 	InquiryService inquiryService;
 
-	public InquiryController() {
-		log.info("Controller = {} ", InquiryController.class);
-	}
-	
+
 	@GetMapping("addInquiry")
 	public String addInquiry() throws Exception{
 		

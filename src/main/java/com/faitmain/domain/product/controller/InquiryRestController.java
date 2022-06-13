@@ -27,11 +27,7 @@ public class InquiryRestController {
 	@Autowired
 	@Qualifier("inquiryServiceImpl")
 	private InquiryService inquiryService;
-	
-	public InquiryRestController() {
-		log.info("Controller = {} ", InquiryRestController.class);
-	}
-	
+
 	@GetMapping("json/getInquiry/{inquiryNumber}")
 	public Inquiry getInquiry(@PathVariable int inquiryNumber) throws Exception{
 		

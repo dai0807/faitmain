@@ -34,11 +34,7 @@ public class UserRestController{
 	   @Autowired
 	   @Qualifier("userServiceImpl")	   
 	   private UserSerivce userSerivce;
-	   
-	   public UserRestController() {
-		    log.info(  "Controller {}" , this.getClass() );
-		   
-	   }
+
 	
 	   @PostMapping(value = "json/uploadSummernoteImageFile", produces = "application/json")
 		@ResponseBody

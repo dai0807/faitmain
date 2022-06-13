@@ -40,10 +40,7 @@ public class ReviewController {
 	@Qualifier("reviewServiceImpl")
 	private ReviewService reviewService;
 
-	public ReviewController() {
-		log.info("Controller = {}", this.getClass());
-	}
-	
+
 	@GetMapping("addReview")
 	public String addReview() throws Exception{
 		

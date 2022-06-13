@@ -44,9 +44,6 @@ public class UserServiceImpl implements UserSerivce{
     private UserMapper userMapper;
 
 
-    public UserServiceImpl(){
-        log.info( "Service = {} " , this.getClass() );
-    }
 
 
 

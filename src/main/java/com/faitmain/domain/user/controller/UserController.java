@@ -49,9 +49,6 @@ public class UserController {
 	@Qualifier("apiServiceImpl")
 	private ApiService apiServiceImpl;
 
-	public UserController() {
-		log.info("Controller = {} ", this.getClass());
-	}
 
 	@GetMapping("login")
 	public String longin(Model model) throws Exception {

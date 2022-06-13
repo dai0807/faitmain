@@ -57,9 +57,6 @@ public class LiveController {
 	@Qualifier("userServiceImpl")
 	private UserSerivce userSerivce;
 
-	public LiveController() {
-		log.info("Controller = {} ", this.getClass());
-	}
 
 	@GetMapping("liveRoom")
 	public String getLiveRoomList(Model model) throws Exception {
