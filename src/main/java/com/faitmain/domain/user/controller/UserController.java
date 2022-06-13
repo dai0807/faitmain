@@ -289,16 +289,10 @@ public class UserController{
 	 					
 	 				}
 	 				
- 				 	//model.addFlashAttribute("kakaouserId",kakaouserId);
- 					
- 					
- 					//return "view/user/kakaoAdd"; // 추가 kakao로그인 화면 
- 				 	
- 				 	
- 				   // return new RedirectView("/view/user/kakaoAdd");	 
+ 			 
  				 	model.addAttribute("kakaouserId",kakaouserId) ;
  				 	
- 					return("view/user/kakaoAdd");
+ 					return("/user/kakaoAdd");
 
  				 	
 
@@ -539,6 +533,22 @@ public class UserController{
  			  
 		      return "/user/getStoreApplicationDocument";
 		   }
+		
+		
+		
+   		
+//스토어 재 신청 Add 
+@GetMapping("addStoreApplication")
+   public String addStoreApplicationDocument( Model model ) throws Exception {
+	   log.info(" start !!  addStoreApplicationDocument "   );
+	
+	  
+	   
+      return "/user/addStoreApplicationDocument";
+   }
+
+
+   				
 		   		
 		//스토어 재 신청 Add 
 		@PostMapping("addStoreApplicationDocument")
@@ -562,7 +572,7 @@ public class UserController{
 
 			   
 			   
-		      return "forward:/user/getStoreApplicationDocument.jsp";
+		      return "/user/getStoreApplicationDocument";
 		   }
 		
 		

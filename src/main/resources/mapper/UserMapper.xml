@@ -104,7 +104,7 @@
 		SELECT store_application_document_number
 		FROM store_application_document
 		WHERE id = #{value}
-		ORDER BY reg_date desc   LIMIT 1
+		ORDER BY store_application_document_number desc LIMIT 1
 	</select>
  
  <!--  //SELECT 스토어 신청서 넘버로 스토어 가져오기   -->
@@ -267,7 +267,7 @@
  	 <update	id="updateStoreApplicationDocument"  parameterType="StoreApplicationDocument"  >
 	   	UPDATE store_application_document
 	   	<set>
-	   		examination_status 		= #{examination_status} ,	   	
+	   		examination_status 		= #{examinationStatus} ,	   	
  			 		
 	   	</set>
 	   	WHERE  store_application_document_number = #{storeApplicationDocumentNumber}

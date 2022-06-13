@@ -405,7 +405,9 @@ public class UserRestController{
             }
 
             returnResult = storeApplicationDocument.getExaminationStatus(); // 스토어 신청서 상태 리턴
+            System.out.println("결과 ={} " +returnResult ) ; 
 
+             
         } else {
             returnResult = "error";  // result 값이 1이 아니면 update 실패 한거
         }
