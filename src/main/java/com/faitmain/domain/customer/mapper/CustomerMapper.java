@@ -8,10 +8,15 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.faitmain.domain.customer.domain.BanStatus;
 import com.faitmain.domain.customer.domain.Customer;
+
+import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Image;
+
 
 @Mapper
 public interface CustomerMapper {
+
+
 
 	//CustomerBoard
 	
@@ -32,7 +37,7 @@ public interface CustomerMapper {
 	//delete_yn column 이용해서 실제로 데이터 삭제하지않고 column 값을 Y or N 으로 지정하여 N일 경우에만 데이터가 노출되게끔
 	
 	public int getBoardTotalCount() throws Exception;
-	
+
 	//INSERT
 //	public void addCustomerBoardImage(Image image) throws Exception;
 	
@@ -44,11 +49,6 @@ public interface CustomerMapper {
 	
 	//BanStatus
 //	public int updateBanStatus(BanStatus banStatus) throws Exception;
-	
-	
-	
-	
-	
 	
 	
 	

@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class Page{
 
+
     /* 페이지 시작 번호 */
     private int pageStart;
 
@@ -51,54 +52,9 @@ public class Page{
         this.next = this.pageEnd < realEnd;
 
     }
+    
+    
 
-    public int getPageStart(){
-        return pageStart;
-    }
-
-    public void setPageStart( int pageStart ){
-        this.pageStart = pageStart;
-    }
-
-    public int getPageEnd(){
-        return pageEnd;
-    }
-
-    public void setPageEnd( int pageEnd ){
-        this.pageEnd = pageEnd;
-    }
-
-    public boolean isNext(){
-        return next;
-    }
-
-    public void setNext( boolean next ){
-        this.next = next;
-    }
-
-    public boolean isPrev(){
-        return prev;
-    }
-
-    public void setPrev( boolean prev ){
-        this.prev = prev;
-    }
-
-    public int getTotal(){
-        return total;
-    }
-
-    public void setTotal( int total ){
-        this.total = total;
-    }
-
-    public Criterion getCri(){
-        return criterion;
-    }
-
-    public void setCri( Criterion criterion ){
-        this.criterion = criterion;
-    }
 
 
 

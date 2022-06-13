@@ -1,10 +1,9 @@
 package com.faitmain.domain.order.controller;
 
 import com.faitmain.domain.order.domain.Order;
-import com.faitmain.domain.order.domain.OrderCancle;
+import com.faitmain.domain.order.domain.OrderCancel;
 import com.faitmain.domain.order.domain.OrderPage;
 import com.faitmain.domain.order.service.OrderService;
-import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserSerivce;
 import com.faitmain.global.common.Criterion;
@@ -16,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,6 +23,7 @@ import java.util.List;
 
 @Slf4j
 @Controller
+@RequestMapping( "/order" )
 public class OrderController{
 
 
@@ -33,16 +34,16 @@ public class OrderController{
     private UserSerivce userSerivce;
 
 
-    @GetMapping( "/order/{buyerId}" )
+    @GetMapping( "/{buyerId}" )
     public String orderPageGET( @PathVariable String buyerId , OrderPage orderPage , Model model ){
 
         log.info( "buyerId = {} " , buyerId );
-        log.info( "orderBundle = {} " , orderPage.getOrderBundle() );
+        log.info( "orderPageProductList = {} " , orderPage.getOrderPageProductList() );
 
-        model.addAttribute( "orderList" , orderService.getProductInfo( orderPage.getOrderBundle() ) );
-        model.addAttribute( "buyerInfo" , orderService.getBuyerInfo( buyerId ) );
+        model.addAttribute( "orderPageProductList" , orderService.getOrderPageProductList( orderPage.getOrderPageProductList() ) );
+        model.addAttribute( "buyer" , orderService.getBuyer( buyerId ) );
 
-        return "view/order/order";
+        return "/order";
     }
 
     @PostMapping( "/order" )
@@ -70,7 +71,7 @@ public class OrderController{
     /* ************************* ADMIN *************************** */
 
     /* 주문현황 페이지*/
-    @GetMapping( "/orderList" )
+    @GetMapping( "/list" )
     public String orderListGET( Criterion criterion , Model model ) throws Exception{
 
         List<Order> orderList = orderService.getOrderList( criterion );
@@ -86,14 +87,12 @@ public class OrderController{
     }
 
     /* 주문삭제 */
-    @PostMapping( "/orderCancle" )
-    public String orderCanclePOST( OrderCancle orderCancle ) throws Exception{
+    @PostMapping( "/cancle" )
+    public String orderCanclePOST( OrderCancel orderCancel ) throws Exception{
 
-        orderService.orderCancle( orderCancle );
+        orderService.orderCancel( orderCancel );
 
-        return "redirect:/admin/orderList?keyword=" + orderCancle.getKeyword() +
-                "&PageAmount=" + orderCancle.getPageAmount() +
-                "&pageNumber" + orderCancle.getPageNumber();
+        return "redirect:/admin/orderList?keyword=" + orderCancel.getKeyword() + "&PageAmount=" + orderCancel.getPageAmount() + "&pageNumber" + orderCancel.getPageNumber();
     }
 }
 

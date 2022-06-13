@@ -1,13 +1,13 @@
 package com.faitmain.domain.order.service;
 
+import com.faitmain.domain.cart.domain.Cart;
+import com.faitmain.domain.cart.mapper.CartMapper;
 import com.faitmain.domain.order.domain.Order;
-import com.faitmain.domain.order.domain.OrderCancle;
-import com.faitmain.domain.order.domain.OrderProduct;
+import com.faitmain.domain.order.domain.OrderCancel;
 import com.faitmain.domain.order.domain.OrderPageProduct;
+import com.faitmain.domain.order.domain.OrderProduct;
 import com.faitmain.domain.order.mapper.OrderMapper;
-import com.faitmain.domain.product.domain.Cart;
 import com.faitmain.domain.product.domain.Product;
-import com.faitmain.domain.product.mapper.CartMapper;
 import com.faitmain.domain.product.mapper.ProductMapper;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.web.domain.AttachImage;
@@ -20,7 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -42,28 +44,28 @@ public class OrderServiceImpl implements OrderService{
 
     /* 주문자 주소 정보 */
     @Override
-    public User getBuyerInfo( String id ){
-        return orderMapper.getBuyerInfo( id );
+    public User getBuyer( String id ){
+        return orderMapper.getBuyer( id );
     }
 
     /* 주문정보 */
     @Override
-    public List<OrderPageProduct> getProductInfo( List<OrderPageProduct> orderBundle ){
+    public List<OrderPageProduct> getOrderPageProductList( List<OrderPageProduct> orderPageProductList ){
 
-        ArrayList<OrderPageProduct> result = new ArrayList<>();
-        for ( OrderPageProduct orderPageProduct : orderBundle ) {
+        List<OrderPageProduct> oppList = new ArrayList<>();
+        for ( OrderPageProduct orderPageProduct : orderPageProductList ) {
 
-            OrderPageProduct opp = orderMapper.getProductInfo( orderPageProduct.getProductNumber() );
-            opp.setProductQuantity( orderPageProduct.getProductQuantity() );
+            OrderPageProduct opp = orderMapper.getOrderPageProduct( orderPageProduct.getProductNumber() );
+            opp.setProductOrderCount( orderPageProduct.getProductOrderCount() );
             opp.initSaleTotal();
 
             List<AttachImage> imageList = attachMapper.getAttachList( opp.getProductNumber() );
             opp.setImageList( imageList );
 
-            result.add( opp );
+            oppList.add( opp );
         }
 
-        return result;
+        return oppList;
     }
 
     /* 주문 */
@@ -73,21 +75,21 @@ public class OrderServiceImpl implements OrderService{
 
         /* 사용할 데이터 가져오기 */
         /* 회원정보 */
-        User user = orderMapper.getBuyerInfo( order.getBuyerId() );
+        User user = orderMapper.getBuyer( order.getBuyerId() );
         /* 주문정보 */
-        ArrayList<OrderProduct> orderBundle = new ArrayList<>();
-        for ( OrderProduct op : order.getOrderBundle() ) {
-            OrderProduct orderProduct = orderMapper.getOrderInfo( op.getProductNumber() );
+        List<OrderProduct> orderProductList = new ArrayList<>();
+        for ( OrderProduct op : order.getOrderProductList() ) {
+            OrderProduct orderProduct = orderMapper.getOrderProduct( op.getProductNumber() );
             /* 수량세팅 */
-            orderProduct.setProductQuantity( op.getProductQuantity() );
+            orderProduct.setProductOrderCount( op.getProductOrderCount() );
             /* 기본정보 세팅 */
             orderProduct.initSaleTotal();
             /* LIST 객체 추가 */
-            orderBundle.add( orderProduct );
+            orderProductList.add( orderProduct );
         }
 
         /* ORDER 세팅 */
-        order.setOrderBundle( orderBundle );
+        order.setOrderProductList( orderProductList );
         order.getOrderPriceInfo();
 
         /* DB 주문,주문상품(,배송정보) 넣기*/
@@ -100,9 +102,9 @@ public class OrderServiceImpl implements OrderService{
 
         /* DB 넣기 */
         /* ORDER 등록 */
-        orderMapper.enrollOrder( order );
+        orderMapper.addOrder( order );
         /* ORDER PRODUCT 등록 */
-        for ( OrderProduct orderProduct : order.getOrderBundle() ) {
+        for ( OrderProduct orderProduct : order.getOrderProductList() ) {
             orderProduct.setOrderNumber( orderNumber );
         }
 
@@ -115,20 +117,21 @@ public class OrderServiceImpl implements OrderService{
         orderMapper.deductPoint( user );
 
         /* 재고 변동 적용 */
-        for ( OrderProduct orderProduct : order.getOrderBundle() ) {
+        for ( OrderProduct orderProduct : order.getOrderProductList() ) {
             /* 변동 재고 값 구하기 */
             Product product = productMapper.getProduct( orderProduct.getProductNumber() );
-            product.setProductQuantity( product.getProductQuantity() - orderProduct.getProductQuantity() );
+            product.setProductQuantity( product.getProductQuantity() - orderProduct.getProductOrderCount() );
             /* 변동 값 DB 적용 */
             orderMapper.deductStock( product );
         }
         /* 장바구니 제거 */
-        for ( OrderProduct orderProduct : order.getOrderBundle() ) {
+        for ( OrderProduct orderProduct : order.getOrderProductList() ) {
             Cart cart = new Cart();
-            cart.setUserId( order.getBuyerId() );
+            cart.setBuyerId( order.getBuyerId() );
             cart.setProductNumber( orderProduct.getProductNumber() );
 
-            cartMapper.deleteOrderCart( cart );
+            cartMapper.deleteCart( cart.getCartNumber() );
+
         }
     }
 
@@ -147,18 +150,18 @@ public class OrderServiceImpl implements OrderService{
     /* 주문 취소 */
     @Override
     @Transactional
-    public void orderCancle( OrderCancle orderCancle ) throws Exception{
+    public void orderCancel( OrderCancel orderCancel ) throws Exception{
         /* 주문 & 주문상품 객체 */
         /* 회원 */
-        User user = orderMapper.getBuyerInfo( orderCancle.getBuyerId() );
+        User user = orderMapper.getBuyer( orderCancel.getBuyerId() );
         /* 주문상품 */
-        List<OrderProduct> orderBundle = orderMapper.getOrderOneInfo( orderCancle.getOrderNumber() );
-        for ( OrderProduct orderProduct : orderBundle ) {
+        List<OrderProduct> orderProductList = orderMapper.getOrderProductList( orderCancel.getOrderNumber() );
+        for ( OrderProduct orderProduct : orderProductList ) {
             orderProduct.initSaleTotal();
         }
         /* 주문 */
-        Order order = orderMapper.getOrder( orderCancle.getOrderNumber() );
-        order.setOrderBundle( orderBundle );
+        Order order = orderMapper.getOrder( orderCancel.getOrderNumber() );
+        order.setOrderProductList( orderProductList );
         order.getOrderPriceInfo();
 
         /* 주문상품 취소 DB */
@@ -174,14 +177,12 @@ public class OrderServiceImpl implements OrderService{
         orderMapper.deductPoint( user );
 
         /* 재고 */
-        for ( OrderProduct orderProduct : order.getOrderBundle() ) {
+        for ( OrderProduct orderProduct : order.getOrderProductList() ) {
             Product product = productMapper.getProduct( orderProduct.getProductNumber() );
-            product.setProductQuantity( product.getProductQuantity() + orderProduct.getProductQuantity() );
+            product.setProductQuantity( product.getProductQuantity() + orderProduct.getProductOrderCount() );
             orderMapper.deductStock( product );
         }
     }
-
-
 
 
 }

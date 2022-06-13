@@ -8,7 +8,7 @@
 
 
 
-    <insert id ="addUser"   parameterType="User"  >
+    <insert id ="addUser"   parameterType="User"   >
 
 		INSERT INTO user ( id
 						 , password
@@ -29,15 +29,15 @@
 		VALUES ( #{id}
 			   , #{password}
 			   , #{gender}
-			   , #{user_address1}
-			   , #{user_address2}
-			   , #{user_address3}
+			   , #{userAddress1}
+			   , #{userAddress2}
+			   , #{userAddress3}
 			   , #{nickname}
 			   , #{phoneNumber}
 			   , #{name}
 			   , NOW( )
 			   , #{joinPath}
-			   , #{storelogoImage}
+			   , #{storeLogoImage}
 			   , #{storeIntroduction}
 			   , #{role}
 			   , #{storeName}
@@ -45,7 +45,7 @@
 
 	</insert>
 
-	<insert id ="addStoreApplicationDocument" parameterType="StoreApplicationDocument"  >
+	<insert id ="addStoreApplicationDocument" parameterType="StoreApplicationDocument"     >
 		INSERT INTO store_application_document ( id, examination_status, product_detail, reg_date)
 		VALUES
 		    (#{id}, 'W', #{product_detail}, NOW() )
@@ -54,18 +54,18 @@
  	
  <select id ="getLogin"  parameterType="User" resultType="int">
  	SELECT COUNT(*) FROM user 
- 		WHERE id = #{id} AND `password` = #{password}
+ 		WHERE id = #{id} AND password = #{password}
  
  </select>	   
 
-<select id ="getUser" parameterType="String"   >
+<select id ="getUser" parameterType="String"    resultMap="userMap" >
 	SELECT user_number, id, `password`, gender, user_address1 , user_address2, user_address3, nickname, phone_number, `name`, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, `role`, store_name, withdrawal_status
 		FROM user
  		WHERE
  			id = #{value}
   </select>
  
- <select id ="getMapUser" parameterType="map"   >
+ <select id ="getMapUser" parameterType="map"   resultMap="userMap"  >
 	SELECT user_number, id, password, gender, user_address1 , user_address2, user_address3, nickname, phone_number, `name`, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction,  `role`, store_name, withdrawal_status
 		FROM user
  			<where>
@@ -108,7 +108,7 @@
 	</select>
  
  <!--  //SELECT 스토어 신청서 넘버로 스토어 가져오기   -->
- 	 <select id ="getStoreApplicationDocument" parameterType="int" >
+ 	 <select id ="getStoreApplicationDocument" parameterType="int"  resultMap="StoreApplicationDocumentMap" >
 		SELECT	 s.* , u.store_name , u.store_introduction 
 			FROM	 store_application_document s ,user u  
 			WHERE	  s.id = u.id and store_application_document_number = #{value}
@@ -222,11 +222,12 @@
 	   	UPDATE user
 	   	<set>
 	   		nickname 		= #{nickname} ,
-			user_address1 = #{user_address1}
-			user_address2 = #{user_address3}
-			user_address3 = #{user_address2}
+			user_address1 = #{userAddress1} ,
+			user_address2 = #{userAddress2},
+			user_address3 = #{userAddress3},
 			phone_number	=	#{phoneNumber} ,
 			store_introduction				=	#{storeIntroduction}
+			
 	   	</set>
 	   	WHERE  id = #{id}
 	 </update>
@@ -423,14 +424,19 @@
 
 
 
-	<!--
-
+ 
+ 
     <resultMap id="userMap" type="User">
     <result property="userNumber" 					column="user_number" 				jdbcType="INTEGER"/>
             <result property="id" 					column="id" 						jdbcType="VARCHAR"/>
+                <result property="gender"				column="gender" 					jdbcType="VARCHAR" />
+            
+            
             <result property="password"				column="password" 					jdbcType="VARCHAR" />
-            <result property="address" 				column="address" 					jdbcType="VARCHAR"/>
-            <result property="postalCode"			column="postal_code" 				jdbcType="INTEGER" />
+            <result property="userAddress1" 				column="user_address1" 					jdbcType="VARCHAR"/>
+            <result property="userAddress2" 				column="user_address2" 					jdbcType="VARCHAR"/>
+            <result property="userAddress3" 				column="user_address3" 					jdbcType="VARCHAR"/>
+
              <result property="nickname"				column="nickname" 					jdbcType="VARCHAR" />
              <result property="storeName" 			column="store_name" 				jdbcType="VARCHAR"/>
              <result property="name" 				column="name" 						jdbcType="VARCHAR"/>
@@ -441,24 +447,24 @@
 
              <result property="bookNumber"			column="book_number" 				jdbcType="INTEGER" />
             <result property="totalPoint" 			column="total_point" 				jdbcType="INTEGER"/>
-            <result property="storelogoImage" 		column="store_logo_image" 			jdbcType="VARCHAR"/>
+            
+            <result property="storeLogoImage" 		column="store_logo_image" 			jdbcType="VARCHAR"/>
+            
              <result property="storeIntroduction"	column="store_introduction" 		jdbcType="VARCHAR" />
-             <result property="bankAccountCopyImage" column="bank_account_copy_image" 	jdbcType="VARCHAR"/>
-             <result property="bankName" 			column="bank_name" 					jdbcType="VARCHAR"/>
-             <result property="bankAccountNumber" 	column="bank_account_number" 		jdbcType="VARCHAR"/>
              <result property="role"					column="role" 						jdbcType="VARCHAR" />
              <result property="withdrawalStatus"		column="withdrawal_status" 			jdbcType="TINYINT" />
+             
+             
              <result property="storeApplicationDocumentNumber" 					column="store_application_document_number" 	jdbcType="INTEGER"/>
 
 
     </resultMap>
-
-
+   
     <resultMap id="StoreApplicationDocumentMap" type="StoreApplicationDocument">
             <result property="storeApplicationDocumentNumber" 					column="store_application_document_number" 	jdbcType="INTEGER"/>
             <result property="id" 												column="id" 								jdbcType="VARCHAR"/>
             <result property="examinationStatus"								column="examination_status" 				jdbcType="VARCHAR" />
-            <result property="productDetial" 									column="product_detail" 					jdbcType="VARCHAR"/>
+            <result property="productDetial" 									column="product_detail" 					jdbcType="LONGVARCHAR"/>
              <result property="regDate"											column="reg_date" 							jdbcType="DATE" />
              <result property="storeIntroduction"								column="store_introduction" 				jdbcType="VARCHAR" />
              <result property="storeName" 										column="store_name" 						jdbcType="VARCHAR"/>
@@ -472,8 +478,8 @@
             <result property="imageClassificationNumber" column="image_classification_number" jdbcType="INTEGER"/>
             <result property="imageName" column="image_name" jdbcType="VARCHAR"/>
         </resultMap>
-    -->
-
+ 
+ 
 
 
 </mapper>

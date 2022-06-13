@@ -1,16 +1,42 @@
 
 /* USER */
-INSERT INTO user (id, password, gender, user_address1, user_address2, user_address3, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, role, store_name, withdrawal_status)
-     VALUES ('id 1', 'password 1', 'N', 'userAddress1 1', 'userAddress2 1', 'userAddress3 1', 'nickname 1', 'phone_numbe1', 'name 1', NOW(), 'N', 1, 1, 'store_logo_image 1', 'store_introduction 1', 'role 1', 'store_name 1', 1);
-INSERT INTO user (id, password, gender, user_address1, user_address2, user_address3, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, role, store_name, withdrawal_status)
-     VALUES ('id 2', 'password 2', 'N', 'userAddress1 2', 'userAddress2 2', 'userAddress3 2', 'nickname 2', 'phone_numbe2', 'name 2', NOW(), 'N', 2, 2, 'store_logo_image 2', 'store_introduction 2', 'role 2', 'store_name 2', 2);
-INSERT INTO user (id, password, gender, user_address1, user_address2, user_address3, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, role, store_name, withdrawal_status)
-     VALUES ('id 3', 'password 3', 'N', 'userAddress1 3', 'userAddress2 3', 'userAddress3 3', 'nickname 3', 'phone_numbe3', 'name 3', NOW(), 'N', 3, 3, 'store_logo_image 3', 'store_introduction 3', 'role 3', 'store_name 3', 3);
-INSERT INTO user (id, password, gender, user_address1, user_address2, user_address3, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, role, store_name, withdrawal_status)
-     VALUES ('id 4', 'password 4', 'N', 'userAddress1 4', 'userAddress2 4', 'userAddress3 4', 'nickname 4', 'phone_numbe4', 'name 4', NOW(), 'N', 4, 4, 'store_logo_image 4', 'store_introduction 4', 'role 4', 'store_name 4', 4);
-INSERT INTO user (id, password, gender, user_address1, user_address2, user_address3, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, role, store_name, withdrawal_status)
-     VALUES ('id 5', 'password 5', 'N', 'userAddress1 5', 'userAddress2 5', 'userAddress3 5', 'nickname 5', 'phone_numbe5', 'name 5', NOW(), 'N', 5, 5, 'store_logo_image 5', 'store_introduction 5', 'role 5', 'store_name 5', 5);
 
+INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
+VALUES 			('admin@naver.com','admin','W',	'userAddress1 1', 'userAddress2 1', 'userAddress3',	'어드민','01022222223','어드민',		'		2022-05-01','HOME'		,NULL,		NULL,			NULL,			NULL, 				'admin',NULL,		0);
+
+INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
+VALUES  ('store01@naver.com','store01','W',			'서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'01011212221','이지원',		 	'2022-05-30','HOME',	NULL,		NULL,		'store_logo_image01.png','dd','store','간지나 스토어1',0);
+
+
+INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
+VALUES  ('store02@naver.com','store02','M','서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'0101234567','태지원',		 	'2022-05-30','HOME',	NULL,		NULL,		'store_logo_image01.png','dd','store','간지나 스토어2',0);
+
+INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
+VALUES  ('store03@naver.com','store03','M','서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'0102234567','오지원',		 	'2022-05-30','HOME',	NULL,		NULL,		'store_logo_image01.png','dd','store','간지나 스토어3',0);
+
+
+INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
+VALUES  ('store04@naver.com','store02','W','서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'0101234568','김한빈',		 	'2022-05-30','HOME',	NULL,		NULL,		'store_logo_image01.png','dd','store','간지나 스토어4',0);
+
+INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
+VALUES  ('store05@naver.com','store03','M','서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'0102234569','하지원',		 	'2022-05-29','HOME',	NULL,		NULL,		'store_logo_image01.png','dd','storeX','간지나 스토어5',0);
+
+INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
+ VALUES  ('user01@naver.com','1111','W','경기도 고양시 원흥로','userAddress2','userAddress3','고양고양','01066547918','이예은',		 				'2022-05-30','HOME',NULL,1000,			NULL,NULL,'user',NULL,0);
+
+
+INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
+ VALUES  ('user02@naver.com','user02','W','경기도 남양주 원흥로','userAddress2','userAddress3','냥냥','01022222222','이미나',		 				'2022-05-30','HOME',NULL,1000,			NULL,NULL,'user',NULL,0);
+INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
+ VALUES  ('user03@naver.com','user03','M','경기도 구리시 원흥로','userAddress2','userAddress3','뉴뉴','010333333','이정현',		 				'2022-05-30','KAKAO',NULL,1000,			NULL,NULL,'user',NULL,0);
+INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
+ VALUES  ('user04@naver.com','user04','M','경기도 양평군 원흥로','userAddress2','userAddress3','유저유저','01044444444','가비',		 				'2022-04-30','HOME',NULL,1000,			NULL,NULL,'user',NULL,0);
+INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
+ VALUES  ('user05@naver.com','user05','M','경기도 성남시 원흥로','userAddress2','userAddress3','집집집','0105555555','이상현',		 				'2022-03-30','HOME',NULL,1000,			NULL,NULL,'user',NULL,0);
+INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
+ VALUES  ('user06@naver.com','user06','M','경기도 부천시 원흥로','userAddress2','userAddress3','비트비트','01066666666','이화영',		 				'2022-01-30','HOME',NULL,1000,			NULL,NULL,'user',NULL,1);
+
+ 
 
 /* PRODUCT */
 INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
@@ -64,13 +90,30 @@ INSERT INTO `order` (receiver_name, buyer_id, receiver_address1, receiver_addres
 
 /* ORDER PRODUCT */
 
-INSERT INTO order_product (order_number, product_number, product_quantity, product_price, reward_point)
+INSERT INTO order_product (order_number, product_number, product_order_count, product_price, reward_point)
      VALUES ('order_number 1', 1, 1, 1, 1);
-INSERT INTO order_product (order_number, product_number, product_quantity, product_price, reward_point)
+INSERT INTO order_product (order_number, product_number, product_order_count, product_price, reward_point)
      VALUES ('order_number 2', 2, 2, 2, 2);
-INSERT INTO order_product (order_number, product_number, product_quantity, product_price, reward_point)
+INSERT INTO order_product (order_number, product_number, product_order_count, product_price, reward_point)
      VALUES ('order_number 3', 3, 3, 3, 3);
-INSERT INTO order_product (order_number, product_number, product_quantity, product_price, reward_point)
+INSERT INTO order_product (order_number, product_number, product_order_count, product_price, reward_point)
      VALUES ('order_number 4', 4, 4, 4, 4);
+<<<<<<< HEAD
 INSERT INTO order_product (order_number, product_number, product_quantity, product_price, reward_point)
+     VALUES ('order_number 5', 5, 5, 5, 5);
+     
+/* CUSTOMER */     
+ALTER TABLE customer MODIFY COLUMN customer_FAQ_category_code INT NULL;
+ALTER TABLE customer MODIFY reg_date TIMESTAMP;
+ALTER TABLE customer MODIFY update_date TIMESTAMP;
+ALTER TABLE customer ADD view_cnt INT DEFAULT 0;
+ALTER TABLE customer ADD delete_yn ENUM('Y', 'N') NOT NULL DEFAULT 'N' ; 
+
+/*BAN PERIOD*/
+ALTER TABLE ban_period MODIFY COLUMN respondent_nickname VARCHAR(20) NULL ;
+ALTER TABLE ban_period MODIFY COLUMN respondent_store_name VARCHAR(20) NULL;
+ALTER TABLE ban_period ADD FOREIGN KEY(respondent_nickname) REFERENCES user (nickname);
+ALTER TABLE ban_period ADD FOREIGN KEY(respondent_store_name) REFERENCES user (store_name);
+
+INSERT INTO order_product (order_number, product_number, product_order_count, product_price, reward_point)
      VALUES ('order_number 5', 5, 5, 5, 5);

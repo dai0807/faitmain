@@ -1,49 +1,55 @@
 package com.faitmain.domain.customer.service;
 
 
+import java.util.Collections;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.faitmain.domain.customer.domain.BanStatus;
+
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.mapper.CustomerMapper;
-import com.faitmain.global.common.Image;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 import lombok.RequiredArgsConstructor;
 
-@Slf4j
-@Service("customerServiceImpl")
-@Transactional
+
+
+@Service("customerServiceImpl")				//비즈니스 로직을 처리하는 서비스 클래스를 나타내는 어노테이션(해당 어노테이션 사용하여 스프링의 MVC의 서비스임을 나타냄)
+@RequiredArgsConstructor
+//@Transactional(readOnly = false)			// 선언적 트랜잭션, 적용된 범위에서는 트랜잭션 기능이 포함된 프록시 객체가 생성되어 자동으로 commit 혹은 rollback을 진행
+
 public class CustomerServiceImpl implements CustomerService{
 	
 	@Autowired
-	private CustomerMapper customerMapper;
+	private CustomerMapper customerMapper;	//데이터베이스에 접근하는 DAO bean을 선언 
 	
-
-
-	
-	public CustomerServiceImpl() {
+	@Override
+	public Customer getCustomerBoard(int boardNumber) throws Exception {
+		return customerMapper.getCustomerBoard(boardNumber);
 	}
 	
 	@Override
-	public boolean registerCustomerBoard(Customer customer) throws Exception {
-		int queryResult = 0;													//queryResult : Query를 실행한 횟수 
+	public boolean registerCustomerBoard(Customer params) throws Exception {
+		int queryResult = 0;													//queryResult : Query를 실행한 횟수
 		
-		if(customer.getBoardNumber() == 0) {									//'0' -> int default
-			queryResult = customerMapper.addCustomerBoard(customer);
+		if(params.getBoardNumber() == 0) {									//'0' -> int default
+			queryResult = customerMapper.addCustomerBoard(params);
+			System.out.println("ServiceImpl : " + params);
+			System.out.println("boardNumber == 0 : " + queryResult);
+			System.out.println("boardNumber == 0 : " + params);
 		}else {
-			queryResult = customerMapper.updateCustomerBoard(customer);
+			queryResult = customerMapper.updateCustomerBoard(params);
+			System.out.println("boardNumber != 0 : " + queryResult);
+			System.out.println("boardNumber != 0 : " + params);
 		}
 		
 		return(queryResult == 1) ? true : false ;
+
 	}
 	
+
 //	@Override
 //	public int addCustomerBoard(Customer customer) throws Exception {
 //		customerMapper.addCustomerBoard(customer);
@@ -56,23 +62,28 @@ public class CustomerServiceImpl implements CustomerService{
 //		 return customerMapper.updateCustomerBoard(customer);
 //	  
 //	}
+
 	
-	@Override
-	public Customer getCustomerBoard(int boardNumber) throws Exception{ 
-		return customerMapper.getCustomerBoard(boardNumber); 
-	}
+	
 	  
 	@Override
 	public List<Customer> getCustomerBoardList() throws Exception {
 		
+		System.out.println("getList mapper start");
+		
+		
 		List<Customer> list = Collections.emptyList();
+		System.out.println(list);
 		
 		int boardTotalCount = customerMapper.getBoardTotalCount();
+		System.out.println(boardTotalCount);
 		
 		if(boardTotalCount > 0) {
 			list = customerMapper.getCustomerBoardList();
 		}
-		  return list; 
+		System.out.println("getList mapper end");
+			return list; 
+		  
 	}
 	  
 	@Override
@@ -81,30 +92,12 @@ public class CustomerServiceImpl implements CustomerService{
 		
 		Customer customer = customerMapper.getCustomerBoard(boardNumber);
 		
-		if(customer != null && "N".equals(customer.getDelete_yn())) {		// 삭제여부 - 'Y' : 삭제 x, 'N' : 삭제
+		if(customer != null && "N".equals(customer.getDeleteYn())) {		// 삭제여부 - 'Y' : 삭제 x, 'N' : 삭제
 			queryResult = customerMapper.deleteCustomerBoard(boardNumber);
 		}
 		
 		return (queryResult == 1) ? true : false;
-	  
 	}
-	
-//	@Override
-//	public int updateBanStatus(BanStatus banStatus) throws Exception{ 
-//		  return customerMapper.updateBanStatus(banStatus); 
-//	}
-//
-//	@Override
-//	public BanStatus updateBanStatus(int reportNumber) throws Exception {
-//		
-//		return null;
-//	}
-//
-//	@Override
-//	public void addCustomerBoard(Image image) throws Exception {
-//		customerMapper.addCustomerBoardImage(image);
-//		
-//	}
 
 	
 	

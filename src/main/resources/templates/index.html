@@ -4,11 +4,18 @@
       			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
     <head>
         <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
+        <meta property="og:type" content="website" />
+    	<meta property="og:title" content="바로 이용하는 무료 채팅 솔루션" />
+    	<meta property="og:description" content="설치 없이 가입 즉시 바로 이용할 수 있는 무료 채팅 서비스를 제공 해 드리겠습니다." />
+    	<meta property="og:image" content="https://www.vchatcloud.com/img/common/og_img.png" />
+    	<meta property="og:url" content="https://www.vchatcloud.com" />
+    	
         <title>Modern Business - Start Bootstrap Template</title>
-
+		
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" th:href="@{img/favicon.ico}" />
         <!-- Bootstrap icons-->
@@ -18,7 +25,19 @@
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
-       <script th:src="@{js/scripts.js}"></script>  
+       	
+       	<!-- live -->
+       	<script th:src="@{js/vchatcloud-1.2.0.min.js}"></script>
+       	<script th:src="@{js/scripts.js}"></script>  
+		<script th:src="@{js/like.js}"></script>
+    	<script th:src="@{js/draw.js}"></script>
+    	<script th:src="@{js/errMsg.js}"></script>
+		
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+    	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    	<script src="https://kit.fontawesome.com/c13f14f04a.js" crossorigin="anonymous"></script>
+    	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
 		
     </head>
     <body>
@@ -35,7 +54,8 @@
 	                  		</a>
 	                  	</div>
 	                  	
-                        <div class="col-md-3 text-center" style="width:324px"><img class="img-fluid rounded-3 my-5" src="https://dummyimage.com/300x500/343a40/6c757d" alt="..." /></div>
+                        <div id="remote_cam" class="col-md-3 text-center" style="height: 600px; width:400px"></div>
+                    	
                     	
                     	<div class="col-md-3 text-center" style="overflow:auto; height:500px; width: 424px;">
 	                  		<h5 style="color : white">오늘 예약 목록</h5>
@@ -55,7 +75,7 @@
 							
 								<div class="col-md-3 pb-3" th:each="live : ${map.liveList}">
 									<div class="card" style="height : 530px">
-										<img class="card-img-top" alt="Bootstrap Thumbnail First" src="https://dummyimage.com/235x400/343a40/6c757d" style="height : 400px">
+										<a th:href="@{'live/watchLive/' + ${live.liveNumber}}"><img class="card-img-top" alt="Bootstrap Thumbnail First" src="https://dummyimage.com/235x400/343a40/6c757d" style="height : 400px"></a>
 											
 										</img>
 										<div class="card-block">

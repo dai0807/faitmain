@@ -21,7 +21,7 @@ class OrderMappperTest{
     @Test
     public void getOrdetInfoTest(){
 
-        OrderProduct orderInfo = orderMapper.getOrderInfo( 10001 );
+        OrderProduct orderInfo = orderMapper.getOrderProduct( 10001 );
         log.info( "orderInfo = {}" , orderInfo );
 
     }
@@ -32,13 +32,13 @@ class OrderMappperTest{
     public void enrollOrderTest(){
 
         Order order = new Order();
-        List<OrderOne> orderBundle = new ArrayList<>();
+        List<OrderOne> orderProductList = new ArrayList<>();
 
         OrderOne orderOne = new OrderOne();
         orderOne.setOrderOneNumber(0);
         orderOne.setOrderNumber("");
         orderOne.setProductNumber(0);
-        orderOne.setProductQuantity(0);
+        orderOne.setProductOrderCount(0);
         orderOne.setProductPrice(0);
         orderOne.setProductDiscount(0.0D);
         orderOne.setRewardPoint(0);
@@ -46,14 +46,14 @@ class OrderMappperTest{
         orderOne.setTotalPrice(0);
         orderOne.setTotalRewardPoint(0);
 
-        order.setOrderBundle( orderBundle );
+        order.setOrderProductList( orderProductList );
 
         order.setOrderNumber(0);
         order.setProductNumber(0);
         order.setBuyerId("");
         order.setStoreId("");
         order.setOrderStatus("");
-        order.setOrderBundle(Lists.newArrayList());
+        order.setOrderProductList(Lists.newArrayList());
         order.setDeliveryCharge(0);
         order.setOrderDate(new Date(new java.util.Date().getTime()));
         order.setReceiverName("");
@@ -66,7 +66,7 @@ class OrderMappperTest{
         order.setOrderRewardPoint(0);
         order.setOrderFinalSalePrice(0);
 
-        orderMapper.enrollOrder( order );
+        orderMapper.addOrder( order );
     }
 */
 

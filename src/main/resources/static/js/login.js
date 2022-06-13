@@ -1,7 +1,13 @@
-
 // 채널에 접속하기 위해서 사용자의 userNick, userKey와 CMS에서 발급받은 channelKey가 필요합니다.
 
-var channelKey = "hOOoRmDjYW-tIZ51NYMZC-20220609142432"; // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
+
+//해당하는 채팅방의 채널키 가져오기 .22-06-12.
+//let query = window.location.search;
+//let param = new URLSearchParams(query);
+//let roomId = param.get('roomId');
+
+var channelKey = "PaMxkbiFMY-a9vKJcy17y-20220610185606"; // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
+
 
 
 function videoInit() {
@@ -25,7 +31,7 @@ function videoInit() {
 const vChatCloud = new VChatCloud();
 
 let channel, // joinRoom() 내부에서 채널 객체를 저장할 곳
-  userNick = "hello", // 접속자의 닉네임, 사용자에게 입력받은 값을 사용해도 된다.
+  userNick = $('#storeName').val(), // 접속자의 닉네임, 사용자에게 입력받은 값을 사용해도 된다.
   userKey; // 접속자 고유 키
 
 
@@ -36,72 +42,50 @@ let myCam, remoteCamList;
 window.addEventListener("load", function () {
   	// 접속자의 미디어 소스를 보여줄 위치
   
-	let p = $('div.dim').show(),
-  	  	l = $('div.login').show(),
-  	  	c = $('div.chat_contents').hide();
+  	 c = $('div.chat_contents').hide();
   	likeInif();
   
   	myCam = $('.my_cam');
   	myCam.attr('name', 'my_cam');
-  	
-  	remoteCamList = $(".remote_cam_wrap");
-  	
-  	$('button.popupbtn', p).click(function () {
-  		console.log("click")
-    	userNick = {nick: $('input#name', p).val()}; // 사용자가 입력한 닉네임 설정
-    	if(userNick.nick){
-    		$('div.bottom div.name').text(userNick.nick);
-    		joinRoom(channelKey,  'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }), userNick.nick, function(err, history){
-    			if(err){
-    				openError(err.code, function(){
-    					p.show();
-    					l.show();
-    					c.hide();
-    					vChatCloud.disconnect();
-    				});
-    				p.show();
-    				l.hide();
-    				c.show();
-    		
-    			}else{
-    				videoInit();
-    				//채팅영역에 글쓰기가 활성화될시 활성화(최신공지 한개만 남기기)
-    				let flag = undefined;
-    				if(typeof write == 'function') history && history.forEach(function(m){
-    					if(m.messageType == 'notice'){
-    						if(flag == undefined){
-    							flag = true;
-    							write(m, 'notice', 'history');
-    						}
-    					}else{
-    						write(m, '', 'history');
-    					}
-    				});
-    				
-    				p.hide();
-    				l.hide();
-    				c.show();
-    		
-    				//이벤트 바인딩 시작
-    				chatInit();
-    				personalInit();
-    				msgInit();
-    				getRoomInfo();
-    				likeInif();
-    			}	
+
+    $('div.bottom div.name').text(userNick);
+    joinRoom(channelKey,  'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }), userNick, function(err, history){
+    	if(err){
+    		openError(err.code, function(){
+    			c.hide();
+    			vChatCloud.disconnect();
     		});
-   		}
-	});
-	
-    /*$('a.closebtn').click(function() {
-        p.show();
-        c.hide();
-        //cb.hide();
-        //tc.hide();
-        likeEnd();
-        vChatCloud.disconnect();
-    })*/
+    		c.show();
+    		
+    	}else{
+    		videoInit();
+    		//채팅영역에 글쓰기가 활성화될시 활성화(최신공지 한개만 남기기)
+    		let flag = undefined;
+    		if(typeof write == 'function') history && history.forEach(function(m){
+    			if(m.messageType == 'notice'){
+    				if(flag == undefined){
+    					flag = true;
+    					write(m, 'notice', 'history');
+    				}
+    			}else{
+    				write(m, '', 'history');
+    			}
+    		});
+    			
+    		c.show();
+    	
+   			//이벤트 바인딩 시작
+   			chatInit();
+   			personalInit();
+   			msgInit();
+   			getRoomInfo();
+   			likeInif();
+   		}	
+   	});
 })
+	
+
+
 
 function joinRoom(roomId, clientKey, nickName, callback) {
   // vchatcloud 객체

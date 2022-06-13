@@ -7,6 +7,8 @@ import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Image;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
 public class Customer{
@@ -15,14 +17,17 @@ public class Customer{
 	private String boardTitle;
 	private String boardContent;
 //	private List<Image> boardImage;
-	private Date BoardRegDate;
-	private Date BoardUpdateDate;
+	private Date boardRegDate;
+	private Date boardUpdateDate;
 	private int FAQCategoryCode;
 	private char boardType;
 	private User customerId;
 //	private int totalCount;
-	private int viewCnt;
-	private String delete_yn;
+	private int viewCount;
+	private String deleteYn;
+	private String highlightNoticeYn;
+//	private Image image;
+
 
 
 
