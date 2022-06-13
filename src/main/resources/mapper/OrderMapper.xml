@@ -6,16 +6,16 @@
 <mapper namespace="com.faitmain.domain.order.mapper.OrderMapper">
 
     <!-- 주문자 주소 정보 -->
-    <select id="getBuyerInfo" resultType="User">
+    <select id="getBuyer" resultType="User">
     </select>
 
     <!-- 주문 테이블 등록 -->
-    <insert id="enrollOrder">
+    <insert id="addOrder">
 
     </insert>
 
     <!-- 주문 상품 테이블 등록 -->
-    <insert id="enrollOrderProduct">
+    <insert id="addOrderProduct">
 
     </insert>
 
@@ -34,14 +34,14 @@
     </update>
 
     <!-- 주문 상품 정보 (주문 페이지) -->
-    <select id="getProductInfo" resultType="com.faitmain.domain.order.domain.OrderPageProduct">
+    <select id="getOrderPageProduct" resultType="com.faitmain.domain.order.domain.OrderPageProduct">
         SELECT product_number, product_name, product_price
           FROM product
          WHERE product_number = #{productNumber};
     </select>
 
     <!--  주문 상품 정보 (주문 처리) -->
-    <select id="getOrderInfo" resultType="com.faitmain.domain.order.domain.OrderProduct">
+    <select id="getOrderProduct" resultType="com.faitmain.domain.order.domain.OrderProduct">
         SELECT product_number, product_price
           FROM product
          WHERE product_number = #{productNumber};
@@ -72,14 +72,14 @@
     </select>
 
     <!-- 주문취소 -->
-    <update id="orderCancle">
+    <update id="orderCancel">
         UPDATE `order`
            SET order_status = '주문취소'
          WHERE order_number = #{orderId}
     </update>
 
     <!-- 주문 상품 정보(주문취소) -->
-    <select id="getOrderProductInfo" resultType="com.faitmain.domain.order.domain.OrderProduct" >
+    <select id="getOrderProductList" resultType="com.faitmain.domain.order.domain.OrderProduct" >
         SELECT * FROM order_product WHERE order_number = #{orderNumber}
     </select>
 
