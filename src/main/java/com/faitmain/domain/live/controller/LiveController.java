@@ -451,7 +451,7 @@ public class LiveController {
 				liveProduct.setLiveReservationNumber(0);
 				liveProduct.setProductNumber(Integer.parseInt(product));
 				liveProduct.setProductMainImage(
-						productService.getProduct(Integer.parseInt(product)).getProductMainImage());
+				productService.getProduct(Integer.parseInt(product)).getProductMainImage());
 				liveProduct.setProductName(productService.getProduct(Integer.parseInt(product)).getProductName());
 				liveProduct.setProductDetail(productService.getProduct(Integer.parseInt(product)).getProductDetail());
 				liveService.addLiveProduct(liveProduct);
@@ -459,8 +459,11 @@ public class LiveController {
 		} else {
 			System.out.println("오류남");
 		}
-
-		return "view/live/live";
+		String roomId = liveService.getLiveByStoreId(user.getId()).getRoomId();
+		
+		log.info("채널키 파라미터 체크 {} : ", roomId);
+		
+		return "view/live/live?roomId=" +  roomId;
 
 	}
 
