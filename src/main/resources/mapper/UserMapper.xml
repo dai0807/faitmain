@@ -305,7 +305,7 @@
 	<!-- 0 전체 1 - R , 2 -A , 3 - W -->
 	  <select id ="getStoreApplicationDocumentList" parameterType="map"  resultMap="StoreApplicationDocumentMap" > <!-- role 따라  -->
 		SELECT *
-		  	FROM (	SELECT inner_table.* ,u.store_name  @ROWNUM := @ROWNUM+1 AS row_seq
+		  	FROM (	SELECT inner_table.* ,u.store_name , @ROWNUM := @ROWNUM+1 AS row_seq
 			  			FROM(	SELECT *
 								FROM store_application_document
 									<where>
@@ -323,7 +323,7 @@
 									</if>																			 
 								 </where>
 								 ) inner_table  ,User u  
-						WHERE inner_table.id = u.id and
+						WHERE inner_table.id = u.id  and
 							 (@ROWNUM:=0)=0 limit ${endRowNum} ) total
 			WHERE row_seq BETWEEN ${startRowNum} AND ${endRowNum} 
 	</select>
