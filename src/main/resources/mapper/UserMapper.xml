@@ -48,7 +48,7 @@
 	<insert id ="addStoreApplicationDocument" parameterType="StoreApplicationDocument"     >
 		INSERT INTO store_application_document ( id, examination_status, product_detail, reg_date)
 		VALUES
-		    (#{id}, 'W', #{product_detail}, NOW() )
+		    (#{id}, 'W', #{productDetial}, NOW() )
 		 
  	</insert>
  	
@@ -104,14 +104,15 @@
 		SELECT store_application_document_number
 		FROM store_application_document
 		WHERE id = #{value}
-		ORDER BY reg_date desc  
+		ORDER BY reg_date desc   LIMIT 1
 	</select>
  
  <!--  //SELECT 스토어 신청서 넘버로 스토어 가져오기   -->
  	 <select id ="getStoreApplicationDocument" parameterType="int"  resultMap="StoreApplicationDocumentMap" >
 		SELECT	 s.* , u.store_name , u.store_introduction 
 			FROM	 store_application_document s ,user u  
-			WHERE	  s.id = u.id and store_application_document_number = #{value}
+			WHERE	  s.id = u.id and store_application_document_number = #{value} 
+ 			
 	</select>
  
  
@@ -406,20 +407,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 
 
 
@@ -427,7 +415,7 @@
  
  
     <resultMap id="userMap" type="User">
-    <result property="userNumber" 					column="user_number" 				jdbcType="INTEGER"/>
+   			 <result property="userNumber" 					column="user_number" 				jdbcType="INTEGER"/>
             <result property="id" 					column="id" 						jdbcType="VARCHAR"/>
                 <result property="gender"				column="gender" 					jdbcType="VARCHAR" />
             
