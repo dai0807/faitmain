@@ -22,13 +22,13 @@ public interface OrderService{
     List<Order> getOrderList( Criterion criterion ) throws Exception;
 
     /* 주문 */
-    void order( Order order ) throws Exception;
+    void addOrder( Order order ) throws Exception;
 
     /* 주문 총 개수 */
     int getOrderTotal( Criterion criterion ) throws Exception;
 
     /* 주문 취소 */
-    void orderCancel( OrderCancel orderCancel ) throws Exception;
+    void cancelOrder( OrderCancel orderCancel ) throws Exception;
 
 
 

@@ -10,7 +10,7 @@
     <script src = "https://cdn.bootpay.co.kr/js/bootpay-3.3.1.min.js" type = "application/javascript"></script>
     <script th:inline="javascript">
 
-        var order = [[${order}]] // 서버의 주문 값
+        var order = [[${insertOrder}]] // 서버의 주문 값
         var product = [[${product}]]  // 주문한 상품
 
         //실제 복사하여 사용시에는 모든 주석을 지운 후 사용하세요
