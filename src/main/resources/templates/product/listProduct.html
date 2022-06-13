@@ -4,54 +4,170 @@
     <meta charset = "UTF-8">
     <title>상품 목록</title>
 	
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="../assets/css/main.css" />
+   	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 	
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<style>
 	
-	<script src="../assets/js/browser.min.js"></script>
-	<script src="../assets/js/breakpoints.min.js"></script>
-	<script src="../assets/js/util.js"></script>
-	<script src="../assets/js/main.js"></script>
-	
+ 		.form-group{ 
+			margin-top:10px ; 	 
+		}
+		
+		h5,span{font-family: 'Nanum Gothic Coding', monospace;}
+		
+   	</style>
+    
+   	<script type="text/javascript">
+	   	function fncGetList(currentPage) {
+			$("#currentPage").val(currentPage);	
+			$("form").submit();		
+		}
+		
+		
+		$(function () {
+				//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+				$("#search").on("click", function () {
+					fncGetList(1);
+				});
+
+				$(".orderName li").on("click", function () {
+					alert("선택됨" + $(this).text());
+					let selectOrderBy = $(this).text();
+
+					if (selectOrderBy == '최신순') {
+						$("#orderName").val("reg_date DESC");
+					} else if (selectOrderBy == '낮은 가격순') {
+						$("#orderName").val("product_price");
+					} else if (selectOrderBy == '높은 가격순') {
+						$("#orderName").val("product_price DESC");
+					}
+					$("form").submit();
+				});
+
+								
+			$("#writeBoard").dialog({
+	            	autoOpen:false, //자동으로 열리지않게
+	                position:{
+	                	my:"center", 
+	                    at:"center", 
+	                    of:"section" 
+	                }, //가운데
+	                modal:true, //모달대화상자
+	                resizable:true, //크기 조절 못하게
+	                    
+	                buttons:{
+	                    "확인":function(){
+	                    	sendRegData();
+	                        $(this).dialog("close");
+	                        $(".shield").remove();
+	                        $(".insert-box").remove();
+	                        location.reload(true);
+	                        
+	                    },"취소":function(){
+	                        $(this).dialog("close");
+	                        $(".insert-box").remove();
+	                        $(".shield").remove();
+	                    }
+	                }
+	            });    // wirteBoard 를 dialog 로 인식하게 해준뒤 몇가지 설정		
+            
+         
+		      $(".statusChangeBtn").on("click", function () {
+		        $("#writeBoard").dialog("open");  // 이벤트 발생시 창 오픈
+		       });
+				
+			});
+   	</script>
 	
 	
 </head>
 <body >
-	<!-- Wrapper -->
-	<div id="wrapper">
-		<!-- Main -->
-		<div id="main">
+	<article  class="py-5" layout:fragment="content">
+		<div class="container">
+ 	
+			<div>
+				<form th:action="@{/product/getProductList?resultJsp=listProduct}" method="POST">
+					<input type="text" name="searchKeyword" th:value="${search.searchKeyword }"/>
+					<button type="button" id="search">검색</button>
+					<input type="hidden" id="currentPage" name="currentPage" value="0"/>
+					<input type="hidden" id="orderName" name="orderName" th:value="${search.orderName}"/>
+										
+					<select name="searchStatus">
+						<option value="01" th:selected="${orderName eq '01'}">판매중</option>
+						<option value="02" th:selected="${orderName eq '02'}">판매중지</option>
+						<option value="03" th:selected="${orderName eq '03'}">품절</option>
+					</select>
+				</form>
+			</div>
+			<ul class="orderName">
+				<li>최신순</li>
+				<li>낮은 가격순</li>
+				<li>높은 가격순</li>
+			</ul>
 		
-			<!-- Post -->
-			<article class="post">
-				<header>
-					<div class="title">
-						<h2><a href="#">Magna sed adipiscing</a></h2>
-						<p>Lorem ipsum dolor amet nullam consequat etiam feugiat</p>
-					</div>
-					<div class="meta">
-						<time class="published" datetime="2015-11-01">November 1, 2015</time>
-						<a href="#" class="author"><span class="name">Jane Doe</span><img src="../img/avatar.jpg" alt="" /></a>
-					</div>
-				</header>
-				<a href="#" class="image featured"><img src="../img/pic01.jpg" alt="" /></a>
-				<p>Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod
-					placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at. Phasellus sed ultricies mi non congue
-					ullam corper. Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae,
-					ultricies congue gravida diam non fringilla.</p>
-				<footer>
-					<ul class="actions">
-						<li><a href="#" class="button large">Continue Reading</a></li>
-					</ul>
-					<ul class="stats">
-						<li><a href="#">General</a></li>
-						<li><a href="#" class="icon solid fa-heart">28</a></li>
-						<li><a href="#" class="icon solid fa-comment">128</a></li>
-					</ul>
-				</footer>
-			</article>
+			<div th:if="${#lists.size(list) > 0}" th:each="product : ${list}">
+				<input type="hidden" th:value="${product.productNumber}" />	
+				<img class = "img-thumbnail" th:src = "|../img/upload/${ product.productMainImage }|" width="30%"/>		  
+				<input type="text"  th:value="${product.productName}" />
+				<input type="text" th:value="${product.productPrice}" />
+				<button type="button" class="statusChangeBtn">판매 상태 변경</button>
+				<button type="button">삭제</button>
+			</div>
+			
+			<div id="writeBoard" title="상품 상태 변경">
+				<select name="productStatus">
+					<option value="01">판매중</option>
+					<option value="02">판매중지</option>
+					<option value="03">품절</option>				
+				</select>
+			</div>
+		<nav>
+		  <!-- 크기조절 :  pagination-lg pagination-sm-->
+		  <ul class="pagination" >
+		    
+		    <!--  <<== 좌측 nav -->
+		  	<th:block th:if="${ resultPage.currentPage <= resultPage.pageUnit }">
+		 		<li class="disabled">
+			</th:block>
+			<th:block th:if="${ resultPage.currentPage > resultPage.pageUnit }">
+				<li>
+			</th:block>
+		      <a th:href="|javascript:fncGetList('${ resultPage.currentPage-1}')|" aria-label="Previous">
+		        <span aria-hidden="true">&laquo;</span>
+		      </a>
+		    </li>
+		    
+		    <!--  중앙  -->
+			<!--<c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">-->
+			<th:block th:each="num : ${#numbers.sequence(resultPage.beginUnitPage,resultPage.endUnitPage)}">	
+				<!--<th:block th:if test="${ resultPage.currentPage == num }">-->
+					<!--  현재 page 가르킬경우 : active -->
+			    <li class="active" th:if="${ resultPage.currentPage == num }">
+			    	<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}"><span class="sr-only">(current)</span></a>
+			    </li>	
+				
+				<!--<c:if test="${ resultPage.currentPage != i}">-->	
+				<li th:if="${ resultPage.currentPage != num }">
+					<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}"></a>
+				</li>
+				<!--</c:if>-->
+			</th:block>
+		    
+		     <!--  우측 nav==>> -->
+		     <th:block th:if="${ resultPage.endUnitPage >= resultPage.maxPage }">
+		  		<li class="disabled">
+			</th:block>
+			<th:block th:if="${ resultPage.endUnitPage < resultPage.maxPage }">
+				<li>
+			</th:block>
+		      <a th:href="|javascript:fncGetList('${resultPage.endUnitPage+1}')|" aria-label="Next">
+		        <span aria-hidden="true">&raquo;</span>
+		      </a>
+		    </li>
+		  </ul>
+		</nav>			
+		
 		</div>
-	</div>
+	</article>
 </body>
 </html>
