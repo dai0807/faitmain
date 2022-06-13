@@ -201,7 +201,17 @@ public class UserRestController{
 
         log.info( "nicknameCheck {}" , cnt );
         // 숫자가 1 이면 중복 , 0이면 없음
+       
+        
+        log.info( "nicknameCheck {}" , cnt );
+        log.info( "nicknameCheck {}" , cnt );
+        log.info( "nicknameCheck {}" , cnt );
+        log.info( "nicknameCheck {}" , cnt );
+    
+        
         return cnt;
+        
+        	
     }
 
     
