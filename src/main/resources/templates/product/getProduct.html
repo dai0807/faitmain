@@ -111,7 +111,7 @@
 
 <article class = "py-5" layout:fragment = "content">
     <div class = "container">
-        <form id = "getProductForm" method = "post" th:object = "${product}" th:action="@{/order/${buyerId}(buyerId=${session.user.id})}">
+        <form id = "getProductForm" method = "post" th:object = "${product}" th:action="@{/order/{buyerId}(buyerId=${session.user.id})}">
 
             <div class = "row">
                 <div class = "col-md-12">
@@ -328,8 +328,7 @@
                     <div class = "tab-content">
                         <div class = "tab-pane active" id = "panel-32556">
                             <div class = "row">
-                                <div class = "col-md-4" th:each = "extraImg : ${product.productExtraImage}"
-                                     th:if = "${#lists.size(product.productExtraImage) > 0}">
+                                <div class = "col-md-4" th:each = "extraImg : ${product.productExtraImage}" th:if = "${#lists.size(product.productExtraImage) > 0}">
                                     <img class = "img-thumbnail" height = "auto"
                                          th:src = "|../img/upload/${ extraImg.imageName }|" width = "20%"/>
                                 </div>
