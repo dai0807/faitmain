@@ -3,6 +3,7 @@ package com.faitmain.domain.product.mapper;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.faitmain.domain.cart.mapper.CartMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,7 +12,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.faitmain.domain.product.domain.Cart;
+import com.faitmain.domain.cart.domain.Cart;
 import com.faitmain.domain.product.domain.Product;
 
 @ExtendWith(SpringExtension.class)
@@ -34,9 +35,9 @@ public class CartMapperTest {
 		Cart cart = new Cart();
 		
 		Product product = productMapper.getProduct(10016);
-		cart.setCartProduct(product);
+	//	cart.setCartProduct(product);
 		cart.setProductOrderCount(1);
-		cart.setUserId("user01@naver.com");
+	//	cart.setUserId("user01@naver.com");
 		
 		System.out.println("addCartTest end");
 	}

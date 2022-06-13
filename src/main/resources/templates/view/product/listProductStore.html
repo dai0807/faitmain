@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/default_layout}">
+<head>
+    <meta charset = "UTF-8">
+    <title>상품 목록</title>
+	
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+   	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+	
+	<style>
+	
+ 		.form-group{ 
+			margin-top:10px ; 	 
+		}
+		
+		h5,span{font-family: 'Nanum Gothic Coding', monospace;}
+		
+   	</style>
+    
+   	<script type="text/javascript">
+	   	function fncGetList(currentPage) {
+			$("#currentPage").val(currentPage);	
+			$("form").submit();		
+		}
+		
+		$(function() {
+			 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			 $( "#search" ).on("click" , function() {
+				fncGetList(1);
+			 });
+		 });
+   	</script>
+	
+	
+</head>
+<body >
+	<article  class="py-5" layout:fragment="content">
+		<div class="container">
+			
+			<div>
+				<form th:action="@{/product/getProductList?resultJsp=listProductStore}" method="POST">
+					<input type="text" name="searchKeyword" th:if="${search.searchKeyword }"/>
+					<button type="button" id="search">검색</button>
+					<input type="hidden" id="currentPage" name="currentPage" value=""/>
+				</form>
+			</div>
+		
+			<div th:if="${#lists.size(list) > 0}" th:each="product : ${list}">
+				<input type="hidden" th:value="${product.productNumber}" />	
+				<img class = "img-thumbnail" th:src = "|../img/upload/${ product.productMainImage }|" width="30%"/>		  
+				<input type="text"  th:value="${product.productName}" />
+				<input type="text" th:value="${product.productPrice}" />
+			</div>
+			
+		<nav>
+		  <!-- 크기조절 :  pagination-lg pagination-sm-->
+		  <ul class="pagination" >
+		    
+		    <!--  <<== 좌측 nav -->
+		  	<th:block th:if="${ resultPage.currentPage <= resultPage.pageUnit }">
+		 		<li class="disabled">
+			</th:block>
+			<th:block th:if="${ resultPage.currentPage > resultPage.pageUnit }">
+				<li>
+			</th:block>
+		      <a th:href="|javascript:fncGetList('${ resultPage.currentPage-1}')|" aria-label="Previous">
+		        <span aria-hidden="true">&laquo;</span>
+		      </a>
+		    </li>
+		    
+		    <!--  중앙  -->
+			<!--<c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">-->
+			<th:block th:each="num : ${#numbers.sequence(resultPage.beginUnitPage,resultPage.endUnitPage)}">	
+				<!--<th:block th:if test="${ resultPage.currentPage == num }">-->
+					<!--  현재 page 가르킬경우 : active -->
+			    <li class="active" th:if="${ resultPage.currentPage == num }">
+			    	<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}"><span class="sr-only">(current)</span></a>
+			    </li>	
+				
+				<!--<c:if test="${ resultPage.currentPage != i}">-->	
+				<li th:if="${ resultPage.currentPage != num }">
+					<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}"></a>
+				</li>
+				<!--</c:if>-->
+			</th:block>
+		    
+		     <!--  우측 nav==>> -->
+		     <th:block th:if="${ resultPage.endUnitPage >= resultPage.maxPage }">
+		  		<li class="disabled">
+			</th:block>
+			<th:block th:if="${ resultPage.endUnitPage < resultPage.maxPage }">
+				<li>
+			</th:block>
+		      <a th:href="|javascript:fncGetList('${resultPage.endUnitPage+1}')|" aria-label="Next">
+		        <span aria-hidden="true">&raquo;</span>
+		      </a>
+		    </li>
+		  </ul>
+		</nav>			
+		
+		</div>
+	</article>
+</body>
+</html>

@@ -68,7 +68,7 @@ public class UserController{
 		   
 		   log.info( " 컨트롤러 탐 login Page로 이동"  );
 		   
-	      return "view/user/login";
+	      return "/user/login";
 	   }
 	   
 	   //userList
@@ -84,7 +84,7 @@ public class UserController{
 		   
 		   
 		   
-		   return "view/user/getUserList";
+		   return "/user/getUserList";
 		   
 	   }
 	   
@@ -147,7 +147,7 @@ public class UserController{
 		 
 			log.info("get :: selectRegisterType    " );
 	      
-	   return "view/user/selectRegisterType";
+	   return "/user/selectRegisterType";
 	   }
 	   
 	   
@@ -156,7 +156,7 @@ public class UserController{
 		 
 			log.info("get :: addUser " );
 	      
-	   return "view/user/addUser";
+	   return "/user/addUser";
 	   }
 
 	   
@@ -167,7 +167,7 @@ public class UserController{
 		 
 			log.info("get :: addStore " );
 	      
-	   return "view/user/addStore";
+	   return "/user/addStore";
 	   }
 	   
 	   
@@ -370,7 +370,7 @@ public class UserController{
 			
 				
 				model.addAttribute("id", id) ;
-			return("view/user/updatePassword");
+			return("/user/updatePassword");
 
 	 				
 	    	}		
@@ -456,7 +456,9 @@ public class UserController{
 			   User user = null ;
 			   
 			   if(id == null) {
+				   System.out.println((User)request.getSession(true).getAttribute("user") );
  				   user = (User)request.getSession(true).getAttribute("user") ; 
+ 				   
  			   }else {
 				   user = userSerivce.getUser(id) ;
 				   
@@ -472,7 +474,7 @@ public class UserController{
 			   
 			   
 			   model.addAttribute("getuser",user) ;
-		      return "view/user/getUser";
+		      return "/user/getUser";
 		   }
 		   
 		//스토어 신청서 상세 보기 
@@ -485,7 +487,7 @@ public class UserController{
  			  
  			  model.addAttribute("StoreApplicationDocument" , storeApplicationDocument);
  			  
-		      return "view/user/getStoreApplicationDocument";
+		      return "/user/getStoreApplicationDocument";
 		   }
 		   		
 		//스토어 재 신청 Add 

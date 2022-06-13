@@ -1,6 +1,7 @@
 package com.faitmain.domain.product.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.global.common.MiniProjectPage;
 import com.faitmain.global.common.Page;
 import com.faitmain.global.common.Search;
 
@@ -76,45 +78,44 @@ public class ProductController {
 		return "/view/product/getProduct";
 	}
 	
-	@GetMapping("getProductList")
-	public String getProductList(@ModelAttribute Search search, @RequestParam("resultJsp") String resultJsp, 
-								 @RequestParam(value = "searchStatus", required = false) String searchStatus,
-								 @RequestParam(value = "searchCategory", required = false) String searchCategory,
-								 @RequestParam(value = "beforeDate", required = false) String beforeDate, 
-								 @RequestParam(value = "afterDate", required = false) String afterDate, Model model) throws Exception{
+	@RequestMapping(value="getProductList")
+	public String getProductList(@ModelAttribute Search search, @RequestParam("resultJsp") String resultJsp, Model model) throws Exception{
 		
 		log.info("/product/getProductList");
-		/*
+		
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(10);
 		
-		Map<String, Object> searchMap = new HashMap<String, Object>();
-		searchMap.put("searchCondition", search.getSearchCondition());
+		Map<String, Object> searchMap = new HashMap<String, Object>();		
 		searchMap.put("searchKeyword", search.getSearchKeyword());
+		
+		if(resultJsp.equals("listProductStore")) {
+			searchMap.put("searchStore",  "store01@naver.com");
+		}
+		
 		searchMap.put("endRowNum",  search.getEndRowNum());
 		searchMap.put("startRowNum",  search.getStartRowNum());
-		searchMap.put("searchStatus", searchStatus);
-		searchMap.put("searchCategory", searchCategory);
-		searchMap.put("beforeDate", beforeDate);
-		searchMap.put("afterDate", afterDate);
+		searchMap.put("searchKeyword", search.getSearchKeyword());
+		searchMap.put("searchStatus", search.getSearchStatus());
+		searchMap.put("searchCategory", search.getSearchCategory());
+		searchMap.put("searchOrderName", search.getOrderName());
+		
+		System.out.println("Search : " + search);
 		
 		Map<String, Object> map = productService.getProductList(searchMap);
 				
-		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 4, 10);
+		MiniProjectPage resultPage = new MiniProjectPage( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 4, 10);
 		
 		log.info("resultPage : " + resultPage);
 		
+		log.info("list : " + ((List<Product>)map.get("list")).get(0));
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
-		model.addAttribute("search", search);
-		model.addAttribute("searchStatus", searchStatus);
-		model.addAttribute("searchCategory", searchCategory);
-		model.addAttribute("beforeDate", beforeDate);
-		model.addAttribute("afterDate", afterDate);		
-		*/
-		return "/view/product/listProduct";
+		model.addAttribute("search", search);	
+		/**/
+		return "/view/product/" + resultJsp;
 	}
 	
 	@GetMapping("updateProduct")
@@ -130,11 +131,14 @@ public class ProductController {
 	}
 	
 	@PostMapping("updateProduct")
-	public String updateProduct(@ModelAttribute("product") Product product) throws Exception{
+	public String updateProduct(@ModelAttribute("product") Product product, MultipartHttpServletRequest mRequest) throws Exception{
 		
-		log.info("/product/updateProduct : POST");
+		log.info("/product/updateProduct = {}", "POST");
 		
-		productService.updateProduct(product);
+		User user = new User();
+		user.setId("store01@naver.com");
+		product.setStore(user);
+		productService.updateProduct(product, mRequest);
 		
 		return "redirect:/product/getProduct?productNumber=" + product.getProductNumber();
 	}
