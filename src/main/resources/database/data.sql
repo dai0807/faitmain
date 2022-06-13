@@ -76,31 +76,9 @@ INSERT INTO product (product_name, product_price, store_id, product_main_image, 
 
 /* ORDER */
 
-INSERT INTO `order` (receiver_name, buyer_id, receiver_address1, receiver_address2, receiver_address3, order_status, delivery_charge, using_point, order_date)
-     VALUES ('receiver_name 1', 'id 1', 'receiver_address1 1', 'receiver_address2 1', 'receiver_address3 1', 'order_state 1', 1, 1, NOW());
-INSERT INTO `order` (receiver_name, buyer_id, receiver_address1, receiver_address2, receiver_address3, order_status, delivery_charge, using_point, order_date)
-     VALUES ('receiver_name 2', 'id 2', 'receiver_address1 2', 'receiver_address2 2', 'receiver_address3 2', 'order_state 2', 2, 2, NOW());
-INSERT INTO `order` (receiver_name, buyer_id, receiver_address1, receiver_address2, receiver_address3, order_status, delivery_charge, using_point, order_date)
-     VALUES ('receiver_name 3', 'id 3', 'receiver_address1 3', 'receiver_address2 3', 'receiver_address3 3', 'order_state 3', 3, 3, NOW());
-INSERT INTO `order` (receiver_name, buyer_id, receiver_address1, receiver_address2, receiver_address3, order_status, delivery_charge, using_point, order_date)
-     VALUES ('receiver_name 4', 'id 4', 'receiver_address1 4', 'receiver_address2 4', 'receiver_address3 4', 'order_state 4', 4, 4, NOW());
-INSERT INTO `order` (receiver_name, buyer_id, receiver_address1, receiver_address2, receiver_address3, order_status, delivery_charge, using_point, order_date)
-     VALUES ('receiver_name 5', 'id 5', 'receiver_address1 5', 'receiver_address2 5', 'receiver_address3 5', 'order_state 5', 5, 5, NOW());
-
-
 /* ORDER PRODUCT */
 
-INSERT INTO order_product (order_number, product_number, product_order_count, product_price, reward_point)
-     VALUES ('order_number 1', 1, 1, 1, 1);
-INSERT INTO order_product (order_number, product_number, product_order_count, product_price, reward_point)
-     VALUES ('order_number 2', 2, 2, 2, 2);
-INSERT INTO order_product (order_number, product_number, product_order_count, product_price, reward_point)
-     VALUES ('order_number 3', 3, 3, 3, 3);
-INSERT INTO order_product (order_number, product_number, product_order_count, product_price, reward_point)
-     VALUES ('order_number 4', 4, 4, 4, 4);
-<<<<<<< HEAD
-INSERT INTO order_product (order_number, product_number, product_quantity, product_price, reward_point)
-     VALUES ('order_number 5', 5, 5, 5, 5);
+
      
 /* CUSTOMER */     
 ALTER TABLE customer MODIFY COLUMN customer_FAQ_category_code INT NULL;
