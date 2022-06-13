@@ -1,270 +1,138 @@
+/** 결제 **/
+function requestPay() {
 
+    // 결제 금액, 구매자의 이름, 이메일
+    const priceAmount = $('#totalPrice').val();
+    const buyerMemberEmail = $('#memberEmail').val();
+    const buyerMemberName = $('#memberName').val();
+    // const form = document.getElementById("payment");
 
+    const IMP = window.IMP;
 
+    // IMP.request_pay(param, callback) 결제창 호출
+    IMP.init('imp99053400');
+    IMP.request_pay({ // param
+        pg: "kakaopay.TC0ONETIME",
+        pay_method: "card",
+        merchant_uid: 'cart_' + new Date().getTime(),
+        name: "Helpring 강의",
+        amount: priceAmount,
+        buyer_email: buyerMemberEmail,
+        buyer_name: buyerMemberName,
 
+    }, function (rsp) { // callback
 
+        /** 결제 검증 **/
+        $.ajax({
+            type: 'POST',
+            url: '/verifyIamport/' + rsp.imp_uid,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            }
+        }).done(function (result) {
 
+            // rsp.paid_amount와 result.response.amount(서버 검증) 비교 후 로직 실행
+            if (rsp.paid_amount === result.response.amount) {
+                alert("결제가 완료되었습니다.");
+                $.ajax({
+                    type: 'POST',
+                    url: '/lecture/payment',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(header, token);
+                    }
+                }).done(function () {
+                    window.location.reload();
+                }).fail(function (error) {
+                    alert(JSON.stringify(error));
+                })
+            } else {
+                alert("결제에 실패했습니다." + "에러코드 : " + rsp.error_code + "에러 메시지 : " + rsp.error_message);
 
-
-
-
-function menuReset(){
-    $(".temp_img_box").show();
-    $("main").remove();
-    $("section").remove();
-}
-
-
-function deleteCartOne(index){
-    $.ajax({
-        url: "/cartOne",
-        type: "DELETE",
-        data: {index : index}
-    })
-        .done(function(result){
-            priceModify(result)
+            }
         })
-        .fail(function(){
-            alert("에러가 발생했습니다");
-        })
-}
-
-function deleteCartAll(){
-    $.ajax({
-        url: "/cartAll",
-        type: "DELETE"
-    })
-        .done(function(){
-            menuReset();
-        })
-        .fail(function(){
-            alert("에러가 발생했습니다");
-        })
+    });
 }
 
 
+// 카드 결제
+function paymentCard(data) {
+    // 모바일로 결제시 이동페이지
+    const pathName = location.pathname;
+    const href = location.href;
+    const m_redirect = href.replaceAll(pathName, "");
 
-function priceModify(cartList){
-    if(!cartList) return;
-    const total = cartList.cartTotal;
-    const deleveryTip = cartList.deleveryTip;
+    IMP.init("imp99151903");
 
-    $(".order_price").text("주문금액 : " + total.toLocaleString() + "원");
-    $(".total").text((total + deleveryTip).toLocaleString() +  "원 결제하기");
-    $("#total").val(total + deleveryTip);
+    IMP.request_pay({ // param
+            pg: "html5_inicis",
+            pay_method: data.payMethod,
+            merchant_uid: data.orderNum,
+            name: data.name,
+            amount: data.amount,
+            buyer_email: "",
+            buyer_name: "",
+            buyer_tel: data.phone,
+            buyer_addr: data.deleveryAddress2 + " " + data.deleveryAddress3,
+            buyer_postcode: data.deleveryAddress1,
+            m_redirect_url: m_redirect,
+        },
+        function (rsp) { // callback
+            if (rsp.success) {
+                // 결제 성공 시 로직,
+                data.impUid = rsp.imp_uid;
+                data.merchant_uid = rsp.merchant_uid;
+                paymentComplete(data);
+
+            } else {
+                // 결제 실패 시 로직,
+            }
+        });
 }
-
-
-
-
-
-function payment(){
-
-    const data = {
-        payMethod : $("input[type='radio']:checked").val(),
-        orderNum : $("#order_num").val(),
-        name : $(".order_info li").eq(0).find(".food_name").text(),
-        amount : Number($("#total").val()) - Number($(".point_input").val()),
-        phone : $("input[name='phone']").val(),
-        request : $("textarea[name='request']").val(),
-        usedPoint : $("input[name='usedPoint']").val(),
-        deleveryAddress1 : $("#deleveryAddress1").val(),
-        deleveryAddress2 : $("#deleveryAddress2").val(),
-        deleveryAddress3 : $("#deleveryAddress3").val(),
-        totalPrice : $("#total").val()
-    }
-
-    if(!data.deleveryAddress1 || !data.deleveryAddress2 ) {
-        swal('배달 받으실 주소를 입력해 주세요')
-        return;
-    }
-
-    if($(".order_info li").length < 1) {
-        return;
-    }
-
-    if(!data.phone) {
-        swal('전화번호를 입력해주세요');
-        return;
-    }
-
-    if(data.payMethod == "현장결제") {
-        paymentCash(data);
-        return;
-    }
-
-    paymentCash(data);
-}
-
-
-
-
 
 // 계산 완료
 function paymentComplete(data) {
 
-	 $.ajax({
-		url: "/order/payment/complete",
+    $.ajax({
+        url: "/order/payment/complete",
         method: "POST",
         data: data,
-	})
-	.done(function(result) {
-		messageSend();
-        swal({
-			text: result,
-			closeOnClickOutside : false
-		})
-		.then(function(){
-			location.replace("/orderList");
-		})
-	}) // done
-    .fail(function() {
-		alert("에러");
-		location.replace("/");
-	})
-}
-
-
-
-// 관리자 페이지로 주문요청 메세지
-function messageSend() {
-	let socket = new SockJS('/websocket');
-
-	let stompClient = Stomp.over(socket);
-
-	stompClient.connect({}, function() {
-		const message = {
-			message : "새 주문이 들어왔습니다"
-		}
-		stompClient.send("/message/order-complete-message", {}, JSON.stringify(message));
-		stompClient.disconnect();
-	});
-}
-
-
-
-
-if($("#user_id").val() !== ""){
-
-    $(".point_click").click(function(){
-        $(".point_input_box").fadeToggle(200);
-    });
-
-    $(".use_point").click(function(){
-
-        const point = Number($(".point_input").val());
-        /*const deleveryTip = Number($("#delevery_tip").val());*/
-        const total = Number($("#total").val());
-
-        if(point !== 0) {
-            $(".total").html("");
-            const html = (total - point).toLocaleString() +"원 결제하기";
-            $(".total").html(html);
-
-            $(".point_dis").show();
-            $(".point_dis").html("포인트 할인 -" + point.toLocaleString() + "원");
-        }
-    });
-
-
-
-
-    $(".point_input").focusout(function(){
-        const total = Number($("#total").val());
-        const userPoint = Number($("#point").val());
-        const deleveryTip = Number($("#delevery_tip").val());
-
-        if($(this).val() > userPoint)
-            $(this).val(userPoint);
-        if($(this).val() > total-deleveryTip)
-            $(this).val(total-deleveryTip);
-        if($(this).val() < 0)
-            $(this).val(null);
-    });
-
-} else {
-    swal("", {
-        buttons: ["비회원으로 주문하기", "로그인"],
     })
-        .then((value) => {
-            if(value === true) {
-                location.href = "/login";
-            }
-        });
-
-
-    $(".point_area .point").css("border" , "1px solid #ddd");
-    $(".point_area .point").css("cursor" , "default");
-    $(".point_area span").css("color" , "#ddd");
-    $(".point_area span").css("cursor" , "default");
-
+        .done(function (result) {
+            messageSend();
+            swal({
+                text: result,
+                closeOnClickOutside: false
+            })
+                .then(function () {
+                    location.replace("/orderList");
+                })
+        }) // done
+        .fail(function () {
+            alert("에러");
+            location.replace("/");
+        })
 }
 
 
-if(!$("input[name='phone']").val()) {
-    $("input[name='phone']").attr("readonly", false);
+/* 주소입력란 버튼 동작(숨김, 등장) */
+function showAdress(className) {
+    /* 컨텐츠 동작 */
+    /* 모두 숨기기 */
+    $(".addressInfo_input_div").css('display', 'none');
+    /* 컨텐츠 보이기 */
+    $(".addressInfo_input_div_" + className).css('display', 'block');
+
+    /* 버튼 색상 변경 */
+    /* 모든 색상 동일 */
+    $(".address_btn").css('backgroundColor', '#555');
+    /* 지정 색상 변경 */
+    $(".address_btn_" + className).css('backgroundColor', '#3c3838');
+    /* selectAddress T/F */
+    /* 모든 selectAddress F만들기 */
+    $(".addressInfo_input_div").each(function (i, obj) {
+        $(obj).find(".selectAddress").val("F");
+    });
+    /* 선택한 selectAdress T만들기 */
+    $(".addressInfo_input_div_" + className).find(".selectAddress").val("T");
+
 }
-
-
-
-
-$(".order_btn").click(function(){
-    payment();
-})
-
-
-
-
-
-
-// 메뉴 1개 삭제
-$(".order_info li .delete").click(function(){
-    const index = $(this).parents("li").index();
-    deleteCartOne(index);
-
-    if($(".order_info li").length > 1) {
-        $(".order_info li").eq(index).remove();
-    } else {
-        menuReset();
-    }
-
-})
-
-//메뉴 전체삭제
-$(".order_info .delete_all").click(function(){
-    deleteCartAll();
-})
-
-
-
-
-$(".amount_box button").click(function(){
-    const amount = $(this).siblings(".amount_text");
-    const index = $(this).parents("li").index();
-    let foodPrice = $(this).parent().siblings(".sum");
-    let clickBtn = "";
-
-    console.log(index);
-    if($(this).hasClass("plus")){
-        clickBtn = "plus";
-    } else {
-        if(amount.val() <= 1) {
-            return;
-        }
-        clickBtn = "minus";
-    }
-    $.ajax({
-        url : "/cartAmount",
-        type : "PATCH",
-        data : {cartNum : index, clickBtn : clickBtn }
-    })
-        .done(function(result){
-            const cart = result.cart[index];
-            foodPrice.text(cart.totalPrice.toLocaleString() + "원");
-            amount.val(cart.amount);
-            priceModify(result);
-        })
-        .fail(function(){
-            alert("다시 시도해주세요");
-        })
-})

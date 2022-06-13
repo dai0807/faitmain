@@ -156,7 +156,6 @@ public class OrderServiceImpl implements OrderService{
 
         /* 회원 */
         User user = orderMapper.selectBuyer( orderCancel.getBuyerId() );
-
         /* 주문상품 */
         List<OrderProduct> orderProductList = orderMapper.selectOrderProductList( orderCancel.getOrderNumber() );
         for ( OrderProduct orderProduct : orderProductList ) {

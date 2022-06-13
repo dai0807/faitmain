@@ -43,7 +43,7 @@ public class OrderController{
         model.addAttribute( "orderPageProductList" , orderService.getOrderPageProductList( orderPage.getOrderPageProductList() ) );
         model.addAttribute( "buyer" , orderService.getBuyer( buyerId ) );
 
-        return "/insertOrder";
+        return "/order";
     }
 
     @PostMapping( "/add" )
