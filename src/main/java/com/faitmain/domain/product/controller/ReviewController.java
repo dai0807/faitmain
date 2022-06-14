@@ -49,7 +49,7 @@ public class ReviewController {
 		
 		log.info("/review/addReview : GET");
 				
-		return "redirect:/review/addReview.jsp";
+		return "/product/addReview";
 	}
 	
 	@PostMapping("addReview")
