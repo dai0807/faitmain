@@ -425,35 +425,15 @@ public class UserController{
 		
 		
 		// find Id Rest Control로 갈 운명 
-		@PostMapping("findId")
+		@GetMapping("findId")
   		public String findId( @ModelAttribute("user") User user  ,Model model)throws Exception {
 			
-			log.info("##findId {} ##" , user);
-			
-			
-			Map<String,Object> map = new HashMap<>();
-			map.put("phoneNumber", user.getPhoneNumber());
-			map.put("name", user.getName() );
- 			
-			
-			log.info("findId " + userSerivce.findUser(map));
-			
-			if(   userSerivce.findUser(map) == 1  ) {
+			log.info("###Stat###findId ={} ##" , user);
+		 
 				
-				String findUserId = userSerivce.findGetId(map);
-				model.addAttribute("findUserId", findUserId);
-
-				
-				return("forward:/user/findIdView.jsp");
-
-				
-				
-			}else {
-				return("forward:/main");
-
-			}
-			
-
+				return ("/user/findUserId") ;
+ 
+ 
 	 				
 	    	}				
 			   		

@@ -82,8 +82,8 @@
 
 	</select>
 	
-   <select id ="findGetId" parameterType="map"  resultType="String" >  <!-- 이것은 findUser 때에따라 들어가는 값 확인하기 -->
-	SELECT COUNT(*)
+   <select id ="findGetIdPw" parameterType="map"  resultMap="userMap"  >  <!-- 이것은 findUser 때에따라 들어가는 값 확인하기 -->
+	SELECT *
 	FROM user
 		WHERE  phone_number =#{phoneNumber}  
 		AND  ${findcondition}= #{findkeyword} ;

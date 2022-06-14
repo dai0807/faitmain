@@ -118,9 +118,9 @@ public class UserServiceImpl implements UserSerivce{
         return userMapper.getchechDuplicationCount( map );
     }
 
-    public String findGetId( Map<String, Object> map ) throws Exception{
+    public User findGetIdPw( Map<String, Object> map ) throws Exception{
 
-        return userMapper.findGetId( map );
+        return userMapper.findGetIdPw( map );
     }
 
 
