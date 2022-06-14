@@ -426,36 +426,36 @@ public class UserController{
 		
 		
 		// find Id Rest Control로 갈 운명 
-		@PostMapping("findId")
+		@GetMapping("findId")
   		public String findId( @ModelAttribute("user") User user  ,Model model)throws Exception {
 			
-			log.info("##findId {} ##" , user);
+			log.info("###Stat###findId ={} ##" , user);
+		 
+
+				return ("/user/findUserId") ;
+ 
+ 
+	 				
+	    	}				
+			   		
+		//find PW Rest Control로 갈 운명 
+		@PostMapping("findPw")
+  		public String findPw( @ModelAttribute("user") User user  ,Model model)throws Exception {
+			
+			log.info("##findPw {} ##" , user);
 			
 			
 			Map<String,Object> map = new HashMap<>();
 			map.put("phoneNumber", user.getPhoneNumber());
-			map.put("name", user.getName() );
+			map.put("id", user.getId() );
  			
 			
-			log.info("findId " + userSerivce.findUser(map));
+			log.info("findPW {}" , userSerivce.findUser(map));
 			
 			if(   userSerivce.findUser(map) == 1  ) {
 				
-				String findUserId = userSerivce.findGetId(map);
-				model.addAttribute("findUserId", findUserId);
+ 				model.addAttribute("user", user);
 
-				
-				return("forward:/user/findIdView.jsp");
-
-				
-				
-			}else {
-				return("forward:/main");
-
-
-			}
-
-			// model.addFlashAttribute("kakaouserId",kakaouserId);
 
 			// return "view/user/kakaoAdd"; // 추가 kakao로그인 화면
 

@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -39,7 +40,39 @@ public class UserRestController{
 		    log.info(  "Controller {}" , this.getClass() );
 		   
 	   }
-	
+
+	   
+		// find Id Rest Control로 갈 운명 
+	   @PostMapping("json/findId")
+ 		public String findId( @ModelAttribute("user") User user  ,Model model)throws Exception {
+			
+			log.info("###Stat###findId ={} ##" , user);
+		     Map<String, Object> findIdmap = new HashMap<>();
+		     	findIdmap.put( "phoneNumber" , user.getPhoneNumber() );
+		        findIdmap.put( "findcondition" , "name" );
+		        findIdmap.put( "findkeyword" , user.getName() );
+	        
+				  user = userSerivce.findGetIdPw(findIdmap) ;
+					log.info("###Stat###user ={} ##" , user);
+					
+				  
+				  if(user != null) {
+						log.info("  ::id:: ={}  " ,user.getId());
+					
+						return user.getId()  ;
+					}else {
+						
+						log.info("  ::id:: null 입니다.");
+						return "입력하신 정보와 유효한 id가 존재하지 않습니다." ;
+
+					}
+
+	 				
+	    	}				
+			   	
+	   
+	   
+	   
 	   @PostMapping(value = "json/uploadSummernoteImageFile", produces = "application/json")
 		@ResponseBody
 		public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
