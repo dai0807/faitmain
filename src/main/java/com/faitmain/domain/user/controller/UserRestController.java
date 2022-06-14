@@ -35,7 +35,6 @@ public class UserRestController{
 	   @Autowired
 	   @Qualifier("userServiceImpl")	   
 	   private UserSerivce userSerivce;
-
 	   
 	   public UserRestController() {
 		    log.info(  "Controller {}" , this.getClass() );
@@ -71,6 +70,9 @@ public class UserRestController{
 	 				
 	    	}				
 			   	
+	   
+	   
+	   
 	   @PostMapping(value = "json/uploadSummernoteImageFile", produces = "application/json")
 		@ResponseBody
 		public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
@@ -154,6 +156,7 @@ public class UserRestController{
 	   
 	   
 	   
+	   
 	 
 ////업데이트 유저  업데이트 유저 사진 XX 해야함 
 //    @PostMapping( value = "json/updateUser" )
@@ -197,7 +200,6 @@ public class UserRestController{
 
 
     @PostMapping( value = "json/updateUser" )  
-
     public int ajaxupdateUser( User user ,
  			 
 			   HttpSession session ,
