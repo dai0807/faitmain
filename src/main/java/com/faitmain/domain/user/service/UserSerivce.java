@@ -39,7 +39,7 @@ public interface UserSerivce{
 	public int findUser( Map<String, Object> hasMap ) throws Exception;
 
     // SELECT 아이디/PW 찾기 할때 사용하는 findUser
-	public String findGetId( Map<String, Object> hasMap ) throws Exception;
+	public User findGetIdPw( Map<String, Object> hasMap ) throws Exception;
 
 
     //SELECT 충복체크

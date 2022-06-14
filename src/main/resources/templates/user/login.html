@@ -157,9 +157,10 @@ html {
       <input type="text" id="id" class="fadeIn second" name="id" placeholder="login">
       <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
       <input type="submit" id="loginButton" class="fadeIn fourth " value="Log In"  style="margin-bottom: 5px";>
-      
-      <a class="p-2" th:href="@{https://kauth.kakao.com/oauth/authorize?client_id=f0b36852932e865ae00c9ff2fcd19874&redirect_uri=https://fait-main.kro.kr:8080/user/kakaoLogin&response_type=code}">
-				
+      <!--  라이브 오빠들 카카오 로그인 할때는 밑에서 다른 사람은 밑에 꺼 -->
+<!--      <a class="p-2" th:href="@{https://kauth.kakao.com/oauth/authorize?client_id=f0b36852932e865ae00c9ff2fcd19874&redirect_uri=https://fait-main.kro.kr:8080/user/kakaoLogin&response_type=code}"> -->
+	      <a class="p-2" th:href="@{https://kauth.kakao.com/oauth/authorize?client_id=f0b36852932e865ae00c9ff2fcd19874&redirect_uri=http://localhost:8080/user/kakaoLogin&response_type=code}">
+			
 	 <img src="/img/kakao_login_medium_narrow.png" style="height:50px">
 												<!--  	 <img src="/img/kakao_login_medium_narrow.png" style="height:60px"> -->
 	 </a>
