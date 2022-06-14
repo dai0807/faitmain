@@ -48,7 +48,7 @@
 	<insert id ="addStoreApplicationDocument" parameterType="StoreApplicationDocument"     >
 		INSERT INTO store_application_document ( id, examination_status, product_detail, reg_date)
 		VALUES
-		    (#{id}, 'W', #{product_detail}, NOW() )
+		    (#{id}, 'W', #{productDetial}, NOW() )
 		 
  	</insert>
  	
@@ -104,14 +104,15 @@
 		SELECT store_application_document_number
 		FROM store_application_document
 		WHERE id = #{value}
-		ORDER BY reg_date desc  
+		ORDER BY store_application_document_number desc LIMIT 1
 	</select>
  
  <!--  //SELECT 스토어 신청서 넘버로 스토어 가져오기   -->
  	 <select id ="getStoreApplicationDocument" parameterType="int"  resultMap="StoreApplicationDocumentMap" >
 		SELECT	 s.* , u.store_name , u.store_introduction 
 			FROM	 store_application_document s ,user u  
-			WHERE	  s.id = u.id and store_application_document_number = #{value}
+			WHERE	  s.id = u.id and store_application_document_number = #{value} 
+ 			
 	</select>
  
  
@@ -266,7 +267,7 @@
  	 <update	id="updateStoreApplicationDocument"  parameterType="StoreApplicationDocument"  >
 	   	UPDATE store_application_document
 	   	<set>
-	   		examination_status 		= #{examination_status} ,	   	
+	   		examination_status 		= #{examinationStatus} ,	   	
  			 		
 	   	</set>
 	   	WHERE  store_application_document_number = #{storeApplicationDocumentNumber}
@@ -302,9 +303,9 @@
 	</select>
 	  -->
 	<!-- 0 전체 1 - R , 2 -A , 3 - W -->
-	  <select id ="getStoreApplicationDocumentList" parameterType="map"  > <!-- role 따라  -->
+	  <select id ="getStoreApplicationDocumentList" parameterType="map"  resultMap="StoreApplicationDocumentMap" > <!-- role 따라  -->
 		SELECT *
-		  	FROM (	SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq
+		  	FROM (	SELECT inner_table.* ,u.store_name , @ROWNUM := @ROWNUM+1 AS row_seq
 			  			FROM(	SELECT *
 								FROM store_application_document
 									<where>
@@ -321,8 +322,9 @@
 										examination_status = 'W'  
 									</if>																			 
 								 </where>
-								 ) inner_table
-						WHERE (@ROWNUM:=0)=0 limit ${endRowNum} ) total
+								 ) inner_table  ,User u  
+						WHERE inner_table.id = u.id  and
+							 (@ROWNUM:=0)=0 limit ${endRowNum} ) total
 			WHERE row_seq BETWEEN ${startRowNum} AND ${endRowNum} 
 	</select>
 	
@@ -406,20 +408,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 
 
 
@@ -427,7 +416,7 @@
  
  
     <resultMap id="userMap" type="User">
-    <result property="userNumber" 					column="user_number" 				jdbcType="INTEGER"/>
+   			 <result property="userNumber" 					column="user_number" 				jdbcType="INTEGER"/>
             <result property="id" 					column="id" 						jdbcType="VARCHAR"/>
                 <result property="gender"				column="gender" 					jdbcType="VARCHAR" />
             

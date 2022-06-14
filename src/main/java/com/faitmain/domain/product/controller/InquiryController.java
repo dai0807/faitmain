@@ -2,6 +2,9 @@ package com.faitmain.domain.product.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -14,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.faitmain.domain.product.domain.Inquiry;
 import com.faitmain.domain.product.service.InquiryService;
-import com.faitmain.global.common.Page;
+import com.faitmain.domain.product.service.ProductService;
+import com.faitmain.global.common.MiniProjectPage;
 import com.faitmain.global.common.Search;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,17 +31,32 @@ public class InquiryController {
 	@Autowired
 	@Qualifier("inquiryServiceImpl")
 	InquiryService inquiryService;
+	
+	@Autowired
+	@Qualifier("productServiceImpl")
+	ProductService productService;
 
 	public InquiryController() {
 		log.info("Controller = {} ", InquiryController.class);
 	}
 	
 	@GetMapping("addInquiry")
-	public String addInquiry() throws Exception{
+	public String addInquiry(@RequestParam("productNumber") int productNumber, HttpServletRequest request, HttpSession session, Model model) throws Exception{
 		
 		log.info("/inquiry/addInquiry : GET");
-				
-		return "redirect:/inquiry/addInquiry.jsp";
+		/*
+		String id = null;
+		if((request.getSession(true).getAttribute("user")) != null){
+			id = ((User) request.getSession(true).getAttribute("user")).getId();
+			log.info("id = {}", id);
+		}else {
+			return "redirect:/user/login";
+		}
+		
+		model.addAttribute("userId", id);
+		*/		
+		model.addAttribute("product", productService.getProduct(productNumber));
+		return "/product/addInquiry";
 	}
 	
 	@PostMapping("addInquiry")
@@ -45,9 +64,12 @@ public class InquiryController {
 		
 		log.info("/inquiry/addInquiry : POST");
 		
+		log.info("check = {}", inquiry.isSecret());
+		log.info("number = {}", inquiry.getInquiryProduct().getProductNumber());
+		inquiry.setUserId("user01@naver.com");
 		inquiryService.addInquiry(inquiry);
 		
-		return "forward:/inquiry/listInquiryUser.jsp";
+		return "redirect:/product/getProduct?productNumber=" + inquiry.getInquiryProduct().getProductNumber();
 	}
 	
 	@GetMapping("getInquiry")
@@ -62,11 +84,12 @@ public class InquiryController {
 		return "forward:/inquiry/getInquiry.jsp";
 	}
 	
-	@GetMapping("getInquiryList")
+	@RequestMapping(value="getInquiryList")
 	public String getInquiryList(@ModelAttribute("search") Search search, @RequestParam("resultJsp") String resultJsp, Model model) throws Exception{
 		
 		log.info("/inquiry/getInquiryList");
-		
+		log.info("search = {}", search);
+						
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
@@ -74,16 +97,16 @@ public class InquiryController {
 		search.setPageSize(10);
 		
 		Map<String, Object> map = inquiryService.getInquiryList(search);
-/*		
-		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 4, 10);
+		
+		MiniProjectPage resultPage = new MiniProjectPage( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 4, 10);
 		
 		log.info("resultPage : " + resultPage);
 		
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
-*/		
-		return "forward:/inquiry/" + resultJsp + ".jsp";
+		/**/		
+		return "/product/" + resultJsp;
 	}
 	
 	@GetMapping("updateInquiry")
@@ -97,13 +120,16 @@ public class InquiryController {
 		
 		log.info("inquiry : " + inquiry);
 		
-		return "forward:/inquiry/" + resultJsp;
+		return "/product/" + resultJsp;
 	}
 	
 	@PostMapping("updateInquiry")
 	public String updateInquiry(@ModelAttribute("inquiry") Inquiry inquiry) throws Exception{
 		
 		log.info("/inquiry/updateInquiry : POST");
+		log.info("inquiry = {}", inquiry);
+		log.info("inquiryReplyStatus = {}", inquiry.isInquiryReplyStatus());
+		log.info("inquiryReplyContent = {}", inquiry.getInquiryReplyContent());
 		
 		inquiryService.updateInquiry(inquiry);
 		

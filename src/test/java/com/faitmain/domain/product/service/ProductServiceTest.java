@@ -33,7 +33,7 @@ public class ProductServiceTest {
 	}
 	
 	//add
-	@Test
+	//@Test
 	@DisplayName("addProduct : 상품 등록")
 	void addProduct() throws Exception{
 		
@@ -80,7 +80,7 @@ public class ProductServiceTest {
 		
 		mockProduct = Product.builder().productNumber(productNumber).productName("abc").build();
 		
-		productServiceImpl.updateProduct(mockProduct);
+//		productServiceImpl.updateProduct(mockProduct);
 		
 		given(productMapper.getProduct(productNumber)).willReturn(mockProduct);
 		
@@ -92,7 +92,7 @@ public class ProductServiceTest {
 	}
 	
 	//delete
-	@Test
+//	@Test
 	@DisplayName("deleteProduct : 상품 삭제")
 	void deleteProduct() throws Exception{
 		

@@ -18,7 +18,7 @@ public class Inquiry {
 	private String storeId;
 	private Product inquiryProduct;
 	private boolean inquiryReplyStatus;
-	private String inquiryReplyCotent;
+	private String inquiryReplyContent;
 	private Date inquiryReplyDate;
 	private boolean secret;
 	
