@@ -90,16 +90,21 @@
 			}
 			
     		function findId(){
-				alert("아직구현중");
-					self.location="/user/findId";
+ 					self.location="/user/findId";
 	
 			}			
 			
     		function findPassword(){
-				alert("아직구현중");
-					self.location="/user/findPassword";
+ 					self.location="/user/findPassword";
 	
-			}				
+			}
+				
+    		function addStore(){
+ 					self.location="/user/addStore";
+	
+			}		
+			
+							
     	</script>
     <style>
 	  .wrapper {
@@ -172,9 +177,12 @@ html {
 
     <!-- Remind Passowrd -->
     <div id="formFooter">
-     <a class="underlineHover bi-check" onclick="addUser()">sign up</a> &nbsp;
-      <a class="underlineHover" onclick="findId()">Forgot Password?</a> &nbsp;
-      <a class="underlineHover" onclick="findId()">Forgot id?</a>
+     <a class="underlineHover bi-check" onclick="addUser()">User sign up</a> &nbsp;
+     <a class="underlineHover bi-check" onclick="addStore()">Store sign up</a> &nbsp;
+
+      <br>
+       <a class="underlineHover bi-check" onclick="findPassword()">Forgot Password?</a> &nbsp;
+     	 <a class="underlineHover bi-check" onclick="findId()">Forgot id?</a>
 
                 
 
