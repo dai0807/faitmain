@@ -94,10 +94,6 @@
 
 <body>
 
-	<div class="chat_Manage">
-	편집점
-	</div>
-
    <div id="wrap">
         <section>
             <!-- 샘플 화면 -->
@@ -123,7 +119,7 @@
                     <p id=roomNm><span>Live</span>[[${Live.liveTitle}]]</p>
                     
                     <!-- 나가기 버튼 -->
-                    <button type="button" value="관리탭 호출" onclick="callManageTab();">관리 탭 호출</button>
+                    <button type="button" value="관리탭 호출" onclick="open_popup();">관리 탭 호출</button>
                     <button type="button" value="연결확인 호출" onclick="call_chlid();">연결 테스트</button>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -225,25 +221,25 @@
 
 var channelKey = $('#channelKey').val(); // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
     
-    function callManageTab(){
-    var focusPopup;
-    focusPopup = window.open('/live/liveManageTab', 'ChatManage', 'width=600, height=300, left=100, top=50, scrollbar=yes');
-    focusPopup.focus();
-}
+    function open_popup(){
+    window.open('/live/liveManageTab', 'popup', 'width=600, height=300, left=1200, top=50, scrollbar=yes');
+	}
 
    // 새로운 유저가 채팅방에 입장 시 팝업 갱신을 위한 function
 function call_chlid(){  //부모창에서 자식창에 값 전달
-        try{
+
             popup.lol(); // 자식창 함수 호출
 
-        }catch(e){ // 부모 자식간의 연결이 끊어졌을 경우 처리
-            alert('팝업창을 다시 열어주세요');
-        }
     }
 
 
 function videoInit() {
 	// 로컬 접속 종료 시
+	channel.on('onNotifyJoinUser',function(event){
+		 console.log('onNotifyJoinUser', event)
+	})
+	
+	
 	channel.on('rtcLocalStreamRemove', function(event){
 		let html = $('.my_cam > video');
 		html.remove();
@@ -256,9 +252,10 @@ function videoInit() {
 	    myVideo.setAttribute("autoplay", true);
 	    myCam.append(myVideo);
 	    channel.setRTCLocalMedia(myVideo);
-	    window('chatManage').selfLocation
   });
 }
+
+
 
 // 공통 코드 =====================================
 const vChatCloud = new VChatCloud();
@@ -459,6 +456,45 @@ function exit() {
     // 로그인 되지 않았음!
   }
 }
+
+function msgInit() {
+    // 공지사항 메시지
+    channel.onNotifyNotice = function(event) {
+        write(event, 'notice')
+    }
+
+    // 유저 입장
+    channel.onNotifyJoinUser = function(event) {
+        write(event, 'join')
+    }
+
+    // 유저 나감
+    channel.onNotifyLeaveUser = function(event) {
+        write(event, 'leave')
+    }
+
+    // 유저 추방
+    channel.onNotifyKickUser = function(event) {
+        write("'<font color='blue'><b>" + event.nickName + "</b></font>' 님이 채팅방에서 추방되었습니다.");
+    }
+
+    // 유저 추방 해제
+    channel.onNotifyUnkickUser = function(event) {
+        write("'<font color='blue'><b>" + event.nickName + "</b></font>' 님이 채팅방에서 추방 해제되었습니다.");
+    }
+
+    // 글쓰기 제한
+    channel.onNotifyMuteUser = function(event) {
+        write("'<font color='blue'><b>" + event.nickName + "</b></font>' 님의 글쓰기가 제한되었습니다.");
+    }
+
+    // 글쓰기 제한 해제
+    channel.onNotifyUnmuteUser = function(event) {
+        write("'<font color='blue'><b>" + event.nickName + "</b></font>' 님의 글쓰기가 제한 해제되었습니다.");
+    }
+}
+
+
 
 </script>
 

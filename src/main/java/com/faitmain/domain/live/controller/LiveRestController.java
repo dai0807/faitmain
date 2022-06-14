@@ -59,7 +59,7 @@ public class LiveRestController {
 		return map;
 	}
 	
-	@GetMapping("json/liveManageTab")
+	@PostMapping("json/liveManageTab")
 	public JSONArray getLiveUserList( HttpServletRequest req, HttpSession session,  Model model ) throws Exception {
 
 		log.info("Controller = {} ", "/live/getLiveUserList : GET start...");
@@ -67,9 +67,6 @@ public class LiveRestController {
 		log.info("getLiveUserList = {} ", this.getClass());
 		
 		User user = (User) session.getAttribute("user");
-		
-		
-		
 
 		JSONObject result = null;
 		StringBuilder sb = new StringBuilder();
@@ -116,8 +113,8 @@ public class LiveRestController {
 
 		// JSON데이터에서 "data"라는 JSONObject를 가져온다.
 		JSONArray data = (JSONArray) result.get("list");
-		System.out.println("옴뇸뇸" + data);
-		JSONObject tmp;
+		
+		JSONObject tmp = null;
 		for (int i = 0; i < data.size(); i++) {
 			tmp = (JSONObject) data.get(i);
 			System.out.println("data[" + i + "] : " + tmp);
