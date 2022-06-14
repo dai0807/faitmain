@@ -39,7 +39,7 @@ public interface UserSerivce{
 	public int findUser( Map<String, Object> hasMap ) throws Exception;
 
     // SELECT 아이디/PW 찾기 할때 사용하는 findUser
-	public String findGetId( Map<String, Object> hasMap ) throws Exception;
+	public User findGetIdPw( Map<String, Object> hasMap ) throws Exception;
 
 
     //SELECT 충복체크
@@ -67,6 +67,9 @@ public interface UserSerivce{
     //유저 UPDATE - 유저 상태 update
 	public int updateUser( User user ,  MultipartHttpServletRequest mRequest) throws Exception;
 
+	public int updateUser( User user  ) throws Exception;
+	
+	
     //  UPDATE - 스토어로 업데이트
 
     int updateUserStore( Map<String, Object> map ) throws Exception;

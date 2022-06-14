@@ -2,7 +2,7 @@
 <html lang="ko" layout:decorate="~{layout/myPage_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset = "UTF-8">
-    <title>리뷰 등록</title>
+    <title>리뷰 수정</title>
 	
 	<style>
 	
@@ -12,29 +12,29 @@
 		
 		h5,span{font-family: 'Nanum Gothic Coding', monospace;}
 		
-		#addReviewForm fieldset{
+		#updateReviewForm fieldset{
 		    display: inline-block;
 		    direction: rtl;
 		    border:0;
 		}
-		#addReviewForm fieldset legend{
+		#updateReviewForm fieldset legend{
 		    text-align: right;
 		}
-		#addReviewForm input[type=radio]{
+		#updateReviewForm input[type=radio]{
 		    display: none;
 		}
-		#addReviewForm label{
+		#updateReviewForm label{
 		    font-size: 3em;
 		    color: transparent;
 		    text-shadow: 0 0 0 #f0f0f0;
 		}
-		#addReviewForm label:hover{
+		#updateReviewForm label:hover{
 		    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 		}
-		#addReviewForm label:hover ~ label{
+		#updateReviewForm label:hover ~ label{
 		    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 		}
-		#addReviewForm input[type=radio]:checked ~ label{
+		#updateReviewForm input[type=radio]:checked ~ label{
 		    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 		}
 		#reviewContents {
@@ -52,6 +52,7 @@
     
     <script type="text/javascript">
     	$(function () {
+				
 				$('#reviewContent').on('keyup', function () {
 					$('#reviewWord_cnt').html("(" + $(this).val().length + " / 100)");
 
@@ -60,6 +61,16 @@
 						$('#reviewWord_cnt').html("(100 / 100)");
 					}
 				});
+				
+				$("#imageDelete").on('click', function(){
+					
+					console.log("이미지 삭제");	
+					$("#reviewImage").val('');
+					$(".img-thumbnail").remove();
+					$(this).remove();
+					
+				});
+				
 			});
     	
 		
@@ -72,33 +83,34 @@
 			<img class = "img-thumbnail" th:src = "|../img/upload/${ review.orderProduct.productMainImage }|" alt="" width="10%" />
 			<span th:text="${review.orderProduct.productName}"></span>
 		
-			<form th:action="@{/review/addReview}" method="post" th:object="${review}" name="addReviewForm" id="addReviewForm" class="form-horizontal" enctype="multipart/form-data">
+			<form th:action="@{/review/updateReview}" method="post" th:object="${review}" name="updateReviewForm" id="updateReviewForm" class="form-horizontal" enctype="multipart/form-data">
 				<fieldset>
 					<span class="text-bold">별점을 선택해주세요</span>
-					<input type="radio" name="rating" value="5" id="rate1"><label for="rate1">★</label>
-					<input type="radio" name="rating" value="4" id="rate2"><label for="rate2">★</label>
-					<input type="radio" name="rating" value="3" id="rate3"><label for="rate3">★</label>
-					<input type="radio" name="rating" value="2" id="rate4"><label for="rate4">★</label>
-					<input type="radio" name="rating" value="1" id="rate5"><label for="rate5">★</label>
+					<input type="radio" name="rating" value="5" id="rate1" th:checked="*{rating == 5}"><label for="rate1" >★</label>
+					<input type="radio" name="rating" value="4" id="rate2" th:checked="*{rating == 4}"><label for="rate2">★</label>
+					<input type="radio" name="rating" value="3" id="rate3" th:checked="*{rating == 3}"><label for="rate3">★</label>
+					<input type="radio" name="rating" value="2" id="rate4" th:checked="*{rating == 2}"><label for="rate4">★</label>
+					<input type="radio" name="rating" value="1" id="rate5" th:checked="*{rating == 1}"><label for="rate5">★</label>
 				</fieldset>
 				<div class="form-group">
 					<div class="col-sm-4">
-						<textarea id="reviewContent" cols="30" rows="10" name="reviewContent"></textarea>
+						<textarea id="reviewContent" cols="30" rows="10" name="reviewContent" th:text="*{reviewContent}">							
+						</textarea>
 						<div id="reviewWord_cnt">(0 / 100)</div>
 				    </div>
 				</div>
 				
+				<th:block th:if="*{ reviewImage != null}">
+					<img class = "img-thumbnail" th:src = "|../img/upload/*{ reviewImage }|" alt="" width="30%" />
+					<button type="button" id="imageDelete">삭제</button>
+				</th:block>
+				
 				<input type="file" class="form-control" id="reviewImg" name="reviewImg"/>
 				
-				<button type="submit">등록</button>				
+				<button type="submit">수정</button>				
 				
-				<input type="hidden" th:field="*{orderProductNumber}" />
-				<input type="hidden" th:field="*{orderProduct.productNumber}" />
-				<input type="hidden" th:field="*{orderProduct.productName}" />
-				<th:block th:if="${session.user.id != null}">
-					<input type="hidden" th:value="${session.user.id}" name="userId" />
-				</th:block>				
-				<!---->
+				<input type="hidden" th:field="*{reviewNumber}" />
+				<input type="hidden" th:field="*{reviewImage}" />
 			</form>
 		</div>
 	</article>

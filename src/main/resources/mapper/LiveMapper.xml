@@ -106,7 +106,8 @@
        UPDATE live
        <set>
           live_title = #{liveTitle}, 
-          live_intro = #{liveIntro}
+          live_intro = #{liveIntro},
+          live_status = #{liveStatus}
        </set>
        WHERE live_number = #{liveNumber}
     </update>

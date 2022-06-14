@@ -33,9 +33,6 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     OrderMapper orderMapper;
     @Autowired
-    AttachMapper attachMapper;
-
-    @Autowired
     ProductMapper productMapper;
 
     @Autowired
@@ -54,13 +51,12 @@ public class OrderServiceImpl implements OrderService{
 
         List<OrderPageProduct> oppList = new ArrayList<>();
         for ( OrderPageProduct orderPageProduct : orderPageProductList ) {
-
             OrderPageProduct opp = orderMapper.selectOrderPageProduct( orderPageProduct.getProductNumber() );
             opp.setProductOrderCount( orderPageProduct.getProductOrderCount() );
             opp.initSaleTotal();
-
-            List<AttachImage> imageList = attachMapper.getAttachList( opp.getProductNumber() );
-            opp.setImageList( imageList );
+            opp.setProductMainImage( orderPageProduct.getProductMainImage() );
+//            List<AttachImage> imageList = attachMapper.getAttachList( opp.getProductNumber() );
+//            opp.setImageList( imageList );
 
             oppList.add( opp );
         }
@@ -156,7 +152,6 @@ public class OrderServiceImpl implements OrderService{
 
         /* 회원 */
         User user = orderMapper.selectBuyer( orderCancel.getBuyerId() );
-
         /* 주문상품 */
         List<OrderProduct> orderProductList = orderMapper.selectOrderProductList( orderCancel.getOrderNumber() );
         for ( OrderProduct orderProduct : orderProductList ) {

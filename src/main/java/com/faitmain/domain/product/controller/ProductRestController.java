@@ -37,11 +37,7 @@ public class ProductRestController {
 	@Autowired
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
-	
-	public ProductRestController() {
-		log.info("Controller = {} ", ProductRestController.class);
-	}
-	
+
 //	/product/json/uploadSummernoteImageFile
 	@PostMapping(value = "json/uploadSummernoteImageFile", produces = "application/json")
 	@ResponseBody

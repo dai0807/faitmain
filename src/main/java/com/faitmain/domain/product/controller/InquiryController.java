@@ -36,10 +36,7 @@ public class InquiryController {
 	@Qualifier("productServiceImpl")
 	ProductService productService;
 
-	public InquiryController() {
-		log.info("Controller = {} ", InquiryController.class);
-	}
-	
+
 	@GetMapping("addInquiry")
 	public String addInquiry(@RequestParam("productNumber") int productNumber, HttpServletRequest request, HttpSession session, Model model) throws Exception{
 		

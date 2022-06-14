@@ -44,9 +44,6 @@ public class UserServiceImpl implements UserSerivce{
     private UserMapper userMapper;
 
 
-    public UserServiceImpl(){
-        log.info( "Service = {} " , this.getClass() );
-    }
 
 
 
@@ -118,9 +115,9 @@ public class UserServiceImpl implements UserSerivce{
         return userMapper.getchechDuplicationCount( map );
     }
 
-    public String findGetId( Map<String, Object> map ) throws Exception{
+    public User findGetIdPw( Map<String, Object> map ) throws Exception{
 
-        return userMapper.findGetId( map );
+        return userMapper.findGetIdPw( map );
     }
 
 
@@ -209,6 +206,18 @@ public class UserServiceImpl implements UserSerivce{
         return userMapper.updateUser( user );
     }
 
+    
+	public int updateUser( User user  ) throws Exception{
+		log.info("update Use={} ",  user );		
+
+		  return userMapper.updateUser( user );
+		
+	}
+
+    
+    
+    
+    
 
     //패스워드 재설정
     public int updateUserPassword( User user ) throws Exception{

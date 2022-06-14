@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -39,7 +40,39 @@ public class UserRestController{
 		    log.info(  "Controller {}" , this.getClass() );
 		   
 	   }
-	
+
+	   
+		// find Id Rest Control로 갈 운명 
+	   @PostMapping("json/findId")
+ 		public String findId( @ModelAttribute("user") User user  ,Model model)throws Exception {
+			
+			log.info("###Stat###findId ={} ##" , user);
+		     Map<String, Object> findIdmap = new HashMap<>();
+		     	findIdmap.put( "phoneNumber" , user.getPhoneNumber() );
+		        findIdmap.put( "findcondition" , "name" );
+		        findIdmap.put( "findkeyword" , user.getName() );
+	        
+				  user = userSerivce.findGetIdPw(findIdmap) ;
+					log.info("###Stat###user ={} ##" , user);
+					
+				  
+				  if(user != null) {
+						log.info("  ::id:: ={}  " ,user.getId());
+					
+						return user.getId()  ;
+					}else {
+						
+						log.info("  ::id:: null 입니다.");
+						return "입력하신 정보와 유효한 id가 존재하지 않습니다." ;
+
+					}
+
+	 				
+	    	}				
+			   	
+	   
+	   
+	   
 	   @PostMapping(value = "json/uploadSummernoteImageFile", produces = "application/json")
 		@ResponseBody
 		public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
@@ -125,47 +158,78 @@ public class UserRestController{
 	   
 	   
 	 
-//업데이트 유저 
-    @PostMapping( value = "json/updateUser" )
-//    public int ajaxupdateUser( @RequestParam( "id" ) String id ,
-//                               @RequestParam String userAdrress1 ,
-//                               @RequestParam String userAdrress2 ,
-//                               @RequestParam String userAdrress3 ,
-//                               @RequestParam String nickname ,
-//                               @RequestParam String phoneNumber ,
-//                               @RequestParam String storeName ,
-//
-//							   HttpSession session ,
-//							   HttpServletRequest request ) throws Exception{
+////업데이트 유저  업데이트 유저 사진 XX 해야함 
+//    @PostMapping( value = "json/updateUser" )
+////    public int ajaxupdateUser( @RequestParam( "id" ) String id ,
+////                               @RequestParam String userAdrress1 ,
+////                               @RequestParam String userAdrress2 ,
+////                               @RequestParam String userAdrress3 ,
+////                               @RequestParam String nickname ,
+////                               @RequestParam String phoneNumber ,
+////                               @RequestParam String storeName ,
+////
+////							   HttpSession session ,
+////							   HttpServletRequest request ) throws Exception{
+//    public int ajaxupdateUser( User user ,
+//    		 MultipartHttpServletRequest mRequest ,
+//			 
+//			   HttpSession session ,
+//			   HttpServletRequest request ) throws Exception{
+////        User user = new User();
+////        user.setId( id );
+////        user.setNickname( nickname );
+////        user.setPhoneNumber( phoneNumber );
+////		user.setUserAddress1( userAdrress1 );
+////		user.setUserAddress2( userAdrress2 );
+////		user.setUserAddress3( userAdrress3 );
+//    	
+//    	log.info("ajax Updtae에 옴  user 값은 = {}" , user) ;
+//    	
+//        //아직  checkDuplication 없음
+//        int result = 0;
+//        //log.info("updateUser :: user 출력   {} "  ,  user );
+//        //	result = userSerivce.updateUser(user);
+//        result = userSerivce.updateUser( user  , mRequest);
+//        log.info( "updateUser :: result 출력  = {} " , result );
+//        //	log.info("updateUser ::  user 세션 값 변경 전   {} "  ,  (User)request.getSession(true).getAttribute("user"));
+//        user = userSerivce.getUser( user.getId() );
+//        session.setAttribute( "user" , user );
+//        log.info( "updateUser ::  user 세션 값 변경 후   {} " , request.getSession( true ).getAttribute( "user" ) );
+//        return result;
+//    }
+
+
+    @PostMapping( value = "json/updateUser" )  
     public int ajaxupdateUser( User user ,
-    		 MultipartHttpServletRequest mRequest ,
-			 
+ 			 
 			   HttpSession session ,
 			   HttpServletRequest request ) throws Exception{
-//        User user = new User();
-//        user.setId( id );
-//        user.setNickname( nickname );
-//        user.setPhoneNumber( phoneNumber );
+//       User user = new User();
+//       user.setId( id );
+//       user.setNickname( nickname );
+//       user.setPhoneNumber( phoneNumber );
 //		user.setUserAddress1( userAdrress1 );
 //		user.setUserAddress2( userAdrress2 );
 //		user.setUserAddress3( userAdrress3 );
-    	
-    	log.info("ajax Updtae에 옴  user 값은 = {}" , user) ;
-    	
-        //아직  checkDuplication 없음
-        int result = 0;
-        //log.info("updateUser :: user 출력   {} "  ,  user );
-        //	result = userSerivce.updateUser(user);
-        result = userSerivce.updateUser( user  , mRequest);
-        log.info( "updateUser :: result 출력  = {} " , result );
-        //	log.info("updateUser ::  user 세션 값 변경 전   {} "  ,  (User)request.getSession(true).getAttribute("user"));
-        user = userSerivce.getUser( user.getId() );
-        session.setAttribute( "user" , user );
-        log.info( "updateUser ::  user 세션 값 변경 후   {} " , request.getSession( true ).getAttribute( "user" ) );
-        return result;
-    }
+   	
+   	log.info("ajax Updtae에 옴  user 값은 = {}" , user) ;
+   	
+       //아직  checkDuplication 없음
+       int result = 0;
+       //log.info("updateUser :: user 출력   {} "  ,  user );
+       //	result = userSerivce.updateUser(user);
+       result = userSerivce.updateUser( user);
+       log.info( "updateUser :: result 출력  = {} " , result );
+       //	log.info("updateUser ::  user 세션 값 변경 전   {} "  ,  (User)request.getSession(true).getAttribute("user"));
+       user = userSerivce.getUser( user.getId() );
+       session.setAttribute( "user" , user );
+       log.info( "updateUser ::  user 세션 값 변경 후   {} " , request.getSession( true ).getAttribute( "user" ) );
+       return result;
+   }
 
 
+    
+    
 
     // 아이디 중복 체크
     @GetMapping( value = "idCheck" )
@@ -346,13 +410,15 @@ public class UserRestController{
 
 
     //스토어 권한 업데이트
-    @PostMapping( "/updateStoreApplicationDocument" )
-    public String updateStoreApplicationDocument( @RequestBody StoreApplicationDocument storeApplicationDocument ) throws Exception{
+    @PostMapping( "json/updateStoreApplicationDocument")
+    public String updateStoreApplicationDocument(  StoreApplicationDocument storeApplicationDocument ) throws Exception{
+        log.info( " updateStoreApplicationDocument 에 들어옴 ");
 
         log.info( "  들어온 값 storeApplicationDocument {}" , storeApplicationDocument );
+        System.out.println(storeApplicationDocument) ; 
         String returnResult = "";
         int result = userSerivce.updateStoreApplicationDocument( storeApplicationDocument );
-        log.info( "##kakaoUser 결과  {} ##" , result );
+        log.info( "##  결과  {} ##" , result );
 
         //신청서 심사 UPDATE가 성공 적일떄
         if ( result == 1 ) {
@@ -372,7 +438,9 @@ public class UserRestController{
             }
 
             returnResult = storeApplicationDocument.getExaminationStatus(); // 스토어 신청서 상태 리턴
+            System.out.println("결과 ={} " +returnResult ) ; 
 
+             
         } else {
             returnResult = "error";  // result 값이 1이 아니면 update 실패 한거
         }
