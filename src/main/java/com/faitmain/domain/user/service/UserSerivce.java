@@ -62,6 +62,9 @@ public interface UserSerivce{
 	Map<String, Object> getStoreApplicationDocumentList( Map<String, Object> map ) throws Exception;
 
 
+	public List<User> getlist( Map<String, Object> map ) throws Exception;
+
+	
     ////////////////////////////////UPDATE////////////////////////////////////////////////////
 
     //유저 UPDATE - 유저 상태 update

@@ -26,6 +26,29 @@
 <script type="text/javascript">
  
  	
+ 	
+ 	
+ function getPassword(){
+
+ 
+	
+	var id = $("#id").val() ; 
+	
+	popWin 
+				= window.open("/user/updatePassword?id="+id,
+											"popWin", 
+											"top=200,left=200,width=780,height=650,marginwidth=0,marginheight=0,"+
+											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
+		 
+
+
+ 
+	
+	
+}
+ 	
+ 	
+ 	
 	
 	var 	total_check_phoneNumber =1; // 휴대폰 번호 변경시 확인 값 
 	var     total_check_nickname =1 ;
@@ -551,7 +574,7 @@
 			<!-- 가입 경로가 자사 회원이 유저들만 이용 가능-->
 			<span th:if="${session.user.joinPath == 'HOME'}"  >
 
-				 <a th:href="@{/user/updatePassword}"  class="btn btn-info" role="button">비밀번호 재설정</a>
+				 <a href="#" onclick="getPassword()"  class="btn btn-info" role="button">비밀번호 재설정</a>
 			<span>
 			
 			

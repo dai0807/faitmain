@@ -67,65 +67,91 @@ public class UserController{
     }
 
 
-    //admin 페이지 리스트 보이기
-    @GetMapping( "getStoreApplicationDocumentList" )
-    public String getStoreApplicationDocumentList( Model model , @ModelAttribute Search search ) throws Exception{
+  //admin 페이지 리스트 보이기    , 스토어 신청서 리스트  
+	   @GetMapping("getStoreApplicationDocumentList")
+	   public String getStoreApplicationDocumentList(Model model ,@ModelAttribute Search search   )  throws Exception {
+		 
+		   if(search.getCurrentPage() == 0) {
+				search.setCurrentPage(1);
+			}
+			search.setPageSize(100);
+			
+			Map<String, Object> searchMap = new HashMap<String, Object>();		
+			searchMap.put("searchKeyword", search.getSearchKeyword());
+			
+		 
+			searchMap.put("endRowNum",  search.getEndRowNum());
+			searchMap.put("startRowNum",  search.getStartRowNum());
+			searchMap.put("searchKeyword", search.getSearchKeyword());
+			searchMap.put("searchStatus", search.getSearchStatus());
+			searchMap.put("searchCategory", search.getSearchCategory());
+			searchMap.put("searchOrderName", search.getOrderName());
+			
+			System.out.println("Search : " + search);
+			
+			Map<String, Object> map = userSerivce.getStoreApplicationDocumentList(searchMap);
+					
+			MiniProjectPage resultPage = new MiniProjectPage( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 4, 10);
+			
+			log.info("resultPage : " + resultPage);
+			
+			log.info("list : " + ((List<Product>)map.get("list")).get(0));
+			
+			
+			model.addAttribute("list", map.get("list"));
+			model.addAttribute("resultPage", resultPage);
+			model.addAttribute("search", search);	
 
-        if ( search.getCurrentPage() == 0 ) {
-            search.setCurrentPage( 1 );
-        }
-        search.setPageSize( 10 );
+			System.out.println("Search : " + search);
+		 
+		 
+		   
+			log.info("get :: addStore " );
+	      
+	   return "/admin/getStoreApplicationDocumentList";
+	   }
+	   
+	  
+	   
+	   
+	   @GetMapping( "login" )
+	   public String longin( Model model ) throws Exception {
+	      
+		   
+		   log.info( " 컨트롤러 탐 login Page로 이동"  );
+		   
+	      return "/user/login";
+	   }
+	   
+	   
+	   
+	   //userList
+	   @GetMapping("getUserlist")
+	   public String getUserList  (Model model  ,@RequestParam (value="searchCondition", required = false)String searchCondition )throws Exception {
+		
+		   
+		   log.info("getUserList  도착 !! ");
+		 
+		   Map<String, Object> searchMap = new HashMap<String, Object>();
+		   
+		   if( searchCondition != null) {
+			   log.info("getUserList searchCondition ={}", searchCondition);
 
-        Map<String, Object> searchMap = new HashMap<String, Object>();
-        searchMap.put( "searchKeyword" , search.getSearchKeyword() );
-
-
-        searchMap.put( "endRowNum" , search.getEndRowNum() );
-        searchMap.put( "startRowNum" , search.getStartRowNum() );
-        searchMap.put( "searchKeyword" , search.getSearchKeyword() );
-        searchMap.put( "searchStatus" , search.getSearchStatus() );
-        searchMap.put( "searchCategory" , search.getSearchCategory() );
-        searchMap.put( "searchOrderName" , search.getOrderName() );
-
-        System.out.println( "Search : " + search );
-
-        Map<String, Object> map = userSerivce.getStoreApplicationDocumentList( searchMap );
-
-        MiniProjectPage resultPage = new MiniProjectPage( search.getCurrentPage() , ( ( Integer ) map.get( "totalCount" ) ).intValue() , 4 , 10 );
-
-        log.info( "resultPage : " + resultPage );
-
-        log.info( "list : " + ( ( List<Product> ) map.get( "list" ) ).get( 0 ) );
-
-
-        model.addAttribute( "list" , map.get( "list" ) );
-        model.addAttribute( "resultPage" , resultPage );
-        model.addAttribute( "search" , search );
-
-
-        log.info( "get :: addStore " );
-
-        return "/admin/getStoreApplicationDocumentList";
-    }
-
-
-    @GetMapping( "login" )
-    public String longin( Model model ) throws Exception{
-
-
-        log.info( " 컨트롤러 탐 login Page로 이동" );
-
-        return "/user/login";
-    }
-
-    //userList
-    @GetMapping( "getUserlist" )
-    public String getUserList() throws Exception{
-
-        log.info( "getUserList  도착 !! " );
-        return "/admin/getUserList";
-
-    }
+			   searchMap.put("searchCondition", searchCondition) ;
+		   }
+		   List<User> userList = userSerivce.getlist(searchMap) ;
+		   for(User user : userList) {
+			   System.out.println("getUserlist : 유저 출력"+user);
+		   }
+		   
+		   
+		   
+		   model.addAttribute("userList" , userList) ;
+		   
+		   return "/admin/getUserList";
+		   
+	   }
+	   
 
 //로그인 ajax로 바꾸면서 RestController 탐	   
 /*	   

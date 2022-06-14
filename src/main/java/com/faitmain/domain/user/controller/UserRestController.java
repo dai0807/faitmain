@@ -70,7 +70,44 @@ public class UserRestController{
 	 				
 	    	}				
 			   	
-	   
+		@PostMapping("/json/findPassword")		
+  		public String findPw( @ModelAttribute("user") User user  ,Model model ,  HttpSession session , HttpServletRequest request)throws Exception {
+			
+			log.info("##findPw {} ##" , user);
+			
+			
+			Map<String,Object> findPasswordmap = new HashMap<>();
+			findPasswordmap.put("phoneNumber", user.getPhoneNumber());
+			findPasswordmap.put( "findcondition" , "id" );
+			findPasswordmap.put( "findkeyword" , user.getId() );
+  			
+			
+			log.info("findPW {}" , userSerivce.findUser(findPasswordmap));
+			
+			if(   userSerivce.findUser(findPasswordmap) == 1  ) {
+				
+
+				log.info("입력한 유저가 존재합니다.") ;
+			
+ 				
+				return "입력한 유저가 존재합니다.";
+			 
+					
+				
+ 				
+				
+				}else {
+					log.info("입력하신 정보와 유효한 회원정보가가 존재하지 않습니다.");
+
+					return "입력하신 정보와 유효한 회원정보가가 존재하지 않습니다." ;
+	
+				}
+			
+
+	 				
+	    	}
+		
+		
 	   
 	   
 	   @PostMapping(value = "json/uploadSummernoteImageFile", produces = "application/json")
