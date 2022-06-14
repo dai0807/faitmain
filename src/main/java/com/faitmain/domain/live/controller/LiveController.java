@@ -60,7 +60,6 @@ public class LiveController {
 	@Qualifier("userServiceImpl")
 	private UserSerivce userSerivce;
 
-
 	@GetMapping("liveRoom")
 	public String getLiveRoomList(Model model) throws Exception {
 
@@ -470,8 +469,6 @@ public class LiveController {
 
 		model.addAttribute("channelKey", roomId);
 
-		getLiveUserList(req, session, roomId, model, token);
-
 		return "live/live";
 
 	}
@@ -570,12 +567,17 @@ public class LiveController {
 		return "/live/liveReservationList";
 	}
 
-	public Map<String, Object> getLiveUserList(HttpServletRequest req, HttpSession session, String roomId, Model model,
-			String token) throws Exception {
+	@GetMapping("liveManageTab")
+	public String getLiveUserList( HttpServletRequest req, HttpSession session,  Model model ) throws Exception {
 
 		log.info("Controller = {} ", "/live/getLiveUserList : GET start...");
 
 		log.info("getLiveUserList = {} ", this.getClass());
+		
+		User user = (User) session.getAttribute("user");
+		
+		
+		
 
 		JSONObject result = null;
 		StringBuilder sb = new StringBuilder();
@@ -595,7 +597,7 @@ public class LiveController {
 		SSLContext sc = SSLContext.getInstance("TLSv1.2");
 		sc.init(null, trustCerts, new java.security.SecureRandom());
 
-		URL url = new URL("https://vchatcloud.com/openapi/v1/users/" + roomId);
+		URL url = new URL("https://vchatcloud.com/openapi/v1/users/" + liveService.getLiveByStoreId(user.getId()).getRoomId());
 
 		System.out.println("유우우우우우우우우ㅏㄹ엘    " + url);
 
@@ -604,7 +606,7 @@ public class LiveController {
 		conn.setRequestMethod("GET");
 		conn.setRequestProperty("accept", "*/*");
 		conn.setRequestProperty("API_KEY", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
-		conn.setRequestProperty("X-AUTH-TOKEN", token);
+		conn.setRequestProperty("X-AUTH-TOKEN", getToken());
 		conn.setDoOutput(true);
 
 		// 데이터 입력 스트림에 답기
@@ -629,9 +631,12 @@ public class LiveController {
 			System.out.println("data[" + i + "] : " + tmp);
 		}
 		System.out.println("data : " + data);
-		Map<String, Object> map = new HashMap();
+		
+		model.addAttribute("userList", data);
+		
 		log.info("Controller = {} ", "/live/getLiveUserList : GET end...");
-		return map;
+		
+		return "/live/liveManageTab";
 	}
 
 	@GetMapping("liveStatusUpdate")

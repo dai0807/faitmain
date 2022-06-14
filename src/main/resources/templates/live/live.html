@@ -94,6 +94,10 @@
 
 <body>
 
+	<div class="chat_Manage">
+	편집점
+	</div>
+
    <div id="wrap">
         <section>
             <!-- 샘플 화면 -->
@@ -119,6 +123,8 @@
                     <p id=roomNm><span>Live</span>[[${Live.liveTitle}]]</p>
                     
                     <!-- 나가기 버튼 -->
+                    <button type="button" value="관리탭 호출" onclick="callManageTab();">관리 탭 호출</button>
+                    <button type="button" value="연결확인 호출" onclick="call_chlid();">연결 테스트</button>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -130,8 +136,9 @@
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       
                     <button type="button" class="btn btn-warning" onclick="exit()">나가기</button>
+                    
                 </article>
 
                 <!-- 채팅방 -->
@@ -217,6 +224,22 @@
 
 
 var channelKey = $('#channelKey').val(); // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
+    
+    function callManageTab(){
+    var focusPopup;
+    focusPopup = window.open('/live/liveManageTab', 'ChatManage', 'width=600, height=300, left=100, top=50, scrollbar=yes');
+    focusPopup.focus();
+}
+
+   // 새로운 유저가 채팅방에 입장 시 팝업 갱신을 위한 function
+function call_chlid(){  //부모창에서 자식창에 값 전달
+        try{
+            popup.lol(); // 자식창 함수 호출
+
+        }catch(e){ // 부모 자식간의 연결이 끊어졌을 경우 처리
+            alert('팝업창을 다시 열어주세요');
+        }
+    }
 
 
 function videoInit() {
@@ -233,6 +256,7 @@ function videoInit() {
 	    myVideo.setAttribute("autoplay", true);
 	    myCam.append(myVideo);
 	    channel.setRTCLocalMedia(myVideo);
+	    window('chatManage').selfLocation
   });
 }
 
@@ -286,6 +310,7 @@ window.addEventListener("load", function () {
    			msgInit();
    			getRoomInfo();
    			likeInif();
+   			
    		}	
    	});
 })
