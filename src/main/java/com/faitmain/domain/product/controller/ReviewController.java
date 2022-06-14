@@ -33,6 +33,7 @@ import com.faitmain.domain.product.domain.Review;
 import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.product.service.ReviewService;
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.global.common.MiniProjectPage;
 import com.faitmain.global.common.Page;
 import com.faitmain.global.common.Search;
 
@@ -75,7 +76,7 @@ public class ReviewController {
 		log.info("/review/addReview : POST");		
 		log.info("review = {}", review);		
 				
-		//reviewService.addReview(review, mRequest);
+		reviewService.addReview(review, mRequest);
 		
 		return "/order/OrderList?userId=" + review.getUserId();
 	}
@@ -92,9 +93,11 @@ public class ReviewController {
 	}
 	
 	@GetMapping("getReviewList")
-	public String getReviewList(@ModelAttribute("search") Search search,@RequestParam("resultJsp") String resultJsp, Model model) throws Exception{
-		
+	public String getReviewList(@ModelAttribute("search") Search search, Model model) throws Exception{
+//		@RequestParam("resultJsp") String resultJsp
 		log.info("/review/getReviewList");
+		
+		log.info("search = {}", search);
 		
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
@@ -103,16 +106,17 @@ public class ReviewController {
 		search.setPageSize(10);
 		
 		Map<String, Object> map = reviewService.getReviewList(search);
-/*		
-		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 4, 10);
+		
+		MiniProjectPage resultPage = new MiniProjectPage( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 4, 10);
 		
 		log.info("resultPage : " + resultPage);
 		
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
-*/		
-		return "forward:/review/" + resultJsp + ".jsp";
+		/**/		
+//		return "/product/" + resultJsp;
+		return "/product/listReviewUser";
 	}
 	
 	@GetMapping("updateReview")
@@ -133,6 +137,8 @@ public class ReviewController {
 	public String updateReview(@ModelAttribute("review") Review review, MultipartHttpServletRequest mRequest) throws Exception{
 		
 		log.info("/review/updateReview : POST");
+		
+		log.info("review = {}", review);
 		
 		reviewService.updateReview(review, mRequest);
 		

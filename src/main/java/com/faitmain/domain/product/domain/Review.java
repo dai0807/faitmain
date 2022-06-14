@@ -17,7 +17,7 @@ public class Review {
 	private Product orderProduct;
 //	private int productNumber;
 //	private String productName;
-//	private Date reviewRegDate;
+	private Date reviewRegDate;
 	
 	
 	@Builder

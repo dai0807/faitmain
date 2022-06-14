@@ -38,9 +38,10 @@
 	
 	<!-- 리뷰 상세 조회 -->	    
     <select id="getReview" parameterType="int"	resultMap="reviewSelectMap">
-    	SELECT *
-		FROM review 
-		WHERE review_number = #{reviewNumber}
+    	SELECT r.*, p.product_group_number, p.product_main_image 
+    	FROM review r, product p 
+    	WHERE r.product_number = p.product_number
+    		  AND r.review_number = #{reviewNumber}
     </select>
 	
 	<!-- 리뷰 목록 조회 (현재 search 없어서 if문 수정 필요) -->
@@ -55,9 +56,11 @@
 										<if test="searchCondition == 'userId' and searchKeyword !='' ">
 							 				AND r.user_id = #{searchKeyword}
 										</if> 
+										<!-- 
 										<if test="searchCondition == 'productNumber' and searchKeyword !='' ">
 							 				AND p.product_number = #{searchKeyword}
-										</if>										
+										</if>
+										 -->										
 										<if test="searchCondition == 'productGroupNumber' and searchKeyword !='' ">
 							 				AND p.product_group_number = #{searchKeyword}
 										</if>																			
@@ -96,7 +99,8 @@
 		UPDATE review
 		<set>
 			review_content = #{reviewContent},
-			review_image = #{reviewImage:VARCHAR},
+			review_image = <if test="reviewImage == ''">null</if>
+						   <if test="reviewImage != ''">#{reviewImage:VARCHAR}</if>,		
 			rating = #{rating}
 		</set>
 		WHERE review_number = #{reviewNumber}
