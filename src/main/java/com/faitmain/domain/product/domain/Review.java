@@ -13,9 +13,11 @@ public class Review {
 	private String reviewImage;
 	private int rating;
 	private String userId;
-	private int orderNumber;
+	private int orderProductNumber;
 	private Product orderProduct;
-	private Date reviewRegDate;
+//	private int productNumber;
+//	private String productName;
+//	private Date reviewRegDate;
 	
 	
 	@Builder

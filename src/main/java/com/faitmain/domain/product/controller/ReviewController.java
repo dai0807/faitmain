@@ -7,6 +7,10 @@ import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,9 +24,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.faitmain.domain.order.domain.OrderProduct;
+import com.faitmain.domain.order.service.OrderServiceImpl;
+import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.domain.Review;
+import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.product.service.ReviewService;
+import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Page;
 import com.faitmain.global.common.Search;
 
@@ -32,9 +42,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/review/")
 @Slf4j
 public class ReviewController {
-	
-	@Value("${upload-path}")
-	private String fileStorageLocation;	
 
 	@Autowired
 	@Qualifier("reviewServiceImpl")
@@ -42,26 +49,35 @@ public class ReviewController {
 
 
 	@GetMapping("addReview")
-	public String addReview() throws Exception{
+	public String addReview(@RequestParam("orderProductNumber") int orderProductNumber, HttpServletRequest request, Model model) throws Exception{
 		
-		log.info("/review/addReview : GET");
-				
+		log.info("/review/addReview : GET");		
+		
+		Review review = reviewService.getOrderProduct(orderProductNumber);
+		/*
+		if(((User) request.getSession(true).getAttribute("user")) != null) {
+			review.setUserId(((User) request.getSession(true).getAttribute("user")).getId());
+			log.info("userId = {}", review.getUserId());
+		}else {
+			return "redirect:/user/login/";
+		}
+		*/
+		// 주문 상품을 확인하고 정보 가져와서 저장
+//		OrderProduct product = orderService.;
+		model.addAttribute("review", review);
+		
 		return "/product/addReview";
 	}
 	
 	@PostMapping("addReview")
-	public String addReview(@ModelAttribute("review") Review review, MultipartFile file) throws Exception{
+	public String addReview(@ModelAttribute("review") Review review, MultipartHttpServletRequest mRequest) throws Exception{
 		
-		log.info("/review/addReview : POST");
+		log.info("/review/addReview : POST");		
+		log.info("review = {}", review);		
+				
+		//reviewService.addReview(review, mRequest);
 		
-		if(!file.isEmpty()) {
-			 String fileName = storeFile(file);
-			 review.setReviewImage(fileName);
-		}
-		
-		reviewService.addReview(review);
-//		@RequestParam("userId") String userId
-		return "forward:/review/listReviewUser?userId=" + review.getUserId();
+		return "/order/OrderList?userId=" + review.getUserId();
 	}
 	
 	@GetMapping("getReview")
@@ -110,15 +126,15 @@ public class ReviewController {
 		
 		log.info("review : " + review);		
 		
-		return "forward:/review/updateReview.jsp";
+		return "/product/updateReview";
 	}
 	
 	@PostMapping("updateReview")
-	public String updateReview(@ModelAttribute("review") Review review) throws Exception{
+	public String updateReview(@ModelAttribute("review") Review review, MultipartHttpServletRequest mRequest) throws Exception{
 		
 		log.info("/review/updateReview : POST");
 		
-		reviewService.updateReview(review);
+		reviewService.updateReview(review, mRequest);
 		
 		return "redirect:/review/getReviewList?resultJsp=listReviewUser";
 	}
@@ -133,18 +149,6 @@ public class ReviewController {
 		return "redirect:/inquiry/listInquiry?resultJsp=listReviewUser";	
 	}
 	
-	public String storeFile(MultipartFile file) throws Exception{
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("_yyyyMMddhhmmss");
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		String timeStamp = sdf.format(timestamp);
-		
-		String fileName = StringUtils.cleanPath(file.getOriginalFilename()) + timeStamp;
-		
-		Path targetLocation = (Paths.get(fileStorageLocation).toAbsolutePath().normalize()).resolve(fileName); 
-		Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-		
-		return fileName;
-	}
+	
 	
 }
