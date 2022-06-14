@@ -1,3 +1,4 @@
+
 package com.faitmain.domain.product.mapper;
 
 import java.util.HashMap;
