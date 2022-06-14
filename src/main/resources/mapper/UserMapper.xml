@@ -124,7 +124,7 @@
 	 <if test="searchCondition != null">
 			 	<where>
 	
-			    role LIKE '%'+ #{searchCondition} +'%' 
+			    role LIKE CONCAT('%', #{searchCondition},  '%'   )
 			    </where>
 		 </if>
 
