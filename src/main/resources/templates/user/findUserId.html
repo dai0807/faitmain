@@ -13,8 +13,7 @@
 
  <!--   <link href="/css/login.css" rel="stylesheet" /> -->
 <script src="https://kit.fontawesome.com/10b89606ac.js" crossorigin="anonymous"></script>
-	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-
+ 
  
     	<script type="text/javascript">
        $(function () {
@@ -39,6 +38,8 @@
 														
 									   alert("찾으시는 아이디는 :: "+data+" 입니다.");
 				
+										self.location ="/user/login"
+							
 													}
 					 
 		                        } // success 괄호
@@ -168,45 +169,29 @@
         
         
     
-#formContent {
-  -webkit-border-radius: 20px 20px 20px 20px;
-  border-radius: 20px 20px 20px 20px;
-  background: #fff;
-  padding: 30px;
-  width: 90%;
-  max-width: 800px;
-  position: relative;
-  padding: 0px;
-  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-  box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-  text-align: center;
-}    
-        
-        
-        
-        
-        
 
-/* BASIC */
- /*
-html {
-  background-color: #56baed;
-}
- #cccccc;
- */
-  
+        
+ 
         
   </style>
 
     <!-- 길이는 스타일 건들이 -->
 </head>
 
-<div>
+ 
  <article layout:fragment = "content">
-	 <div>
+	 
+	   <div class = "container col-lg-3">  </div>
+
+	 
+	 
+	    <div class = "container col-lg-6">	
 	    <div class="wrapper">
+ 		 
  		 <div id="formContent">
-			 <h2>아이디찾기</h2>
+			 <h2 class = "fw-bolder" >아이디찾기</h2>
+			   
+			   
 			   <form id="form" onsubmit="return false">
 			   
 			     <div class="form-group">
@@ -248,15 +233,17 @@ html {
 			                   <span class="fw-bolder btn btn-success col-md-12" id="findId" > 아이디 찾기</span></div>
 			  
 			  		  </div>   
-			 		</div>
+			 		
+			 		  </form>
+			 </div>
 	 	   </div>
 		 </div>	  
+		</div>	 
+			 
 			  
-			  		
-			   
-			   </form>
-	 </div>		  
-
+	  <div class = "container col-lg-3">   <br>   <br>   <br>   <br>  </div>
+		  		
+ 	
  </article>
 
  </body>
