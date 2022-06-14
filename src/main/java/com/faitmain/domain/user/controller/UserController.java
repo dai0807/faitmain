@@ -414,8 +414,8 @@ public class UserController{
 			
 				
 				model.addAttribute("id", id) ;
-			return("/user/updatePassword");
-
+		// test 위해서 주석 	return("/user/updatePassword");
+				return("/user/testUpdatePassword");
 	 				
 	    	}		
 		
@@ -438,36 +438,19 @@ public class UserController{
 	    	}				
 			   		
 		//find PW Rest Control로 갈 운명 
-		@PostMapping("findPw")
-  		public String findPw( @ModelAttribute("user") User user  ,Model model)throws Exception {
+		@GetMapping("findPassword")
+  		public String findPW( Model model)throws Exception {
 			
-			log.info("##findPw {} ##" , user);
-			
-			
-			Map<String,Object> map = new HashMap<>();
-			map.put("phoneNumber", user.getPhoneNumber());
-			map.put("id", user.getId() );
- 			
-			
-			log.info("findPW {}" , userSerivce.findUser(map));
-			
-			if(   userSerivce.findUser(map) == 1  ) {
+			log.info("###Stat###findUserPassword ={} ##" );
+		 
 				
- 				model.addAttribute("user", user);
-
-				
-				return("forward:/user/updatePassword.jsp");
-
-				
-				
-				}else {
-					return("forward:/main");
-	
-				}
-			
-
+				return ("/user/findUserPassword") ;
+ 
+ 
 	 				
-	    	}
+	    	}	
+		
+
 		
 		//유저 상세 정보
 		//			//id가 있으면 list에서 온거 , 아니면 내 정보 조회에서 온 것 

@@ -29,20 +29,19 @@
 					 url: "/user/json/findId" ,
 					 type: 'POST',
 					 data: formData , 
- 		
+ 					dataType:"text",
 		                        success: function (data) { //컨트롤러에서 넘어온 cnt값을 받는다
-		                        
-		                        if(data.equal("입력하신 정보와 유효한 id가 존재하지 않습니다.")){
+ 		                        if(data  == ("입력하신 정보와 유효한 id가 존재하지 않습니다.")){
 			
 											  alert("결과 :: " + data) ;
 
-											}else{
+									}else{
 														
-									   var result = confirm("찾으시는 아이디는 :: "+data+" 입니다.");
+									   alert("찾으시는 아이디는 :: "+data+" 입니다.");
 				
 													}
 					 
-		                        } 
+		                        } // success 괄호
 		           
 					
 				}) //ajax 괄호
