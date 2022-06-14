@@ -19,6 +19,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.domain.user.service.UserSerivce;
 import com.faitmain.global.common.MiniProjectPage;
 import com.faitmain.global.common.Page;
 import com.faitmain.global.common.Search;
@@ -34,7 +35,25 @@ public class ProductController {
 	@Autowired
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserSerivce userSerivce;
 
+	//User로 갈 수도 있음
+	@GetMapping("getStoreInfo")
+	public String getStoreInfo(@RequestParam("storeId") String storeId, Model model) throws Exception{
+		
+		log.info("/product/getStoreInfo : GET");
+		
+		User store = userSerivce.getUser(storeId);
+		Map<String, Object> map = productService.getProductListByStoreId(storeId);
+		
+		model.addAttribute("store", store);
+		model.addAttribute("list", map.get("list"));
+		
+		return "/product/getStoreInfo";
+	}
 
 	@GetMapping("addProduct")
 	public String addProduct() throws Exception{		
