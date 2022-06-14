@@ -117,21 +117,23 @@
  
  
  
- <!-- 키워드나 정렬 조건 새로 붙이기  망함 
- <select id ="getlist" parameterType="com.faitmain.global.common.Search"  resultMap ="userMap" >  
-	SELECT user_number, id, password, gender, address, postal_code, nickname, phone_number, name, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, bank_account_copy_image, bank_name, bank_account_number, role, store_name, withdrawal_status
+ <!-- 키워드나 정렬 조건 새로 붙이기  망함 --> 
+ <select id ="getlist" parameterType="map"  resultMap ="userMap" >  
+	SELECT user_number, id, password,    phone_number, name, reg_date, join_path,role, store_name, withdrawal_status
 	FROM user
 	 <if test="searchCondition != null">
 			 	<where>
 	
-			    role = #{searchKeyword}  ;
+			    role LIKE '%'+ #{searchCondition} +'%' 
 			    </where>
 		 </if>
 
 </select>
---> 
-  <!-- 키워드나 정렬 조건 새로 붙이기   , 이름 / 키워드 등 서치 키워드 다시 설정해서 넣기  0 전체 1 유저 , 2 스토어 검색 -->
-	  <select id ="getUserList" parameterType="map"   > <!-- role 따라  -->
+
+  <!-- 
+  리스트는 계속계속 고치는 중 ,,,  뇌절 중  
+  키워드나 정렬 조건 새로 붙이기   , 이름 / 키워드 등 서치 키워드 다시 설정해서 넣기  0 전체 1 유저 , 2 스토어 검색 --> <!-- role 따라  -->
+<!-- 	  <select id ="getUserList" parameterType="map"   > 
 		SELECT *
 		  	FROM (	SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq
 			  			FROM(	SELECT user_number, id, password, gender,  user_address1 , user_address2, user_address3, nickname, phone_number, `name`, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, `role`, store_name, withdrawal_status
@@ -154,6 +156,9 @@
 						WHERE (@ROWNUM:=0)=0 limit ${endRowNum} ) total
 			WHERE row_seq BETWEEN ${startRowNum} AND ${endRowNum} 
 	</select>
+
+ -->
+
 
 	<!-- SQL : SELECT ROW Count (현재 search 없음) -->	 
 	<select  id="getUserTotalCount"  parameterType="map"	 resultType="int">
@@ -327,6 +332,7 @@
 							 (@ROWNUM:=0)=0 limit ${endRowNum} ) total
 			WHERE row_seq BETWEEN ${startRowNum} AND ${endRowNum} 
 	</select>
+	
 	
 	
 		<select  id="getStoreApplicationDocumenTotalCount"  parameterType="map"	 resultType="int">
