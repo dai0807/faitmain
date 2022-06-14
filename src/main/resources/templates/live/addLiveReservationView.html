@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+				layout:decorate = "~{layout/default_layout}"
+      			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="EUC-KR">
+<title>addLiveReservationView</title>
+	
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	
+	<script src="/js/addliveReservationView.js"></script>
+</head>
+<body>
+	<article layout:fragment="content">
+		<div class="container-fluid">
+		
+			<h5>프리미엄 라이브 예약 등록</h5>
+			<form>
+				<div class="row">
+					<div class="col">
+						<input type="date" id="reservationDate" name="reservationDate"/>
+					</div>
+					<div id="timeDiv" class="col">
+						<select id="reservationTime" name="reservationTime">
+							<option id="timeOption"/>
+						</select>
+					</div>
+				</div>
+				
+			</form>
+			
+		</div>
+	</article>
+</body>
+</html>

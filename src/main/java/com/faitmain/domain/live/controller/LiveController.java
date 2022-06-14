@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
@@ -59,7 +60,6 @@ public class LiveController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserSerivce userSerivce;
-
 
 	@GetMapping("liveRoom")
 	public String getLiveRoomList(Model model) throws Exception {
@@ -321,7 +321,6 @@ public class LiveController {
 				.getLiveProductListByLiveNumber(liveService.getLiveByStoreId(user.getId()).getLiveNumber());
 		model.addAttribute("listProduct", list);
 
-
 		String roomId = liveService.getLiveByStoreId(user.getId()).getRoomId();
 
 		log.info("채널키 파라미터 체크 {} : ", roomId);
@@ -454,7 +453,6 @@ public class LiveController {
 		} else {
 			System.out.println("오류남");
 		}
-
 
 		String roomId = liveService.getLiveByStoreId(user.getId()).getRoomId();
 
@@ -649,10 +647,8 @@ public class LiveController {
 			}
 		} };
 
-
 		SSLContext sc = SSLContext.getInstance("TLSv1.2");
 		sc.init(null, trustCerts, new java.security.SecureRandom());
-
 
 		URL url = new URL("https://vchatcloud.com/openapi/v1/rooms/" + live.getRoomId());
 
@@ -682,8 +678,23 @@ public class LiveController {
 
 		liveService.updateLive(live);
 
-
 		return new RedirectView("/");
 
+	}
+
+	@GetMapping("addLiveReservation")
+	public String addLiveReservation() {
+		log.info("addLiveReservation GET : start...");
+
+		log.info("addLiveReservation GET : end...");
+		return "/live/addLiveReservationView";
+	}
+
+	@PostMapping("addLiveReservation")
+	public RedirectView addLiveReservation(@RequestBody LiveReservation liveReservation) throws Exception {
+		log.info("addLiveReservation POST : start...");
+
+		log.info("addLiveReservation POST : end...");
+		return new RedirectView("/live/getLiveReservationList");
 	}
 }
