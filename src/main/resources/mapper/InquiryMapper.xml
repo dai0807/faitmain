@@ -7,17 +7,17 @@
 
 	<resultMap id="inquirySelectMap" type="com.faitmain.domain.product.domain.Inquiry">
 		<result property="inquiryNumber" 		column="inquiry_number" 		jdbcType="INTEGER"/>
-		<result property="inquiryTitle"			column="inquiry_name" 			jdbcType="VARCHAR" />
+		<result property="inquiryTitle"			column="inquiry_title" 			jdbcType="VARCHAR" />
 		<result property="inquiryContent" 		column="inquiry_content" 		jdbcType="VARCHAR" />
 		<result property="inquiryDate" 			column="inquiry_date" 			jdbcType="DATE" />
 		<result property="userId" 				column="user_id"				jdbcType="VARCHAR" />
 		<result property="storeId" 				column="store_id" 				jdbcType="VARCHAR" />		
 		<result property="inquiryReplyStatus" 	column="inquiry_reply_status" 	jdbcType="TINYINT" />
-		<result property="inquiryReplyCotent" 	column="inquiry_reply_cotent" 	jdbcType="VARCHAR" />
+		<result property="inquiryReplyContent" 	column="inquiry_reply_content" 	jdbcType="VARCHAR" />
 		<result property="inquiryReplyDate" 	column="inquiry_reply_date" 	jdbcType="DATE" />
 		<result property="secret" 				column="secret" 				jdbcType="TINYINT" />
 		
-		<association property="inquiryProduct"  javaType="com.faitmain.domain.product.domain.Product">
+		<association property="inquiryProduct"  javaType="Product">
 			<id property="productNumber" 			column="product_number" 		jdbcType="INTEGER"/>
 			<result property="productName"			column="product_name"			jdbcType="VARCHAR" />
 			<result property="productMainImage" 	column="product_main_image" 	jdbcType="VARCHAR" />
@@ -29,7 +29,7 @@
 	<insert id="addInquiry" parameterType="com.faitmain.domain.product.domain.Inquiry">		
 		INSERT
 		INTO inquiry(inquiry_title, inquiry_content, inquiry_date, user_id, store_id, product_number, secret)
-		VALUES (#{inquiryTitle}, #{inquiryContent}, now(), #{userId}, #{storeId}, #{productNumber}, #{secret})
+		VALUES (#{inquiryTitle}, #{inquiryContent}, now(), #{userId}, #{storeId}, #{inquiryProduct.productNumber}, #{secret})
 	</insert>	
 		
 	<!-- 문의 상세 조회 -->	    
@@ -55,15 +55,15 @@
 								<where>	
 									i.product_number = p.product_number								
 									<if test="searchCondition != null">
-										<if test="searchCondition == 상품번호로 조회 and searchKeyword !='' ">
+										<if test="searchCondition == 'productNumber' and searchKeyword !='' ">
 							 				AND i.product_number = #{searchKeyword}
 										</if> 
-										<if test="searchCondition == 회원아이디로 조회 and searchKeyword !='' ">
+										<if test="searchCondition == 'userId'and searchKeyword !='' ">
 							 				AND i.user_id = #{searchKeyword}
-										</if>										
-										<if test="searchCondition == 답변상태로 조회 and searchKeyword !='' ">
-							 				AND i.inquiry_reply_status = #{searchKeyword}
-										</if>																			
+										</if>	
+										<if test="searchCondition == 'storeId' and searchKeyword !='' ">
+							 				AND i.store_id = #{searchKeyword}
+										</if>																	
 									</if>
 								</where>
 						ORDER BY inquiry_date DESC ) inner_table
@@ -79,15 +79,15 @@
 				<where>	
 					i.product_number = p.product_number									
 					<if test="searchCondition != null">
-						<if test="searchCondition == 상품번호로 조회 and searchKeyword !='' ">
+						<if test="searchCondition == 'productNumber' and searchKeyword !='' ">
 			 				AND i.product_number = #{searchKeyword}
 						</if> 
-						<if test="searchCondition == 회원아이디로 조회 and searchKeyword !='' ">
+						<if test="searchCondition == 'userId'and searchKeyword !='' ">
 			 				AND i.user_id = #{searchKeyword}
-						</if>										
-						<if test="searchCondition == 답변상태로 조회 and searchKeyword !='' ">
-			 				AND i.inquiry_reply_status = #{searchKeyword}
-						</if>																			
+						</if>	
+						<if test="searchCondition == 'storeId' and searchKeyword !='' ">
+			 				AND i.store_id = #{searchKeyword}
+						</if>																	
 					</if>
 				</where>
 			) countTable						
@@ -97,11 +97,11 @@
 	<update id="updateInquiry" parameterType="com.faitmain.domain.product.domain.Inquiry" >
 		UPDATE inquiry
 		<set>
-			inquiry_title = #{inquiryTitle},
-			inquiry_content = #{inquiryContent},
-			secret = #{secret},
-			inquiry_reply_status = #{inquiryReplyStatus},
-			inquiry_reply_cotent = #{inquiryReplyCotent:VARCHAR},
+			<if test="inquiryTitle != null">inquiry_title = #{inquiryTitle},</if>
+			<if test="inquiryContent != null">inquiry_content = #{inquiryContent},</if>
+			<if test="secret != null">secret = #{secret},</if>
+			<if test="inquiryReplyStatus != null">inquiry_reply_status = #{inquiryReplyStatus},</if>			
+			<if test="inquiryReplyContent != null">inquiry_reply_content = #{inquiryReplyContent},</if>
 			inquiry_reply_date = <if test="inquiryReplyStatus == true">now()</if>
 								 <if test="inquiryReplyStatus == false || inquiryReplyStatus == null">null</if>
 		</set>
@@ -109,7 +109,7 @@
 	</update>
 	
 	<!-- 상품 삭제 -->
-	<delete id="deletInquiry" parameterType="int">
+	<delete id="deleteInquiry" parameterType="int">
     	DELETE FROM inquiry WHERE inquiry_number = #{inquiryNumber}
   	</delete>
   	

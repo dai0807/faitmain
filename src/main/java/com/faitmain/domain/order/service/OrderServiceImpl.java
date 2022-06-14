@@ -33,9 +33,6 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     OrderMapper orderMapper;
     @Autowired
-    AttachMapper attachMapper;
-
-    @Autowired
     ProductMapper productMapper;
 
     @Autowired
@@ -44,8 +41,8 @@ public class OrderServiceImpl implements OrderService{
 
     /* 주문자 주소 정보 */
     @Override
-    public User getBuyer( String id ){
-        return orderMapper.getBuyer( id );
+    public User getBuyer( String buyerId ){
+        return orderMapper.selectBuyer( buyerId );
     }
 
     /* 주문정보 */
@@ -54,13 +51,12 @@ public class OrderServiceImpl implements OrderService{
 
         List<OrderPageProduct> oppList = new ArrayList<>();
         for ( OrderPageProduct orderPageProduct : orderPageProductList ) {
-
-            OrderPageProduct opp = orderMapper.getOrderPageProduct( orderPageProduct.getProductNumber() );
+            OrderPageProduct opp = orderMapper.selectOrderPageProduct( orderPageProduct.getProductNumber() );
             opp.setProductOrderCount( orderPageProduct.getProductOrderCount() );
             opp.initSaleTotal();
-
-            List<AttachImage> imageList = attachMapper.getAttachList( opp.getProductNumber() );
-            opp.setImageList( imageList );
+            opp.setProductMainImage( orderPageProduct.getProductMainImage() );
+//            List<AttachImage> imageList = attachMapper.getAttachList( opp.getProductNumber() );
+//            opp.setImageList( imageList );
 
             oppList.add( opp );
         }
@@ -71,21 +67,22 @@ public class OrderServiceImpl implements OrderService{
     /* 주문 */
     @Override
     @Transactional
-    public void order( Order order ) throws Exception{
-
+    public void addOrder( Order order ) throws Exception{
         /* 사용할 데이터 가져오기 */
+
         /* 회원정보 */
-        User user = orderMapper.getBuyer( order.getBuyerId() );
+        User user = orderMapper.selectBuyer( order.getBuyerId() );
+
         /* 주문정보 */
         List<OrderProduct> orderProductList = new ArrayList<>();
-        for ( OrderProduct op : order.getOrderProductList() ) {
-            OrderProduct orderProduct = orderMapper.getOrderProduct( op.getProductNumber() );
+        for ( OrderProduct orderProduct : order.getOrderProductList() ) {
+            OrderProduct op = orderMapper.selectOrderProduct( orderProduct.getProductNumber() );
             /* 수량세팅 */
-            orderProduct.setProductOrderCount( op.getProductOrderCount() );
+            op.setProductOrderCount( orderProduct.getProductOrderCount() );
             /* 기본정보 세팅 */
-            orderProduct.initSaleTotal();
+            op.initSaleTotal();
             /* LIST 객체 추가 */
-            orderProductList.add( orderProduct );
+            orderProductList.add( op );
         }
 
         /* ORDER 세팅 */
@@ -102,7 +99,7 @@ public class OrderServiceImpl implements OrderService{
 
         /* DB 넣기 */
         /* ORDER 등록 */
-        orderMapper.addOrder( order );
+        orderMapper.insertOrder( order );
         /* ORDER PRODUCT 등록 */
         for ( OrderProduct orderProduct : order.getOrderProductList() ) {
             orderProduct.setOrderNumber( orderNumber );
@@ -114,7 +111,7 @@ public class OrderServiceImpl implements OrderService{
         user.setTotalPoint( calTotalPoint );
 
         /* 포인트 DB 적용 */
-        orderMapper.deductPoint( user );
+        orderMapper.updatePoint( user );
 
         /* 재고 변동 적용 */
         for ( OrderProduct orderProduct : order.getOrderProductList() ) {
@@ -122,7 +119,7 @@ public class OrderServiceImpl implements OrderService{
             Product product = productMapper.getProduct( orderProduct.getProductNumber() );
             product.setProductQuantity( product.getProductQuantity() - orderProduct.getProductOrderCount() );
             /* 변동 값 DB 적용 */
-            orderMapper.deductStock( product );
+            orderMapper.updateStock( product );
         }
         /* 장바구니 제거 */
         for ( OrderProduct orderProduct : order.getOrderProductList() ) {
@@ -138,49 +135,51 @@ public class OrderServiceImpl implements OrderService{
     /* 주문 상품 리스트 */
     @Override
     public List<Order> getOrderList( Criterion criterion ){
-        return orderMapper.getOrderList( criterion );
+        return orderMapper.selectOrderList( criterion );
     }
 
     /* 주문 총 개수 */
     @Override
     public int getOrderTotal( Criterion criterion ){
-        return orderMapper.getOrderTotal( criterion );
+        return orderMapper.selectOrderTotal( criterion );
     }
 
     /* 주문 취소 */
     @Override
     @Transactional
-    public void orderCancel( OrderCancel orderCancel ) throws Exception{
+    public void cancelOrder( OrderCancel orderCancel ) throws Exception{
         /* 주문 & 주문상품 객체 */
+
         /* 회원 */
-        User user = orderMapper.getBuyer( orderCancel.getBuyerId() );
+        User user = orderMapper.selectBuyer( orderCancel.getBuyerId() );
         /* 주문상품 */
-        List<OrderProduct> orderProductList = orderMapper.getOrderProductList( orderCancel.getOrderNumber() );
+        List<OrderProduct> orderProductList = orderMapper.selectOrderProductList( orderCancel.getOrderNumber() );
         for ( OrderProduct orderProduct : orderProductList ) {
             orderProduct.initSaleTotal();
         }
         /* 주문 */
-        Order order = orderMapper.getOrder( orderCancel.getOrderNumber() );
+        Order order = orderMapper.selectOrder( orderCancel.getOrderNumber() );
         order.setOrderProductList( orderProductList );
         order.getOrderPriceInfo();
 
         /* 주문상품 취소 DB */
-        orderMapper.orderCancle( order.getOrderNumber() );
+        orderMapper.deleteOrder( order.getOrderNumber() );
 
         /* 포인트 & 재고 변환 */
+
         /* 포인트 */
         int calTotalPoint = user.getTotalPoint();
         calTotalPoint = calTotalPoint - order.getUsingPoint() + order.getOrderRewardPoint();
         user.setTotalPoint( calTotalPoint );
 
         /* DB 적용 */
-        orderMapper.deductPoint( user );
+        orderMapper.updatePoint( user );
 
         /* 재고 */
         for ( OrderProduct orderProduct : order.getOrderProductList() ) {
             Product product = productMapper.getProduct( orderProduct.getProductNumber() );
             product.setProductQuantity( product.getProductQuantity() + orderProduct.getProductOrderCount() );
-            orderMapper.deductStock( product );
+            orderMapper.updateStock( product );
         }
     }
 

@@ -93,32 +93,32 @@
 	<!-- ////////////////////////////////////  -->
 	
 	<!-- 상품 목록 조회 (현재 search 없어서 if문 수정 필요) -->
-	<select  id="getProductList"  parameterType="com.faitmain.global.common.Search"	resultMap="productSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq
-	  			FROM		(	SELECT p.*
-								FROM product p
-								<where>
-									product_group_number is null
-									
-									<if test="searchCondition != null">
-										<if test="searchStatus !='' ">
-							 				AND p.product_status IN (${searchStatus})
-										</if> 
-										<if test="searchKeyword !='' ">
-							 				AND p.product_name LIKE '%'||#{searchKeyword}||'%'
-										</if>										
-										<if test="searchCategory !='' ">
-							 				AND p.product_category_code = #{searchCategory}
-										</if>																			
-									</if>
-									<if test="beforeDate != null and afterDate != null">
-										AND p.reg_date BETWEEN #{beforeDate} and #{afterDate}
-									</if>
-								</where>
-						ORDER BY ${orderName} ) inner_table
-				WHERE (@ROWNUM:=0)=0 limit #{endRowNum} ) result_table
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	<select  id="getProductList"  parameterType="map"	resultMap="productSelectMap">
+		SELECT * 
+		FROM ( SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq 
+			   FROM (	SELECT p.product_number, p.product_name, p.product_price, p.product_main_image 	
+			   			FROM product p 
+			   			<where>
+			   				p.product_group_number is null
+			   				AND p.product_status IN('01', '03')
+			   				<if test="searchStore != null">
+				 				AND p.store_id = #{searchStore}
+							</if>
+			   				<if test="searchStatus != null">
+						 		AND p.product_status = #{searchStatus}
+							</if> 
+							<if test="searchKeyword != null">
+				 				AND p.product_name LIKE CONCAT('%',#{searchKeyword},'%')
+							</if>										
+							<if test="searchCategory != null">
+				 				AND p.product_category_code = #{searchCategory}
+							</if>
+			   			</where>  
+			   			ORDER BY <if test="searchOrderName != null">${searchOrderName}</if>
+			   					 <if test="searchOrderName == null">reg_date DESC</if> ) inner_table 
+			   	WHERE (@ROWNUM:=0)=0 limit #{endRowNum} ) result_table 
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}; 	  	
+	  	
 	 </select>
 
 	<!-- 판매자 상품 목록 조회 (현재 search 없어서 if문 수정 필요) -->
@@ -131,26 +131,24 @@
 	 </select>
 	 		
 	<!-- SQL : SELECT ROW Count (현재 search 없음) -->	 
-	<select  id="getTotalCount"  parameterType="com.faitmain.global.common.Search"	 resultType="int">
+	<select  id="getTotalCount"  parameterType="map"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT p.*
-				FROM product p
+	  	FROM(	SELECT *
+				FROM product
 				<where>
 					product_group_number is null
-					
-					<if test="searchCondition != null">
-						<if test="searchCondition == 상품상태로 검색 and searchKeyword !='' ">
-			 				AND p.product_status IN (${searchKeyword})
-						</if> 
-						<if test="searchCondition == 검색어로 검색 and searchKeyword !='' ">
-			 				AND p.product_name LIKE '%'||#{searchKeyword}||'%'
-						</if>										
-						<if test="searchCondition == 카테고리로 검색 and searchKeyword !='' ">
-			 				AND p.product_category_code = #{searchKeyword}
-						</if>																			
-					</if>
-					<if test="productRegDate != null">
-						AND p.reg_date BETWEEN #{beforeDate} and #{afterDate}
+					AND product_status IN('01', '03')
+					<if test="searchStore != null ">
+		 				AND store_id = #{searchStore}
+					</if> 
+					<if test="searchStatus != null ">
+		 				AND product_status = #{searchStatus}
+					</if> 
+					<if test="searchKeyword != null ">
+		 				AND product_name LIKE CONCAT('%',#{searchKeyword},'%')
+					</if>										
+					<if test="searchCategory != null ">
+		 				AND product_category_code = #{searchCategory}
 					</if>
 				</where>
 			) countTable						
@@ -161,14 +159,22 @@
 		UPDATE product
 		<set>
 			product_name = #{productName},
-			product_Price = #{productPrice},
+			product_price = #{productPrice},
 			product_main_image = #{productMainImage},
 			product_detail = #{productDetail:LONGVARCHAR},
 			product_category_code = #{categoryCode},
 			product_quantity = #{productQuantity},
-			product_status = #{productStatus},
-			product_group_number = <if test="productGroupNumber == 0">null</if>
-								   <if test="productGroupNumber != 0">#{product_group_number}</if>			
+			product_status = #{productStatus}			
+		</set>
+		WHERE product_number = #{productNumber}
+	</update>
+	
+	<update id="updateProductOption" parameterType="Product">
+		UPDATE product
+		<set>
+			product_name = #{productName},
+			product_quantity = #{productQuantity},
+			product_status = #{productStatus}
 		</set>
 		WHERE product_number = #{productNumber}
 	</update>
@@ -189,7 +195,11 @@
 	
 	<!-- 상품 삭제 -->
 	<delete id="deleteProduct" parameterType="int">
-    	DELETE FROM product WHERE product_number = #{productNumber}
+    	DELETE FROM product WHERE product_number = #{productNumber} OR product_group_number= #{productNumber}
+  	</delete>
+  	
+  	<delete id="deleteProductOption" parameterType="int">
+  		DELETE FROM product WHERE product_number = #{productNumber}
   	</delete>
   	
   	<delete id="deleteProductImage" parameterType="int">

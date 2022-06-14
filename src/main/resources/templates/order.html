@@ -3,17 +3,22 @@
       xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
+    <meta charset = "UTF-8">
+    <title>주문페이지</title>
     <!--  고유 CSS 추가 -->
 
     <!--  고유 스크립트 추가 -->
-    <script src = "https://cdn.bootpay.co.kr/js/bootpay-3.3.3.min.js" type = "application/javascript"></script>
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment.js"></script>
 
 </head>
 <body>
 
 <!-- content -->
 <article class = "py-5" layout:fragment = "content">
-    <div class = "wrapper">
+    <div class = "container">
         <div class = "wrap">
             <div class = "content_area">
                 <div class = "content_main">
@@ -23,7 +28,7 @@
                             <tbody>
                             <tr>
                                 <th style = "width: 25%;">주문자</th>
-                                <td style = "width: 25%" th:value = "${user.id}">홍길동</td>
+                                <td style = "width: 10%;" th:text = "${buyer.id}">홍길동</td>
                             </tr>
                             </tbody>
                         </table>
@@ -37,26 +42,19 @@
                         <div class = "addressInfo_input_div_wrap">
                             <div class = "addressInfo_input_div addressInfo_input_div_1" style = "display: block">
                                 <table>
-                                    <colgroup>
-                                        <col width = "25%">
-                                        <col width = "*">
-                                    </colgroup>
                                     <tbody>
                                     <tr>
                                         <th>이름</th>
-                                        <td>
-                                            ${memberInfo.memberName}
-                                        </td>
+                                        <td>[[${buyer.name}]]</td>
                                     </tr>
                                     <tr>
                                         <th>주소</th>
-                                        <td>
-                                            ${memberInfo.memberAddr1} ${memberInfo.memberAddr2}<br>${memberInfo.memberAddr3}
+                                        <td>[[${buyer.userAddress1}]] [[${buyer.userAddress2}]]<br>[[${buyer.userAddress3}]]
                                             <input class = "selectAddress" type = "hidden" value = "T">
-                                            <input class = "addressee_input" type = "hidden" value = "${memberInfo.memberName}">
-                                            <input class = "address1_input" type = "hidden" value = "${memberInfo.memberAddr1}">
-                                            <input class = "address2_input" type = "hidden" value = "${memberInfo.memberAddr2}">
-                                            <input class = "address3_input" type = "hidden" value = "${memberInfo.memberAddr3}">
+                                            <input class = "addressee_input" type = "hidden" th:value = "${buyer.name}">
+                                            <input class = "address1_input" type = "hidden" th:value = "${buyer.userAddress1}">
+                                            <input class = "address2_input" type = "hidden" th:value = "${buyer.userAddress2}">
+                                            <input class = "address3_input" type = "hidden" th:value = "${buyer.userAddress3}">
                                         </td>
                                     </tr>
                                     </tbody>
@@ -71,9 +69,7 @@
                                     <tbody>
                                     <tr>
                                         <th>이름</th>
-                                        <td>
-                                            <input class = "addressee_input">
-                                        </td>
+                                        <td><input class = "addressee_input"></td>
                                     </tr>
                                     <tr>
                                         <th>주소</th>
@@ -117,22 +113,20 @@
                                 <col width = "40%">
                             </colgroup>
                             <tbody>
-                            <c:forEach items = "${orderList}" var = "ol">
+                            <th:block th:each="orderPageProduct: ${orderPageProductList}" th:if = "${#lists.size(orderPageProductList) > 0}">
                                 <tr>
                                     <td>
-                                        <div class = "image_wrap" data-bookid = "${ol.imageList[0].bookId}" data-filename = "${ol.imageList[0].fileName}" data-path = "${ol.imageList[0].uploadPath}"
-                                             data-uuid = "${ol.imageList[0].uuid}">
-                                            <img>
-                                        </div>
+                                        <div class = "image_wrap" th:text = "${orderPageProduct.productMainImage}"></div>
                                     </td>
-                                    <td>${ol.bookName}</td>
+                                    <td>[[${orderPageProduct.productName}]]</td>
                                     <td class = "goods_table_price_td">
-                                        <fmt:formatNumber pattern = "#,### 원" value = "${ol.salePrice}"/>
-                                        | 수량 ${ol.bookCount}개
+                                        <th:block th:text = "${orderPageProduct.productOrderCount}"></th:block>
                                         <br>
-                                        <fmt:formatNumber pattern = "#,### 원" value = "${ol.totalPrice}"/>
+                                        <th:block th:text = "${orderPageProduct.salePrice}"></th:block>
+                                        <br>
+                                        <th:block th:text = "${orderPageProduct.totalPrice}"></th:block>
                                         <br>[
-                                        <fmt:formatNumber pattern = "#,### 원" value = "${ol.totalPoint}"/>
+                                        <th:block th:text = "${orderPageProduct.totalPoint}"></th:block>
                                         P]
                                         <input class = "individual_bookPrice_input" type = "hidden" value = "${ol.bookPrice}">
                                         <input class = "individual_salePrice_input" type = "hidden" value = "${ol.salePrice}">
@@ -143,7 +137,7 @@
                                         <input class = "individual_bookId_input" type = "hidden" value = "${ol.bookId}">
                                     </td>
                                 </tr>
-                            </c:forEach>
+                            </th:block>
 
                             </tbody>
                         </table>
@@ -227,58 +221,224 @@
         </div>
     </div>    <!-- class="wrap" -->
     </div>    <!-- class="wrapper" -->
+
+    <button onclick = "requestPay()">결제하기</button>
 </article>
+
 <!-- javascript -->
-<script th:inline = "javascript">
+<script th:inline="javascript">
+    function requestPay() {
 
-    var order = [[${order}]] // 서버의 주문 값
-    var product = [[${product}]]  // 주문한 상품
+        // 결제 금액, 구매자의 이름, 이메일
+        // const priceAmount = $('#totalPrice').val();
+        // const buyerMemberEmail = $('#memberEmail').val();
+        // const buyerMemberName = $('#memberName').val();
+        // const form = document.getElementById("payment");
 
-    //실제 복사하여 사용시에는 모든 주석을 지운 후 사용하세요
-    BootPay.request({
-        price: product.price.toString(), //실제 결제되는 가격
+        const IMP = window.IMP;
 
-        // 관리자로그인 -> 결제설치 -> 인증키 및 보안 -> WEB Application ID
-        application_id: "62a0dc64e38c3000235ae079",
+        // IMP.request_pay(param, callback) 결제창 호출
+        IMP.init('imp76668016');
+        IMP.request_pay({ // param
+            pg: "kakaopay.TC0ONETIME",
+            pay_method: "card",
+            merchant_uid: 'cart_' + new Date().getTime(),
+            name: "Helpring 강의",
+            amount: "priceAmount",
+            buyer_email: "buyerMemberEmail",
+            buyer_name: "buyerMemberName",
 
-        name: product.name, //결제창에서 보여질 이름
-        pg: 'kakaopay',
-        method: 'easy', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
-        show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
-        items: [
-            {
-                item_name: product.name, //상품명
-                qty: 1, //수량
-                unique: product.productNumber.toString(), //해당 상품을 구분짓는 primary key
-                price: product.price, //상품 단가
+        }, function (rsp) { // callback
+
+            /** 결제 검증 **/
+            $.ajax({
+                type: 'POST',
+                url: '/verifyIamport/' + rsp.imp_uid,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                }
+            }).done(function (result) {
+
+                // rsp.paid_amount와 result.response.amount(서버 검증) 비교 후 로직 실행
+                if (rsp.paid_amount === result.response.amount) {
+                    alert("결제가 완료되었습니다.");
+                    $.ajax({
+                        type: 'POST',
+                        url: '/lecture/payment',
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader(header, token);
+                        }
+                    }).done(function () {
+                        window.location.reload();
+                    }).fail(function (error) {
+                        alert(JSON.stringify(error));
+                    })
+                } else {
+                    alert("결제에 실패했습니다." + "에러코드 : " + rsp.error_code + "에러 메시지 : " + rsp.error_message);
+
+                }
+            })
+        });
+    }
+
+
+
+    //
+    // $(document).ready(function () {
+    //     /* 주문 조합정보란 최신화 */
+    //     setTotalInfo();
+    //     /* 이미지 삽입 */
+    //     $(".image_wrap").each(function (i, obj) {
+    //         const bobj = $(obj);
+    //         if (bobj.data("bookid")) {
+    //             const uploadPath = bobj.data("path");
+    //             const uuid = bobj.data("uuid");
+    //             const fileName = bobj.data("filename");
+    //             const fileCallPath = encodeURIComponent(uploadPath + "/s_" + uuid + "_" + fileName);
+    //             $(this).find("img").attr('src', '/display?fileName=' + fileCallPath);
+    //         } else {
+    //             $(this).find("img").attr('src', '/resources/img/goodsNoImage.png');
+    //         }
+    //     });
+    // });
+
+
+    /* 포인트 입력 */
+    //0 이상 & 최대 포인트 수 이하
+    $(".order_point_input").on("propertychange change keyup paste input", function () {
+        const maxPoint = parseInt('${memberInfo.point}');
+
+        let inputValue = parseInt($(this).val());
+
+        if (inputValue < 0) {
+            $(this).val(0);
+        } else if (inputValue > maxPoint) {
+            $(this).val(maxPoint);
+        }
+
+        /* 주문 조합정보란 최신화 */
+        setTotalInfo();
+
+    });
+    /* 포인트 모두사용 취소 버튼
+     * Y: 모두사용 상태 / N : 모두 취소 상태
+     */
+    $(".order_point_input_btn").on("click", function () {
+        const maxPoint = parseInt('${memberInfo.point}');
+
+        let state = $(this).data("state");
+
+        if (state == 'N') {
+            console.log("n동작");
+            /* 모두사용 */
+            //값 변경
+            $(".order_point_input").val(maxPoint);
+            //글 변경
+            $(".order_point_input_btn_Y").css("display", "inline-block");
+            $(".order_point_input_btn_N").css("display", "none");
+        } else if (state == 'Y') {
+            console.log("y동작");
+            /* 취소 */
+            //값 변경
+            $(".order_point_input").val(0);
+            //글 변경
+            $(".order_point_input_btn_Y").css("display", "none");
+            $(".order_point_input_btn_N").css("display", "inline-block");
+        }
+
+        /* 주문 조합정보란 최신화 */
+        setTotalInfo();
+
+    });
+
+    /* 총 주문 정보 세팅(배송비, 총 가격, 마일리지, 물품 수, 종류) */
+    function setTotalInfo() {
+        let totalPrice = 0;				// 총 가격
+        let totalCount = 0;				// 총 갯수
+        let totalKind = 0;				// 총 종류
+        let totalPoint = 0;				// 총 마일리지
+        let deliveryPrice = 0;			// 배송비
+        let usePoint = 0;				// 사용 포인트(할인가격)
+        let finalTotalPrice = 0; 		// 최종 가격(총 가격 + 배송비)
+
+        $(".goods_table_price_td").each(function (index, element) {
+            // 총 가격
+            totalPrice += parseInt($(element).find(".individual_totalPrice_input").val());
+            // 총 갯수
+            totalCount += parseInt($(element).find(".individual_bookCount_input").val());
+            // 총 종류
+            totalKind += 1;
+            // 총 마일리지
+            totalPoint += parseInt($(element).find(".individual_totalPoint_input").val());
+        });
+        /* 배송비 결정 */
+        if (totalPrice >= 30000) {
+            deliveryPrice = 0;
+        } else if (totalPrice == 0) {
+            deliveryPrice = 0;
+        } else {
+            deliveryPrice = 3000;
+        }
+
+        finalTotalPrice = totalPrice + deliveryPrice;
+
+        /* 사용 포인트 */
+        usePoint = $(".order_point_input").val();
+
+        finalTotalPrice = totalPrice - usePoint;
+
+        /* 값 삽입 */
+        // 총 가격
+        $(".totalPrice_span").text(totalPrice.toLocaleString());
+        // 총 갯수
+        $(".goods_kind_div_count").text(totalCount);
+        // 총 종류
+        $(".goods_kind_div_kind").text(totalKind);
+        // 총 마일리지
+        $(".totalPoint_span").text(totalPoint.toLocaleString());
+        // 배송비
+        $(".delivery_price_span").text(deliveryPrice.toLocaleString());
+        // 최종 가격(총 가격 + 배송비)
+        $(".finalTotalPrice_span").text(finalTotalPrice.toLocaleString());
+        // 할인가(사용 포인트)
+        $(".usePoint_span").text(usePoint.toLocaleString());
+
+    }
+
+
+    /* 주문 요청 */
+    $(".order_btn").on("click", function () {
+        /* 주소 정보 & 받는이*/
+        $(".addressInfo_input_div").each(function (i, obj) {
+            if ($(obj).find(".selectAddress").val() === 'T') {
+                $("input[name='addressee']").val($(obj).find(".addressee_input").val());
+                $("input[name='memberAddr1']").val($(obj).find(".address1_input").val());
+                $("input[name='memberAddr2']").val($(obj).find(".address2_input").val());
+                $("input[name='memberAddr3']").val($(obj).find(".address3_input").val());
             }
-        ],
-        user_info: [
-            {
-                username: '사용자 이름',
-                email: '사용자 이메일',
-                addr: '사용자 주소',
-                phone: '010-1234-4567'
-            }
-        ],
-        order_id: order.orderNumber, //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
-    }).error(function (data) {
-        //결제 진행시 에러가 발생하면 수행됩니다.
-        console.log(data);
-        location.replace("pay/delete?id=" + order.id)
-    }).cancel(function (data) {
-        //결제가 취소되면 수행됩니다.
-        console.log(data);
-        location.replace("pay/delete?id" + order.id)
-    }).close(function (data) {
-        // 결제창이 닫힐때 수행됩니다. (성공,실패,취소에 상관없이 모두 수행됨)
-        console.log(data);
-    }).done(function (data) {
-        //결제가 정상적으로 완료되면 수행됩니다
-        //비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
-        location.replace("pay/confirm?receipt_id=" + data.receipt_id);
-        console.log(data);
+        });
+
+        /* 사용 포인트 */
+        $("input[name='usePoint']").val($(".order_point_input").val());
+
+        /* 상품정보 */
+        let form_contents = '';
+        $(".goods_table_price_td").each(function (index, element) {
+            let bookId = $(element).find(".individual_bookId_input").val();
+            let bookCount = $(element).find(".individual_bookCount_input").val();
+            let bookId_input = "<input name='orders[" + index + "].bookId' type='hidden' value='" + bookId + "'>";
+            form_contents += bookId_input;
+            let bookCount_input = "<input name='orders[" + index + "].bookCount' type='hidden' value='" + bookCount + "'>";
+            form_contents += bookCount_input;
+        });
+        $(".order_form").append(form_contents);
+
+        /* 서버 전송 */
+        $(".order_form").submit();
+
     });
 </script>
+
+
 </body>
 </html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html layout:decorate = "~{layout/myPage_layout}"
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout" >
+ 
+
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="@{/css/styles.css}" rel="stylesheet" />
+
+</head>
+    <title> 스토어 신청서 조회  </title>
+
+
+ <style>
+	  .form-group{
+ 
+		margin-top:10px ;
+ 	 
+		}
+		
+		form-horizontal{font-family: 'Nanum Gothic Coding', monospace;}
+		 
+    </style>
+
+
+<script type="text/javascript">
+
+ 
+   
+ 
+</script>
+
+<body>
+<article  class="py-5" layout:fragment="content"  >
+
+    <div class="container">
+        <h2> 스토어 신청서 조회   </h2>
+      
+      
+      
+      
+ 
+      
+      
+        <table class="board_list">
+		            <colgroup>
+		                <col width="15%"/>
+		                <col width="*"/>
+		                <col width="15%"/>
+		                <col width="20%"/>
+		            </colgroup>
+		            <thead>
+		              	  <tr>
+		                     <th scope="col">스토어신청서 번호</th>
+		                    <th scope="col">스토어 아이디</th>
+		                    <th scope="col">스토어 이름</th>
+		                    <th scope="col">신청일</th>
+		                     <th scope="col">심사결과</th>
+		                  
+		                </tr>
+		            </thead>
+		            
+		            <tbody>
+		         
+		          	  <tr th:each="StoreApplicationDocument:${list}  ">
+ 			             <td	class ="Number "th:text="${StoreApplicationDocument.storeApplicationDocumentNumber}" onclick="getStoreApplication()" th:value="${StoreApplicationDocument.storeApplicationDocumentNumber}" />
+			             <td > <a th:href="@{/user/getStoreApplicationDocument(storeApplicationDocumentNumber =${StoreApplicationDocument.storeApplicationDocumentNumber})}" th:text="${StoreApplicationDocument.id}"> dd..</a></td>
+			             <td 	th:text="${StoreApplicationDocument.storeName}"/>
+			             <td 	th:text="${StoreApplicationDocument.regDate}"/>
+						<td 	th:text="${StoreApplicationDocument.examinationStatus}"/>
+		          	  </tr>
+		             
+		        </tbody>
+          </table>
+     
+     </div>
+
+
+
+
+
+
+
+</article>
+
+</body>
+
+
+</html>
