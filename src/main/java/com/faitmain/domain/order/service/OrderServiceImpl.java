@@ -87,18 +87,12 @@ public class OrderServiceImpl implements OrderService{
 
         /* DB 주문,주문상품(,배송정보) 넣기*/
 
-        /* ORDERNUMBER 만들기 및 ORDER 객체 저장 */
-        Date date = new Date();
-        SimpleDateFormat format = new SimpleDateFormat( "_yyyyMMdd" );
-        int orderNumber = Integer.parseInt( user.getUserNumber() + format.format( date ) );
-        order.setOrderNumber( orderNumber );
-
         /* DB 넣기 */
         /* ORDER 등록 */
         orderMapper.insertOrder( order );
         /* ORDER PRODUCT 등록 */
         for ( OrderProduct orderProduct : order.getOrderProductList() ) {
-            orderProduct.setOrderNumber( orderNumber );
+            orderProduct.setOrderNumber( orderProduct.getOrderNumber() );
         }
 
         /* 포인트 변동 적용 */

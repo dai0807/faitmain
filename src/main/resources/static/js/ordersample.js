@@ -209,40 +209,6 @@
 
 });
 
-// 카드 결제
-    function paymentCard(data) {
-    // 모바일로 결제시 이동페이지
-    const pathName = location.pathname;
-    const href = location.href;
-    const m_redirect = href.replaceAll(pathName, "");
-
-    IMP.init("imp99151903");
-
-    IMP.request_pay({ // param
-    pg: "html5_inicis",
-    pay_method: data.payMethod,
-    merchant_uid: data.orderNum,
-    name: data.name,
-    amount: data.amount,
-    buyer_email: "",
-    buyer_name: "",
-    buyer_tel: data.phone,
-    buyer_addr: data.deleveryAddress2 + " " + data.deleveryAddress3,
-    buyer_postcode: data.deleveryAddress1,
-    m_redirect_url: m_redirect,
-},
-    function (rsp) { // callback
-    if (rsp.success) {
-    // 결제 성공 시 로직,
-    data.impUid = rsp.imp_uid;
-    data.merchant_uid = rsp.merchant_uid;
-    paymentComplete(data);
-
-} else {
-    // 결제 실패 시 로직,
-}
-});
-}
 
 // 계산 완료
     function paymentComplete(data) {

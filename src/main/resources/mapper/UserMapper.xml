@@ -467,8 +467,12 @@
             <result property="imageClassificationNumber" column="image_classification_number" jdbcType="INTEGER"/>
             <result property="imageName" column="image_name" jdbcType="VARCHAR"/>
         </resultMap>
- 
- 
+
+
+	<select id="login" resultType="user">
+		SELECT * FROM user
+	</select>
+
 
 
 </mapper>

@@ -12,6 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 public class Order{
 
+    /* IAMPORT 결제번호 */
+    private String impUid;
+
     /* 주문번호 */
     private int orderNumber;
 

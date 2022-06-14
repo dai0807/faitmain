@@ -1,200 +1,177 @@
 <!DOCTYPE html>
 <html
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{/layout/default_layout}">
+        layout:decorate = "~{/layout/default_layout}"
+        xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 
- 
+
     <meta charset = "UTF-8">
     <title>faitmain login</title>
 
-<!-- 카카오  API -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    <!-- 카카오  API -->
+    <link href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" rel = "stylesheet"/>
 
-    <link href="/css/login.css" rel="stylesheet" />
-<script src="https://kit.fontawesome.com/10b89606ac.js" crossorigin="anonymous"></script>
-	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <link href = "/css/login.css" rel = "stylesheet"/>
+    <!-- jQuery -->
+    <script crossorigin = "anonymous" src = "https://kit.fontawesome.com/10b89606ac.js"></script>
+    <script src = "https://developers.kakao.com/sdk/js/kakao.js"></script>
 
- 
-    	<script type="text/javascript">
-    	$( function() {
-			
- 			
-	 			$("#loginButton").on("click" , function() {
-					var id=$("#id").val();
-					var pw=$("#password").val();
-					
-					if(id == null || id.length <1) {
-						alert('ID 를 입력하지 않으셨습니다.');
-						$("#userId").focus();
-						return;
-					}
-					
-					if(pw == null || pw.length <1) {
-						alert('패스워드를 입력하지 않으셨습니다.');
-						$("#password").focus();
-						return;
-					}
-				
- 				
-				$.ajax({
-					url:"/user/json/login", //주소
-					type:"POST", //전송타입
-					data: $("#form").serialize(), //봬는 데이터
-					dataType:"JSON", // 응답 받을 데이터
-					success:function(data){
-						console.log("로그인 결과는 "+data) ;
-						if(data =="1"){
-							 location.href="/"
-							 
-						}else if( data == "0"){
-								alert("아이디 비밀번호를 확인해 주세요 ");
-							
-						}else if (data =="withdraw"){
-							 alert("로그인 할 수 없는 회원입니다. ");
 
-						}
-						
-					},
-					//요청 실패시 나오는 
-					   error : function (jqXHR, textStatus, errorThrown){
-	                   console.log(jqXHR);  //응답 메시지
-	                   console.log(textStatus); //"error"로 고정인듯함
-	                   console.log(errorThrown);
-	                  }
-					
-					
-				});
-				
-					
-				//	$("form").attr("method","POST").attr("action","/user/login").submit();
-				
-				
-				
-				
-				
-				
-				});
-				
-				
-				
-				 
-				
-				
-			
-		});	
-    	
-    		function addUser(){
- 					self.location="/user/addUser";
-	
-			}
-			
-    		function findId(){
-				alert("아직구현중");
-					self.location="/user/findId";
-	
-			}			
-			
-    		function findPassword(){
-				alert("아직구현중");
-					self.location="/user/findPassword";
-	
-			}				
-    	</script>
-    <style>
-	  .wrapper {
-               display: grid;
-  place-items: center;
+    <script type = "text/javascript">
+        $(function () {
+
+
+            $("#loginButton").on("click", function () {
+                var id = $("#id").val();
+                var pw = $("#password").val();
+
+                if (id == null || id.length < 1) {
+                    alert('ID 를 입력하지 않으셨습니다.');
+                    $("#userId").focus();
+                    return;
+                }
+
+                if (pw == null || pw.length < 1) {
+                    alert('패스워드를 입력하지 않으셨습니다.');
+                    $("#password").focus();
+                    return;
+                }
+
+
+                $.ajax({
+                    url: "/user/json/login", //주소
+                    type: "POST", //전송타입
+                    data: $("#form").serialize(), //봬는 데이터
+                    dataType: "JSON", // 응답 받을 데이터
+                    success: function (data) {
+                        console.log("로그인 결과는 " + data);
+                        if (data == "1") {
+                            location.href = "/"
+
+                        } else if (data == "0") {
+                            alert("아이디 비밀번호를 확인해 주세요 ");
+
+                        } else if (data == "withdraw") {
+                            alert("로그인 할 수 없는 회원입니다. ");
+
+                        }
+
+                    },
+                    //요청 실패시 나오는
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR);  //응답 메시지
+                        console.log(textStatus); //"error"로 고정인듯함
+                        console.log(errorThrown);
+                    }
+
+
+                });
+
+
+                //	$("form").attr("method","POST").attr("action","/user/login").submit();
+
+
+            });
+
+
+        });
+
+        function addUser() {
+            self.location = "/user/addUser";
+
         }
-        
-        
-        
-        
-        
-        
-        
-        
 
-/* BASIC */
- /*
-html {
-  background-color: #56baed;
-}
- #cccccc;
- */
-  
-        
-        
+        function findId() {
+            alert("아직구현중");
+            self.location = "/user/findId";
+
+        }
+
+        function findPassword() {
+            alert("아직구현중");
+            self.location = "/user/findPassword";
+
+        }
+    </script>
+    <style>
+        .wrapper {
+            display: grid;
+            place-items: center;
+        }
+
+
+        /* BASIC */
+        /*
+       html {
+         background-color: #56baed;
+       }
+        #cccccc;
+        */
+
+
     </style>
     <!-- 길이는 스타일 건들이 -->
 </head>
 
 <div>
- <article layout:fragment = "content">
-<div class="wrapper">
- 
- 
- <section class="py-5" id="features" >
-     
-                
-   <div class="wrapper fadeInDown">
-  <div id="formContent">
-    <!-- Tabs Titles -->
-    <h2 class="active"> Sign In </h2>
-   <!-- <h2 class="inactive underlineHover">Sign Up </h2> -->
-
-    <!-- Icon -->
-    <div class="fadeIn first">
-     </div>
-
-    <!-- Login Form -->
-    <form id="form" onsubmit="return false">
-    
-        <div>
-						
-	 	 
-    
-      <input type="text" id="id" class="fadeIn second" name="id" placeholder="login">
-      <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
-      <input type="submit" id="loginButton" class="fadeIn fourth " value="Log In"  style="margin-bottom: 5px";>
-      <!--  라이브 오빠들 카카오 로그인 할때는 밑에서 다른 사람은 밑에 꺼 -->
-<!--      <a class="p-2" th:href="@{https://kauth.kakao.com/oauth/authorize?client_id=f0b36852932e865ae00c9ff2fcd19874&redirect_uri=https://fait-main.kro.kr:8080/user/kakaoLogin&response_type=code}"> -->
-	      <a class="p-2" th:href="@{https://kauth.kakao.com/oauth/authorize?client_id=f0b36852932e865ae00c9ff2fcd19874&redirect_uri=http://localhost:8080/user/kakaoLogin&response_type=code}">
-			
-	 <img src="/img/kakao_login_medium_narrow.png" style="height:50px">
-												<!--  	 <img src="/img/kakao_login_medium_narrow.png" style="height:60px"> -->
-	 </a>
-		                                    
-	                                
-		
-    </form>
+    <article layout:fragment = "content">
+        <div class = "wrapper">
 
 
-    <!-- Remind Passowrd -->
-    <div id="formFooter">
-     <a class="underlineHover bi-check" onclick="addUser()">sign up</a> &nbsp;
-      <a class="underlineHover" onclick="findId()">Forgot Password?</a> &nbsp;
-      <a class="underlineHover" onclick="findId()">Forgot id?</a>
+            <section class = "py-5" id = "features">
 
-                
 
-    </div>
+                <div class = "wrapper fadeInDown">
+                    <div id = "formContent">
+                        <!-- Tabs Titles -->
+                        <h2 class = "active"> Sign In </h2>
+                        <!-- <h2 class="inactive underlineHover">Sign Up </h2> -->
 
-  </div>
-</div>             
-                
-                
-                
-                
-                
+                        <!-- Icon -->
+                        <div class = "fadeIn first">
+                        </div>
+
+                        <!-- Login Form -->
+                        <form id = "form" onsubmit = "return false">
+
+                            <div>
+
+
+                                <input class = "fadeIn second" id = "id" name = "id" placeholder = "login" type = "text">
+                                <input class = "fadeIn third" id = "password" name = "password" placeholder = "password" type = "password">
+                                <input ; class = "fadeIn fourth " id = "loginButton" style = "margin-bottom: 5px" type = "submit" value = "Log In">
+                                <!--  라이브 오빠들 카카오 로그인 할때는 밑에서 다른 사람은 밑에 꺼 -->
+                                <!--      <a class="p-2" th:href="@{https://kauth.kakao.com/oauth/authorize?client_id=f0b36852932e865ae00c9ff2fcd19874&redirect_uri=https://fait-main.kro.kr:8080/user/kakaoLogin&response_type=code}"> -->
+                                <a class = "p-2"
+                                   th:href = "@{https://kauth.kakao.com/oauth/authorize?client_id=f0b36852932e865ae00c9ff2fcd19874&redirect_uri=http://localhost:8080/user/kakaoLogin&response_type=code}">
+
+                                    <img src = "/img/kakao_login_medium_narrow.png" style = "height:50px">
+                                    <!--  	 <img src="/img/kakao_login_medium_narrow.png" style="height:60px"> -->
+                                </a>
+
+
+                        </form>
+
+
+                        <!-- Remind Passowrd -->
+                        <div id = "formFooter">
+                            <a class = "underlineHover bi-check" onclick = "addUser()">sign up</a> &nbsp;
+                            <a class = "underlineHover" onclick = "findId()">Forgot Password?</a> &nbsp;
+                            <a class = "underlineHover" onclick = "findId()">Forgot id?</a>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+
             </section>
-</div>
+        </div>
 
 
-  
+    </article>
 
- </article>
+    </body>
 
- </body>
- 
 </html>
