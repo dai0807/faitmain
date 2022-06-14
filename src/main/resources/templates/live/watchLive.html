@@ -160,6 +160,7 @@
     
     <input th:if="${session.user != null}" type="hidden" id="userNickname" th:value="${session.user.nickname}">
     <input type="hidden" id="channelKey" th:value="${live.roomId}">
+    <input type="hidden" id="storeId" th:value="${live.storeId}">
        
       <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
    	  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
@@ -199,19 +200,21 @@
  // 채널에 접속하기 위해서 사용자의 userNick, userKey와 CMS에서 발급받은 channelKey가 필요합니다.
 
   	var channelKey = $('#channelKey').val(); // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
-
+	var storeId = $('#storeId').val();
 
   	function videoInit() {
 
   	  // 로컬 접속 시
   	  channel.on("rtcRemoteStreamAppend", function (event) {
   	     	
+  		  if(event.clientKey == storeId){
   	     	remoteVideo = document.createElement("video");
   		    let stream = event.target;
   		    remoteVideo.srcObject = stream;
   		    remoteVideo.setAttribute("autoplay", true);
   		    remoteCam.append(remoteVideo);
   		    channel.setRTCRemoteMedia(remoteVideo);
+  		  }
   	  });
   	}
 
@@ -237,7 +240,7 @@
   	  	remoteCam.attr('name', 'remote_cam');
   	  	
   	    $('div.bottom div.name').text(userNick);
-  	    joinRoom(channelKey,  userKey, ((userNick == null)? userKey : userNick), function(err, history){
+  	    joinRoom(channelKey,  userKey, ((userNick == null || userNick == "")? userKey : userNick), function(err, history){
   	    		if(err){
   	    			openError(err.code, function(){
   	    				c.hide();

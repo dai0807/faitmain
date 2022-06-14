@@ -160,6 +160,16 @@
       </where>
    </select>
    
+   <!-- GEt CurrnetLiveReservation -->
+   <select id="getCurrentLiveReservation" parameterType="LiveReservation" resultMap="liveReservationMap">
+   		SELECT * FROM live_reservation
+   		<where>
+   			reservation_date = #{reservationDate}
+   			AND reservation_time = #{reservationTime}
+   		</where>
+   </select>
+   
+   
    <!-- GET LiveReservation 
     <select id="">
        SELECT * FROM live_reservation
