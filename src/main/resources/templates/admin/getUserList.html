@@ -33,6 +33,14 @@
 
     <div class="container">
         <h2>게시글 목록</h2>
+        
+        <div>
+               <a class = "fw-bolder btn btn-success col-md-1"  id = ""  th:href="@{/user/getUserlist}"> 전체</a> 
+                <a class = "fw-bolder btn btn-success col-md-1"  id = "" th:href="@{/user/getUserlist(searchCondition=user)}"> 유저</a> 
+               <a class = "fw-bolder btn btn-success col-md-1"  id = "" th:href="@{/user/getUserlist(searchCondition=store)}" > 스토어</a> 
+ 
+        </div>
+        
         <table class="board_list">
             <colgroup>
                 <col width="15%"/>
@@ -42,8 +50,7 @@
             </colgroup>
             <thead>
                 <tr>
-                    <th scope="col">no</th>
-                    <th scope="col">아이디</th>
+                     <th scope="col">아이디</th>
                     <th scope="col">이름</th>
                     <th scope="col">role</th>
                     <th scope="col">가입일</th>
@@ -63,6 +70,18 @@
                 </tr>
             </tbody>
             -->
+            
+            <tr th:each="user:${userList}">
+            		<td ><a th:text="${user.id}" th:href="@{/user/getUser(id=${user.id})}"> ..</a> </td>
+             		<td th:text="${user.name}"></td>
+             		<td th:text="${user.role}"></td>
+            		<td th:text="${user.regDate}"></td>
+
+            
+            
+            </tr>
+            
+            
         </table>
      </div>
 

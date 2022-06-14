@@ -52,6 +52,9 @@ public interface UserMapper {
 	//SELECT USER 리스트 조회
 	 List<User> getUserList(Map<String, Object> map ) ;	
 	 
+	 List<User> getlist(Map<String, Object> map ) ;	
+
+	 
 	 //SELECT 스토어 신청서 total Count
 	 int getStoreApplicationDocumenTotalCount(Map<String,Object> map) ;
 	
