@@ -35,18 +35,12 @@ import java.util.UUID;
 @Transactional
 public class UserServiceImpl implements UserSerivce{
 
-	@Value("${upload-path}")  
-	// application.properties  파일올라가는 경로 , 
+	@Value("${upload-path}")
+	// application.properties  파일올라가는 경로 ,
 	private String fileStorageLocation;
-	
-	
+
     @Autowired
     private UserMapper userMapper;
-
-
-
-
-
 
     /* ********************************************** */
 
@@ -67,21 +61,21 @@ public class UserServiceImpl implements UserSerivce{
         return userMapper.addUser( user );
     }
 	public int addStore( User user ,  MultipartHttpServletRequest mRequest) throws Exception{
-		
+
 		MultipartFile storeLogo =mRequest.getFile("LogoImage");
-		log.info("addStore fileStorageLocation ={}" ,  fileStorageLocation );		
-		
+		log.info("addStore fileStorageLocation ={}" ,  fileStorageLocation );
+
 		if(!storeLogo.isEmpty()) {
-			log.info("addStore  로고사진 " );		
+			log.info("addStore  로고사진 " );
 				String storeLogoFileName = addFile(storeLogo) ;
 				log.info(":::storeLogoFileName ={}", storeLogoFileName);
 				user.setStoreLogoImage(storeLogoFileName);
 		}
-		log.info("addStore  {} " , user );		
-		
-		
+		log.info("addStore  {} " , user );
+
+
 		return userMapper.addUser(user);
-		
+
 	}
 
 
@@ -189,35 +183,35 @@ public class UserServiceImpl implements UserSerivce{
     //유저 UPDATE - 유저 상태 update
 
     public int updateUser( User user,  MultipartHttpServletRequest mRequest ) throws Exception{
-    	
+
 		MultipartFile storeLogo =mRequest.getFile("LogoImage");
-		log.info("addStore fileStorageLocation ={}" ,  fileStorageLocation );		
-		
+		log.info("addStore fileStorageLocation ={}" ,  fileStorageLocation );
+
 		if(!storeLogo.isEmpty()) {
-			log.info("addStore  로고사진 " );		
+			log.info("addStore  로고사진 " );
 				String storeLogoFileName = addFile(storeLogo) ;
 				log.info(":::storeLogoFileName ={}", storeLogoFileName);
 				user.setStoreLogoImage(storeLogoFileName);
 		}
-		log.info("addStore  {} " , user );		
-		
-    	
-    	
+		log.info("addStore  {} " , user );
+
+
+
         return userMapper.updateUser( user );
     }
 
-    
+
 	public int updateUser( User user  ) throws Exception{
-		log.info("update Use={} ",  user );		
+		log.info("update Use={} ",  user );
 
 		  return userMapper.updateUser( user );
-		
+
 	}
 
-    
-    
-    
-    
+
+
+
+
 
     //패스워드 재설정
     public int updateUserPassword( User user ) throws Exception{
@@ -307,25 +301,25 @@ public class UserServiceImpl implements UserSerivce{
 
     }
 	public String addFile(MultipartFile file) throws Exception {
-		
-	// SimpleDateFormat 형식 지정  
-		//System.currentTimeMillis() 사용해서 현재 시간 출력 
+
+	// SimpleDateFormat 형식 지정
+		//System.currentTimeMillis() 사용해서 현재 시간 출력
 		SimpleDateFormat time = new SimpleDateFormat ( "yyyyMMddHHmmss");
 		String timeStamp = time.format (System.currentTimeMillis()) ;
- 
+
 		String originalFileName = file.getOriginalFilename() ;// 원래 파일명
-		String extension = originalFileName.substring(originalFileName.lastIndexOf(".")) ; 
-		// 확장자  가져오기  원래 파일 이름 에서 뒤 . 기분으로 잘라서 확장자 리턴 
-		
+		String extension = originalFileName.substring(originalFileName.lastIndexOf(".")) ;
+		// 확장자  가져오기  원래 파일 이름 에서 뒤 . 기분으로 잘라서 확장자 리턴
+
 		String fileName = timeStamp + UUID.randomUUID()+ extension;
 		//   String safeFile = fileStorageLocation + fileName;
 		  // file.transferTo(new File(safeFile));
-	 
+
             // inputStream을 가져와서
             // targetLocation (저장위치)로 파일을 쓴다.
             // copy의 옵션은 기존에 존재하면 REPLACE(대체한다), 오버라이딩 한다
-     
-		
+
+
 		// Path 는 지경지정
 		// toAbsolutePath 메서드는 상대 경로를 절대 경로로 변경
 		// resolve는 고정 경로에 지정 경로를 추가
@@ -333,16 +327,16 @@ public class UserServiceImpl implements UserSerivce{
 		System.out.println("targetLocation : " + targetLocation);
 		Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 		// file.getInputStream()  에 있는 것을 복사
-		
+
         ///    File destination = new File(fileStorageLocation + File.separator + fileName );
-        //    file.transferTo(destination); // 사진을 메모리에 저장 함 
-           
+        //    file.transferTo(destination); // 사진을 메모리에 저장 함
+
  		log.info("full 파일 이름 = {}" ,fileName);
-		
-		
+
+
 		return fileName ;
 	}
 
-    
+
 
 }

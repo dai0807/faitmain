@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS image CASCADE;
 CREATE TABLE `user` (
                     `user_number`        INTEGER      NOT NULL AUTO_INCREMENT ,
                     `id`                 VARCHAR(25)  NOT NULL ,
-                    `password`           VARCHAR(15)  NOT NULL ,
+                    `password`           VARCHAR(100)  NOT NULL ,
                     `gender`             CHAR(4)      NULL ,
                     `user_address1`      VARCHAR(100) NOT NULL ,
                     `user_address2`      VARCHAR(100) NOT NULL ,

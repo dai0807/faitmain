@@ -115,7 +115,7 @@ public class UserRestController{
 		   log.info("받은 유저 user 출력  :: {}" , loginuser);
 		   
  		   String result = "";
- 		  result = userSerivce.getLogin(loginuser)+"" ; // id/ pw 값 있으면 1 없으면 0 ,,
+ 		   result = userSerivce.getLogin(loginuser)+"" ; // id/ pw 값 있으면 1 없으면 0 ,,
 		   log.info("받은 유저 result 출력  :: {}" , result);
  
  		   if(result.equals("1")) { //1 이면 로그인 된거임 
@@ -132,7 +132,7 @@ public class UserRestController{
  			   
  			   
  			   log.info("{}의 로그인이 완료 되었습니다  " , user.getId());
- 			   session.setAttribute("user", user) ; // user 정보 u로그인 
+ 			   session.setAttribute("user", user) ; // user 정보 로그인
  		   }else {
  			   log.info("로그인 실패");
  			   
