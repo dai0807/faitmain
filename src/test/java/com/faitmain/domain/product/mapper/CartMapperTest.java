@@ -36,6 +36,7 @@ public class CartMapperTest {
 		Cart cart = new Cart();
 		
 		Product product = productMapper.getProduct(10016);
+
 		
 		System.out.println("addCartTest end");
 	}

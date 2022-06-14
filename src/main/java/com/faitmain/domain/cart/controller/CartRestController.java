@@ -28,11 +28,7 @@ public class CartRestController {
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
 	
-		
-	public CartRestController() {
-		log.info("Controller = {} ", CartRestController.class);
-	}
-	
+
 
 
 	

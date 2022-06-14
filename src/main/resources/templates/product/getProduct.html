@@ -94,8 +94,12 @@
                 if ($("#totalPrice").text() == '0') {
                     alert("옵션을 선택해주세요");
                 }
-                let bookCount = $(".quantity_input").val();
-                $("#getProductForm").find("input[name='orderbundle[0].productCartCount']").val(productCartCount);
+
+                // let productCartCount = $(".quantity_input").val();
+                // $("#getProductForm").find("input[name='orderPageProductList[0].productOrderCount']").val(productCartCount);
+                // $("#getProductForm").submit();
+                //세션에 있는거 buyerId
+                //$("#getProductForm").attr("action", "/order/{buyerId}");
                 $("#getProductForm").submit();
             });
 
@@ -107,7 +111,7 @@
 
 <article class = "py-5" layout:fragment = "content">
     <div class = "container">
-        <form id = "getProductForm" method = "post" th:object = "${product}">
+        <form id = "getProductForm" method = "post" th:object = "${product}" th:action="@{/order/{buyerId}(buyerId=${session.user.id})}">
 
             <div class = "row">
                 <div class = "col-md-12">
@@ -153,18 +157,22 @@
                             </div>
                             <!-- 단일 상품(옵션 없는 상품) 정보 -->
                             <th:block th:if = "${#lists.size(product.productOptions) <= 0}">
-                                <input id = "" name = "orderPageBundle[0].productNumber" th:value = "*{productNumber}"
+
+                                <input id = "" name = "orderPageProductList[0].productNumber" th:value = "*{productNumber}"
                                        type = "hidden"/>
-                                <input id = "" name = "orderPageBundle[0].productName" th:value = "*{productName}"
+                                <input id = "" name = "orderPageProductList[0].productName" th:value = "*{productName}"
                                        type = "hidden"/>
-                                <input name = "orderPageBundle[0].productMainImage" th:value = "*{productMainImage}"
+                                <input name = "orderPageProductList[0].productMainImage" th:value = "*{productMainImage}"
+
                                        type = "hidden"/>
                                 <div id = "productQuantityArea">
                                     <div>
 											<span>
 												<button class = "minus_btn" type = "button">-</button>
 											</span>
-                                        <input class = "quantity_input" name = "orderPageBundle[0].producOrderCount" readonly = "readonly" type = "text"
+
+                                        <input class = "quantity_input" name = "orderPageProductList[0].producOrderCount" readonly = "readonly" type = "text"
+
                                                value = "1">
                                         <span>
 												<button class = "plus_btn" type = "button">+</button>
@@ -207,6 +215,9 @@
                                     <button class = "btn btn-primary btn-block" id = "addOrder" type = "button">
                                         구매하기
                                     </button>
+                                    <th:block th:if = "${session.user != null}">
+                                        <a class = "link-light small" th:href = "@{/order/${buyerId}(buyerId=${session.user.id})}">구매</a>
+                                    </th:block>
                                 </div>
                             </div>
                         </div>
@@ -246,13 +257,15 @@
                             "<div>"
                             + "<span class='selectName'>" + productName + "</span>"
                             + "<button type='button' class='optionQuantity_minus_btn'>-</button>"
-                            + "<input type='text' class='quantity_input' style='width:100px;' value='1' readonly name='orderPageBundle[" + optionIndex + "].producOrderCount' />"
+
+                            + "<input type='text' class='quantity_input' style='width:100px;' value='1' readonly name='orderPageProductList[" + optionIndex + "].productOrderCount' />"
                             + "<button type='button' class='optionQuantity_plus_btn'>+</button>"
                             + "<button type='button' style='float:right;' id='optionDelBtn' class='btn-btn dark'>" + "삭제" + "</button>"
-                            + "<input type='hidden' value='" + productNumber + "' name='orderPageBundle[" + optionIndex + "].productNumber' />"
-                            + "<input type='hidden' value='" + productName + "' name='orderPageBundle[" + optionIndex + "].productName'/>"
-                            + "<input type='hidden' value='" + productPrice + "' name='orderPageBundle[" + optionIndex + "].productPrice'/>"
-                            + "<input type='hidden' value='" + productMainImage + "' name='orderPageBundle[" + optionIndex + "].productMainImage'/>"
+                            + "<input type='hidden' value='" + productNumber + "' name='orderPageProductList[" + optionIndex + "].productNumber' />"
+                            + "<input type='hidden' value='" + productName + "' name='orderPageProductList[" + optionIndex + "].productName'/>"
+                            + "<input type='hidden' value='" + productPrice + "' name='orderPageProductList[" + optionIndex + "].productPrice'/>"
+                            + "<input type='hidden' value='" + productMainImage + "' name='orderPageProductList[" + optionIndex + "].productMainImage'/>"
+
                             + "<input type='hidden' value='" + optionQuantity + "' class='optionQuantity' />"
                             + "</div>"
                         );
@@ -321,8 +334,7 @@
                     <div class = "tab-content">
                         <div class = "tab-pane active" id = "panel-32556">
                             <div class = "row">
-                                <div class = "col-md-4" th:each = "extraImg : ${product.productExtraImage}"
-                                     th:if = "${#lists.size(product.productExtraImage) > 0}">
+                                <div class = "col-md-4" th:each = "extraImg : ${product.productExtraImage}" th:if = "${#lists.size(product.productExtraImage) > 0}">
                                     <img class = "img-thumbnail" height = "auto"
                                          th:src = "|../img/upload/${ extraImg.imageName }|" width = "20%"/>
                                 </div>

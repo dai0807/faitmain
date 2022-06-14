@@ -1,13 +1,13 @@
 // 채널에 접속하기 위해서 사용자의 userNick, userKey와 CMS에서 발급받은 channelKey가 필요합니다.
 
 
+
 //해당하는 채팅방의 채널키 가져오기 .22-06-12.
 //let query = window.location.search;
 //let param = new URLSearchParams(query);
 //let roomId = param.get('roomId');
 
 var channelKey = "PaMxkbiFMY-a9vKJcy17y-20220610185606"; // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
-
 
 
 function videoInit() {

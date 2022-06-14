@@ -35,10 +35,7 @@ public class ProductController {
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
 
-	public ProductController() {
-		log.info("Controller = {} ", ProductController.class);
-	}
-	
+
 	@GetMapping("addProduct")
 	public String addProduct() throws Exception{		
 		

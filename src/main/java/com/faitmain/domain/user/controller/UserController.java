@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -28,6 +27,7 @@ import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.ApiService;
 import com.faitmain.domain.user.service.UserSerivce;
 
+
 import com.faitmain.global.common.MiniProjectPage;
 import com.faitmain.global.common.Search;
 
@@ -36,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
+
 
 @RequestMapping( "/user/*" )
 public class UserController{
@@ -456,7 +457,6 @@ public class UserController{
 				
  				model.addAttribute("user", user);
 
-
 			// return "view/user/kakaoAdd"; // 추가 kakao로그인 화면
 
 			// return new RedirectView("/view/user/kakaoAdd");
@@ -615,6 +615,7 @@ public class UserController{
 	// //id가 있으면 list에서 온거 , 아니면 내 정보 조회에서 온 것
 //getUser 유저 상세 
 
+
 		@GetMapping("getUser")
 		   public String getUser( Model model , @RequestParam(value = "id" , required=false ) String id 
 				   , HttpSession session   , HttpServletRequest request ) throws Exception {
@@ -699,5 +700,4 @@ public class UserController{
 		   }
 		
 		
-		   	
 }

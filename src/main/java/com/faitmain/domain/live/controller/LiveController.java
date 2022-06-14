@@ -60,9 +60,6 @@ public class LiveController {
 	@Qualifier("userServiceImpl")
 	private UserSerivce userSerivce;
 
-	public LiveController() {
-		log.info("Controller = {} ", this.getClass());
-	}
 
 	@GetMapping("liveRoom")
 	public String getLiveRoomList(Model model) throws Exception {
@@ -324,6 +321,7 @@ public class LiveController {
 				.getLiveProductListByLiveNumber(liveService.getLiveByStoreId(user.getId()).getLiveNumber());
 		model.addAttribute("listProduct", list);
 
+
 		String roomId = liveService.getLiveByStoreId(user.getId()).getRoomId();
 
 		log.info("채널키 파라미터 체크 {} : ", roomId);
@@ -337,7 +335,9 @@ public class LiveController {
 	}
 
 	// 방송 정보 수정
+
 	public String editRoom(HttpServletRequest req, String liveTitle, HttpSession session, String token, Model model)
+
 			throws Exception {
 
 		log.info("editRoom = {} ", this.getClass());
@@ -454,6 +454,7 @@ public class LiveController {
 		} else {
 			System.out.println("오류남");
 		}
+
 
 		String roomId = liveService.getLiveByStoreId(user.getId()).getRoomId();
 
@@ -648,8 +649,10 @@ public class LiveController {
 			}
 		} };
 
+
 		SSLContext sc = SSLContext.getInstance("TLSv1.2");
 		sc.init(null, trustCerts, new java.security.SecureRandom());
+
 
 		URL url = new URL("https://vchatcloud.com/openapi/v1/rooms/" + live.getRoomId());
 
@@ -679,6 +682,8 @@ public class LiveController {
 
 		liveService.updateLive(live);
 
+
 		return new RedirectView("/");
+
 	}
 }

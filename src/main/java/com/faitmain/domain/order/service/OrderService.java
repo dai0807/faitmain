@@ -8,11 +8,12 @@ import com.faitmain.global.common.Criterion;
 
 import java.util.List;
 
+
 public interface OrderService{
 
 
     /* 주문자 주소 정보 */
-    User getBuyer( String id );
+    User getBuyer( String buyerId );
 
     /* 주문 정보 */
     /* 주문 페이지로 전송할 상품 정보 메소드 */

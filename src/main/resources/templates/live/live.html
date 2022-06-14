@@ -25,6 +25,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
 
     <script src="/js/vchatcloud-1.2.0.min.js"></script>
+
     <script src="/js/like.js"></script>
     <script src="/js/draw.js"></script>
 
@@ -101,7 +102,8 @@
                     <div class="my_cam" style="height : 675px"></div>
                     
                     <div class="remote_cam"></div>
-               
+
+
                 <div class="errorpopup">
                     <p><i class="fas fa-exclamation-circle"></i></p>
                     <p>시스템이 원활하지 않아 오류가 발생하였습니다. 잠시 후, 다시 참여해 주시기 바랍니다.</p>
@@ -172,6 +174,7 @@
             </li>
           </ul>
         </div>
+
        
 		<input type="hidden" id="storeName" th:value="${session.user.storeName}" />   
 		<input type="hidden" id="channelKey" th:value="${channelKey}">   
@@ -210,6 +213,7 @@
 <script th:inline="javascript">
 //채널에 접속하기 위해서 사용자의 userNick, userKey와 CMS에서 발급받은 channelKey가 필요합니다.
 
+
 var channelKey = $('#channelKey').val(); // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
 
 
@@ -247,7 +251,7 @@ window.addEventListener("load", function () {
   
   	myCam = $('.my_cam');
   	myCam.attr('name', 'my_cam');
-  	
+
     $('div.bottom div.name').text(userNick);
     joinRoom(channelKey,  'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }), userNick, function(err, history){
     	if(err){
@@ -287,7 +291,9 @@ window.addEventListener("load", function () {
 function joinRoom(roomId, clientKey, nickName, callback) {
   // vchatcloud 객체
   console.log("clientKey : " + clientKey);
+
   console.log("roomId = " + roomId);
+
   channel = vChatCloud.joinChannel(
     {
       roomId: roomId,
@@ -419,9 +425,9 @@ function exit() {
     $(".cam-footer .cam-btn .cam").off("click.rtc");
     vChatCloud.disconnect();
     channel = undefined;
-    
+
     self.location="/live/liveStatusUpdate";
-    
+
   } else {
     // 로그인 되지 않았음!
   }
