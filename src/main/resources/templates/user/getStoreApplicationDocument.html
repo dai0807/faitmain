@@ -21,6 +21,49 @@
 		form-horizontal{font-family: 'Nanum Gothic Coding', monospace;}
 		 
     </style>
+
+ <script type = "text/javascript">
+
+
+/*
+function showValue(target){
+ console.log(target.value);	
+ let examinationStatus = target.value ;
+}
+*/
+ 
+   $(function () {
+	$("#button").on("click",function(){
+		
+	
+                         alert("버튼울림 :: ") ;
+
+   var formData = $("#form").serialize() ;
+  alert(formData) ;
+		$.ajax({
+			 url: "/user/json/updateStoreApplicationDocument" ,
+			 type: 'POST',
+			 data: formData , 
+		//	 dataType : 'json',
+
+                        success: function (data) { //컨트롤러에서 넘어온 cnt값을 받는다
+                        
+                        alert("결과 :: " + data) ;
+                        } 
+           
+			
+		}) //ajax 괄호
+			
+			
+		 
+		
+ 
+	}) ;
+	
+} );	
+
+
+</script>
     
 </head>
 
@@ -30,6 +73,10 @@
 	<h2> 스토어 신청서 </h2>
 	
 	<div class="form-group">
+	
+		  	 <form id="form">    			    
+	<input type="hidden"  th:id="storeApplicationDocumentNumber" th:name="storeApplicationDocumentNumber"    th:value="${StoreApplicationDocument.storeApplicationDocumentNumber}"  >
+
 		    <h5 class="fw-bolder"> 아이디</h5>
 			    <div >
 			    <input type="text" class="form-control" th:id="id" th:name="id"  th:value="${StoreApplicationDocument.id}"  readonly>  
@@ -50,20 +97,64 @@
 			    
 			    <div >
 			   	<h5 class="fw-bolder"> 스토어 심사 상태 </h5>
+			  <input th:if="${StoreApplicationDocument.examinationStatus =='W'}"  type="text" class="form-control"  value="대기"  disabled>  
+			  <input th:if="${StoreApplicationDocument.examinationStatus =='A'}"  type="text" class="form-control"  value="승인"  disabled>  
+			  <input th:if="${StoreApplicationDocument.examinationStatus =='R'}"  type="text" class="form-control"  value="반려"  disabled>  
 
-			   <input type="text" class="form-control" th:id="examinationStatus" th:name="examinationStatus"  th:value="${StoreApplicationDocument.examinationStatus}"  readonly>  
-	 
+ 	 
 			    </div>			    
 		    <div >
 			   	<h5 class="fw-bolder"> 제품소개 및 심사 사진  </h5>
 
 	 				<span th:utext=${StoreApplicationDocument.productDetial}></span>
-			    </div>			    
-			    			    
+			    </div>			  
+			  
+			  
+			  <div th:if="${session.user.role == 'admin'}">
+				  <div th:if="${StoreApplicationDocument.examinationStatus =='W'}" >
+
+ 				 <br><br>  <hr>
+			    
+			     	<h5 class="fw-bolder"> 심사  </h5>
+ 
+			     
+						<select   th:id="examinationStatus"    name="examinationStatus" >
+						  <option value="W" selected="selected">대기</option>
+						  <option value="A">승인</option>
+						  <option value="R" >반려</option>
+						</select>
+                            <span class = "fw-bolder btn btn-success col-md-2" id = "button"> 심사하기</span> 
+
+				
+		
+    		  <div>
+					   
+				  <span th:if="${StoreApplicationDocument.examinationStatus !='W'}" > 이미 심사된 스토어 신청서입니다.    </span>
+                    </div>
+    		
+    		</form>	
+    		
+			    
+                    
+			    </div>
+			    
+			    
+			    
+			    
+			    
+			    			    <hr>
+				<a href="javascript:history.back()" class="btn btn-secondary btn-xs" role="button">확인</a> <br><br>
+
+				  <a th:if="${StoreApplicationDocument.examinationStatus =='R'}"  class="btn btn-secondary btn-xs" role="button" th:href="@{../../../user/addStoreApplication}" >  스토어 재심청    <a>
+
+			    
 			    
 	</div>
 	
-				<a href="javascript:history.back()" class="btn btn-secondary btn-xs" role="button">확인</a>
+	     
+ 	
+	<br><br>
+			    
 
 	
 	</article>

@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-
+import com.faitmain.domain.customer.constant.Method;
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.service.CustomerService;
+import com.faitmain.util.UiUtils;
 
 @Controller
-@RequestMapping("/customer/")
-public class CustomerController{
+@RequestMapping("/*/")
+public class CustomerController extends UiUtils{
 	
 	@Autowired
 	@Qualifier("customerServiceImpl")
@@ -26,7 +26,7 @@ public class CustomerController{
 	
 	@GetMapping("noticeIndex")
 	public String openBoardNoticeIndex(){
-		return "view/customer/noticeIndex";
+		return "customer/noticeIndex";
 	}
 
 	
@@ -35,78 +35,107 @@ public class CustomerController{
 		
 		if(boardNumber == null) {
 			model.addAttribute("customer", new Customer());
+			
 		}else {
 			Customer customer = customerService.getCustomerBoard(boardNumber);
 			if(customer == null) {
-				return "redirect: /customer/listNotice";
+				return "redirect: /list";
 			}
 			model.addAttribute("customer", customer);
 		}
 		
-		return "view/customer/addNotice";
+		return "admin/addNotice";
 	}
 	
 	@PostMapping("registerNotice")
-	public String registerBoard(final Customer customer) throws Exception {
+	public String registerBoard(final Customer params, Model model){
 		System.out.println("AAAAAAAAAAAAAAAAAAAAAA");
-		System.out.println(customer);
-
-			boolean register = customerService.registerCustomerBoard(customer);
-			//System.out.println(customer);
+		System.out.println(params);
+			try {
+				boolean register = customerService.registerCustomerBoard(params);
+				if(register == false) {
+					return showMessageWithRedirect("게시글 등록에 실패하였습니다.", "/customer/list", Method.GET, null, model);
+				}
+			}catch(DataAccessException e) {
+				return showMessageWithRedirect("데이터베이스 처리 과정에 문제가 발생하였습니다.", "/customer/list", Method.GET, null, model);
 			
-			if(register == false) {
+			}catch(Exception e) {
+				return showMessageWithRedirect("시스템에 문제가 발생하였습니다.", "/customer/list", Method.GET, null, model);
+			}
+			
+			return showMessageWithRedirect("게시글 등록이 완료되었습니다.", "/customer/list", Method.GET, null, model);
+			/*if(register == false) {
 				//게시글 "등록실패"
-				System.out.println("등록 실패");
-		}
+				System.out.println("등록 실패");*/
 		
-		return "redirect:/customer/listNotice";
+			//boolean register = customerService.registerCustomerBoard(params);
+			//System.out.println(customer);
+		
+		//return "redirect:/list";
 	}
 	
-	@GetMapping("listNotice")
+	
+
+
+	@GetMapping("list")
 	public String openBoardList(Model model) throws Exception {
 
 		model.addAttribute("boardList", customerService.getCustomerBoardList());
 		
 		System.out.println("테스트" + model);
 		
-		return "view/customer/listNotice";
+		return "customer/list";
 		
 	}
 	
-	@GetMapping("detailNotice")
+	@GetMapping("detail")
 	public String openBoardDetail(@RequestParam(value="boardNumber", required = false) Integer boardNumber, Model model) throws Exception {
 		
 		
 		if(boardNumber == null) {
-			return "redirect:/customer/listNotice";
+			return "redirect:/list";
 		}
 		
 		Customer customer = customerService.getCustomerBoard(boardNumber);
 		
 		if(customer == null || "Y".equals(customer.getDeleteYn())) {
 			
-			return "redirect:/customer/listNotice";
+			return "redirect:/list";
 		}
 		
 		System.out.println(customer);
 		model.addAttribute("customer", customer);
 		
-		return "view/customer/detailNotice";
+		return "customer/detail";
 	}
 	
 	@PostMapping("deleteNotice")
-	public String deleteBoard(@RequestParam(value = "boardNumber", required = false) Integer boardNumber) throws Exception  {
+	public String deleteNotice(@RequestParam(value = "boardNumber", required = false) Integer boardNumber, Model model) {
 		if(boardNumber == null) {
-			return "redirect: /customer/listNotice";
+			return showMessageWithRedirect("올바르지 않은 접근입니다.", "/customer/list", Method.GET, null, model);
+			//return "redirect: /customer/list";
 		}
-		
-		boolean delete = customerService.deleteCustomerBoard(boardNumber);
-		if(delete == false){
-			
+		try {
+			boolean isDeleted = customerService.deleteCustomerBoard(boardNumber);
+			if(isDeleted == false) {
+				return showMessageWithRedirect("게시글 삭제에 실패하였습니다.", "/customer/list", Method.GET, null, model);
+			}
+		}catch(DataAccessException e) {
+			return showMessageWithRedirect("데이터베이스 처리 과정에 문제가 발생하였습니다.", "/customer/list", Method.GET, null, model);
+		}catch(Exception e) {
+			return showMessageWithRedirect("시스템에 문제가 발생하였습니다.", "/customer/list", Method.GET, null, model);
 		}
-		
-		return "redirect:/customer/listNotice";
+		return showMessageWithRedirect("게시글 삭제가 완료되었습니다.", "/customer/list", Method.GET, null, model);
 	}
+	
+		
+//		boolean delete = customerService.deleteCustomerBoard(boardNumber);
+//		if(delete == false){
+//			
+//		}
+//		
+//		return "redirect:/list";
+}
 	
 //	@GetMapping("getCustomerBoard")
 //	public Customer getCustomerBoard() throws Exception{
@@ -154,7 +183,7 @@ public class CustomerController{
 //	
 	
 	
-}
+//}
 	
 //	@PostMapping("updateCustomerBoard")
 //	public String updateCustomerBoard(@ModelAttribute("customer") Customer customer,@RequestParam("file") Multipart file, Model model) throws Exception{

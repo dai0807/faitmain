@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+				layout:decorate = "~{layout/customer_default_layout2}"
+      			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
+<head>	
+	<th:block layout:fragment="title">
+	 <link th:href="@{/css/customer.css}" rel="stylesheet" />
+		<title>Notification</title>
+	</th:block>
+</head>
+
+<body>
+	<th:block layout:fragment="content">
+	<div class="container">
+		<h2>공지사항</h2>
+		
+        <form id="frm" method="post">
+   
+	    	<table class="board_detail">
+				<colgroup>
+					<col width="15%"/>
+					<col width="35%"/>
+					<col width="15%"/>
+					<col width="35%"/>
+				</colgroup>
+				<caption>게시글 상세내용</caption>
+				<tbody>
+					<tr>
+						<th scope="row">글 번호</th>
+						<td th:text="${customer.boardNumber}"></td>
+						<th scope="row">조회수</th>
+						<td th:text="${customer.viewCount}"></td>
+					</tr>
+					<tr>
+						<th scope="row">작성자</th>
+						<td th:text="${customer.customerId.id}"></td>
+						<th scope="row">작성일</th>
+						<td th:text="${#dates.format( customer.boardRegDate, 'yyyy-MM-dd HH:mm:ss' )}"></td>
+					</tr>
+					<tr>
+						<th scope="row">제목</th>
+						<td colspan="3">
+							<input type="text" id="title" name="title" 
+								th:value="${customer.boardTitle }"/>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4" class="view_text">
+							<textarea title="내용" id="contents" name="contents" 
+								th:text="${customer.boardContent }"></textarea>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			 
+            <input type="hidden" name="boardIdx" th:value="${customer.boardNumber}">
+        </form>
+
+        <div class="btn_wrap text-center">
+			<a th:href="@{/customer/list}" class="btn btn-default waves-effect waves-light">목록으로</a>
+			<a th:href="@{/customer/addNotice( boardNumber=${customer.boardNumber} )}" class="btn btn-primary waves-effect waves-light">수정하기</a>
+			<form th:action="@{'/customer/deleteNotice/'}" method="post">
+			<input type="hidden" name="id" th:value="${customer.boardNumber}"/>
+				<button>삭제하기</button>
+			</form>
+		</div>
+
+      
+	</div>
+</body>
+</html> 
