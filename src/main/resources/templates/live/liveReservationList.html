@@ -17,6 +17,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.4/jquery.touchSwipe.min.js"></script>
 	<script th:src="@{/js/liveReservationList.js}"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	
 	<style>
 		
@@ -76,15 +77,15 @@
 								</span>
 							</div>
 						</div>
-						<div  class="col-md-2">
-							<div style="position: absolute; left:50%; top:50%; margin-left: -47px; margin-top: -39px;">
+						<div class="col-md-2" style="text-align: center; display: table-cell; vertical-align: middle">
+							
 								<th:block th:if="${session.user != null}">
 									<th:block th:if="${prodList.store.userNumber} == ${session.user.userNumber}">
-										<button type="button" class="btn btn-outline-info" style="margin-bottom: 8px;">수정 하기</button>
+										<button type="button" class="btn btn-outline-info">수정 하기</button>
 										<button type="button" class="btn btn-outline-danger">삭제 하기</button>
 									</th:block>
 								</th:block>
-							</div>
+						
 						</div>
 					</div>
 					
@@ -116,21 +117,21 @@
 							</div>
 						</div>
 						
-						<div class="col-md-2" style="position: relative;">
-							<div style="position: absolute; left:50%; top:50%; margin-left: -47px; margin-top: -39px;">
-								<th:block th:if="${session.user != null}">
-									<th:block th:if="${prodList.store.userNumber} == ${session.user.userNumber}">
-										<button type="button" class="btn btn-info" style="margin-bottom: 8px;">수정 하기</button>
-										<button type="button" class="btn btn-danger">삭제 하기</button>
-									</th:block>
+						<div class="col-md-2" style="text-align: center; display: table-cell; vertical-align: middle">
+							
+							<th:block th:if="${session.user != null}">
+								<th:block th:if="${prodList.store.userNumber} == ${session.user.userNumber}">
+									<button type="button" class="btn btn-info">수정 하기</button>
+									<button type="button" class="btn btn-danger">삭제 하기</button>
 								</th:block>
-							</div>
+							</th:block>
+							
 						</div>
 					</div>
 					
 				</div>
 				
-				<div>
+				<div style="text-align:center; height : 50px;">
 					<th:block th:if="${session.user != null}">
 						<th:block th:if="${session.user.role} == store">
 							<button type="button" class="btn btn-success">등록 하기</button>
