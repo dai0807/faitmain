@@ -53,14 +53,10 @@ public class OrderServiceImpl implements OrderService{
         for ( OrderPageProduct orderPageProduct : orderPageProductList ) {
             OrderPageProduct opp = orderMapper.selectOrderPageProduct( orderPageProduct.getProductNumber() );
             opp.setProductOrderCount( orderPageProduct.getProductOrderCount() );
-            opp.initSaleTotal();
             opp.setProductMainImage( orderPageProduct.getProductMainImage() );
-//            List<AttachImage> imageList = attachMapper.getAttachList( opp.getProductNumber() );
-//            opp.setImageList( imageList );
-
+            opp.initSaleTotal();
             oppList.add( opp );
         }
-
         return oppList;
     }
 

@@ -42,7 +42,6 @@ public class OrderController{
         log.info( "buyerId = {} " , buyerId );
         log.info( "orderPageProductList = {} " , orderPage.getOrderPageProductList() );
 
-
         model.addAttribute( "orderPageProductList" , orderService.getOrderPageProductList( orderPage.getOrderPageProductList() ) );
         model.addAttribute( "buyer" , orderService.getBuyer( buyerId ) );
 

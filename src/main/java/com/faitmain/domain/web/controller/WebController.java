@@ -37,15 +37,10 @@ public class WebController {
 		map.put("orderName", "product_name DESC");
 		map.put("startRowNum", 1);
 		map.put("endRowNum", 5);
-
 		map = productService.getProductList(map);
-
 		map.put("liveList", liveService.getLiveList().get("liveList"));
-
 		log.info("after getLiveList");
-		
         model.addAttribute("map", map);
-        
         System.out.println(model);
         return "index";
     }
