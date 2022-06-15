@@ -1,4 +1,4 @@
-package com.faitmain.util;
+package com.faitmain.global.util;
 
 import java.util.Map;
 
@@ -10,7 +10,7 @@ import com.faitmain.domain.customer.constant.Method;
 
 @Controller
 public class UiUtils {
-
+//Customer
 	public String showMessageWithRedirect(@RequestParam(value = "message", required = false) String message,
 											@RequestParam(value = "redirectUri", required = false) String redirectUri,
 											@RequestParam(value = "method", required = false) Method method,
@@ -21,6 +21,11 @@ public class UiUtils {
 		model.addAttribute("method", method);
 		model.addAttribute("params", params);
 		
-		return "utils/message-redirect";
+		System.out.println(message);
+		System.out.println(redirectUri);
+		System.out.println(method);
+		System.out.println(params);
+		
+		return "/utils/message-redirect";
 	}
 }
