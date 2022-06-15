@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,7 +62,11 @@ public class UserController{
     @Qualifier( "apiServiceImpl" )
     private ApiService apiServiceImpl;
 
+// 보안을 위한 ^_^ 
+    @Autowired
+    private BCryptPasswordEncoder pwdEncoder;
 
+    
     public UserController(){
         log.info( "Controller = {} " , this.getClass() );
     }
@@ -122,8 +127,75 @@ public class UserController{
 		   
 	      return "/user/login";
 	   }
-	   
-	   
+	    //반드시 바꿀 것 
+	   @PostMapping( "login" )
+	   public String RESTlongin(  User loginuser,  HttpSession session ,Model model) throws Exception {
+	      
+		   log.info("LostController 탔어용 login Page 도착");
+		   log.info("받은 유저 user 출력  :: {}" , loginuser);
+		   
+		   String encPwd = pwdEncoder.encode(loginuser.getPassword());
+		   loginuser.setPassword(encPwd);
+		   log.info("암호화한 user PW :: {}" , loginuser.getPassword());
+		   
+		   
+ 		   String result = "";
+ 		   result = userSerivce.getLogin(loginuser)+"" ; // id/ pw 값 있으면 1 없으면 0 ,,
+		   log.info("받은 유저 result 출력  :: {}" , result);
+ 
+ 		   if(result.equals("1")) { //1 이면 로그인 된거임 
+ 			   User user = userSerivce.getUser(loginuser.getId()) ;   // 로그인 된 사람 정보 가져와서 회월탈퇴 값 있는지 검증 
+ 			   
+			 			  System.out.println("너의 값은 무엇이냐" +user.getWithdrawalStatus()) ;
+				 			   if(user.getWithdrawalStatus() == true) { // true 는 회원 탈퇴
+				 				   result="withdraw" ; //
+				 				   
+				 			      return result;
+				    
+				 			   }
+				 			   
+ 			   
+ 			   
+ 			   log.info("{}의 로그인이 완료 되었습니다  " , user.getId());
+ 			   session.setAttribute("user", user) ; // user 정보 로그인
+ 			   
+ 			   
+ 		        Map<String, Object> map = new HashMap<String, Object>();
+
+ 		        map.put( "orderName" , "product_name DESC" );
+ 		        map.put( "startRowNum" , 1 );
+ 		        map.put( "endRowNum" , 5 );
+
+ 		        map = productService.getProductList( map );
+ 		        log.info( "after getProductList" );
+
+ 		        System.out.println( map );
+
+ 		        map.put( "liveList" , liveService.getLiveList().get( "liveList" ) );
+ 		        System.out.println( map );
+
+ 		        log.info( "after getLiveList" );
+
+ 		        model.addAttribute( "map" , map );
+
+ 		      
+ 		        return "/";
+
+ 			   
+ 			   
+ 		   }else {
+ 			   log.info("로그인 실패");
+ 			   
+ 		   }
+ 		   
+ 		   
+		 
+		   
+ 
+ 		   
+	      return "/user/login";
+	   }
+	      	   
 	   
 	   //userList
 	   @GetMapping("getUserlist")
@@ -242,7 +314,10 @@ public class UserController{
 //        String encPwd = pwdEncoder.encode( user.getPassword() );
 //        user.setPassword( encPwd );
         user.setRole( "user" );
-
+        String encPwd =pwdEncoder.encode(user.getPassword());
+        user.setPassword(encPwd);
+        log.info( "addUser::비밀번호 바꾼후 결과  ::{}" , user );
+    
         int result = userSerivce.addUser( user );
 
         log.info( "restut {}" , result );
