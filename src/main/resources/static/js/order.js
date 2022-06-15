@@ -33,6 +33,11 @@ function payment() {
         // email : "gildong@gmail.com",
         // amount : 1000,
     }
+    console.log("data : " + data.orderNumber);
+    console.log("data : " + data.buyerName);
+    console.log("data : " + data.receiverAddress1);
+    console.log("data : " + data.amount);
+
     paymentCard(data)
 }
 
