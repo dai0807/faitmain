@@ -14,7 +14,7 @@
                      )
         VALUES ( #{buyerId}
                , #{productOrderCount}
-               , #{cartProduct.productNumber}
+               , #{productNumber}
                )
     </insert>
 

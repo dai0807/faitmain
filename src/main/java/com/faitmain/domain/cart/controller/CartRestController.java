@@ -28,20 +28,15 @@ public class CartRestController {
 
 
 	@PostMapping("json/addCart")
-	public Map<String, Boolean> addCart(@RequestBody Cart cart) throws Exception{
+	public Map<String, Integer> addCart(@RequestBody Cart cart) throws Exception{
 
 		log.info("/cart/json/addCart");
+		
+		log.info("cart = {}", cart);
+		
+		int result = cartService.addCart(cart);
 
-		boolean result = false;
-
-		Cart prevCart = cartService.getCart(cart);
-
-		if(prevCart == null) {
-			cartService.addCart(cart);
-			result = true;
-		}
-
-		return Collections.singletonMap("success", result);
+		return Collections.singletonMap("success", new Integer(result));
 	}
 
 
