@@ -37,10 +37,10 @@ function showValue(target){
 	$("#button").on("click",function(){
 		
 	
-                         alert("버튼울림 :: ") ;
+                         //alert("버튼울림 :: ") ;
 
    var formData = $("#form").serialize() ;
-  alert(formData) ;
+ // alert(formData) ;
 		$.ajax({
 			 url: "/user/json/updateStoreApplicationDocument" ,
 			 type: 'POST',
@@ -49,7 +49,26 @@ function showValue(target){
 
                         success: function (data) { //컨트롤러에서 넘어온 cnt값을 받는다
                         
-                        alert("결과 :: " + data) ;
+                      
+                        
+                        	if(data =='W'){
+	
+							}else if (data =='A'){
+								
+								
+								$("#examinationStatus").val("승인")
+								$("#StoreApplicationDocumentinfo").css("display","none"); // 심사 영역 안보이게
+ 
+								
+								
+							}else if(data =='R'){
+							 $("#examinationStatus").val("반려")
+								$("#StoreApplicationDocumentinfo").css("display","none"); // 심사 영역 안보이게
+
+							}
+							
+                          alert("결과 :: " + data) ;
+                        
                         } 
            
 			
@@ -98,9 +117,9 @@ function showValue(target){
 			    
 			    <div >
 			   	<h5 class="fw-bolder"> 스토어 심사 상태 </h5>
-			  <input th:if="${StoreApplicationDocument.examinationStatus =='W'}"  type="text" class="form-control"  value="대기"  disabled>  
-			  <input th:if="${StoreApplicationDocument.examinationStatus =='A'}"  type="text" class="form-control"  value="승인"  disabled>  
-			  <input th:if="${StoreApplicationDocument.examinationStatus =='R'}"  type="text" class="form-control"  value="반려"  disabled>  
+			  <input th:if="${StoreApplicationDocument.examinationStatus =='W'}" id="examinationStatus" type="text" class="form-control"  value="대기"  disabled>  
+			  <input th:if="${StoreApplicationDocument.examinationStatus =='A'}" id="examinationStatus" type="text" class="form-control"  value="승인"  disabled>  
+			  <input th:if="${StoreApplicationDocument.examinationStatus =='R'}"  id="examinationStatus" type="text" class="form-control"  value="반려"  disabled>  
 
  	 
 			    </div>			    
@@ -112,11 +131,11 @@ function showValue(target){
 			  
 			  
 			  <div th:if="${session.user.role == 'admin'}">
-				  <div th:if="${StoreApplicationDocument.examinationStatus =='W'}" >
+				  <div id="StoreApplicationDocumentinfo" th:if="${StoreApplicationDocument.examinationStatus =='W'}" >
 
  				 <br><br>  <hr>
 			    
-			     	<h5 class="fw-bolder"> 심사  </h5>
+			     	<h5 class="fw-bolder" > 심사  </h5>
  
 			     
 						<select   th:id="examinationStatus"    name="examinationStatus" >
@@ -128,9 +147,9 @@ function showValue(target){
 
 				
 		
-    		  <div>
+    		  		<div>
 					   
-				  <span th:if="${StoreApplicationDocument.examinationStatus !='W'}" > 이미 심사된 스토어 신청서입니다.    </span>
+				  <span   th:if="${StoreApplicationDocument.examinationStatus !='W'}" > 이미 심사된 스토어 신청서입니다.    </span>
                     </div>
     		
     		</form>	
