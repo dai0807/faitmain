@@ -273,6 +273,7 @@ public class LiveController {
 
 			if (Code != 1) {
 				log.info("에러 발생! result_cd : {}", Code);
+				
 			} else {
 
 				// 라이브 방송 등록 후 DB에 데이터 입력
@@ -287,6 +288,8 @@ public class LiveController {
 				live.setLiveImage("라이브 대표사진.png");
 
 				liveService.addLive(live);
+				
+				model.addAttribute("Live", live);
 
 				System.out.println("라이브 방송 정보 : "
 						+ liveService.getLive(liveService.getLiveByStoreId(user.getId()).getLiveNumber()));
@@ -313,8 +316,11 @@ public class LiveController {
 					liveService.addLiveProduct(liveProduct);
 				}
 			}
+			
 		} else {
-			log.info("room aready exist");
+
+			log.info("room already exist");
+
 			editRoom(req, liveTitle, session, token, model);
 		}
 		List<LiveProduct> list = liveService
@@ -422,6 +428,8 @@ public class LiveController {
 			live.setLiveStatus(true);
 
 			liveService.updateLive(live);
+			
+			model.addAttribute("Live", live);
 
 			System.out.println(
 					"라이브 방송 정보 : " + liveService.getLive(liveService.getLiveByStoreId(user.getId()).getLiveNumber()));
@@ -459,8 +467,6 @@ public class LiveController {
 		log.info("채널키 파라미터 체크 = {}", roomId);
 
 		model.addAttribute("channelKey", roomId);
-
-		getLiveUserList(req, session, roomId, model, token);
 
 		return "live/live";
 
@@ -560,12 +566,17 @@ public class LiveController {
 		return "/live/liveReservationList";
 	}
 
-	public Map<String, Object> getLiveUserList(HttpServletRequest req, HttpSession session, String roomId, Model model,
-			String token) throws Exception {
+	@GetMapping("liveManageTab")
+	public String getLiveUserList( HttpServletRequest req, HttpSession session,  Model model ) throws Exception {
 
 		log.info("Controller = {} ", "/live/getLiveUserList : GET start...");
 
 		log.info("getLiveUserList = {} ", this.getClass());
+		
+		User user = (User) session.getAttribute("user");
+		
+		
+		
 
 		JSONObject result = null;
 		StringBuilder sb = new StringBuilder();
@@ -574,6 +585,7 @@ public class LiveController {
 			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
 				return null;
 			}
+		
 
 			public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
 			}
@@ -585,7 +597,7 @@ public class LiveController {
 		SSLContext sc = SSLContext.getInstance("TLSv1.2");
 		sc.init(null, trustCerts, new java.security.SecureRandom());
 
-		URL url = new URL("https://vchatcloud.com/openapi/v1/users/" + roomId);
+		URL url = new URL("https://vchatcloud.com/openapi/v1/users/" + liveService.getLiveByStoreId(user.getId()).getRoomId());
 
 		System.out.println("유우우우우우우우우ㅏㄹ엘    " + url);
 
@@ -594,7 +606,7 @@ public class LiveController {
 		conn.setRequestMethod("GET");
 		conn.setRequestProperty("accept", "*/*");
 		conn.setRequestProperty("API_KEY", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
-		conn.setRequestProperty("X-AUTH-TOKEN", token);
+		conn.setRequestProperty("X-AUTH-TOKEN", getToken());
 		conn.setDoOutput(true);
 
 		// 데이터 입력 스트림에 답기
@@ -619,9 +631,12 @@ public class LiveController {
 			System.out.println("data[" + i + "] : " + tmp);
 		}
 		System.out.println("data : " + data);
-		Map<String, Object> map = new HashMap();
+		
+		model.addAttribute("userList", data);
+		
 		log.info("Controller = {} ", "/live/getLiveUserList : GET end...");
-		return map;
+		
+		return "/live/liveManageTab";
 	}
 
 	@GetMapping("liveStatusUpdate")
@@ -679,8 +694,8 @@ public class LiveController {
 		liveService.updateLive(live);
 
 		return new RedirectView("/");
-
 	}
+
 
 	@GetMapping("addLiveReservation")
 	public String addLiveReservation(HttpSession session, Model model) throws Exception {
@@ -725,4 +740,5 @@ public class LiveController {
 		log.info("addLiveReservation POST : end...");
 		return new RedirectView("/live/getLiveReservationList?date=" + liveReservation.getReservationDate());
 	}
+
 }
