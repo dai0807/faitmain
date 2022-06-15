@@ -29,16 +29,20 @@
        	<!-- live -->
 
        	<script th:src="@{js/vchatcloud-1.2.0.min.js}"></script> 
-
 		<script th:src="@{js/like.js}"></script>
     	<script th:src="@{js/draw.js}"></script>
     	<script th:src="@{js/errMsg.js}"></script>
-		
+		<script th:src="@{js/scripts.js}"></script>
 		<link rel="preconnect" href="https://fonts.gstatic.com">
     	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     	<script src="https://kit.fontawesome.com/c13f14f04a.js" crossorigin="anonymous"></script>
     	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
+
+		<style>
+
+
+		</style>
 		
     </head>
     <body>
@@ -55,11 +59,11 @@
 	                  		</a>
 	                  	</div>
 
-
-	                  	
+           	
                         <div id="remote_cam" class="col-md-3 text-center" style="height: 600px; width:400px">
                         </div>
                     	
+
                     	
                     	<div class="col-md-3 text-center" style="overflow:auto; height:500px; width: 424px;">
 	                  		<h5 style="color : white">오늘 예약 목록</h5>
@@ -122,132 +126,15 @@
 						</div>
 					</div>
 	            </section>
-
+				<input th:if="${live} != null" type="text" id="storeId" th:value="${live.storeId}">
+				<input th:if="${live} != null" type="hidden" id="channelKey" th:value="${live.roomId}">
+				<input th:if="${liveReservation} != null" type="hidden" id="storeName" th:value="${liveReservation.store.storeName}">
 
             </div>
 		</article>
-    </body>
-    <script th:inline="javascript">
-    
-    var channelKey = "hQcjeGhzpA-pFgyFa8lUs-20220613152322";
-    
-    function videoInit() {
-			
-    	channel.on("rtcRemoteStreamRemove", function(event){
-    		console.log("rtcRemoteStreamRemove 발동");
-    		let html=$('#remote_cam > video');
-    		html.remove();
-    	});
-    	
-    	  // 로컬 접속 시
-    	channel.on("rtcRemoteStreamAppend", function (event) {
-    	     	
-    	   	remoteVideo = document.createElement("video");
-    	    let stream = event.target;
-    	    remoteVideo.srcObject = stream;
-    	    remoteVideo.setAttribute("autoplay", true);
-    	    remoteCam.append(remoteVideo);
-    	    channel.setRTCRemoteMedia(remoteVideo);
-    		    
-    	    console.log('videoInit clear');
-    	 });
-    }
-
-    	// 공통 코드 =====================================
-		vChatCloud = new VChatCloud();
 		
-    	let channel, // joinRoom() 내부에서 채널 객체를 저장할 곳
-    	  userNick = "hello", // 접속자의 닉네임, 사용자에게 입력받은 값을 사용해도 된다.
-    	  userKey; // 접속자 고유 키
-    	 
+		 
+		
+    </body>
 
-
-    	// rtc
-    	let myCam;
-
-    	window.addEventListener("load", function (){
-    	  	// 접속자의 미디어 소스를 보여줄 위치
-    	  
-    	  	console.log('addEventListener start');
-    	  	
-    	  	remoteCam = $('#remote_cam');
-    	  	remoteCam.attr('name', 'remote_cam');
-
-    		
-    		
-    	    joinRoom(channelKey,  'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }), userNick, function(err, history){
-    	    	if(err){
-    	    		openError(err.code, function(){
-    	    			vChatCloud.disconnect();
-    	    		});
-    	    		console.log('joinRoom clear');
-    	    		
-    	    	}else{
-    	    		videoInit();
-    	    		//채팅영역에 글쓰기가 활성화될시 활성화(최신공지 한개만 남기기)
-    	    		let flag = undefined;
-    	    		if(typeof write == 'function') history && history.forEach(function(m){
-    	    			if(m.messageType == 'notice'){
-    	    				if(flag == undefined){
-    	    					flag = true;
-    	    					write(m, 'notice', 'history');
-    	    				}
-    	    			}else{
-    	    				write(m, '', 'history');
-    	    			}
-    	    		});
-    	    		
-    	    		//이벤트 바인딩 시작
-    	    		getRoomInfo();
-    		
-    	    	};
-    	   		
-    		});
-    		
-    	});
-
-    	function joinRoom(roomId, clientKey, nickName, callback) {
-    	  // vchatcloud 객체
-    	  console.log("clientKey : " + clientKey);
-    	  channel = vChatCloud.joinChannel(
-    	    {
-    	      roomId: roomId,
-    	      clientKey: clientKey,
-    	      nickName: nickName
-    	    },
-    	    function (error, history) {
-    	      $('div#content1 p').remove();
-    	      if (error) {
-    	        if (callback) return callback(error, null);
-    	        return error;
-    	      }
-    	      if (callback) callback(null, history);
-    	      // 채팅영역에 글쓰기가 활성화될시 활성화
-    	    }
-    	  );
-    	}
-
-
-    	function getRoomInfo() {
-    	  const api_url = "https://vchatcloud.com/api/openapi/getChatRoomInfo";
-    	  let param = {
-    	    room_id: channelKey
-    	  };
-    	  $.post(
-    	    api_url,
-    	    param,
-    	    function (data) {
-    	      if (data.result_cd == 1) {
-    	        console.log(data);
-    	        // $("#roomNm").append(data.param.room_nm);
-    	      } else {
-    	        console.log("조회 실패");
-    	        oastPopup("조회 실패");
-    	      }
-    	    },
-    	    "json"
-    	  );
-    	}
-    </script>
-    
 </html>

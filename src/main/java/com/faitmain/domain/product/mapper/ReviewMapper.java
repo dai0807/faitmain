@@ -11,6 +11,8 @@ import com.faitmain.global.common.Search;
 @Mapper
 public interface ReviewMapper {
 	
+	public Review getOrderProduct(int orderProductNumber) throws Exception;
+	
 	//INSERT - 리뷰 등록
 	public void addReview(Review review) throws Exception;
 	
