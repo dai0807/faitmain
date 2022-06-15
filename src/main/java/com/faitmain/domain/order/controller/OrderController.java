@@ -73,30 +73,53 @@ public class OrderController{
     }
 
 
+
     /* IAMPORT 결제 로직 */
     @PostMapping( "/complete" )
-    public ResponseEntity<String > paymentComplete( HttpSession session , Order order  ) throws IOException{
+    public ResponseEntity<String> paymentComplete( HttpSession session , Order order, int totalPirce, User user ) throws IOException{
 
         // 1. 아임포트 API 키와 SECRET키로 토큰을 생성
         String token = paymentService.getToken();
         log.info( "token = {}" , token );
 
-        // 2. 토큰으로 결제 완료된 주문정보를 가져옴
+        /* 결제 완료된 금액 */
         int amount = paymentService.paymentInfo( order.getImpUid() , token );
 
+        try {
+            /* 주문 시 사용한 포인트 */
+            int usingPoint = order.getUsingPoint();
+            if ( user != null ) {
+                int point = user.getTotalPoint();
 
-        // 3. 로그인하지 않았는데 사용포인트가 0 이상일경우 결제 취소
+                /* 사용된 포인트가 유저의 포인트보다 많을 때 */
+                if ( point < usingPoint ) {
+                    paymentService.paymentCancel( token , order.getImpUid() , amount , "유저 포인트 오류" );
+                    return new ResponseEntity<String>( " 유저 포인트 오류" , HttpStatus.BAD_REQUEST );
+                } else {
+                    /* 로그인 하지 않았는데 포인트가 사용되었을 때 */
+                    if ( usingPoint != 0 ) {
+                        paymentService.paymentCancel( token , order.getImpUid() , amount , "비회원 포인트사용 오류" );
+                        return new ResponseEntity<String>( "비회원 포인트 사용 오류 " , HttpStatus.BAD_REQUEST );
+                    }
+                }
+            }
+            /* 실제 계산 금액 가져오기 */
+            order.getOrderPriceInfo();
+            int orderFinalSalePrice = order.getOrderFinalSalePrice();
 
-        // 4. 로그인 사용자가 현재포인트보다 사용포인트가 많을 경우 결제 취소
+            /* 계산 된 금액과 실제 금액이 다를 때 */
+            if ( orderFinalSalePrice != amount ) {
+                paymentService.paymentCancel( token , order.getImpUid() , amount , "결제 금액 오류" );
+                return new ResponseEntity<String>( "겸제 금액 오류" , HttpStatus.BAD_REQUEST );
+            }
 
-        // 5. DB에서 실제 계산되어야 할 가격가져오기
+            orderService.addOrder( order );
+            return new ResponseEntity<>( "주문이 완료되었습니다" , HttpStatus.OK );
 
-        // 6. 결제 완료된 금액과 실제 계산되어야 할 금액이 다를경우 결제 취소
-
-        // 7. 결제에러시 결제 취소
-
-
-        return new ResponseEntity<>( HttpStatus.OK);
+        } catch ( Exception e ) {
+            paymentService.paymentCancel( token , order.getImpUid() , amount , "결제 에러" );
+            return new ResponseEntity<String>( "결제 에러" , HttpStatus.BAD_REQUEST );
+        }
     }
 
 
