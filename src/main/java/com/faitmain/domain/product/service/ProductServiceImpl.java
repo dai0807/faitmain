@@ -122,9 +122,12 @@ public class ProductServiceImpl implements ProductService {
 		search.setSearchKeyword(product.getProductNumber() + "");
 		search.setCurrentPage(1);
 		search.setPageSize(10);
-		product.setReviewList(reviewMapper.getReviewList(search));
-		
+		product.setReviewList(reviewMapper.getReviewList(search));		
 		log.info("review List = {}", product.getReviewList());
+		
+		search.setSearchCondition("productGroupNumber");
+		product.setInquiryList(inquiryMapper.getInquiryList(search));
+		log.info("inquiry List = {}", product.getInquiryList());
 				
 //		Map<String, Object> map = new HashMap<String, Object>();
 //		map.put("mainProduct", product);
