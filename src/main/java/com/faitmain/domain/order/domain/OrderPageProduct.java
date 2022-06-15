@@ -28,7 +28,7 @@ public class OrderPageProduct{
     private int totalPoint;
 
     /* 상품 이미지 */
-    private List<AttachImage> imageList;
+    private String productMainImage;
 
 
     public void initSaleTotal(){

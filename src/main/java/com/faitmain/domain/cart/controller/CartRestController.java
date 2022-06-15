@@ -3,12 +3,10 @@ package com.faitmain.domain.cart.controller;
 import java.util.Collections;
 import java.util.Map;
 
+import com.faitmain.domain.cart.domain.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.faitmain.domain.cart.service.CartService;
 import com.faitmain.domain.product.service.ProductService;
@@ -27,17 +25,23 @@ public class CartRestController {
 	@Autowired
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
-	
+
+
+	@PostMapping("json/addCart")
+	public Map<String, Integer> addCart(@RequestBody Cart cart) throws Exception{
+
+		log.info("/cart/json/addCart");
+		log.info("cart = {}", cart);
 		
-	public CartRestController() {
-		log.info("Controller = {} ", CartRestController.class);
+		int result = cartService.addCart(cart);
+
+		return Collections.singletonMap("success", new Integer(result));
 	}
-	
 
 
-	
 
-	
+
+
 	@GetMapping("json/deleteCart/{cartNumber}")
 	public Map<String, Boolean> delete(@PathVariable int cartNumber) throws Exception{
 		

@@ -1,3 +1,4 @@
+
 package com.faitmain.domain.product.mapper;
 
 import java.util.HashMap;
@@ -35,15 +36,13 @@ public class CartMapperTest {
 		Cart cart = new Cart();
 		
 		Product product = productMapper.getProduct(10016);
-		cart.setCartProduct(product);
-		cart.setProductOrderCount(1);
-		cart.setUserId("user01@naver.com");
+
 		
 		System.out.println("addCartTest end");
 	}
 	
 	@Test
-	@DisplayName("getCartList Mapper Test")
+	@DisplayName("selectCartList Mapper Test")
 	public void getCartListTest() throws Exception{
 		
 		System.out.println("getCartListTest start");
@@ -53,7 +52,7 @@ public class CartMapperTest {
 		map.put("startRowNum", 1+"");
 		map.put("endRowNum", 5+"");
 		
-//		List<Cart> carts = cartMapper.getCartList(map);
+//		List<Cart> carts = cartMapper.selectCartList(map);
 		
 //		System.out.println(carts);		
 		System.out.println("getCartListTest end");

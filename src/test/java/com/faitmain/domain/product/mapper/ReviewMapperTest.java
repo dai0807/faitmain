@@ -37,7 +37,7 @@ public class ReviewMapperTest {
 		System.out.println("addReviewTest start");
 		
 		Review review = new Review();
-		review.setOrderNumber(1);
+//		review.setOrderNumber(1);
 		review.setReviewContent("배송이 빨라요~");
 		review.setRating(5);
 		review.setUserId("user01@naver.com");
@@ -64,11 +64,14 @@ public class ReviewMapperTest {
 	public void getReviewListTest() throws Exception{
 		
 		System.out.println("getReviewListTest start");
-		
+		/*
 		Search search = new Search();
 		search.setStartRowNum(1);
 		search.setEndRowNum(5);
-		
+		*/
+		Search search = new Search();
+		search.setSearchCondition("productGroupNumber");
+		search.setSearchKeyword("10000");
 		List<Review> reviews = reviewMapper.getReviewList(search);
 		int totalCount = reviewMapper.getTotalCount(search);
 		

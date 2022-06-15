@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/default_layout}">
 <head>
-    <meta charset = "UTF-8">
-    <title>상품 수정</title>
+   	<meta charset = "UTF-8">
+   	<title>상품 수정</title>
     	
 	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+   	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 	
 	<style>
 	
@@ -15,12 +15,11 @@
 		
 		h5,span{font-family: 'Nanum Gothic Coding', monospace;}
 		
-    </style>
+   	</style>
     
-    <script type="text/javascript">
+   	<script type="text/javascript">
     
-    	/*<![CDATA[*/
-			let productDetail = '[[${ product.productDetail }]]';
+    	/*<![CDATA[*/			
 			let productExtraImageSize = '[[${#lists.size(product.productExtraImage)}]]';
 			console.log("productExtraImageSize : " + productExtraImageSize);
 		/*]]>*/
@@ -31,7 +30,6 @@
 			optionAdd();
 		});
 		
-		var optionIndex = $(".existOption:last > input[type='hidden']");
     	function optionAdd() {
 			console.log('optionadd');
 			var optionIndex = 0;
@@ -39,7 +37,7 @@
 			$("#optionAdd_btn").on("click",	function() {
 				console.log('옵션추가');
 				
-				$("#optionIndex").append(
+				$("#optionArea").append(
 					"<div>"  
 						+ "<input placeholder='옵션' class='form-control' type='text' name='productOptions[" + optionIndex + "].productName' id='productOptions'>"
 						+ "<input type='text' class='form-control' name='productOptions[" + optionIndex +"].productQuantity' id='item_vol' placeholder='수량'>"
@@ -60,32 +58,123 @@
 		};
 		
 		function setThumbnail(event) {
-        var reader = new FileReader();
+				var reader = new FileReader();
 
-        reader.onload = function(event) {
-          	//var img = document.createElement("img");
-          	var img = "<img src='" + event.target.result + "' width=70%' />";
-          	//img.setAttribute("src", event.target.result);
-          
-			$("#image_container > img").replaceWith(img);
-          
-        };
+				reader.onload = function (event) {
+					//var img = document.createElement("img");
+					var img = "<img src='" + event.target.result + "' width=70%' />";
+					//img.setAttribute("src", event.target.result);
 
-        reader.readAsDataURL(event.target.files[0]);
-      }
+					$("#image_container > img").replaceWith(img);
+
+				};
+
+				reader.readAsDataURL(event.target.files[0]);
+			}
 		
 		$(function(){
+			$(".prevOptionUpdateBtn").on("click", function(){
+				console.log($(this).parent().children(".optionNumber").val());
+				let productOptionNumber = $(this).parent().children(".optionNumber").val();
+				let productOptionName = $(this).parent().children(".optionName").val();
+				let productOptionQuantity = $(this).parent().children(".optionQuantity").val();
+				
+				$.ajax(
+					{
+						url: "/product/json/updateProductOption",
+						method: "POST",
+						dataType: "json",
+						headers: {
+							"Accept": "application/json",
+							"Content-Type": "application/json"
+						},
+						data: JSON.stringify({
+							productNumber: productOptionNumber,
+							productName: productOptionName,
+							productQuantity: productOptionQuantity							
+						}),
+						success: function (JSONData, status) {
+							console.log(JSONData.responseCode);
+							alert('수정되었습니다');
+						}
+					})
+				
+			});
+					
+			$(".prevOptionDelBtn").on("click", function() {
+				console.log($(this).parent().children(".optionNumber").val());
+				let productOptionNumber = $(this).parent().children(".optionNumber").val();
+				$.ajax(
+					{
+						url: "/product/json/deleteProductOption/" + productOptionNumber,
+						method: "GET",
+						dataType: "json",
+						headers: {
+							"Accept": "application/json",
+							"Content-Type": "application/json"
+						},
+						success: function (JSONData, status) {
+							console.log(JSONData.responseCode);
+						}
+					})
+					
+				$(this).parent().remove();
+					
+				alert('삭제되었습니다');	
+				//$(this).parent().remove();
+			});
+			
+			
 			
 			$("#mainImage").change(function(){
 				console.log("file : " + $(this).val());
-			});	
+			});
+					
 			
-			$(".prevOptionDelBtn").on("click", function() {
-				$(this).parent().remove();
-				optionIndex--;
-			});	
+			$(document).on("click", ".extraImageDelete", function() {
+				
+				console.log($(this).parent().children("input[type=hidden]").val());
+				let imageNumber = $(this).parent().children("input[type=hidden]").val();
+				
+				$.ajax(
+					{
+						url: "/product/json/deleteProductExtraImage/" + imageNumber,
+						method: "GET",
+						dataType: "json",
+						headers: {
+							"Accept": "application/json",
+							"Content-Type": "application/json"
+						},
+						success: function (JSONData, status) {
+							console.log(JSONData.responseCode);
+						}
+					}).done(function () {
+						//$(this).parent().remove();
+					});
+				$(this).parent().remove();	
+				alert('삭제되었습니다');	
+			});
+		});
+		
+		
+		/* 첨부파일 추가 */
+		function addFile(obj) {
+			var maxFileCnt = 6 - productExtraImageSize;   // 첨부파일 최대 개수
+			var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
+
+			// 첨부파일 개수 확인
+			if (curFileCnt > maxFileCnt) {
+				alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
+				$("input[name='subImage']").val("");
+			}
+		}
+		
+		
+		
+		$(function(){		
 			
-			$('#summernote').summernote('editor.insertText', productDetail);	
+			//$('#summernote').summernote('editor.insertText', productDetail);	
+			//console.log("dmdkdkdkdkd : " + productDetail);
 				
 			 $('#summernote').summernote({
 					// 에디터 높이
@@ -147,50 +236,14 @@
 				processData: false,
 				success: function(data){
 					console.log(data.url);
-            		$(el).summernote("editor.insertImage", data.url);				
+					console.log("dmdkdkdkdkd : " + productDetail);
+            		$(el).summernote("editor.insertImage", data.url);	
+            					
 				}				
 			});
 		}
 		
-		$(function(){
-			
-			$(document).on("click", ".extraImageDelete", function() {
-				
-				console.log($(this).parent().children("input[type=hidden]").val());
-				let imageNumber = $(this).parent().children("input[type=hidden]").val();
-				
-				$.ajax(
-					{
-						url: "/product/json/deleteProductExtraImage/" + imageNumber,
-						method: "GET",
-						dataType: "json",
-						headers: {
-							"Accept": "application/json",
-							"Content-Type": "application/json"
-						},
-						success: function (JSONData, status) {
-							console.log(JSONData.responseCode);
-						}
-					}).done(function () {
-						//$(this).parent().remove();
-					});
-				$(this).parent().remove();	
-				alert('삭제되었습니다');	
-			});
-		});
 		
-		
-		/* 첨부파일 추가 */
-		function addFile(obj) {
-			var maxFileCnt = 6 - productExtraImageSize;   // 첨부파일 최대 개수
-			var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
-
-			// 첨부파일 개수 확인
-			if (curFileCnt > maxFileCnt) {
-				alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
-				$("input[name='subImage']").val("");
-			}
-		}
 			
 		
     </script>
@@ -198,8 +251,9 @@
 <body>
 <article  class="py-5" layout:fragment="content">
 	<div class="container">
-		<form th:action="@{/product/updateProduct}" th:object="${product}" method="post" name="updateProductForm" id="updateProductForm" enctype="multipart/form-data" class="form-horizontal">
-				<!-- 상품등록 -->					
+		<form th:action="@{/product/updateProduct}" method="post" th:object="${product}" name="updateProductForm" id="updateProductForm" enctype="multipart/form-data" class="form-horizontal">
+				<!-- 상품수정 -->
+				<input type="hidden" th:field="*{productNumber}" />					
 				<div class="row">
 				    <!--<label for="categoryCode" class="col-sm-offset-1 col-sm-3 control-label">상품 카테고리</label>-->
 				    <div class="col-sm-4">
@@ -243,12 +297,12 @@
 	
 					<button id="optionAdd_btn" class="btn btn-primary mb-3 col-sm-offset-1 col-sm-3" type="button">옵션추가</button>
 	
-					<div id="optionIndex" class="col-sm-4">
-						<div th:if="${#lists.size(product.productOptions) > 0}" th:each="productOption, index : ${product.productOptions}" class="existOption">
-							<input type="hidden" th:value="${productOption.productNumber}" th:name="|productOption[${index.index}].productNumber|" />
-							<input type="hidden" th:value="${productOption.productNumber}" th:name="|productOption[${index.index}].productNumber|" />  
-							<input type="text"  class="form-control" th:value="${productOption.productName}" th:name="|productOption[${index.index}].productName|">
-							<input type="text" class="form-control"  th:value="${productOption.productQuantity}" th:name="|productOption[${index.index}].productQuantity|" id="item_vol">
+					<div class="col-sm-6" id="optionArea">
+						<div th:if="${#lists.size(product.productOptions) > 0}" th:each="productOption : ${product.productOptions}" class="existOption">
+							<input type="hidden" th:value="${productOption.productNumber}" class="optionNumber"/>							  
+							<input type="text"  th:value="${productOption.productName}" class="optionName"/>
+							<input type="text" th:value="${productOption.productQuantity}" class="optionQuantity"/>
+							<button type="button" style="float:right;" class="prevOptionUpdateBtn">수정</button>
 							<button type="button" style="float:right;" class="prevOptionDelBtn">삭제</button>
 						</div>					
 					</div>
@@ -264,7 +318,8 @@
 						<div id="image_container">
 		    				<img th:src = "|../img/upload/*{ productMainImage }|" width="70%">
 		    			</div>
-				    	<input type="file" class="form-control" id="mainImage" name="mainImage"  onchange="setThumbnail(event);"/>
+		    			<input type="hidden" th:field=*{productMainImage}/>
+				    	<input type="file" class="form-control" id="mainImage" name="mainImage"  onchange="setThumbnail(event);" />
 				    </div>
 				</div>
 				
@@ -281,7 +336,17 @@
 				</div>
 				
 				<div  class="form-group">
-					<textarea id="summernote" name="productDetail" rows="10"></textarea>
+					<textarea id="summernote" name="productDetail" rows="10">
+						<th:block th:utext = "*{ productDetail }"></th:block>
+					</textarea>
+				</div>
+				
+				<div  class="form-group">
+					<select name="productStatus">
+						<option value="01" th:selected="*{productStatus eq '01'}">판매중</option>
+						<option value="02" th:selected="*{productStatus eq '02'}">판매중지</option>
+						<option value="03" th:selected="*{productStatus eq '03'}">품절</option>
+					</select>
 				</div>
 				
 				<button class="btn btn-d btn-circle" type="submit">수정하기</button>

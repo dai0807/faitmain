@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<!--
+	Strata by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang = "ko" layout:decorate = "~{/layout/default_layout}" xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
+	<head>
+		<title>Strata by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link crossorigin href = "https://fonts.gstatic.com" rel = "preconnect">
+		<link rel="stylesheet" href="/productDesign/assets_store/css/main.css" />
+	</head>
+	<body class="is-preload">
+	<article class = "py-5" layout:fragment = "content">
+		<!-- Header -->
+			<div id="header">
+				<div class="inner">
+					<a href="#" class="image avatar"><img th:src = "|../img/upload/${ store.storeLogoImage }|" alt="" /></a>
+					<h1><strong th:text="${store.storeName}"></strong><br />
+						<th:block th:text="${store.storeIntroduction}"></th:block><br />
+					</h1>					
+				</div>
+			</div>
+
+		<!-- Main -->
+			<div id="main">
+
+				<!-- Two -->
+					<section id="two">
+						<h2>Product Info</h2>
+						<div class="row">
+							<th:block th:each="product : ${list}">
+								<article class="col-6 col-12-xsmall work-item">
+									<a th:href="@{/product/getProduct?productNumber=} + ${product.productNumber}" class="image fit thumb">
+										<img th:src = "|../img/upload/${ product.productMainImage }|" alt="" />
+									</a>
+									<h3 th:text="${product.productName}"></h3>
+									<p data-th-text="${#numbers.formatInteger(product.productPrice, 3, 'COMMA') + '원'}"></p>
+								</article>
+							</th:block>							
+						</div>
+						<ul class="actions">
+							<li><a th:href="@{/product/getProductList?resultJsp=listProduct}" class="button">전체 상품 보러가기</a></li>
+						</ul>
+					</section>
+
+				<!-- Three -->
+					<section id="three">
+						<h2>Get In Touch</h2>
+						<p>Accumsan pellentesque commodo blandit enim arcu non at amet id arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem vulputate lorem neque lorem ipsum dolor.</p>
+						<div class="row">
+							<div class="col-8 col-12-small">
+								<form method="post" action="#">
+									<div class="row gtr-uniform gtr-50">
+										<div class="col-6 col-12-xsmall"><input type="text" name="name" id="name" placeholder="Name" /></div>
+										<div class="col-6 col-12-xsmall"><input type="email" name="email" id="email" placeholder="Email" /></div>
+										<div class="col-12"><textarea name="message" id="message" placeholder="Message" rows="4"></textarea></div>
+									</div>
+								</form>
+								<ul class="actions">
+									<li><input type="submit" value="Send Message" /></li>
+								</ul>
+							</div>
+							<div class="col-4 col-12-small">
+								<ul class="labeled-icons">
+									<li>
+										<h3 class="icon solid fa-home"><span class="label">Address</span></h3>
+										1234 Somewhere Rd.<br />
+										Nashville, TN 00000<br />
+										United States
+									</li>
+									<li>
+										<h3 class="icon solid fa-mobile-alt"><span class="label">Phone</span></h3>
+										000-000-0000
+									</li>
+									<li>
+										<h3 class="icon solid fa-envelope"><span class="label">Email</span></h3>
+										<a href="#">hello@untitled.tld</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</section>				
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+					<ul class="icons">
+						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+						<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+						<li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<!--<script src="/productDesign/assets_store/js/jquery.min.js"></script>-->
+			<script src="/productDesign/assets_store/js/jquery.poptrox.min.js"></script>
+			<script src="/productDesign/assets_store/js/browser.min.js"></script>
+			<script src="/productDesign/assets_store/js/breakpoints.min.js"></script>
+			<script src="/productDesign/assets_store/js/util.js"></script>
+			<script src="/productDesign/assets_store/js/main.js"></script>
+
+	</article>
+	</body>
+</html>

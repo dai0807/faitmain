@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8" />
@@ -25,10 +25,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
 
     <script src="/js/vchatcloud-1.2.0.min.js"></script>
-    <script src="/js/watchlogin.js"></script>
+    <!-- <script src="/js/watchlogin.js"></script> -->
     <script src="/js/like.js"></script>
     <script src="/js/draw.js"></script>
-
     <script src="/js/errMsg.js"></script>
 </head>
 
@@ -93,18 +92,6 @@
 
 <body>
 
-<script th:inline="javascript">
-    
-    /*<![CDATA[*/
-    function nav() {
-   location.href="/";
-}
-
-    
-    /*]]>*/
-    
-</script>
-
    <div id="wrap">
         <section>
             <!-- 샘플 화면 -->
@@ -112,17 +99,7 @@
                
                     <div class="remote_cam" style="height : 675px"></div>
                
-                <!-- 로그인 -->
-                <div class="dim">
-                    <div class="login">
-                        <p class="login-title">채팅방 설정</p>
-                        <div class="name">
-                            <label for="name">대화명</label>
-                            <input class="name" type="text" id="name" value="" placeholder="로그인 할 대화명을 입력 해주세요.">
-                        </div>
-                        <button class="popupbtn" onclick="location.href='#!'">확인</a></button>
-                    </div>
-                </div>
+                
                 <!-- 에러 팝업 -->
                 <div class="errorpopup">
                     <p><i class="fas fa-exclamation-circle"></i></p>
@@ -150,16 +127,18 @@
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="button" class="btn btn-warning" onclick='nav()'>나가기</button>
+                    <button type="button" class="btn btn-warning" onclick='exit()'>나가기</button>
                 </article>
                 <!-- 채팅방 -->
+                
                 <article class="chat">
                     <!-- 채팅 -->
                     <div class="chat_contents">
                         <div id="content1">
                         </div>
                     </div>
-                    <div class="chat_bottom">
+                    
+                    <div th:if="${session.user != null}" class="chat_bottom">
                         <!-- 메시지 작성 -->
                         <div class="chat_input">
                             <div class="textbox" id="content" contenteditable="true" placeholder="메세지 입력하기"></div>
@@ -171,37 +150,17 @@
                             <span id="likeCounter"></span>
                         </div>
                     </div>
+                    
                 </article>
+                
             </div>
         </section>
     </div>
-   
-   
-   
-   
-   
-        <div class="cam-footer">
-          <p class="roomtitle"></p>
-          <ul class="cam-btn">
-            <li class="mic btn_on" onclick="mic_on_off(this)">
-              <img src="https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/on_mic.png" alt="마이크 재생">
-            </li>
-            <li class="exit btn_on">
-              <img src="https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/exit.png" alt="화상채팅 종료">
-            </li>
-            <li class="cam btn_on" onclick="cam_on_off(this)">
-              <img src="https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/on_cam.png" alt="카메라 재생">
-            </li>
-          </ul>
-        </div>
-        
-        
-        
-        
-        
-      </div>
-   </div>
-   
+    
+    <input th:if="${session.user != null}" type="hidden" id="userNickname" th:value="${session.user.nickname}">
+    <input type="hidden" id="channelKey" th:value="${live.roomId}">
+    <input type="hidden" id="storeId" th:value="${live.storeId}">
+       
       <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
    	  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
@@ -230,5 +189,176 @@
 							</div>
 						</div>
 </body>
+
+<script th:inline="javascript">
+    
+  	function nav() {
+   		location.href="/";
+	}
+  	
+ // 채널에 접속하기 위해서 사용자의 userNick, userKey와 CMS에서 발급받은 channelKey가 필요합니다.
+
+  	var channelKey = $('#channelKey').val(); // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
+	var storeId = $('#storeId').val();
+
+  	function videoInit() {
+
+  	  // 로컬 접속 시
+  	  channel.on("rtcRemoteStreamAppend", function (event) {
+  	     	
+  		  if(event.clientKey == storeId){
+  	     	remoteVideo = document.createElement("video");
+  		    let stream = event.target;
+  		    remoteVideo.srcObject = stream;
+  		    remoteVideo.setAttribute("autoplay", true);
+  		    remoteCam.append(remoteVideo);
+  		    channel.setRTCRemoteMedia(remoteVideo);
+  		  }
+  	  });
+  	}
+
+  	// 공통 코드 =====================================
+  	const vChatCloud = new VChatCloud();
+
+  	let channel, // joinRoom() 내부에서 채널 객체를 저장할 곳
+  	  userNick = $("#userNickname").val(), // 접속자의 닉네임, 사용자에게 입력받은 값을 사용해도 된다.
+  	  userKey = 'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }); // 접속자 고유 키
+
+
+
+  	// rtc
+  	let myCam;
+
+  	window.addEventListener("load", function () {
+  	  	// 접속자의 미디어 소스를 보여줄 위치
+  	  
+  		let c = $('div.chat_contents').hide();
+  	  	likeInif();
+  	  
+  	  	remoteCam = $('.remote_cam');
+  	  	remoteCam.attr('name', 'remote_cam');
+  	  	
+  	    $('div.bottom div.name').text(userNick);
+  	    joinRoom(channelKey,  userKey, ((userNick == null || userNick == "")? userKey : userNick), function(err, history){
+  	    		if(err){
+  	    			openError(err.code, function(){
+  	    				c.hide();
+  	    				vChatCloud.disconnect();
+  	    			});
+  	    				c.show();
+  	    		
+  	    		}else{
+  	    			videoInit();
+  	    				//채팅영역에 글쓰기가 활성화될시 활성화(최신공지 한개만 남기기)
+  	    			let flag = undefined;
+  	    			if(typeof write == 'function') history && history.forEach(function(m){
+  	    				if(m.messageType == 'notice'){
+  	    					if(flag == undefined){
+  	    						flag = true;
+  	    						write(m, 'notice', 'history');
+  	    					}
+  	    				}else{
+  	    					write(m, '', 'history');
+  	    				}
+  	    			});
+  	    			c.show();
+  	    		
+  	    			//이벤트 바인딩 시작
+  	    			chatInit();
+  	    			personalInit();
+  	    			msgInit();
+  	    			getRoomInfo();
+  	    			likeInif();
+  	    		}	
+  	    });
+  	})
+
+  	function joinRoom(roomId, clientKey, nickName, callback) {
+  	  // vchatcloud 객체
+  	  console.log("clientKey : " + clientKey);
+  	  channel = vChatCloud.joinChannel(
+  	    {
+  	      roomId: roomId,
+  	      clientKey: clientKey,
+  	      nickName: nickName
+  	    },
+  	    function (error, history) {
+  	      $('div#content1 p').remove();
+  	      if (error) {
+  	        if (callback) return callback(error, null);
+  	        return error;
+  	      }
+  	      if (callback) callback(null, history);
+  	      // 채팅영역에 글쓰기가 활성화될시 활성화
+  	      if (typeof write == "function")
+  	        write(
+  	          "실시간 채팅에 오신 것을 환영합니다. 개인정보를 보호하고 커뮤니티 가이드를 준수하는 것을 잊지 마세요!",
+  	          "notice"
+  	        );
+  	    }
+  	  );
+  	}
+
+
+  	function getRoomInfo() {
+  	  const api_url = "https://vchatcloud.com/api/openapi/getChatRoomInfo";
+  	  let param = {
+  	    room_id: channelKey
+  	  };
+  	  $.post(
+  	    api_url,
+  	    param,
+  	    function (data) {
+  	      if (data.result_cd == 1) {
+  	        console.log(data);
+  	        // $("#roomNm").append(data.param.room_nm);
+  	      } else {
+  	        console.log("조회 실패");
+  	        oastPopup("조회 실패");
+  	      }
+  	    },
+  	    "json"
+  	  );
+  	}
+
+  	function openError(code, callback) {
+  	  let p = $("div.errorpopup").hide();
+  	  if (errMsg[code] == undefined) {
+  	    $("p:nth-child(2)", p).text(code);
+  	  } else {
+  	    $("p:nth-child(2)", p).text(errMsg[code].kor);
+  	  }
+  	  $("a", p)
+  	    .off()
+  	    .click(function () {
+  	      p.hide();
+  	      if (typeof callback == "function") {
+  	        callback();
+  	      }
+  	    });
+  	  p.show();
+  	}
+  	
+  	function nav(){
+  		self.location("/");
+  	}
+  	
+  	function exit() {
+  	  if (channel) {
+  	    var exit_chk = confirm("종료 하시겠습니까?");
+  	    if (!exit_chk) return;
+  	    $(".cam-footer .cam-btn .mic").off("click.rtc");
+  	    $(".cam-footer .cam-btn .cam").off("click.rtc");
+  	    vChatCloud.disconnect();
+  	    channel = undefined;
+
+  	    self.location="/";
+
+  	  } else {
+  	    // 로그인 되지 않았음!
+  	  }
+  	}
+    
+</script>
 
 </html>

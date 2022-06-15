@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html layout:decorate = "~{layout/myPage_layout}"
       xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout" >
- 
+
 
 <head>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
      <link href="@{/css/styles.css}" rel="stylesheet" />
 
     <meta charset = "UTF-8">
@@ -24,15 +25,47 @@
 
 
 <script type="text/javascript">
+ 
+ 	
+ 	
+ 	
+ function getPassword(){
+
+ 
 	
+	var id = $("#id").val() ; 
+	
+	popWin 
+				= window.open("/user/updatePassword?id="+id,
+											"popWin", 
+											"top=200,left=200,width=780,height=650,marginwidth=0,marginheight=0,"+
+											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
+		 
+
+
+ 
+	
+	
+}
+ 	
+ 	
+ 	
 	
 	var 	total_check_phoneNumber =1; // 휴대폰 번호 변경시 확인 값 
 	var     total_check_nickname =1 ;
  
+ //파일 보여주기
+ function PreviewImage() {
+        // 파일리더 생성 
+        var preview = new FileReader();
+        preview.onload = function (e) {
+        // img id 값 
+        document.getElementById("user_image").src = e.target.result;
+    };
+    // input id 값 
+    preview.readAsDataURL(document.getElementById("LogoImage").files[0]);
+ };
  
- function cc(){
-	alert("ddd")
-}
 	function updateValidationCheck(){
 		
 				if( total_check_phoneNumber !=1){
@@ -211,6 +244,12 @@
 						 	//$("input[name='postalCode']").attr("readonly",false); 
  						 	 $("#userAddress3").attr("readonly",false);  // 주소 추가 입력  리드온니 풀림 
 
+
+
+ 							 $("#LogoImage").attr("disabled", false); ///disabled /해제
+
+
+
 						 	$("#button-newsletter").css("display" , "inline-block" ) ; // 주소 찾기 버튼 보이기
  						 	$("#phoneChk").css("display", "inline-block"); 			//번호 변경 버튼 보이기 
  							$("#button-newsletter").css("display", "inline-block"); // 주소 추가 버튼 
@@ -239,11 +278,10 @@
   						  $('#nickname_info').text(" ");
  							$("#userAddress3").attr("readonly" , true) ; 
 
-					 	  	 $("#storeIntroduction").attr("readonly" , true) ; 
+ 							 $("#LogoImage").attr("disabled", true); ///disabled /해제
 
 				
- 		
-		
+ 
 		
 		
 		
@@ -442,8 +480,28 @@
 				   <input type="text" class="form-control" th:id="storeIntroduction" th:name="storeIntroduction"   th:value="${getuser.storeIntroduction}"   readonly>  
 				    </div>		  
 				    
+				    
+				    
+				    
+				    	<h5 class="fw-bolder"> 스토어 로고  </h5>
+				      
+				      
+				      <div>
+                        <input class = "form-control" id = "LogoImage" name = "LogoImage"  type = "file" th:value ="${getuser.storeLogoImage}" onchange ="PreviewImage();"  disabled >
+                    </div>
+				    
+				    <div >
+					 	<img id="store_image" src="#" alt="" >
+
+							<img class = "img-thumbnail" id="user_image" name="storeLogoImage" th:src="@{/img/upload} +${getuser.storeLogoImage}" />
+ 
+							 
+
+				    </div>	
 				     
 				    
+				
+				
 				</div>
 			</div>
 			
@@ -517,7 +575,7 @@
 			<!-- 가입 경로가 자사 회원이 유저들만 이용 가능-->
 			<span th:if="${session.user.joinPath == 'HOME'}"  >
 
-				 <a th:href="@{/user/updatePassword}"  class="btn btn-info" role="button">비밀번호 재설정</a>
+				 <a href="#" onclick="getPassword()"  class="btn btn-info" role="button">비밀번호 재설정</a>
 			<span>
 			
 			
@@ -525,9 +583,21 @@
 				<br/><br/>
 				<hr/>
  			 	회원탈퇴를 원하시면 눌러주세요 <a  href="#" class="btn btn-secondary btn-xs" role="button">회원 탈퇴</a>
-
  
-</div><!-- 컨테이너 끝-->		  
+ 				 <span  th:if="${getuser.role == 'store' || getuser.role =='storeX'}" > 
+ 				  <a  href="#"class="btn btn-secondary btn-xs"  th:href="@{/user/getStoreApplicationDocument(storeApplicationDocumentNumber =${getuser.storeApplicationDocumentNumber})}"  value ="${getuser.storeApplicationDocumentNumber}" role="button">스토어 신청서 상세보기 </a>  
+ 				  <!-- 
+	
+							
+	
+					-->
+					
+					
+					
+ 				 </span>
+			<!--   <a th:href="@{/oreder/details(id=${orderInfo.seq})}">  -->
+			
+			 <!-- 컨테이너 끝-->		  
   
 </article>
 	

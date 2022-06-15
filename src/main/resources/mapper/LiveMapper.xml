@@ -84,11 +84,11 @@
     </insert>
     
     <!-- ADD LiveReservation -->
-     <insert id="addLiveReservation" parameterType="LiveReservation">
+     <insert id="addLiveReservation" useGeneratedKeys="true" keyProperty="liveReservationNumber" parameterType="LiveReservation">
        INSERT INTO live_reservation
           (store_id, reservation_date, reservation_time)
       VALUES
-          (#{storeId}, #{reservationDate}, #{reservationTime})
+          (#{store.id}, #{reservationDate}, #{reservationTime})
     </insert>
     
     <!-- ADD LiveUserStatus -->
@@ -106,7 +106,8 @@
        UPDATE live
        <set>
           live_title = #{liveTitle}, 
-          live_intro = #{liveIntro}
+          live_intro = #{liveIntro},
+          live_status = #{liveStatus}
        </set>
        WHERE live_number = #{liveNumber}
     </update>
@@ -157,6 +158,25 @@
          live_number = #{liveNumber}
          AND id = #{id}
       </where>
+   </select>
+   
+   <!-- GET CurrnetLiveReservation -->
+   <select id="getCurrentLiveReservation" parameterType="LiveReservation" resultMap="liveReservationMap">
+   		SELECT * FROM live_reservation
+   		<where>
+   			reservation_date = #{reservationDate}
+   			AND reservation_time = #{reservationTime}
+   		</where>
+   </select>
+   
+   <!-- GET LiveReservationByStoreId -->
+   <select id="getLiveReservationByStoreId" parameterType="LiveReservation" resultMap="liveReservationMap">
+   		SELECT * FROM live_reservation
+   		<where>
+   			store_id = #{store.id}
+   			AND reservation_date >= #{reservationDate}
+   			AND reservation_time >= #{reservationTime}
+   		</where>
    </select>
    
    <!-- GET LiveReservation 
@@ -225,11 +245,25 @@
 
 
    <!-- ================================================================================= DELETE ============================================================================== -->
-   <delete id="deleteLiveProduct" parameterType="LiveProduct">
+   <delete id="deleteLiveReservation" parameterType="int">
+   		DELETE FROM live_reservation
+   		<where>
+   			live_reservation_number = #{liveReservationNumber}
+   		</where>
+   </delete>
+   
+   <delete id="deleteLiveProduct" parameterType="int">
       DELETE FROM live_product
       <where>
          live_number = #{liveNumber}
       </where>
+   </delete>
+   
+   <delete id="deleteLiveProductByReservationNumber" parameterType="int">
+   		DELETE FROM live_product
+   		<where>
+   			live_reservation_number = #{value}
+   		</where>
    </delete>
    
    
