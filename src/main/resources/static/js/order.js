@@ -1,53 +1,94 @@
-function requestPay() {
+
+// 주문번호 만들기
+function createOrderNum(){
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    let orderNum = year + month + day;
+    for(let i=0;i<10;i++) {
+        orderNum += Math.floor(Math.random() * 8);
+    }
+    return orderNum;
+}
+
+/* 결제 ver 1 */
+function payment() {
+    const data = {
+        orderNumber : createOrderNum(),
+        buyerName: $('input[name="buyerName"]').val(),
+        receiverAddress1 : $('input[name="receiverAddress1"]').val(),
+        receiverAddress2 : $('input[name="receiverAddress2"]').val(),
+        receiverAddress3 : $('input[name="receiverAddress3"]').val(),
+        phoneNumber : "",
+        email : "",
+        amount : $('input[name="amount"]').val(),
+
+        // buyerName: "노르웨이 회전 의자",
+        // receiverAddress1 : "서울특별시 강남구 신사동",
+        // receiverAddress2 : "하나하나둘셋아파트",
+        // receiverAddress3 : "01191",
+        // phoneNumber : "010-4242-4242",
+        // email : "gildong@gmail.com",
+        // amount : 1000,
+    }
+    paymentCard(data)
+}
+
+
+
+/* 결제 */
+function paymentCard(data) {
+    var IMP = window.IMP;
     IMP.init("imp76668016");
     IMP.request_pay({
         pg: "html5_inicis",
         pay_method: "card",
-        merchant_uid: "ORD20180131-0000011",
+        merchant_uid: "2349234987",
         name: "노르웨이 회전 의자",
-        amount: 1000,
-        buyer_email: "gildong@gmail.com",
-        buyer_name: "홍길동",
-        buyer_tel: "010-4242-4242",
-        buyer_addr: "서울특별시 강남구 신사동",
-        buyer_postcode: "01181"
+        amount: data.amount,
+        buyer_email: data.email,
+        buyer_name: data.buyerName,
+        buyer_tel: data.phoneNumber,
+        buyer_addr: data.receiverAddress2+" "+data.receiverAddress3,
+        buyer_postcode: data.receiverAddress1
     }, function (rsp) { // callback
         if (rsp.success) {
-            // 결제 성공 시 로직,
-            let imp_uid = rsp.imp_id;
-            let merchant_uid = rsp.merchant_uid;
-            let paid_amount = rsp.paid_amount;
-            let apply_num = rsp.apply_num;
-
-            let data = {
-                imp_uid: imp_uid,
-                merchant_uid: merchant_uid,
-                paid_amount: paid_amount,
-                apply_num: apply_num
-            };
-
-            $.ajax({
-                url: "/order/add",
-                data: data,
-                success: function () {
-                    let msg = "결제가 완료되었습니다.\n";
-                    msg += "고유ID: " + imp_uid;
-                    msg += "\n상점거래ID : " + merchant_uid;
-                    msg += "\n결제금액 : " + paid_amount;
-                    msg += "\n 카드승인번호 : " + apply_num;
-                    alert(msg);
-                    location.href = "index.html";
-                }
-            })// end ajax
+            // 결제 성공
+            data.imp_uid = rsp.imp_uid;
+            data.merchant_uid = rsp.merchant_uid;
+            paymentComplete(data)
         } else {
-            // 결제 실패 시 로직,
-            let msg = "결제에 실패하였습니다./n"
-            msg = "에러내용: " + rsp.error_msg;
-
-            alert("msg");
+            alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
         }
     });
 }
+
+// 계산 완료
+function paymentComplete(data) {
+
+    $.ajax({
+        url: "/order/complete",
+        method: "POST",
+        data: data,
+    })
+        .done(function (result) {
+            messageSend();
+            swal({
+                text: result,
+                closeOnClickOutside: false
+            })
+                .then(function () {
+                    location.replace("/orderList");
+                })
+        }) // done
+        .fail(function () {
+            alert("에러");
+            location.replace("/");
+        })
+}
+
 
 
 /* 주소입력란 버튼 숨김 & 표시 */
