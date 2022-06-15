@@ -31,7 +31,6 @@ public class CartRestController {
 	public Map<String, Integer> addCart(@RequestBody Cart cart) throws Exception{
 
 		log.info("/cart/json/addCart");
-		
 		log.info("cart = {}", cart);
 		
 		int result = cartService.addCart(cart);
