@@ -14,7 +14,7 @@
 		<result property="reviewRegDate" 		column="reg_date" 				jdbcType="DATE" />
 		<result property="orderProductNumber" 	column="order_product_number" 	jdbcType="INTEGER" />
 				
-		<association property="orderProduct"  javaType="com.faitmain.domain.product.domain.Product">
+		<association property="orderProduct"  javaType="Product">
 			<id property="productNumber" 			column="product_number" 		jdbcType="INTEGER"/>			
 			<result property="productName"			column="product_name" 			jdbcType="VARCHAR" />
 			<result property="productGroupNumber" 	column="product_group_number" 	jdbcType="INTEGER" />
