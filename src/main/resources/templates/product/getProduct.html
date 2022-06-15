@@ -94,7 +94,6 @@
 							var selectRes = confirm(confirmText + "\n" + "장바구니로 이동하시겠습니까?");
 							
 							if(selectRes){ // 장바구니 이동
-								//let buyerId = '[[${ session.user.id }]]';
 								let buyerId = $("input[name=buyerId]").val();
 								self.location = "/cart/" + buyerId;
 							}else{
@@ -114,20 +113,20 @@
 
             $("#addOrder").on("click", function () {
 
-                                
-                let orderLink = $("input[name=buyerId]").val();
-                if(orderLink){
-					        console.log(orderLink);
-                  if ($("#totalPrice").text() == '0') {
-                    alert("옵션을 선택해주세요");
-                  }
-                    $("#getProductForm").attr("action", "/order/" + orderLink );
-                    $("#getProductForm").submit();
-                  }else{
-                    self.location = "/user/login";
-                  }
-                      });
-                  });
+
+				let orderLink = $("input[name=buyerId]").val();
+				if (orderLink) {
+					console.log(orderLink);
+					if ($("#totalPrice").text() == '0') {
+						alert("옵션을 선택해주세요");
+					}
+					$("#getProductForm").attr("action", "/order/" + orderLink);
+					$("#getProductForm").submit();
+				} else {
+					self.location = "/user/login";
+				}
+			});
+		});
     </script>
 </head>
 <body>
@@ -379,13 +378,15 @@
                     $("#totalPrice").text(totalPrice);
                     optionIndex--;
                 });
-
+            
             </script>
 
         </form>
+        
         <br/><br/>
         <hr/>
         <br/><br/>
+        
         <!--
         <ul id="myTab" class="nav nav-tabs">
 						<li class="active"><a href="#home" data-toggle="tab">Home</a></li>
@@ -399,6 +400,7 @@
 							profile tab!
 						</div>
 					</div> -->
+					
         <div class = "row">
             <div class = "col-md-12">
 				<div>				
