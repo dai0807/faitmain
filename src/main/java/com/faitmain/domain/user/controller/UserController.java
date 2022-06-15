@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -72,6 +73,16 @@ public class UserController{
     }
 
 
+    
+    @GetMapping("/user_access")
+    public String userAccess(Model model, Authentication authentication) {
+        //Authentication 객체를 통해 유저 정보를 가져올 수 있다.
+        User user = (User) authentication.getPrincipal();  //userDetail 객체를 가져옴
+        model.addAttribute("info", user.getId() +"의 "+ user.getName()+ "님");      //유저 아이디
+        return "user_access";
+    }
+    
+    
   //admin 페이지 리스트 보이기    , 스토어 신청서 리스트  
 	   @GetMapping("getStoreApplicationDocumentList")
 	   public String getStoreApplicationDocumentList(Model model ,@ModelAttribute Search search   )  throws Exception {
@@ -133,11 +144,11 @@ public class UserController{
 	      
 		   log.info("LostController 탔어용 login Page 도착");
 		   log.info("받은 유저 user 출력  :: {}" , loginuser);
-		   
+//		   
 		   String encPwd = pwdEncoder.encode(loginuser.getPassword());
 		   loginuser.setPassword(encPwd);
 		   log.info("암호화한 user PW :: {}" , loginuser.getPassword());
-		   
+//		   
 		   
  		   String result = "";
  		   result = userSerivce.getLogin(loginuser)+"" ; // id/ pw 값 있으면 1 없으면 0 ,,

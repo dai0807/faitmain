@@ -35,26 +35,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure( HttpSecurity http ) throws Exception{
     	System.out.println(" configure  :: + " ) ;
 
-        http.csrf().disable();
+        http.csrf().disable();  // csrf 공격 방지 허용 
 
         http.authorizeRequests()
-                /* 주석처리안되어있으면갈떄마다검증받아야함 */
-//                .antMatchers("/admin/**").hasRole("ADMIN")
-                 .antMatchers("/customer/**").hasAnyRole("user, admin" )
-                .anyRequest().permitAll()
-
+	        		.antMatchers("/user/getUser","/product/addProduct").authenticated() // 인증된 사람들만 접근 가능
+//	        		.antMatchers("/user/getUser" ).hasAnyRole("user","store","storeX","admin")// 인증된 사람들만 접근 가능
+//	        		.antMatchers("/user/getUserlist").hasRole("admin" ) //admin만 갈수 있음
+	                .anyRequest().permitAll()  //모든 요청 허용 쌉가능
                 .and()
-                .formLogin()
-                .loginPage("/user/login") // 인증 필요한 페이지 접근시 이동페이지
-                .loginProcessingUrl("/user/login")
-                .defaultSuccessUrl("/user/addUser")
-                .successHandler( loginSuccess )
-               // .failureHandler( loginFail )
-                .failureUrl("/user")		//로그인 실패 시 /loginForm으로 이동
+	                .formLogin()
+	                .loginPage("/user/login") // 인증 필요한 페이지 접근시 이동페이지 GET
+	                 .loginProcessingUrl("/user/login")  //POST (security를 이용해 인증처리)  spring security에서 로그인
+	    			.defaultSuccessUrl("/")				//  로그인 성공 시 이동 URL
+	                 .successHandler( loginSuccess )
+	                .failureHandler( loginFail )
+	               // .failureUrl("/user")		//로그인 실패 시 /loginForm으로 이동
                 .and()
-                .logout()
-                .logoutSuccessUrl("/index")
-
+	                .logout()
+	                .logoutUrl("/user/logout")
+	    			.invalidateHttpSession(true)  // 로그아웃시 세션 삭제 여부
+	    			.logoutSuccessUrl("/");
+	        
                 /*
                 .and()
                 .rememberMe()
