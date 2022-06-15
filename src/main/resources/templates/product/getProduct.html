@@ -106,8 +106,7 @@
                 //let id ='[[${session.user}]]';
                 
                 [# th:if="${session.user} != null"]
-                	
-                	orderLink = '[[@{/order/{buyerId}(buyerId=${session.user.id})}]]';
+                	orderLink = [[@{/order/{buyerId}(buyerId=${session.user.id})}]];
                 	
                 [/]
                 

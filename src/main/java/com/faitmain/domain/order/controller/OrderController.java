@@ -76,7 +76,7 @@ public class OrderController{
 
     /* IAMPORT 결제 로직 */
     @PostMapping( "/complete" )
-    public ResponseEntity<String> paymentComplete( HttpSession session , Order order, int totalPirce, User user ) throws IOException{
+    public ResponseEntity<String> paymentComplete( HttpSession session , Order order, User user ) throws IOException{
 
         // 1. 아임포트 API 키와 SECRET키로 토큰을 생성
         String token = paymentService.getToken();
@@ -121,6 +121,7 @@ public class OrderController{
             return new ResponseEntity<String>( "결제 에러" , HttpStatus.BAD_REQUEST );
         }
     }
+
 
 
 

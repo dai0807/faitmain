@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.Getter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class PaymentServiceImpl implements PaymentService{
 
@@ -103,11 +105,41 @@ public class PaymentServiceImpl implements PaymentService{
     }
 
     @Override
-    public void paymentCancel( String access_token , String imp_uid , int amount , String reason ){
+    public void paymentCancel( String access_token , String imp_uid , int amount , String reason ) throws IOException{
 
+        log.info( "access_token = {}", access_token );
+        log.info( "imp_uid = {}" , imp_uid );
+
+        HttpsURLConnection conn = null;
+        URL url = new URL( "https//api.iamport.kr/payments/cancel" );
+
+        conn = ( HttpsURLConnection ) url.openConnection();
+
+        conn.setRequestMethod( "POST" );
+        conn.setRequestProperty( "Content-type" , "applicaition/json" );
+        conn.setRequestProperty( "Accept" , "application/json" );
+        conn.setRequestProperty( "Authorization" , access_token );
+
+        conn.setDoOutput( true );
+
+        JsonObject json = new JsonObject();
+
+        json.addProperty( "reason", reason );
+        json.addProperty( "imp_uid", imp_uid );
+        json.addProperty( "amount", amount );
+        json.addProperty( "checkSum" , amount );
+
+        BufferedWriter bw = new BufferedWriter( new OutputStreamWriter( conn.getOutputStream() ) );
+
+        bw.write( json.toString() );
+        bw.flush();
+        bw.close();
+
+        BufferedReader br = new BufferedReader( new BufferedReader( new InputStreamReader( conn.getInputStream() , StandardCharsets.UTF_8 ) ) );
+
+        br.close();
+        conn.disconnect();
     }
-
-
 
 
     /* ************************************ */
