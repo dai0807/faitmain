@@ -29,30 +29,26 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public int addCart( Cart cart ) throws Exception{
-
-
-
-        /* 장바구니 데이터 체크*/
-        Cart checkCart = cartMapper.selectCart( cart );
-
-        if ( checkCart != null ) {
-            return 2;
-        }
-
-        /* 장바구니 등록 & 에러 시 0 반환 */
-        try {
-            int i = 0;
-            for ( OrderPageProduct opp : cart.getOrderPageProductList() ) {
-
-                cart.setProductNumber( opp.getProductNumber() );
-                cart.setProductOrderCount( opp.getProductOrderCount());
+       
+    	int i = 0;
+    	
+        for ( OrderPageProduct opp : cart.getOrderPageProductList() ) {        	
+            cart.setProductNumber( opp.getProductNumber() ); 
+            
+        	 /* 장바구니 데이터 체크*/
+            Cart checkCart = cartMapper.selectCart( cart );
+            if ( checkCart == null ) {
+            	log.info("장바구니에 추가");
+            	cart.setProductOrderCount( opp.getProductOrderCount());
                 i = cartMapper.addCart( cart );
-
-            }
-            return i;
-        } catch ( Exception e ) {
-            return 0;
+            }else {
+            	log.info("이미 장바구니에 있는 상품");;
+            	i = 2;
+            }   
+            
         }
+        
+        return i;
 
     }
 

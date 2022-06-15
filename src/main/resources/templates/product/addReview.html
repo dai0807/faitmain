@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/default_layout}">
+<html lang="ko" layout:decorate="~{layout/myPage_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset = "UTF-8">
     <title>리뷰 등록</title>
@@ -12,29 +12,29 @@
 		
 		h5,span{font-family: 'Nanum Gothic Coding', monospace;}
 		
-		#myform fieldset{
+		#addReviewForm fieldset{
 		    display: inline-block;
 		    direction: rtl;
 		    border:0;
 		}
-		#myform fieldset legend{
+		#addReviewForm fieldset legend{
 		    text-align: right;
 		}
-		#myform input[type=radio]{
+		#addReviewForm input[type=radio]{
 		    display: none;
 		}
-		#myform label{
+		#addReviewForm label{
 		    font-size: 3em;
 		    color: transparent;
 		    text-shadow: 0 0 0 #f0f0f0;
 		}
-		#myform label:hover{
+		#addReviewForm label:hover{
 		    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 		}
-		#myform label:hover ~ label{
+		#addReviewForm label:hover ~ label{
 		    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 		}
-		#myform input[type=radio]:checked ~ label{
+		#addReviewForm input[type=radio]:checked ~ label{
 		    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 		}
 		#reviewContents {
@@ -51,7 +51,16 @@
     </style>
     
     <script type="text/javascript">
-    	
+    	$(function () {
+				$('#reviewContent').on('keyup', function () {
+					$('#reviewWord_cnt').html("(" + $(this).val().length + " / 100)");
+
+					if ($(this).val().length > 100) {
+						$(this).val($(this).val().substring(0, 100));
+						$('#reviewWord_cnt').html("(100 / 100)");
+					}
+				});
+			});
     	
 		
     </script>
@@ -59,24 +68,37 @@
 <body>
 	<article  class="py-5" layout:fragment="content">
 		<div class="container">
-			<form class="mb-3" name="myform" id="myform" method="post">
+			
+			<img class = "img-thumbnail" th:src = "|../img/upload/${ review.orderProduct.productMainImage }|" alt="" width="10%" />
+			<span th:text="${review.orderProduct.productName}"></span>
+		
+			<form th:action="@{/review/addReview}" method="post" th:object="${review}" name="addReviewForm" id="addReviewForm" class="form-horizontal" enctype="multipart/form-data">
 				<fieldset>
 					<span class="text-bold">별점을 선택해주세요</span>
-					<input type="radio" name="reviewStar" value="5" id="rate1"><label
-						for="rate1">★</label>
-					<input type="radio" name="reviewStar" value="4" id="rate2"><label
-						for="rate2">★</label>
-					<input type="radio" name="reviewStar" value="3" id="rate3"><label
-						for="rate3">★</label>
-					<input type="radio" name="reviewStar" value="2" id="rate4"><label
-						for="rate4">★</label>
-					<input type="radio" name="reviewStar" value="1" id="rate5"><label
-						for="rate5">★</label>
+					<input type="radio" name="rating" value="5" id="rate1"><label for="rate1">★</label>
+					<input type="radio" name="rating" value="4" id="rate2"><label for="rate2">★</label>
+					<input type="radio" name="rating" value="3" id="rate3"><label for="rate3">★</label>
+					<input type="radio" name="rating" value="2" id="rate4"><label for="rate4">★</label>
+					<input type="radio" name="rating" value="1" id="rate5"><label for="rate5">★</label>
 				</fieldset>
-				<div>
-					<textarea class="col-auto form-control" type="text" id="reviewContents"
-							  placeholder="좋은 수강평을 남겨주시면 Cocolo에 큰 힘이 됩니다! 포인트 5000p도 지급!!"></textarea>
+				<div class="form-group">
+					<div class="col-sm-4">
+						<textarea id="reviewContent" cols="30" rows="10" name="reviewContent"></textarea>
+						<div id="reviewWord_cnt">(0 / 100)</div>
+				    </div>
 				</div>
+				
+				<input type="file" class="form-control" id="reviewImg" name="reviewImg"/>
+				
+				<button type="submit">등록</button>				
+				
+				<input type="hidden" th:field="*{orderProductNumber}" />
+				<input type="hidden" th:field="*{orderProduct.productNumber}" />
+				<input type="hidden" th:field="*{orderProduct.productName}" />
+				<th:block th:if="${session.user.id != null}">
+					<input type="hidden" th:value="${session.user.id}" name="userId" />
+				</th:block>				
+				<!---->
 			</form>
 		</div>
 	</article>

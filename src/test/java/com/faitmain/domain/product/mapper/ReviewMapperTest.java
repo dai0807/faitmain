@@ -37,7 +37,7 @@ public class ReviewMapperTest {
 		System.out.println("addReviewTest start");
 		
 		Review review = new Review();
-		review.setOrderNumber(1);
+//		review.setOrderNumber(1);
 		review.setReviewContent("배송이 빨라요~");
 		review.setRating(5);
 		review.setUserId("user01@naver.com");

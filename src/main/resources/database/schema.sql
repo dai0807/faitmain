@@ -111,15 +111,18 @@ CREATE TABLE `store_application_document` (
 
 CREATE TABLE `review` (
                       `review_number`  INT(5)       NOT NULL AUTO_INCREMENT ,
-                      `order_number`   INT(5)       NOT NULL ,
+                      `order_product_number`   INT       NOT NULL ,
                       `review_content` VARCHAR(200) NOT NULL ,
-                      `review_image`   VARCHAR(30)  NULL ,
+                      `review_image`   VARCHAR(100)  NULL ,
                       `rating`         INT          NOT NULL ,
                       `reg_date`       DATE         NULL ,
                       `user_id`        VARCHAR(25)  NOT NULL ,
+                      `product_number` INT(5)		NOT NULL ,
+                      `product_name`   VARCHAR(50)  ,
                       PRIMARY KEY ( `review_number` ) ,
-                      FOREIGN KEY ( `order_number` ) REFERENCES `order` ( order_number ) ,
-                      FOREIGN KEY ( user_id ) REFERENCES user ( id )
+                      FOREIGN KEY ( `order_product_number` ) REFERENCES `order_product` ( order_product_number ) ,
+                      FOREIGN KEY ( user_id ) REFERENCES user ( id ) ,
+                      FOREIGN KEY ( `product_number` ) REFERENCES product ( product_number ) 
                       );
 
 CREATE TABLE `cart` (
