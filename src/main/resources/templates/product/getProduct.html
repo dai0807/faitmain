@@ -93,36 +93,23 @@
 							console.log(textStatus); //"error"로 고정인듯함
 							console.log(errorThrown);
 						}
-
 					});
-					
-				}    
-				
+				}
             });
 
             $("#addOrder").on("click", function () {
-                                
                 let orderLink = $("input[name=buyerId]").val();
-                
-                	
-                
                 if(orderLink){
 					console.log(orderLink);
-					
 					if ($("#totalPrice").text() == '0') {
 						alert("옵션을 선택해주세요");
 					}
-					 
 					$("#getProductForm").attr("action", "/order/" + orderLink );
 					$("#getProductForm").submit();
-					
 				}else{
 					self.location = "/user/login";
 				}
-               
             });
-
-
         });
     </script>
 </head>
