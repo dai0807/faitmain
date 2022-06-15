@@ -17,6 +17,7 @@ public class Cart{
 	private String buyerId;
 
 	private int productNumber;
+	
 	private int productOrderCount;
 
 	private List<OrderPageProduct> orderPageProductList;

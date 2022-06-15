@@ -64,9 +64,9 @@ function setTotalInfo() {
             // 총 가격
             totalPrice += parseInt($(element).find(".individual_totalPrice_input").val());
             // 총 갯수
-            totalCount += parseInt($(element).find(".individual_bookCount_input").val());
+            totalCount += parseInt($(element).find(".individual_productOrderCount_input").val());
             // 총 종류
-            totalKind += 1;
+            //totalKind += 1;
             // 총 마일리지
             totalPoint += parseInt($(element).find(".individual_totalPoint_input").val());
         }
@@ -105,6 +105,7 @@ $(".plus_btn").on("click", function () {
     let quantity = $(this).parent("div").find("input").val();
     $(this).parent("div").find("input").val(++quantity);
 });
+
 $(".minus_btn").on("click", function () {
     let quantity = $(this).parent("div").find("input").val();
     if (quantity > 1) {

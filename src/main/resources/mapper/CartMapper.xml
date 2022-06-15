@@ -43,8 +43,8 @@
 
     <!-- 카트 목록 조회 -->
     <select id="selectCartList" resultType="com.faitmain.domain.cart.domain.Cart">
-        SELECT c.cart_number, c.buyer_id, c.product_number, p.product_name, p.product_price
-          FROM cart                    c
+        SELECT c.*, p.*
+          FROM cart c
                LEFT OUTER JOIN product p ON p.product_number = c.product_number
          WHERE buyer_id = #{buyerId}
     </select>

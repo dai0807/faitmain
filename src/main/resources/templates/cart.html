@@ -4,7 +4,7 @@
 <head>
     <meta charset = "UTF-8">
     <title>장바구니 페이지</title>
-
+	<script type="text/javascript" src="/js/cart.js"></script>
     <!--  고유 CSS 추가 -->
     <style>
 
@@ -14,7 +14,7 @@
             height: 100%;
         }
         .image_wrap img{
-            max-width: 85%;
+            max-width: 50%;
             height: auto;
             display: block;
         }
@@ -517,7 +517,7 @@
                                 <input checked = "checked" class = "individual_cart_checkbox input_size_20" type = "checkbox">
                                 <input class = "individual_productPrice_input" type = "hidden" th:value = "${cart.productPrice}">
                                 <input class = "individual_salePrice_input" type = "hidden" th:value = "${cart.salePrice}">
-                                <input class = "individual_productOrderCount_input" type = "hidden" th:value = "${cart.productorderCount}">
+                                <input class = "individual_productOrderCount_input" type = "hidden" th:value = "${cart.productOrderCount}">
                                 <input class = "individual_totalPrice_input" type = "hidden" th:value = "${cart.salePrice * cart.productOrderCount}">
                                 <input class = "individual_point_input" type = "hidden" th:value = "${cart.point}">
                                 <input class = "individual_totalPoint_input" type = "hidden" th:value = "${cart.totalPoint}">
@@ -525,17 +525,17 @@
                             </td>
                             <td class = "td_width_2">
                             <td>
-                                <img class = "image_wrap" th:src = "|../img/upload/${cart.productMainImage }|">
+                                <img class = "image_wrap" th:src="|../img/upload/${cart.productMainImage}|">
                             </td>
                             </td>
-                            <td class = "td_width_3">${ci.bookName}</td>
+                            <td class = "td_width_3" th:text = "${cart.productName}"></td>
                             <td class = "td_width_4 price_td">
                                 <del>정가 :
-                                    <th:block  th:value = "${ci.bookPrice}"/>
+                                    <th:block  th:text = "${cart.productPrice}"/>
                                 </del>
                                 <br>
-                                판매가 : <span class = "red_color" th:value = "${ci.salePrice}"></span><br>
-                                마일리지 : <span class = "green_color" th:value = "${ci.point}"></span>
+                                판매가 : <span class = "red_color" th:text = "${cart.salePrice}"></span><br>
+                                마일리지 : <span class = "green_color" th:text = "${cart.point}"></span>
                             </td>
                             <td class = "td_width_4 table_text_align_center">
                                 <div class = "table_text_align_center quantity_div">
@@ -546,7 +546,7 @@
                                 <a class = "quantity_modify_btn" th:data-cartId = "${cart.cartNumber}">변경</a>
                             </td>
                             <td class = "td_width_4 table_text_align_center">
-                                <th:block th:value = "${cart.salePrice * cart.productOrderCount}"/>
+                                <th:block th:text = "${cart.salePrice * cart.productOrderCount}"/>
                             </td>
                             <td class = "td_width_4 table_text_align_center">
                                 <button class = "delete_btn" th:data-cartid = "${cart.cartNumber}">삭제</button>
@@ -568,19 +568,18 @@
                                     <tr>
                                         <td>총 상품 가격</td>
                                         <td>
-                                            <span class = "totalPrice_span">70000</span> 원
+                                            <span class = "totalPrice_span"></span> 원
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>배송비</td>
                                         <td>
-                                            <span class = "delivery_price">3000</span>원
+                                            <span class = "delivery_price"></span>원
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>총 주문 상품수</td>
-                                        <td><span class = "totalKind_span"></span>종 <span
-                                                class = "totalCount_span"></span>권
+                                        <td><span class = "totalCount_span"></span>개
                                         </td>
                                     </tr>
                                 </table>
