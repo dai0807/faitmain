@@ -14,18 +14,24 @@ public class UiUtils {
 	public String showMessageWithRedirect(@RequestParam(value = "message", required = false) String message,
 											@RequestParam(value = "redirectUri", required = false) String redirectUri,
 											@RequestParam(value = "method", required = false) Method method,
-											@RequestParam(value = "params", required = false) Map<String, Object> params, Model model) {
+											@RequestParam(value = "map", required = false) Map<String, Object> params, Model model) {
+		
+		 System.out.println("=======showMessageWithRedirect===시작 ==");
+
+		 System.out.println("여기에 왔니");
+
 		
 		model.addAttribute("message", message);
 		model.addAttribute("redirectUri", redirectUri);
 		model.addAttribute("method", method);
 		model.addAttribute("params", params);
 		
-		System.out.println(message);
-		System.out.println(redirectUri);
-		System.out.println(method);
-		System.out.println(params);
+		System.out.println("message"+message);
+		System.out.println("redirectUri"+redirectUri);
+		System.out.println("method"+method);
+		System.out.println("params"+params);
+		 System.out.println("=======showMessageWithRedirect===끝 ==");
 		
-		return "/utils/message-redirect";
+		return "utils/message-redirect";
 	}
 }
