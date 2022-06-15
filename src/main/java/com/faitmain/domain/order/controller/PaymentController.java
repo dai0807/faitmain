@@ -1,3 +1,4 @@
+/*
 package com.faitmain.domain.order.controller;
 
 import com.faitmain.domain.order.domain.Payment;
@@ -19,7 +20,9 @@ public class PaymentController{
     @PostMapping( "/add" )
     public String paymentAdd( @ResponseBody Payment payment ){
 
-        /* 결제 정보 검증 후 저장하기 */
+        */
+/* 결제 정보 검증 후 저장하기 *//*
+
         try {
             paymentService.paymentInfo( "33" , "erer" );
             return "";
@@ -34,3 +37,4 @@ public class PaymentController{
 
     }
 }
+*/

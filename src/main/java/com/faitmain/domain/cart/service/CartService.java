@@ -12,6 +12,9 @@ public interface CartService{
 	/* 카트 정보 리스트 */
 	List<Cart> getCartList( String buyerId ) throws Exception;
 
+	//장바구니 조회
+	Cart getCart(Cart cart) throws Exception;
+
 	/* 카트 수량 수정 */
 	int updateProductOrderCount( Cart cart ) throws Exception;
 

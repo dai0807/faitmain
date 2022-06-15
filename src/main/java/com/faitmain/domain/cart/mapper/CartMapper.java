@@ -1,7 +1,6 @@
 package com.faitmain.domain.cart.mapper;
 
 import com.faitmain.domain.cart.domain.Cart;
-import com.faitmain.global.common.Search;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -19,10 +18,10 @@ public interface CartMapper{
     int updateCart( Cart cart ) throws Exception;
 
     /* 카트 목록 */
-    List<Cart> getCartList( String buyerId ) throws Exception;
+    List<Cart> selectCartList( String buyerId ) throws Exception;
 
     /* 카트 확인 */
-    Cart getCart( Cart cart ) throws Exception;
+    Cart selectCart( Cart cart ) throws Exception;
 
     /* 카트 제거 (주문) */
     int deleteOrderCart( Cart cart );

@@ -413,13 +413,13 @@
                                         <br>[
                                         <th:block th:text = "${orderPageProduct.totalPoint}"></th:block>
                                         P]
-                                        <input class = "individual_productPrice_input" type = "hidden" value = "${orderPageProduct.productPrice}">
-                                        <input class = "individual_salePrice_input" type = "hidden" value = "${orderPageProduct.salePrice}">
-                                        <input class = "individual_productOrderCount_input" type = "hidden" value = "${orderPageProduct.productOrderCount}">
-                                        <input class = "individual_totalPrice_input" name = "amount" type = "hidden" value = "${orderPageProduct.salePrice * orderPageProduct.productOrderCount}">
-                                        <input class = "individual_point_input" type = "hidden" value = "${orderPageProduct.point}">
-                                        <input class = "individual_totalPoint_input" type = "hidden" value = "${orderPageProduct.totalPoint}">
-                                        <input class = "individual_productNumber_input" type = "hidden" value = "${orderPageProduct.productNumber}">
+                                        <input class = "individual_productPrice_input" type = "hidden" th:value = "${orderPageProduct.productPrice}">
+                                        <input class = "individual_salePrice_input" type = "hidden" th:value = "${orderPageProduct.salePrice}">
+                                        <input class = "individual_productOrderCount_input" type = "hidden" th:value = "${orderPageProduct.productOrderCount}">
+                                        <input class = "individual_totalPrice_input" name = "amount" type = "hidden" th:value = "${orderPageProduct.salePrice * orderPageProduct.productOrderCount}">
+                                        <input class = "individual_point_input" type = "hidden" th:value = "${orderPageProduct.point}">
+                                        <input class = "individual_totalPoint_input" type = "hidden" th:value = "${orderPageProduct.totalPoint}">
+                                        <input class = "individual_productNumber_input" type = "hidden" th:value = "${orderPageProduct.productNumber}">
                                     </td>
                                 </tr>
                             </th:block>
