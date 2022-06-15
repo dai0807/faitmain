@@ -3,16 +3,25 @@
 				layout:decorate = "~{layout/customer_default_layout2}"
       			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
 <head>	
-		 <link th:href="@{/css/customer.css}" rel="stylesheet" />
-		<title>This page is a list page</title>
+		<link th:href="@{/css/customer.css}" rel="stylesheet" />
+		<th:block layout:fragment="title">
+			<title>This page is a list page</title>
+		</th:block>
 </head>
  		
 <body>	
+	<th:block layout:fragment="search">
+		<form action="#" id="searchform-header" class="searchform js__toggle active pull-right">
+			<input type="search" placeholder="Search..." class="input-search">
+			<button class="mdi mdi-magnify button-search" type="submit">
+				<i class="fa fa-search" aria-hidden="true"></i>
+			</button>
+		</form>
+	</th:block>
+	
 	<th:block layout:fragment="content">
-	<div class="noti">
-	<h3>공지사항</h3>
-	<hr />
-	</div>
+		<h3>공지사항</h3>
+		<hr />
 		<div class="container-fluid">
 			<table class="table table-hover">
 				<thead>
@@ -31,7 +40,7 @@
 							<a th:href="@{/customer/detail( boardNumber=${row.boardNumber} )}" th:text="${row.boardTitle}"></a>
 						</td>
 						<td th:text="${row.customerId.id}"></td> 
-						<td th:text="${row.boardRegDate}"></td>
+						<td th:text="${#dates.format(row.boardRegDate, 'yyyy-MM-dd')}"></td>
 						<td th:text="${row.viewCount}"></td> 
 					</tr>
 					<tr th:unless="${not #lists.isEmpty( boardList )}">
@@ -40,6 +49,8 @@
 				</tbody>
 			</table>
 		</div>
+		
+		
 		<th:block layout:fragment="paging"></th:block>
 		<nav aria-label="Page navigation" class="text-center">
 			<ul class="pagination">
@@ -61,38 +72,19 @@
 			</ul>
 		</nav>
 		<div class="btn_wrap text-right">
-						<a th:href="@{/admin/addNotice}" class="btn btn-primary waves-effect waves-light">등록</a>
+						<a th:href="@{/customer/addNotice}" class="btn btn-primary waves-effect waves-light">등록</a>
 					</div> 
-	</div>
-	<!-- <th:block layout:fragment="paging"></th:block>
-		<nav aria-label="Page navigation" class="text-center">
-			<ul class="pagination">
-				<li>
-					<a href="#" aria-label="Previous">
-						<span aria-hidden="true">&laquo;</span>
-					</a>
-				</li>
-				<li><a href="#">1</a></li>
-				<li><a href="#">2</a></li>
-				<li><a href="#">3</a></li>
-				<li><a href="#">4</a></li>
-				<li><a href="#">5</a></li>
-				<li>
-					<a href="#" aria-label="Next">
-						<span aria-hidden="true">&raquo;</span>
-					</a>
-				</li>
-			</ul>
-		</nav> -->
+	    </th:block>  		
 	
-    </th:block>  		
+</body>
+</html>
+	
+	
+	
        		
        
 			
 			 
-	
-</body>
-</html>
 			
 			
  	

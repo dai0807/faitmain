@@ -1,11 +1,9 @@
 package com.faitmain.domain.live.controller;
 
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import lombok.extern.slf4j.Slf4j;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,10 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.faitmain.domain.live.domain.Live;
 import com.faitmain.domain.live.domain.LiveChat;
-import com.faitmain.domain.live.domain.LiveProduct;
 import com.faitmain.domain.live.domain.LiveReservation;
 import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.live.service.LiveService;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
@@ -100,30 +99,29 @@ public class LiveRestController {
 	@GetMapping("json/getLiveReservationCal")
 	public List<Map<String, Object>> getLiveReservationCal() throws Exception {
 		log.info("/live/json/getLiveReservationCal : GET start...");
-		
+
 		List<LiveReservation> list = liveService.getLiveReservationCal();
-		
+
 		log.info("{}", list);
-		
+
 		JSONObject jsonObj = new JSONObject();
 		JSONArray jsonArr = new JSONArray();
-		
+
 		Map<String, Object> map = new HashMap<>();
-		
-		for(LiveReservation obj : list) {
+
+		for (LiveReservation obj : list) {
 			map.put("title", "예약 수 : " + obj.getTitle());
 			map.put("start", obj.getReservationDate());
-			
+
 			jsonObj = new JSONObject(map);
 			jsonArr.add(jsonObj);
 		}
-		
+
 		log.info("jsonArrCheck: {}", jsonArr);
-		
+
 		log.info("/live/json/getLiveReservationCal : GET end...");
 		return jsonArr;
 	}
-
 
 //	@PostMapping("json/deleteLiveReservation")
 //	public Map<String, Object> deleteLiveReservation(@RequestBody LiveReservation liveReservation) throws Exception {
@@ -139,8 +137,31 @@ public class LiveRestController {
 //		return map;
 //	}
 
-	
-	
-	
+	@GetMapping("json/addLiveReservation")
+	public List<Integer> addLiveReservation(String date) throws Exception {
+		log.info("addLiveReservation GET : start...");
+
+		List<LiveReservation> list = liveService.getLiveReservationList(date);
+
+		List<Integer> timeList = new ArrayList<>();
+		boolean flag = true;
+
+		for (int i = 0; i < 24; i++) {
+			flag = true;
+			for (LiveReservation obj : list) {
+				if (i == obj.getReservationTime()) {
+					flag = false;
+				}
+			}
+			if (flag) {
+				timeList.add(i);
+			}
+		}
+
+		log.info("timeList = {}", timeList);
+
+		log.info("addLiveReservation GET : end...");
+		return timeList;
+	}
 
 }

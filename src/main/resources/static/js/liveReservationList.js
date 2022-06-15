@@ -24,6 +24,13 @@ $(document).ready(function(){
 		  
 		  $('.carousel .carousel-inner').on('dragstart', 'a', function () {
 		    return false;
-		  });  
+		  });
 		  
-		});
+		  $('a.btn-danger').on('click', function(){
+		  	$getJSON("/live/json/deleteLiveReservation",{
+		  		data: ;
+		  	})
+		  });
+		  
+		  
+});

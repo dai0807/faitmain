@@ -5,7 +5,7 @@
 <head>	
 	<th:block layout:fragment="title">
 	 <link th:href="@{/css/customer.css}" rel="stylesheet" />
-		<title>Notification</title>
+		<title>this page is detailNotification</title>
 	</th:block>
 </head>
 
@@ -53,19 +53,42 @@
 				</tbody>
 			</table>
 			 
-            <input type="hidden" name="boardIdx" th:value="${customer.boardNumber}">
+            <input type="hidden" name="boardNumber" th:value="${customer.boardNumber}">
         </form>
 
         <div class="btn_wrap text-center">
 			<a th:href="@{/customer/list}" class="btn btn-default waves-effect waves-light">목록으로</a>
 			<a th:href="@{/customer/addNotice( boardNumber=${customer.boardNumber} )}" class="btn btn-primary waves-effect waves-light">수정하기</a>
-			<form th:action="@{'/customer/deleteNotice/'}" method="post">
-			<input type="hidden" name="id" th:value="${customer.boardNumber}"/>
-				<button>삭제하기</button>
-			</form>
+			
+			<button type="button" class="btn btn-danger waves-effect waves-light" 
+					th:onclick="deleteNotice([[${customer.boardNumber}]])">삭제하기</button>
+			
 		</div>
 
       
 	</div>
+	<th:block layout:fragment="script">
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+
+			function deleteNotice(boardNumber) {
+
+				if (confirm(boardNumber + "번 게시글을 삭제할까요?")) {
+					var uri = /*[[ @{/customer/delete} ]]*/ null;
+					var html = "";
+
+					html += '<form name="dataForm" action="'+uri+'" method="post">';
+						html += '<input type="hidden" name="boardNumber" value="'+boardNumber+'" />';
+					html += '</form>';
+
+					$("body").append(html);
+					document.dataForm.submit();
+				}
+			}
+			/*[- end of function -]*/
+
+			/*]]>*/
+		</script>
+	</th:block>
 </body>
 </html> 
