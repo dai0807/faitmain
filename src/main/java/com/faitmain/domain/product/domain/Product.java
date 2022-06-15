@@ -26,6 +26,8 @@ public class Product {
 	private int deliveryCharge;
 	private int productGroupNumber;
 	private List<Product> productOptions;
+	private List<Review> reviewList;
+	private List<Inquiry> inquiryList;
 	
 	@Builder
 	public Product(int productNumber, String productName) {
