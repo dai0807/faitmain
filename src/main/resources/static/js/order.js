@@ -1,6 +1,6 @@
 function requestPay() {
     IMP.init("imp76668016");
-    IMP.request_pay({ // param
+    IMP.request_pay({
         pg: "html5_inicis",
         pay_method: "card",
         merchant_uid: "ORD20180131-0000011",
@@ -27,7 +27,8 @@ function requestPay() {
             };
 
             $.ajax({
-                url: "/order/add", data: data,
+                url: "/order/add",
+                data: data,
                 success: function () {
                     let msg = "결제가 완료되었습니다.\n";
                     msg += "고유ID: " + imp_uid;
