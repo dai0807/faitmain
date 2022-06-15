@@ -11,10 +11,10 @@
     <link href = "https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-
 
     <style>
         .form-group {
@@ -62,14 +62,14 @@
             $("#addCart").on("click", function () {
 
                 console.log("product : " + $("#getProductForm").serialize());
-
+				
 				let user = '[[${ session.user }]]';
 				console.log("session : " + user);
-
+				
 				if(user == null){ // 로그인 안했을 때
 					self.location = "/user/login";
 				}else{ // 로그인 했을 때
-
+					
 					if ($("#totalPrice").text() == '0') {
 						alert("옵션을 선택해주세요");
 						return;
@@ -92,43 +92,32 @@
 							self.location = "/cart/user01@naver.com";
 						},
 						//요청 실패 시 이벤트
-						//응답 status code가 2xx가 아닌 경우
+						//응답 status code가 2xx가 아닌 경우 
 						error: function (jqXHR, textStatus, errorThrown) {
 							console.log(jqXHR);  //응답 메시지
 							console.log(textStatus); //"error"로 고정인듯함
 							console.log(errorThrown);
 						}
-
 					});
-
 				}
-
             });
 
             $("#addOrder").on("click", function () {
+
                                 
                 let orderLink = $("input[name=buyerId]").val();
-                
-                	
-                
                 if(orderLink){
-					console.log(orderLink);
-
-					if ($("#totalPrice").text() == '0') {
-						alert("옵션을 선택해주세요");
-					}
-					 
-					$("#getProductForm").attr("action", "/order/" + orderLink );
-					$("#getProductForm").submit();
-
-				}else{
-					self.location = "/user/login";
-				}
-
-            });
-
-
-        });
+					        console.log(orderLink);
+                  if ($("#totalPrice").text() == '0') {
+                    alert("옵션을 선택해주세요");
+                  }
+                    $("#getProductForm").attr("action", "/order/" + orderLink );
+                    $("#getProductForm").submit();
+                  }else{
+                    self.location = "/user/login";
+                  }
+                      });
+                  });
     </script>
 </head>
 <body>
@@ -200,7 +189,7 @@
 										],
 									})
 								</script>
-
+								
                             </p>
                             <!--
                             <dl class="list">
@@ -286,8 +275,8 @@
                                         장바구니 담기
                                     </button>
                                     <button class = "btn btn-primary btn-block" id = "addOrder" type = "button">
-                                    	구매하기
-                                    </button>
+                                    	구매하기                                  
+                                    </button>                                    
                                 </div>
                             </div>
                         </div>

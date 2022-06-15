@@ -26,11 +26,16 @@ $(document).ready(function(){
 		    return false;
 		  });
 		  
-		  $('a.btn-danger').on('click', function(){
-		  	$getJSON("/live/json/deleteLiveReservation",{
-		  		data: ;
-		  	})
-		  });
-		  
-		  
+		  //$('a.btn-danger').on('click', function(){
+		  //	
+		  //	$getJSON("/live/json/deleteLiveReservation",{
+		  //		data: $('#liveReservationNum').val();
+		  //	})
+		  //	
+		  //	.done(function(data){
+		  //		console.log(data);
+		  //	})
+		  //	
+		  // });
+		  	  
 });

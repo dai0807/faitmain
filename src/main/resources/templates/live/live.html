@@ -114,13 +114,11 @@
                 </div>
                 <!-- 방제 / 채팅방 정보 불러오는 api가 없어 하드코딩 -->
                 <article class="title">
-                    <p id=roomNm><span>Live</span></p>
+                    <p id=roomNm><span>Live</span>[[${Live.liveTitle}]]</p>
+                    
                     <!-- 나가기 버튼 -->
-                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" value="관리탭 호출" onclick="open_popup();">관리 탭 호출</button>
+                    <button type="button" value="연결확인 호출" onclick="call_chlid();">연결 테스트</button>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -128,8 +126,15 @@
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       
                     <button type="button" class="btn btn-warning" onclick="exit()">나가기</button>
+                    
                 </article>
+
                 <!-- 채팅방 -->
                 <article class="chat">
                     <!-- 채팅 -->
@@ -213,10 +218,26 @@
 
 
 var channelKey = $('#channelKey').val(); // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
+    
+    function open_popup(){
+    window.open('/live/liveManageTab', 'popup', 'width=650, height=300, left=1200, top=50, scrollbar=yes');
+	}
+
+   // 새로운 유저가 채팅방에 입장 시 팝업 갱신을 위한 function
+function call_chlid(){  //부모창에서 자식창에 값 전달
+
+            popup.lol(); // 자식창 함수 호출
+
+    }
 
 
 function videoInit() {
 	// 로컬 접속 종료 시
+	channel.on('onNotifyJoinUser',function(event){
+		 console.log('onNotifyJoinUser', event)
+	})
+	
+	
 	channel.on('rtcLocalStreamRemove', function(event){
 		let html = $('.my_cam > video');
 		html.remove();
@@ -231,6 +252,8 @@ function videoInit() {
 	    channel.setRTCLocalMedia(myVideo);
   });
 }
+
+
 
 // 공통 코드 =====================================
 const vChatCloud = new VChatCloud();
@@ -283,16 +306,23 @@ window.addEventListener("load", function () {
    			msgInit();
    			getRoomInfo();
    			likeInif();
+   			
    		}	
    	});
 })
 	
 function joinRoom(roomId, clientKey, nickName, callback) {
   // vchatcloud 객체
-  console.log("clientKey : " + clientKey);
+
 
   console.log("roomId = " + roomId);
-
+  
+  console.log("clientKey : " + clientKey);
+  
+  console.log("nickName = " + nickName);
+  
+  console.log("callback = " + callback);
+  
   channel = vChatCloud.joinChannel(
     {
       roomId: roomId,
@@ -431,6 +461,51 @@ function exit() {
     // 로그인 되지 않았음!
   }
 }
+
+function msgInit() {
+    // 공지사항 메시지
+    channel.onNotifyNotice = function(event) {
+        write(event, 'notice')
+    }
+
+    // 유저 입장
+    channel.onNotifyJoinUser = function(event) {
+        write(event, 'join')
+        call_chlid();
+        
+    }
+
+    // 유저 나감
+    channel.onNotifyLeaveUser = function(event) {
+        write(event, 'leave')
+        setTimeout(function() {
+ 		 call_child();
+		}, 1000);
+    }
+
+    // 유저 추방
+    channel.onNotifyKickUser = function(event) {
+        write("'<font color='blue'><b>" + event.nickName + "</b></font>' 님이 채팅방에서 추방되었습니다.");
+        call_chlid();
+    }
+
+    // 유저 추방 해제
+    channel.onNotifyUnkickUser = function(event) {
+        write("'<font color='blue'><b>" + event.nickName + "</b></font>' 님이 채팅방에서 추방 해제되었습니다.");
+    }
+
+    // 글쓰기 제한
+    channel.onNotifyMuteUser = function(event) {
+        write("'<font color='blue'><b>" + event.nickName + "</b></font>' 님의 글쓰기가 제한되었습니다.");
+    }
+
+    // 글쓰기 제한 해제
+    channel.onNotifyUnmuteUser = function(event) {
+        write("'<font color='blue'><b>" + event.nickName + "</b></font>' 님의 글쓰기가 제한 해제되었습니다.");
+    }
+}
+
+
 
 </script>
 
