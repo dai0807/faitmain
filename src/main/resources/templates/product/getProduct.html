@@ -79,21 +79,12 @@
 						//contentType: "application/json; charset=utf-8",
 						success: function (result) {
 							console.log("result : " + result);
-							let confirmText;
 							if (result == 2) {
-								confirmText = "중복된 상품을 제외하고 장바구니에 추가되었습니다.";
+								alert("중복된 상품을 제외하고 장바구니에 추가되었습니다.");
 							} else {
-								confirmText = "장바구니에 추가되었습니다.";
+								alert("장바구니에 추가되었습니다.");
 							}
-							
-							var selectRes = confirm(confirmText + "\n" + "장바구니로 이동하시겠습니까?");
-							
-							if(selectRes){ // 장바구니 이동
-								//let buyerId = '[[${ session.user.id }]]';
-								self.location = "/cart/" + [[${ session.user.id }]];
-							}else{
-								// 장바구니 이동 취소
-							}
+							self.location = "/cart/user01@naver.com";
 						},
 						//요청 실패 시 이벤트
 						//응답 status code가 2xx가 아닌 경우 
@@ -111,14 +102,9 @@
 
             $("#addOrder").on("click", function () {
                                 
-                let orderLink;
-                //let id ='[[${session.user}]]';
+                let orderLink = $("input[name=buyerId]").val();
                 
-                [# th:if="${session.user} != null"]
                 	
-                	orderLink = [[@{/order/{buyerId}(buyerId=${session.user.id})}]];
-                	
-                [/]
                 
                 if(orderLink){
 					console.log(orderLink);
@@ -127,7 +113,7 @@
 						alert("옵션을 선택해주세요");
 					}
 					 
-					$("#getProductForm").attr("action", orderLink);
+					$("#getProductForm").attr("action", "/order/" + orderLink );
 					$("#getProductForm").submit();
 					
 				}else{
@@ -146,6 +132,9 @@
     <div class = "container">
     	<form id = "getProductForm" method = "post" th:object="${product}">
     	<!--@{/review/getReviewList?searchCondition=userId&searchKeyword=} + ${session.user.id}-->
+    	<th:block th:if="${ session.user != null }">
+    		<input type="hidden" name="buyerId" th:value="${session.user.id}" />
+    	</th:block>
             <div class = "row">
                 <div class = "col-md-12">
                     <div class = "row">
