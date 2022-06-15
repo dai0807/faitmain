@@ -29,7 +29,6 @@ public class OrderPageProduct{
 
     /* 상품 이미지 */
     private String productMainImage;
-//    private List<AttachImage> imageList;
 
 
     public void initSaleTotal(){

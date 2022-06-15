@@ -14,7 +14,7 @@
                      )
         VALUES ( #{buyerId}
                , #{productOrderCount}
-               , #{cartProduct.productNumber}
+               , #{productNumber}
                )
     </insert>
 
@@ -33,17 +33,18 @@
     </delete>
 
     <!-- 카트 확인 -->
-    <select id="getCart" parameterType="com.faitmain.domain.cart.domain.Cart">
+    <select id="selectCart" resultType="com.faitmain.domain.cart.domain.Cart">
         SELECT *
           FROM cart
          WHERE buyer_id = #{buyerId}
            AND product_number = #{productNumber};
     </select>
 
+
     <!-- 카트 목록 조회 -->
-    <select id="getCartList" parameterType="com.faitmain.domain.cart.domain.Cart">
-        SELECT c.cart_number, c.buyer_id, c.product_number, p.product_name, p.product_price
-          FROM cart                    c
+    <select id="selectCartList" resultType="com.faitmain.domain.cart.domain.Cart">
+        SELECT c.*, p.*
+          FROM cart c
                LEFT OUTER JOIN product p ON p.product_number = c.product_number
          WHERE buyer_id = #{buyerId}
     </select>

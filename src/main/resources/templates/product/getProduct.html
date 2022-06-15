@@ -8,8 +8,9 @@
     <link href = "https://fonts.googleapis.com" rel = "preconnect">
     <link crossorigin href = "https://fonts.gstatic.com" rel = "preconnect">
     <script src = "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <link href = "https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap"
-          rel = "stylesheet">
+    <link href = "https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
     <style>
         .form-group {
 
@@ -26,13 +27,11 @@
 
     <script th:inline = "javascript">
 
-        //let productNumber = '[[${ product.productNumber }]]';
-        //let productName = '[[${ product.productName }]]';
+        let productGroupNumber = '[[${ product.productNumber }]]';
+        let productGroupName = '[[${ product.productName }]]';
         let productPrice = Number('[[${ product.productPrice }]]');
         let productMainImage = '[[${ product.productMainImage }]]';
         let productQuantity = Number('[[${ product.productQuantity }]]');
-
-
 
         $(function () {
 
@@ -59,48 +58,73 @@
 
                 console.log("product : " + $("#getProductForm").serialize());
 
-                if ($("#totalPrice").text() == '0') {
-                    alert("옵션을 선택해주세요");
-                    return;
-                }
+				let user = '[[${ session.user }]]';
+				console.log("session : " + user);
 
-                $.ajax({
-                    url: "/cart/json/addCart", // 주소
-                    //data: JSON.stringify(jsonData), // 전송 데이터
-                    data: $("#getProductForm").serialize(),
-                    type: "POST", // 전송 타입
-                    dataType: "JSON", // 응답 받을 데이터 타입
-                    //contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        console.log("result : " + data.result);
-                        if (data.result) {
-                            alert("장바구니에 추가되었습니다.");
-                        } else {
-                            alert("장바구니에 이미 담긴 상품입니다.");
-                        }
-                    },
-                    //요청 실패 시 이벤트
-                    //응답 status code가 2xx가 아닌 경우 
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);  //응답 메시지
-                        console.log(textStatus); //"error"로 고정인듯함
-                        console.log(errorThrown);
-                    }
+				if(user == null){ // 로그인 안했을 때
+					self.location = "/user/login";
+				}else{ // 로그인 했을 때
 
-                });
+					if ($("#totalPrice").text() == '0') {
+						alert("옵션을 선택해주세요");
+						return;
+					}
+
+					$.ajax({
+						url: "/cart/add", // 주소
+						//data: JSON.stringify(jsonData), // 전송 데이터
+						data: $("#getProductForm").serialize(),
+						type: "POST", // 전송 타입
+						dataType: "JSON", // 응답 받을 데이터 타입
+						//contentType: "application/json; charset=utf-8",
+						success: function (result) {
+							console.log("result : " + result);
+							if (result == 2) {
+								alert("중복된 상품을 제외하고 장바구니에 추가되었습니다.");
+							} else {
+								alert("장바구니에 추가되었습니다.");
+							}
+							self.location = "/cart/user01@naver.com";
+						},
+						//요청 실패 시 이벤트
+						//응답 status code가 2xx가 아닌 경우
+						error: function (jqXHR, textStatus, errorThrown) {
+							console.log(jqXHR);  //응답 메시지
+							console.log(textStatus); //"error"로 고정인듯함
+							console.log(errorThrown);
+						}
+
+					});
+
+				}
+
             });
 
             $("#addOrder").on("click", function () {
-                if ($("#totalPrice").text() == '0') {
-                    alert("옵션을 선택해주세요");
-                }
 
-                // let productCartCount = $(".quantity_input").val();
-                // $("#getProductForm").find("input[name='orderPageProductList[0].productOrderCount']").val(productCartCount);
-                // $("#getProductForm").submit();
-                //세션에 있는거 buyerId
-                //$("#getProductForm").attr("action", "/order/{buyerId}");
-                $("#getProductForm").submit();
+                let orderLink;
+                //let id ='[[${session.user}]]';
+
+                [# th:if="${session.user} != null"]
+
+                	orderLink = '[[@{/order/{buyerId}(buyerId=${session.user.id})}]]';
+
+                [/]
+
+                if(orderLink){
+					console.log(orderLink);
+
+					if ($("#totalPrice").text() == '0') {
+						alert("옵션을 선택해주세요");
+					}
+
+					$("#getProductForm").attr("action", orderLink);
+					$("#getProductForm").submit();
+
+				}else{
+					self.location = "/user/login";
+				}
+
             });
 
 
@@ -111,13 +135,13 @@
 
 <article class = "py-5" layout:fragment = "content">
     <div class = "container">
-        <form id = "getProductForm" method = "post" th:object = "${product}" th:action="@{/order/{buyerId}(buyerId=${session.user.id})}">
-
+    	<form id = "getProductForm" method = "post" th:object="${product}">
+    	<!--@{/review/getReviewList?searchCondition=userId&searchKeyword=} + ${session.user.id}-->
             <div class = "row">
                 <div class = "col-md-12">
                     <div class = "row">
                         <div class = "col-md-4">
-                            <img class = "img-thumbnail" th:src = "|../img/upload/${ product.productMainImage }|" alt="" src=""/>
+                            <img class = "img-thumbnail" th:src = "|../img/upload/${product.productMainImage }|" alt="" src=""/>
                         </div>
                         <div class = "col-md-8">
                             <p class = "product_name">
@@ -125,8 +149,55 @@
                                 <strong class = "name" th:text = "*{ productName }">
                                 </strong>
                                 <span class = "btn_share">
-										<button id = "btnShare">공유하기</button>
-									</span>
+										<a id="create-kakao-link-btn" href="javascript:;">
+										  <img
+										    src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"
+										    alt="카카오링크 보내기 버튼"
+										    width="30px"
+										  />
+										</a>
+								</span>
+								<script>
+									console.log("product : " + productMainImage );
+									Kakao.init('9e7bfe9bda76f4fc82c74df2aa9c4c98');
+									Kakao.isInitialized();
+									console.log(Kakao.isInitialized());
+
+									Kakao.Link.createDefaultButton({
+										container: '#create-kakao-link-btn',
+										objectType: 'commerce',
+										content: {
+											title: 'Fait Main',
+											imageUrl:
+												'http://192.168.0.90:8080/img/upload/' + productMainImage,
+											link: {
+												mobileWebUrl: 'http://192.168.0.90:8080/product/getProduct?productNumber=' + productGroupNumber,
+												webUrl: 'http://192.168.0.90:8080/product/getProduct?productNumber=' + productGroupNumber,
+											},
+										},
+										commerce: {
+											productName: productGroupName,
+											regularPrice: productPrice
+										},
+										buttons: [
+											{
+												title: '구매하기',
+												link: {
+													mobileWebUrl: 'http://192.168.0.90:8080/product/getProduct?productNumber=' + productGroupNumber,
+													webUrl: 'http://192.168.0.90:8080/product/getProduct?productNumber=' + productGroupNumber,
+												},
+											},
+											{
+												title: '공유하기',
+												link: {
+													mobileWebUrl: 'http://192.168.0.90:8080/product/getProduct?productNumber=' + productGroupNumber,
+													webUrl: 'http://192.168.0.90:8080/product/getProduct?productNumber=' + productGroupNumber,
+												},
+											},
+										],
+									})
+								</script>
+
                             </p>
                             <!--
                             <dl class="list">
@@ -208,16 +279,12 @@
 
                             <div class = "row">
                                 <div class = "col-md-12">
-                                    <button class = "btn btn-primary btn-block text-center" id = "addCart"
-                                            type = "button">
+                                    <button class = "btn btn-primary btn-block text-center" id = "addCart" type = "button">
                                         장바구니 담기
                                     </button>
                                     <button class = "btn btn-primary btn-block" id = "addOrder" type = "button">
-                                        구매하기
+                                    	구매하기
                                     </button>
-                                    <th:block th:if = "${session.user != null}">
-                                        <a class = "link-light small" th:href = "@{/order/${buyerId}(buyerId=${session.user.id})}">구매</a>
-                                    </th:block>
                                 </div>
                             </div>
                         </div>

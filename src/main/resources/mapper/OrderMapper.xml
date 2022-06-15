@@ -116,7 +116,7 @@
     </select>
 
     <!-- 주문 정보(주문 취소) -->
-    <select id="selectOrder" resultType="Order">
+    <select id="selectOrder" resultType="com.faitmain.domain.order.domain.Order">
         SELECT *
           FROM `order`
          WHERE order_number = #{orderNumber}

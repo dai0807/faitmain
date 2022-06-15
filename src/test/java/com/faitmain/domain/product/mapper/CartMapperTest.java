@@ -42,7 +42,7 @@ public class CartMapperTest {
 	}
 	
 	@Test
-	@DisplayName("getCartList Mapper Test")
+	@DisplayName("selectCartList Mapper Test")
 	public void getCartListTest() throws Exception{
 		
 		System.out.println("getCartListTest start");
@@ -52,7 +52,7 @@ public class CartMapperTest {
 		map.put("startRowNum", 1+"");
 		map.put("endRowNum", 5+"");
 		
-//		List<Cart> carts = cartMapper.getCartList(map);
+//		List<Cart> carts = cartMapper.selectCartList(map);
 		
 //		System.out.println(carts);		
 		System.out.println("getCartListTest end");
