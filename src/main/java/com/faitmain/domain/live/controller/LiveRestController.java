@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -286,7 +287,120 @@ public class LiveRestController {
 //	}
 
 	
-	
-	
+	//유저 강제퇴장
+	@GetMapping("json/kickUser/{roomId}/{clientKey}")
+	public void kickUser( @PathVariable("roomId") String roomId,
+						  @PathVariable("clientKey") List<String> clientKey )
 
+			throws Exception {
+
+		log.info("editRoom = {} ", this.getClass());
+		System.out.println("방송 정보 수정");
+		
+		String token = getToken();
+
+		JSONObject result = null;
+		StringBuilder sb = new StringBuilder();
+
+		TrustManager[] trustCerts = new TrustManager[] { new X509TrustManager() {
+			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+				return null;
+			}
+
+			public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+			}
+
+			public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+			}
+		} };
+
+		SSLContext sc = SSLContext.getInstance("TLSv1.2");
+		sc.init(null, trustCerts, new java.security.SecureRandom());
+		
+		for( String client : clientKey) {
+			
+		
+
+		URL url = new URL("https://vchatcloud.com/openapi/v1/exiles/" + roomId + "/" + client);
+
+		HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+		conn.setSSLSocketFactory(sc.getSocketFactory());
+
+		conn.setRequestMethod("POST");
+
+		conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+		conn.setRequestProperty("accept", "*/*");
+		conn.setRequestProperty("api_key", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
+		conn.setRequestProperty("X-AUTH-TOKEN", token);
+		conn.setDoOutput(true);
+
+		// 데이터 입력 스트림에 담기
+		BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+		while (br.ready()) {
+			sb.append(br.readLine());
+		}
+		
+		conn.disconnect();
+
+		}
+	}
+	
+	//유저 채팅제한
+		@GetMapping("json/muteUser/{roomId}/{clientKey}")
+		public void muteUser( @PathVariable("roomId") String roomId,
+							  @PathVariable("clientKey") List<String> clientKey )
+
+				throws Exception {
+
+			log.info("editRoom = {} ", this.getClass());
+			System.out.println("방송 정보 수정");
+			
+			String token = getToken();
+
+			JSONObject result = null;
+			StringBuilder sb = new StringBuilder();
+
+			TrustManager[] trustCerts = new TrustManager[] { new X509TrustManager() {
+				public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+					return null;
+				}
+
+				public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+				}
+
+				public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+				}
+			} };
+
+			SSLContext sc = SSLContext.getInstance("TLSv1.2");
+			sc.init(null, trustCerts, new java.security.SecureRandom());
+			
+			for( String client : clientKey) {
+				
+			
+
+			URL url = new URL("https://vchatcloud.com/openapi/v1/mute/" + roomId + "/" + client);
+
+			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+			conn.setSSLSocketFactory(sc.getSocketFactory());
+
+			conn.setRequestMethod("POST");
+
+			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+			conn.setRequestProperty("accept", "*/*");
+			conn.setRequestProperty("api_key", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
+			conn.setRequestProperty("X-AUTH-TOKEN", token);
+			conn.setDoOutput(true);
+
+			// 데이터 입력 스트림에 담기
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+			while (br.ready()) {
+				sb.append(br.readLine());
+			}
+			
+			conn.disconnect();
+
+			}
+		}
+	
 }

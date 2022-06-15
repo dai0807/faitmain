@@ -222,7 +222,7 @@
 var channelKey = $('#channelKey').val(); // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
     
     function open_popup(){
-    window.open('/live/liveManageTab', 'popup', 'width=600, height=300, left=1200, top=50, scrollbar=yes');
+    window.open('/live/liveManageTab', 'popup', 'width=650, height=300, left=1200, top=50, scrollbar=yes');
 	}
 
    // 새로운 유저가 채팅방에 입장 시 팝업 갱신을 위한 function
@@ -314,10 +314,16 @@ window.addEventListener("load", function () {
 	
 function joinRoom(roomId, clientKey, nickName, callback) {
   // vchatcloud 객체
-  console.log("clientKey : " + clientKey);
+
 
   console.log("roomId = " + roomId);
-
+  
+  console.log("clientKey : " + clientKey);
+  
+  console.log("nickName = " + nickName);
+  
+  console.log("callback = " + callback);
+  
   channel = vChatCloud.joinChannel(
     {
       roomId: roomId,
@@ -466,16 +472,22 @@ function msgInit() {
     // 유저 입장
     channel.onNotifyJoinUser = function(event) {
         write(event, 'join')
+        call_chlid();
+        
     }
 
     // 유저 나감
     channel.onNotifyLeaveUser = function(event) {
         write(event, 'leave')
+        setTimeout(function() {
+ 		 call_child();
+		}, 1000);
     }
 
     // 유저 추방
     channel.onNotifyKickUser = function(event) {
         write("'<font color='blue'><b>" + event.nickName + "</b></font>' 님이 채팅방에서 추방되었습니다.");
+        call_chlid();
     }
 
     // 유저 추방 해제
