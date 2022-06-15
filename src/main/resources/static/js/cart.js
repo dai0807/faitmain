@@ -101,7 +101,21 @@ function setTotalInfo() {
 }
 
 /* 수량버튼 */
+$(document).on("click", ".plus_btn", function () {
+    let quantity = Number($(this).parent("div").find(".quantity_input").val());
+    console.log("quantity : " + quantity);
+    $(this).parent("div").find(".quantity_input").val(++quantity);    
+});
+
+$(document).on("click", ".minus_btn", function () {
+    let quantity = $(this).parent("div").find(".quantity_input").val();
+    if (quantity > 1) {
+        $(this).parent("div").find(".quantity_input").val(--quantity);
+    }
+});
+/* 
 $(".plus_btn").on("click", function () {
+	console.log("aaaaa");
     let quantity = $(this).parent("div").find("input").val();
     $(this).parent("div").find("input").val(++quantity);
 });
@@ -112,21 +126,21 @@ $(".minus_btn").on("click", function () {
         $(this).parent("div").find("input").val(--quantity);
     }
 });
-
+*/
 
 /* 수량 수정 버튼 */
-$(".quantity_modify_btn").on("click", function () {
+$(document).on("click", ".quantity_modify_btn", function () {
     let cartNumber = $(this).data("cartNumber");
     let productOrderCount = $(this).parent("td").find("input").val();
     $(".update_cartNumber").val(cartNumber);
     $(".update_productOrderCount").val(productOrderCount);
-    $(".quantity_update_form").submit();
+    $(".quantity_update_form").submit();   
 
 });
 
 
 /* 장바구니 삭제 버튼 */
-$(".delete_btn").on("click", function (e) {
+$(document).on("click", ".delete_btn", function (e) {
     e.preventDefault();
     const cartId = $(this).data("cartid");
     $(".delete_cartId").val(cartId);
