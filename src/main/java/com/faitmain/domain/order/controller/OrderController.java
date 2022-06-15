@@ -43,11 +43,12 @@ public class OrderController{
     @PostMapping( "/{buyerId}" )
     public String orderPage( @PathVariable String buyerId , OrderPage orderPage , Model model ){
 
-        log.info( "buyerId = {} " , buyerId );
-        log.info( "orderPageProductList = {} " , orderPage.getOrderPageProductList() );
 
         model.addAttribute( "orderPageProductList" , orderService.getOrderPageProductList( orderPage.getOrderPageProductList() ) );
         model.addAttribute( "buyer" , orderService.getBuyer( buyerId ) );
+
+        log.info( "orderPageProductList = {} " , orderPage.getOrderPageProductList() );
+        log.info( "buyer = {} " , orderService.getBuyer( buyerId ) );
 
         return "order";
     }

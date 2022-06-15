@@ -183,8 +183,9 @@
                 <input name = "memberId" type = "hidden" value = "${member.memberId}">
             </form>
             <!-- 주문 form -->
-            <form action = "/order/${member.memberId}" class = "order_form" method = "get">
-
+            <form th:action = "@{/order/{buyerId}(buyerId=${session.user.id})}" class = "order_form" method = "get">
+                <input type="hidden" name="orderPageProductList[0].productNumber" value="${product.productNumber}">
+                <input type="hidden" name="orderPageProductList[0].productOrderCount" value="">
             </form>
         </div>
 

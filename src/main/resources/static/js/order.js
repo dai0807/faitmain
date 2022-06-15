@@ -5,7 +5,7 @@ function requestPay() {
         pay_method: "card",
         merchant_uid: "ORD20180131-0000011",
         name: "노르웨이 회전 의자",
-        amount: 64900,
+        amount: 1000,
         buyer_email: "gildong@gmail.com",
         buyer_name: "홍길동",
         buyer_tel: "010-4242-4242",
@@ -27,7 +27,8 @@ function requestPay() {
             };
 
             $.ajax({
-                url: "/order/add", data: data, success: function (data) {
+                url: "/order/add", data: data,
+                success: function () {
                     let msg = "결제가 완료되었습니다.\n";
                     msg += "고유ID: " + imp_uid;
                     msg += "\n상점거래ID : " + merchant_uid;
