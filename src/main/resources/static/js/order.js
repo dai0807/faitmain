@@ -37,6 +37,7 @@ function payment() {
     console.log("data : " + data.buyerName);
     console.log("data : " + data.receiverAddress1);
     console.log("data : " + data.amount);
+
     paymentCard(data)
 }
 
