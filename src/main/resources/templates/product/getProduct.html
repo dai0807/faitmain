@@ -8,8 +8,9 @@
     <link href = "https://fonts.googleapis.com" rel = "preconnect">
     <link crossorigin href = "https://fonts.gstatic.com" rel = "preconnect">
     <script src = "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <link href = "https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap"
-          rel = "stylesheet">
+    <link href = "https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    
     <style>
         .form-group {
 
@@ -26,13 +27,11 @@
 
     <script th:inline = "javascript">
 
-        //let productNumber = '[[${ product.productNumber }]]';
-        //let productName = '[[${ product.productName }]]';
+        let productGroupNumber = '[[${ product.productNumber }]]';
+        let productGroupName = '[[${ product.productName }]]';
         let productPrice = Number('[[${ product.productPrice }]]');
         let productMainImage = '[[${ product.productMainImage }]]';
         let productQuantity = Number('[[${ product.productQuantity }]]');
-
-
 
         $(function () {
 
@@ -91,16 +90,30 @@
             });
 
             $("#addOrder").on("click", function () {
-                if ($("#totalPrice").text() == '0') {
-                    alert("옵션을 선택해주세요");
-                }
-
-                // let productCartCount = $(".quantity_input").val();
-                // $("#getProductForm").find("input[name='orderPageProductList[0].productOrderCount']").val(productCartCount);
-                // $("#getProductForm").submit();
-                //세션에 있는거 buyerId
-                //$("#getProductForm").attr("action", "/order/{buyerId}");
-                $("#getProductForm").submit();
+                                
+                let orderLink;
+                //let id ='[[${session.user}]]';
+                
+                [# th:if="${session.user} != null"]
+                	
+                	orderLink = [[@{/order/{buyerId}(buyerId=${session.user.id})}]];
+                	
+                [/]
+                
+                if(orderLink){
+					console.log(orderLink);
+					
+					if ($("#totalPrice").text() == '0') {
+						alert("옵션을 선택해주세요");
+					}
+					 
+					$("#getProductForm").attr("action", orderLink);
+					$("#getProductForm").submit();
+					
+				}else{
+					self.location = "/user/login";
+				}
+               
             });
 
 
@@ -111,8 +124,8 @@
 
 <article class = "py-5" layout:fragment = "content">
     <div class = "container">
-        <form id = "getProductForm" method = "post" th:object = "${product}" th:action="@{/order/{buyerId}(buyerId=${session.user.id})}">
-
+    	<form id = "getProductForm" method = "post" th:object="${product}">
+    	<!--@{/review/getReviewList?searchCondition=userId&searchKeyword=} + ${session.user.id}-->
             <div class = "row">
                 <div class = "col-md-12">
                     <div class = "row">
@@ -125,7 +138,13 @@
                                 <strong class = "name" th:text = "*{ productName }">
                                 </strong>
                                 <span class = "btn_share">
-										<button id = "btnShare">공유하기</button>
+										<a id="create-kakao-link-btn" href="javascript:;">
+										  <img
+										    src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"
+										    alt="카카오링크 보내기 버튼"
+										    width="30px"
+										  />
+										</a>
 									</span>
                             </p>
                             <!--
@@ -214,7 +233,7 @@
                                     </button>
                                     <a th:href="@{/cart/{buyerId}(buyerId=${session.user.id})}">장바구니</a>
                                     <button class = "btn btn-primary btn-block" id = "addOrder" type = "button">
-                                        구매하기
+                                    	구매하기                                  
                                     </button>
                                     <th:block th:if = "${session.user != null}">
                                         <a class = "link-light small" th:href = "@{/order/{buyerId}(buyerId=${session.user.id})}">구매</a>
