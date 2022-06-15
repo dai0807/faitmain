@@ -8,11 +8,12 @@ import com.faitmain.global.common.Criterion;
 
 import java.util.List;
 
+
 public interface OrderService{
 
 
     /* 주문자 주소 정보 */
-    User getBuyerInfo( String id );
+    User getBuyer( String buyerId );
 
     /* 주문 정보 */
     /* 주문 페이지로 전송할 상품 정보 메소드 */
@@ -22,13 +23,13 @@ public interface OrderService{
     List<Order> getOrderList( Criterion criterion ) throws Exception;
 
     /* 주문 */
-    void order( Order order ) throws Exception;
+    void addOrder( Order order ) throws Exception;
 
     /* 주문 총 개수 */
     int getOrderTotal( Criterion criterion ) throws Exception;
 
     /* 주문 취소 */
-    void orderCancel( OrderCancel orderCancel ) throws Exception;
+    void cancelOrder( OrderCancel orderCancel ) throws Exception;
 
 
 

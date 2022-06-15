@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html layout:decorate = "~{layout/myPage_layout}"
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout" >
+ 
+
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="@{/css/styles.css}" rel="stylesheet" />
+
+</head>
+    <title> 회원 리스트 조회 </title>
+
+
+ <style>
+	  .form-group{
+ 
+		margin-top:10px ;
+ 	 
+		}
+		
+		form-horizontal{font-family: 'Nanum Gothic Coding', monospace;}
+		 
+    </style>
+
+
+<script type="text/javascript">
+
+</script>
+
+<body>
+<article  class="py-5" layout:fragment="content"  >
+
+    <div class="container">
+        <h2>게시글 목록</h2>
+        <table class="board_list">
+            <colgroup>
+                <col width="15%"/>
+                <col width="*"/>
+                <col width="15%"/>
+                <col width="20%"/>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th scope="col">no</th>
+                    <th scope="col">아이디</th>
+                    <th scope="col">이름</th>
+                    <th scope="col">role</th>
+                    <th scope="col">가입일</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+            <!--
+                <tr th:if="${#lists.size(list)} > 0" th:each="list : ${list}">
+                    <td th:text="${list.boardIdx}"></td>
+                    <td class="title" th:text="${list.title}"></td>
+                    <td th:text="${#temporals.format(list.createdDatetime, 
+                        'yyyy-MM-dd HH:mm::ss')}"></td>
+                </tr> 
+                <tr th:unless="${#lists.size(list)} > 0">
+                    <td colspan="4">조회된 결과가 없습니다.</td>
+                </tr>
+            </tbody>
+            -->
+        </table>
+     </div>
+
+
+
+
+
+
+
+</article>
+
+</body>
+
+
+</html>

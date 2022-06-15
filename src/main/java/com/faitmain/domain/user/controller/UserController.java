@@ -1,6 +1,7 @@
 package com.faitmain.domain.user.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,16 +18,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.faitmain.domain.live.service.LiveService;
+import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.user.domain.StoreApplicationDocument;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.ApiService;
 import com.faitmain.domain.user.service.UserSerivce;
- 
+import com.faitmain.global.common.MiniProjectPage;
+import com.faitmain.global.common.Search;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -61,13 +66,59 @@ public class UserController{
 	   }
 	   
 	 
+	   
+	//admin 페이지 리스트 보이기    
+	   @GetMapping("getStoreApplicationDocumentList")
+	   public String getStoreApplicationDocumentList(Model model ,@ModelAttribute Search search   )  throws Exception {
+		 
+		   if(search.getCurrentPage() == 0) {
+				search.setCurrentPage(1);
+			}
+			search.setPageSize(10);
+			
+			Map<String, Object> searchMap = new HashMap<String, Object>();		
+			searchMap.put("searchKeyword", search.getSearchKeyword());
+			
+		 
+			searchMap.put("endRowNum",  search.getEndRowNum());
+			searchMap.put("startRowNum",  search.getStartRowNum());
+			searchMap.put("searchKeyword", search.getSearchKeyword());
+			searchMap.put("searchStatus", search.getSearchStatus());
+			searchMap.put("searchCategory", search.getSearchCategory());
+			searchMap.put("searchOrderName", search.getOrderName());
+			
+			System.out.println("Search : " + search);
+			
+			Map<String, Object> map = userSerivce.getStoreApplicationDocumentList(searchMap);
+					
+			MiniProjectPage resultPage = new MiniProjectPage( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 4, 10);
+			
+			log.info("resultPage : " + resultPage);
+			
+			log.info("list : " + ((List<Product>)map.get("list")).get(0));
+			
+			
+			model.addAttribute("list", map.get("list"));
+			model.addAttribute("resultPage", resultPage);
+			model.addAttribute("search", search);	
+
+			
+			
+		   
+			log.info("get :: addStore " );
+	      
+	   return "/admin/getStoreApplicationDocumentList";
+	   }
+	   
+	   
+	   
 	   @GetMapping( "login" )
 	   public String longin( Model model ) throws Exception {
 	      
 		   
 		   log.info( " 컨트롤러 탐 login Page로 이동"  );
 		   
-	      return "view/user/login";
+	      return "/user/login";
 	   }
 	   
 	   //userList
@@ -83,7 +134,7 @@ public class UserController{
 		   
 		   
 		   
-		   return "view/user/getUserList";
+		   return "/admin/getUserList";
 		   
 	   }
 	   
@@ -146,7 +197,7 @@ public class UserController{
 		 
 			log.info("get :: selectRegisterType    " );
 	      
-	   return "view/user/selectRegisterType";
+	   return "/user/selectRegisterType";
 	   }
 	   
 	   
@@ -155,9 +206,21 @@ public class UserController{
 		 
 			log.info("get :: addUser " );
 	      
-	   return "view/user/addUser";
+	   return "/user/addUser";
 	   }
 
+	   
+	   
+	   
+	   @GetMapping("addStore")
+	   public String addStore(Model model)  throws Exception {
+		 
+			log.info("get :: addStore " );
+	      
+	   return "/user/addStore";
+	   }
+	   
+	   
 	   @PostMapping("addUser")
 	   public RedirectView addUser(@ModelAttribute("user") User user) throws Exception{
 		   
@@ -171,35 +234,27 @@ public class UserController{
 	   
 	   
 	   // 최대한 ,,, 써머노트 구현해보자
+	   //MultipartHttpServletRequest 는 서버에서 오는 파일 받음
 	   @PostMapping("addStore")
-	   public String addStore(@ModelAttribute("user") User user , @ModelAttribute("storeApplicationDocument")StoreApplicationDocument storeApplicatDoc ) throws Exception{
-		   
+	   public RedirectView addStore(@ModelAttribute("user") User user , MultipartHttpServletRequest mRequest ,
+			   @ModelAttribute("storeApplicationDocument")StoreApplicationDocument storeApplicatDoc ) throws Exception{
+		   log.info("::시작 :::addStore:: " );
+
 		   log.info("addStore::들어온 user 결과  ::{}" ,user );
 		   log.info("addStore::들어온 storeApplicationDocument 결과  ::{}" ,storeApplicatDoc );
 
-		   int addStoreresult = userSerivce.addUser(user) ;
+		   int addStoreresult = userSerivce.addStore(user,mRequest) ;
 		   log.info("addStoreresult {}" , addStoreresult);
 		   
 		   int storeApplicatDocresult = userSerivce.AddStoreApplicationDocument(storeApplicatDoc) ;
 		   log.info("addStoreresult {}" , storeApplicatDocresult);
-		   
-		   
-		   return("redirect:/live/main.jsp");
+//		   
+//	
+		   log.info("::끝 :::addStore:: " );
+
+		   return new RedirectView("/");	 
 	   }
-	   
-	   @PostMapping("updateUser")
-	   public String updateUser(@ModelAttribute("user") User user  ) throws Exception{
-		   
-		   log.info("addStore::들어온 user 결과  ::{}" ,user );
- 
-		   int addStoreresult = userSerivce.addUser(user) ;
-		   log.info("addStoreresult {}" , addStoreresult);
-		   
-		   
- 		   
-		   
-		   return("redirect:/live/main.jsp");
-	   }	
+
 	   
 		@GetMapping("kakaoLogin")
 	//	public RedirectView kakaoLogin(@RequestParam(value = "code", required = false) String code , RedirectAttributes model , HttpSession session) throws Exception {
@@ -234,16 +289,10 @@ public class UserController{
 	 					
 	 				}
 	 				
- 				 	//model.addFlashAttribute("kakaouserId",kakaouserId);
- 					
- 					
- 					//return "view/user/kakaoAdd"; // 추가 kakao로그인 화면 
- 				 	
- 				 	
- 				   // return new RedirectView("/view/user/kakaoAdd");	 
+ 			 
  				 	model.addAttribute("kakaouserId",kakaouserId) ;
  				 	
- 					return("view/user/kakaoAdd");
+ 					return("/user/kakaoAdd");
 
  				 	
 
@@ -365,7 +414,7 @@ public class UserController{
 			
 				
 				model.addAttribute("id", id) ;
-			return("view/user/updatePassword");
+			return("/user/updatePassword");
 
 	 				
 	    	}		
@@ -376,35 +425,15 @@ public class UserController{
 		
 		
 		// find Id Rest Control로 갈 운명 
-		@PostMapping("findId")
+		@GetMapping("findId")
   		public String findId( @ModelAttribute("user") User user  ,Model model)throws Exception {
 			
-			log.info("##findId {} ##" , user);
-			
-			
-			Map<String,Object> map = new HashMap<>();
-			map.put("phoneNumber", user.getPhoneNumber());
-			map.put("name", user.getName() );
- 			
-			
-			log.info("findId " + userSerivce.findUser(map));
-			
-			if(   userSerivce.findUser(map) == 1  ) {
+			log.info("###Stat###findId ={} ##" , user);
+		 
 				
-				String findUserId = userSerivce.findGetId(map);
-				model.addAttribute("findUserId", findUserId);
-
-				
-				return("forward:/user/findIdView.jsp");
-
-				
-				
-			}else {
-				return("forward:/main");
-
-			}
-			
-
+				return ("/user/findUserId") ;
+ 
+ 
 	 				
 	    	}				
 			   		
@@ -451,13 +480,15 @@ public class UserController{
 			   User user = null ;
 			   
 			   if(id == null) {
+				   System.out.println((User)request.getSession(true).getAttribute("user") );
  				   user = (User)request.getSession(true).getAttribute("user") ; 
+ 				   
  			   }else {
 				   user = userSerivce.getUser(id) ;
 				   
 			   }
 
-			   if(user.getRole().equals("Store") || user.getRole().equals("StoreX")) {
+			   if(user.getRole().equals("store") || user.getRole().equals("storeX")) {
 				   //롤이 스토어면 스토어 넘버 가져와서 user에 넣어라 
 				   int storeNumber = userSerivce.getStoreApplicationDocumenNumber(user.getId());
  				   user.setStoreApplicationDocumentNumber(storeNumber);
@@ -467,7 +498,7 @@ public class UserController{
 			   
 			   
 			   model.addAttribute("getuser",user) ;
-		      return "view/user/getUser";
+		      return "/user/getUser";
 		   }
 		   
 		//스토어 신청서 상세 보기 
@@ -480,8 +511,24 @@ public class UserController{
  			  
  			  model.addAttribute("StoreApplicationDocument" , storeApplicationDocument);
  			  
-		      return "forward:/user/getStoreApplicationDocument.jsp";
+		      return "/user/getStoreApplicationDocument";
 		   }
+		
+		
+		
+   		
+//스토어 재 신청 Add 
+@GetMapping("addStoreApplication")
+   public String addStoreApplicationDocument( Model model ) throws Exception {
+	   log.info(" start !!  addStoreApplicationDocument "   );
+	
+	  
+	   
+      return "/user/addStoreApplicationDocument";
+   }
+
+
+   				
 		   		
 		//스토어 재 신청 Add 
 		@PostMapping("addStoreApplicationDocument")
@@ -505,7 +552,7 @@ public class UserController{
 
 			   
 			   
-		      return "forward:/user/getStoreApplicationDocument.jsp";
+		      return "/user/getStoreApplicationDocument";
 		   }
 		
 		

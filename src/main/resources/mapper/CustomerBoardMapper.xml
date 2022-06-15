@@ -14,7 +14,7 @@
 		<result property="boardType"  					column="customer_board_type" 		jdbcType="CHAR" />
 		<result property="viewCount"  					column="view_cnt" 					jdbcType="INTEGER" />
 		<result property="deleteYn"  					column="delete_yn" 					jdbcType="VARCHAR" />
-		<result property="highlightNoticeYn"  			column="highlightNotice_yn" 		jdbcType="VARCHAR" />
+		<!-- <result property="highlightNoticeYn"  			column="highlightNotice_yn" 		jdbcType="VARCHAR" /> -->
 		<result property="image"  						column="boardImage" 				jdbcType="VARCHAR" />
 
 	 	<!-- <result property="customerId"					column="customer_id"  				jdbcType="VARCHAR" /> -->
@@ -60,7 +60,7 @@
 
     	SELECT 
     	customer_board_number, customer_board_title, customer_board_content, view_cnt, 
-		highlightNotice_yn, delete_yn, reg_date, update_date, customer_board_type, boardImage, customer_id
+		delete_yn, reg_date, update_date, customer_board_type, customer_id
     	FROM customer 
     	<where>
 			delete_yn = "N" AND customer_board_number = #{boardNumber}
@@ -70,9 +70,9 @@
 	<insert id="addCustomerBoard" parameterType="Customer">
 		    INSERT INTO customer
 		    ( customer_board_title, customer_board_content, 
-		    highlightNotice_yn, delete_yn, reg_date, update_date, customer_board_type, boardImage, customer_id )
+		     delete_yn, reg_date, update_date, customer_board_type,  customer_id )
 		VALUES
-		    ( #{boardTitle}, #{boardContent}, IFNULL(#{highlightNoticeYn}, 'N'), 'N', NOW(), NULL, 'C', NULL, #{customerId.id} )
+		    ( #{boardTitle}, #{boardContent},'N', NOW(), NULL, 'C',  #{customerId.id} )
 		    
 	</insert>
 	
@@ -92,7 +92,7 @@
     	</where>
     </update>
     
-      <update id="deleteCustomerBoard" parameterType="Customer" >
+      <update id="deleteCustomerBoard" parameterType="int" >
     	UPDATE customer
     	<set>
     		delete_yn = "Y"
