@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
@@ -37,6 +36,7 @@ import com.faitmain.domain.live.domain.LiveProduct;
 import com.faitmain.domain.live.domain.LiveReservation;
 import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.live.service.LiveService;
+import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserSerivce;
@@ -683,18 +683,46 @@ public class LiveController {
 	}
 
 	@GetMapping("addLiveReservation")
-	public String addLiveReservation() {
+	public String addLiveReservation(HttpSession session, Model model) throws Exception {
 		log.info("addLiveReservation GET : start...");
+
+		User user = (User) session.getAttribute("user");
+
+		Map<String, Object> ProductList = productService.getProductListByStoreId(user.getId());
+
+		model.addAttribute("list", ProductList.get("list"));
 
 		log.info("addLiveReservation GET : end...");
 		return "/live/addLiveReservationView";
 	}
 
 	@PostMapping("addLiveReservation")
-	public RedirectView addLiveReservation(@RequestBody LiveReservation liveReservation) throws Exception {
+	public RedirectView addLiveReservation(LiveReservation liveReservation, @RequestParam String[] liveProductNum,
+			HttpSession session, Model model) throws Exception {
 		log.info("addLiveReservation POST : start...");
 
+		User user = (User) session.getAttribute("user");
+
+		liveReservation.setStore(user);
+
+		liveService.addLiveReservation(liveReservation);
+
+		log.info("PK value = {}", liveReservation.getLiveReservationNumber());
+
+		LiveProduct liveProduct = new LiveProduct();
+		liveProduct.setLiveReservationNumber(liveReservation.getLiveReservationNumber());
+
+		for (int i = 0; i < liveProductNum.length; i++) {
+			Product prod = productService.getProduct(Integer.parseInt(liveProductNum[i]));
+			liveProduct.setProductNumber(prod.getProductNumber());
+			liveProduct.setProductName(prod.getProductName());
+			liveProduct.setProductMainImage(prod.getProductMainImage());
+			liveProduct.setProductDetail(prod.getProductDetail());
+
+			liveService.addLiveProduct(liveProduct);
+		}
+
 		log.info("addLiveReservation POST : end...");
-		return new RedirectView("/live/getLiveReservationList");
+		return new RedirectView("/live/getLiveReservationList?date=" + liveReservation.getReservationDate());
 	}
 }

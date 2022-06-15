@@ -128,7 +128,7 @@
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="button" class="btn btn-warning" onclick='nav()'>나가기</button>
+                    <button type="button" class="btn btn-warning" onclick='exit()'>나가기</button>
                 </article>
                 <!-- 채팅방 -->
                 
@@ -342,6 +342,22 @@
   	
   	function nav(){
   		self.location("/");
+  	}
+  	
+  	function exit() {
+  	  if (channel) {
+  	    var exit_chk = confirm("종료 하시겠습니까?");
+  	    if (!exit_chk) return;
+  	    $(".cam-footer .cam-btn .mic").off("click.rtc");
+  	    $(".cam-footer .cam-btn .cam").off("click.rtc");
+  	    vChatCloud.disconnect();
+  	    channel = undefined;
+
+  	    self.location="/";
+
+  	  } else {
+  	    // 로그인 되지 않았음!
+  	  }
   	}
     
 </script>
