@@ -64,7 +64,6 @@
 			<hr/>
 				
 				<div th:each="prodList : ${list}">
-				<input type="hidden" id="liveReser">
 					<div th:if="${#lists.size(prodList.liveProduct)==1  or #lists.size(prodList.liveProduct)==0}" class="row" style="margin-bottom: 10px; background-color : #D8D8D8;">
 						<div class="col-md-1">
 							<h5 th:text="${prodList.reservationTime}" style="display : inline">hour</h5><h5 style="display : inline">:00</h5>
@@ -81,8 +80,8 @@
 							
 								<th:block th:if="${session.user != null}">
 									<th:block th:if="${prodList.store.userNumber} == ${session.user.userNumber}">
-										<button type="button" class="btn btn-outline-info">수정 하기</button>
-										<button type="button" class="btn btn-outline-danger">삭제 하기</button>
+										<a type="button" class="btn btn-outline-info">수정 하기</a>
+										<a type="button" class="btn btn-outline-danger" th:href="@{/live/deleteLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">삭제 하기</a>
 									</th:block>
 								</th:block>
 						
@@ -122,7 +121,7 @@
 							<th:block th:if="${session.user != null}">
 								<th:block th:if="${prodList.store.userNumber} == ${session.user.userNumber}">
 									<a type="button" class="btn btn-info">수정 하기</a>
-									<a type="button" class="btn btn-danger">삭제 하기</a>
+									<a type="button" class="btn btn-danger" th:href="@{/live/deleteLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">삭제 하기</a>
 								</th:block>
 							</th:block>
 							

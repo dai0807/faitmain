@@ -42,10 +42,14 @@ public interface LiveMapper {
 
 	public int deleteLiveProduct(int liveNumber) throws Exception;
 
+	public int deleteLiveProductByReservationNumber(int reservationNumber) throws Exception;
+
 	// liveReservation
 	public int addLiveReservation(LiveReservation liveReservation) throws Exception;
 
 	public LiveReservation getCurrentLiveReservation(LiveReservation liveReservation) throws Exception;
+
+	public LiveReservation getLiveReservationByStoreId(LiveReservation liveReservation) throws Exception;
 
 	public int deleteLiveReservation(int liveReservationNumber) throws Exception;
 

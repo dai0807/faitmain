@@ -18,6 +18,7 @@ import com.faitmain.domain.live.domain.LiveProduct;
 import com.faitmain.domain.live.domain.LiveReservation;
 import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.live.mapper.LiveMapper;
+import com.faitmain.domain.user.domain.User;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -114,6 +115,10 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.deleteLiveProduct(liveNumber);
 	}
 
+	public int deleteLiveProductByReservationNumber(int reservationNumber) throws Exception {
+		return liveMapper.deleteLiveProductByReservationNumber(reservationNumber);
+	}
+
 	// liveReservation
 	public int addLiveReservation(LiveReservation liveReservation) throws Exception {
 		return liveMapper.addLiveReservation(liveReservation);
@@ -141,6 +146,31 @@ public class LiveServiceImpl implements LiveService {
 		liveReservation.setReservationTime(time);
 
 		return liveMapper.getCurrentLiveReservation(liveReservation);
+	}
+
+	public LiveReservation getLiveReservationByStoreId(String storeId) throws Exception {
+
+		LiveReservation liveReservation = new LiveReservation();
+
+		User user = new User();
+		user.setId(storeId);
+
+		// 현재 날짜
+		LocalDate now = LocalDate.now();
+		Date date = java.sql.Date.valueOf(now);
+		log.info("date = {}", date);
+
+		// 현재 시간
+		LocalTime nowTime = LocalTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH");
+		int time = Integer.parseInt(nowTime.format(formatter));
+		log.info("time = {}", time);
+
+		liveReservation.setReservationDate(date);
+		liveReservation.setReservationTime(time);
+		liveReservation.setStore(user);
+
+		return liveMapper.getLiveReservationByStoreId(liveReservation);
 	}
 
 	public int deleteLiveReservation(int liveReservationNumber) throws Exception {
