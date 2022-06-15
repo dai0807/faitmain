@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
 				layout:decorate = "~{layout/customer_default_layout2}"
       			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	
 	<th:block layout:fragment="title">
 	<link th:href="@{/css/customer.css}" rel="stylesheet" />
-		<title>this page is a write page</title>
+		<title>faitmain</title>
 	</th:block>
 
 	<th:block layout:fragment="content">
 		<div class="card-content">
-			<form class="form-horizontal" th:action="@{/customer/registerNotice}" th:object="${customer}" method="post" onsubmit="return registerBoard(this)">
+			<form class="form-horizontal" th:action="@{/customer/insert}" th:object="${customer}" method="post" > <!-- onsubmit="return registerBoard(this)" -->
 				<!--/* update의 경우 서버로 전달할 게시글 번호 (PK) */-->
 				<input type="hidden" th:if="*{boardNumber != null and boardNumber > 0}" th:field="*{boardNumber}" />
 
@@ -19,13 +19,6 @@
 					<label for="highlightNoticeYn" class="col-sm-2 control-label">강조 설정</label>
 					<div class="col-sm-10" style="margin-top: 10px;">
 						<input type="checkbox" th:value="*{highlightNoticeYn}" id="highlightNoticeYn" name="highlightNoticeYn" th:checked="*{#strings.equals( highlightNoticeYn, 'Y' )}" />
-					</div>
-				</div> -->
-
-				<!-- <div class="form-group">
-					<label for="secretYn" class="col-sm-2 control-label">비밀글 설정</label>
-					<div class="col-sm-10" style="margin-top: 10px;">
-						<input type="checkbox" th:value="*{secretYn}" id="secretYn" name="secretYn" th:checked="*{#strings.equals( secretYn, 'Y' )}" />
 					</div>
 				</div> -->
 
@@ -77,7 +70,8 @@
 				if ( result == false ) { 
 					return false;
 				}
-			}  */
+			}  
+			*/
 			/*[- end of function -]*/
 
 			/*]]>*/

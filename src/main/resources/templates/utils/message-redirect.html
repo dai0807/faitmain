@@ -20,7 +20,7 @@
 			/* <![CDATA[ */
 
 				window.onload = function() {
-					var message = /*[[ ${message} ]]*/null;
+					var message = Json.stringify(/*[[ ${message} ]]*/);
 					console.log(message);
 					if (isEmpty(message) == false) {
 						alert(message);
