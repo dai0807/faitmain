@@ -70,7 +70,44 @@ public class UserRestController{
 	 				
 	    	}				
 			   	
-	   
+		@PostMapping("/json/findPassword")		
+  		public String findPw( @ModelAttribute("user") User user  ,Model model ,  HttpSession session , HttpServletRequest request)throws Exception {
+			
+			log.info("##findPw {} ##" , user);
+			
+			
+			Map<String,Object> findPasswordmap = new HashMap<>();
+			findPasswordmap.put("phoneNumber", user.getPhoneNumber());
+			findPasswordmap.put( "findcondition" , "id" );
+			findPasswordmap.put( "findkeyword" , user.getId() );
+  			
+			
+			log.info("findPW {}" , userSerivce.findUser(findPasswordmap));
+			
+			if(   userSerivce.findUser(findPasswordmap) == 1  ) {
+				
+
+				log.info("입력한 유저가 존재합니다.") ;
+			
+ 				
+				return "입력한 유저가 존재합니다.";
+			 
+					
+				
+ 				
+				
+				}else {
+					log.info("입력하신 정보와 유효한 회원정보가가 존재하지 않습니다.");
+
+					return "입력하신 정보와 유효한 회원정보가가 존재하지 않습니다." ;
+	
+				}
+			
+
+	 				
+	    	}
+		
+		
 	   
 	   
 	   @PostMapping(value = "json/uploadSummernoteImageFile", produces = "application/json")
@@ -115,7 +152,7 @@ public class UserRestController{
 		   log.info("받은 유저 user 출력  :: {}" , loginuser);
 		   
  		   String result = "";
- 		  result = userSerivce.getLogin(loginuser)+"" ; // id/ pw 값 있으면 1 없으면 0 ,,
+ 		   result = userSerivce.getLogin(loginuser)+"" ; // id/ pw 값 있으면 1 없으면 0 ,,
 		   log.info("받은 유저 result 출력  :: {}" , result);
  
  		   if(result.equals("1")) { //1 이면 로그인 된거임 
@@ -132,7 +169,7 @@ public class UserRestController{
  			   
  			   
  			   log.info("{}의 로그인이 완료 되었습니다  " , user.getId());
- 			   session.setAttribute("user", user) ; // user 정보 u로그인 
+ 			   session.setAttribute("user", user) ; // user 정보 로그인
  		   }else {
  			   log.info("로그인 실패");
  			   
