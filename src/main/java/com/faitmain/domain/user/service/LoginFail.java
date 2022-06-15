@@ -21,7 +21,9 @@ System.out.println("onAuthenticationFailure") ;
         /* InternalAuthenticationServiceException는 아이디가 없을때 */
         if (exception instanceof BadCredentialsException || exception instanceof InternalAuthenticationServiceException ) {
             request.setAttribute("loginFailMsg", "아이디와 비밀번호를 확인해 주세요");
+            System.out.println("아이디 비밀번호 확인 부탁드립니다. ");
         }
+       System.out.println("에러에러");
         request.getRequestDispatcher("/user/login").forward(request, response);
     }
 }

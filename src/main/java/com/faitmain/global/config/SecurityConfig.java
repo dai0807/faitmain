@@ -2,6 +2,7 @@ package com.faitmain.global.config;
 
  
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,6 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     LoginSuccess loginSuccess;
 
+ 
+    
     @Override
     protected void configure( HttpSecurity http ) throws Exception{
     	System.out.println(" configure  :: + " ) ;
@@ -37,16 +40,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.authorizeRequests()
                 /* 주석처리안되어있으면갈떄마다검증받아야함 */
 //                .antMatchers("/admin/**").hasRole("ADMIN")
-//                .antMatchers("/user/**").hasAnyRole("ADMIN, USER")
+                 .antMatchers("/customer/**").hasAnyRole("user, admin" )
                 .anyRequest().permitAll()
 
                 .and()
                 .formLogin()
-                .loginPage("/") // 인증 필요한 페이지 접근시 이동페이지
+                .loginPage("/user/login") // 인증 필요한 페이지 접근시 이동페이지
                 .loginProcessingUrl("/user/login")
-//                .successHandler( loginSuccess )
-//                .failureHandler( loginFail )
-
+                .defaultSuccessUrl("/user/addUser")
+                .successHandler( loginSuccess )
+               // .failureHandler( loginFail )
+                .failureUrl("/user")		//로그인 실패 시 /loginForm으로 이동
                 .and()
                 .logout()
                 .logoutSuccessUrl("/index")
@@ -63,6 +67,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .userDetailsService(loginDetailService)
                 */
         ;
+        
+        
+        
+        System.out.println("시큐리티컴피그 돌아돌아");
+        
     }
     
 

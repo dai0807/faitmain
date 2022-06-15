@@ -14,6 +14,9 @@ public class LoginSuccess implements AuthenticationSuccessHandler{
 
     @Override
     public void onAuthenticationSuccess( HttpServletRequest request , HttpServletResponse response , Authentication authentication ) throws IOException, ServletException{
-        response.sendRedirect( "/index" );
+       System.out.println("로그인 성공이야? 너 뭐야? 이거 인증 핸들러야 ");
+       
+    	
+    	response.sendRedirect( "/index" );
     }
 }
