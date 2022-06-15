@@ -67,14 +67,14 @@ public class UserController{
 	   
 	 
 	   
-	//admin 페이지 리스트 보이기    
+	//admin 페이지 리스트 보이기    , 스토어 신청서 리스트  
 	   @GetMapping("getStoreApplicationDocumentList")
 	   public String getStoreApplicationDocumentList(Model model ,@ModelAttribute Search search   )  throws Exception {
 		 
 		   if(search.getCurrentPage() == 0) {
 				search.setCurrentPage(1);
 			}
-			search.setPageSize(10);
+			search.setPageSize(100);
 			
 			Map<String, Object> searchMap = new HashMap<String, Object>();		
 			searchMap.put("searchKeyword", search.getSearchKeyword());
@@ -102,8 +102,9 @@ public class UserController{
 			model.addAttribute("resultPage", resultPage);
 			model.addAttribute("search", search);	
 
-			
-			
+			System.out.println("Search : " + search);
+		 
+		 
 		   
 			log.info("get :: addStore " );
 	      
@@ -121,18 +122,30 @@ public class UserController{
 	      return "/user/login";
 	   }
 	   
+	   
+	   
 	   //userList
 	   @GetMapping("getUserlist")
-	   public String getUserList  ()throws Exception {
+	   public String getUserList  (Model model  ,@RequestParam (value="searchCondition", required = false)String searchCondition )throws Exception {
 		
 		   
 		   log.info("getUserList  도착 !! ");
+		 
+		   Map<String, Object> searchMap = new HashMap<String, Object>();
+		   
+		   if( searchCondition != null) {
+			   log.info("getUserList searchCondition ={}", searchCondition);
+
+			   searchMap.put("searchCondition", searchCondition) ;
+		   }
+		   List<User> userList = userSerivce.getlist(searchMap) ;
+		   for(User user : userList) {
+			   System.out.println("getUserlist : 유저 출력"+user);
+		   }
 		   
 		   
 		   
-		   
-		   
-		   
+		   model.addAttribute("userList" , userList) ;
 		   
 		   return "/admin/getUserList";
 		   
@@ -414,8 +427,8 @@ public class UserController{
 			
 				
 				model.addAttribute("id", id) ;
-			return("/user/updatePassword");
-
+		// test 위해서 주석 	return("/user/updatePassword");
+				return("/user/testUpdatePassword");
 	 				
 	    	}		
 		
@@ -438,36 +451,19 @@ public class UserController{
 	    	}				
 			   		
 		//find PW Rest Control로 갈 운명 
-		@PostMapping("findPw")
-  		public String findPw( @ModelAttribute("user") User user  ,Model model)throws Exception {
+		@GetMapping("findPassword")
+  		public String findPW( Model model)throws Exception {
 			
-			log.info("##findPw {} ##" , user);
-			
-			
-			Map<String,Object> map = new HashMap<>();
-			map.put("phoneNumber", user.getPhoneNumber());
-			map.put("id", user.getId() );
- 			
-			
-			log.info("findPW {}" , userSerivce.findUser(map));
-			
-			if(   userSerivce.findUser(map) == 1  ) {
+			log.info("###Stat###findUserPassword ={} ##" );
+		 
 				
- 				model.addAttribute("user", user);
-
-				
-				return("forward:/user/updatePassword.jsp");
-
-				
-				
-				}else {
-					return("forward:/main");
-	
-				}
-			
-
+				return ("/user/findUserPassword") ;
+ 
+ 
 	 				
-	    	}
+	    	}	
+		
+
 		
 		//유저 상세 정보
 		//			//id가 있으면 list에서 온거 , 아니면 내 정보 조회에서 온 것 
@@ -500,6 +496,9 @@ public class UserController{
 			   model.addAttribute("getuser",user) ;
 		      return "/user/getUser";
 		   }
+		
+		
+	 
 		   
 		//스토어 신청서 상세 보기 
 		@GetMapping("getStoreApplicationDocument")

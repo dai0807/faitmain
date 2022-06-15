@@ -14,18 +14,10 @@
 		<result property="boardType"  					column="customer_board_type" 		jdbcType="CHAR" />
 		<result property="viewCount"  					column="view_cnt" 					jdbcType="INTEGER" />
 		<result property="deleteYn"  					column="delete_yn" 					jdbcType="VARCHAR" />
-		<!-- <result property="highlightNoticeYn"  			column="highlightNotice_yn" 		jdbcType="VARCHAR" /> -->
 		<result property="image"  						column="boardImage" 				jdbcType="VARCHAR" />
-
-	 	<!-- <result property="customerId"					column="customer_id"  				jdbcType="VARCHAR" /> -->
-		
 		<association property="customerId" javaType="com.faitmain.domain.user.domain.User" >	
 			<id property="id" column="customer_id" jdbcType="VARCHAR"/>
-			
 		</association>
-		<!-- <result property="viewCount" 					column="customer_viewcount"				jdbcType="INTEGER" /> -->
-		
-		
 	</resultMap>
 	
 	<resultMap id="banStatusMap" type="com.faitmain.domain.customer.domain.BanStatus">
@@ -40,6 +32,7 @@
 		<association property="customerId" javaType="com.faitmain.domain.user.domain.User" >	
 			<id property="id" column="customer_id" jdbcType="VARCHAR"/>
 			<result property="respondentNickname" column="respondent_nickname" jdbcType="VARCHAR"/>
+			<result property="respondentStoreName" column="respondent_store_name" jdbcType="VARCHAR"/>
 		</association>
 		
 	</resultMap>
@@ -60,19 +53,19 @@
 
     	SELECT 
     	customer_board_number, customer_board_title, customer_board_content, view_cnt, 
-		delete_yn, reg_date, update_date, customer_board_type, customer_id
+		delete_yn, reg_date, update_date, customer_FAQ_category_code, customer_board_type, customer_id
     	FROM customer 
     	<where>
-			delete_yn = "N" AND customer_board_number = #{boardNumber}
+			delete_yn = 'N' AND customer_board_number = #{boardNumber}
       	</where>    			  	
     </select>
 	
 	<insert id="addCustomerBoard" parameterType="Customer">
 		    INSERT INTO customer
 		    ( customer_board_title, customer_board_content, 
-		     delete_yn, reg_date, update_date, customer_board_type,  customer_id )
+		     delete_yn, reg_date, update_date, customer_FAQ_category_code, customer_board_type,  customer_id )
 		VALUES
-		    ( #{boardTitle}, #{boardContent},'N', NOW(), NULL, 'C',  #{customerId.id} )
+		    ( #{boardTitle}, #{boardContent},'N', NOW(), NULL, NULL, 'C',  #{customerId.id} )
 		    
 	</insert>
 	
@@ -95,7 +88,7 @@
       <update id="deleteCustomerBoard" parameterType="int" >
     	UPDATE customer
     	<set>
-    		delete_yn = "Y"
+    		delete_yn = 'Y'
     	</set>
     	<where>
     		customer_board_number = #{boardNumber}
@@ -111,11 +104,13 @@
     </select> -->
     
     <!-- SQL : SELECT LIST -->
-    <select id="getCustomerBoardList" parameterType="map" resultMap="customerMap" >
+    <select id="getCustomerBoardList" parameterType="Customer" resultMap="customerMap" >
     
     	SELECT * 
     	FROM customer
-    	WHERE delete_yn = "N"
+    	<where>
+    		delete_yn = 'N'
+    	</where> 
     	ORDER BY reg_date DESC
     	
     </select> 
@@ -125,7 +120,9 @@
     
     	SELECT COUNT(*)
     	FROM customer
-    	WHERE delete_yn = "N"
+    	<where>
+    		delete_yn = 'N'
+    	</where> 
     
     </select> 
     
