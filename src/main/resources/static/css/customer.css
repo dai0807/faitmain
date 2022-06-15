@@ -131,6 +131,7 @@ div.customer_main{
 
 div.container{
 	position: relative;
+	height: 1000px;
 }
 
 div.col-lg-15{
@@ -203,4 +204,5 @@ div.card-body{
 	margin: -60px;
 	text-align: center;
 }
+
 
