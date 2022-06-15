@@ -78,6 +78,8 @@ public class OrderController{
     @PostMapping( "/complete" )
     public ResponseEntity<String> paymentComplete( HttpSession session , Order order, User user ) throws IOException{
 
+        log.info( "paymentComplete = {}" , getClass() );
+
         // 1. 아임포트 API 키와 SECRET키로 토큰을 생성
         String token = paymentService.getToken();
         log.info( "token = {}" , token );

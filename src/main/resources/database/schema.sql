@@ -71,7 +71,7 @@ CREATE TABLE `order` (
                      `order_number`      int          NOT NULL ,
                      `buyer_id`          varchar(50)  NOT NULL ,
                      `receiver_name`     varchar(50)  NOT NULL ,
-                     `receiver_phone`    int          NOT NULL ,
+                     `receiver_phone`    varchar(50)  NOT NULL ,
                      `receiver_address1` varchar(100) NOT NULL ,
                      `receiver_address2` varchar(100) NOT NULL ,
                      `receiver_address3` varchar(100) NOT NULL ,
