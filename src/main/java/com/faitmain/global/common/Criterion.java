@@ -1,8 +1,9 @@
 package com.faitmain.global.common;
 
+import lombok.Data;
 import lombok.ToString;
 
-@ToString
+@Data
 public class Criterion{
 
     /* 현재 페이지 번호 */

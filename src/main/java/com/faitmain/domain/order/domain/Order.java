@@ -2,10 +2,7 @@ package com.faitmain.domain.order.domain;
 
 import lombok.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.List;
 
 @Setter
@@ -14,6 +11,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class Order{
+
+    /* IAMPORT 결제번호 */
+    private String impUid;
 
     /* 주문번호 */
     private int orderNumber;
@@ -48,12 +48,12 @@ public class Order{
     /* 사용 포인트 */
     private int usingPoint;
 
-    /* ===================== */
-    /* DB에 존재하지 않는 데이터 */
-    /* ===================== */
+    /* =====================  */
+    /* DB에 존재하지 않는 데이터   */
+    /* =====================  */
 
     /* 주문상품 */
-    private List<OrderProduct> orderBundle;
+    private List<OrderProduct> orderProductList;
 
     /* 판매가 (모든 상품) */
     private int orderSalePrice;
@@ -68,7 +68,7 @@ public class Order{
     public void getOrderPriceInfo(){
 
         /* 상품 비용 & 적립포인트 */
-        for ( OrderProduct op : orderBundle ) {
+        for ( OrderProduct op : orderProductList ) {
             orderSalePrice += op.getTotalPrice();
             orderRewardPoint += op.getTotalRewardPoint();
         }

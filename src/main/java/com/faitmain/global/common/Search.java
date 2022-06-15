@@ -12,6 +12,8 @@ public class Search{
 	private String searchCondition;
 	private String searchKeyword;
 	private String orderName;
+	private String searchStatus;
+	private String searchCategory;
 	
 	@Getter(AccessLevel.NONE)
 	private int endRowNum;

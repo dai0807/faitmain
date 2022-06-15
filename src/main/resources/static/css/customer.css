@@ -1,0 +1,208 @@
+/* ---customer */
+@charset "UTF-8";
+
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(http://cdn.jsdelivr.net/font-nanum/1.0/nanumbarungothic/nanumbarungothic.css);
+
+html{overflow:scorll;}
+html, body, div, h1, h2, a, form, table, caption, thead, tbody, tr, th, td, submit {
+    margin:0; outline:0; border:0; padding:0; font-size:100%; vertical-align:baseline; background:transparent;
+}
+body {
+    font-size:0.875em; line-height:1.5; color:#666; -webkit-text-size-adjust:none; min-width:320px;
+    font-family:'NanumGothic','나눔고딕',dotum, "Helvetica Neue", Helvetica, Verdana, Arial, Sans-Serief;
+}
+h1, h2, h3 {font-size: 1.5em;}
+p{margin:0; padding:0;}
+ul{margin:0;}
+a:link, a:visited {text-decoration:none; color: #656565;}
+input{vertical-align:middle;}
+input:focus {outline:0;}
+caption {display:none; width:0; height:0; margin-top:-1px; overflow:hidden; visibility:hidden; font-size:0; line-height:0;}
+
+.container {max-width:1024px; margin:30px auto;}
+.board_list {width:100%; border-top:2px solid #252525; border-bottom:1px solid #ccc; margin:15px 0; border-collapse: collapse;}
+.board_list thead th:first-child {background-image:none;}
+.board_list thead th {border-bottom:1px solid #ccc; padding:13px 0; color:#3b3a3a; text-align: center; vertical-align:middle;}
+.board_list tbody td {border-top:1px solid #ccc; padding:13px 0; text-align:center; vertical-align:middle;}
+.board_list tbody tr:first-child td {border:none;}
+.board_list tbody tr:hover{background:#ffff99;}
+.board_list tbody td.title {text-align:left; padding-left:20px;}
+.board_list tbody td a {display:inline-block}
+
+.board_detail {width:100%; border-top:2px solid #252525; border-bottom:1px solid #ccc; border-collapse:collapse;}
+.board_detail tbody input {width:100%;}
+.board_detail tbody th {text-align:left; background:#f7f7f7; color:#3b3a3a; vertical-align:middle; text-align: center;}
+.board_detail tbody th, .board_detail tbody td {padding:10px 15px; border-bottom:1px solid #ccc;}
+.board_detail tbody textarea {width:100%; min-height:170px}
+
+.btn {margin:5px; padding:5px 11px; color:#fff !important; display:inline-block; background-color:#7D7F82; vertical-align:middle; border-radius:0 !important; cursor:pointer; border:none;}
+.btn:hover {background: #6b9ab8;}
+
+
+.file_list a {display:inherit !important;}
+
+html, body{
+	margin: 0;
+	padding: 0;
+}
+	
+div#sidebarNav.col-md-2 {
+	width:250px;
+	height: 1000px;
+	padding-left: 15px;
+	padding-top: 20px;
+	margin-bottom: 0px;
+	border: 1px;
+	background-color: rgb(33, 37, 41);
+	
+}
+
+h4.CustomerCenter{
+	color: white;
+	text-align: center;
+}
+
+a.Notification{
+	color: white;
+	text-align: center;
+}
+
+a.fandq{
+	color: white;
+	text-align: center;	
+}
+
+a.liveGuide{
+	color: white;
+	text-align: center;
+}
+
+a.report{
+	color: white;
+	text-align: center;
+}
+
+div.card-body{
+	text-align: center;
+}
+
+li {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    border : 0;
+    float: left;
+}
+
+#wrap{
+	min-height: 100vh;
+	position: relative;
+	width: 100%
+}
+
+ footer{
+	width: 100%;
+	height: 110px;
+	bottom: 0px;
+	position:fixed;
+}
+
+article{
+	padding-bottom: 110px;
+}
+
+#mArticle{
+	padding-top: 0;
+	padding-bottom: 300px;
+}
+
+h2.screen_out{
+	text-align: center;
+}
+
+h3.tit_main{
+	text-align: center;
+}
+
+div.customer_main{
+	text-align: right;
+	margin: 10px
+}
+
+div.container{
+	position: relative;
+	height: 1000px;
+}
+
+div.col-lg-15{
+	position: absolute;
+	width: 100%;
+	max-width: 100%;
+	overflow: auto;
+	list-style-type: none;
+}
+
+img.thumb_img{
+	width: 180px;
+	height: 180px;
+	display: block;
+	margin-right: 120px;
+	margin-top: 80px;
+	margin-left: 120px;
+	
+	
+}
+
+
+li.fst{
+	width:650;
+	margin: 0 auto;
+	padding-top: 10px;
+	overflow: hidden;
+	display: inline-block;
+	list-style: none;
+}
+
+a.link_service{
+	float:left;
+	text-align: center;
+	
+}
+
+.pagination{
+	display: flex;
+	padding-left: 0;
+	list-style: none;
+	text-align: center;
+}
+
+div#sidebar {
+			list-style-type: none;
+			width: 250px;
+			height: 100%;
+			padding-top: 50px;
+			margin-top: 120px;
+			background-color: #FFFFFF;
+			position: fixed;
+			overflow: auto;
+			top: 0px;
+			left: 0px;
+			text-align: center;
+		}
+div.row{
+	margin-left: 120px;
+	margin-top: 0px;
+	padding-top: 0px;
+}
+
+div.col-lg-3{
+	position: absolute;
+	top: 0;
+}
+
+div.card-body{
+	margin: -60px;
+	text-align: center;
+}
+
+

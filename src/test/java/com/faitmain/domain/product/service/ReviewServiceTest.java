@@ -38,7 +38,7 @@ public class ReviewServiceTest {
 		
 		Review mockReview = Review.builder().reviewNumber(reviewNumber).reviewContent(reviewContent).build();
 		
-		reviewServiceImpl.addReview(mockReview);
+//		reviewServiceImpl.addReview(mockReview);
 		
 		verify(reviewMapper).addReview(mockReview);		
 		
@@ -72,11 +72,11 @@ public class ReviewServiceTest {
 		
 		Review mockReview = Review.builder().reviewNumber(reviewNumber).reviewContent(reviewContent).build();
 		
-		reviewServiceImpl.addReview(mockReview);
+//		reviewServiceImpl.addReview(mockReview);
 		
 		mockReview = Review.builder().reviewNumber(reviewNumber).reviewContent("감사합니다").build();
 		
-		reviewServiceImpl.updateReview(mockReview);
+//		reviewServiceImpl.updateReview(mockReview);
 		
 		given(reviewMapper.getReview(reviewNumber)).willReturn(mockReview);
 		

@@ -2,7 +2,7 @@ package com.faitmain.global.common.request;
 
 import java.util.List;
 
-public class Payload {
+public class Payload extends kr.co.bootpay.model.request.Payload{
     public String pg;
     public String method;
     public List<String> methods;

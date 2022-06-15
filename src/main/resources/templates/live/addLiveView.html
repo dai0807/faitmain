@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+				layout:decorate = "~{layout/myPage_layout}"
+      			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Modern Business - Start Bootstrap Template</title>
+
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" th:href="@{img/favicon.ico}" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link th:href="@{css/styles.css}" rel="stylesheet" />
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+       <script th:src="@{js/scripts.js}"></script>  
+       <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+    </head>
+    
+<body>
+
+<style>
+	
+
+
+</style>
+
+<article  class="py-5" layout:fragment="content"  >
+
+
+<div  class="container col-lg-3">
+</div>
+
+
+<div  class="container col-lg-6">
+    <!-- Team members section-->
+     
+ 
+        
+            <div class="text-center">
+                <h2 class="fw-bolder">방송 정보 </h2>
+                <p class="lead fw-normal text-muted ">방송 정보를 입력해주세요 </p>
+            </div>
+            <br/>
+         <div class="container col-md-9">         
+		<form class="m-t" role="form" action="/live/create" id="Form" method="post">	
+		  <div class="form-group">
+		    <h5 class="fw-bolder">방송 제목</h5>
+		    <div >
+		      <input type="text" class="form-control" id="roomName" name="roomName" maxlength="20" placeholder="방송 제목을 입력해주세요."  >
+		      <span class="liveProductInfo" id="liveProductInfo1"><h6>최대 20자</h6></span>
+		      </span>
+		    </div>
+		  </div>
+		  <br/>
+		  <div class="form-group">
+		     <h5 class="fw-bolder">방송에서 판매할 상품</h5><h7><strong>상품은 최대 5개까지 선택 가능합니다</strong></h7>
+		      <div class="alert alert-primary" role="alert">   
+            <strong>
+		    <div th:each="lol : ${map.list}">   
+		      <input type="checkbox"  id="liveProduct" name="liveProduct" th:value="${lol.productNumber}">[[${lol.productName}]]<!-- forEach 돌릴 예정 -->
+		    </div>
+		    </strong>
+      		 </div>
+		  </div>
+		  <br/>
+		  	 <div class="form-group">
+		   		  <div >
+		          	<button type="submit" class="fw-bolder btn btn-success col-md-12">방송 시작</button>
+		          	</div>
+				 </form>
+			 <div  class="container col-lg-3">
+		  </div>
+		 </div>
+  	</article>
+	</body>
+</html>

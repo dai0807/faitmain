@@ -29,7 +29,9 @@ public interface ProductService {
 	public Map<String, Object> getProductListByStoreId(String storeId) throws Exception;
 	
 	//상품 수정
-	public void updateProduct(Product product) throws Exception;
+	public void updateProduct(Product product, MultipartHttpServletRequest mRequest) throws Exception;
+	
+	public void updateProductOption(Product product) throws Exception;
 	
 	//상품 추가 이미지 수정
 	public void updateProductImage(Image image) throws Exception;
@@ -39,6 +41,8 @@ public interface ProductService {
 	
 	//상품 삭제
 	public void deleteProduct(int productNumber) throws Exception;
+	
+	public void deleteProductOption(int productNumber) throws Exception;
 	
 	//DELETE - 상품 추가 이미지 삭제
 	public void deleteProductImage(int imageNumber) throws Exception;

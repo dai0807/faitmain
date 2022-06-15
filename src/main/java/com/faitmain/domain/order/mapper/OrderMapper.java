@@ -13,42 +13,53 @@ import java.util.List;
 @Mapper
 public interface OrderMapper{
 
+    /* SELECT */
 
     /* 주문자 주소 정보 */
-    User getBuyerInfo( String id );
+    User selectBuyer( String id );
 
     /* 주문 상품 정보 (주문 페이지) */
-    OrderPageProduct getProductInfo( int productNumber );
+    OrderPageProduct selectOrderPageProduct( int productNumber );
 
     /* 주문 상품 정보 (주문 처리) */
-    OrderProduct getOrderInfo( int productNumber );
-
-    /* 주문 테이블 등록 */
-    int enrollOrder( Order order );
-
-    /* 주문 상품 테이블 등록 */
-    int enrollOrderProduct( OrderProduct orderProduct );
-
-    /* 주문 금액 차감 */
-    int deductPoint( User user );
-
-    /* 주문 재고 차감 */
-    int deductStock( Product product );
+    OrderProduct selectOrderProduct( int productNumber );
 
     /* 주문 상품 리스트 */
-    List<Order> getOrderList( Criterion criterion );
+    List<Order> selectOrderList( Criterion criterion );
 
     /* 주문 총 개수 */
-    int getOrderTotal( Criterion criterion );
-
-    /* 주문 취소 */
-    int orderCancle( int orderNumber );
+    int selectOrderTotal( Criterion criterion );
 
     /* 주문 상품 정보 (주문취소) */
-    List<OrderProduct> getOrderProductInfo( int orderNumber );
+    List<OrderProduct> selectOrderProductList( int orderNumber );
 
     /* 주문 정보 (주문취소) */
-    Order getOrder( int orderNumber );
+    Order selectOrder( int orderNumber );
+
+    /* INSERT */
+
+    /* 주문 테이블 등록 */
+    int insertOrder( Order order );
+
+    /* 주문 상품 테이블 등록 */
+    int insertOrderProduct( OrderProduct orderProduct );
+
+    /* DELETE */
+
+    /* 주문 취소 */
+    int deleteOrder( int orderNumber );
+
+    /* UPDATE */
+
+    /* 주문 금액 차감 */
+    int updatePoint( User user );
+
+    /* 주문 재고 차감 */
+    int updateStock( Product product );
+
+
+
+
 
 
 

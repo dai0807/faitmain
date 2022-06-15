@@ -16,11 +16,11 @@ public interface CustomerService {
 
 	//INSERT, UPDATE 두가지 모두 등록하는 기능, BoardNumber 유무 기준으로 실행
 
-	public boolean registerCustomerBoard(Customer customer) throws Exception;
+//	public boolean registerCustomerBoard(Customer params) throws Exception;
 	
-//	public int addCustomerBoard(Customer customer) throws Exception;
-//	
-//	public int updateCustomerBoard(Customer customer) throws Exception;
+	public int addCustomerBoard(Customer customer) throws Exception;
+	
+	public int updateCustomerBoard(Customer customer) throws Exception;
 	
 	public Customer getCustomerBoard(int boardNumber) throws Exception;
 	
