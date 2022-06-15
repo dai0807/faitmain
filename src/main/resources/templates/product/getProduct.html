@@ -102,14 +102,9 @@
 
             $("#addOrder").on("click", function () {
                                 
-                let orderLink;
-                //let id ='[[${session.user}]]';
+                let orderLink = $("input[name=buyerId]").val();
                 
-                [# th:if="${session.user} != null"]
                 	
-                	orderLink = '[[@{/order/{buyerId}(buyerId=${session.user.id})}]]';
-                	
-                [/]
                 
                 if(orderLink){
 					console.log(orderLink);
@@ -118,7 +113,7 @@
 						alert("옵션을 선택해주세요");
 					}
 					 
-					$("#getProductForm").attr("action", orderLink);
+					$("#getProductForm").attr("action", "/order/" + orderLink );
 					$("#getProductForm").submit();
 					
 				}else{
@@ -137,6 +132,9 @@
     <div class = "container">
     	<form id = "getProductForm" method = "post" th:object="${product}">
     	<!--@{/review/getReviewList?searchCondition=userId&searchKeyword=} + ${session.user.id}-->
+    	<th:block th:if="${ session.user != null }">
+    		<input type="hidden" name="buyerId" th:value="${session.user.id}" />
+    	</th:block>
             <div class = "row">
                 <div class = "col-md-12">
                     <div class = "row">
