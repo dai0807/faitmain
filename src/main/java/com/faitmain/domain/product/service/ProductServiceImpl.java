@@ -24,7 +24,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.faitmain.domain.product.controller.ProductController;
 import com.faitmain.domain.product.domain.Product;
+import com.faitmain.domain.product.mapper.InquiryMapper;
 import com.faitmain.domain.product.mapper.ProductMapper;
+import com.faitmain.domain.product.mapper.ReviewMapper;
 import com.faitmain.global.common.Image;
 import com.faitmain.global.common.Search;
 
@@ -42,6 +44,12 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
 	private ProductMapper productMapper;
+	
+	@Autowired
+	private ReviewMapper reviewMapper;
+	
+	@Autowired
+	private InquiryMapper inquiryMapper;
 	
 	public ProductServiceImpl(ProductMapper productMapper) {
 		this.productMapper = productMapper;
@@ -108,6 +116,16 @@ public class ProductServiceImpl implements ProductService {
 //		List<Product> productOptions = productMapper.getProductOption(productNumber);		
 		product.setProductExtraImage(productMapper.getImage(productNumber));
 		product.setProductOptions(productMapper.getProductOption(productNumber));
+		
+		Search search = new Search();
+		search.setSearchCondition("productGroupNumber");
+		search.setSearchKeyword(product.getProductNumber() + "");
+		search.setCurrentPage(1);
+		search.setPageSize(10);
+		product.setReviewList(reviewMapper.getReviewList(search));
+		
+		log.info("review List = {}", product.getReviewList());
+				
 //		Map<String, Object> map = new HashMap<String, Object>();
 //		map.put("mainProduct", product);
 //		map.put("productOptions", productOptions);
