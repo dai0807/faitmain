@@ -84,11 +84,11 @@
     </insert>
     
     <!-- ADD LiveReservation -->
-     <insert id="addLiveReservation" parameterType="LiveReservation">
+     <insert id="addLiveReservation" useGeneratedKeys="true" keyProperty="liveReservationNumber" parameterType="LiveReservation">
        INSERT INTO live_reservation
           (store_id, reservation_date, reservation_time)
       VALUES
-          (#{storeId}, #{reservationDate}, #{reservationTime})
+          (#{store.id}, #{reservationDate}, #{reservationTime})
     </insert>
     
     <!-- ADD LiveUserStatus -->
@@ -159,6 +159,16 @@
          AND id = #{id}
       </where>
    </select>
+   
+   <!-- GEt CurrnetLiveReservation -->
+   <select id="getCurrentLiveReservation" parameterType="LiveReservation" resultMap="liveReservationMap">
+   		SELECT * FROM live_reservation
+   		<where>
+   			reservation_date = #{reservationDate}
+   			AND reservation_time = #{reservationTime}
+   		</where>
+   </select>
+   
    
    <!-- GET LiveReservation 
     <select id="">

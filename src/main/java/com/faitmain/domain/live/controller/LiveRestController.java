@@ -4,6 +4,7 @@ package com.faitmain.domain.live.controller;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,11 +33,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.faitmain.domain.live.domain.Live;
 import com.faitmain.domain.live.domain.LiveChat;
-import com.faitmain.domain.live.domain.LiveProduct;
 import com.faitmain.domain.live.domain.LiveReservation;
 import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.live.service.LiveService;
 import com.faitmain.domain.user.domain.User;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
@@ -181,26 +183,26 @@ public class LiveRestController {
 	@GetMapping("json/getLiveReservationCal")
 	public List<Map<String, Object>> getLiveReservationCal() throws Exception {
 		log.info("/live/json/getLiveReservationCal : GET start...");
-		
+
 		List<LiveReservation> list = liveService.getLiveReservationCal();
-		
+
 		log.info("{}", list);
-		
+
 		JSONObject jsonObj = new JSONObject();
 		JSONArray jsonArr = new JSONArray();
-		
+
 		Map<String, Object> map = new HashMap<>();
-		
-		for(LiveReservation obj : list) {
+
+		for (LiveReservation obj : list) {
 			map.put("title", "예약 수 : " + obj.getTitle());
 			map.put("start", obj.getReservationDate());
-			
+
 			jsonObj = new JSONObject(map);
 			jsonArr.add(jsonObj);
 		}
-		
+
 		log.info("jsonArrCheck: {}", jsonArr);
-		
+
 		log.info("/live/json/getLiveReservationCal : GET end...");
 		return jsonArr;
 	}
@@ -271,7 +273,6 @@ public class LiveRestController {
 		return dataa;
 	}
 
-
 //	@PostMapping("json/deleteLiveReservation")
 //	public Map<String, Object> deleteLiveReservation(@RequestBody LiveReservation liveReservation) throws Exception {
 //		System.out.println("/live/json/deleteLiveReservation : POST start...");
@@ -285,6 +286,7 @@ public class LiveRestController {
 //
 //		return map;
 //	}
+
 
 	
 	//유저 강제퇴장
@@ -371,6 +373,7 @@ public class LiveRestController {
 				public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
 				}
 			} };
+
 
 			SSLContext sc = SSLContext.getInstance("TLSv1.2");
 			sc.init(null, trustCerts, new java.security.SecureRandom());

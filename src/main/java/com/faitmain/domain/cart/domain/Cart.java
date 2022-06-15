@@ -1,5 +1,6 @@
 package com.faitmain.domain.cart.domain;
 
+import com.faitmain.domain.order.domain.OrderPageProduct;
 import com.faitmain.domain.web.domain.AttachImage;
 import lombok.Builder;
 import lombok.Data;
@@ -15,9 +16,11 @@ public class Cart{
 
 	private String buyerId;
 
-	private int ProductNumber;
+	private int productNumber;
+	
 	private int productOrderCount;
 
+	private List<OrderPageProduct> orderPageProductList;
 
 	/* PRODUCT */
 
@@ -38,7 +41,7 @@ public class Cart{
 
 
 	/* 상품 이미지 */
-	private List<AttachImage> imageList;
+	private String productMainImage;
 
 
 	/* METHOD */
