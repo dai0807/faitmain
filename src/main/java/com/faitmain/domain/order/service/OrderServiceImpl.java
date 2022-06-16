@@ -10,8 +10,6 @@ import com.faitmain.domain.order.mapper.OrderMapper;
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.mapper.ProductMapper;
 import com.faitmain.domain.user.domain.User;
-import com.faitmain.domain.web.domain.AttachImage;
-import com.faitmain.domain.web.mapper.AttachMapper;
 import com.faitmain.global.common.Criterion;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service

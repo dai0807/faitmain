@@ -1,4 +1,3 @@
-
 /* IAMPORT 에서 사용할 최종 결제금액 전역변수 */
 let finalTotalPriceToAPI;
 
@@ -82,6 +81,17 @@ function createOrderNum() {
 /* 결제 ver 1 */
 function payment() {
 
+    /* 상품정보 */
+    let form_contents = '';
+    $(".goods_table_price_td").each(function (index, element) {
+        let productNumber = $(element).find(".individual_productNumber_input").val();
+        let productOrderCount = $(element).find(".individual_productOrderCount_input").val();
+        let productNumber_input = "<input name='orderProductList[" + index + "].productNumber' type='hidden' value='" + productNumber + "'>";
+        form_contents += productNumber_input;
+        let productOrderCount_input = "<input name='orderProductList[" + index + "].productOrderCount' type='hidden' value='" + productOrderCount + "'>";
+        form_contents += productOrderCount_input;
+    });
+
     /* 정보 */
     const data = {
         orderNumber: createOrderNum(),
@@ -133,9 +143,7 @@ function paymentCard(data) {
 function paymentComplete(data) {
 
     $.ajax({
-        url: "/order/complete",
-        method: "POST",
-        data: data,
+        url: "/order/complete", method: "POST", data: data,
     })
         .done(function (result) {
             messageSend();
