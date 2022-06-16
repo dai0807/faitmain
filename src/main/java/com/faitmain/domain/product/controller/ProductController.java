@@ -91,7 +91,7 @@ public class ProductController {
 		
 		model.addAttribute("product", product);
 		
-		return "/product/getProduct2";
+		return "/product/getProduct";
 	}
 	
 	///////// Test용 ///////////

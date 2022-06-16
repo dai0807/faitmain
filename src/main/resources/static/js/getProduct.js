@@ -18,7 +18,7 @@ $(function () {
             //$(".quantity_input").val(++quantity);
             console.log("+++ : " + $(".mtext-104.cl3.txt-center.num-product").val());
             $(".mtext-104.cl3.txt-center.num-product").val(++quantity);
-            $("#totalPrice").text(Number($("#totalPrice").text()) + productPrice);
+            $("#totalPrice").text(Number($.trim($("#totalPrice").text())) + productPrice);
         } else {
             alert("최대 수량입니다!");
         }
@@ -30,7 +30,7 @@ $(function () {
 			console.log("--- : " + $(".mtext-104.cl3.txt-center.num-product").val());
             $(".mtext-104.cl3.txt-center.num-product").val(--quantity);
             //$(".quantity_input").val(--quantity);
-            $("#totalPrice").text(Number($("#totalPrice").text()) - productPrice);
+            $("#totalPrice").text(Number($.trim($("#totalPrice").text())) - productPrice);
         }
     });
     
@@ -51,7 +51,7 @@ $(function () {
 			
 			console.log("buyerId exist");
 			
-			if ($("#totalPrice").text() == '0') { // 옵션 선택 안했을 때
+			if ($.trim($("#totalPrice").text()) == '0') { // 옵션 선택 안했을 때
 				alert("옵션을 선택해주세요");
 				return;
 			}
@@ -107,7 +107,7 @@ $(function () {
 			
 			console.log(orderLink);
 			
-			if ($("#totalPrice").text() == '0') { //옵션 선택 안했을 때
+			if ($.trim($("#totalPrice").text()) == '0') { //옵션 선택 안했을 때
 				alert("옵션을 선택해주세요");
 			}
 			
@@ -119,7 +119,7 @@ $(function () {
 		}
 	});
 	
-	/* kakao 공유하기 */
+	/* kakao 공유하기 
 	console.log("product : " + productMainImage);
 	Kakao.init('9e7bfe9bda76f4fc82c74df2aa9c4c98');
 	Kakao.isInitialized();
@@ -158,7 +158,7 @@ $(function () {
 			},
 		],
 	})
-	
+	*/
 	var optionIndex = 0;
 	$("select[name=options]").change(function() {
 		console.log($(this).val()); //value값 가져오기
@@ -172,8 +172,8 @@ $(function () {
 		let productName = $("select[name=options] option:selected").text();
 		console.log("optionQuantity : " + optionQuantity);
 		var list = [];
-		$(".selectName").each(function(index, item) {
-			list.push($(item).text());
+		$(".size-203.flex-c-m.respon6").each(function(index, item) {
+			list.push($.trim($(item).text()));
 		});
 
 		console.log("selectNames : " + list[0]);
@@ -184,10 +184,10 @@ $(function () {
 
 		} else {
 
-			$("#totalPrice").text(Number($("#totalPrice").text()) + productPrice);
+			$("#totalPrice").text(Number($.trim($("#totalPrice").text())) + productPrice);
 
-			$(".optionArea").append(
-				+ "<div class='flex-w flex-r-m p-b-10'>"
+			$("#optionArea").append(
+				"<div class='flex-w flex-r-m p-b-10'>"
 				
 				+	"<div class='size-203 flex-c-m respon6'>" + productName + "</div>"
 				
@@ -211,11 +211,11 @@ $(function () {
 				+ 			"<input type='hidden' value='" + productMainImage + "' name='orderPageProductList[" + optionIndex + "].productMainImage'/>"
 				+ 			"<input type='hidden' value='" + optionQuantity + "' class='optionQuantity' />"
 				
-				+		"</div>"
+				+		"</div>"				
 				
-				+	"</div>"
+				+	"</div>"	
 				
-				+ 	"<button type='button' style='float:right;' id='optionDelBtn' class='btn-btn dark'>" + "삭제" + "</button>"
+				+ 	"<button type='button' style='float:right;' class='optionDelBtn'>" + "삭제" + "</button>"		
 				
 				+ "</div>"
 
@@ -236,7 +236,7 @@ $(function () {
 		console.log("result : " + quantity < maxQuantity);
 		if (quantity < maxQuantity) {
 			$(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val(++quantity);
-			$("#totalPrice").text(Number($("#totalPrice").text()) + productPrice);
+			$("#totalPrice").text(Number($.trim($("#totalPrice").text())) + productPrice);
 		} else {
 			alert("수량 초과");
 		}
@@ -246,13 +246,13 @@ $(function () {
 		let quantity = Number($(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val());
 		if (quantity > 1) {
 			$(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val(--quantity);
-			$("#totalPrice").text(Number($("#totalPrice").text()) - productPrice);
+			$("#totalPrice").text(Number($.trim($("#totalPrice").text())) - productPrice);
 		}
 	});
 
-	$(document).on("click", "#optionDelBtn", function() {
+	$(document).on("click", ".optionDelBtn", function() {
 		let quantity = Number($(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val());
-		let totalPrice = $("#totalPrice").text();
+		let totalPrice = $.trim($("#totalPrice").text());
 		totalPrice = totalPrice - (productPrice * quantity);
 		if (totalPrice < 0) {
 			totalPrice = 0;
