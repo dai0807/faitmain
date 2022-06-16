@@ -344,11 +344,18 @@ public class UserServiceImpl implements UserSerivce{
 	}
 
 	 
+<<<<<<< HEAD
 	public List<User> getlist(Map<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
 		return userMapper.getlist(map);
 	}
 
     
+=======
+		public List<User> getlist(Map<String, Object> map) throws Exception {
+			// TODO Auto-generated method stub
+			return userMapper.getlist(map);
+		}
+>>>>>>> refs/heads/feature/security
 
 }
