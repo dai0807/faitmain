@@ -1,10 +1,9 @@
 package com.faitmain.domain.live.controller;
 
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +14,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import lombok.extern.slf4j.Slf4j;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -61,14 +58,14 @@ public class LiveRestController {
 		System.out.println("/live/json/getLiveList : GET end...");
 		return map;
 	}
-	
+
 	@PostMapping("json/liveManageTab")
-	public JSONArray getLiveUserList( HttpServletRequest req, HttpSession session,  Model model ) throws Exception {
+	public JSONArray getLiveUserList(HttpServletRequest req, HttpSession session, Model model) throws Exception {
 
 		log.info("Controller = {} ", "/live/getLiveUserList : GET start...");
 
 		log.info("getLiveUserList = {} ", this.getClass());
-		
+
 		User user = (User) session.getAttribute("user");
 
 		JSONObject result = null;
@@ -89,7 +86,8 @@ public class LiveRestController {
 		SSLContext sc = SSLContext.getInstance("TLSv1.2");
 		sc.init(null, trustCerts, new java.security.SecureRandom());
 
-		URL url = new URL("https://vchatcloud.com/openapi/v1/users/" + liveService.getLiveByStoreId(user.getId()).getRoomId());
+		URL url = new URL(
+				"https://vchatcloud.com/openapi/v1/users/" + liveService.getLiveByStoreId(user.getId()).getRoomId());
 
 		System.out.println("유우우우우우우우우ㅏㄹ엘    " + url);
 
@@ -116,16 +114,16 @@ public class LiveRestController {
 
 		// JSON데이터에서 "data"라는 JSONObject를 가져온다.
 		JSONArray data = (JSONArray) result.get("list");
-		
+
 		JSONObject tmp = null;
 		for (int i = 0; i < data.size(); i++) {
 			tmp = (JSONObject) data.get(i);
 			System.out.println("data[" + i + "] : " + tmp);
 		}
 		System.out.println("data : " + data);
-		
+
 		log.info("Controller = {} ", "/live/getLiveUserList : GET end...");
-		
+
 		return data;
 	}
 
@@ -206,16 +204,16 @@ public class LiveRestController {
 		log.info("/live/json/getLiveReservationCal : GET end...");
 		return jsonArr;
 	}
-	
-	//라이브 채팅방 유저목록 조회 요청 구현중
+
+	// 라이브 채팅방 유저목록 조회 요청 구현중
 	@PostMapping("json/getLiveUserList")
 	public Map<String, Object> getLiverUserList() throws Exception {
-		
+
 		Map<String, Object> map = new HashMap<>();
-		
+
 		return map;
 	}
-	
+
 	public String getToken() throws Exception {
 
 		log.info("getToken Method start...");
@@ -287,18 +285,15 @@ public class LiveRestController {
 //		return map;
 //	}
 
-
-	
-	//유저 강제퇴장
+	// 유저 강제퇴장
 	@GetMapping("json/kickUser/{roomId}/{clientKey}")
-	public void kickUser( @PathVariable("roomId") String roomId,
-						  @PathVariable("clientKey") List<String> clientKey )
+	public void kickUser(@PathVariable("roomId") String roomId, @PathVariable("clientKey") List<String> clientKey)
 
 			throws Exception {
 
 		log.info("editRoom = {} ", this.getClass());
 		System.out.println("방송 정보 수정");
-		
+
 		String token = getToken();
 
 		JSONObject result = null;
@@ -318,69 +313,63 @@ public class LiveRestController {
 
 		SSLContext sc = SSLContext.getInstance("TLSv1.2");
 		sc.init(null, trustCerts, new java.security.SecureRandom());
-		
-		for( String client : clientKey) {
-			
-		
 
-		URL url = new URL("https://vchatcloud.com/openapi/v1/exiles/" + roomId + "/" + client);
+		for (String client : clientKey) {
 
-		HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-		conn.setSSLSocketFactory(sc.getSocketFactory());
+			URL url = new URL("https://vchatcloud.com/openapi/v1/exiles/" + roomId + "/" + client);
 
-		conn.setRequestMethod("POST");
+			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+			conn.setSSLSocketFactory(sc.getSocketFactory());
 
-		conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
-		conn.setRequestProperty("accept", "*/*");
-		conn.setRequestProperty("api_key", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
-		conn.setRequestProperty("X-AUTH-TOKEN", token);
-		conn.setDoOutput(true);
+			conn.setRequestMethod("POST");
 
-		// 데이터 입력 스트림에 담기
-		BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-		while (br.ready()) {
-			sb.append(br.readLine());
-		}
-		
-		conn.disconnect();
+			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+			conn.setRequestProperty("accept", "*/*");
+			conn.setRequestProperty("api_key", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
+			conn.setRequestProperty("X-AUTH-TOKEN", token);
+			conn.setDoOutput(true);
+
+			// 데이터 입력 스트림에 담기
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+			while (br.ready()) {
+				sb.append(br.readLine());
+			}
+
+			conn.disconnect();
 
 		}
 	}
-	
-	//유저 채팅제한
-		@GetMapping("json/muteUser/{roomId}/{clientKey}")
-		public void muteUser( @PathVariable("roomId") String roomId,
-							  @PathVariable("clientKey") List<String> clientKey )
 
-				throws Exception {
+	// 유저 채팅제한
+	@GetMapping("json/muteUser/{roomId}/{clientKey}")
+	public void muteUser(@PathVariable("roomId") String roomId, @PathVariable("clientKey") List<String> clientKey)
 
-			log.info("editRoom = {} ", this.getClass());
-			System.out.println("방송 정보 수정");
-			
-			String token = getToken();
+			throws Exception {
 
-			JSONObject result = null;
-			StringBuilder sb = new StringBuilder();
+		log.info("editRoom = {} ", this.getClass());
+		System.out.println("방송 정보 수정");
 
-			TrustManager[] trustCerts = new TrustManager[] { new X509TrustManager() {
-				public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-					return null;
-				}
+		String token = getToken();
 
-				public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
-				}
+		JSONObject result = null;
+		StringBuilder sb = new StringBuilder();
 
-				public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
-				}
-			} };
+		TrustManager[] trustCerts = new TrustManager[] { new X509TrustManager() {
+			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+				return null;
+			}
 
+			public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+			}
 
-			SSLContext sc = SSLContext.getInstance("TLSv1.2");
-			sc.init(null, trustCerts, new java.security.SecureRandom());
-			
-			for( String client : clientKey) {
-				
-			
+			public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+			}
+		} };
+
+		SSLContext sc = SSLContext.getInstance("TLSv1.2");
+		sc.init(null, trustCerts, new java.security.SecureRandom());
+
+		for (String client : clientKey) {
 
 			URL url = new URL("https://vchatcloud.com/openapi/v1/mute/" + roomId + "/" + client);
 
@@ -400,10 +389,37 @@ public class LiveRestController {
 			while (br.ready()) {
 				sb.append(br.readLine());
 			}
-			
+
 			conn.disconnect();
 
+		}
+	}
+
+	@GetMapping("json/addLiveReservation")
+	public List<Integer> addLiveReservation(String date) throws Exception {
+		log.info("addLiveReservation GET : start...");
+
+		List<LiveReservation> list = liveService.getLiveReservationList(date);
+
+		List<Integer> timeList = new ArrayList<>();
+		boolean flag = true;
+
+		for (int i = 0; i < 24; i++) {
+			flag = true;
+			for (LiveReservation obj : list) {
+				if (i == obj.getReservationTime()) {
+					flag = false;
+				}
+			}
+			if (flag) {
+				timeList.add(i);
 			}
 		}
-	
+
+		log.info("timeList = {}", timeList);
+
+		log.info("addLiveReservation GET : end...");
+		return timeList;
+	}
+
 }
