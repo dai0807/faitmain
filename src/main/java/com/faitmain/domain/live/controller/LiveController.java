@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -273,7 +272,7 @@ public class LiveController {
 
 			if (Code != 1) {
 				log.info("에러 발생! result_cd : {}", Code);
-				
+
 			} else {
 
 				// 라이브 방송 등록 후 DB에 데이터 입력
@@ -288,7 +287,7 @@ public class LiveController {
 				live.setLiveImage("라이브 대표사진.png");
 
 				liveService.addLive(live);
-				
+
 				model.addAttribute("Live", live);
 
 				System.out.println("라이브 방송 정보 : "
@@ -309,14 +308,15 @@ public class LiveController {
 					liveProduct.setLiveReservationNumber(0);
 					liveProduct.setProductNumber(Integer.parseInt(product));
 					liveProduct.setProductMainImage(
-							productService.getProduct(Integer.parseInt(product)).getProductMainImage());
-					liveProduct.setProductName(productService.getProduct(Integer.parseInt(product)).getProductName());
+							productService.getLiveProduct(Integer.parseInt(product)).getProductMainImage());
 					liveProduct
-							.setProductDetail(productService.getProduct(Integer.parseInt(product)).getProductDetail());
+							.setProductName(productService.getLiveProduct(Integer.parseInt(product)).getProductName());
+					liveProduct.setProductDetail(
+							productService.getLiveProduct(Integer.parseInt(product)).getProductDetail());
 					liveService.addLiveProduct(liveProduct);
 				}
 			}
-			
+
 		} else {
 
 			log.info("room already exist");
@@ -428,7 +428,7 @@ public class LiveController {
 			live.setLiveStatus(true);
 
 			liveService.updateLive(live);
-			
+
 			model.addAttribute("Live", live);
 
 			System.out.println(
@@ -453,9 +453,10 @@ public class LiveController {
 				liveProduct.setLiveReservationNumber(0);
 				liveProduct.setProductNumber(Integer.parseInt(product));
 				liveProduct.setProductMainImage(
-						productService.getProduct(Integer.parseInt(product)).getProductMainImage());
-				liveProduct.setProductName(productService.getProduct(Integer.parseInt(product)).getProductName());
-				liveProduct.setProductDetail(productService.getProduct(Integer.parseInt(product)).getProductDetail());
+						productService.getLiveProduct(Integer.parseInt(product)).getProductMainImage());
+				liveProduct.setProductName(productService.getLiveProduct(Integer.parseInt(product)).getProductName());
+				liveProduct
+						.setProductDetail(productService.getLiveProduct(Integer.parseInt(product)).getProductDetail());
 				liveService.addLiveProduct(liveProduct);
 			}
 		} else {
@@ -567,16 +568,13 @@ public class LiveController {
 	}
 
 	@GetMapping("liveManageTab")
-	public String getLiveUserList( HttpServletRequest req, HttpSession session,  Model model ) throws Exception {
+	public String getLiveUserList(HttpServletRequest req, HttpSession session, Model model) throws Exception {
 
 		log.info("Controller = {} ", "/live/getLiveUserList : GET start...");
 
 		log.info("getLiveUserList = {} ", this.getClass());
-		
+
 		User user = (User) session.getAttribute("user");
-		
-		
-		
 
 		JSONObject result = null;
 		StringBuilder sb = new StringBuilder();
@@ -585,7 +583,6 @@ public class LiveController {
 			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
 				return null;
 			}
-		
 
 			public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
 			}
@@ -597,7 +594,8 @@ public class LiveController {
 		SSLContext sc = SSLContext.getInstance("TLSv1.2");
 		sc.init(null, trustCerts, new java.security.SecureRandom());
 
-		URL url = new URL("https://vchatcloud.com/openapi/v1/users/" + liveService.getLiveByStoreId(user.getId()).getRoomId());
+		URL url = new URL(
+				"https://vchatcloud.com/openapi/v1/users/" + liveService.getLiveByStoreId(user.getId()).getRoomId());
 
 		System.out.println("유우우우우우우우우ㅏㄹ엘    " + url);
 
@@ -631,11 +629,11 @@ public class LiveController {
 			System.out.println("data[" + i + "] : " + tmp);
 		}
 		System.out.println("data : " + data);
-		
+
 		model.addAttribute("userList", data);
-		
+
 		log.info("Controller = {} ", "/live/getLiveUserList : GET end...");
-		
+
 		return "/live/liveManageTab";
 	}
 
@@ -696,7 +694,6 @@ public class LiveController {
 		return new RedirectView("/");
 	}
 
-
 	@GetMapping("addLiveReservation")
 	public RedirectView addLiveReservation(HttpSession session, Model model) throws Exception {
 		log.info("addLiveReservation GET : start...");
@@ -743,7 +740,7 @@ public class LiveController {
 		liveProduct.setLiveReservationNumber(liveReservation.getLiveReservationNumber());
 
 		for (int i = 0; i < liveProductNum.length; i++) {
-			Product prod = productService.getProduct(Integer.parseInt(liveProductNum[i]));
+			Product prod = productService.getLiveProduct(Integer.parseInt(liveProductNum[i]));
 			liveProduct.setProductNumber(prod.getProductNumber());
 			liveProduct.setProductName(prod.getProductName());
 			liveProduct.setProductMainImage(prod.getProductMainImage());
@@ -755,7 +752,6 @@ public class LiveController {
 		log.info("addLiveReservation POST : end...");
 		return new RedirectView("/live/getLiveReservationList?date=" + liveReservation.getReservationDate());
 	}
-
 
 	@GetMapping("deleteLiveReservation/{liveProductNum}/{date}")
 	public RedirectView deleteLiveReservation(@PathVariable String liveProductNum, @PathVariable String date)

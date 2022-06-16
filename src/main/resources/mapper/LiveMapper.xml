@@ -174,8 +174,7 @@
    		SELECT * FROM live_reservation
    		<where>
    			store_id = #{store.id}
-   			AND reservation_date >= #{reservationDate}
-   			AND reservation_time >= #{reservationTime}
+   			AND reservation_date > #{reservationDate} OR (reservation_date = #{reservationDate} AND reservation_time >= #{reservationTime})
    		</where>
    </select>
    
