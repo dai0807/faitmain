@@ -39,6 +39,7 @@ public class LoginDetailService implements UserDetailsService{
 		
 			SecurityUser loginDetail = new SecurityUser(); // DB에 유저 정보를 확인하고 있다면 , loginDetail에 User를 담아서 반환하며 시큐리티 세션에 저장  
              loginDetail.setUser( user ); // 유저 디테일에 user 던짐
+             
  	           System.out.println("유저 있음");
         
 //		//	            	return loginDetail;

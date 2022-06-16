@@ -85,21 +85,80 @@ public class UserController{
 
   
      // Authentication 인증  ,  접근 주체(Principal)  , 권한(Authorization) ,인가(Authorize)
-     
-     
+  // 1번    
+  //3      Authentication 인터페이스에서 getPrincipal 해서  securityUser에 담기 
      @GetMapping("test")
      public String test( Authentication authentication , Model model ){
          System.out.println("====test======");
+         
+         //Authentication 클래스 안에  getPrincipal 를 사용해서 그 안에 있는  SecurityUser 를 가져옵니다. 
+         //SecurityUser 안에 각종 인증 정보가 들어 있음 
+         
          securityUser= (SecurityUser)authentication.getPrincipal() ;
          
-         System.out.println("==securityUser="+securityUser);
-         
-         model.addAttribute("user" , securityUser) ;
+         System.out.println("==securityUser="+securityUser); //  
+        
+         System.out.println("==securityUser.getUser()="+securityUser.getUser());
+                 
+         System.out.println("==User="+ (User)securityUser.getUser() );
+        
+         model.addAttribute("user" , (User)securityUser.getUser()) ;
          
          System.out.println("====test==끝====");
 
           return "/user/test" ;
+          
+          
        }
+  
+     @GetMapping("testrun")
+     public String test(){
+    	 log.info(" testRun --- ");         
+          return "/user/test" ;
+       }    
+     
+     
+     
+  //    Context Holder 에 들어가서 인증 정보를 가져옴  , User 정보에 접근 
+  // SecurityContextHolder를 통해 가져오는 방법 
+      @GetMapping("/getMyInfo1")
+   
+      public String getMyInfo(){
+          System.out.println("====getMyInfo1=시작=====");
+
+          Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
+          //Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+          System.out.println("====getMyInfo1==== "+ principal);
+          System.out.println("====getMyInfo1==== "+ principal.toString());
+          securityUser = (SecurityUser)principal ;  
+          
+          System.out.println(   "securityUser "+ securityUser  );
+          System.out.println(   " securityUser.getUser()   "+  securityUser.getUser()  );
+       
+           
+          return  securityUser.getUser().toString() ;
+        }   
+     
+ //  
+     @GetMapping("test2")
+     public String test2( @AuthenticationPrincipal SecurityUser User , Model model ){
+         System.out.println("====test======");
+         
+         //Authentication 클래스 안에  getPrincipal 를 사용해서 그 안에 있는  SecurityUser 를 가져옵니다. 
+         //SecurityUser 안에 각종 인증 정보가 들어 있음 
+         System.out.println("==securityUser="+(User)securityUser.getUser()); // Security 용 Usr 임 
+         model.addAttribute("user" , (User)securityUser.getUser()) ;
+ 
+          return "/user/test" ;
+          
+          
+       }
+  //  @AuthenticationPrincipal 은 인증이후 편의적으로 현재 인증된 세션유저를 가져오기 위해 
+  //  @AuthenticationPrincipal 어노테이션을 통해 UserDetails 인터페이스를 구현한 유저 객체를 SecurityUser를 주입할때 사용       
+     
+     
+     
+     
      
      
      // 권한이 맞지 않을때 감 
@@ -117,48 +176,17 @@ public class UserController{
     
     //1번 Controller 의 메서드에서 매개변수 입력 바기
     
- //    Context Holder 에 들어가서 인증 정보를 가져옴  , User 정보에 접근 
-    
-    @GetMapping("/getMyInfo")
-    public String getMyInfo(Authentication authentication){
-        System.out.println("====getMyInfo======");
 
-        JaasAuthenticationToken authentication1 = (JaasAuthenticationToken) authentication;
- 
-        User user = (User)authentication1.getDetails();
-        System.out.println("====getMyInfo====끝==" + user);
-        return user.toString();
-      }
-    ////////얘는 찾을 수 없음 /////
-    @GetMapping("/getMyInfo1")
- 
-    public String getMyInfo(){
-        System.out.println("====getMyInfo1=시작=====");
-
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        //Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("====getMyInfo1==== "+ principal);
-        System.out.println("====getMyInfo1==== "+ principal.toString());
- 
-//        User user =(User)principal; // 여기서 에러 
-//        System.out.println("USER 출력 :: " +user) ;
-        String id = ((HttpSession) principal).getId();
-
-        System.out.println("id 출력 :: " +id) ;
-        System.out.println("====getMyInfo1=끛=====");
-
-        return id;
-      }
- ////////이거 결과 anonymousUser 로 나옴 //////
-    
+  
+    //2번///////
     
     //principal 은 getName 만 지원 name 만 뽑아옴 
-    @GetMapping("/username") 
+    // Principal 객체에 접근해 정보를 가져온다. principal은 getName 만 가져 올 수 있다.   용하면 getName으로 id찾음 
+    @GetMapping("/getMyInfo2") 
     @ResponseBody 
     public String currentUserName(Principal principal) { 
     	System.out.println("==========currentUserName시작 ===========");
-
- 
+    	System.out.println("==========currentUserName끝 ==========="+principal);
  
     	System.out.println("==========currentUserName끝 ==========="+principal.getName());
 	
@@ -166,32 +194,7 @@ public class UserController{
     }  
   
     
-    //@AuthenticationPrincipal 애노테이션을 사용하면 UserDetailsService에서 Return한 객체 를 파라메터로 직접 받아 사용할 수 있다.
-    @GetMapping("/get_access") 
-    @ResponseBody 
-    public String get_access(Model model , @AuthenticationPrincipal User user) { 
-		System.out.println("   없음:"  + user);
-
-    	if(user == null) {
-    		System.out.println("   없음:"  );
-
-    		model.addAttribute("message" ,"없음") ;
-    	}else {
-    		System.out.println("   :" + user.getUserNumber()  );
-    		System.out.println("   :" +user );
-
-    		model.addAttribute("Message","user.getUserNumber() "+ user.getUserNumber() );
-    	}
-    	
-    	
-    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();  
-    	User user1 = (User)authentication.getPrincipal();
-    	
-    	System.out.println(user1); // ==> ekswja ㅜ믇 rkqtaks skdhkdy snsanf 
-    	
-    	return "" ;
-    }  
-      
+ 
     
     
   //admin 페이지 리스트 보이기    , 스토어 신청서 리스트  

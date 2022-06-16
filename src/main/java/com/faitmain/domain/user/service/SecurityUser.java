@@ -54,8 +54,7 @@ public class SecurityUser implements UserDetails{
 		auth.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-            	System.out.println(" ROLE :: " + user.getRole());
-                return "ROLE_"+user.getRole();  // 권한 부여
+                  return "ROLE_"+user.getRole();  // 권한 부여
             }
         });
 		log.info("  ROLE 권한: ={}  " ,auth) ; 
@@ -65,44 +64,7 @@ public class SecurityUser implements UserDetails{
 	}
     
     
-    
-    
  
-    
-    
-//    //권한인데 이게 뭐지?   private Collection<? extends GrantedAuthority> authorities; 와 한몸 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        List<GrantedAuthority> roles = new ArrayList<>();
-//        roles.add(new GrantedAuthority() {
-//            @Override
-//            public String getAuthority() {
-//            	System.out.println("뾰로롱 권한 :: " + user.getRole());
-//                return user.getRole();
-//            }
-//        });
-        
-        
-//        for(GrantedAuthority grant :roles) {  // 쓰레기값 나옴  
-//        	System.out.println("Role :: " + grant)  ;
-//        }
-//        
-//        return roles;
-//    }
-
-    
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//    	    List<GrantedAuthority> authorities = new ArrayList<>();   
-//    	    authorities.add(new SimpleGrantedAuthority(user.getRole()));
-//        
-////        for(GrantedAuthority grant :roles) {  // 쓰레기값 나옴  
-////        	System.out.println("Role :: " + grant)  ;
-////        }
-//        
-//        return  authorities ;
-//    }
-
  
     
     
