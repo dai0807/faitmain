@@ -11,16 +11,17 @@
 
 	<th:block layout:fragment="content">
 		<div class="card-content">
-			<form class="form-horizontal" th:action="@{/customer/insert}" th:object="${customer}" method="post" > <!-- onsubmit="return registerBoard(this)" -->
+			<form class="form-horizontal" th:action="@{/customer/enrollBoard}" th:object="${customer}" method="post" > <!-- onsubmit="return registerBoard(this)" -->
 				<!--/* update의 경우 서버로 전달할 게시글 번호 (PK) */-->
-				<input type="hidden" th:if="*{boardNumber != null and boardNumber > 0}" th:field="*{boardNumber}" />
-
+				<!-- <input type="hidden" th:if="*{boardType = 'N'and boardTyep != '0'}" th:field="*{boardType}" />
+ -->
 				<!-- <div class="form-group">
 					<label for="highlightNoticeYn" class="col-sm-2 control-label">강조 설정</label>
 					<div class="col-sm-10" style="margin-top: 10px;">
 						<input type="checkbox" th:value="*{highlightNoticeYn}" id="highlightNoticeYn" name="highlightNoticeYn" th:checked="*{#strings.equals( highlightNoticeYn, 'Y' )}" />
 					</div>
 				</div> -->
+				
 
 				<div class="form-group">
 					<label for="title" class="col-sm-2 control-label">제목</label>

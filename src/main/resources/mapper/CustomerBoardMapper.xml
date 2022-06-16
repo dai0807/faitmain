@@ -65,7 +65,7 @@
 		    ( customer_board_title, customer_board_content, 
 		     delete_yn, reg_date, update_date, customer_FAQ_category_code, customer_board_type,  customer_id )
 		VALUES
-		    ( #{boardTitle}, #{boardContent},'N', NOW(), NULL, NULL, 'C',  #{customerId.id} )
+		    ( #{boardTitle}, #{boardContent},'N', NOW(), NULL, NULL, '#{boardType}',  #{customerId.id} )
 		    
 	</insert>
 	

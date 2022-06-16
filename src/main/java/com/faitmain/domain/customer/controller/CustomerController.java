@@ -62,6 +62,23 @@ public class CustomerController extends UiUtils{
 		
 	}
 	
+	@GetMapping("enrollBoard")
+	public String addBoard(@ModelAttribute("board") Customer customer, Model model) throws Exception{
+		
+		
+		char boardType = '0';
+		if(boardType == 'N') {
+			return "admin/addNotice";
+		}else if(boardType == 'L') {
+			return "admin/addLiveGuide";
+		}else if(boardType == 'F') {
+			return "admin/addFAQ";
+		}else if(boardType == 'R') {
+			return "customer/addReport";
+		}
+		return null;
+	}
+	
 	@GetMapping
 	
 	@PostMapping("insert")
