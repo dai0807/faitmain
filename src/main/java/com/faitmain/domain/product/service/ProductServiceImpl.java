@@ -112,8 +112,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product getProduct(int productNumber) throws Exception {
-		Product product = productMapper.getProduct(productNumber);
-//		List<Product> productOptions = productMapper.getProductOption(productNumber);		
+		Product product = productMapper.getProduct(productNumber);		
 		product.setProductExtraImage(productMapper.getImage(productNumber));
 		product.setProductOptions(productMapper.getProductOption(productNumber));
 		
@@ -122,16 +121,15 @@ public class ProductServiceImpl implements ProductService {
 		search.setSearchKeyword(product.getProductNumber() + "");
 		search.setCurrentPage(1);
 		search.setPageSize(10);
-		product.setReviewList(reviewMapper.getReviewList(search));		
+		
+		product.setReviewList(reviewMapper.getReviewList(search));
+		product.setReviewCount(reviewMapper.getTotalCount(search));		
 		log.info("review List = {}", product.getReviewList());
 		
 		search.setSearchCondition("productGroupNumber");
 		product.setInquiryList(inquiryMapper.getInquiryList(search));
+		product.setInquiryCount(inquiryMapper.getTotalCount(search));
 		log.info("inquiry List = {}", product.getInquiryList());
-				
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("mainProduct", product);
-//		map.put("productOptions", productOptions);
 				
 		return product;
 	}
