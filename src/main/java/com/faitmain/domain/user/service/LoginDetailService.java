@@ -24,7 +24,8 @@ public class LoginDetailService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-		
+        //여기서 받은 유저 패스워드와 비교하여 로그인 인증
+	
 		System.out.println("id :: + " + id) ;
 		User user = usermapper.getUser(id) ;
 		if(user == null) {

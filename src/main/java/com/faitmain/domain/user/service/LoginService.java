@@ -23,16 +23,15 @@ public class LoginService implements UserDetails{
 
   
     private User user;
-	private String username; // ID
-	private String password; // PW
-	
+//	private String username; // ID
+//	private String password; // PW
+     
     public LoginService() {
     	
-    }
-    
+    }    
     
     public LoginService(User user) {
-		System.out.println("LoginService" +user);
+		System.out.println("LoginService :: " +user);
 		this.user=user;
     }
     
@@ -43,6 +42,7 @@ public class LoginService implements UserDetails{
         roles.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
+            	System.out.println("뾰로롱 권한 :: " + user.getRole());
                 return user.getRole();
             }
         });
@@ -82,6 +82,6 @@ public class LoginService implements UserDetails{
 	}
     @Override
     public boolean isEnabled(){
-        return false;
+        return true;
     }
 }

@@ -1,5 +1,6 @@
 package com.faitmain.domain.user.controller;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -65,7 +70,7 @@ public class UserController{
 
 // 보안을 위한 ^_^ 
     @Autowired
-    private BCryptPasswordEncoder pwdEncoder;
+    private PasswordEncoder pwdEncoder;
 
     
     public UserController(){
@@ -73,14 +78,51 @@ public class UserController{
     }
 
 
-    
+    //안됨
     @GetMapping("/user_access")
     public String userAccess(Model model, Authentication authentication) {
         //Authentication 객체를 통해 유저 정보를 가져올 수 있다.
         User user = (User) authentication.getPrincipal();  //userDetail 객체를 가져옴
         model.addAttribute("info", user.getId() +"의 "+ user.getName()+ "님");      //유저 아이디
+        System.out.println("info" + user.getId() +"의 "+ user.getName()+ "님");      //유저 아이디
+ 
         return "user_access";
     }
+    
+    
+    //principal 은 getName 만 지원 name 만 뽑아옴 
+    @GetMapping("/username") 
+    @ResponseBody 
+    public String currentUserName(Principal principal) { 
+        return principal.getName(); 
+    }  
+  
+    
+    //@AuthenticationPrincipal 애노테이션을 사용하면 UserDetailsService에서 Return한 객체 를 파라메터로 직접 받아 사용할 수 있다.
+    @GetMapping("/get_access") 
+    @ResponseBody 
+    public String get_access(Model model , @AuthenticationPrincipal User user) { 
+      
+    	if(user == null) {
+    		System.out.println("   없음:"  );
+
+    		model.addAttribute("message" ,"없음") ;
+    	}else {
+    		System.out.println("   :" + user.getUserNumber()  );
+    		System.out.println("   :" +user );
+
+    		model.addAttribute("Message","user.getUserNumber() "+ user.getUserNumber() );
+    	}
+    	
+    	
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();  
+    	User user1 = (User)authentication.getPrincipal();
+    	
+    	System.out.println(user1); // ==> ekswja ㅜ믇 rkqtaks skdhkdy snsanf 
+    	
+    	return "" ;
+    }  
+      
     
     
   //admin 페이지 리스트 보이기    , 스토어 신청서 리스트  
@@ -325,13 +367,14 @@ public class UserController{
 //        String encPwd = pwdEncoder.encode( user.getPassword() );
 //        user.setPassword( encPwd );
         user.setRole( "user" );
+        
         String encPwd =pwdEncoder.encode(user.getPassword());
         user.setPassword(encPwd);
         log.info( "addUser::비밀번호 바꾼후 결과  ::{}" , user );
     
         int result = userSerivce.addUser( user );
 
-        log.info( "restut {}" , result );
+        log.info( "restut {} = 1일때 회원가입 완료" , result );
 
         return new RedirectView( "/" );
     }

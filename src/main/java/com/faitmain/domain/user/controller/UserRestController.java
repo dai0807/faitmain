@@ -148,7 +148,7 @@ public class UserRestController{
 	   @PostMapping( "json/login" )
 	   public String RESTlongin(  User loginuser,  HttpSession session) throws Exception {
 	      
-		   log.info("LostController 탔어용 login Page 도착");
+		   log.info("json LostController 탔어용 login Page 도착");
 		   log.info("받은 유저 user 출력  :: {}" , loginuser);
 		   
  		   String result = "";
