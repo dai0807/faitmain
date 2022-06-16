@@ -321,6 +321,8 @@ public class LiveController {
 							.setProductName(productService.getLiveProduct(Integer.parseInt(product)).getProductName());
 					liveProduct.setProductDetail(
 							productService.getLiveProduct(Integer.parseInt(product)).getProductDetail());
+					liveProduct.setPrice(productService.getLiveProduct(Integer.parseInt(product)).getProductPrice());
+
 					liveService.addLiveProduct(liveProduct);
 				}
 			}
@@ -466,6 +468,8 @@ public class LiveController {
 				liveProduct.setProductName(productService.getLiveProduct(Integer.parseInt(product)).getProductName());
 				liveProduct
 						.setProductDetail(productService.getLiveProduct(Integer.parseInt(product)).getProductDetail());
+				liveProduct.setPrice(productService.getLiveProduct(Integer.parseInt(product)).getProductPrice());
+
 				liveService.addLiveProduct(liveProduct);
 			}
 		} else {
@@ -607,8 +611,6 @@ public class LiveController {
 
 		URL url = new URL(
 				"https://vchatcloud.com/openapi/v1/users/" + liveService.getLiveByStoreId(user.getId()).getRoomId());
-
-		System.out.println("유우우우우우우우우ㅏㄹ엘    " + url);
 
 		HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 		conn.setSSLSocketFactory(sc.getSocketFactory());
@@ -756,11 +758,68 @@ public class LiveController {
 			liveProduct.setProductName(prod.getProductName());
 			liveProduct.setProductMainImage(prod.getProductMainImage());
 			liveProduct.setProductDetail(prod.getProductDetail());
+			liveProduct.setPrice(prod.getProductPrice());
 
 			liveService.addLiveProduct(liveProduct);
 		}
 
 		log.info("addLiveReservation POST : end...");
+		return new RedirectView("/live/getLiveReservationList?date=" + liveReservation.getReservationDate());
+	}
+
+	@GetMapping("updateLiveReservation/{liveProductNum}/{date}")
+	public String updateLiveReservation(@PathVariable String liveProductNum, @PathVariable String date, Model model)
+			throws Exception, Exception {
+		log.info("updateLiveReservation GET start...");
+
+		LiveReservation liveReservation = liveService.getLiveReservation(Integer.parseInt(liveProductNum));
+		log.info("liveReservation = {}", liveReservation);
+
+		List<LiveProduct> liveProductList = liveService
+				.getLiveProductListByLiveNumber(liveReservation.getLiveReservationNumber());
+		log.info("liveProductList = {}", liveProductList);
+
+		Map<String, Object> productList = productService.getProductListByStoreId(liveReservation.getStore().getId());
+
+		model.addAttribute("liveReservation", liveReservation);
+		model.addAttribute("liveProductList", liveProductList);
+		model.addAttribute("list", productList.get("list"));
+
+		log.info("updateLiveReservation GET end...");
+		return "/live/updateLiveReservationView";
+	}
+
+	@PostMapping("updateLiveReservation")
+	public RedirectView updateLiveReservation(LiveReservation liveReservation, @RequestParam String[] liveProductNum,
+			HttpSession session, Model model) throws Exception {
+		log.info("updateLiveReservation POST start...");
+
+		User user = (User) session.getAttribute("user");
+
+		liveReservation.setStore(user);
+		log.info("liveReservation = {}", liveReservation);
+
+		liveService.updateLiveReservation(liveReservation);
+
+		liveService.deleteLiveProductByReservationNumber(liveReservation.getLiveReservationNumber());
+
+		LiveProduct liveProduct = new LiveProduct();
+		liveProduct.setLiveReservationNumber(liveReservation.getLiveReservationNumber());
+
+		for (int i = 0; i < liveProductNum.length; i++) {
+			Product prod = productService.getLiveProduct(Integer.parseInt(liveProductNum[i]));
+			liveProduct.setProductNumber(prod.getProductNumber());
+			liveProduct.setProductName(prod.getProductName());
+			liveProduct.setProductMainImage(prod.getProductMainImage());
+			liveProduct.setProductDetail(prod.getProductDetail());
+			liveProduct.setPrice(prod.getProductPrice());
+
+			liveService.addLiveProduct(liveProduct);
+		}
+
+		log.info("PK value = {}", liveReservation.getLiveReservationNumber());
+
+		log.info("updateLiveReservation POST end...");
 		return new RedirectView("/live/getLiveReservationList?date=" + liveReservation.getReservationDate());
 	}
 

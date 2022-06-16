@@ -1,3 +1,4 @@
+
 $(function() {
 	$("#post_content img, .resizablebox").each(function() {
 		var oImgWidth = $(this).width();
@@ -89,6 +90,7 @@ $(function() {
 		    	    		
 		    	    		//이벤트 바인딩 시작
 		    	    		getRoomInfo();
+		    	    		personalInit();
 		    		
 		    	    	};
 		    	   		

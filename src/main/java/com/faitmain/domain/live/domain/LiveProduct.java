@@ -11,4 +11,5 @@ public class LiveProduct {
 	private String productMainImage;
 	private String productName;
 	private String productDetail;
+	private int price;
 }

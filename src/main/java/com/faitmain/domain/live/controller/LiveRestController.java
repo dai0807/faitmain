@@ -395,8 +395,8 @@ public class LiveRestController {
 		}
 	}
 
-	@GetMapping("json/addLiveReservation")
-	public List<Integer> addLiveReservation(String date) throws Exception {
+	@GetMapping("json/getEnableLiveReservationTime")
+	public List<Integer> getEnableLiveReservationTime(String date) throws Exception {
 		log.info("addLiveReservation GET : start...");
 
 		List<LiveReservation> list = liveService.getLiveReservationList(date);
