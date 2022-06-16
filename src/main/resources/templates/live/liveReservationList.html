@@ -40,6 +40,18 @@
 			vertical-align : middle;
 		}
 		
+		div.product-img{
+			display: inline-table;
+			float: left;
+			width: 200px;
+			height: 200px;
+		}
+		
+		div.product-context{
+			display: inline-table;
+			float: left;
+		}
+		
 	</style>
 </head>
 <body>
@@ -69,19 +81,32 @@
 							<h5 th:text="${prodList.reservationTime}" style="display : inline">hour</h5><h5 style="display : inline">:00</h5>
 						</div>
 						<div class="col-md-9">
-							<div>
-								<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
-								<span>
-									<th:block th:text="${prodList.liveReservationNumber}">number</th:block>
-								</span>
+							<div class="product-main">
+								<div class="product-img">
+									<img src="https://dummyimage.com/200x200/343a40/6c757d">
+								</div>
+								<div class="product-context">
+									<div>
+										<h5 th:text="${prodList.liveProduct[0].productName}">productName</h5>
+										<h6 th:text="${prodList.liveProduct[0].productDetail}">productDetail</h6>
+										<h6 th:text="${prodList.liveProduct[0].price}">price</h6>
+										
+									</div>
+									
+									<div style="inline-table">
+										<img src="https://dummyimage.com/25x25/343a40/6c757d">
+										<h6 th:text="${prodList.store.storeLogoImage}">storeLogo</h6>
+										<h6 th:text="${prodList.store.storeName}">storeName</h6>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="col-md-2" style="text-align: center; display: table-cell; vertical-align: middle">
 							
 								<th:block th:if="${session.user != null}">
 									<th:block th:if="${prodList.store.userNumber} == ${session.user.userNumber}">
-										<a type="button" class="btn btn-outline-info">수정 하기</a>
-										<a type="button" class="btn btn-outline-danger" th:href="@{/live/deleteLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">삭제 하기</a>
+										<a type="button" class="btn btn-info" th:href="@{/live/updateLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">수정 하기</a>
+										<a type="button" class="btn btn-danger" th:href="@{/live/deleteLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">삭제 하기</a>
 									</th:block>
 								</th:block>
 						
@@ -98,17 +123,29 @@
 								<div class="carousel-inner">
 									
 									<th:block th:each="productList : ${prodList.liveProduct}" >
-										<div th:if="${productListStat.first}" class="carousel-item active">
-											<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
-											<span>
-												<th:block th:text="${productList.productName}">name</th:block>
-											</span>
+										<div th:if="${productListStat.first}" class="product-main carousel-item active">
+											<div class="product-img">
+												<img src="https://dummyimage.com/200x200/343a40/6c757d">
+											</div>
+											<div class="product-context">
+												<h5 th:text="${productList.productName}">productName</h5>
+												<h6 th:text="${productList.productDetail}">productDetail</h6>
+												<h6 th:text="${productList.price}">price</h6>
+												<h6 th:text="${prodList.store.storeLogoImage}">storeLogo</h6>
+												<h6 th:text="${prodList.store.storeName}">storeName</h6>
+											</div>
 										</div>
-										<div th:unless="${productListStat.first}" class="carousel-item">
-											<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
-											<span>
-												<th:block th:text="${productList.productName}">name</th:block>
-											</span>
+										<div th:unless="${productListStat.first}" class="product-main carousel-item">
+											<div class="product-img">
+												<img src="https://dummyimage.com/200x200/343a40/6c757d">
+											</div>
+											<div class="product-context">
+												<h5 th:text="${productList.productName}">productName</h5>
+												<h6 th:text="${productList.productDetail}">productDetail</h6>
+												<h6 th:text="${productList.price}">price</h6>
+												<h6 th:text="${prodList.store.storeLogoImage}">storeLogo</h6>
+												<h6 th:text="${prodList.store.storeName}">storeName</h6>
+											</div>
 										</div>
 									</th:block>
 								</div>
@@ -120,7 +157,7 @@
 							
 							<th:block th:if="${session.user != null}">
 								<th:block th:if="${prodList.store.userNumber} == ${session.user.userNumber}">
-									<a type="button" class="btn btn-info">수정 하기</a>
+									<a type="button" class="btn btn-info" th:href="@{/live/updateLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">수정 하기</a>
 									<a type="button" class="btn btn-danger" th:href="@{/live/deleteLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">삭제 하기</a>
 								</th:block>
 							</th:block>

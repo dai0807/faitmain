@@ -1,19 +1,4 @@
 
-
-$(function() {
-	$("#post_content img, .resizablebox").each(function() {
-		var oImgWidth = $(this).width();
-		var oImgHeight = $(this).height();
-		$(this).css({
-			'max-width':oImgWidth+'px',
-			'max-height':oImgHeight+'px',
-			'width':'100%',
-			'height':'100%'
-		});
-	});
-});
-
-
 		    function videoInit() {
 					
 		    	channel.on("rtcRemoteStreamRemove", function(event){
@@ -91,6 +76,7 @@ $(function() {
 		    	    		
 		    	    		//이벤트 바인딩 시작
 		    	    		getRoomInfo();
+		    	    		personalInit();
 		    		
 		    	    	};
 		    	   		
@@ -132,7 +118,7 @@ $(function() {
 		    	    function (data) {
 		    	      if (data.result_cd == 1) {
 		    	        console.log(data);
-		    	        // $("#roomNm").append(data.param.room_nm);
+		    	        $("#roomNm").append(data.param.room_nm);
 		    	      } else {
 		    	        console.log("조회 실패");
 		    	        oastPopup("조회 실패");
