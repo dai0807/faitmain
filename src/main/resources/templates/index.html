@@ -40,42 +40,6 @@
     	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
 
-		<style>
-			
-			video {
-				width: 900px;
-				position: absolute;
-			}
-    
-    		div.livecommerce {
-				width: 900px;
-				height: 675px;
-				overflow: hidden;
-				position: relative;
-				border: 8px solid #fff;
-				border-radius: 15px;
-			}
-			
-			.livecommerce .title{
-				width: 100%;
-				height: 139px;
-				position: absolute;
-				top: 0;
-				left: 0;
-				background: url('/img/livecommerce_titleBG.png');
-			}
-			
-			 .title p {
-		        text-align: right;
-		    }
-		    
-		    .title i {
-		        font-size: 20px;
-		        color: #fff;
-		    }
-
-		</style>
-		
     </head>
     <body>
     
@@ -86,7 +50,7 @@
                     <div class="row align-items-center justify-content-center" style="padding-bottom: 30px;">
 	                  	<div class="col-md-4 text-center" style="width: 424px">
 	                  		<div class="row">
-	                  			<div class="col-md-12">
+	                  			<div class="col-md-12" style="height: 100px;">
 	                  				<a class="btn btn-outline-light btn-lg" th:href="@{live/getLiveReservationCal}">
 	                  					프리미엄 라이브<br/>
 	                  					예약 확인
@@ -94,7 +58,7 @@
 	                  			</div>
 	                  		</div>
 	                  		<div class="row">
-	                  			<div class="col-md-12">
+	                  			<div class="col-md-12" style="height: 575px;">
 	                  				<h5 style="color : white">오늘 예약 목록</h5>
 	                  				<div>
 	                  				

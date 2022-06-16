@@ -118,7 +118,7 @@
 		    	    function (data) {
 		    	      if (data.result_cd == 1) {
 		    	        console.log(data);
-		    	        // $("#roomNm").append(data.param.room_nm);
+		    	        $("#roomNm").append(data.param.room_nm);
 		    	      } else {
 		    	        console.log("조회 실패");
 		    	        oastPopup("조회 실패");
