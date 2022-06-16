@@ -43,9 +43,9 @@
 
  name : <p th:text="${#authentication.name}"></p>
 
-authorities(권한): <p th:text="${#authentication.authorities}">  </p>
+ principal 인증 대상에 관한 정보(user 정보 나옴): <p th:text="${#authentication.principal}">  </p>
 
-authenticated(인증): <p th:text="${#authentication.authenticated}">  </p>
+authenticated(인증 여부): <p th:text="${#authentication.authenticated}">  </p>
 
  
 

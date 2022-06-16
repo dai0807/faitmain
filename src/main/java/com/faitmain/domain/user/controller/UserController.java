@@ -84,7 +84,7 @@ public class UserController{
     }
 
   
-      
+     // Authentication 인증  ,  접근 주체(Principal)  , 권한(Authorization) ,인가(Authorize)
      
      
      @GetMapping("test")

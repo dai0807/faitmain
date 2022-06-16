@@ -4,6 +4,8 @@ import com.faitmain.domain.user.domain.User;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,9 +19,12 @@ import java.util.List;
 @Setter
 @ToString
 @Component
-
+@Slf4j
 public class SecurityUser implements UserDetails{
 
+	//  UserDetails : 인증된 핵심 사요자 정보(권한,비밀번호,사용자명,각종상태)를 제공하는  interface
+	
+	
 	// 안만들어도 상관없지만 Warning이 발생함
 	 private static final long serialVersionUID = 1L;
 	
@@ -39,7 +44,9 @@ public class SecurityUser implements UserDetails{
 		this.user=user;
     }
     
-    
+    //ROLE
+    //GrantedAuthority는 Authentication 클래스 
+    //Authentication 클래스에 getAuthorities() 메소드를 통하여, 인증받은 사용자의 authorities를 조회 가능
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
@@ -47,15 +54,13 @@ public class SecurityUser implements UserDetails{
 		auth.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-            	System.out.println(" 권한 :: " + user.getRole());
+            	System.out.println(" ROLE :: " + user.getRole());
                 return "ROLE_"+user.getRole();  // 권한 부여
             }
         });
-		
-		//role 부여 깔끔하게 리펙토링 제발 부탁 
-		
-		System.out.println("권한 :   "  + auth );
-		
+		log.info("  ROLE 권한: ={}  " ,auth) ; 
+ 		
+ 		
 		return auth;
 	}
     
@@ -136,4 +141,11 @@ public class SecurityUser implements UserDetails{
     public boolean isEnabled(){
         return true;
     }
+    
+//    SecurityContextHolder
+//    SecurityContext를 보관하는 저장소
+//    SecurityContext에는 Authentication 인스턴스가 저장된다.
+//    Authentication에는 principal, credentials, authorities가 저장된다.
+ // 참고 : https://gregor77.github.io/2021/04/21/spring-security-02/  
+    
 }
