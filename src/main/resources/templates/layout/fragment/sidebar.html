@@ -34,7 +34,7 @@
 				<a href="#" class="list-group-item list-group-item-action">취소 / 환불</a>
 				<a href="#" class="list-group-item list-group-item-action">포인트 이용 내역</a>
 				<a href="#" class="list-group-item list-group-item-action">문의 목록</a>
-				<a href="#" class="list-group-item list-group-item-action">리뷰 목록</a>
+				<a th:href="@{/review/getReviewList?searchCondition=userId&searchKeyword=} + ${session.user.id}" class="list-group-item list-group-item-action">리뷰 목록</a>
 				<a href="#" class="list-group-item list-group-item-action">라이브 알림 설정 목록</a>
 				<a href="#" class="list-group-item list-group-item-action">신고 목록</a>
 			</div>

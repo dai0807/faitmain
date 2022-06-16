@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.faitmain.domain.live.domain.Live;
+import com.faitmain.domain.live.domain.LiveReservation;
 import com.faitmain.domain.live.service.LiveService;
 import com.faitmain.domain.product.service.ProductService;
 
@@ -43,19 +45,31 @@ public class WebController {
 		map.put("liveList", liveService.getLiveList().get("liveList"));
 
 		log.info("after getLiveList");
-		
-        model.addAttribute("map", map);
-        
-        System.out.println(model);
-        return "index";
-    }
-    
-    @GetMapping("/myPage")
-    public String getMyPage() {
-    	log.info("getMyPage : GET start...");
-    	
-    	log.info("getMyPage : GET end...");
-    	return "myPage";
-    }
+
+		LiveReservation liveReservation = liveService.getCurrentLiveReservation();
+		log.info("liveReservation : {}", liveReservation);
+
+		Live live = null;
+		if (liveReservation != null) {
+			live = liveService.getLiveByStoreId(liveReservation.getStore().getId());
+		}
+		log.info("live : {}", live);
+
+		model.addAttribute("map", map);
+		model.addAttribute("liveReservation", liveReservation);
+
+		model.addAttribute("live", live);
+
+		System.out.println(model);
+		return "index";
+	}
+
+	@GetMapping("/myPage")
+	public String getMyPage() {
+		log.info("getMyPage : GET start...");
+
+		log.info("getMyPage : GET end...");
+		return "myPage";
+	}
 
 }

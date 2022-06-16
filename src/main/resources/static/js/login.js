@@ -49,6 +49,7 @@ window.addEventListener("load", function () {
   	myCam.attr('name', 'my_cam');
 
     $('div.bottom div.name').text(userNick);
+    
     joinRoom(channelKey,  'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }), userNick, function(err, history){
     	if(err){
     		openError(err.code, function(){
@@ -84,9 +85,6 @@ window.addEventListener("load", function () {
    	});
 })
 	
-
-
-
 function joinRoom(roomId, clientKey, nickName, callback) {
   // vchatcloud 객체
   console.log("clientKey : " + clientKey);
@@ -224,4 +222,42 @@ function exit() {
   } else {
     // 로그인 되지 않았음!
   }
+}
+
+// msgInit() 부분은 login.js에 joinRoom 이 성공한 이후에 실행하도록 한다
+function msgInit() {
+    // 공지사항 메시지
+    channel.onNotifyNotice = function(event) {
+        write(event, 'notice')
+    }
+
+    // 유저 입장
+    channel.onNotifyJoinUser = function(event) {
+        write(event, 'join')
+    }
+
+    // 유저 나감
+    channel.onNotifyLeaveUser = function(event) {
+        write(event, 'leave')
+    }
+
+    // 유저 추방
+    channel.onNotifyKickUser = function(event) {
+        write("'<font color='blue'><b>" + event.nickName + "</b></font>' 님이 채팅방에서 추방되었습니다.");
+    }
+
+    // 유저 추방 해제
+    channel.onNotifyUnkickUser = function(event) {
+        write("'<font color='blue'><b>" + event.nickName + "</b></font>' 님이 채팅방에서 추방 해제되었습니다.");
+    }
+
+    // 글쓰기 제한
+    channel.onNotifyMuteUser = function(event) {
+        write("'<font color='blue'><b>" + event.nickName + "</b></font>' 님의 글쓰기가 제한되었습니다.");
+    }
+
+    // 글쓰기 제한 해제
+    channel.onNotifyUnmuteUser = function(event) {
+        write("'<font color='blue'><b>" + event.nickName + "</b></font>' 님의 글쓰기가 제한 해제되었습니다.");
+    }
 }

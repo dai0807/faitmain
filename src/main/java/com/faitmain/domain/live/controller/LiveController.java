@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +35,7 @@ import com.faitmain.domain.live.domain.LiveProduct;
 import com.faitmain.domain.live.domain.LiveReservation;
 import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.live.service.LiveService;
+import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserSerivce;
@@ -60,9 +60,10 @@ public class LiveController {
 	@Qualifier("userServiceImpl")
 	private UserSerivce userSerivce;
 
-
 	@GetMapping("liveRoom")
 	public String getLiveRoomList(Model model) throws Exception {
+		
+		String token = getToken();
 
 		System.out.println("/live/getLiveRoomList : GET start...");
 		log.info("Controller = {} ", "/live/liveRoomList : GET start...");
@@ -96,8 +97,7 @@ public class LiveController {
 		conn.setRequestProperty("Content-type", "application/json");
 		conn.setRequestProperty("accept", "*/*");
 		conn.setRequestProperty("api_key", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
-		conn.setRequestProperty("X-AUTH-TOKEN",
-				"eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ2Y3h6dmN4ejE1OUBnbWFpbC5jb20iLCJleHAiOjE2NTUxMjE4NzcsImlhdCI6MTY1NTEwMzg3NywiYXV0aG9yaXRpZXMiOiJbUk9MRV9VU0VSXSJ9.wHNAWfW1N54JUu6YMPvCqYzHALvMbs1QmLdEHQ7NW_I");
+		conn.setRequestProperty("X-AUTH-TOKEN", token);
 		conn.setDoOutput(true);
 
 		// 데이터 입력 스트림에 답기
@@ -255,7 +255,14 @@ public class LiveController {
 				sb.append(br.readLine());
 			}
 			conn.disconnect();
-
+			
+			try {
+				Thread.sleep(2000);
+				System.out.println("타이머 1 초 대기.");
+			}catch(InterruptedException e) {
+				System.out.println("타이머 끝");
+			}
+			
 			result = (JSONObject) new JSONParser().parse(sb.toString());
 
 			// REST API 호출 상태 출력하기
@@ -273,6 +280,7 @@ public class LiveController {
 
 			if (Code != 1) {
 				log.info("에러 발생! result_cd : {}", Code);
+
 			} else {
 
 				// 라이브 방송 등록 후 DB에 데이터 입력
@@ -287,6 +295,8 @@ public class LiveController {
 				live.setLiveImage("라이브 대표사진.png");
 
 				liveService.addLive(live);
+
+				model.addAttribute("Live", live);
 
 				System.out.println("라이브 방송 정보 : "
 						+ liveService.getLive(liveService.getLiveByStoreId(user.getId()).getLiveNumber()));
@@ -306,21 +316,26 @@ public class LiveController {
 					liveProduct.setLiveReservationNumber(0);
 					liveProduct.setProductNumber(Integer.parseInt(product));
 					liveProduct.setProductMainImage(
-							productService.getProduct(Integer.parseInt(product)).getProductMainImage());
-					liveProduct.setProductName(productService.getProduct(Integer.parseInt(product)).getProductName());
+							productService.getLiveProduct(Integer.parseInt(product)).getProductMainImage());
 					liveProduct
-							.setProductDetail(productService.getProduct(Integer.parseInt(product)).getProductDetail());
+							.setProductName(productService.getLiveProduct(Integer.parseInt(product)).getProductName());
+					liveProduct.setProductDetail(
+							productService.getLiveProduct(Integer.parseInt(product)).getProductDetail());
+					liveProduct.setPrice(productService.getLiveProduct(Integer.parseInt(product)).getProductPrice());
+
 					liveService.addLiveProduct(liveProduct);
 				}
 			}
+
 		} else {
-			log.info("room aready exist");
+
+			log.info("room already exist");
+
 			editRoom(req, liveTitle, session, token, model);
 		}
 		List<LiveProduct> list = liveService
 				.getLiveProductListByLiveNumber(liveService.getLiveByStoreId(user.getId()).getLiveNumber());
 		model.addAttribute("listProduct", list);
-
 
 		String roomId = liveService.getLiveByStoreId(user.getId()).getRoomId();
 
@@ -329,6 +344,7 @@ public class LiveController {
 		model.addAttribute("channelKey", roomId);
 
 		log.info("model status : " + model);
+		
 
 		return "/live/live";
 
@@ -424,6 +440,8 @@ public class LiveController {
 
 			liveService.updateLive(live);
 
+			model.addAttribute("Live", live);
+
 			System.out.println(
 					"라이브 방송 정보 : " + liveService.getLive(liveService.getLiveByStoreId(user.getId()).getLiveNumber()));
 
@@ -446,23 +464,23 @@ public class LiveController {
 				liveProduct.setLiveReservationNumber(0);
 				liveProduct.setProductNumber(Integer.parseInt(product));
 				liveProduct.setProductMainImage(
-						productService.getProduct(Integer.parseInt(product)).getProductMainImage());
-				liveProduct.setProductName(productService.getProduct(Integer.parseInt(product)).getProductName());
-				liveProduct.setProductDetail(productService.getProduct(Integer.parseInt(product)).getProductDetail());
+						productService.getLiveProduct(Integer.parseInt(product)).getProductMainImage());
+				liveProduct.setProductName(productService.getLiveProduct(Integer.parseInt(product)).getProductName());
+				liveProduct
+						.setProductDetail(productService.getLiveProduct(Integer.parseInt(product)).getProductDetail());
+				liveProduct.setPrice(productService.getLiveProduct(Integer.parseInt(product)).getProductPrice());
+
 				liveService.addLiveProduct(liveProduct);
 			}
 		} else {
 			System.out.println("오류남");
 		}
 
-
 		String roomId = liveService.getLiveByStoreId(user.getId()).getRoomId();
 
 		log.info("채널키 파라미터 체크 = {}", roomId);
 
 		model.addAttribute("channelKey", roomId);
-
-		getLiveUserList(req, session, roomId, model, token);
 
 		return "live/live";
 
@@ -505,11 +523,13 @@ public class LiveController {
 		Live live = liveService.getLive(liveNumber);
 
 		List<LiveProduct> list = liveService.getLiveProductListByLiveNumber(live.getLiveNumber());
-
-		model.addAttribute("listProduct", list);
+		
+		System.out.println("찍먹 : " + list);
 		model.addAttribute("live", live);
+		model.addAttribute("listProduct", list);
 
-		log.info("model live : " + model.getAttribute("live"));
+		log.info("live = " + model.getAttribute("live"));
+		log.info("listProduct = " + model.getAttribute("listProduct"));
 		return "live/watchLive";
 	}
 
@@ -562,12 +582,14 @@ public class LiveController {
 		return "/live/liveReservationList";
 	}
 
-	public Map<String, Object> getLiveUserList(HttpServletRequest req, HttpSession session, String roomId, Model model,
-			String token) throws Exception {
+	@GetMapping("liveManageTab")
+	public String getLiveUserList(HttpServletRequest req, HttpSession session, Model model) throws Exception {
 
 		log.info("Controller = {} ", "/live/getLiveUserList : GET start...");
 
 		log.info("getLiveUserList = {} ", this.getClass());
+
+		User user = (User) session.getAttribute("user");
 
 		JSONObject result = null;
 		StringBuilder sb = new StringBuilder();
@@ -587,16 +609,15 @@ public class LiveController {
 		SSLContext sc = SSLContext.getInstance("TLSv1.2");
 		sc.init(null, trustCerts, new java.security.SecureRandom());
 
-		URL url = new URL("https://vchatcloud.com/openapi/v1/users/" + roomId);
-
-		System.out.println("유우우우우우우우우ㅏㄹ엘    " + url);
+		URL url = new URL(
+				"https://vchatcloud.com/openapi/v1/users/" + liveService.getLiveByStoreId(user.getId()).getRoomId());
 
 		HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 		conn.setSSLSocketFactory(sc.getSocketFactory());
 		conn.setRequestMethod("GET");
 		conn.setRequestProperty("accept", "*/*");
 		conn.setRequestProperty("API_KEY", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
-		conn.setRequestProperty("X-AUTH-TOKEN", token);
+		conn.setRequestProperty("X-AUTH-TOKEN", getToken());
 		conn.setDoOutput(true);
 
 		// 데이터 입력 스트림에 답기
@@ -621,9 +642,12 @@ public class LiveController {
 			System.out.println("data[" + i + "] : " + tmp);
 		}
 		System.out.println("data : " + data);
-		Map<String, Object> map = new HashMap();
+
+		model.addAttribute("userList", data);
+
 		log.info("Controller = {} ", "/live/getLiveUserList : GET end...");
-		return map;
+
+		return "/live/liveManageTab";
 	}
 
 	@GetMapping("liveStatusUpdate")
@@ -649,10 +673,8 @@ public class LiveController {
 			}
 		} };
 
-
 		SSLContext sc = SSLContext.getInstance("TLSv1.2");
 		sc.init(null, trustCerts, new java.security.SecureRandom());
-
 
 		URL url = new URL("https://vchatcloud.com/openapi/v1/rooms/" + live.getRoomId());
 
@@ -682,8 +704,136 @@ public class LiveController {
 
 		liveService.updateLive(live);
 
-
 		return new RedirectView("/");
-
 	}
+
+	@GetMapping("addLiveReservation")
+	public RedirectView addLiveReservation(HttpSession session, Model model) throws Exception {
+		log.info("addLiveReservation GET : start...");
+
+		User user = (User) session.getAttribute("user");
+
+		LiveReservation liveReservation = liveService.getLiveReservationByStoreId(user.getId());
+
+		log.info("liveReservation = {}", liveReservation);
+
+		if (liveReservation == null) { // 프리미엄 라이브 예약을 하지 않았을 경우
+
+			log.info("addLiveReservation GET : end...");
+			return new RedirectView("/live/addLiveReservationView");
+		} else { // 프리미엄 라이브 예약을 했을 경우
+			return new RedirectView("/live/getLiveReservationList?date=" + liveReservation.getReservationDate());
+		}
+	}
+
+	@GetMapping("addLiveReservationView")
+	public String addLiveReservationView(HttpSession session, Model model) throws Exception {
+		User user = (User) session.getAttribute("user");
+
+		Map<String, Object> ProductList = productService.getProductListByStoreId(user.getId());
+
+		model.addAttribute("list", ProductList.get("list"));
+		return "/live/addLiveReservationView";
+	}
+
+	@PostMapping("addLiveReservation")
+	public RedirectView addLiveReservation(LiveReservation liveReservation, @RequestParam String[] liveProductNum,
+			HttpSession session, Model model) throws Exception {
+		log.info("addLiveReservation POST : start...");
+
+		User user = (User) session.getAttribute("user");
+
+		liveReservation.setStore(user);
+
+		liveService.addLiveReservation(liveReservation);
+
+		log.info("PK value = {}", liveReservation.getLiveReservationNumber());
+
+		LiveProduct liveProduct = new LiveProduct();
+		liveProduct.setLiveReservationNumber(liveReservation.getLiveReservationNumber());
+
+		for (int i = 0; i < liveProductNum.length; i++) {
+			Product prod = productService.getLiveProduct(Integer.parseInt(liveProductNum[i]));
+			liveProduct.setProductNumber(prod.getProductNumber());
+			liveProduct.setProductName(prod.getProductName());
+			liveProduct.setProductMainImage(prod.getProductMainImage());
+			liveProduct.setProductDetail(prod.getProductDetail());
+			liveProduct.setPrice(prod.getProductPrice());
+
+			liveService.addLiveProduct(liveProduct);
+		}
+
+		log.info("addLiveReservation POST : end...");
+		return new RedirectView("/live/getLiveReservationList?date=" + liveReservation.getReservationDate());
+	}
+
+	@GetMapping("updateLiveReservation/{liveProductNum}/{date}")
+	public String updateLiveReservation(@PathVariable String liveProductNum, @PathVariable String date, Model model)
+			throws Exception, Exception {
+		log.info("updateLiveReservation GET start...");
+
+		LiveReservation liveReservation = liveService.getLiveReservation(Integer.parseInt(liveProductNum));
+		log.info("liveReservation = {}", liveReservation);
+
+		List<LiveProduct> liveProductList = liveService
+				.getLiveProductListByLiveNumber(liveReservation.getLiveReservationNumber());
+		log.info("liveProductList = {}", liveProductList);
+
+		Map<String, Object> productList = productService.getProductListByStoreId(liveReservation.getStore().getId());
+
+		model.addAttribute("liveReservation", liveReservation);
+		model.addAttribute("liveProductList", liveProductList);
+		model.addAttribute("list", productList.get("list"));
+
+		log.info("updateLiveReservation GET end...");
+		return "/live/updateLiveReservationView";
+	}
+
+	@PostMapping("updateLiveReservation")
+	public RedirectView updateLiveReservation(LiveReservation liveReservation, @RequestParam String[] liveProductNum,
+			HttpSession session, Model model) throws Exception {
+		log.info("updateLiveReservation POST start...");
+
+		User user = (User) session.getAttribute("user");
+
+		liveReservation.setStore(user);
+		log.info("liveReservation = {}", liveReservation);
+
+		liveService.updateLiveReservation(liveReservation);
+
+		liveService.deleteLiveProductByReservationNumber(liveReservation.getLiveReservationNumber());
+
+		LiveProduct liveProduct = new LiveProduct();
+		liveProduct.setLiveReservationNumber(liveReservation.getLiveReservationNumber());
+
+		for (int i = 0; i < liveProductNum.length; i++) {
+			Product prod = productService.getLiveProduct(Integer.parseInt(liveProductNum[i]));
+			liveProduct.setProductNumber(prod.getProductNumber());
+			liveProduct.setProductName(prod.getProductName());
+			liveProduct.setProductMainImage(prod.getProductMainImage());
+			liveProduct.setProductDetail(prod.getProductDetail());
+			liveProduct.setPrice(prod.getProductPrice());
+
+			liveService.addLiveProduct(liveProduct);
+		}
+
+		log.info("PK value = {}", liveReservation.getLiveReservationNumber());
+
+		log.info("updateLiveReservation POST end...");
+		return new RedirectView("/live/getLiveReservationList?date=" + liveReservation.getReservationDate());
+	}
+
+	@GetMapping("deleteLiveReservation/{liveProductNum}/{date}")
+	public RedirectView deleteLiveReservation(@PathVariable String liveProductNum, @PathVariable String date)
+			throws Exception {
+		log.info("deleteLiveReservation GET start...");
+
+		liveService.deleteLiveReservation(Integer.parseInt(liveProductNum));
+
+		liveService.deleteLiveProductByReservationNumber(Integer.parseInt(liveProductNum));
+		// liveService.deleteLive
+		log.info("deleteLiveReservation GET end...");
+		return new RedirectView("/live/getLiveReservationList?date=" + date);
+	}
+
 }

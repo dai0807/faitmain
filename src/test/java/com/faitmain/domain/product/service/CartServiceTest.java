@@ -72,7 +72,7 @@ public class CartServiceTest {
 		
 		Cart mockCart = Cart.builder().cartNumber(cartNumber).cartQuantity(cartQuantity).build();
 		
-//		when(cartMapper.getCartList(cartNumber)).thenReturn(mockCart);
+//		when(cartMapper.selectCartList(cartNumber)).thenReturn(mockCart);
 		
 //		cartServiceImpl.deleteCart(cartNumber);
 		

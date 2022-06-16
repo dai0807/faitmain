@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.view.RedirectView;
 
 import com.faitmain.domain.product.domain.Product;
+import com.faitmain.domain.product.service.InquiryService;
 import com.faitmain.domain.product.service.ProductService;
+import com.faitmain.domain.product.service.ReviewService;
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.domain.user.service.UserSerivce;
 import com.faitmain.global.common.MiniProjectPage;
-import com.faitmain.global.common.Page;
 import com.faitmain.global.common.Search;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +35,25 @@ public class ProductController {
 	@Autowired
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserSerivce userSerivce;
 
+	//User로 갈 수도 있음
+	@GetMapping("getStoreInfo")
+	public String getStoreInfo(@RequestParam("storeId") String storeId, Model model) throws Exception{
+		
+		log.info("/product/getStoreInfo : GET");
+		
+		User store = userSerivce.getUser(storeId);
+		Map<String, Object> map = productService.getProductListByStoreId(storeId);
+		
+		model.addAttribute("store", store);
+		model.addAttribute("list", map.get("list"));
+		
+		return "/product/getStoreInfo";
+	}
 
 	@GetMapping("addProduct")
 	public String addProduct() throws Exception{		
@@ -74,6 +93,22 @@ public class ProductController {
 		
 		return "/product/getProduct";
 	}
+	
+	///////// Test용 ///////////
+	@GetMapping("getProduct2")
+	public String getProduct2( @RequestParam("productNumber") int productNumber, Model model ) throws Exception {
+		
+		log.info("/product/getProduct2");
+		
+		Product product = productService.getProduct(productNumber);
+		
+		log.info("product = {}", product);
+		
+		model.addAttribute("product", product);
+		
+		return "/product/getProduct2";
+	}
+	//////////////////////////
 	
 	@RequestMapping(value="getProductList")
 	public String getProductList(@ModelAttribute Search search, @RequestParam("resultJsp") String resultJsp, Model model) throws Exception{

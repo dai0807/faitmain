@@ -28,7 +28,6 @@
     <!-- <script src="/js/watchlogin.js"></script> -->
     <script src="/js/like.js"></script>
     <script src="/js/draw.js"></script>
-
     <script src="/js/errMsg.js"></script>
 </head>
 
@@ -114,11 +113,10 @@
                 </div>
                 <!-- 방제 / 채팅방 정보 불러오는 api가 없어 하드코딩 -->
                 <article class="title">
-                    <p id=roomNm><span>Live</span></p>
+                    <p id=roomNm><span>Live</span>[[${live.liveTitle}]]</p>
                     <!-- 나가기 버튼 -->
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -128,7 +126,8 @@
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="button" class="btn btn-warning" onclick='nav()'>나가기</button>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-warning" onclick='exit()'>나가기</button>
                 </article>
                 <!-- 채팅방 -->
                 
@@ -138,7 +137,6 @@
                         <div id="content1">
                         </div>
                     </div>
-                    
                     <div th:if="${session.user != null}" class="chat_bottom">
                         <!-- 메시지 작성 -->
                         <div class="chat_input">
@@ -160,6 +158,7 @@
     
     <input th:if="${session.user != null}" type="hidden" id="userNickname" th:value="${session.user.nickname}">
     <input type="hidden" id="channelKey" th:value="${live.roomId}">
+    <input type="hidden" id="storeId" th:value="${live.storeId}">
        
       <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
    	  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
@@ -175,13 +174,15 @@
 										<div th:if="${productListStat.first}" class="carousel-item active">
 											<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
 											<span>
-												<th:block th:text="${productList.productName}">name</th:block>
+												<th:block th:text="${productList.productName}"></th:block>
+												<th:block th:text="${productList.price}"></th:block>
 											</span>
 										</div>
 										<div th:unless="${productListStat.first}" class="carousel-item">
-											<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
+											<span><img src="https://dummyimage.com/200x200/343a40/6c757d">알랄랄</span>
 											<span>
-												<th:block th:text="${productList.productName}">name</th:block>
+												<th:block th:text="${productList.productName}"></th:block>
+												<th:block th:text="${productList.price}"></th:block>
 											</span>
 										</div>
 									</th:block>
@@ -199,19 +200,21 @@
  // 채널에 접속하기 위해서 사용자의 userNick, userKey와 CMS에서 발급받은 channelKey가 필요합니다.
 
   	var channelKey = $('#channelKey').val(); // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
-
+	var storeId = $('#storeId').val();
 
   	function videoInit() {
 
   	  // 로컬 접속 시
   	  channel.on("rtcRemoteStreamAppend", function (event) {
   	     	
+  		  if(event.clientKey == storeId){
   	     	remoteVideo = document.createElement("video");
   		    let stream = event.target;
   		    remoteVideo.srcObject = stream;
   		    remoteVideo.setAttribute("autoplay", true);
   		    remoteCam.append(remoteVideo);
   		    channel.setRTCRemoteMedia(remoteVideo);
+  		  }
   	  });
   	}
 
@@ -237,7 +240,7 @@
   	  	remoteCam.attr('name', 'remote_cam');
   	  	
   	    $('div.bottom div.name').text(userNick);
-  	    joinRoom(channelKey,  userKey, ((userNick == null)? userKey : userNick), function(err, history){
+  	    joinRoom(channelKey,  userKey, ((userNick == null || userNick == "")? userKey : userNick), function(err, history){
   	    		if(err){
   	    			openError(err.code, function(){
   	    				c.hide();
@@ -339,6 +342,22 @@
   	
   	function nav(){
   		self.location("/");
+  	}
+  	
+  	function exit() {
+  	  if (channel) {
+  	    var exit_chk = confirm("종료 하시겠습니까?");
+  	    if (!exit_chk) return;
+  	    $(".cam-footer .cam-btn .mic").off("click.rtc");
+  	    $(".cam-footer .cam-btn .cam").off("click.rtc");
+  	    vChatCloud.disconnect();
+  	    channel = undefined;
+
+  	    self.location="/";
+
+  	  } else {
+  	    // 로그인 되지 않았음!
+  	  }
   	}
     
 </script>

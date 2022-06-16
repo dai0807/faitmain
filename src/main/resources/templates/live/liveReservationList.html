@@ -13,10 +13,10 @@
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
 	
-	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.4/jquery.touchSwipe.min.js"></script>
 	<script th:src="@{/js/liveReservationList.js}"></script>
+	
 	
 	<style>
 		
@@ -38,6 +38,18 @@
 		td{
 			height : 225.5px;
 			vertical-align : middle;
+		}
+		
+		div.product-img{
+			display: inline-table;
+			float: left;
+			width: 200px;
+			height: 200px;
+		}
+		
+		div.product-context{
+			display: inline-table;
+			float: left;
 		}
 		
 	</style>
@@ -69,22 +81,35 @@
 							<h5 th:text="${prodList.reservationTime}" style="display : inline">hour</h5><h5 style="display : inline">:00</h5>
 						</div>
 						<div class="col-md-9">
-							<div>
-								<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
-								<span>
-									<th:block th:text="${prodList.liveReservationNumber}">number</th:block>
-								</span>
+							<div class="product-main">
+								<div class="product-img">
+									<img src="https://dummyimage.com/200x200/343a40/6c757d">
+								</div>
+								<div class="product-context">
+									<div>
+										<h5 th:text="${prodList.liveProduct[0].productName}">productName</h5>
+										<h6 th:text="${prodList.liveProduct[0].productDetail}">productDetail</h6>
+										<h6 th:text="${prodList.liveProduct[0].price}">price</h6>
+										
+									</div>
+									
+									<div style="inline-table">
+										<img src="https://dummyimage.com/25x25/343a40/6c757d">
+										<h6 th:text="${prodList.store.storeLogoImage}">storeLogo</h6>
+										<h6 th:text="${prodList.store.storeName}">storeName</h6>
+									</div>
+								</div>
 							</div>
 						</div>
-						<div  class="col-md-2">
-							<div style="position: absolute; left:50%; top:50%; margin-left: -47px; margin-top: -39px;">
+						<div class="col-md-2" style="text-align: center; display: table-cell; vertical-align: middle">
+							
 								<th:block th:if="${session.user != null}">
 									<th:block th:if="${prodList.store.userNumber} == ${session.user.userNumber}">
-										<button type="button" class="btn btn-outline-info" style="margin-bottom: 8px;">수정 하기</button>
-										<button type="button" class="btn btn-outline-danger">삭제 하기</button>
+										<a type="button" class="btn btn-info" th:href="@{/live/updateLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">수정 하기</a>
+										<a type="button" class="btn btn-danger" th:href="@{/live/deleteLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">삭제 하기</a>
 									</th:block>
 								</th:block>
-							</div>
+						
 						</div>
 					</div>
 					
@@ -98,17 +123,29 @@
 								<div class="carousel-inner">
 									
 									<th:block th:each="productList : ${prodList.liveProduct}" >
-										<div th:if="${productListStat.first}" class="carousel-item active">
-											<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
-											<span>
-												<th:block th:text="${productList.productName}">name</th:block>
-											</span>
+										<div th:if="${productListStat.first}" class="product-main carousel-item active">
+											<div class="product-img">
+												<img src="https://dummyimage.com/200x200/343a40/6c757d">
+											</div>
+											<div class="product-context">
+												<h5 th:text="${productList.productName}">productName</h5>
+												<h6 th:text="${productList.productDetail}">productDetail</h6>
+												<h6 th:text="${productList.price}">price</h6>
+												<h6 th:text="${prodList.store.storeLogoImage}">storeLogo</h6>
+												<h6 th:text="${prodList.store.storeName}">storeName</h6>
+											</div>
 										</div>
-										<div th:unless="${productListStat.first}" class="carousel-item">
-											<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
-											<span>
-												<th:block th:text="${productList.productName}">name</th:block>
-											</span>
+										<div th:unless="${productListStat.first}" class="product-main carousel-item">
+											<div class="product-img">
+												<img src="https://dummyimage.com/200x200/343a40/6c757d">
+											</div>
+											<div class="product-context">
+												<h5 th:text="${productList.productName}">productName</h5>
+												<h6 th:text="${productList.productDetail}">productDetail</h6>
+												<h6 th:text="${productList.price}">price</h6>
+												<h6 th:text="${prodList.store.storeLogoImage}">storeLogo</h6>
+												<h6 th:text="${prodList.store.storeName}">storeName</h6>
+											</div>
 										</div>
 									</th:block>
 								</div>
@@ -116,24 +153,24 @@
 							</div>
 						</div>
 						
-						<div class="col-md-2" style="position: relative;">
-							<div style="position: absolute; left:50%; top:50%; margin-left: -47px; margin-top: -39px;">
-								<th:block th:if="${session.user != null}">
-									<th:block th:if="${prodList.store.userNumber} == ${session.user.userNumber}">
-										<button type="button" class="btn btn-info" style="margin-bottom: 8px;">수정 하기</button>
-										<button type="button" class="btn btn-danger">삭제 하기</button>
-									</th:block>
+						<div class="col-md-2" style="text-align: center; display: table-cell; vertical-align: middle">
+							
+							<th:block th:if="${session.user != null}">
+								<th:block th:if="${prodList.store.userNumber} == ${session.user.userNumber}">
+									<a type="button" class="btn btn-info" th:href="@{/live/updateLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">수정 하기</a>
+									<a type="button" class="btn btn-danger" th:href="@{/live/deleteLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">삭제 하기</a>
 								</th:block>
-							</div>
+							</th:block>
+							
 						</div>
 					</div>
 					
 				</div>
 				
-				<div>
+				<div style="text-align:center; height : 50px;">
 					<th:block th:if="${session.user != null}">
 						<th:block th:if="${session.user.role} == store">
-							<button type="button" class="btn btn-success">등록 하기</button>
+							<a type="button" class="btn btn-success" th:href="@{/live/addLiveReservation}">등록 하기</a>
 						</th:block>
 					</th:block>
 				</div>

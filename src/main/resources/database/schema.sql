@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS image CASCADE;
 CREATE TABLE `user` (
                     `user_number`        INTEGER      NOT NULL AUTO_INCREMENT ,
                     `id`                 VARCHAR(25)  NOT NULL ,
-                    `password`           VARCHAR(15)  NOT NULL ,
+                    `password`           VARCHAR(100) NOT NULL ,
                     `gender`             CHAR(4)      NULL ,
                     `user_address1`      VARCHAR(100) NOT NULL ,
                     `user_address2`      VARCHAR(100) NOT NULL ,
@@ -71,7 +71,7 @@ CREATE TABLE `order` (
                      `order_number`      int          NOT NULL ,
                      `buyer_id`          varchar(50)  NOT NULL ,
                      `receiver_name`     varchar(50)  NOT NULL ,
-                     `receiver_phone`    int          NOT NULL ,
+                     `receiver_phone`    varchar(50)  NOT NULL ,
                      `receiver_address1` varchar(100) NOT NULL ,
                      `receiver_address2` varchar(100) NOT NULL ,
                      `receiver_address3` varchar(100) NOT NULL ,
@@ -111,22 +111,25 @@ CREATE TABLE `store_application_document` (
 
 CREATE TABLE `review` (
                       `review_number`  INT(5)       NOT NULL AUTO_INCREMENT ,
-                      `order_number`   INT(5)       NOT NULL ,
+                      `order_product_number`   INT       NOT NULL ,
                       `review_content` VARCHAR(200) NOT NULL ,
-                      `review_image`   VARCHAR(30)  NULL ,
+                      `review_image`   VARCHAR(100)  NULL ,
                       `rating`         INT          NOT NULL ,
                       `reg_date`       DATE         NULL ,
                       `user_id`        VARCHAR(25)  NOT NULL ,
+                      `product_number` INT(5)		NOT NULL ,
+                      `product_name`   VARCHAR(50)  ,
                       PRIMARY KEY ( `review_number` ) ,
-                      FOREIGN KEY ( `order_number` ) REFERENCES `order` ( order_number ) ,
-                      FOREIGN KEY ( user_id ) REFERENCES user ( id )
+                      FOREIGN KEY ( `order_product_number` ) REFERENCES `order_product` ( order_product_number ) ,
+                      FOREIGN KEY ( user_id ) REFERENCES user ( id ) ,
+                      FOREIGN KEY ( `product_number` ) REFERENCES product ( product_number ) 
                       );
 
 CREATE TABLE `cart` (
                     `cart_number`         INT         NOT NULL AUTO_INCREMENT ,
                     `buyer_id`            VARCHAR(25) NOT NULL ,
                     `product_order_count` INT         NOT NULL ,
-                    `product_number`      INT(5)      NOT NULL ,
+                    `product_number`      INT         NOT NULL ,
                     PRIMARY KEY ( `cart_number` ) ,
                     FOREIGN KEY ( buyer_id ) REFERENCES user ( id ) ,
                     FOREIGN KEY ( product_number ) REFERENCES product ( product_number )
@@ -150,8 +153,8 @@ CREATE TABLE `customer` (
                         `customer_board_type`        char(1)       NOT NULL ,
                         `customer_id`                varchar(25)   NOT NULL ,
                         `delete_yn`                  ENUM ('Y','N') DEFAULT 'N' ,
-                        `view_cnt`                   int            DEFAULT 0,
-                            PRIMARY KEY ( `customer_board_number` ) ,
+                        `view_cnt`                   int            DEFAULT 0 ,
+                        PRIMARY KEY ( `customer_board_number` ) ,
                         FOREIGN KEY ( `customer_id` ) REFERENCES `user` ( `id` )
                         );
 
@@ -228,6 +231,7 @@ CREATE TABLE live_product (
                           `product_main_image`      VARCHAR(30) NOT NULL ,
                           `product_name`            VARCHAR(45) NOT NULL ,
                           `product_detail`          VARCHAR(30) NULL ,
+                          `product_price`			INTEGER		NOT NULL,
                           PRIMARY KEY ( live_product_number )
                           );
 
@@ -250,15 +254,15 @@ ALTER TABLE live_reservation AUTO_INCREMENT = 10000;
 ALTER TABLE live_product AUTO_INCREMENT = 10000;
 
 /* CUSTOMER */
-ALTER TABLE customer MODIFY COLUMN customer_FAQ_category_code INT NULL;
+ALTER TABLE customer MODIFY COLUMN customer_faq_category_code INT NULL;
 ALTER TABLE customer MODIFY reg_date TIMESTAMP;
 ALTER TABLE customer MODIFY update_date TIMESTAMP;
 
 /*BAN PERIOD*/
-ALTER TABLE ban_period MODIFY COLUMN respondent_nickname VARCHAR(20) NULL ;
+ALTER TABLE ban_period MODIFY COLUMN respondent_nickname VARCHAR(20) NULL;
 ALTER TABLE ban_period MODIFY COLUMN respondent_store_name VARCHAR(20) NULL;
-ALTER TABLE ban_period ADD FOREIGN KEY(respondent_nickname) REFERENCES user (nickname);
-ALTER TABLE ban_period ADD FOREIGN KEY(respondent_store_name) REFERENCES user (store_name);
+ALTER TABLE ban_period ADD FOREIGN KEY ( respondent_nickname ) REFERENCES user ( nickname );
+ALTER TABLE ban_period ADD FOREIGN KEY ( respondent_store_name ) REFERENCES user ( store_name );
 
 
 
