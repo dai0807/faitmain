@@ -232,6 +232,7 @@ CREATE TABLE live_product (
                           `product_main_image`      VARCHAR(30) NOT NULL ,
                           `product_name`            VARCHAR(45) NOT NULL ,
                           `product_detail`          VARCHAR(30) NULL ,
+                          `product_price`			INTEGER		NOT NULL,
                           PRIMARY KEY ( live_product_number )
                           );
 

@@ -22,6 +22,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link th:href="@{css/styles.css}" rel="stylesheet" />
+
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
@@ -39,11 +40,6 @@
     	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
 
-		<style>
-
-
-		</style>
-		
     </head>
     <body>
     
@@ -51,23 +47,37 @@
             <!-- Header-->
             <header class="bg-dark" style="padding-top : 0px">
                 <div class="container-fluid">
-                    <div class="row align-items-center justify-content-center">
-	                  	<div class="col-md-3 text-center" style="width: 424px">
-	                  		<a class="btn btn-outline-light btn-lg" th:href="@{live/getLiveReservationCal}">
-	                  			프리미엄 라이브<br/>
-	                  			예약 확인
-	                  		</a>
+                    <div class="row align-items-center justify-content-center" style="padding-bottom: 30px;">
+	                  	<div class="col-md-4 text-center" style="width: 424px">
+	                  		<div class="row">
+	                  			<div class="col-md-12" style="height: 100px;">
+	                  				<a class="btn btn-outline-light btn-lg" th:href="@{live/getLiveReservationCal}">
+	                  					프리미엄 라이브<br/>
+	                  					예약 확인
+	                  				</a>
+	                  			</div>
+	                  		</div>
+	                  		<div class="row">
+	                  			<div class="col-md-12" style="height: 575px;">
+	                  				<h5 style="color : white">오늘 예약 목록</h5>
+	                  				<div>
+	                  				
+	                  				</div>
+	                  			</div>
+	                  		</div>
 	                  	</div>
-
-           	
-                        <div id="remote_cam" class="col-md-3 text-center" style="height: 600px; width:400px">
+	                  	
+						<div class="livecommerce col-md-8">
+	                        <div id="remote_cam">
+	                        	 
+	                        
+	                        </div>
+	                        
+	                        <article class="title">
+				                <p id=roomNm><span>Live</span></p>
+				            </article>
                         </div>
                     	
-
-                    	
-                    	<div class="col-md-3 text-center" style="overflow:auto; height:500px; width: 424px;">
-	                  		<h5 style="color : white">오늘 예약 목록</h5>
-	                  	</div>
                     </div>
                 </div>
             </header>
@@ -129,6 +139,7 @@
 				<input th:if="${live} != null" type="text" id="storeId" th:value="${live.storeId}">
 				<input th:if="${live} != null" type="hidden" id="channelKey" th:value="${live.roomId}">
 				<input th:if="${liveReservation} != null" type="hidden" id="storeName" th:value="${liveReservation.store.storeName}">
+
 
             </div>
 		</article>

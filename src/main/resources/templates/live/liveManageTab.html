@@ -94,7 +94,8 @@ h1 {
 }
 </style>
 </head>
-<body>
+
+<body onLoad="self.focus();window.onblur=function(){ if(!opener.closed) window.focus()}">
 <script th:inline="javascript">
     /*<![CDATA[*/
 //유저 강제퇴장 - 1
@@ -117,9 +118,8 @@ function lal() {
 		type : 'GET',
 		async : true,
 		dataType : "json",
-		timeout : 7000,
-		success : function(data){
-		},
+		timeout : 2000,
+		success : function(data){},
 		error : function(error){}
 		
 	});
@@ -144,10 +144,8 @@ function lal() {
 		type : 'GET',
 		async : true,
 		dataType : "json",
-		timeout : 7000,
-		success : function(data){
-			lie();
-		},
+		timeout : 2000,
+		success : function(data){},
 		error : function(error){}
 		
 	});

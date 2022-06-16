@@ -49,6 +49,7 @@ window.addEventListener("load", function () {
   	myCam.attr('name', 'my_cam');
 
     $('div.bottom div.name').text(userNick);
+    
     joinRoom(channelKey,  'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }), userNick, function(err, history){
     	if(err){
     		openError(err.code, function(){
@@ -84,9 +85,6 @@ window.addEventListener("load", function () {
    	});
 })
 	
-
-
-
 function joinRoom(roomId, clientKey, nickName, callback) {
   // vchatcloud 객체
   console.log("clientKey : " + clientKey);

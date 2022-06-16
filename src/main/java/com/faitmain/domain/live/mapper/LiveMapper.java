@@ -47,15 +47,19 @@ public interface LiveMapper {
 	// liveReservation
 	public int addLiveReservation(LiveReservation liveReservation) throws Exception;
 
+	public LiveReservation getLiveReservation(int liveReservationNumber) throws Exception;
+
 	public LiveReservation getCurrentLiveReservation(LiveReservation liveReservation) throws Exception;
 
 	public LiveReservation getLiveReservationByStoreId(LiveReservation liveReservation) throws Exception;
 
-	public int deleteLiveReservation(int liveReservationNumber) throws Exception;
-
 	public List<LiveReservation> getLiveReservationCal() throws Exception;
 
 	public List<LiveReservation> getLiveReservationList(String date) throws Exception;
+
+	public int updateLiveReservation(LiveReservation liveReservation) throws Exception;
+
+	public int deleteLiveReservation(int liveReservationNumber) throws Exception;
 
 	// liveUserStatus
 	public int addLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception;
