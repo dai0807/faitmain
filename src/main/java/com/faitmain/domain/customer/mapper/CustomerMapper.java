@@ -21,13 +21,13 @@ public interface CustomerMapper {
 	//CustomerBoard
 	
 	//INSERT 
-	public int addCustomerBoard(Customer params) throws Exception;
+	public int addCustomerBoard(Customer customer) throws Exception;
 	
 	//SELECT Detail
 	public Customer getCustomerBoard(int boardNumber) throws Exception;
 	
 	//UPDATE
-	public int updateCustomerBoard(Customer params) throws Exception;
+	public int updateCustomerBoard(Customer customer) throws Exception;
 	
 	//SELECT List
 	public List<Customer> getCustomerBoardList() throws Exception;

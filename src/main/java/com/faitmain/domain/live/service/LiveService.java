@@ -40,10 +40,14 @@ public interface LiveService {
 
 	public int deleteLiveProduct(int liveNumber) throws Exception;
 
+	public int deleteLiveProductByReservationNumber(int reservationNumber) throws Exception;
+
 	// liveReservation
 	public int addLiveReservation(LiveReservation liveReservation) throws Exception;
 
 	public LiveReservation getCurrentLiveReservation() throws Exception;
+
+	public LiveReservation getLiveReservationByStoreId(String storeId) throws Exception;
 
 	public int deleteLiveReservation(int liveReservationNumber) throws Exception;
 

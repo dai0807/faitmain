@@ -110,7 +110,7 @@ public class ReviewController {
 		MiniProjectPage resultPage = new MiniProjectPage( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 4, 10);
 		
 		log.info("resultPage : " + resultPage);
-		
+		System.out.println("list : " + map.get("list"));
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);

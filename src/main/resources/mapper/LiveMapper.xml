@@ -160,7 +160,7 @@
       </where>
    </select>
    
-   <!-- GEt CurrnetLiveReservation -->
+   <!-- GET CurrnetLiveReservation -->
    <select id="getCurrentLiveReservation" parameterType="LiveReservation" resultMap="liveReservationMap">
    		SELECT * FROM live_reservation
    		<where>
@@ -169,6 +169,15 @@
    		</where>
    </select>
    
+   <!-- GET LiveReservationByStoreId -->
+   <select id="getLiveReservationByStoreId" parameterType="LiveReservation" resultMap="liveReservationMap">
+   		SELECT * FROM live_reservation
+   		<where>
+   			store_id = #{store.id}
+   			AND reservation_date >= #{reservationDate}
+   			AND reservation_time >= #{reservationTime}
+   		</where>
+   </select>
    
    <!-- GET LiveReservation 
     <select id="">
@@ -236,11 +245,25 @@
 
 
    <!-- ================================================================================= DELETE ============================================================================== -->
-   <delete id="deleteLiveProduct" parameterType="LiveProduct">
+   <delete id="deleteLiveReservation" parameterType="int">
+   		DELETE FROM live_reservation
+   		<where>
+   			live_reservation_number = #{liveReservationNumber}
+   		</where>
+   </delete>
+   
+   <delete id="deleteLiveProduct" parameterType="int">
       DELETE FROM live_product
       <where>
          live_number = #{liveNumber}
       </where>
+   </delete>
+   
+   <delete id="deleteLiveProductByReservationNumber" parameterType="int">
+   		DELETE FROM live_product
+   		<where>
+   			live_reservation_number = #{value}
+   		</where>
    </delete>
    
    

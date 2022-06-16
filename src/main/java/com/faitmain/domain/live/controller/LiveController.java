@@ -698,16 +698,31 @@ public class LiveController {
 
 
 	@GetMapping("addLiveReservation")
-	public String addLiveReservation(HttpSession session, Model model) throws Exception {
+	public RedirectView addLiveReservation(HttpSession session, Model model) throws Exception {
 		log.info("addLiveReservation GET : start...");
 
+		User user = (User) session.getAttribute("user");
+
+		LiveReservation liveReservation = liveService.getLiveReservationByStoreId(user.getId());
+
+		log.info("liveReservation = {}", liveReservation);
+
+		if (liveReservation == null) { // 프리미엄 라이브 예약을 하지 않았을 경우
+
+			log.info("addLiveReservation GET : end...");
+			return new RedirectView("/live/addLiveReservationView");
+		} else { // 프리미엄 라이브 예약을 했을 경우
+			return new RedirectView("/live/getLiveReservationList?date=" + liveReservation.getReservationDate());
+		}
+	}
+
+	@GetMapping("addLiveReservationView")
+	public String addLiveReservationView(HttpSession session, Model model) throws Exception {
 		User user = (User) session.getAttribute("user");
 
 		Map<String, Object> ProductList = productService.getProductListByStoreId(user.getId());
 
 		model.addAttribute("list", ProductList.get("list"));
-
-		log.info("addLiveReservation GET : end...");
 		return "/live/addLiveReservationView";
 	}
 
@@ -739,6 +754,20 @@ public class LiveController {
 
 		log.info("addLiveReservation POST : end...");
 		return new RedirectView("/live/getLiveReservationList?date=" + liveReservation.getReservationDate());
+	}
+
+
+	@GetMapping("deleteLiveReservation/{liveProductNum}/{date}")
+	public RedirectView deleteLiveReservation(@PathVariable String liveProductNum, @PathVariable String date)
+			throws Exception {
+		log.info("deleteLiveReservation GET start...");
+
+		liveService.deleteLiveReservation(Integer.parseInt(liveProductNum));
+
+		liveService.deleteLiveProductByReservationNumber(Integer.parseInt(liveProductNum));
+		// liveService.deleteLive
+		log.info("deleteLiveReservation GET end...");
+		return new RedirectView("/live/getLiveReservationList?date=" + date);
 	}
 
 }

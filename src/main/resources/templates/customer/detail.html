@@ -1,20 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
 				layout:decorate = "~{layout/customer_default_layout2}"
       			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
 <head>	
 	<th:block layout:fragment="title">
 	 <link th:href="@{/css/customer.css}" rel="stylesheet" />
-		<title>this page is detailNotification</title>
+		<title>faitmain</title>
 	</th:block>
 </head>
 
+
+
+
+
 <body>
 	<th:block layout:fragment="content">
-	<div class="container">
+	<div class="card-content">
 		<h2>공지사항</h2>
+		<hr />
 		
-        <form id="frm" method="post">
+        <form id="frm" method="post" >
    
 	    	<table class="board_detail">
 				<colgroup>
@@ -40,14 +45,14 @@
 					<tr>
 						<th scope="row">제목</th>
 						<td colspan="3">
-							<input type="text" id="title" name="title" 
-								th:value="${customer.boardTitle }"/>
+							<input type="text" id="title" name="boardTitle" 
+								th:value="${customer.boardTitle } "  readonly style="resize:none; border:none;" />
 						</td>
 					</tr>
 					<tr>
 						<td colspan="4" class="view_text">
-							<textarea title="내용" id="contents" name="contents" 
-								th:text="${customer.boardContent }"></textarea>
+							<textarea title="내용" id="contents" name="boardContent" 
+								th:text="${customer.boardContent }" readonly style="resize:none; border:none; min-height:350px;"></textarea>
 						</td>
 					</tr>
 				</tbody>
@@ -55,26 +60,109 @@
 			 
             <input type="hidden" name="boardNumber" th:value="${customer.boardNumber}">
         </form>
-
-        <div class="btn_wrap text-center">
-			<a th:href="@{/customer/list}" class="btn btn-default waves-effect waves-light">목록으로</a>
-			<a th:href="@{/customer/addNotice( boardNumber=${customer.boardNumber} )}" class="btn btn-primary waves-effect waves-light">수정하기</a>
+        <th:block th:if="${session.user != null}">
+        <div class="btn_wrap text-center" th:if="${session.user.role == 'admin'}">
+        
+        	<!-- <a th:href="@{/customer/openBoardList}" class="btn btn-default waves-effect waves-light">목록으로</a> -->
+			<!--  <a th:href="@{/customer/addNotice( boardNumber=${customer.boardNumber} )}" class="btn btn-primary waves-effect waves-light">수정하기</a>   -->
+ 		
+			<button type="button" id="update" class="btn btn-danger waves-effect waves-light" th:onclick="update()" >수정하기</button>	
+		
+		
+		
 			
 			<button type="button" class="btn btn-danger waves-effect waves-light" 
-					th:onclick="deleteNotice([[${customer.boardNumber}]])">삭제하기</button>
-			
+					th:onclick="deleteBoard([[${customer.boardNumber}]])">삭제하기</button>	
 		</div>
-
-      
+		</th:block>
+		<div class="btn_wrap text-center" >
+			<a th:href="@{/customer/list}" class="btn btn-default waves-effect waves-light">목록으로</a>
+		</div>
 	</div>
-	<th:block layout:fragment="script">
-		<script th:inline="javascript">
+	<!-- <th:block layout:fragment="script"> -->
+	
+	<script type="text/javascript">
+
+
+
+function update(){
+	
+	
+	console.log("공지사항  수정 눌림 ")
+
+	
+	
+	var updateval =  $("#update").html() ;
+	alert(updateval) ;
+	
+	if(updateval =='수정하기' ){
+		
+		$("#title").attr("readonly" , false) ; 
+		$("#contents").attr("readonly" , false) ; 
+		
+		
+		
+		 $("#update").html('수정완료') 
+		
+	}else{
+		
+		
+		alert("너 여기 있니?")
+
+		   var formdata = $("#frm").serialize(); 
+		   formdata = decodeURIComponent(formdata);
+			alert( formdata) ;
+		
+		
+			$.ajax({
+				
+				type:"POST" ,
+				url:"/customer/json/updateCustomerBoard" ,
+				data:formdata ,
+				
+				success: function(result){
+					
+					if(result == 1 ){
+						alert("수정완료 ")  
+						}else{
+							 alert("수정이 완료 되지 못했습니다.  ")  
+						}
+					
+				}
+				
+			}) ; // ajax  여기 까지 
+			
+		
+		$("#title").attr("readonly" , true) ; 
+		$("#contents").attr("readonly" , true) ; 
+		
+		
+		
+		 $("#update").html('수정하기')  ;
+		
+	}// else  
+	
+	
+	
+		
+		
+		
+ 
+	
+	
+}
+
+
+</script>
+	
+	
+<script th:inline="javascript">
 			/*<![CDATA[*/
 
-			function deleteNotice(boardNumber) {
+			function deleteBoard(boardNumber) {
 
 				if (confirm(boardNumber + "번 게시글을 삭제할까요?")) {
-					var uri = /*[[ @{/customer/delete} ]]*/ null;
+					var uri = /*[[ @{/customer/deleteNotice} ]]*/ null;
 					var html = "";
 
 					html += '<form name="dataForm" action="'+uri+'" method="post">';
@@ -89,6 +177,6 @@
 
 			/*]]>*/
 		</script>
-	</th:block>
+	</th:block> 
 </body>
 </html> 

@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.view.RedirectView;
 
 import com.faitmain.domain.product.domain.Product;
+import com.faitmain.domain.product.service.InquiryService;
 import com.faitmain.domain.product.service.ProductService;
+import com.faitmain.domain.product.service.ReviewService;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserSerivce;
 import com.faitmain.global.common.MiniProjectPage;
-import com.faitmain.global.common.Page;
 import com.faitmain.global.common.Search;
 
 import lombok.extern.slf4j.Slf4j;

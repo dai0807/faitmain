@@ -53,12 +53,12 @@
 	<article  class="py-5" layout:fragment="content">
 		<div class="container">
 			<div th:if="${#lists.size(list) > 0}" th:each="review : ${list}">
-				
-				<div th:text="${review.}">
-				
-				</div>
+				<!-- -->
+				<div th:text="${review.reviewContent}">
+					
+				</div> 
 				<div th:each="num : ${#numbers.sequence(1, review.rating)}">
-					<span class='starRating'>★</span>
+					<span class='starRating'>★</span><br/>
 				</div>
 				
 				
