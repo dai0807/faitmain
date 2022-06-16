@@ -30,10 +30,8 @@
        <result property="productMainImage" column="product_main_image" jdbcType="VARCHAR"/>
        <result property="productName" column="product_name" jdbcType="VARCHAR"/>
        <result property="productDetail" column="product_detail" jdbcType="VARCHAR"/>
-       
-    </resultMap>
-   
-   
+       <result property="price" column="product_price" jdbcType="INTEGER"/>
+    </resultMap>   
    
    <resultMap id="liveReservationMap" type="LiveReservation">
        <result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />
@@ -78,9 +76,9 @@
     <!-- ADD LiveProduct -->
      <insert id="addLiveProduct" parameterType="LiveProduct">
        INSERT INTO live_product
-          (live_number, live_reservation_number, product_number, product_main_image, product_name, product_detail)
+          (live_number, live_reservation_number, product_number, product_main_image, product_name, product_detail, product_price)
       VALUES
-          (#{liveNumber}, #{liveReservationNumber}, #{productNumber}, #{productMainImage}, #{productName}, #{productDetail})
+          (#{liveNumber}, #{liveReservationNumber}, #{productNumber}, #{productMainImage}, #{productName}, #{productDetail}, #{price})
     </insert>
     
     <!-- ADD LiveReservation -->
@@ -116,7 +114,17 @@
     
     <!-- UPDATE LiveProduct (필요없음) -->
     
-    <!-- UPDATE LiveReservation (신중했어야지) -->
+    <!-- UPDATE LiveReservation -->
+    <update id="updateLiveReservation" parameterType="LiveReservation">
+    	UPDATE live_reservation
+    	<set>
+    		reservation_date = #{reservationDate},
+    		reservation_time = #{reservationTime}
+    	</set>
+    	<where>
+    		live_reservation_number = #{liveReservationNumber}
+    	</where>
+    </update>
     
     <!-- UPDATE LiveUserStatus -->
     <update id="updateLiveUserStatus" parameterType="LiveUserStatus">
@@ -160,6 +168,14 @@
       </where>
    </select>
    
+   <!-- GET LiveReservation -->
+   <select id="getLiveReservation" parameterType="int" resultMap="liveReservationMap">
+   		SELECT * FROM live_reservation
+   		<where>
+   			live_reservation_number = #{liveReservationNumber}
+   		</where>
+   </select>
+   
    <!-- GET CurrnetLiveReservation -->
    <select id="getCurrentLiveReservation" parameterType="LiveReservation" resultMap="liveReservationMap">
    		SELECT * FROM live_reservation
@@ -174,8 +190,7 @@
    		SELECT * FROM live_reservation
    		<where>
    			store_id = #{store.id}
-   			AND reservation_date >= #{reservationDate}
-   			AND reservation_time >= #{reservationTime}
+   			AND reservation_date > #{reservationDate} OR (reservation_date = #{reservationDate} AND reservation_time >= #{reservationTime})
    		</where>
    </select>
    

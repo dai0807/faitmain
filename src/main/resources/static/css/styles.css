@@ -11310,5 +11310,51 @@ html {
   min-height: 15rem;
 }
 
-
+video {
+	width: 900px;
+	position: absolute;
+}
+    
+div.livecommerce {
+	width: 900px;
+	height: 675px;
+	overflow: hidden;
+	position: relative;
+	border: 8px solid #fff;
+	border-radius: 15px;
+}
+			
+.livecommerce .title{
+	width: 100%;
+	height: 139px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: url('/img/livecommerce_titleBG.png');
+}
+			
+.livecommerce .title p{
+	width: 335px;
+	font-size: 30px;
+	color: #fff;
+	line-height: 1.7;
+	margin: 20px 20px 20px 30px;
+	text-align: left;
+}
+			
+.livecommerce .title span{
+	padding : 5px 10px;
+	border-radius: 3px;
+	background: #ec2014;
+	}
+			
+			
+.title p {
+	text-align: right;
+}
+		    
+.title i {
+	font-size: 20px;
+	color: #fff;
+}
 

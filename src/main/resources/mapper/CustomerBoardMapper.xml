@@ -69,6 +69,7 @@
 		    
 	</insert>
 	
+	
 	<update id="updateCustomerBoard" parameterType="Customer"  >
     	UPDATE customer
     	<set>

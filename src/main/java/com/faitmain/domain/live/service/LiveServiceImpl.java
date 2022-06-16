@@ -124,6 +124,10 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.addLiveReservation(liveReservation);
 	}
 
+	public LiveReservation getLiveReservation(int liveReservationNumber) throws Exception {
+		return liveMapper.getLiveReservation(liveReservationNumber);
+	}
+
 	public LiveReservation getCurrentLiveReservation() throws Exception {
 
 		LiveReservation liveReservation = new LiveReservation();
@@ -173,16 +177,20 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.getLiveReservationByStoreId(liveReservation);
 	}
 
-	public int deleteLiveReservation(int liveReservationNumber) throws Exception {
-		return liveMapper.deleteLiveReservation(liveReservationNumber);
-	}
-
 	public List<LiveReservation> getLiveReservationCal() throws Exception {
 		return liveMapper.getLiveReservationCal();
 	}
 
 	public List<LiveReservation> getLiveReservationList(String date) throws Exception {
 		return liveMapper.getLiveReservationList(date);
+	}
+
+	public int updateLiveReservation(LiveReservation liveReservation) throws Exception {
+		return liveMapper.updateLiveReservation(liveReservation);
+	}
+
+	public int deleteLiveReservation(int liveReservationNumber) throws Exception {
+		return liveMapper.deleteLiveReservation(liveReservationNumber);
 	}
 
 	// liveUserStatus
