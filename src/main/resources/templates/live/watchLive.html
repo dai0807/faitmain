@@ -113,11 +113,11 @@
                 </div>
                 <!-- 방제 / 채팅방 정보 불러오는 api가 없어 하드코딩 -->
                 <article class="title">
-                    <p id=roomNm><span>Live</span></p>
+                    <p id=roomNm><span>Live</span>[[${live.liveTitle}]]</p>
                     <!-- 나가기 버튼 -->
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -137,7 +137,6 @@
                         <div id="content1">
                         </div>
                     </div>
-                    
                     <div th:if="${session.user != null}" class="chat_bottom">
                         <!-- 메시지 작성 -->
                         <div class="chat_input">
@@ -175,13 +174,15 @@
 										<div th:if="${productListStat.first}" class="carousel-item active">
 											<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
 											<span>
-												<th:block th:text="${productList.productName}">name</th:block>
+												<th:block th:text="${productList.productName}"></th:block>
+												<th:block th:text="${productList.price}"></th:block>
 											</span>
 										</div>
 										<div th:unless="${productListStat.first}" class="carousel-item">
-											<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
+											<span><img src="https://dummyimage.com/200x200/343a40/6c757d">알랄랄</span>
 											<span>
-												<th:block th:text="${productList.productName}">name</th:block>
+												<th:block th:text="${productList.productName}"></th:block>
+												<th:block th:text="${productList.price}"></th:block>
 											</span>
 										</div>
 									</th:block>

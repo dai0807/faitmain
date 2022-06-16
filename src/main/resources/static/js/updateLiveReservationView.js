@@ -1,4 +1,24 @@
 $(function(){
+
+		$.getJSON( "/live/json/getEnableLiveReservationTime",{
+			date: $("#reservationDate").val()
+		})
+			.done(function(data){
+				
+				var time = $("#hiddenTime").val();
+				console.log(time);
+				
+				$("#reservationTime").remove();
+				
+				var resultStr = "<select id='reservationTime' class='form-control' name='reservationTime'>";
+				$.each(data, function(index, value){
+					resultStr += "<option value='"+value+"'>"+value+"시</option>";
+				})
+				resultStr += "<option value='"+time+"' selected>"+time+"시</option></select>";
+				
+				$("#timeDiv").append(resultStr);
+			})
+
 	$("#reservationDate").on("change", function(){
 		$.getJSON( "/live/json/getEnableLiveReservationTime",{
 			date: $("#reservationDate").val()
@@ -17,7 +37,7 @@ $(function(){
 			})
 	});
 	
-	$('.btn-success').on('click', function(){
+	$('.btn').on('click', function(){
 	
 	var reservationDate = $('#reservationDate').val();
 	var reservationTime = $('#reservationTime').val();
@@ -51,7 +71,7 @@ $(function(){
 		return;
 	}
 	
-	$("form").attr("method", "POST").attr("action", "/live/addLiveReservation").submit();
+	$("form").attr("method", "POST").attr("action", "/live/updateLiveReservation").submit();
 	
 });
 	

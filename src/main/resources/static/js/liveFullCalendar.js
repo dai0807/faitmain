@@ -28,12 +28,18 @@ document.addEventListener('DOMContentLoaded', function () {
 	                        }
 	                    },
 	                    dateClick: function(info){
+	                    
+	                    	console.info(info);
+	                    	
 	                    	alert('Date : ' + info.dateStr);
 	                    	
 	                    	$("input[name='date']").val(info.dateStr);
 	                    	$("form").attr("method", "GET").attr("action", "/live/getLiveReservationList").submit();
 	                    	
 	                    },
+	
+	                    	
+	                  
 	           
 	                    events: data
 	                    

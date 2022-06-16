@@ -45,22 +45,29 @@ public class CustomerController extends UiUtils{
 		}else {
 			Customer customer = customerService.getCustomerBoard(boardNumber);
 			if(customer == null) {
-				
-	
-			 
+			
+				 
 				return "customer/list";
 			}
 			model.addAttribute("customer", customer);
 		}
 		
-		return "admin/addNotice";
+		return "admin/addNoice";
 	}
+	
+	@GetMapping("addLiveGuide")
+	public String openGuide() throws Exception{
+		
+		return "admin/addLiveGuide";
+		
+	}
+	
+	@GetMapping
 	
 	@PostMapping("insert")
 	public String addCustomerBoard(@ModelAttribute Customer customer) throws Exception {
 		
-		User user = new User();
-		user.setId("admin@naver.com");
+		
 		customerService.addCustomerBoard(customer);
 		
 		return "redirect:/customer/list";
@@ -115,6 +122,17 @@ public class CustomerController extends UiUtils{
 		return "customer/list";
 		
 	}
+	
+//	@GetMapping("listFAQ")
+//	public String openFAQList(Model model) throws Exception {
+//		
+//		List<Customer> boardList = customerService.getCustomerBoardList();
+//		model.addAttribute("boardList", boardList);
+////		model.addAttribute("boardList", customerService.getCustomerBoardList());
+//				
+//		return "customer/listFAQ";
+//		
+//	}
 	
 	@GetMapping("detail")
 	public String openBoardDetail(@RequestParam(value="boardNumber", required = false) Integer boardNumber, Model model) throws Exception {

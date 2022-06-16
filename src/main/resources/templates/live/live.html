@@ -15,10 +15,10 @@
 
     <title>라이브커머스형</title>
     <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
-  
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="/css/liveReset.css" rel="stylesheet" />
     <link href="/css/liveStyle.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/c13f14f04a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -27,21 +27,13 @@
     <script src="/js/vchatcloud-1.2.0.min.js"></script>
     <script src="/js/like.js"></script>
     <script src="/js/draw.js"></script>
+	<script src="/js/chat.js"></script>
     <script src="/js/errMsg.js"></script>
 </head>
 
 <style>
     /* 210625 추가 */
-    
-    
-    .livecommerce .title p {
-    width: 335px;
-    font-size: 14px;
-    color: #fff;
-    line-height: 1.7;
-    margin: 15px;
-    text-align: left;
-   }
+   
     
     .livecommerce .chat {
     position: absolute;
@@ -88,6 +80,10 @@
         color: #fff;
     }
     
+    div.carousel-inner {
+	vertical-align: middle;
+}
+    
 </style>
 
 <body>
@@ -117,8 +113,7 @@
                     <p id=roomNm><span>Live</span>[[${Live.liveTitle}]]</p>
                     
                     <!-- 나가기 버튼 -->
-                    <button type="button" value="관리탭 호출" onclick="open_popup();">관리 탭 호출</button>
-                    <button type="button" value="연결확인 호출" onclick="call_chlid();">연결 테스트</button>
+                    <button type="button" onclick="open_popup()">채팅창 관리</button>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -189,31 +184,43 @@
 								
 								
 					<div th:unless="${#lists.size(listProduct)==1  or #lists.size(listProduct)==0}" class="row" style="margin-bottom: 10px; background-color : #D8D8D8;">
+						
 						<div class="col-md-9">
 							<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
 								<div class="carousel-inner">
 									
 									<th:block th:each="productList : ${listProduct}" >
-										<div th:if="${productListStat.first}" class="carousel-item active">
-											<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
-											<span>
-												<th:block th:text="${productList.productName}">name</th:block>
-											</span>
+										<div th:if="${productListStat.first}" class="product-main carousel-item active">
+											<div class="product-img">
+												<img src="https://dummyimage.com/200x200/343a40/6c757d">
+											</div>
+											<div class="product-context">
+												<h5 th:text="${productList.productName}">productName</h5>
+												<h6 th:text="${productList.productDetail}">productDetail</h6>
+												<h6 th:text="${productList.price}">price</h6>
+											</div>
 										</div>
-										<div th:unless="${productListStat.first}" class="carousel-item">
-											<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
-											<span>
-												<th:block th:text="${productList.productName}">name</th:block>
-											</span>
+										<div th:unless="${productListStat.first}" class="product-main carousel-item">
+											<div class="product-img">
+												<img src="https://dummyimage.com/200x200/343a40/6c757d">
+											</div>
+											<div class="product-context">
+												<h5 th:text="${productList.productName}">productName</h5>
+												<h6 th:text="${productList.productDetail}">productDetail</h6>
+												<h6 th:text="${productList.price}">price</h6>
+											</div>
 										</div>
 									</th:block>
-								</div>		
+								</div>
+								
 							</div>
 						</div>
-					</div>
 </body>
 
 <script th:inline="javascript">
+
+
+
 //채널에 접속하기 위해서 사용자의 userNick, userKey와 CMS에서 발급받은 channelKey가 필요합니다.
 
 
@@ -265,17 +272,17 @@ let channel, // joinRoom() 내부에서 채널 객체를 저장할 곳
 // rtc
 let myCam
 
-window.addEventListener("load", function () {
+	window.addEventListener("load", function () {
   	// 접속자의 미디어 소스를 보여줄 위치
-  
   	 c = $('div.chat_contents').hide();
   	likeInif();
   
   	myCam = $('.my_cam');
   	myCam.attr('name', 'my_cam');
 
-    $('div.bottom div.name').text(userNick);
-    joinRoom(channelKey,  userId, userNick, function(err, history){
+    $('div.bottom div.name').text(userNick)
+    
+    joinRoom(channelKey,  userId, userNick, function(err, history) {
     	if(err){
     		openError(err.code, function(){
     			c.hide();
@@ -306,12 +313,12 @@ window.addEventListener("load", function () {
    			msgInit();
    			getRoomInfo();
    			likeInif();
-   			
    		}	
    	});
 })
+
 	
-function joinRoom(roomId, clientKey, nickName, callback) {
+  function joinRoom(roomId, clientKey, nickName, callback) {
   // vchatcloud 객체
 
 
@@ -329,6 +336,7 @@ function joinRoom(roomId, clientKey, nickName, callback) {
       clientKey: clientKey,
       nickName: nickName
     },
+    
     function (error, history) {
       $('div#content1 p').remove();
       if (error) {
@@ -345,7 +353,6 @@ function joinRoom(roomId, clientKey, nickName, callback) {
     }
   );
 }
-
 
 function getRoomInfo() {
   const api_url = "https://vchatcloud.com/api/openapi/getChatRoomInfo";
@@ -460,49 +467,6 @@ function exit() {
   } else {
     // 로그인 되지 않았음!
   }
-}
-
-function msgInit() {
-    // 공지사항 메시지
-    channel.onNotifyNotice = function(event) {
-        write(event, 'notice')
-    }
-
-    // 유저 입장
-    channel.onNotifyJoinUser = function(event) {
-        write(event, 'join')
-        call_chlid();
-        
-    }
-
-    // 유저 나감
-    channel.onNotifyLeaveUser = function(event) {
-        write(event, 'leave')
-        setTimeout(function() {
- 		 call_child();
-		}, 1000);
-    }
-
-    // 유저 추방
-    channel.onNotifyKickUser = function(event) {
-        write("'<font color='blue'><b>" + event.nickName + "</b></font>' 님이 채팅방에서 추방되었습니다.");
-        call_chlid();
-    }
-
-    // 유저 추방 해제
-    channel.onNotifyUnkickUser = function(event) {
-        write("'<font color='blue'><b>" + event.nickName + "</b></font>' 님이 채팅방에서 추방 해제되었습니다.");
-    }
-
-    // 글쓰기 제한
-    channel.onNotifyMuteUser = function(event) {
-        write("'<font color='blue'><b>" + event.nickName + "</b></font>' 님의 글쓰기가 제한되었습니다.");
-    }
-
-    // 글쓰기 제한 해제
-    channel.onNotifyUnmuteUser = function(event) {
-        write("'<font color='blue'><b>" + event.nickName + "</b></font>' 님의 글쓰기가 제한 해제되었습니다.");
-    }
 }
 
 
