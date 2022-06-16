@@ -9,12 +9,15 @@ $(function () {
 	//console.log("productGroupNumber : " + productGroupNumber)
     /*********************************************************/
     
-    let quantity = $(".quantity_input").val(); // 수량 input 값 저장
+    let quantity = $(".mtext-104.cl3.txt-center.num-product").val(); // 수량 input 값 저장
 
 	/* 수량 +  */
-    $(".plus_btn").on("click", function () { 
+    $(".fs-16.zmdi.zmdi-plus").on("click", function () { 
+		console.log("productQuantity : " + productQuantity);
         if (quantity < productQuantity) {
-            $(".quantity_input").val(++quantity);
+            //$(".quantity_input").val(++quantity);
+            console.log("+++ : " + $(".mtext-104.cl3.txt-center.num-product").val());
+            $(".mtext-104.cl3.txt-center.num-product").val(++quantity);
             $("#totalPrice").text(Number($("#totalPrice").text()) + productPrice);
         } else {
             alert("최대 수량입니다!");
@@ -22,13 +25,15 @@ $(function () {
     });
 
 	/* 수량 - */
-    $(".minus_btn").on("click", function () { 
+	$(".fs-16.zmdi.zmdi-minus").on("click", function () { 
         if (quantity > 1) {
-            $(".quantity_input").val(--quantity);
+			console.log("--- : " + $(".mtext-104.cl3.txt-center.num-product").val());
+            $(".mtext-104.cl3.txt-center.num-product").val(--quantity);
+            //$(".quantity_input").val(--quantity);
             $("#totalPrice").text(Number($("#totalPrice").text()) - productPrice);
         }
     });
-
+    
 	/* 장바구니 담기 */
     $("#addCart").on("click", function () { 
 
@@ -182,20 +187,38 @@ $(function () {
 			$("#totalPrice").text(Number($("#totalPrice").text()) + productPrice);
 
 			$(".optionArea").append(
-				"<div>"
-				+ "<span class='selectName'>" + productName + "</span>"
-				+ "<button type='button' class='optionQuantity_minus_btn'>-</button>"
-
-				+ "<input type='text' class='quantity_input' style='width:100px;' value='1' readonly name='orderPageProductList[" + optionIndex + "].productOrderCount' />"
-				+ "<button type='button' class='optionQuantity_plus_btn'>+</button>"
-				+ "<button type='button' style='float:right;' id='optionDelBtn' class='btn-btn dark'>" + "삭제" + "</button>"
-				+ "<input type='hidden' value='" + productNumber + "' name='orderPageProductList[" + optionIndex + "].productNumber' />"
-				+ "<input type='hidden' value='" + productName + "' name='orderPageProductList[" + optionIndex + "].productName'/>"
-				+ "<input type='hidden' value='" + productPrice + "' name='orderPageProductList[" + optionIndex + "].productPrice'/>"
-				+ "<input type='hidden' value='" + productMainImage + "' name='orderPageProductList[" + optionIndex + "].productMainImage'/>"
-
-				+ "<input type='hidden' value='" + optionQuantity + "' class='optionQuantity' />"
+				+ "<div class='flex-w flex-r-m p-b-10'>"
+				
+				+	"<div class='size-203 flex-c-m respon6'>" + productName + "</div>"
+				
+				+	"<div class='size-204 respon6-next'>"
+				
+				+		"<div class='wrap-num-product flex-w m-r-20 m-tb-10'>"
+				
+				+			"<div class='btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m'>"
+				+				"<i class='fs-16 zmdi zmdi-minus option'></i>"
+				+			"</div>"
+				
+				+			"<input class='mtext-104 cl3 txt-center num-product option' name='orderPageProductList["+ optionIndex + "].producOrderCount' readonly='readonly' type='text' value='1' />"
+				
+				+			"<div class='btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m'>"
+				+				"<i class='fs-16 zmdi zmdi-plus option'></i>"
+				+			"</div>"
+				
+				+ 			"<input type='hidden' value='" + productNumber + "' name='orderPageProductList[" + optionIndex + "].productNumber' />"
+				+ 			"<input type='hidden' value='" + productName + "' name='orderPageProductList[" + optionIndex + "].productName'/>"
+				+ 			"<input type='hidden' value='" + productPrice + "' name='orderPageProductList[" + optionIndex + "].productPrice'/>"
+				+ 			"<input type='hidden' value='" + productMainImage + "' name='orderPageProductList[" + optionIndex + "].productMainImage'/>"
+				+ 			"<input type='hidden' value='" + optionQuantity + "' class='optionQuantity' />"
+				
+				+		"</div>"
+				
+				+	"</div>"
+				
+				+ 	"<button type='button' style='float:right;' id='optionDelBtn' class='btn-btn dark'>" + "삭제" + "</button>"
+				
 				+ "</div>"
+
 			);
 			optionIndex++;
 		}
@@ -203,30 +226,32 @@ $(function () {
 	});
 
 	/* 수량버튼 */
-	$(document).on("click", ".optionQuantity_plus_btn", function() {
-		let quantity = Number($(this).parent("div").find(".quantity_input").val());
-		let maxQuantity = Number($(this).parent("div").find(".optionQuantity").val());
+	$(document).on("click", ".fs-16.zmdi.zmdi-plus.option", function() {
+		let quantity = Number($(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val());
+		let maxQuantity = Number($(this).parent().parent("div").find(".optionQuantity").val());
+		//let quantity = Number($(this).parent().find(".quantity_input").val());
+		//let maxQuantity = Number($(this).parent("div").find(".optionQuantity").val());
 		console.log("quantity : " + quantity);
 		console.log("maxQuantity : " + maxQuantity);
 		console.log("result : " + quantity < maxQuantity);
 		if (quantity < maxQuantity) {
-			$(this).parent("div").find(".quantity_input").val(++quantity);
+			$(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val(++quantity);
 			$("#totalPrice").text(Number($("#totalPrice").text()) + productPrice);
 		} else {
 			alert("수량 초과");
 		}
 	});
 
-	$(document).on("click", ".optionQuantity_minus_btn", function() {
-		let quantity = $(this).parent("div").find(".quantity_input").val();
+	$(document).on("click", ".fs-16.zmdi.zmdi-minus.option", function() {
+		let quantity = Number($(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val());
 		if (quantity > 1) {
-			$(this).parent("div").find(".quantity_input").val(--quantity);
+			$(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val(--quantity);
 			$("#totalPrice").text(Number($("#totalPrice").text()) - productPrice);
 		}
 	});
 
 	$(document).on("click", "#optionDelBtn", function() {
-		let quantity = Number($(this).parent("div").find(".quantity_input").val());
+		let quantity = Number($(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val());
 		let totalPrice = $("#totalPrice").text();
 		totalPrice = totalPrice - (productPrice * quantity);
 		if (totalPrice < 0) {
