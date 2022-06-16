@@ -576,7 +576,7 @@
  				<button type="button" id ="updatebutton"class="btn btn-success"  >정보수정</button>
 
 			<!-- 가입 경로가 자사 회원이 유저들만 이용 가능-->
-			<span th:if="${session.user.joinPath == 'HOME'}"  >
+			<span th:if="${getuser.joinPath == 'HOME'}"  >
 
 				 <a href="#" onclick="getPassword()"  class="btn btn-info" role="button">비밀번호 재설정</a>
 			<span>

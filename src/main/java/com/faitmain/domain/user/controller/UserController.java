@@ -73,10 +73,10 @@ public class UserController{
 // 보안을 위해 사용함 
     @Autowired
     private PasswordEncoder pwdEncoder;
-    
-    @Qualifier( "securityUser" )
-    @Autowired
-    private SecurityUser securityUser;
+//    
+//    @Qualifier( "securityUser" )
+//    @Autowired
+//    private SecurityUser securityUser;
     
     
     public UserController(){
@@ -94,7 +94,7 @@ public class UserController{
          //Authentication 클래스 안에  getPrincipal 를 사용해서 그 안에 있는  SecurityUser 를 가져옵니다. 
          //SecurityUser 안에 각종 인증 정보가 들어 있음 
          
-         securityUser= (SecurityUser)authentication.getPrincipal() ;
+         SecurityUser securityUser= (SecurityUser)authentication.getPrincipal() ;
          
          System.out.println("==securityUser="+securityUser); //  
         
@@ -127,10 +127,11 @@ public class UserController{
           System.out.println("====getMyInfo1=시작=====");
 
           Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
+ 
           //Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
           System.out.println("====getMyInfo1==== "+ principal);
           System.out.println("====getMyInfo1==== "+ principal.toString());
-          securityUser = (SecurityUser)principal ;  
+          SecurityUser securityUser = (SecurityUser)principal ;  
           
           System.out.println(   "securityUser "+ securityUser  );
           System.out.println(   " securityUser.getUser()   "+  securityUser.getUser()  );
@@ -141,7 +142,7 @@ public class UserController{
      
  //  
      @GetMapping("test2")
-     public String test2( @AuthenticationPrincipal SecurityUser User , Model model ){
+     public String test2( @AuthenticationPrincipal SecurityUser securityUser , Model model ){
          System.out.println("====test======");
          
          //Authentication 클래스 안에  getPrincipal 를 사용해서 그 안에 있는  SecurityUser 를 가져옵니다. 
@@ -664,7 +665,7 @@ public class UserController{
 
     //유저 상세 정보
     //			//id가 있으면 list에서 온거 , 아니면 내 정보 조회에서 온 것
-//getUser 유저 상세 
+//getUser 유저 상세    // 변자기돈 getUSer시 아이디 날라가기 
     @GetMapping( "getUser" )
     public String getUser( Model model , @RequestParam( value = "id", required = false ) String id
             , HttpSession session , HttpServletRequest request ) throws Exception{
@@ -673,8 +674,13 @@ public class UserController{
         User user = null;
 
         if ( id == null ) {
-            System.out.println( request.getSession( true ).getAttribute( "user" ) );
-            user = ( User ) request.getSession( true ).getAttribute( "user" );
+        	
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
+            SecurityUser securityUser = (SecurityUser)principal ;  
+        	
+        	log.info(" 로그인한 유저   ={} ", (User)securityUser.getUser() );
+        	
+             user = (User)securityUser.getUser() ; 
 
         } else {
             user = userSerivce.getUser( id );
