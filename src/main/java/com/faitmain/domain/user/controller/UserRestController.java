@@ -37,7 +37,7 @@ public class UserRestController{
 	   private UserSerivce userSerivce;
 	   
 	   public UserRestController() {
-		    log.info(  "Controller {}" , this.getClass() );
+		 //   log.info(  "Controller {}" , this.getClass() );
 		   
 	   }
 

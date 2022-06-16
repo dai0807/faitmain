@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +16,9 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class LoginService implements UserDetails{
+@Component
+
+public class SecurityUser implements UserDetails{
 
 	// 안만들어도 상관없지만 Warning이 발생함
 	 private static final long serialVersionUID = 1L;
@@ -27,11 +30,11 @@ public class LoginService implements UserDetails{
 //	private String username; // ID
 //	private String password; // PW
      
-    public LoginService() {
+    public SecurityUser() {
     	
     }    
     
-    public LoginService(User user) {
+    public SecurityUser(User user) {
 		System.out.println("LoginService :: " +user);
 		this.user=user;
     }

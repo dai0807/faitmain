@@ -36,6 +36,7 @@ import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.user.domain.StoreApplicationDocument;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.ApiService;
+ import com.faitmain.domain.user.service.SecurityUser;
 import com.faitmain.domain.user.service.UserSerivce;
 import com.faitmain.global.common.MiniProjectPage;
 import com.faitmain.global.common.Search;
@@ -69,41 +70,39 @@ public class UserController{
     @Qualifier( "apiServiceImpl" )
     private ApiService apiServiceImpl;
 
-// 보안을 위한 ^_^ 
+// 보안을 위해 사용함 
     @Autowired
     private PasswordEncoder pwdEncoder;
-
+    
+    @Qualifier( "securityUser" )
+    @Autowired
+    private SecurityUser securityUser;
+    
     
     public UserController(){
-        log.info( "Controller = {} " , this.getClass() );
+     //   log.info( "Controller = {} " , this.getClass() );
     }
 
-     @GetMapping("/JaasAuthenticationToken")
-     //java.lang.IllegalStateException: Current user principal is not of type [org.springframework.security.authentication.jaas.JaasAuthenticationToken]: 
-     //UsernamePasswordAuthenticationToken [Principal=LoginService(authorities=[com.faitmain.domain.user.service.LoginService$1@6c52e126], user=User(userNumber=10021, id=thsguswl@naver.com, password=$2a$10$hhxwjqfS75FF/tRWC9ucy.902W2KvuaZiXtqUjB6wuXJdHhZUUnYC, gender=W, userAddress1=26304, userAddress2=강원 원주시 소초면 간촌길 73, userAddress3=둔둔1 로 , nickname=손손, phoneNumber=0102832, name=지지, regDate=2022-06-15, joinPath=HOME, bookNumber=null, totalPoint=null, storeLogoImage=null, storeIntroduction=null, role=user, storeName=null, withdrawalStatus=false, storeApplicationDocumentNumber=0)), Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails 
-     //[RemoteIpAddress=192.168.0.46, SessionId=99989BA1A680F614C96BD3923D71083A],
-     //Granted Authorities=[com.faitmain.domain.user.service.LoginService$1@686d7874]]
-
-     public String getMyInfo(JaasAuthenticationToken authentication){
-      User user = (User)authentication.getDetails();
-      return user.toString();
-    }
-    
-     
+  
       
      
      
      @GetMapping("test")
-     public String test(){
+     public String test( Authentication authentication , Model model ){
          System.out.println("====test======");
+         securityUser= (SecurityUser)authentication.getPrincipal() ;
+         
+         System.out.println("==securityUser="+securityUser);
+         
+         model.addAttribute("user" , securityUser) ;
+         
+         System.out.println("====test==끝====");
 
-   
-          System.out.println("====test====끝=="    );
-         return "/user/test" ;
+          return "/user/test" ;
        }
      
      
-     
+     // 권한이 맞지 않을때 감 
      @GetMapping("accessDenied")
      public String accessDenied(){
 

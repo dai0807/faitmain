@@ -33,13 +33,13 @@ public class LoginDetailService implements UserDetailsService{
 
 		}  
 		
- 	            LoginService loginDetail = new LoginService();
+			SecurityUser loginDetail = new SecurityUser();
              loginDetail.setUser( user ); // 유저 디테일에 user 던짐
  	           System.out.println("유저 있음");
         
 //		//	            	return loginDetail;
 //         
-		return   new LoginService(user);
+		return   new SecurityUser(user);
 	}
 
 	

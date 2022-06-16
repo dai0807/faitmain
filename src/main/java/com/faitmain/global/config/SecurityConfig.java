@@ -12,11 +12,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.faitmain.domain.user.controller.UserRestController;
 import com.faitmain.domain.user.service.LoginDetailService;
 import com.faitmain.domain.user.service.LoginFail;
-import com.faitmain.domain.user.service.LoginService;
-import com.faitmain.domain.user.service.LoginSuccess;
+ import com.faitmain.domain.user.service.LoginSuccess;
 
+import lombok.extern.slf4j.Slf4j;
+
+ 
+@Slf4j
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
@@ -36,13 +40,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     
     @Override
     protected void configure( HttpSecurity http ) throws Exception{
-    	System.out.println(" configure  :: + " ) ;
-
+     	log.info("   configure  :: + \" "    );
         http.csrf().disable();  // csrf 공격 방지 허용 
 
         http.authorizeRequests()
 	        		//.antMatchers("/user/getUser","/product/addProduct").authenticated() // 인증된 사람들만 접근 가능
-					.antMatchers("/user/test" ).hasAnyRole("user")// 인증된 사람들만 접근 가능
+					.antMatchers("/user/test" ).authenticated()// 인증된 사람 전부다 접근 가능
         
 	        		.antMatchers("/user/getUser" ).hasAnyRole("user","store","storeX","admin")// 인증된 사람들만 접근 가능
 //	        		.antMatchers("/user/getUserlist").hasRole("admin" ) //admin만 갈수 있음
@@ -105,9 +108,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		// 접근 권한 없을 때 로그인 페이지로 이동하도록 명시 
         
         
-        
-        System.out.println("시큐리티컴피그 돌아돌아");
-        
+     	log.info("  시큐리티컴피그 돌아돌아  "  );
+       
+         
     }
     
 
