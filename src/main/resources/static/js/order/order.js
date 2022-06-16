@@ -81,17 +81,6 @@ function createOrderNum() {
 /* 결제 ver 1 */
 function payment() {
 
-    /* 상품정보 */
-    let form_contents = '';
-    $(".goods_table_price_td").each(function (index, element) {
-        let productNumber = $(element).find(".individual_productNumber_input").val();
-        let productOrderCount = $(element).find(".individual_productOrderCount_input").val();
-        let productNumber_input = "<input name='orderProductList[" + index + "].productNumber' type='hidden' value='" + productNumber + "'>";
-        form_contents += productNumber_input;
-        let productOrderCount_input = "<input name='orderProductList[" + index + "].productOrderCount' type='hidden' value='" + productOrderCount + "'>";
-        form_contents += productOrderCount_input;
-    });
-
     /* 정보 */
     const data = {
         orderNumber: createOrderNum(),
@@ -100,11 +89,21 @@ function payment() {
         receiverAddress1: $("#receiverAddress1").val(),
         receiverAddress2: $("#receiverAddress2").val(),
         receiverAddress3: $("#receiverAddress3").val(),
+        orderProductList: [],
         productNumber: $("#productNumber").val(),
         productName: $("#productName").val(),
         buyerId: $("#buyerId").val(),
         amount: finalTotalPriceToAPI,
     }
+
+    /* 상품정보 */
+    $(".goods_table_price_td").each(function (index, element) {
+        data.orderProductList.push({
+            productNumber: $(element).find(".individual_productNumber_input").val(),
+            productOrderCount: $(element).find(".individual_productOrderCount_input").val()
+        })
+    });
+
 
     console.log(typeof data.orderNumber)
 
