@@ -75,43 +75,44 @@ public class OrderController{
 
     /* IAMPORT 결제 로직 */
     @PostMapping( "/complete" )
-    public ResponseEntity<String> paymentComplete( HttpSession session , Order order , User user ) throws IOException{
+    public ResponseEntity<String> paymentComplete( HttpSession session , Order order ) throws IOException{
 
-        log.info( "paymentComplete = {}" , getClass() );
+        User user = ( User ) session.getAttribute( "user" );
 
         // 1. 아임포트 API 키와 SECRET키로 토큰을 생성
         String token = paymentService.getToken();
         log.info( "token = {}" , token );
+        log.info( "order = {}" , order );
 
         /* 결제 완료된 금액 */
         int amount = paymentService.paymentInfo( order.getImpUid() , token );
+        log.info( "amount = {}" , amount );
 
         try {
-            /* 주문 시 사용한 포인트 */
-            int usingPoint = order.getUsingPoint();
-            if ( user != null ) {
-                int point = user.getTotalPoint();
+            log.info( "/* 결제 검증로직 시작 */" );
 
-                /* 사용된 포인트가 유저의 포인트보다 많을 때 */
+
+            int usingPoint = order.getUsingPoint();
+            log.info( "/* 주문 시 사용한 포인트 */" );
+            log.info( "usingPoint = {}" , usingPoint );
+
+            if ( user  != null ) {
+                int point = user.getTotalPoint();
+                log.info( "point = {}" , point );
+
+
                 if ( point < usingPoint ) {
+                    log.info( "/* 사용된 포인트가 유저의 포인트보다 많을 때 */" );
                     paymentService.paymentCancel( token , order.getImpUid() , amount , "유저 포인트 오류" );
                     return new ResponseEntity<String>( " 유저 포인트 오류" , HttpStatus.BAD_REQUEST );
                 } else {
-                    /* 로그인 하지 않았는데 포인트가 사용되었을 때 */
+
                     if ( usingPoint != 0 ) {
+                        log.info( "/* 로그인 하지 않았는데 포인트가 사용되었을 때 */" );
                         paymentService.paymentCancel( token , order.getImpUid() , amount , "비회원 포인트사용 오류" );
                         return new ResponseEntity<String>( "비회원 포인트 사용 오류 " , HttpStatus.BAD_REQUEST );
                     }
                 }
-            }
-            /* 실제 계산 금액 가져오기 */
-            order.getOrderPriceInfo();
-            int orderFinalSalePrice = order.getOrderFinalSalePrice();
-
-            /* 계산 된 금액과 실제 금액이 다를 때 */
-            if ( orderFinalSalePrice != amount ) {
-                paymentService.paymentCancel( token , order.getImpUid() , amount , "결제 금액 오류" );
-                return new ResponseEntity<String>( "겸제 금액 오류" , HttpStatus.BAD_REQUEST );
             }
 
             orderService.addOrder( order );
