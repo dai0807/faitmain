@@ -18,6 +18,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="/css/liveReset.css" rel="stylesheet" />
     <link href="/css/liveStyle.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/c13f14f04a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -32,16 +33,7 @@
 
 <style>
     /* 210625 추가 */
-    
-    
-    .livecommerce .title p {
-    width: 335px;
-    font-size: 14px;
-    color: #fff;
-    line-height: 1.7;
-    margin: 15px;
-    text-align: left;
-   }
+   
     
     .livecommerce .chat {
     position: absolute;
@@ -117,8 +109,7 @@
                     <p id=roomNm><span>Live</span>[[${Live.liveTitle}]]</p>
                     
                     <!-- 나가기 버튼 -->
-                    <button type="button" value="관리탭 호출" onclick="open_popup();">관리 탭 호출</button>
-                    <button type="button" value="연결확인 호출" onclick="call_chlid();">연결 테스트</button>
+                    <button type="button" onclick="open_popup()">채팅창 관리</button>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -265,17 +256,17 @@ let channel, // joinRoom() 내부에서 채널 객체를 저장할 곳
 // rtc
 let myCam
 
-window.addEventListener("load", function () {
+	window.addEventListener("load", function () {
   	// 접속자의 미디어 소스를 보여줄 위치
-  
   	 c = $('div.chat_contents').hide();
   	likeInif();
   
   	myCam = $('.my_cam');
   	myCam.attr('name', 'my_cam');
 
-    $('div.bottom div.name').text(userNick);
-    joinRoom(channelKey,  userId, userNick, function(err, history){
+    $('div.bottom div.name').text(userNick)
+    
+    joinRoom(channelKey,  userId, userNick, function(err, history) {
     	if(err){
     		openError(err.code, function(){
     			c.hide();
@@ -306,12 +297,12 @@ window.addEventListener("load", function () {
    			msgInit();
    			getRoomInfo();
    			likeInif();
-   			
    		}	
    	});
 })
+
 	
-function joinRoom(roomId, clientKey, nickName, callback) {
+  function joinRoom(roomId, clientKey, nickName, callback) {
   // vchatcloud 객체
 
 
@@ -329,6 +320,7 @@ function joinRoom(roomId, clientKey, nickName, callback) {
       clientKey: clientKey,
       nickName: nickName
     },
+    
     function (error, history) {
       $('div#content1 p').remove();
       if (error) {
@@ -345,7 +337,6 @@ function joinRoom(roomId, clientKey, nickName, callback) {
     }
   );
 }
-
 
 function getRoomInfo() {
   const api_url = "https://vchatcloud.com/api/openapi/getChatRoomInfo";
@@ -461,6 +452,8 @@ function exit() {
     // 로그인 되지 않았음!
   }
 }
+
+
 
 </script>
 

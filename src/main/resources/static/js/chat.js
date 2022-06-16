@@ -18,9 +18,8 @@ function msgInit() {
     channel.onNotifyLeaveUser = function(event) {
         write(event, 'leave')
         write(event.nickName + "님이 퇴장하셨습니다.");
-        setTimeout(function() {
         call_chlid()
-		}, 1000)
+
     }
 
     // 유저 추방

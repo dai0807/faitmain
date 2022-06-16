@@ -1,5 +1,3 @@
-
-
 $(function() {
 	$("#post_content img, .resizablebox").each(function() {
 		var oImgWidth = $(this).width();
