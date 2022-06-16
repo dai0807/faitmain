@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.jaas.JaasAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -77,23 +78,91 @@ public class UserController{
         log.info( "Controller = {} " , this.getClass() );
     }
 
+     @GetMapping("/JaasAuthenticationToken")
+     //java.lang.IllegalStateException: Current user principal is not of type [org.springframework.security.authentication.jaas.JaasAuthenticationToken]: 
+     //UsernamePasswordAuthenticationToken [Principal=LoginService(authorities=[com.faitmain.domain.user.service.LoginService$1@6c52e126], user=User(userNumber=10021, id=thsguswl@naver.com, password=$2a$10$hhxwjqfS75FF/tRWC9ucy.902W2KvuaZiXtqUjB6wuXJdHhZUUnYC, gender=W, userAddress1=26304, userAddress2=강원 원주시 소초면 간촌길 73, userAddress3=둔둔1 로 , nickname=손손, phoneNumber=0102832, name=지지, regDate=2022-06-15, joinPath=HOME, bookNumber=null, totalPoint=null, storeLogoImage=null, storeIntroduction=null, role=user, storeName=null, withdrawalStatus=false, storeApplicationDocumentNumber=0)), Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails 
+     //[RemoteIpAddress=192.168.0.46, SessionId=99989BA1A680F614C96BD3923D71083A],
+     //Granted Authorities=[com.faitmain.domain.user.service.LoginService$1@686d7874]]
 
-    //안됨
-    @GetMapping("/user_access")
-    public String userAccess(Model model, Authentication authentication) {
-        //Authentication 객체를 통해 유저 정보를 가져올 수 있다.
-        User user = (User) authentication.getPrincipal();  //userDetail 객체를 가져옴
-        model.addAttribute("info", user.getId() +"의 "+ user.getName()+ "님");      //유저 아이디
-        System.out.println("info" + user.getId() +"의 "+ user.getName()+ "님");      //유저 아이디
- 
-        return "user_access";
+     public String getMyInfo(JaasAuthenticationToken authentication){
+      User user = (User)authentication.getDetails();
+      return user.toString();
     }
+    
+     
+      
+     
+     
+     @GetMapping("test")
+     public String test(){
+         System.out.println("====test======");
+
+   
+          System.out.println("====test====끝=="    );
+         return "/user/test" ;
+       }
+     
+     
+     
+     @GetMapping("accessDenied")
+     public String accessDenied(){
+
+    	 log.info("  accessDenied:: 페이지 ::: 권한이 맞지 않아서 접근 할 수 없습니다.  " );
+   
+          return "/user/accessDenied" ;
+       }
+     
+     
+      
+     
+    
+    //1번 Controller 의 메서드에서 매개변수 입력 바기
+    
+ //    Context Holder 에 들어가서 인증 정보를 가져옴  , User 정보에 접근 
+    
+    @GetMapping("/getMyInfo")
+    public String getMyInfo(Authentication authentication){
+        System.out.println("====getMyInfo======");
+
+        JaasAuthenticationToken authentication1 = (JaasAuthenticationToken) authentication;
+ 
+        User user = (User)authentication1.getDetails();
+        System.out.println("====getMyInfo====끝==" + user);
+        return user.toString();
+      }
+    ////////얘는 찾을 수 없음 /////
+    @GetMapping("/getMyInfo1")
+ 
+    public String getMyInfo(){
+        System.out.println("====getMyInfo1=시작=====");
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("====getMyInfo1==== "+ principal);
+        System.out.println("====getMyInfo1==== "+ principal.toString());
+ 
+//        User user =(User)principal; // 여기서 에러 
+//        System.out.println("USER 출력 :: " +user) ;
+        String id = ((HttpSession) principal).getId();
+
+        System.out.println("id 출력 :: " +id) ;
+        System.out.println("====getMyInfo1=끛=====");
+
+        return id;
+      }
+ ////////이거 결과 anonymousUser 로 나옴 //////
     
     
     //principal 은 getName 만 지원 name 만 뽑아옴 
     @GetMapping("/username") 
     @ResponseBody 
     public String currentUserName(Principal principal) { 
+    	System.out.println("==========currentUserName시작 ===========");
+
+ 
+ 
+    	System.out.println("==========currentUserName끝 ==========="+principal.getName());
+	
         return principal.getName(); 
     }  
   
@@ -102,7 +171,8 @@ public class UserController{
     @GetMapping("/get_access") 
     @ResponseBody 
     public String get_access(Model model , @AuthenticationPrincipal User user) { 
-      
+		System.out.println("   없음:"  + user);
+
     	if(user == null) {
     		System.out.println("   없음:"  );
 

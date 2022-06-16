@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -19,9 +20,9 @@ public class LoginService implements UserDetails{
 	// 안만들어도 상관없지만 Warning이 발생함
 	 private static final long serialVersionUID = 1L;
 	
-    private Collection<? extends GrantedAuthority> authorities;
+    private Collection<? extends GrantedAuthority> auth;
 
-  
+	//private ArrayList<GrantedAuthority> authorities; 
     private User user;
 //	private String username; // ID
 //	private String password; // PW
@@ -35,20 +36,68 @@ public class LoginService implements UserDetails{
 		this.user=user;
     }
     
-    //권한인데 이게 뭐지?
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(new GrantedAuthority() {
+    
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
+ 		
+		auth.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-            	System.out.println("뾰로롱 권한 :: " + user.getRole());
-                return user.getRole();
+            	System.out.println(" 권한 :: " + user.getRole());
+                return "ROLE_"+user.getRole();  // 권한 부여
             }
         });
-        return roles;
-    }
+		
+		//role 부여 깔끔하게 리펙토링 제발 부탁 
+		
+		System.out.println("권한 :   "  + auth );
+		
+		return auth;
+	}
+    
+    
+    
+    
+ 
+    
+    
+//    //권한인데 이게 뭐지?   private Collection<? extends GrantedAuthority> authorities; 와 한몸 
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        List<GrantedAuthority> roles = new ArrayList<>();
+//        roles.add(new GrantedAuthority() {
+//            @Override
+//            public String getAuthority() {
+//            	System.out.println("뾰로롱 권한 :: " + user.getRole());
+//                return user.getRole();
+//            }
+//        });
+        
+        
+//        for(GrantedAuthority grant :roles) {  // 쓰레기값 나옴  
+//        	System.out.println("Role :: " + grant)  ;
+//        }
+//        
+//        return roles;
+//    }
 
+    
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//    	    List<GrantedAuthority> authorities = new ArrayList<>();   
+//    	    authorities.add(new SimpleGrantedAuthority(user.getRole()));
+//        
+////        for(GrantedAuthority grant :roles) {  // 쓰레기값 나옴  
+////        	System.out.println("Role :: " + grant)  ;
+////        }
+//        
+//        return  authorities ;
+//    }
+
+ 
+    
+    
     @Override
     public String getPassword(){
         return user.getPassword();

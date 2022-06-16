@@ -41,10 +41,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.csrf().disable();  // csrf 공격 방지 허용 
 
         http.authorizeRequests()
-	        		.antMatchers("/user/getUser","/product/addProduct").authenticated() // 인증된 사람들만 접근 가능
-//	        		.antMatchers("/user/getUser" ).hasAnyRole("user","store","storeX","admin")// 인증된 사람들만 접근 가능
+	        		//.antMatchers("/user/getUser","/product/addProduct").authenticated() // 인증된 사람들만 접근 가능
+					.antMatchers("/user/test" ).hasAnyRole("user")// 인증된 사람들만 접근 가능
+        
+	        		.antMatchers("/user/getUser" ).hasAnyRole("user","store","storeX","admin")// 인증된 사람들만 접근 가능
 //	        		.antMatchers("/user/getUserlist").hasRole("admin" ) //admin만 갈수 있음
 	                .anyRequest().permitAll()  //모든 요청 허용 쌉가능
+	                
                 .and()
 	                .formLogin()
 	                .loginPage("/user/login") // 인증 필요한 페이지 접근시 이동페이지 GET
@@ -55,11 +58,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	                 .passwordParameter("password")//패스워드 파라미터명 설정	                 
 	                 .failureHandler( loginFail )
 	               // .failureUrl("/user")		//로그인 실패 시 /loginForm으로 이동
+	                 
                 .and()
 	                .logout()
 	                .logoutUrl("/user/logout")
 	    			.invalidateHttpSession(true)  // 로그아웃시 세션 삭제 여부
-	    			.logoutSuccessUrl("/");
+	    			.logoutSuccessUrl("/")
+	    		.and()
+	    			.exceptionHandling().accessDeniedPage("/user/accessDenied");  // 권한 상관없이 갈시 
+ // 참고 사이트  https://www.baeldung.com/spring-security-custom-access-denied-page        		
 	        
                 /*
                 .and()
@@ -124,14 +131,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
  		auth.userDetailsService(loginDetailService).passwordEncoder(passwordEncoder());
+ 	// spring security에서 모든 인증은 authenticationmanager를 통해 이뤄지고, 이를 생성하기 위해 builder 사용
+ 		// 로그인 처리, 즉 인증을 위해서는 Userdetailservice를 통해 필요한 정보를 가져오는데,
+ 		// 여기에서는 loginDetailService에서 이를 처리함
+ 		// userDetailsService 서비스 클래스에서는 userdetailservice 인터페이스를 implement했고, loaduserbyusername() 메서드를 구현
+ 		// 비밀번호 암호화를 위해 passwordencoder를 사용함
+ 		
+ 
+ 		
 	}
-	// spring security에서 모든 인증은 authenticationmanager를 통해 이뤄지고, 이를 생성하기 위해 builder 사용
-	// 로그인 처리, 즉 인증을 위해서는 Userdetailservice를 통해 필요한 정보를 가져오는데,
-	// 여기에서는 loginDetailService에서 이를 처리함
-	// userDetailsService 서비스 클래스에서는 userdetailservice 인터페이스를 implement했고, loaduserbyusername() 메서드를 구현
-	// 비밀번호 암호화를 위해 passwordencoder를 사용함
 	
-   
+//   
+//    @Override
+//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+//
+//        String password = passwordEncoder().encode("1111");
+//
+//        auth.inMemoryAuthentication().withUser("user").password(password).roles("USER");
+//        auth.inMemoryAuthentication().withUser("manager").password(password).roles("MANAGER");
+//        auth.inMemoryAuthentication().withUser("admin").password(password).roles("ADMIN");
+//    }
+//    
  
     
 }
