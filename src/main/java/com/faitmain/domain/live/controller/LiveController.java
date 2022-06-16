@@ -62,6 +62,8 @@ public class LiveController {
 
 	@GetMapping("liveRoom")
 	public String getLiveRoomList(Model model) throws Exception {
+		
+		String token = getToken();
 
 		System.out.println("/live/getLiveRoomList : GET start...");
 		log.info("Controller = {} ", "/live/liveRoomList : GET start...");
@@ -95,8 +97,7 @@ public class LiveController {
 		conn.setRequestProperty("Content-type", "application/json");
 		conn.setRequestProperty("accept", "*/*");
 		conn.setRequestProperty("api_key", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
-		conn.setRequestProperty("X-AUTH-TOKEN",
-				"eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ2Y3h6dmN4ejE1OUBnbWFpbC5jb20iLCJleHAiOjE2NTUxMjE4NzcsImlhdCI6MTY1NTEwMzg3NywiYXV0aG9yaXRpZXMiOiJbUk9MRV9VU0VSXSJ9.wHNAWfW1N54JUu6YMPvCqYzHALvMbs1QmLdEHQ7NW_I");
+		conn.setRequestProperty("X-AUTH-TOKEN", token);
 		conn.setDoOutput(true);
 
 		// 데이터 입력 스트림에 답기
@@ -254,7 +255,14 @@ public class LiveController {
 				sb.append(br.readLine());
 			}
 			conn.disconnect();
-
+			
+			try {
+				Thread.sleep(2000);
+				System.out.println("타이머 1 초 대기.");
+			}catch(InterruptedException e) {
+				System.out.println("타이머 끝");
+			}
+			
 			result = (JSONObject) new JSONParser().parse(sb.toString());
 
 			// REST API 호출 상태 출력하기
@@ -336,6 +344,7 @@ public class LiveController {
 		model.addAttribute("channelKey", roomId);
 
 		log.info("model status : " + model);
+		
 
 		return "/live/live";
 
@@ -514,11 +523,13 @@ public class LiveController {
 		Live live = liveService.getLive(liveNumber);
 
 		List<LiveProduct> list = liveService.getLiveProductListByLiveNumber(live.getLiveNumber());
-
-		model.addAttribute("listProduct", list);
+		
+		System.out.println("찍먹 : " + list);
 		model.addAttribute("live", live);
+		model.addAttribute("listProduct", list);
 
-		log.info("model live : " + model.getAttribute("live"));
+		log.info("live = " + model.getAttribute("live"));
+		log.info("listProduct = " + model.getAttribute("listProduct"));
 		return "live/watchLive";
 	}
 

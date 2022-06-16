@@ -85,9 +85,6 @@ window.addEventListener("load", function () {
    	});
 })
 	
-
-
-
 function joinRoom(roomId, clientKey, nickName, callback) {
   // vchatcloud 객체
   console.log("clientKey : " + clientKey);
