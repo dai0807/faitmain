@@ -19,18 +19,16 @@ public interface OrderService{
     /* 주문 페이지로 전송할 상품 정보 메소드 */
     List<OrderPageProduct> getOrderPageProductList( List<OrderPageProduct> orderPageProductList );
 
-    /* 주문 상품 리스트 */
-    List<Order> getOrderList( Criterion criterion ) throws Exception;
-
     /* 주문 */
     void addOrder( Order order ) throws Exception;
-
-    /* 주문 총 개수 */
-    int getOrderTotal( Criterion criterion ) throws Exception;
 
     /* 주문 취소 */
     void cancelOrder( OrderCancel orderCancel ) throws Exception;
 
 
+    /* 주문 상품 리스트 */
+    List<Order> getOrderList( Criterion criterion ) throws Exception;
 
+    /* 주문 총 개수 */
+    int getOrderTotal( Criterion criterion ) throws Exception;
 }

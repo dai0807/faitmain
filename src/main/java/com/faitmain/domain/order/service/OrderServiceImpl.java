@@ -50,6 +50,7 @@ public class OrderServiceImpl implements OrderService{
     public List<OrderPageProduct> getOrderPageProductList( List<OrderPageProduct> orderPageProductList ){
 
         List<OrderPageProduct> oppList = new ArrayList<>();
+
         for ( OrderPageProduct orderPageProduct : orderPageProductList ) {
             OrderPageProduct opp = orderMapper.selectOrderPageProduct( orderPageProduct.getProductNumber() );
             opp.setProductOrderCount( orderPageProduct.getProductOrderCount() );
@@ -64,14 +65,19 @@ public class OrderServiceImpl implements OrderService{
     @Override
     @Transactional
     public void addOrder( Order order ) throws Exception{
-        /* 사용할 데이터 가져오기 */
+
+        log.info( "/* 주문 서비스로직 시작 */" );
 
         /* 회원정보 */
         User user = orderMapper.selectBuyer( order.getBuyerId() );
+        log.info( "/* 회원정보 */" );
+        log.info( "user = {}" , user );
 
         /* 주문정보 */
         List<OrderProduct> orderProductList = new ArrayList<>();
         for ( OrderProduct orderProduct : order.getOrderProductList() ) {
+
+            log.info( "orderProduct = {}" , orderProduct );
             OrderProduct op = orderMapper.selectOrderProduct( orderProduct.getProductNumber() );
             /* 수량세팅 */
             op.setProductOrderCount( orderProduct.getProductOrderCount() );
@@ -81,11 +87,11 @@ public class OrderServiceImpl implements OrderService{
             orderProductList.add( op );
         }
 
+        log.info( "orderProductList = {}" , order.getOrderProductList() );
+
         /* ORDER 세팅 */
         order.setOrderProductList( orderProductList );
         order.getOrderPriceInfo();
-
-        /* DB 주문,주문상품(,배송정보) 넣기*/
 
         /* DB 넣기 */
         /* ORDER 등록 */

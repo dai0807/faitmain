@@ -1,68 +1,127 @@
 
-// 주문번호 만들기
-function createOrderNum(){
+/* IAMPORT 에서 사용할 최종 결제금액 전역변수 */
+let finalTotalPriceToAPI;
+
+$(document).ready(function () {
+
+    /* 주문 조합정보란 최신화 */
+    setTotalInfo();
+
+    /* 포인트 입력 */
+    //0 이상 & 최대 포인트 수 이하
+    $(".order_point_input").on("propertychange change keyup paste input", function () {
+
+        /* 상수 선언 & 회원이 갖고있는 포인트 대입 */
+        const maxPoint = parseInt('${buyer.totalPoint')
+
+        /* 사용자가 입력한 값 */
+        let inputValue = parseInt($(this).val());
+
+        if (inputValue < 0) {
+            $(this).val(0);
+        } else if (inputValue > maxPoint) {
+            $(this).val(maxPoint);
+        }
+
+        /* 주문 조합정보란 최신화 */
+        setTotalInfo();
+    });
+
+    /* 포인트 모두사용 취소 버튼
+     * Y: 모두사용 상태 / N : 모두 취소 상태
+     */
+    $(".order_point_input_btn").on("click", function () {
+
+        const maxPoint = parseInt('${buyer.totalPoint')
+        console.log(maxPoint)
+        let state = $(this).data("state");
+
+        if (state == 'N') {
+            console.log("n동작");
+            /* 모두사용 */
+            //값 변경
+            $(".order_point_input").val(maxPoint);
+            //글 변경
+            $(".order_point_input_btn_Y").css("display", "inline-block");
+            $(".order_point_input_btn_N").css("display", "none");
+        } else if (state == 'Y') {
+            console.log("y동작");
+            /* 취소 */
+            //값 변경
+            $(".order_point_input").val(0);
+            //글 변경
+            $(".order_point_input_btn_Y").css("display", "none");
+            $(".order_point_input_btn_N").css("display", "inline-block");
+        }
+
+        /* 주문 조합정보란 최신화 */
+        setTotalInfo();
+    });
+
+    /* 주문 요청 */
+    $(".order_btn").on("click", function () {
+        payment()
+    });
+});
+
+
+/* 주문번호 만들기 */
+function createOrderNum() {
     const date = new Date();
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
 
-    let orderNum = year + month + day;
-    for(let i=0;i<10;i++) {
-        orderNum += Math.floor(Math.random() * 8);
+    let orderNumber = parseInt(year + month + day);
+    for (let i = 0; i < 10; i++) {
+        orderNumber += Math.floor(Math.random() * 8);
     }
-    return orderNum;
+    return orderNumber;
 }
 
 /* 결제 ver 1 */
 function payment() {
-    const data = {
-        orderNumber : createOrderNum(),
-        buyerName: $('input[name="buyerName"]').val(),
-        receiverAddress1 : $('input[name="receiverAddress1"]').val(),
-        receiverAddress2 : $('input[name="receiverAddress2"]').val(),
-        receiverAddress3 : $('input[name="receiverAddress3"]').val(),
-        phoneNumber : "",
-        email : "",
-        amount : $('input[name="amount"]').val(),
 
-        // buyerName: "노르웨이 회전 의자",
-        // receiverAddress1 : "서울특별시 강남구 신사동",
-        // receiverAddress2 : "하나하나둘셋아파트",
-        // receiverAddress3 : "01191",
-        // phoneNumber : "010-4242-4242",
-        // email : "gildong@gmail.com",
-        // amount : 1000,
+    /* 정보 */
+    const data = {
+        orderNumber: createOrderNum(),
+        receiverName: $("#buyerName").val(),
+        receiverPhone: $("#receiverPhone").val(),
+        receiverAddress1: $("#receiverAddress1").val(),
+        receiverAddress2: $("#receiverAddress2").val(),
+        receiverAddress3: $("#receiverAddress3").val(),
+        productNumber: $("#productNumber").val(),
+        productName: $("#productName").val(),
+        buyerId: $("#buyerId").val(),
+        amount: finalTotalPriceToAPI,
     }
-    console.log("data : " + data.orderNumber);
-    console.log("data : " + data.buyerName);
-    console.log("data : " + data.receiverAddress1);
-    console.log("data : " + data.amount);
+
+    console.log(typeof data.orderNumber)
 
     paymentCard(data)
 }
-
-
 
 /* 결제 */
 function paymentCard(data) {
     var IMP = window.IMP;
     IMP.init("imp76668016");
     IMP.request_pay({
-        pg: "html5_inicis",
         pay_method: "card",
-        merchant_uid: "2349234987",
-        name: "노르웨이 회전 의자",
+        merchant_uid: data.orderNumber,
+        name: data.productName,
         amount: data.amount,
-        buyer_email: data.email,
-        buyer_name: data.buyerName,
-        buyer_tel: data.phoneNumber,
-        buyer_addr: data.receiverAddress2+" "+data.receiverAddress3,
+        buyer_email: data.buyerId,
+        buyer_name: data.receiverName,
+        buyer_tel: data.receiverPhone,
+        buyer_addr: data.receiverAddress2 + " " + data.receiverAddress3,
         buyer_postcode: data.receiverAddress1
     }, function (rsp) { // callback
         if (rsp.success) {
             // 결제 성공
-            data.imp_uid = rsp.imp_uid;
+            data.impUid = rsp.imp_uid;
             data.merchant_uid = rsp.merchant_uid;
+            data.amount = rsp.amount;
+
             paymentComplete(data)
         } else {
             alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
@@ -81,8 +140,7 @@ function paymentComplete(data) {
         .done(function (result) {
             messageSend();
             swal({
-                text: result,
-                closeOnClickOutside: false
+                text: result, closeOnClickOutside: false
             })
                 .then(function () {
                     location.replace("/orderList");
@@ -95,64 +153,33 @@ function paymentComplete(data) {
 }
 
 
-
 /* 주소입력란 버튼 숨김 & 표시 */
-function showAdress(className) {
+function showAddress(className) {
+
     /* 컨텐츠 동작 */
     /* 모두 숨기기 */
     $(".addressInfo_input_div").css('display', 'none');
+
     /* 컨텐츠 보이기 */
     $(".addressInfo_input_div_" + className).css('display', 'block');
+
     /* 버튼 색상 변경 */
     /* 모든 색상 동일 */
-    $(".adress.btn").css('backgroundColor', '#555');
+    $(".address.btn").css('backgroundColor', '#555');
+
     /* 지정 색상 변경*/
-    $(".adress.btn_" + className).css('backgroundColor', '#3c3838');
+    $(".address.btn_" + className).css('backgroundColor', '#3c3838');
+
+    /* selectAddress T/F */
+    /* 모든 selectAddress F만들기 */
+    $(".addressInfo_input_div").each(function (i, obj) {
+        $(obj).find(".selectAddress").val("F");
+    });
+
+    /* 선택한 selectAddress T만들기 */
+    $(".addressInfo_input_div_" + className).find(".selectAddress").val("T");
 }
 
-/* 포인트 입력 */
-//0 이상 & 최대 포인트 수 이하
-$(".order_point_input").on("propertychange change keyup paste input", function () {
-    const maxPoint = parseInt('${buyer.totalPoint')
-    let inputValue = parseInt($(this).val());
-    if (inputValue < 0) {
-        $(this).val(0);
-    } else if (inputValue > maxPoint) {
-        $(this).val(maxPoint);
-    }
-
-    /* 주문 조합정보란 최신화 */
-    setTotalInfo();
-});
-
-/* 포인트 모두사용 취소 버튼
- * Y: 모두사용 상태 / N : 모두 취소 상태
- */
-$(".order_point_input_btn").on("click", function () {
-    const maxPoint = parseInt('${buyer.totalPoint')
-    let state = $(this).data("state");
-
-    if (state == 'N') {
-        console.log("n동작");
-        /* 모두사용 */
-        //값 변경
-        $(".order_point_input").val(maxPoint);
-        //글 변경
-        $(".order_point_input_btn_Y").css("display", "inline-block");
-        $(".order_point_input_btn_N").css("display", "none");
-    } else if (state == 'Y') {
-        console.log("y동작");
-        /* 취소 */
-        //값 변경
-        $(".order_point_input").val(0);
-        //글 변경
-        $(".order_point_input_btn_Y").css("display", "none");
-        $(".order_point_input_btn_N").css("display", "inline-block");
-    }
-
-    /* 주문 조합정보란 최신화 */
-    setTotalInfo();
-});
 
 /* 총 주문 정보 세팅(배송비, 총 가격, 마일리지, 물품 수, 종류) */
 function setTotalInfo() {
@@ -168,7 +195,7 @@ function setTotalInfo() {
         // 총 가격
         totalPrice += parseInt($(element).find(".individual_totalPrice_input").val());
         // 총 갯수
-        totalCount += parseInt($(element).find(".individual_bookCount_input").val());
+        totalCount += parseInt($(element).find(".individual_productOrderCount_input").val());
         // 총 종류
         totalKind += 1;
         // 총 마일리지
@@ -184,12 +211,10 @@ function setTotalInfo() {
         deliveryPrice = 3000;
     }
 
-    finalTotalPrice = totalPrice + deliveryPrice;
-
     /* 사용 포인트 */
     usePoint = $(".order_point_input").val();
-
-    finalTotalPrice = totalPrice - usePoint;
+    finalTotalPrice = totalPrice + deliveryPrice - usePoint;
+    finalTotalPriceToAPI = finalTotalPrice
 
     /* 값 삽입 */
     // 총 가격
@@ -208,45 +233,6 @@ function setTotalInfo() {
     $(".usePoint_span").text(usePoint.toLocaleString());
 
 }
-
-$(document).ready(function () {
-    /* 주문 조합정보란 최신화 */
-    setTotalInfo();
-});
-
-/* selectAddress T/F */
-/* 모든 selectAddress F만들기 */
-$(".addressInfo_input_div").each(function (i, obj) {
-    $(obj).find(".selectAddress").val("F");
-});
-/* 선택한 selectAdress T만들기 */
-$(".addressInfo_input_div_" + className).find(".selectAddress").val("T");
-
-
-/* 주문 요청 */
-$(".order_btn").on("click", function () {
-
-});
-
-
-/* 이미지 삽입 */
-// $(".image_wrap").each(function(i, obj){
-//
-//     const bobj = $(obj);
-//
-//     if(bobj.data("bookid")){
-//         const uploadPath = bobj.data("path");
-//         const uuid = bobj.data("uuid");
-//         const fileName = bobj.data("filename");
-//
-//         const fileCallPath = encodeURIComponent(uploadPath + "/s_" + uuid + "_" + fileName);
-//
-//         $(this).find("img").attr('src', '/display?fileName=' + fileCallPath);
-//     } else {
-//         $(this).find("img").attr('src', '/resources/img/goodsNoImage.png');
-//     }
-//
-// });
 
 
 /* 다음 주소 연동 */
