@@ -95,9 +95,12 @@
 				<input type="hidden" th:field="*{orderProductNumber}" />
 				<input type="hidden" th:field="*{orderProduct.productNumber}" />
 				<input type="hidden" th:field="*{orderProduct.productName}" />
-				<th:block th:if="${session.user.id != null}">
-					<input type="hidden" th:value="${session.user.id}" name="userId" />
+			
+ 				<div sec:authorize="isAuthenticated()"	>
+					<input type="hidden" th:value="${#authentication.principal.user.id}" name="userId" />
 				</th:block>				
+				
+				
 				<!---->
 			</form>
 		</div>

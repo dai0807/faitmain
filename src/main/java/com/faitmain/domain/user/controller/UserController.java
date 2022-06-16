@@ -123,22 +123,30 @@ public class UserController{
   // SecurityContextHolder를 통해 가져오는 방법 
       @GetMapping("/getMyInfo1")
    
-      public String getMyInfo(){
+      public String getMyInfo(Model model){
           System.out.println("====getMyInfo1=시작=====");
 
-          Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
- 
-          //Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
-          System.out.println("====getMyInfo1==== "+ principal);
-          System.out.println("====getMyInfo1==== "+ principal.toString());
-          SecurityUser securityUser = (SecurityUser)principal ;  
-          
-          System.out.println(   "securityUser "+ securityUser  );
-          System.out.println(   " securityUser.getUser()   "+  securityUser.getUser()  );
-       
-           
-          return  securityUser.getUser().toString() ;
-        }   
+//          Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
+// 
+//          //Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+//          System.out.println("====getMyInfo1==== "+ principal);
+//          System.out.println("====getMyInfo1==== "+ principal.toString());
+//          SecurityUser securityUser = (SecurityUser)principal ;  
+//          
+//          System.out.println(   "securityUser "+ securityUser  );
+//          System.out.println(   " securityUser.getUser()   "+  securityUser.getUser()  );
+//       
+//           
+//          return  securityUser.getUser().toString() ;
+
+      
+  		SecurityUser securityUser = (SecurityUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
+      	 User  user = (User)securityUser.getUser() ; 
+      	 model.addAttribute("user" , user) ;
+      	 
+      return "/user/test";
+      
+      }   
      
  //  
      @GetMapping("test2")
@@ -459,7 +467,8 @@ public class UserController{
     public RedirectView addStore( @ModelAttribute( "user" ) User user , MultipartHttpServletRequest mRequest ,
                                   @ModelAttribute( "storeApplicationDocument" ) StoreApplicationDocument storeApplicatDoc ) throws Exception{
         log.info( "::시작 :::addStore:: " );
-
+        String encPwd =pwdEncoder.encode(user.getPassword());  //PW 암호화
+        user.setPassword(encPwd);
         log.info( "addStore::들어온 user 결과  ::{}" , user );
         log.info( "addStore::들어온 storeApplicationDocument 결과  ::{}" , storeApplicatDoc );
 
@@ -609,7 +618,9 @@ public class UserController{
 
 
         if ( id == null ) {
-            id = ( ( User ) request.getSession( true ).getAttribute( "user" ) ).getId();
+      		SecurityUser securityUser = (SecurityUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음        	
+            id =  securityUser.getUser().getId() ;
+        
         }
         log.info( "updatePassword id :: {}  " + id );
 
@@ -675,13 +686,12 @@ public class UserController{
 
         if ( id == null ) {
         	
-            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
-            SecurityUser securityUser = (SecurityUser)principal ;  
-        	
+    		SecurityUser securityUser = (SecurityUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
+          	    user = (User)securityUser.getUser() ; 
+         
         	log.info(" 로그인한 유저   ={} ", (User)securityUser.getUser() );
         	
-             user = (User)securityUser.getUser() ; 
-
+ 
         } else {
             user = userSerivce.getUser( id );
 
