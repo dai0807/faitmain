@@ -205,4 +205,14 @@ div.card-body{
 	text-align: center;
 }
 
+/* ================================================== */
 
+/* reportList */
+body {margin:2em;}
+
+/*reportForm*/
+#results {
+  position: fixed;
+  right: 0;
+  top: 10%;
+}
