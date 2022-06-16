@@ -30,10 +30,8 @@
        <result property="productMainImage" column="product_main_image" jdbcType="VARCHAR"/>
        <result property="productName" column="product_name" jdbcType="VARCHAR"/>
        <result property="productDetail" column="product_detail" jdbcType="VARCHAR"/>
-       
-    </resultMap>
-   
-   
+       <result property="price" column="product_price" jdbcType="INTEGER"/>
+    </resultMap>   
    
    <resultMap id="liveReservationMap" type="LiveReservation">
        <result property="liveReservationNumber" column="live_reservation_number" jdbcType="INTEGER" />

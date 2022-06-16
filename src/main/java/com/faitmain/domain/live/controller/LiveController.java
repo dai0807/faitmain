@@ -313,6 +313,8 @@ public class LiveController {
 							.setProductName(productService.getLiveProduct(Integer.parseInt(product)).getProductName());
 					liveProduct.setProductDetail(
 							productService.getLiveProduct(Integer.parseInt(product)).getProductDetail());
+					liveProduct.setPrice(productService.getLiveProduct(Integer.parseInt(product)).getProductPrice());
+
 					liveService.addLiveProduct(liveProduct);
 				}
 			}
@@ -457,6 +459,8 @@ public class LiveController {
 				liveProduct.setProductName(productService.getLiveProduct(Integer.parseInt(product)).getProductName());
 				liveProduct
 						.setProductDetail(productService.getLiveProduct(Integer.parseInt(product)).getProductDetail());
+				liveProduct.setPrice(productService.getLiveProduct(Integer.parseInt(product)).getProductPrice());
+
 				liveService.addLiveProduct(liveProduct);
 			}
 		} else {
@@ -596,8 +600,6 @@ public class LiveController {
 
 		URL url = new URL(
 				"https://vchatcloud.com/openapi/v1/users/" + liveService.getLiveByStoreId(user.getId()).getRoomId());
-
-		System.out.println("유우우우우우우우우ㅏㄹ엘    " + url);
 
 		HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 		conn.setSSLSocketFactory(sc.getSocketFactory());
@@ -745,6 +747,7 @@ public class LiveController {
 			liveProduct.setProductName(prod.getProductName());
 			liveProduct.setProductMainImage(prod.getProductMainImage());
 			liveProduct.setProductDetail(prod.getProductDetail());
+			liveProduct.setPrice(prod.getProductPrice());
 
 			liveService.addLiveProduct(liveProduct);
 		}
@@ -798,6 +801,7 @@ public class LiveController {
 			liveProduct.setProductName(prod.getProductName());
 			liveProduct.setProductMainImage(prod.getProductMainImage());
 			liveProduct.setProductDetail(prod.getProductDetail());
+			liveProduct.setPrice(prod.getProductPrice());
 
 			liveService.addLiveProduct(liveProduct);
 		}
