@@ -753,6 +753,61 @@ public class LiveController {
 		return new RedirectView("/live/getLiveReservationList?date=" + liveReservation.getReservationDate());
 	}
 
+	@GetMapping("updateLiveReservation/{liveProductNum}/{date}")
+	public String updateLiveReservation(@PathVariable String liveProductNum, @PathVariable String date, Model model)
+			throws Exception, Exception {
+		log.info("updateLiveReservation GET start...");
+
+		LiveReservation liveReservation = liveService.getLiveReservation(Integer.parseInt(liveProductNum));
+		log.info("liveReservation = {}", liveReservation);
+
+		List<LiveProduct> liveProductList = liveService
+				.getLiveProductListByLiveNumber(liveReservation.getLiveReservationNumber());
+		log.info("liveProductList = {}", liveProductList);
+
+		Map<String, Object> productList = productService.getProductListByStoreId(liveReservation.getStore().getId());
+
+		model.addAttribute("liveReservation", liveReservation);
+		model.addAttribute("liveProductList", liveProductList);
+		model.addAttribute("list", productList.get("list"));
+
+		log.info("updateLiveReservation GET end...");
+		return "/live/updateLiveReservationView";
+	}
+
+	@PostMapping("updateLiveReservation")
+	public RedirectView updateLiveReservation(LiveReservation liveReservation, @RequestParam String[] liveProductNum,
+			HttpSession session, Model model) throws Exception {
+		log.info("updateLiveReservation POST start...");
+
+		User user = (User) session.getAttribute("user");
+
+		liveReservation.setStore(user);
+		log.info("liveReservation = {}", liveReservation);
+
+		liveService.updateLiveReservation(liveReservation);
+
+		liveService.deleteLiveProductByReservationNumber(liveReservation.getLiveReservationNumber());
+
+		LiveProduct liveProduct = new LiveProduct();
+		liveProduct.setLiveReservationNumber(liveReservation.getLiveReservationNumber());
+
+		for (int i = 0; i < liveProductNum.length; i++) {
+			Product prod = productService.getLiveProduct(Integer.parseInt(liveProductNum[i]));
+			liveProduct.setProductNumber(prod.getProductNumber());
+			liveProduct.setProductName(prod.getProductName());
+			liveProduct.setProductMainImage(prod.getProductMainImage());
+			liveProduct.setProductDetail(prod.getProductDetail());
+
+			liveService.addLiveProduct(liveProduct);
+		}
+
+		log.info("PK value = {}", liveReservation.getLiveReservationNumber());
+
+		log.info("updateLiveReservation POST end...");
+		return new RedirectView("/live/getLiveReservationList?date=" + liveReservation.getReservationDate());
+	}
+
 	@GetMapping("deleteLiveReservation/{liveProductNum}/{date}")
 	public RedirectView deleteLiveReservation(@PathVariable String liveProductNum, @PathVariable String date)
 			throws Exception {

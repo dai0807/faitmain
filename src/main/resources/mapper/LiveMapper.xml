@@ -116,7 +116,17 @@
     
     <!-- UPDATE LiveProduct (필요없음) -->
     
-    <!-- UPDATE LiveReservation (신중했어야지) -->
+    <!-- UPDATE LiveReservation -->
+    <update id="updateLiveReservation" parameterType="LiveReservation">
+    	UPDATE live_reservation
+    	<set>
+    		reservation_date = #{reservationDate},
+    		reservation_time = #{reservationTime}
+    	</set>
+    	<where>
+    		live_reservation_number = #{liveReservationNumber}
+    	</where>
+    </update>
     
     <!-- UPDATE LiveUserStatus -->
     <update id="updateLiveUserStatus" parameterType="LiveUserStatus">
@@ -158,6 +168,14 @@
          live_number = #{liveNumber}
          AND id = #{id}
       </where>
+   </select>
+   
+   <!-- GET LiveReservation -->
+   <select id="getLiveReservation" parameterType="int" resultMap="liveReservationMap">
+   		SELECT * FROM live_reservation
+   		<where>
+   			live_reservation_number = #{liveReservationNumber}
+   		</where>
    </select>
    
    <!-- GET CurrnetLiveReservation -->

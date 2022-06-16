@@ -80,7 +80,7 @@
 							
 								<th:block th:if="${session.user != null}">
 									<th:block th:if="${prodList.store.userNumber} == ${session.user.userNumber}">
-										<a type="button" class="btn btn-outline-info">수정 하기</a>
+										<a type="button" class="btn btn-outline-info" th:href="@{/live/updateLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">수정 하기</a>
 										<a type="button" class="btn btn-outline-danger" th:href="@{/live/deleteLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">삭제 하기</a>
 									</th:block>
 								</th:block>
@@ -120,7 +120,7 @@
 							
 							<th:block th:if="${session.user != null}">
 								<th:block th:if="${prodList.store.userNumber} == ${session.user.userNumber}">
-									<a type="button" class="btn btn-info">수정 하기</a>
+									<a type="button" class="btn btn-info" th:href="@{/live/updateLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">수정 하기</a>
 									<a type="button" class="btn btn-danger" th:href="@{/live/deleteLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">삭제 하기</a>
 								</th:block>
 							</th:block>
