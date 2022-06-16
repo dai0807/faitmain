@@ -20,6 +20,6 @@ public class LoginSuccess implements AuthenticationSuccessHandler{
         
     	log.info("onAuthenticationSuccess ::   로그인 성공 " );
      	
-    	response.sendRedirect( "/index" );
+    	response.sendRedirect( "/" );
     }
 }
