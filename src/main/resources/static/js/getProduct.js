@@ -199,7 +199,7 @@ $(function () {
 				+				"<i class='fs-16 zmdi zmdi-minus option'></i>"
 				+			"</div>"
 				
-				+			"<input class='mtext-104 cl3 txt-center num-product option' name='orderPageProductList["+ optionIndex + "].producOrderCount' readonly='readonly' type='text' value='1' />"
+				+			"<input class='mtext-104 cl3 txt-center num-product option' name='orderPageProductList["+ optionIndex + "].productOrderCount' readonly='readonly' type='text' value='1' />"
 				
 				+			"<div class='btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m'>"
 				+				"<i class='fs-16 zmdi zmdi-plus option'></i>"
@@ -224,7 +224,7 @@ $(function () {
 		}
 
 	});
-
+	
 	/* 수량버튼 */
 	$(document).on("click", ".fs-16.zmdi.zmdi-plus.option", function() {
 		let quantity = Number($(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val());
@@ -233,9 +233,10 @@ $(function () {
 		//let maxQuantity = Number($(this).parent("div").find(".optionQuantity").val());
 		console.log("quantity : " + quantity);
 		console.log("maxQuantity : " + maxQuantity);
-		console.log("result : " + quantity < maxQuantity);
+		console.log("result : " + (quantity < maxQuantity));
 		if (quantity < maxQuantity) {
 			$(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val(++quantity);
+			console.log("수량 왜 안넘어가 : " + quantity);
 			$("#totalPrice").text(Number($.trim($("#totalPrice").text())) + productPrice);
 		} else {
 			alert("수량 초과");

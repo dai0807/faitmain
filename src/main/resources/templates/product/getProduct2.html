@@ -5,6 +5,8 @@
     <meta charset = "UTF-8">
     <title>상품 조회</title>
 
+	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/bootstrap/css/bootstrap.min.css">
+	
 	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
 	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
@@ -15,9 +17,7 @@
 	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/MagnificPopup/magnific-popup.css">
 	
 	<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">
-	
-	<link rel="stylesheet" href="/tableDesign/style.css">		
+	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">	
         
 	<!--<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>-->
 	
@@ -78,14 +78,16 @@
 
 		<div class="container">
 
-			<!------------------------------ 필요 데이터 ---------------------------------------------->
+			<!-- ---------------------------- 필요 데이터 -------------------------------------------- -->
 			<input type="hidden" id="productGroupNumber" th:value="${ product.productNumber }" />
 			<input type="hidden" id="productGroupName" th:value="${ product.productName }" />
 			<input type="hidden" id="productPrice" th:value="${ product.productPrice }" />
 			<input type="hidden" id="productMainImage" th:value="${ product.productMainImage }" />
 			<input type="hidden" id="productQuantity" th:value="${ product.productQuantity }" />
-			<!-------------------------------------------------------------------------------------->
-			<div class="row">			
+			<!-- ---------------------------------------------------------------------------------- -->
+			<div class="row">	
+			
+				<!-- ------------- 메인 사진 & 추가 사진 표시 -------------- -->	
 				<div class="col-md-6 col-lg-7 p-b-30">
 					<div class="p-l-25 p-r-30 p-lr-0-lg">
 						<!-- 추가 사진 (화면 왼쪽 표시) -->
@@ -138,9 +140,11 @@
 						});
 					</script>
 				</div>
+				<!-- --------------------------------------- -->
 				
 				<div class="col-md-6 col-lg-5 p-b-30">
 					<div class="p-r-50 p-t-5 p-lr-0-lg">
+					
 						<form id="getProductForm" method="post" th:object="${product}">
 							
 							<!-- 구매자 정보 확인 -->
@@ -148,6 +152,7 @@
 								<input type="hidden" name="buyerId" th:value="${session.user.id}" />
 							</th:block>
 							
+							<!-- 상품명, 가격 표시 -->
 							<p class="stext-102 cl3 p-t-23">
 								<a th:href="@{/product/getStoreInfo(storeId=*{store.id})}" th:text="*{store.storeName}"></a>>
 							</p>
@@ -170,32 +175,34 @@
 											구매수량
 										</div>
 										
+										<!-- 수량 조절 -->
 										<div class="size-204 flex-w flex-m respon6-next">
 											<div class="wrap-num-product flex-w m-r-20 m-tb-10">
+											
 												<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
 													<i class="fs-16 zmdi zmdi-minus"></i>
 												</div>
 												
-												<input class="mtext-104 cl3 txt-center num-product" name="orderPageProductList[0].producOrderCount" 
+												<input class="mtext-104 cl3 txt-center num-product" name="orderPageProductList[0].productOrderCount" 
 														readonly="readonly"	type="text" value="1" />
-												<!--		
-												<input class="quantity_input" name="orderPageProductList[0].producOrderCount" readonly="readonly"
-													type="text" value="1">
-												-->	
+														
 												<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
 													<i class="fs-16 zmdi zmdi-plus"></i>
 												</div>
-											</div>
-											
+												
+											</div>											
 										</div>
+										<!-- ------ -->
+										
 									</div>
 		
 								</th:block>
-								<!-- /////////// -->
+								<!-- --------------------------- -->
 								
 								<!-- 옵션 있는 상품이면 옵션 선택하도록 함 -->
 								<th:block th:if="${#lists.size(product.productOptions) > 0}">
 									<div class="flex-w flex-r-m p-b-10">
+									
 										<div class="size-203 flex-c-m respon6">
 											상품선택
 										</div>
@@ -214,6 +221,7 @@
 												<div class="dropDownSelect2"></div>
 											</div>
 										</div>
+										
 									</div>
 									
 									<!-- 옵션 선택에 따라 내용이 채워질 div -->
@@ -229,8 +237,10 @@
 											dropdownParent: $(this).next('.dropDownSelect2')
 										});
 									})
-								</script>
+								</script>								
+								<!-- ------------------------ -->
 								
+								<!-- 총 상품 가격 표시 (선택 수량에 따라 값 변동) -->
 								<div class="flex-w flex-r-m p-b-10">
 								
 									<div class="size-203 flex-c-m respon6">
@@ -243,7 +253,9 @@
 									</div>
 									
 								</div>
+								<!-- -------------------------------- -->
 								
+								<!-- 장바구니 & 구매하기 버튼 -->
 								<div class="flex-w flex-r-m p-b-10">
 									<ul id="buttonArea">
 										<li>
@@ -258,18 +270,19 @@
 										</li>
 									</ul>									
 								</div>
+								<!-- ---------------- -->
 								
 							</div>
 							
 							<!-- getProduct에 적용할 script (해당 위치에 적어야 동작함) -->
 							<script th:inline="javascript" src="/js/getProduct.js"></script>
 							
-						</form>
-					
+						</form>					
 						
 					</div>
 				</div>
 			</div>
+			<!-- ----------------------- -->
 			
 			<!-- 상품 상세, 문의, 리뷰 -->
 			<div class="bor10 m-t-50 p-t-43 p-b-40">
@@ -287,23 +300,116 @@
 						</li>
 					
 						<li class="nav-item p-b-10">
-							<a class="nav-link" data-toggle="tab" href="#inquiry" role="tab">문의</a>
+							<a class="nav-link" data-toggle="tab" href="#inquiry" role="tab">문의(<th:block th:text="${product.inquiryCount}"></th:block>)</a>
 						</li>
 					</ul>
 					
 					<!-- Tab panes -->
 					<div class="tab-content p-t-43">
-					
+						
+						<!-- 상품 상세 정보 -->
 						<div class="tab-pane fade show active" id="description" role="tabpanel">
 							<div class="how-pos2 p-lr-15-md">
-								
+								<th:block th:utext = "${ product.productDetail }"></th:block>
 							</div>	
 						</div>
+						<!-- ----------- -->
 						
+						<!-- 리뷰 -->
+						<div class="tab-pane fade" id="reviews" role="tabpanel">
+							<div class="row">
+								<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
+									<div class="p-b-30 m-lr-15-sm">
+									
+										<!-- 리뷰 없음 -->
+										<th:block th:if="${#lists.size(product.reviewList) == 0}">
+											<p class="stext-102 cl6">
+												리뷰가 없습니다.
+											</p>
+										</th:block>
+										
+										<!-- 리뷰 있음 -->
+										<th:block th:unless="${#lists.size(product.reviewList) == 0}" th:each="review : ${product.reviewList}">
+											<div class="flex-w flex-t p-b-68">								
+												
+												<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
+													<img th:src="|../img/upload/${ review.reviewImage }|" alt="Review-IMG">
+												</div>
+												
+												<div class="size-207">
+													<div class="flex-w flex-sb-m p-b-17">
+														<span class="mtext-107 cl2 p-r-20" th:text="${review.userId}">																
+														</span>
+												
+														<span class="fs-18 cl11">
+															<th:block th:each="num : ${#numbers.sequence(1, 5)}">
+																<i class="zmdi zmdi-star" th:if="${num le review.rating}"></i>
+																<i class="zmdi zmdi-star-outline" th:if="${num gt review.rating}"></i>
+															</th:block>
+														</span>
+													</div>
+												
+													<p class="stext-102 cl6" th:text="${review.reviewContent}">															
+													</p>
+												</div>
+												
+											</div>	
+										</th:block>
+																			
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- -------------- -->
+						
+						<!-- 문의 -->
+						<div class="tab-pane fade" id="inquiry" role="tabpanel">
+							<div class="how-pos2 p-lr-15-md">
+								
+								<!-- 문의 없음 -->
+								<th:block th:if="${#lists.size(product.inquiryList) == 0}">
+									<p class="stext-102 cl6">
+										문의가 없습니다.
+									</p>
+								</th:block>
+								
+								<!-- 문의 있음 -->
+								<th:block th:unless="${#lists.size(product.inquiryList) == 0}">
+									<div class="wrap-table-shopping-cart">
+										<table class="table-shopping-cart">
+											<tr class="table_head">
+												<th class="column-1"></th>
+												<th class="column-2">제목</th>
+												<th class="column-3">작성자</th>
+												<th class="column-4">작성일</th>
+												<th class="column-5">답변상태</th>
+											</tr>
+								
+											<tr class="table_row"  th:each="inquiry : ${product.inquiryList}">
+												<td class="column-1">
+													<img src="/productDesign/images/icons/lock.png" alt="IMG" th:if="${inquiry.secret}">
+												</td>
+												<td class="column-2" th:text="${inquiry.secret} ? '비밀문의' : ${inquiry.inquiryTitle}"></td>
+												<td class="column-3" th:text="${inquiry.userId}"></td>
+												<td class="column-4" th:text="${inquiry.inquiryDate}"></td>
+												<td class="column-5" th:text="${inquiry.inquiryReplyStatus} ? '답변완료' : '미답변'"></td>
+											</tr>
+										</table>
+									</div>
+								</th:block>
+								
+							</div>
+						</div>	
+						<!-- -------------- -->		
 					</div>
-				</div>
+				</div>			
+			</div>	
 			
-			</div>						
+			<script src="/productDesign/vendor/bootstrap/js/popper.js"></script>
+			<script src="/productDesign/vendor/bootstrap/js/bootstrap.min.js"></script>
+			
+			<!-- 상세 정보, 리뷰, 문의 끝-->
+								
 		</div>	
 	</section>
 </article>
