@@ -1,8 +1,6 @@
 package com.faitmain.domain.customer.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,11 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.faitmain.domain.customer.constant.Method;
+
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.service.CustomerService;
-import com.faitmain.domain.product.domain.Product;
-import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.util.UiUtils;
 
 @Controller
@@ -32,6 +28,7 @@ public class CustomerController extends UiUtils{
 	
 	@GetMapping("noticeIndex")
 	public String openBoardNoticeIndex(){
+		
 		return "/customer/noticeIndex";
 	}
 
