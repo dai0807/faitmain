@@ -157,11 +157,14 @@
     </div>
     
     <input th:if="${session.user != null}" type="hidden" id="userNickname" th:value="${session.user.nickname}">
+    <input th:if="${session.user != null}" type="hidden" id="userId" th:value="${session.user.id}">
     <input type="hidden" id="channelKey" th:value="${live.roomId}">
     <input type="hidden" id="storeId" th:value="${live.storeId}">
        
       <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
    	  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+   	   <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+   	  
 
 								
 								
@@ -179,16 +182,18 @@
 											</span>
 										</div>
 										<div th:unless="${productListStat.first}" class="carousel-item">
-											<span><img src="https://dummyimage.com/200x200/343a40/6c757d">알랄랄</span>
+											<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
 											<span>
 												<th:block th:text="${productList.productName}"></th:block>
 												<th:block th:text="${productList.price}"></th:block>
 											</span>
 										</div>
 									</th:block>
+									
 								</div>		
 							</div>
 						</div>
+					</div>
 </body>
 
 <script th:inline="javascript">
@@ -223,8 +228,8 @@
 
   	let channel, // joinRoom() 내부에서 채널 객체를 저장할 곳
   	  userNick = $("#userNickname").val(), // 접속자의 닉네임, 사용자에게 입력받은 값을 사용해도 된다.
-  	  userKey = 'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }); // 접속자 고유 키
-
+  	  randomNick = 'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }), // 접속자 고유 키
+	  userKey = $('#userId').val();
 
 
   	// rtc
@@ -240,7 +245,7 @@
   	  	remoteCam.attr('name', 'remote_cam');
   	  	
   	    $('div.bottom div.name').text(userNick);
-  	    joinRoom(channelKey,  userKey, ((userNick == null || userNick == "")? userKey : userNick), function(err, history){
+  	    joinRoom(channelKey,   randomNick, ((userNick == null || userNick == "")? randomNick : userNick), function(err, history){
   	    		if(err){
   	    			openError(err.code, function(){
   	    				c.hide();

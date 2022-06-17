@@ -156,7 +156,7 @@
 						<div class="col-md-2" style="text-align: center; display: table-cell; vertical-align: middle">
 							
 							<th:block th:if="${session.user != null}">
-								<th:block th:if="${prodList.store.userNumber} == ${session.user.userNumber}">
+								<th:block th:if="${prodList.store.id} == ${session.user.id}">
 									<a type="button" class="btn btn-info" th:href="@{/live/updateLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">수정 하기</a>
 									<a type="button" class="btn btn-danger" th:href="@{/live/deleteLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">삭제 하기</a>
 								</th:block>
