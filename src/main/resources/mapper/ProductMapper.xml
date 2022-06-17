@@ -127,7 +127,6 @@
 		FROM product
 		<where>
 			store_id = #{value}
-			AND product_group_number is null
 		</where>
 	 </select>
 	 		
