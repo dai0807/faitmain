@@ -75,7 +75,6 @@ public class Order{
         for ( OrderProduct op : orderProductList ) {
             orderSalePrice += op.getTotalPrice();
             orderRewardPoint += op.getTotalRewardPoint();
-            log.info( "OrderProduct = {}", op );
         }
 
         /* 배송비용 */
@@ -86,7 +85,6 @@ public class Order{
         }
         /* 최종비용 */
         orderFinalSalePrice = orderSalePrice + deliveryCharge - usingPoint;
-        log.info( "orderFinalSalePrice = {}",orderFinalSalePrice );
     }
 
 
