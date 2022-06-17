@@ -211,7 +211,7 @@
 
   	  // 로컬 접속 시
   	  channel.on("rtcRemoteStreamAppend", function (event) {
-  	     	
+  	     	// TODO : 나중에 해야지
   		  if(event.clientKey == storeId){
   	     	remoteVideo = document.createElement("video");
   		    let stream = event.target;
