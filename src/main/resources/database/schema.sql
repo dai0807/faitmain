@@ -87,11 +87,11 @@ CREATE TABLE `order` (
 
 CREATE TABLE order_product (
                            `order_product_number` int NOT NULL AUTO_INCREMENT ,
-                           `order_number`         int NULL ,
-                           `product_number`       int NULL ,
-                           `product_order_count`  int NOT NULL ,
-                           `product_price`        int NOT NULL ,
-                           `reward_point`         int NOT NULL ,
+                           `order_number`         int NOT NULL ,
+                           `product_number`       int NOT NULL ,
+                           `product_order_count`  int NULL ,
+                           `product_price`        int NULL ,
+                           `reward_point`         int NULL ,
                            PRIMARY KEY ( order_product_number ) ,
                            FOREIGN KEY ( order_number ) REFERENCES `order` ( order_number ) ,
                            FOREIGN KEY ( product_number ) REFERENCES product ( product_number )

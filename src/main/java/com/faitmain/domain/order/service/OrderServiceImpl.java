@@ -71,6 +71,7 @@ public class OrderServiceImpl implements OrderService{
 
         /* 주문정보 */
         List<OrderProduct> orderProductList = new ArrayList<>();
+
         for ( OrderProduct orderProduct : order.getOrderProductList() ) {
 
             log.info( "orderProduct = {}" , orderProduct );
@@ -81,6 +82,7 @@ public class OrderServiceImpl implements OrderService{
             op.initSaleTotal();
             /* LIST 객체 추가 */
             orderProductList.add( op );
+            log.info( " op = {}", op );
         }
 
         log.info( "orderProductList = {}" , order.getOrderProductList() );
@@ -90,11 +92,19 @@ public class OrderServiceImpl implements OrderService{
         order.getOrderPriceInfo();
 
         /* DB 넣기 */
+
+
         /* ORDER 등록 */
+        log.info( "/* DB ORDER 등록 실행 전 */" );
         orderMapper.insertOrder( order );
+        log.info( "/* DB ORDER 등록 실행 후 */" );
+        log.info( "insertOrder = {}", order );
+
         /* ORDER PRODUCT 등록 */
         for ( OrderProduct orderProduct : order.getOrderProductList() ) {
             orderProduct.setOrderNumber( orderProduct.getOrderNumber() );
+
+            log.info("orderProduct = {}",orderProduct);
         }
 
         /* 포인트 변동 적용 */

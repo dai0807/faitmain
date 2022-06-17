@@ -75,7 +75,7 @@ public class OrderController{
 
     /* IAMPORT 결제 로직 */
     @PostMapping( "/complete" )
-    public ResponseEntity<String> paymentComplete( HttpSession session , Order order ) throws IOException{
+    public String paymentComplete( HttpSession session , Order order ) throws IOException{
 
         User user = ( User ) session.getAttribute( "user" );
 
@@ -104,23 +104,23 @@ public class OrderController{
                 if ( point < usingPoint ) {
                     log.info( "/* 사용된 포인트가 유저의 포인트보다 많을 때 */" );
                     paymentService.paymentCancel( token , order.getImpUid() , amount , "유저 포인트 오류" );
-                    return new ResponseEntity<String>( " 유저 포인트 오류" , HttpStatus.BAD_REQUEST );
+                    return "index";
                 } else {
 
                     if ( usingPoint != 0 ) {
                         log.info( "/* 로그인 하지 않았는데 포인트가 사용되었을 때 */" );
                         paymentService.paymentCancel( token , order.getImpUid() , amount , "비회원 포인트사용 오류" );
-                        return new ResponseEntity<String>( "비회원 포인트 사용 오류 " , HttpStatus.BAD_REQUEST );
+                        return "index";
                     }
                 }
             }
 
             orderService.addOrder( order );
-            return new ResponseEntity<>( "주문이 완료되었습니다" , HttpStatus.OK );
+            return "order/list";
 
         } catch ( Exception e ) {
             paymentService.paymentCancel( token , order.getImpUid() , amount , "결제 에러" );
-            return new ResponseEntity<String>( "결제 에러" , HttpStatus.BAD_REQUEST );
+            return "index";
         }
     }
 
