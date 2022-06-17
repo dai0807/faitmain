@@ -83,7 +83,9 @@ $(function () {
 					
 					if(selectRes){ // 장바구니 이동
 						let buyerId = $("input[name=buyerId]").val();
-						self.location = "/cart/" + buyerId;
+						console.log("buyerId : " + buyerId);
+						
+						//self.location = "/cart/" + buyerId;
 					}else{ }// 장바구니 이동 취소
 					
 				},

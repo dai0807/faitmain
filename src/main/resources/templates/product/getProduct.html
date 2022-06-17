@@ -145,9 +145,9 @@
 						<form id="getProductForm" method="post" th:object="${product}">
 							
 							<!-- 구매자 정보 확인 -->
-							<th:block sec:authorize="isAuthenticated()" >
-    		<input type="hidden" name="buyerId" th:value="${#authentication.principal.user.id}" />
-    	</th:block>
+							<th:block sec:authorize="isAuthenticated()">
+								<input type="hidden" name="buyerId" th:value="${#authentication.principal.user.id}" />
+							</th:block>
 							
 							<!-- 상품명, 가격 표시 -->
 							<p class="stext-102 cl3 p-t-23">
