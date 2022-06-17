@@ -172,9 +172,9 @@
             </li>
           </ul>
         </div>
-
-       <input type="hidden" id="storeNickname" th:value="${session.user.nickname}" /> 
-		<input type="hidden" id="storeId" th:value="${session.user.Id}" />   
+session.user.nickname
+       <input type="hidden" id="storeNickname" th:value="${#authentication.principal.user.nickname}" /> 
+		<input type="hidden" id="storeId" th:value="${#authentication.principal.user.id}" />   
 		<input type="hidden" id="channelKey" th:value="${channelKey}"/>   
       
 

@@ -103,8 +103,8 @@
 						</div>
 						<div class="col-md-2" style="text-align: center; display: table-cell; vertical-align: middle">
 							
-								<th:block th:if="${session.user != null}">
-									<th:block th:if="${prodList.store.userNumber} == ${session.user.userNumber}">
+								<th:block th:if="${session.user != null}">#authentication.principal.user.id
+									<th:block th:if="${prodList.store.userNumber} == ${#authentication.principal.user.userNumber}">
 										<a type="button" class="btn btn-info" th:href="@{/live/updateLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">수정 하기</a>
 										<a type="button" class="btn btn-danger" th:href="@{/live/deleteLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">삭제 하기</a>
 									</th:block>
@@ -155,8 +155,8 @@
 						
 						<div class="col-md-2" style="text-align: center; display: table-cell; vertical-align: middle">
 							
-							<th:block th:if="${session.user != null}">
-								<th:block th:if="${prodList.store.userNumber} == ${session.user.userNumber}">
+							<th:block th:if="${#authentication.principal.user != null}">
+								<th:block th:if="${prodList.store.userNumber} == ${#authentication.principal.user.userNumber}">
 									<a type="button" class="btn btn-info" th:href="@{/live/updateLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">수정 하기</a>
 									<a type="button" class="btn btn-danger" th:href="@{/live/deleteLiveReservation/{liveProductNum}/{date}(liveProductNum = ${prodList.liveReservationNumber}, date = ${prodList.reservationDate})}">삭제 하기</a>
 								</th:block>
@@ -168,8 +168,8 @@
 				</div>
 				
 				<div style="text-align:center; height : 50px;">
-					<th:block th:if="${session.user != null}">
-						<th:block th:if="${session.user.role} == store">
+					<th:block th:if="${#authentication.principal.user != null}">
+						<th:block th:if="${#authentication.principal.user.role} == store">
 							<a type="button" class="btn btn-success" th:href="@{/live/addLiveReservation}">등록 하기</a>
 						</th:block>
 					</th:block>

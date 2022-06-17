@@ -13,7 +13,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -64,7 +63,7 @@ public class LiveController {
 
 	@GetMapping("liveRoom")
 	public String getLiveRoomList(Model model) throws Exception {
-		
+
 		String token = getToken();
 
 		System.out.println("/live/getLiveRoomList : GET start...");
@@ -190,24 +189,19 @@ public class LiveController {
 
 	// 방송 시작
 	@PostMapping("create")
-	public String createRoom(HttpServletRequest req, @RequestParam("roomName") String liveTitle, HttpSession session,
-			Model model) throws Exception {
+	public String createRoom(HttpServletRequest req, @RequestParam("roomName") String liveTitle, Model model)
+			throws Exception {
 
 		log.info("createRoom = {} ", this.getClass());
 
 		String token = getToken();
 
+		// User user = (User) session.getAttribute("user");
 
-		
-		
-		//User user = (User) session.getAttribute("user");
+		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUser.getUser();
 
-		
-		SecurityUser securityUser = (SecurityUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
-       	 User  user = (User)securityUser.getUser() ; 
-
-		
-		
 		Live validation = liveService.getLiveByStoreId(user.getId());
 
 		String[] liveProducts = req.getParameterValues("liveProduct");
@@ -266,14 +260,14 @@ public class LiveController {
 				sb.append(br.readLine());
 			}
 			conn.disconnect();
-			
+
 			try {
 				Thread.sleep(2000);
 				System.out.println("타이머 1 초 대기.");
-			}catch(InterruptedException e) {
+			} catch (InterruptedException e) {
 				System.out.println("타이머 끝");
 			}
-			
+
 			result = (JSONObject) new JSONParser().parse(sb.toString());
 
 			// REST API 호출 상태 출력하기
@@ -342,7 +336,7 @@ public class LiveController {
 
 			log.info("room already exist");
 
-			editRoom(req, liveTitle, session, token, model);
+			editRoom(req, liveTitle, token, model);
 		}
 		List<LiveProduct> list = liveService
 				.getLiveProductListByLiveNumber(liveService.getLiveByStoreId(user.getId()).getLiveNumber());
@@ -355,7 +349,6 @@ public class LiveController {
 		model.addAttribute("channelKey", roomId);
 
 		log.info("model status : " + model);
-		
 
 		return "/live/live";
 
@@ -363,18 +356,19 @@ public class LiveController {
 
 	// 방송 정보 수정
 
-	public String editRoom(HttpServletRequest req, String liveTitle, HttpSession session, String token, Model model)
+	public String editRoom(HttpServletRequest req, String liveTitle, String token, Model model)
 
 			throws Exception {
 
 		log.info("editRoom = {} ", this.getClass());
 		System.out.println("방송 정보 수정");
 
-		//User user = (User) session.getAttribute("user");
+		// User user = (User) session.getAttribute("user");
 
-		SecurityUser securityUser = (SecurityUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
-      	 User  user = (User)securityUser.getUser() ; 
-		
+		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUser.getUser();
+
 		Live live = liveService.getLiveByStoreId(user.getId());
 
 		String[] liveProducts = req.getParameterValues("liveProduct");
@@ -501,18 +495,18 @@ public class LiveController {
 	}
 
 	@GetMapping("addLiveView")
-	public String addLiveView(HttpSession session, Model model) throws Exception {
+	public String addLiveView(Model model) throws Exception {
 
 		System.out.println("/live/addLiveView : GET start...");
 		log.info("Controller = {} ", "/live/addLiveView : GET start...");
 
-		//User user = (User) session.getAttribute("user");
+		// User user = (User) session.getAttribute("user");
 
-		  Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
-          SecurityUser securityUser = (SecurityUser)principal ;  
-       	  User  user = (User)securityUser.getUser() ; 
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증
+																									// 정보 담음
+		SecurityUser securityUser = (SecurityUser) principal;
+		User user = (User) securityUser.getUser();
 
-		
 		Map<String, Object> map = productService.getProductListByStoreId(user.getId());
 
 		model.addAttribute("map", map);
@@ -542,7 +536,7 @@ public class LiveController {
 		Live live = liveService.getLive(liveNumber);
 
 		List<LiveProduct> list = liveService.getLiveProductListByLiveNumber(live.getLiveNumber());
-		
+
 		System.out.println("찍먹 : " + list);
 		model.addAttribute("live", live);
 		model.addAttribute("listProduct", list);
@@ -602,19 +596,17 @@ public class LiveController {
 	}
 
 	@GetMapping("liveManageTab")
-	public String getLiveUserList(HttpServletRequest req, HttpSession session, Model model) throws Exception {
+	public String getLiveUserList(HttpServletRequest req, Model model) throws Exception {
 
 		log.info("Controller = {} ", "/live/getLiveUserList : GET start...");
 
 		log.info("getLiveUserList = {} ", this.getClass());
 
-		//User user = (User) session.getAttribute("user");
-		  Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();   
-          SecurityUser securityUser = (SecurityUser)principal ;  
-       	  User  user = (User)securityUser.getUser() ; 
+		// User user = (User) session.getAttribute("user");
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		SecurityUser securityUser = (SecurityUser) principal;
+		User user = (User) securityUser.getUser();
 
-		
-		
 		JSONObject result = null;
 		StringBuilder sb = new StringBuilder();
 
@@ -675,11 +667,12 @@ public class LiveController {
 	}
 
 	@GetMapping("liveStatusUpdate")
-	public RedirectView liveStatusUpdate(HttpSession session) throws Exception {
-		 
+	public RedirectView liveStatusUpdate() throws Exception {
+
 //		Live live = liveService.getLiveByStoreId(((User) session.getAttribute("user")).getId());
 
-       	SecurityUser securityUser= (SecurityUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
 		Live live = liveService.getLiveByStoreId(securityUser.getUser().getId());
 
 		log.info("live : {}", live);
@@ -736,13 +729,14 @@ public class LiveController {
 	}
 
 	@GetMapping("addLiveReservation")
-	public RedirectView addLiveReservation(HttpSession session, Model model) throws Exception {
+	public RedirectView addLiveReservation(Model model) throws Exception {
 		log.info("addLiveReservation GET : start...");
 
-		//User user = (User) session.getAttribute("user");
-		SecurityUser securityUser = (SecurityUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();   
-      	 User  user = (User)securityUser.getUser() ; 
-		
+		// User user = (User) session.getAttribute("user");
+		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
+		User user = (User) securityUser.getUser();
+
 		LiveReservation liveReservation = liveService.getLiveReservationByStoreId(user.getId());
 
 		log.info("liveReservation = {}", liveReservation);
@@ -757,30 +751,30 @@ public class LiveController {
 	}
 
 	@GetMapping("addLiveReservationView")
-	public String addLiveReservationView(HttpSession session, Model model) throws Exception {
+	public String addLiveReservationView(Model model) throws Exception {
 //		User user = (User) session.getAttribute("user");
 //		Map<String, Object> ProductList = productService.getProductListByStoreId(user.getId());
-       	SecurityUser securityUser= (SecurityUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
 
 		Map<String, Object> ProductList = productService.getProductListByStoreId(securityUser.getUser().getId());
 
-		
-		
 		model.addAttribute("list", ProductList.get("list"));
 		return "/live/addLiveReservationView";
 	}
 
 	@PostMapping("addLiveReservation")
 	public RedirectView addLiveReservation(LiveReservation liveReservation, @RequestParam String[] liveProductNum,
-			HttpSession session, Model model) throws Exception {
+			Model model) throws Exception {
 		log.info("addLiveReservation POST : start...");
 
 //		User user = (User) session.getAttribute("user");
 //		liveReservation.setStore(user);
 
-       	SecurityUser securityUser= (SecurityUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
 		liveReservation.setStore(securityUser.getUser());
-		
+
 		liveService.addLiveReservation(liveReservation);
 
 		log.info("PK value = {}", liveReservation.getLiveReservationNumber());
@@ -827,16 +821,17 @@ public class LiveController {
 
 	@PostMapping("updateLiveReservation")
 	public RedirectView updateLiveReservation(LiveReservation liveReservation, @RequestParam String[] liveProductNum,
-			HttpSession session, Model model) throws Exception {
+			Model model) throws Exception {
 		log.info("updateLiveReservation POST start...");
 
 //		User user = (User) session.getAttribute("user");
 //
 //		liveReservation.setStore(user);
 
-       	SecurityUser securityUser= (SecurityUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
 		liveReservation.setStore(securityUser.getUser());
-		
+
 		log.info("liveReservation = {}", liveReservation);
 
 		liveService.updateLiveReservation(liveReservation);
