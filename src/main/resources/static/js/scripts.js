@@ -43,7 +43,7 @@ $(function() {
 				vChatCloud = new VChatCloud();
 				
 		    	let channel, // joinRoom() 내부에서 채널 객체를 저장할 곳
-		    	  userNick = "hello"; // 접속자의 닉네임, 사용자에게 입력받은 값을 사용해도 된다.
+		    	  userNick = 'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }); // 접속자의 닉네임, 사용자에게 입력받은 값을 사용해도 된다.
 		    	  // 접속자 고유 키
 		    	 
 
@@ -65,7 +65,7 @@ $(function() {
 					console.log(channelKey);
 					console.log(storeId);
 					
-		    	    joinRoom(channelKey,  'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }), "hello", function(err, history){
+		    	    joinRoom(channelKey,  userNick, userNick, function(err, history){
 		    	    	if(err){
 		    	    		openError(err.code, function(){
 		    	    			vChatCloud.disconnect();
