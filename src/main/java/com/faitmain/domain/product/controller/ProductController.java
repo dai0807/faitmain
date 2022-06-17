@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import com.faitmain.domain.product.service.InquiryService;
 import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.product.service.ReviewService;
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.domain.user.service.SecurityUser;
 import com.faitmain.domain.user.service.UserSerivce;
 import com.faitmain.global.common.MiniProjectPage;
 import com.faitmain.global.common.Search;
@@ -69,9 +71,16 @@ public class ProductController {
 		
 		log.info("/product/addProduct = {}", "POST");
 		
-		User user = new User();
-		user.setId("store01@naver.com");
+		//User user = new User();
+		SecurityUser securityUser = (SecurityUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
+      	 User  user = (User)securityUser.getUser() ; 
+		
+		
+		//user.setId("store01@naver.com");
 		product.setStore(user);
+		log.info("store = {} ",product.getStore());
+	
+		
 		productService.addProduct(product, mRequest);
 		
 		log.info("productNumber 확인 = {} ", product.getProductGroupNumber());
