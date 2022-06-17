@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.faitmain.global.util.security.SecurityUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -16,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.faitmain.domain.product.domain.Product;
-import com.faitmain.domain.product.service.InquiryService;
 import com.faitmain.domain.product.service.ProductService;
-import com.faitmain.domain.product.service.ReviewService;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserSerivce;
 import com.faitmain.global.common.MiniProjectPage;
@@ -69,8 +68,11 @@ public class ProductController {
 		
 		log.info("/product/addProduct = {}", "POST");
 		
-		User user = new User();
-		user.setId("store01@naver.com");
+
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+		
+
 		product.setStore(user);
 		productService.addProduct(product, mRequest);
 		
@@ -167,8 +169,11 @@ public class ProductController {
 		
 		log.info("/product/updateProduct = {}", "POST");
 		
-		User user = new User();
-		user.setId("store01@naver.com");
+
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+		
+
 		product.setStore(user);
 		productService.updateProduct(product, mRequest);
 		

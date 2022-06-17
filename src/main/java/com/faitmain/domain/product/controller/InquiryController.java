@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.faitmain.domain.product.domain.Inquiry;
 import com.faitmain.domain.product.service.InquiryService;
 import com.faitmain.domain.product.service.ProductService;
+
+import com.faitmain.domain.user.domain.User;
+import com.faitmain.global.util.security.SecurityUserService;
+
 import com.faitmain.global.common.MiniProjectPage;
 import com.faitmain.global.common.Search;
 
@@ -63,7 +67,13 @@ public class InquiryController {
 		
 		log.info("check = {}", inquiry.isSecret());
 		log.info("number = {}", inquiry.getInquiryProduct().getProductNumber());
-		inquiry.setUserId("user01@naver.com");
+
+		
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+		
+		inquiry.setUserId(user.getId());
+
 		inquiryService.addInquiry(inquiry);
 		
 		return "redirect:/product/getProduct?productNumber=" + inquiry.getInquiryProduct().getProductNumber();
