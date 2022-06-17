@@ -172,49 +172,41 @@
             </li>
           </ul>
         </div>
-
-       <input type="hidden" id="storeNickname" th:value="${session.user.nickname}" /> 
-		<input type="hidden" id="storeId" th:value="${session.user.Id}" />   
+session.user.nickname
+       <input type="hidden" id="storeNickname" th:value="${#authentication.principal.user.nickname}" /> 
+		<input type="hidden" id="storeId" th:value="${#authentication.principal.user.id}" />   
 		<input type="hidden" id="channelKey" th:value="${channelKey}"/>   
       
 
    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-
-								
-								
+			
 					<div th:unless="${#lists.size(listProduct)==1  or #lists.size(listProduct)==0}" class="row" style="margin-bottom: 10px; background-color : #D8D8D8;">
-						
 						<div class="col-md-9">
 							<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
 								<div class="carousel-inner">
 									
 									<th:block th:each="productList : ${listProduct}" >
-										<div th:if="${productListStat.first}" class="product-main carousel-item active">
-											<div class="product-img">
-												<img src="https://dummyimage.com/200x200/343a40/6c757d">
-											</div>
-											<div class="product-context">
-												<h5 th:text="${productList.productName}">productName</h5>
-												<h6 th:text="${productList.productDetail}">productDetail</h6>
-												<h6 th:text="${productList.price}">price</h6>
-											</div>
+										<div th:if="${productListStat.first}" class="carousel-item active">
+											<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
+											<span>
+												<th:block th:text="${productList.productName}"></th:block>
+												<th:block th:text="${productList.price}"></th:block>
+											</span>
 										</div>
-										<div th:unless="${productListStat.first}" class="product-main carousel-item">
-											<div class="product-img">
-												<img src="https://dummyimage.com/200x200/343a40/6c757d">
-											</div>
-											<div class="product-context">
-												<h5 th:text="${productList.productName}">productName</h5>
-												<h6 th:text="${productList.productDetail}">productDetail</h6>
-												<h6 th:text="${productList.price}">price</h6>
-											</div>
+										<div th:unless="${productListStat.first}" class="carousel-item">
+											<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
+											<span>
+												<th:block th:text="${productList.productName}"></th:block>
+												<th:block th:text="${productList.price}"></th:block>
+											</span>
 										</div>
 									</th:block>
-								</div>
-								
+									
+								</div>		
 							</div>
 						</div>
+					</div>
 </body>
 
 <script th:inline="javascript">

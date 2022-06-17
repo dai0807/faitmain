@@ -2,20 +2,20 @@ package com.faitmain.global.config;
 
  
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.faitmain.domain.user.controller.UserRestController;
-import com.faitmain.domain.user.service.LoginDetailService;
-import com.faitmain.domain.user.service.LoginFail;
- import com.faitmain.domain.user.service.LoginSuccess;
+import com.faitmain.global.util.security.SecurityUserDetailService;
+import com.faitmain.global.util.security.SecurityLoginFail;
+ import com.faitmain.global.util.security.SecurityLoginSuccess;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,13 +28,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 
     @Autowired
-     LoginDetailService loginDetailService;
+	SecurityUserDetailService securityUserDetailService;
 
     @Autowired
-    LoginFail loginFail;
+	SecurityLoginFail securityLoginFail;
 
     @Autowired
-    LoginSuccess loginSuccess;
+	SecurityLoginSuccess securityLoginSuccess;
 
  
     
@@ -57,10 +57,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	                .loginPage("/user/login") // 인증 필요한 페이지 접근시 이동페이지 GET
 	                 .loginProcessingUrl("/user/login")  //POST (security를 이용해 인증처리)  spring security에서 로그인
 	    			.defaultSuccessUrl("/")				//  로그인 성공 시 이동 URL
-	                 .successHandler( loginSuccess )
+	                 .successHandler( securityLoginSuccess )
 	                 .usernameParameter("id")//아이디 파라미터명 설정
 	                 .passwordParameter("password")//패스워드 파라미터명 설정	                 
-	                 .failureHandler( loginFail )
+	                 .failureHandler( securityLoginFail )
 	               // .failureUrl("/user")		//로그인 실패 시 /loginForm으로 이동
 	                 
                 .and()
@@ -134,7 +134,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     
     @Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
- 		auth.userDetailsService(loginDetailService).passwordEncoder(passwordEncoder());
+ 		auth.userDetailsService( securityUserDetailService ).passwordEncoder(passwordEncoder());
  	// spring security에서 모든 인증은 authenticationmanager를 통해 이뤄지고, 이를 생성하기 위해 builder 사용
  		// 로그인 처리, 즉 인증을 위해서는 Userdetailservice를 통해 필요한 정보를 가져오는데,
  		// 여기에서는 loginDetailService에서 이를 처리함
@@ -144,6 +144,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
  
  		
 	}
+    
+    
+ // 스프링 시큐리티는 적용하되 HTTP로 거르는 방법   
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());  // static 리소스들의 기본 위치들을 스프링 시큐리티에서 제외 
+        // 무시하는 거 설정    
+        //				web.ignoring().mvcMatchers("/user")  ///user뿐 아니라, /user/ , user/acouunt/~~~ ㄷ등 허용
+        //    			web.ignoring().antMatcher("/user")   /acount라는 URL가 정확하게 일치하는 경우에만 허용
+       // 참고 https://ohtaeg.tistory.com/11 
+        
+       
+
+
+    }
+    
+    
 	
 //   
 //    @Override

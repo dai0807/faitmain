@@ -70,15 +70,15 @@ CREATE TABLE `product` (
 CREATE TABLE `order` (
                      `order_number`      int          NOT NULL ,
                      `buyer_id`          varchar(50)  NOT NULL ,
-                     `receiver_name`     varchar(50)   NULL ,
-                     `receiver_phone`    varchar(50)   NULL ,
-                     `receiver_address1` varchar(100)  NULL ,
-                     `receiver_address2` varchar(100)  NULL ,
-                     `receiver_address3` varchar(100)  NULL ,
-                     `order_status`      varchar(30)   NULL ,
-                     `delivery_charge`   int           NULL ,
-                     `using_point`       int           NULL ,
-                     `imp_uid` int NULL ,
+                     `imp_uid`           varchar(50)  NOT NULL ,
+                     `receiver_name`     varchar(50)  NULL ,
+                     `receiver_phone`    varchar(50)  NULL ,
+                     `receiver_address1` varchar(100) NULL ,
+                     `receiver_address2` varchar(100) NULL ,
+                     `receiver_address3` varchar(100) NULL ,
+                     `order_status`      varchar(30)  NULL ,
+                     `delivery_charge`   int          NULL ,
+                     `using_point`       int          NULL ,
                      `order_date`        timestamp    NULL DEFAULT NOW( ) ,
                      PRIMARY KEY ( order_number ) ,
                      FOREIGN KEY ( buyer_id ) REFERENCES user ( id )
@@ -87,11 +87,11 @@ CREATE TABLE `order` (
 
 CREATE TABLE order_product (
                            `order_product_number` int NOT NULL AUTO_INCREMENT ,
-                           `order_number`         int NULL ,
-                           `product_number`       int NULL ,
-                           `product_order_count`  int NOT NULL ,
-                           `product_price`        int NOT NULL ,
-                           `reward_point`         int NOT NULL ,
+                           `order_number`         int NOT NULL ,
+                           `product_number`       int NOT NULL ,
+                           `product_order_count`  int NULL ,
+                           `product_price`        int NULL ,
+                           `reward_point`         int NULL ,
                            PRIMARY KEY ( order_product_number ) ,
                            FOREIGN KEY ( order_number ) REFERENCES `order` ( order_number ) ,
                            FOREIGN KEY ( product_number ) REFERENCES product ( product_number )
@@ -111,19 +111,19 @@ CREATE TABLE `store_application_document` (
                                           );
 
 CREATE TABLE `review` (
-                      `review_number`  INT(5)       NOT NULL AUTO_INCREMENT ,
-                      `order_product_number`   INT       NOT NULL ,
-                      `review_content` VARCHAR(200) NOT NULL ,
-                      `review_image`   VARCHAR(100)  NULL ,
-                      `rating`         INT          NOT NULL ,
-                      `reg_date`       DATE         NULL ,
-                      `user_id`        VARCHAR(25)  NOT NULL ,
-                      `product_number` INT(5)		NOT NULL ,
-                      `product_name`   VARCHAR(50)  ,
+                      `review_number`        INT(5)       NOT NULL AUTO_INCREMENT ,
+                      `order_product_number` INT          NOT NULL ,
+                      `review_content`       VARCHAR(200) NOT NULL ,
+                      `review_image`         VARCHAR(100) NULL ,
+                      `rating`               INT          NOT NULL ,
+                      `reg_date`             DATE         NULL ,
+                      `user_id`              VARCHAR(25)  NOT NULL ,
+                      `product_number`       INT(5)       NOT NULL ,
+                      `product_name`         VARCHAR(50) ,
                       PRIMARY KEY ( `review_number` ) ,
                       FOREIGN KEY ( `order_product_number` ) REFERENCES `order_product` ( order_product_number ) ,
                       FOREIGN KEY ( user_id ) REFERENCES user ( id ) ,
-                      FOREIGN KEY ( `product_number` ) REFERENCES product ( product_number ) 
+                      FOREIGN KEY ( `product_number` ) REFERENCES product ( product_number )
                       );
 
 CREATE TABLE `cart` (
@@ -232,7 +232,7 @@ CREATE TABLE live_product (
                           `product_main_image`      VARCHAR(30) NOT NULL ,
                           `product_name`            VARCHAR(45) NOT NULL ,
                           `product_detail`          VARCHAR(30) NULL ,
-                          `product_price`			INTEGER		NOT NULL,
+                          `product_price`           INTEGER     NOT NULL ,
                           PRIMARY KEY ( live_product_number )
                           );
 

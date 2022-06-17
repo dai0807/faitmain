@@ -412,7 +412,6 @@
                                     P]
 
                                     <div class = "hidden">
-
                                         <!-- HIDDEN CLASS VALUE -->
                                         <input class = "individual_totalPrice_input" id = "amount" type = "hidden" th:value = "${orderPageProduct.salePrice * orderPageProduct.productOrderCount}">
                                         <input class = "individual_totalPoint_input" type = "hidden" th:value = "${orderPageProduct.totalPoint}">
@@ -421,11 +420,6 @@
                                         <input class = "individual_productPrice_input" type = "hidden" th:value = "${orderPageProduct.productPrice}">
                                         <input class = "individual_salePrice_input" type = "hidden" th:value = "${orderPageProduct.salePrice}">
                                         <input class = "individual_point_input" type = "hidden" th:value = "${orderPageProduct.point}">
-
-                                        <!-- HIDDEN ID VALUE -->
-                                        <input id = "productName" type = "hidden" th:value = "${orderPageProduct.productName}">
-                                        <input id = "productNumber" type = "hidden" th:value = "${orderPageProduct.productNumber}">
-                                        <input id = "buyerId" th:value = "${buyer.id}" type = "hidden">
                                     </div>
                                 </td>
                             </tr>
@@ -488,6 +482,20 @@
                         <div class = "total_info_btn_div">
                             <input type = "button" value = "결제하기" class = "order_btn">
                         </div>
+
+                        <!-- 주문 요청 form -->
+                        <form class="order_form" action="/order/complete" method="post">
+                            <!-- 주문자 -->
+                            <input name="buyerId" th:value="${buyer.id}" type="hidden">
+                            <!-- 주소록 & 받는이-->
+                            <input name="addressee" type="hidden">
+                            <input name="receiverAddress1" type="hidden">
+                            <input name="receiverAddress2" type="hidden">
+                            <input name="receiverAddress3" type="hidden">
+                            <!-- 사용 포인트 -->
+                            <input name="usePoint" type="hidden">
+                            <!-- 상품 정보 -->
+                        </form>
                     </div>
                 </div>
             </div>

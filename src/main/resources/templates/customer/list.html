@@ -49,9 +49,11 @@
 				</tbody>
 			</table>
 		</div>
+
 		<th:block sec:authorize="isAuthenticated()" >
 			<div class="btn_wrap text-right" sec:authorize="hasRole('ROLE_admin')">
 					<a th:href="@{/admin/addNotice}" class="btn btn-primary waves-effect waves-light">등록</a>
+
 			</div> 	
 		</th:block>
 		<th:block layout:fragment="paging"></th:block>

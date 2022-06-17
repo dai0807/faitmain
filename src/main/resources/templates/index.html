@@ -189,10 +189,9 @@
 							<!-- ============ -->
 						</div>	
 					</div>
-	             </div>	
-	            <!-- ============================ -->
-	            
-				<input th:if="${live} != null" type="text" id="storeId" th:value="${live.storeId}">
+	              </div>
+	              
+				<input th:if="${live} != null" type="hidden" id="storeId" th:value="${live.storeId}">
 				<input th:if="${live} != null" type="hidden" id="channelKey" th:value="${live.roomId}">
 				<input th:if="${liveReservation} != null" type="hidden" id="storeName" th:value="${liveReservation.store.storeName}">
 
