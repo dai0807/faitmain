@@ -112,13 +112,13 @@
 		</div> -->
 		<div>
 			<div id="sidebar">
-				<h4 class="customerCenter">고객센터</h4>
+				<h4 class="customerCenter"><a th:href="@{/customer/noticeIndex}">고객센터</a></h4>
 				<hr/>
 				
-				<a th:href="@{/customer/list}" class="list-group-item list-group-item-action">공지사항</a>
-				<a th:href="@{/customer/listFAQ}" class="list-group-item list-group-item-action">자주묻는질문</a>
+				<a th:href="@{/customer/listNotice}" class="list-group-item list-group-item-action">공지사항</a>
+				<a th:href="@{/customer/addFAQ}" class="list-group-item list-group-item-action">자주묻는질문</a>
 				<a th:href="@{/customer/detailLiveGuide}" class="list-group-item list-group-item-action">라이브가이드</a>
-				<a href="#" class="list-group-item list-group-item-action">신고</a>
+				<a th:href="@{/customer/addReport}" class="list-group-item list-group-item-action">신고</a>
 				
 			</div>
 		</div>

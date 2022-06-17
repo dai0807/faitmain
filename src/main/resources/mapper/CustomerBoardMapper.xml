@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.faitmain.domain.customer.mapper.CustomerMapper">
 
-	<resultMap id="customerMap" type="com.faitmain.domain.customer.domain.Customer">
+	<resultMap id="customerMap" type="Customer">
 		<result property="boardNumber"  				column="customer_board_number"		jdbcType="INTEGER"/>
 		<result property="boardTitle"					column="customer_board_title" 		jdbcType="VARCHAR" />
 		<result property="boardContent"					column="customer_board_content" 	jdbcType="VARCHAR" />
@@ -15,7 +15,7 @@
 		<result property="viewCount"  					column="view_cnt" 					jdbcType="INTEGER" />
 		<result property="deleteYn"  					column="delete_yn" 					jdbcType="VARCHAR" />
 		<result property="image"  						column="boardImage" 				jdbcType="VARCHAR" />
-		<association property="customerId" javaType="com.faitmain.domain.user.domain.User" >	
+		<association property="customerId" javaType="User" >	
 			<id property="id" column="customer_id" jdbcType="VARCHAR"/>
 		</association>
 	</resultMap>
@@ -60,13 +60,12 @@
       	</where>    			  	
     </select>
 	
-	<insert id="addCustomerBoard" parameterType="Customer">
+	<insert id="addCustomerBoard" parameterType="Customer" >
 		    INSERT INTO customer
 		    ( customer_board_title, customer_board_content, 
 		     delete_yn, reg_date, update_date, customer_FAQ_category_code, customer_board_type,  customer_id )
 		VALUES
-		    ( #{boardTitle}, #{boardContent},'N', NOW(), NULL, NULL, '#{boardType}',  #{customerId.id} )
-		    
+		    ( #{boardTitle}, #{boardContent},'N', NOW(), NULL, NULL, #{boardType}, #{customerId.id} )    
 	</insert>
 	
 	

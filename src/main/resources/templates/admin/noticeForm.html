@@ -11,10 +11,10 @@
 
 	<th:block layout:fragment="content">
 		<div class="card-content">
-			<form class="form-horizontal" th:action="@{/customer/enrollBoard}" th:object="${customer}" method="post" > <!-- onsubmit="return registerBoard(this)" -->
+			<form class="form-horizontal" th:action="@{/customer/addBoard}" th:object="${customer}" method="post" > <!-- onsubmit="return registerBoard(this)" -->
 				<!--/* update의 경우 서버로 전달할 게시글 번호 (PK) */-->
-				<!-- <input type="hidden" th:if="*{boardType = 'N'and boardTyep != '0'}" th:field="*{boardType}" />
- -->
+				<!-- <input type="hidden" th:if="*{boardNumber = null and boardNumber != 0}" th:field="*{boardNumber}" /> -->
+ 
 				<!-- <div class="form-group">
 					<label for="highlightNoticeYn" class="col-sm-2 control-label">강조 설정</label>
 					<div class="col-sm-10" style="margin-top: 10px;">
@@ -22,6 +22,7 @@
 					</div>
 				</div> -->
 				
+				<!-- <input type="hidden" name="boardType" value='N'/> -->
 
 				<div class="form-group">
 					<label for="title" class="col-sm-2 control-label">제목</label>
@@ -45,7 +46,7 @@
 				</div>
 
 				<div class="btn_wrap text-center">
-					<a th:href="@{/customer/list}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
+					<a th:href="@{/customer/listNotice}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
 					<button type="submit" class="btn btn-primary waves-effect waves-light">저장하기</button>
 				</div>
 			</form>

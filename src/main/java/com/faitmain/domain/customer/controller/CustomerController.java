@@ -29,65 +29,80 @@ public class CustomerController extends UiUtils{
 	@GetMapping("noticeIndex")
 	public String openBoardNoticeIndex(){
 		
-		return "/customer/noticeIndex";
+		return "customer/noticeIndex";
 	}
 
 	
+//	@GetMapping("addNotice")
+//	public String openBoardWrite(@RequestParam(value = "boardNumber", required = false) Integer boardNumber, Model model) throws Exception {
+//		
+//		if(boardNumber == null) {
+//			model.addAttribute("customer", new Customer());
+//			
+//		}else {
+//			Customer customer = customerService.getCustomerBoard(boardNumber);
+//			if(customer == null) {
+//			
+//				 
+//				return "customer/noticeList";
+//			}
+//			model.addAttribute("customer", customer);
+//		}
+//		
+//		return "admin/noticeForm";
+//	}
 	@GetMapping("addNotice")
-	public String openBoardWrite(@RequestParam(value = "boardNumber", required = false) Integer boardNumber, Model model) throws Exception {
+	public String openNotice() throws Exception{
 		
-		if(boardNumber == null) {
-			model.addAttribute("customer", new Customer());
-			
-		}else {
-			Customer customer = customerService.getCustomerBoard(boardNumber);
-			if(customer == null) {
-			
-				 
-				return "customer/list";
-			}
-			model.addAttribute("customer", customer);
-		}
+		return "admin/noticeForm";
 		
-		return "admin/addNoice";
 	}
 	
 	@GetMapping("addLiveGuide")
 	public String openGuide() throws Exception{
 		
-		return "admin/addLiveGuide";
+		return "admin/liveGuideForm";
 		
 	}
 	
-	@GetMapping("enrollBoard")
-	public String addBoard(@ModelAttribute("board") Customer customer, Model model) throws Exception{
+	
+	@GetMapping("addFAQ")
+	public String openFAQ() throws Exception{
 		
+		return "admin/faqForm";
 		
-		char boardType = '0';
-		if(boardType == 'N') {
-			return "admin/addNotice";
-		}else if(boardType == 'L') {
-			return "admin/addLiveGuide";
-		}else if(boardType == 'F') {
-			return "admin/addFAQ";
-		}else if(boardType == 'R') {
-			return "customer/addReport";
-		}
-		return null;
 	}
 	
-	@GetMapping
-	
-	@PostMapping("insert")
-	public String addCustomerBoard(@ModelAttribute Customer customer) throws Exception {
+	@GetMapping("addReport")
+	public String openReport() throws Exception{
 		
+		return "customer/reportForm";
+		
+	}
+	
+	@PostMapping("addBoard")
+	public String addBoard(@ModelAttribute("board") Customer customer) throws Exception{
+		
+		System.out.println("찍먹" + customer);
+		
+		String url =  null;
 		
 		customerService.addCustomerBoard(customer);
+
+		if(customer.getBoardType() == 'N') {
+			url = "customer/noticeList";
+		}else if(customer.getBoardType() == 'L') {
+			url = "customer/liveGuideDetail";
+		}else if(customer.getBoardType() == 'F') {
+			url =  "customer/faqList";
+		}else if(customer.getBoardType() == 'R') {
+			url = "customer/noticeIndex";
+		}
 		
-		return "redirect:/customer/list";
+		return url;
 	}
 
- 
+
 	
 	
 //	@PostMapping("register")
@@ -126,14 +141,14 @@ public class CustomerController extends UiUtils{
 	
 
 
-	@GetMapping("list")
+	@GetMapping("listNotice")
 	public String openBoardList(Model model) throws Exception {
 		
 		List<Customer> boardList = customerService.getCustomerBoardList();
 		model.addAttribute("boardList", boardList);
 //		model.addAttribute("boardList", customerService.getCustomerBoardList());
 				
-		return "customer/list";
+		return "customer/noticeList";
 		
 	}
 	
