@@ -39,6 +39,16 @@
     	<script src="https://kit.fontawesome.com/c13f14f04a.js" crossorigin="anonymous"></script>
     	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
+    	
+    	<!-- Product -->
+    	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/bootstrap/css/bootstrap.min.css">	
+		<link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
+		<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
+		
+		<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
+		<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">	
+		 <!-- ============ -->
 
     </head>
     <body>
@@ -46,12 +56,12 @@
     <article layout:fragment="content" style="padding-top : 0px" >
             <!-- Header-->
             <header class="bg-dark" style="padding-top : 0px">
-                <div class="container-fluid">
+                <div class="container h-full">
                     <div class="row align-items-center justify-content-center" style="padding-bottom: 30px;">
 	                  	<div class="col-md-4 text-center" style="width: 424px">
 	                  		<div class="row">
 	                  			<div class="col-md-12" style="height: 100px;">
-	                  				<a class="btn btn-outline-light btn-lg" th:href="@{live/getLiveReservationCal}">
+	                  				<a class="flex-c-m stext-101 cl0 size-110 bg10 bor13 hov-btn4 p-lr-15 trans-04 pointer m-tb-10" th:href="@{live/getLiveReservationCal}">
 	                  					프리미엄 라이브<br/>
 	                  					예약 확인
 	                  				</a>
@@ -82,6 +92,9 @@
                 </div>
             </header>
            
+           <div class="bg0 m-t-23 p-b-140">
+           
+           </div>
             <div class="container">
             
              <!-- LiveList section-->
@@ -111,35 +124,76 @@
 					</div>
 	            </section>
 	             <!-- ProductList section-->
-	            <section class="py-5" id="features">
-	            	<p class="px-10">Product List</p>
-	                <div class="row px-5">
-						<div class="col-md-12">
-							<div class="row">
-							
-								<div class="col-md-3 pb-3" th:each="product : ${map.list}">
-									<div class="card" style="position : relative; height : 530px">
-										<img class="card-img-top" alt="Bootstrap Thumbnail First" src="https://dummyimage.com/235x400/343a40/6c757d" style="height : 400px"/>
-										<div class="card-block" >
-											<h5 th:text="${product.productName}" class="card-title pt-3 pb-2 px-2">
-												Product Name
-											</h5>
-												<div style="position : absolute; right: 7px; bottom: 7px">
-													<h6 class="pl-2" style="display : inline" >가격 : </h6><h6 th:text="${product.productPrice}" class="card-text" style="display : inline">Price</h6>
-												</div>
-											
+	             <div class="bg0 m-t-23 p-b-140">
+					<div class="container">
+						<div class="flex-w flex-sb-m p-b-52">
+							<div class="flex-w flex-l-m filter-tope-group m-tb-10">
+								<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
+									All Products
+								</button>
+			
+								<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".women">
+									식품
+								</button>
+			
+								<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".men">
+									생활
+								</button>
+			
+								<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".bag">
+									뷰티
+								</button>
+			
+								<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".shoes">
+									패션
+								</button>
+			
+								<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".watches">
+									인테리어
+								</button>
+							</div>						
+						</div>
+						
+						<!-- product 표시 -->
+						<div class="row isotope-grid">
+							<th:block th:each="product : ${map.list}">
+								<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item">
+								
+									<!-- prodcut img, name, price -->
+									<div class="block2">
+										<div class="block2-pic hov-img0">
+											<img th:src="|../img/upload/${ product.productMainImage }|" alt="IMG-PRODUCT">
+											<!-- 
+											<a th:href="@{/product/getProduct?productNumber=} + ${product.productNumber}"
+												class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+												Quick View
+											</a>
+											-->
 										</div>
+							
+										<div class="block2-txt flex-w flex-t p-t-14">
+											<div class="block2-txt-child1 flex-col-l ">
+												<a th:href="@{/product/getProduct?productNumber=} + ${product.productNumber}" th:text="${product.productName}"
+													class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+												</a>
+							
+												<span class="stext-105 cl3" th:text="${product.productPrice}">
+												</span>
+												
+											</div>
+										</div>
+										
 									</div>
 								</div>
-								
-							</div>
-						</div>
+							</th:block>
+							<!-- ============ -->
+						</div>	
 					</div>
-	            </section>
+	              </div>
+	              
 				<input th:if="${live} != null" type="hidden" id="storeId" th:value="${live.storeId}">
 				<input th:if="${live} != null" type="hidden" id="channelKey" th:value="${live.roomId}">
 				<input th:if="${liveReservation} != null" type="hidden" id="storeName" th:value="${liveReservation.store.storeName}">
-
 
             </div>
 		</article>

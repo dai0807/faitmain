@@ -107,21 +107,28 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product getProduct(int productNumber) throws Exception {
+		
+		// 상품 정보 조회
 		Product product = productMapper.getProduct(productNumber);
-//		List<Product> productOptions = productMapper.getProductOption(productNumber);		
+		
+		// 상품에 속한 옵션 상품 정보 조회
 		product.setProductExtraImage(productMapper.getImage(productNumber));
 		product.setProductOptions(productMapper.getProductOption(productNumber));
-
+		
+		// 상품 관련 리뷰 조회
 		Search search = new Search();
 		search.setSearchCondition("productGroupNumber");
 		search.setSearchKeyword(product.getProductNumber() + "");
-		search.setCurrentPage(1);
+		search.setCurrentPage(1); //페이지 나중에 처리
 		search.setPageSize(10);
 		product.setReviewList(reviewMapper.getReviewList(search));
+		product.setReviewCount(reviewMapper.getTotalCount(search)); //리뷰 개수
 		log.info("review List = {}", product.getReviewList());
 
-		search.setSearchCondition("productGroupNumber");
+		// 상품 관련 문의 조회
+		search.setSearchCondition("productNumber");
 		product.setInquiryList(inquiryMapper.getInquiryList(search));
+		product.setInquiryCount(inquiryMapper.getTotalCount(search)); //문의 개수
 		log.info("inquiry List = {}", product.getInquiryList());
 
 //		Map<String, Object> map = new HashMap<String, Object>();
