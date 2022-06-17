@@ -121,13 +121,14 @@
 	  	
 	 </select>
 
-	<!-- 판매자 상품 목록 조회 (현재 search 없어서 if문 수정 필요) -->
+	<!-- 판매자 상품 목록 조회 -->
 	 <select  id="getProductListByStoreId"  parameterType="String"	resultMap="productSelectMap">
-	  							SELECT *
-								FROM product
-								<where>
-									store_id = #{value}
-								</where>
+		SELECT *
+		FROM product
+		<where>
+			store_id = #{value}
+			AND product_group_number is null
+		</where>
 	 </select>
 	 		
 	<!-- SQL : SELECT ROW Count (현재 search 없음) -->	 
