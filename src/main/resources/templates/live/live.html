@@ -23,7 +23,8 @@
     <script src="https://kit.fontawesome.com/c13f14f04a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
-
+	
+	
     <script src="/js/vchatcloud-1.2.0.min.js"></script>
     <script src="/js/like.js"></script>
     <script src="/js/draw.js"></script>
@@ -178,47 +179,42 @@
 		<input type="hidden" id="channelKey" th:value="${channelKey}"/>   
       
 
-   <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-   <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+   <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+  
 
 								
-								
+							<div class="alert alert-success" role="alert">
+ 								 현재 방송에서 판매중인 상품
+							</div>		
 					<div th:unless="${#lists.size(listProduct)==1  or #lists.size(listProduct)==0}" class="row" style="margin-bottom: 10px; background-color : #D8D8D8;">
-						
 						<div class="col-md-9">
 							<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
 								<div class="carousel-inner">
 									
 									<th:block th:each="productList : ${listProduct}" >
-										<div th:if="${productListStat.first}" class="product-main carousel-item active">
-											<div class="product-img">
-												<img src="https://dummyimage.com/200x200/343a40/6c757d">
-											</div>
-											<div class="product-context">
-												<h5 th:text="${productList.productName}">productName</h5>
-												<h6 th:text="${productList.productDetail}">productDetail</h6>
-												<h6 th:text="${productList.price}">price</h6>
-											</div>
+									<div th:if="${productListStat.first}" class="carousel-item active">
+											<span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
+											<span>
+												<th:block th:text="${productList.productName}"></th:block>
+												<th:block th:text="${productList.price}"></th:block>
+												<button type="button" class="productPrice" onclick="href='/product/getProduct';">상세보기</button>
+											</span>
 										</div>
-										<div th:unless="${productListStat.first}" class="product-main carousel-item">
-											<div class="product-img">
-												<img src="https://dummyimage.com/200x200/343a40/6c757d">
-											</div>
-											<div class="product-context">
-												<h5 th:text="${productList.productName}">productName</h5>
-												<h6 th:text="${productList.productDetail}">productDetail</h6>
-												<h6 th:text="${productList.price}">price</h6>
-											</div>
+										<div th:unless="${productListStat.first}" class="carousel-item">
+											<span><img src="https://dummyimage.com/200x200/343a40/6c757d">알랄랄</span>
+											<span>
+												<th:block th:text="${productList.productName}"></th:block>
+												<th:block th:text="${productList.price}"></th:block>
+											</span>
 										</div>
 									</th:block>
-								</div>
+								</div>	
 								
 							</div>
 						</div>
 </body>
 
 <script th:inline="javascript">
-
 
 
 //채널에 접속하기 위해서 사용자의 userNick, userKey와 CMS에서 발급받은 channelKey가 필요합니다.
