@@ -77,7 +77,13 @@ public class OrderController{
     @PostMapping( "/complete" )
     public String paymentComplete( HttpSession session , Order order ) throws IOException{
 
-        User user = ( User ) session.getAttribute( "user" );
+        User user = new User();
+        user.setId( order.getBuyerId() );
+        try {
+            userSerivce.getUser( user.getId() );
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
 
         // 1. 아임포트 API 키와 SECRET키로 토큰을 생성
         String token = paymentService.getToken();
