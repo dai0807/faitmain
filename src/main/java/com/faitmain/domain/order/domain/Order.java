@@ -1,6 +1,7 @@
 package com.faitmain.domain.order.domain;
 
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Date;
 import java.util.List;
@@ -10,10 +11,11 @@ import java.util.List;
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Slf4j
 public class Order{
 
     /* IAMPORT 결제번호 */
-    private String impUid;
+    private String impUid = "";
 
     /* 주문번호 */
     private int orderNumber;
@@ -67,11 +69,14 @@ public class Order{
 
     public void getOrderPriceInfo(){
 
+        log.info( "/* 실제 계산 금액 가져오기 */" );
+
         /* 상품 비용 & 적립포인트 */
         for ( OrderProduct op : orderProductList ) {
             orderSalePrice += op.getTotalPrice();
             orderRewardPoint += op.getTotalRewardPoint();
         }
+
         /* 배송비용 */
         if ( orderSalePrice >= 30000 ) {
             deliveryCharge = 0;

@@ -1,29 +1,19 @@
 /* USER */
 
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
-VALUES 			('admin@naver.com','admin','W',	'userAddress1 1', 'userAddress2 1', 'userAddress3',	'어드민','01022222223','어드민',		'		2022-05-01','HOME'		,NULL,		NULL,			NULL,			NULL, 				'admin',NULL,		0);
-
+VALUES 			('admin@naver.com','admin','W',	'userAddress1 1', 'userAddress2 1', 'userAddress3',	'어드민','01022222223','어드민','2022-05-01','HOME'		,NULL,		NULL,			NULL,			NULL, 				'admin',NULL,		0);
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
 VALUES  ('store01@naver.com','store01','W',			'서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'01011212221','이지원',		 	'2022-05-30','HOME',	NULL,		NULL,		'20220612212554fac6d925-0d36-4f3d-88fa-d29731dcf6e0.PNG','수공예품점','store','손짓',0);
-
-
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
 VALUES  ('store02@naver.com','store02','M','서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'0101234567','태지원',		 	'2022-05-30','HOME',	NULL,		NULL,		'20220612211736fafe5da1-3fb3-4341-991f-042f9a98b694.png','dd','store','fait-main',0);
-
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
 VALUES  ('store03@naver.com','store03','M','서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'0102234567','오지원',		 	'2022-05-30','HOME',	NULL,		NULL,		'store_logo_image01.PNG','dd','store','간지나 스토어3',0);
-
-
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
 VALUES  ('store04@naver.com','store02','W','서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'0101234568','김한빈',		 	'2022-05-30','HOME',	NULL,		NULL,		'store_logo_image02.PNG','dd','store','간지나 스토어4',0);
-
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
 VALUES  ('store05@naver.com','store03','M','서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'0102234569','하지원',		 	'2022-05-29','HOME',	NULL,		NULL,		'store_logo_image03.PNG','dd','storeX','간지나 스토어5',0);
-
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
  VALUES  ('user01@naver.com','1111','W','경기도 고양시 원흥로','userAddress2','userAddress3','고양고양','01066547918','조이서',		 				'2022-05-30','HOME',NULL,1000,			NULL,NULL,'user',NULL,0);
-
-
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
  VALUES  ('user02@naver.com','user02','W','경기도 남양주 원흥로','userAddress2','userAddress3','냥냥','01022222222','이미나',		 				'2022-05-30','HOME',NULL,1000,			NULL,NULL,'user',NULL,0);
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
@@ -35,13 +25,12 @@ INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_a
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
  VALUES  ('user06@naver.com','user06','M','경기도 부천시 원흥로','userAddress2','userAddress3','비트비트','01066666666','이화영',		 				'2022-01-30','HOME',NULL,1000,			NULL,NULL,'user',NULL,1);
 
+
 /* store application document */
 INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10000,'store01@naver.com','R','우리 스토어 오랜동안 베이킹을 배운 장인이 만든 과자를 판매합니다. ','2022-05-02');
 INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10001,'store02@naver.com','A','우리스토어','2022-05-30');
 INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10002,'store03@naver.com','W','product_detail 3','2022-05-30');
 INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10003,'store01@naver.com','A','product_detail 4','2022-05-30');
-
- 
 
 /* PRODUCT */
 INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
@@ -77,11 +66,13 @@ INSERT INTO product (product_name, product_price, store_id, product_main_image, 
 INSERT INTO product (product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
      VALUES ('프랑스에서 만든 마카롱 10개 세트', 20000, 'store03@naver.com', 'product_main_image.jpg', 'product_detail 02', '01', '01', NOW(), 3000, 10);
 
+
 /* live */
 INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_status, chatting_status) VALUES ('admin@naver.com', 'WNJOYtULLN-qPbfm8l9nO-20220610231056', 'live_title 01', 'live_intro 01', 'live_image 01', 0, 0);
 INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_status, chatting_status) VALUES ('store01@naver.com', 'hQcjeGhzpA-pFgyFa8lUs-20220613152322', 'live_title 02', 'live_intro 02', 'live_image 02', 0, 0);
 INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_status, chatting_status) VALUES ('store02@naver.com', 'WNJOYtULLN-qPbfm8l9nO-20220610231056', 'live_title 03', 'live_intro 03', 'live_image 03', 0, 0);
 INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_status, chatting_status) VALUES ('store03@naver.com', 'QrDhLBOccs-eBz3A1wC62-20220613171809', 'live_title 04', 'live_intro 04', 'live_image 04', 0, 0);
+
 
 INSERT INTO live_user_status (live_number, id, alarm_status, kick_status, dumb_status) VALUES (10000, 'user01@naver.com', 01, 00, 00);
 INSERT INTO live_user_status (live_number, id, alarm_status, kick_status, dumb_status) VALUES (10001, 'user02@naver.com', 00, 02, 01);
@@ -96,6 +87,7 @@ INSERT INTO live_reservation (store_id, reservation_date, title, reservation_tim
 INSERT INTO live_reservation (store_id, reservation_date, title, reservation_time) VALUES ('store03@naver.com', '2022-06-10', null, 4);
 INSERT INTO live_reservation (store_id, reservation_date, title, reservation_time) VALUES ('store03@naver.com', '2022-06-11', null, 4);
 INSERT INTO live_reservation (store_id, reservation_date, title, reservation_time) VALUES ('store04@naver.com', '2022-07-04', null, 2);
+
 
 INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image, product_name, product_detail, product_price) VALUES (10001, 10001, 10011, 'product_main_image 01', '아디다스 티셔츠 한정판', 'product_detail 02', 12000);
 INSERT INTO live_product (live_number, live_reservation_number, product_number, product_main_image, product_name, product_detail, product_price) VALUES (10001, 10001, 10012, 'product_main_image 02', '감성 무드등', 'product_detail 02', 30000);
@@ -114,6 +106,7 @@ INSERT INTO live_chat (live_number, writer, chatting_message, send_date) VALUES 
 INSERT INTO live_chat (live_number, writer, chatting_message, send_date) VALUES (10002, 'user02@naver.com', 'user02의 message 02', NOW());
 INSERT INTO live_chat (live_number, writer, chatting_message, send_date) VALUES (10003, 'user03@naver.com', 'user03의 message 01', NOW());
 INSERT INTO live_chat (live_number, writer, chatting_message, send_date) VALUES (10003, 'user03@naver.com', 'user03의 message 02', NOW());
+
 
 
 
@@ -144,3 +137,4 @@ UPDATE customer SET customer_board_type='R', customer_board_title="TITLE 44", cu
  WHERE customer_board_number = 6;
 UPDATE customer SET customer_board_type='L', customer_board_title="TITLE 55", customer_board_title="CONTENT 55", update_date = now(), customer_id = "admin@naver.com"
  WHERE customer_board_number = 7;
+

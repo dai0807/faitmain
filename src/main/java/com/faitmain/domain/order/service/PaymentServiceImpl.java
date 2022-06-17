@@ -1,11 +1,8 @@
 package com.faitmain.domain.order.service;
 
-import com.faitmain.domain.order.domain.Payment;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import com.google.gson.JsonParser;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -107,11 +103,12 @@ public class PaymentServiceImpl implements PaymentService{
     @Override
     public void paymentCancel( String access_token , String imp_uid , int amount , String reason ) throws IOException{
 
+        log.info( "/* 결제 취소로직 시작*/" );
         log.info( "access_token = {}", access_token );
         log.info( "imp_uid = {}" , imp_uid );
 
         HttpsURLConnection conn = null;
-        URL url = new URL( "https//api.iamport.kr/payments/cancel" );
+        URL url = new URL( "https://api.iamport.kr/payments/cancel" );
 
         conn = ( HttpsURLConnection ) url.openConnection();
 
@@ -139,78 +136,5 @@ public class PaymentServiceImpl implements PaymentService{
 
         br.close();
         conn.disconnect();
-    }
-
-
-    /* ************************************ */
-
-
-    @Override
-    public void addPaymentInfo( Payment payment ){
-
-    }
-
-    @Override
-    public String getAccessToken( Payment payment ){
-        String access_Token = "";
-        String reqURL = "https://api.iamport.kr/users/getToken";
-        String data = "{ \"imp_key\" : \"{REST API 키}\", \"imp_secret\" : \"{REST API secret}\"}";
-
-        try {
-            URL url = new URL( reqURL );
-            HttpsURLConnection conn = ( HttpsURLConnection ) url.openConnection();
-
-            /* POST */
-            conn.setDoOutput( true );
-            conn.setRequestMethod( "POST" );
-            conn.setRequestProperty( "Content-Type" , "application/json" );
-
-            /* DATA INSERT */
-            try {
-                OutputStream outputStream = conn.getOutputStream();
-                byte[] request_data = data.getBytes( StandardCharsets.UTF_8 );
-                outputStream.write( request_data );
-                outputStream.close();
-            } catch ( Exception e ) {
-                e.printStackTrace();
-            }
-
-            int responseCode = conn.getResponseCode();
-            if ( responseCode == 200 ) {
-                /* 요청을 통해 얻은 JSON 타입의 RESPONSE 메세지 읽어오기 */
-                BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( conn.getInputStream() ) );
-                String line = "";
-                String result = "";
-
-                while ( ( line = bufferedReader.readLine() ) != null ) {
-                    result += line;
-                }
-
-                /* GSON 라이브러리에 포함된 클래스로 JSON파싱 후 객체 생성 */
-                JsonParser jsonParser = new JsonParser();
-                JsonElement element = jsonParser.parse( result );
-
-                access_Token = element.getAsJsonObject().get( "response" ).getAsJsonObject().get( "acceess_token" ).getAsString();
-                bufferedReader.close();
-            }
-        } catch ( Exception e ) {
-            e.printStackTrace();
-        }
-        return access_Token;
-    }
-
-    @Override
-    public Payment getPaymentInfo( String accessToken , Payment payment ){
-        return null;
-    }
-
-    @Override
-    public String getAmountToBePaid( Payment payment ){
-        return null;
-    }
-
-    @Override
-    public void updatePaymentInfo( Payment payment ){
-
     }
 }

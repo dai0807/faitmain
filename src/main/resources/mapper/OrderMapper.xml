@@ -24,7 +24,8 @@
                            , receiver_address1
                            , receiver_address2
                            , receiver_address3
-                           , using_point )
+                           , using_point
+                        ,  imp_uid)
         VALUES ( #{orderNumber}
                , #{buyerId}
                , '배송준비'
@@ -35,7 +36,8 @@
                , #{receiverAddress1}
                , #{receiverAddress2}
                , #{receiverAddress3}
-               , #{usingPoint} )
+               , #{usingPoint}
+               ,#{impUid})
     </insert>
 
     <!-- 주문 상품 테이블 등록 -->
