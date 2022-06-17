@@ -4,43 +4,16 @@ INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_a
 VALUES 			('admin@naver.com','$2a$10$5Lr5uObFPftkMoQa.vmtS.3ep3lF/HdxDMfQeDZsfQnB6otM9dUsy','W',	'userAddress1 1', 'userAddress2 1', 'userAddress3',	'어드민','01022222223','어드민',		'		2022-05-01','HOME'		,NULL,		NULL,			NULL,			NULL, 				'admin',NULL,		0);
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
 VALUES  ('store01@naver.com','$2a$10$bBc8LEVW86ppQsDcmGLqSuyPRMjSlmLqc86eMKEuuGzAc9F8W2op2' ,'W',			'서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'01011212221','이지원',		 	'2022-05-30','HOME',	NULL,		NULL,		'20220612212554fac6d925-0d36-4f3d-88fa-d29731dcf6e0.PNG','수공예품점','store','손짓',0);
-<<<<<<< HEAD
-=======
-
-
->>>>>>> refs/remotes/origin/feature/securityProduct
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
 VALUES  ('store02@naver.com','$2a$10$bBc8LEVW86ppQsDcmGLqSuyPRMjSlmLqc86eMKEuuGzAc9F8W2op2','M','서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'0101234567','태지원',		 	'2022-05-30','HOME',	NULL,		NULL,		'20220612211736fafe5da1-3fb3-4341-991f-042f9a98b694.png','dd','store','fait-main',0);
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/remotes/origin/feature/securityProduct
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
 VALUES  ('store03@naver.com','$2a$10$bBc8LEVW86ppQsDcmGLqSuyPRMjSlmLqc86eMKEuuGzAc9F8W2op2','M','서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'0102234567','오지원',		 	'2022-05-30','HOME',	NULL,		NULL,		'store_logo_image01.PNG','dd','store','간지나 스토어3',0);
-<<<<<<< HEAD
-=======
-
-
->>>>>>> refs/remotes/origin/feature/securityProduct
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
 VALUES  ('store04@naver.com','$2a$10$bBc8LEVW86ppQsDcmGLqSuyPRMjSlmLqc86eMKEuuGzAc9F8W2op2','W','서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'0101234568','김한빈',		 	'2022-05-30','HOME',	NULL,		NULL,		'store_logo_image02.PNG','dd','store','간지나 스토어4',0);
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/remotes/origin/feature/securityProduct
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
 VALUES  ('store05@naver.com', '$2a$10$bBc8LEVW86ppQsDcmGLqSuyPRMjSlmLqc86eMKEuuGzAc9F8W2op2','M','서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'0102234569','하지원',		 	'2022-05-29','HOME',	NULL,		NULL,		'store_logo_image03.PNG','dd','storeX','간지나 스토어5',0);
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/remotes/origin/feature/securityProduct
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
  VALUES  ('user01@naver.com','$2a$10$bBc8LEVW86ppQsDcmGLqSuyPRMjSlmLqc86eMKEuuGzAc9F8W2op2','W','경기도 고양시 원흥로','userAddress2','userAddress3','고양고양','01066547918','조이서',		 				'2022-05-30','HOME',NULL,1000,			NULL,NULL,'user',NULL,0);
-<<<<<<< HEAD
-=======
-
-
->>>>>>> refs/remotes/origin/feature/securityProduct
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
  VALUES  ('user02@naver.com','$2a$10$bBc8LEVW86ppQsDcmGLqSuyPRMjSlmLqc86eMKEuuGzAc9F8W2op2','W','경기도 남양주 원흥로','userAddress2','userAddress3','냥냥','01022222222','이미나',		 				'2022-05-30','HOME',NULL,1000,			NULL,NULL,'user',NULL,0);
  INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
@@ -51,6 +24,7 @@ INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_a
  VALUES  ('user05@naver.com','$2a$10$bBc8LEVW86ppQsDcmGLqSuyPRMjSlmLqc86eMKEuuGzAc9F8W2op2','M','경기도 성남시 원흥로','userAddress2','userAddress3','집집집','0105555555','이상현',		 				'2022-03-30','HOME',NULL,1000,			NULL,NULL,'user',NULL,0);
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
  VALUES  ('user06@naver.com','$2a$10$bBc8LEVW86ppQsDcmGLqSuyPRMjSlmLqc86eMKEuuGzAc9F8W2op2','M','경기도 부천시 원흥로','userAddress2','userAddress3','비트비트','01066666666','이화영',		 				'2022-01-30','HOME',NULL,1000,			NULL,NULL,'user',NULL,1);
+
 
 /* store application document */
 INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10000,'store01@naver.com','R','우리 스토어 오랜동안 베이킹을 배운 장인이 만든 과자를 판매합니다. ','2022-05-02');

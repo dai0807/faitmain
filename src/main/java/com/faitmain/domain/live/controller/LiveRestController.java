@@ -14,6 +14,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.servlet.http.HttpServletRequest;
 
+import com.faitmain.global.util.security.SecurityUserService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -34,7 +35,6 @@ import com.faitmain.domain.live.domain.LiveReservation;
 import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.live.service.LiveService;
 import com.faitmain.domain.user.domain.User;
-import com.faitmain.domain.user.service.SecurityUser;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -69,9 +69,9 @@ public class LiveRestController {
 
 		// User user = (User) session.getAttribute("user");
 
-		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication()
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal(); // principal 에 사용자 인증 정보 담음
-		User user = (User) securityUser.getUser();
+		User user = (User) securityUserService.getUser();
 
 		JSONObject result = null;
 		StringBuilder sb = new StringBuilder();

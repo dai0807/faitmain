@@ -1,4 +1,4 @@
-package com.faitmain.domain.user.service;
+package com.faitmain.global.util.security;
 
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class LoginFail implements AuthenticationFailureHandler{
+public class SecurityLoginFail implements AuthenticationFailureHandler{
 
     @Override
     public void onAuthenticationFailure( HttpServletRequest request , HttpServletResponse response , AuthenticationException exception ) throws IOException, ServletException{
