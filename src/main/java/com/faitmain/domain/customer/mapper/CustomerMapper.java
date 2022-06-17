@@ -30,7 +30,7 @@ public interface CustomerMapper {
 	public int updateCustomerBoard(Customer customer) throws Exception;
 	
 	//SELECT List
-	public List<Customer> getCustomerBoardList() throws Exception;
+	public List<Customer> getCustomerBoardList(String boardType) throws Exception;
 	
 	//DELETE
 	public int deleteCustomerBoard(int boardNumber) throws Exception;

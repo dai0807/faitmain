@@ -104,12 +104,12 @@
     </select> -->
     
     <!-- SQL : SELECT LIST -->
-    <select id="getCustomerBoardList" parameterType="Customer" resultMap="customerMap" >
+    <select id="getCustomerBoardList" parameterType="String" resultMap="customerMap" >
     
     	SELECT * 
     	FROM customer
     	<where>
-    		delete_yn = 'N'
+    		delete_yn = 'N' AND customer_board_type = #{boardType}
     	</where> 
     	ORDER BY reg_date DESC
     	

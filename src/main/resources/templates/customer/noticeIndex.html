@@ -1,6 +1,8 @@
 
+
 <!DOCTYPE html>
-<html lang="ko" layout:decorate="~{layout/default_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<html lang = "ko" layout:decorate = "~{/layout/default_layout}"
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
 
 
 <head>
@@ -74,13 +76,13 @@
                             <strong class="screen_out">주요서비스 고객센터 보기</strong>
                             <ul class="grid-image">
                                 <li class="fst">           
-                                    <a class="link_service" th:href="@{/customer/listNotice}">
+                                    <a class="link_service" th:href="@{/customer/listBoard?boardType=N}">
                                         <img alt="공지사항" class="thumb_img"   src="/img/notification.png">
                                         <span class="txt_service" >공지사항</span>
                                     </a>
                                 </li>
                                 <li class="fst">                                
-                                    <a class="link_service" th:href="@{/customer/listFAQ}">
+                                    <a class="link_service" th:href="@{/customer/listBoard?boardType=F}">
                                         <img alt="자주묻는질문" class="thumb_img"  src="/img/FAQ.png">
                                         <span class="txt_service">자주묻는질문</span>
                                     </a>

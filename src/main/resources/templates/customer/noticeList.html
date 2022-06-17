@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 				layout:decorate = "~{layout/customer_default_layout2}"
-      			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
+      			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
+      			xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>	
-		<link th:href="@{/css/customer.css}" rel="stylesheet" />
+		<!-- <link th:href="@{/css/customer.css}" rel="stylesheet" /> -->
 		<th:block layout:fragment="title">
 			<title>faitmain</title>
 		</th:block>
 </head>
  		
 <body>	
-	<th:block layout:fragment="search">
+	<!-- <th:block layout:fragment="search">
 		<form action="#" id="searchform-header" class="searchform js__toggle active pull-right">
 			<input type="search" placeholder="Search" class="input-search">
 			<button class="mdi mdi-magnify button-search" type="submit">
 				<i class="fa fa-search" aria-hidden="true"></i>
 			</button>
 		</form>
-	</th:block>
+	</th:block> -->
+<article class = "py-5" layout:fragment = "content">
 	
+	<div class = "container">
 	<th:block layout:fragment="content">
 		<h3>공지사항</h3>
 		<hr />
@@ -37,7 +40,7 @@
 					<tr th:if="${not #lists.isEmpty( boardList )}" th:each="row : ${boardList}">
 						<!-- <td scope="row" th:text="${#strings.equals( row.noticeYn, 'Y' ) ? '공지' : row.idx}"></td> -->
 						 <td class="text-left">
-							<a th:href="@{/customer/detail( boardNumber=${row.boardNumber} )}" th:text="${row.boardTitle}"></a>
+							<a th:href="@{/customer/detailBoard( boardNumber=${row.boardNumber} )}" th:text="${row.boardTitle}"></a>
 						</td>
 						<td th:text="${row.customerId.id}"></td> 
 						<td th:text="${#dates.format(row.boardRegDate, 'yyyy-MM-dd')}"></td>
@@ -49,8 +52,8 @@
 				</tbody>
 			</table>
 		</div>
-		<th:block th:if="${session.user != null}">
-			<div class="btn_wrap text-right" th:if="${session.user.role == 'admin'}">
+		<th:block sec:authorize="isAuthenticated()">
+			<div class="btn_wrap text-right" sec:authorize="hasRole('ROLE_admin')">
 					<a th:href="@{/customer/addNotice}" class="btn btn-primary waves-effect waves-light">등록</a>
 			</div> 	
 		</th:block>
@@ -74,8 +77,9 @@
 				</li>
 			</ul>
 		</nav>
-	    </th:block> 
-	
+	    </th:block>
+	    </div> 
+	</article>
 </body>
 </html>
 	

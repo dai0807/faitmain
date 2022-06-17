@@ -27,7 +27,7 @@ public interface CustomerService {
 	public boolean deleteCustomerBoard(int boardNumber) throws Exception;
 	
 
-	public List<Customer> getCustomerBoardList() throws Exception;
+	public List<Customer> getCustomerBoardList(String boardType) throws Exception;
 	
 
 //	public BanStatus updateBanStatus(int reportNumber) throws Exception;

@@ -81,14 +81,14 @@ public class CustomerController extends UiUtils{
 	}
 	
 	@PostMapping("addBoard")
-	public String addBoard(@ModelAttribute("board") Customer customer) throws Exception{
-		
-		System.out.println("찍먹" + customer);
-		
+	public String addBoard(@RequestParam(value = "boardNumber", required = false)Integer boardNumber, Customer customer, Model model) throws Exception{
+				
 		String url =  null;
 		
 		customerService.addCustomerBoard(customer);
-
+		List<Customer> list = customerService.getCustomerBoardList(customer.getBoardType()+"");
+		model.addAttribute("boardList", list);
+		
 		if(customer.getBoardType() == 'N') {
 			url = "customer/noticeList";
 		}else if(customer.getBoardType() == 'L') {
@@ -103,6 +103,27 @@ public class CustomerController extends UiUtils{
 	}
 
 
+	
+	@GetMapping("listBoard")
+	public String openBoardList(@RequestParam(value= "boardType", required=false) String boardType, Model model) throws Exception {
+		System.out.println("=======list==========");
+		System.err.println(boardType);
+		
+		List<Customer> boardList = customerService.getCustomerBoardList(boardType);
+		
+		model.addAttribute("boardList", boardList);
+		System.out.println(boardList);
+		String url =  null;
+//		model.addAttribute("boardList", customerService.getCustomerBoardList());
+		if(boardType.equals("N")) {
+			url= "customer/noticeList";
+		}else if(boardType.equals("F")){
+			url= "customer/faqList";
+		}
+		System.out.println(url);
+		return url;
+		
+	}
 	
 	
 //	@PostMapping("register")
@@ -140,17 +161,6 @@ public class CustomerController extends UiUtils{
 //	
 	
 
-
-	@GetMapping("listNotice")
-	public String openBoardList(Model model) throws Exception {
-		
-		List<Customer> boardList = customerService.getCustomerBoardList();
-		model.addAttribute("boardList", boardList);
-//		model.addAttribute("boardList", customerService.getCustomerBoardList());
-				
-		return "customer/noticeList";
-		
-	}
 	
 //	@GetMapping("listFAQ")
 //	public String openFAQList(Model model) throws Exception {
@@ -163,24 +173,24 @@ public class CustomerController extends UiUtils{
 //		
 //	}
 	
-	@GetMapping("detail")
-	public String openBoardDetail(@RequestParam(value="boardNumber", required = false) Integer boardNumber, Model model) throws Exception {
+	@GetMapping("detailBoard")
+	public String openBoardDetail(@RequestParam(value="boardNumber", required=false) Integer boardNumber, Model model) throws Exception {
 		
 		
 		if(boardNumber == null) {
-			return "redirect: /customer/list";
+			return "redirect:/customer/noticeList";
 		}
 		
 		Customer customer = customerService.getCustomerBoard(boardNumber);
 		
 		if(customer == null || "Y".equals(customer.getDeleteYn())) {
 			
-			return "redirect: /customer/list";
+			return "redirect:/customer/noticeList";
 		}
 		
 		model.addAttribute("customer", customer);
 		
-		return "customer/detail";
+		return "customer/noticeDetail";
 	}
 	
 //	@PostMapping("delete")
@@ -202,22 +212,15 @@ public class CustomerController extends UiUtils{
 //		return showMessageWithRedirect("게시글 삭제가 완료되었습니다.", "/customer/list", Method.GET, null, model);
 //	}
 	
-	@PostMapping("deleteNotice")
-	public String deleteNotice(@RequestParam(value = "boardNumber", required = false) Integer boardNumber) {
-		if(boardNumber == null) {
-			return "redirect:/customer/list";
-		}
-		try {
-			boolean isDeleted = customerService.deleteCustomerBoard(boardNumber);
-			if(isDeleted == false) {
-				
-			}
-		}catch(DataAccessException e) {
+	@PostMapping("deleteBoard")
+	public String deleteBoard(@RequestParam(value = "boardNumber", required=false) Integer boardNumber, @RequestParam(value = "boardType", required=false) String boardType) throws Exception {
+		
 			
-		}catch(Exception e) {
+		boolean isDeleted = customerService.deleteCustomerBoard(boardNumber);
 			
-		}
-		return "redirect:/customer/list";
+			return "redirect:/customer/listBoard?boardType="+boardType;
+			
+		
 	}
 	
 

@@ -51,7 +51,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public int addCustomerBoard(Customer customer) throws Exception {
-		customerMapper.addCustomerBoard(customer);
+		/* customerMapper.addCustomerBoard(customer); */
 		return customerMapper.addCustomerBoard(customer);
 		
 	}
@@ -76,14 +76,14 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 	
 	@Override
-	public List<Customer> getCustomerBoardList() throws Exception {
+	public List<Customer> getCustomerBoardList(String boardType) throws Exception {
 				
 		List<Customer> list = Collections.emptyList();
 	
 		int boardTotalCount = customerMapper.getBoardTotalCount();
 		
 		if(boardTotalCount > 0) {
-			list = customerMapper.getCustomerBoardList();
+			list = customerMapper.getCustomerBoardList(boardType);
 		}
 		
 		return list; 
