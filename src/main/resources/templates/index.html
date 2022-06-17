@@ -46,6 +46,8 @@
 		<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
 		<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
 		
+		<link rel="stylesheet" type="text/css" href="/productDesign/vendor/animsition/css/animsition.min.css">
+		
 		<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
 		<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">	
 		 <!-- ============ -->
@@ -92,9 +94,7 @@
                 </div>
             </header>
            
-           <div class="bg0 m-t-23 p-b-140">
            
-           </div>
             <div class="container">
             
              <!-- LiveList section-->
@@ -123,6 +123,7 @@
 						</div>
 					</div>
 	            </section>
+	            
 	             <!-- ProductList section-->
 	             <div class="bg0 m-t-23 p-b-140">
 					<div class="container">
@@ -177,7 +178,7 @@
 													class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 												</a>
 							
-												<span class="stext-105 cl3" th:text="${product.productPrice}">
+												<span class="stext-105 cl3" th:text="${#numbers.formatInteger(product.productPrice, 3, 'COMMA') + '원'}">
 												</span>
 												
 											</div>
@@ -186,19 +187,35 @@
 									</div>
 								</div>
 							</th:block>
+							<!-- Product 관련 js -->
+							<script src="/productDesign/vendor/animsition/js/animsition.min.js"></script>							
+							<script src="/productDesign/vendor/bootstrap/js/popper.js"></script>
+							<script src="/productDesign/vendor/bootstrap/js/bootstrap.min.js"></script>
+							
+							<script src="/productDesign/vendor/isotope/isotope.pkgd.min.js"></script>
+							<!-- ==================================================== -->
+							<script src="/productDesign/js/main.js"></script>
 							<!-- ============ -->
 						</div>	
+						
+						<!-- Load more -->
+						<div class="flex-c-m flex-w w-full p-t-45">
+							<a th:href="@{/product/getProductList?resultJsp=listProduct}" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+								Load More
+							</a>
+						</div>
+						
 					</div>
 	              </div>
+	             <!-- ============================================================== -->
 	              
 				<input th:if="${live} != null" type="hidden" id="storeId" th:value="${live.storeId}">
 				<input th:if="${live} != null" type="hidden" id="channelKey" th:value="${live.roomId}">
 				<input th:if="${liveReservation} != null" type="hidden" id="storeName" th:value="${liveReservation.store.storeName}">
 
-            </div>
-		</article>
-		
-		 
+            </div>            
+            
+		</article> 		
 		
     </body>
 

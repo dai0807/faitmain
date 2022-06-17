@@ -112,6 +112,7 @@ public class ProductController {
 		searchMap.put("searchKeyword", search.getSearchKeyword());
 		
 		if(resultJsp.equals("listProductStore")) {
+			// 시큐리티 적용해야 됨
 			searchMap.put("searchStore",  "store01@naver.com");
 		}
 		
