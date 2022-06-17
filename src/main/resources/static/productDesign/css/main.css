@@ -1606,8 +1606,8 @@ input.num-product::-webkit-inner-spin-button {
 }
 
 .size-110 {
-  width: 100%;
-  min-height: 100px;
+  width: 150px;
+  min-height: 90px;
 }
 
 .size-111 {
@@ -1789,6 +1789,7 @@ input.num-product::-webkit-inner-spin-button {
 .bg7 {background-color: #333;}
 .bg8 {background-color: #f3f3f3;}
 .bg9 {background-color: rgba(255,255,255,0.9);}
+.bg10 {background-color: rgba(255,255,255,0);}
 
 /*---------------------------------------------*/
 .bg-overlay1::before {
@@ -2248,6 +2249,12 @@ input.num-product::-webkit-inner-spin-button {
 .hov-btn4:hover {
   background-color: #E31D2E;
   color: #222;
+}
+
+.hov-btn5:hover {
+  border-color: #E31D2E;
+  background-color: rgba(255,255,255,0);
+  color: #fff;
 }
 
 /*---------------------------------------------*/
