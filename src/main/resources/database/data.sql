@@ -31,6 +31,8 @@ INSERT INTO store_application_document (`store_application_document_number`,`id`
 INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10001,'store02@naver.com','A','우리스토어','2022-05-30');
 INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10002,'store03@naver.com','W','product_detail 3','2022-05-30');
 INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10003,'store01@naver.com','A','product_detail 4','2022-05-30');
+INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10004,'store04@naver.com','W','product_detail 4','2022-05-30');
+INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10005,'store05@naver.com','W','product_detail 4','2022-05-30');
 
  
 

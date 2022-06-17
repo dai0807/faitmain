@@ -11,7 +11,8 @@
      <link href="@{/css/styles.css}" rel="stylesheet" />
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-     <link href="@{/css/styles.css}" rel="stylesheet" />
+ 		<link rel="stylesheet" th:href="@{/user/main.css}" />
+
 
     <meta charset = "UTF-8">
     <title>상세정보 </title>
@@ -26,7 +27,8 @@
 		 
     </style>
 
-
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<noscript><link rel="stylesheet" th:href="@{/user/noscript.css}" /></noscript>
 <script type="text/javascript">
  
  	
@@ -430,14 +432,17 @@
 <article  class="py-5" layout:fragment="content"  >
 
 
+    <div class = "container col-lg-2">
+    </div>
+
 
 			
-<div  class="container ">
+<div  class="container col-lg-8 ">
 			
 			
 			
 	<div class="text-center">
-                <h2 class="fw-bolder"> 상세 정보  </h2>    
+               <h2>상세 정보</h2> 
                 <p>데이터 다 뽑으면  , 정신 차리고 화면 꾸미기 </p>
                 
  	   </div>
@@ -447,45 +452,49 @@
 		<form id ="form" name ="form"   class="form-horizontal">
 		
 		  <div class="form-group">
-		    <h5 class="fw-bolder"> 아이디</h5>
-			    <div >
-			    <input type="text" class="form-control" th:id="id" th:name="id"  th:value="${getuser.id}"  readonly>  
-			<!--	 [[${getuser.id}]] -->
-			    </div>
-		  	<h5 class="fw-bolder"> 이름 </h5>
-			    <div >
-			   <input type="text" class="form-control" th:id="name" th:name="name"  th:value="${getuser.name}"  readonly>  
-	 
-			    </div>
+			     <div class="div_css" >
+			    	<h5 > 아이디</h5>
+				   
+				    <input type="text" class="form-control" th:id="id" th:name="id"  th:value="${getuser.id}"  readonly>  
+				<!--	 [[${getuser.id}]] -->
+				   </div>
+				   
+				  <div class="div_css" >			    
+				  	<h5 class="fw-bolder"> 이름 </h5>
+					    
+					   <input type="text" class="form-control" th:id="name" th:name="name"  th:value="${getuser.name}"  readonly>  
+			 
+					</div>
 			<!--여기에 스토어 유저 가르는 if 쓰기  -->    
 			
 			
  			
-			<div th:if="${getuser.role == 'user'}" >
-				<h5 class="fw-bolder"> 닉네임 </h5>
-				    <div >
-				   <input type="text" class="form-control" th:id="nickname" th:name="nickname" maxlength='10' th:value="${getuser.nickname}"   readonly>  
-				    </div>		  
-				    <span id="nickname_info">  &nbsp; </span>
-		
-			</div>
+					<div class="div_css" th:if="${getuser.role == 'user'}" >
+		 				<h5 class="fw-bolder"> 닉네임 </h5>
+						     
+						   <input type="text" class="form-control" th:id="nickname" th:name="nickname" maxlength='10' th:value="${getuser.nickname}"   readonly> 
+						    <span id="nickname_info">  &nbsp; </span>
+ 
+					</div>
 			
-		 <div th:if="${getuser.role == 'store' || getuser.role =='storeX'}" >
-				<div>
-				<h5 class="fw-bolder"> 스토어 이름  </h5>
-				    <div >
+		<div th:if="${getuser.role == 'store' || getuser.role =='storeX'}" >
+		     <div class="div_css" >				<h5 class="fw-bolder"> 스토어 이름  </h5>
+				  
 				   <input type="text" class="form-control" th:id="storeName" th:name="storeName" maxlength='10' th:value="${getuser.storeName}"   readonly>  
-				    </div>		  
+				   	
+		         
 				    <span id="storeName_info">  &nbsp; </span>
-				    
+			 </div>	 
+		     <div class="div_css" >				 	    
 				   	<h5 class="fw-bolder"> 스토어 소개  </h5>
-				    <div >
+				    
 				   <input type="text" class="form-control" th:id="storeIntroduction" th:name="storeIntroduction"   th:value="${getuser.storeIntroduction}"   readonly>  
-				    </div>		  
+				    
+		     </div>	    		  
 				    
 				    
 				    
-				    
+		     <div class="div_css" >					    
 				    	<h5 class="fw-bolder"> 스토어 로고  </h5>
 				      
 				      
@@ -506,8 +515,10 @@
 				
 				
 				</div>
-			</div>
-			
+		</div> <!-- 스토어 if  -->
+		
+		
+			<div class="div_css" >	
 			<h5 class="fw-bolder"> 휴대폰번호 </h5>
 			     <div class="input-group">
 
@@ -516,6 +527,9 @@
 
 	 
 			    </div>
+
+
+
 			  	
 				<div>
 				
@@ -531,32 +545,27 @@
 			  		
 
  		    </div>
-			    
-			    
-			    
-			    
-			    
-			    
-			    		  
+			</div>   
+			     		  
  				<div >
-			<h5 class="fw-bolder"> 성별 </h5>
-			   
-			   <span th:text="${getuser.gender == 'W' ? '여성' :'남성'}" >  
-	 
-	 
+						<h5 class="fw-bolder"> 성별 </h5>
+					   
+					   <span th:text="${getuser.gender == 'W' ? '여성' :'남성'}" >  
+				 
+		 
 			    </div>		  
 		 
- 			 <div >
+ 			<div class="div_css" >	
 
-			<h5 class="fw-bolder"> 가입일자 </h5>
-			   <span th:text="${getuser.regDate}" >  
+				<h5 class="fw-bolder"> 가입일자 </h5>
+				   <span th:text="${getuser.regDate}" >  
 	 
-			    </div>		  
+			  </div>		  
 		 
  	  
  	  
- 
-  			<h5 class="fw-bolder"> 주소 </h5>
+ 				<div class="div_css" >	
+  					<h5 class="fw-bolder"> 주소 </h5>
 				    <div >
 				      	 <div class="input-group mb-2">
                                       
@@ -568,9 +577,13 @@
                         <input class = "form-control" id = "userAddress3"   name = "userAddress3" placeholder = "추가입력" th:value="${getuser.userAddress3}" readonly type = "text`">
   
                         </div>
-		 		 		 		  		  
-		  </div>
+ 					</div>   
 		</form> 
+				 		 		 		  		  
+		  </div><!-- from 관련 div -->
+
+		
+		
 			<br/>  
 			<a href="javascript:history.back()" class="btn btn-secondary btn-xs" role="button">확인</a>
  				<button type="button" id ="updatebutton"class="btn btn-success"  >정보수정</button>
@@ -600,8 +613,11 @@
  				 </span>
 			<!--   <a th:href="@{/oreder/details(id=${orderInfo.seq})}">  -->
 			
-			 <!-- 컨테이너 끝-->		  
+			
   
+  </div>
+    <div class = "container col-lg-2">
+    </div>
 </article>
 	
 	
