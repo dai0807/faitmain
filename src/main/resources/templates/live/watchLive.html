@@ -156,8 +156,8 @@
         </section>
     </div>
     
-    <input th:if="${session.user != null}" type="hidden" id="userNickname" th:value="${session.user.nickname}">
-    <input th:if="${session.user != null}" type="hidden" id="userId" th:value="${session.user.id}">
+    <input th:if="${#authentication.principal.user != null}" type="hidden" id="userNickname" th:value="${#authentication.principal.user.nickname}">
+	<input th:if="${#authentication.principal.user != null}" type="hidden" id="userId" th:value="${#authentication.principal.user.id}">
     <input type="hidden" id="channelKey" th:value="${live.roomId}">
     <input type="hidden" id="storeId" th:value="${live.storeId}">
        
