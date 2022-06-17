@@ -14,6 +14,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.servlet.http.HttpServletRequest;
 
+import com.faitmain.global.util.security.SecurityUserService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -38,7 +39,6 @@ import com.faitmain.domain.live.service.LiveService;
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.user.domain.User;
-import com.faitmain.domain.user.service.SecurityUser;
 import com.faitmain.domain.user.service.UserSerivce;
 
 import lombok.extern.slf4j.Slf4j;
@@ -198,9 +198,9 @@ public class LiveController {
 
 		// User user = (User) session.getAttribute("user");
 
-		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication()
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal(); // principal 에 사용자 인증 정보 담음
-		User user = (User) securityUser.getUser();
+		User user = (User) securityUserService.getUser();
 
 		Live validation = liveService.getLiveByStoreId(user.getId());
 
@@ -365,9 +365,9 @@ public class LiveController {
 
 		// User user = (User) session.getAttribute("user");
 
-		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication()
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal(); // principal 에 사용자 인증 정보 담음
-		User user = (User) securityUser.getUser();
+		User user = (User) securityUserService.getUser();
 
 		Live live = liveService.getLiveByStoreId(user.getId());
 
@@ -504,8 +504,8 @@ public class LiveController {
 
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증
 																									// 정보 담음
-		SecurityUser securityUser = (SecurityUser) principal;
-		User user = (User) securityUser.getUser();
+		SecurityUserService securityUserService = ( SecurityUserService ) principal;
+		User user = (User) securityUserService.getUser();
 
 		Map<String, Object> map = productService.getProductListByStoreId(user.getId());
 
@@ -604,8 +604,8 @@ public class LiveController {
 
 		// User user = (User) session.getAttribute("user");
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		SecurityUser securityUser = (SecurityUser) principal;
-		User user = (User) securityUser.getUser();
+		SecurityUserService securityUserService = ( SecurityUserService ) principal;
+		User user = (User) securityUserService.getUser();
 
 		JSONObject result = null;
 		StringBuilder sb = new StringBuilder();
@@ -671,9 +671,9 @@ public class LiveController {
 
 //		Live live = liveService.getLiveByStoreId(((User) session.getAttribute("user")).getId());
 
-		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication()
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal();
-		Live live = liveService.getLiveByStoreId(securityUser.getUser().getId());
+		Live live = liveService.getLiveByStoreId( securityUserService.getUser().getId());
 
 		log.info("live : {}", live);
 
@@ -733,9 +733,9 @@ public class LiveController {
 		log.info("addLiveReservation GET : start...");
 
 		// User user = (User) session.getAttribute("user");
-		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication()
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal();
-		User user = (User) securityUser.getUser();
+		User user = (User) securityUserService.getUser();
 
 		LiveReservation liveReservation = liveService.getLiveReservationByStoreId(user.getId());
 
@@ -754,10 +754,10 @@ public class LiveController {
 	public String addLiveReservationView(Model model) throws Exception {
 //		User user = (User) session.getAttribute("user");
 //		Map<String, Object> ProductList = productService.getProductListByStoreId(user.getId());
-		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication()
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal();
 
-		Map<String, Object> ProductList = productService.getProductListByStoreId(securityUser.getUser().getId());
+		Map<String, Object> ProductList = productService.getProductListByStoreId( securityUserService.getUser().getId());
 
 		model.addAttribute("list", ProductList.get("list"));
 		return "/live/addLiveReservationView";
@@ -771,9 +771,9 @@ public class LiveController {
 //		User user = (User) session.getAttribute("user");
 //		liveReservation.setStore(user);
 
-		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication()
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal();
-		liveReservation.setStore(securityUser.getUser());
+		liveReservation.setStore( securityUserService.getUser());
 
 		liveService.addLiveReservation(liveReservation);
 
@@ -828,9 +828,9 @@ public class LiveController {
 //
 //		liveReservation.setStore(user);
 
-		SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication()
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal();
-		liveReservation.setStore(securityUser.getUser());
+		liveReservation.setStore( securityUserService.getUser());
 
 		log.info("liveReservation = {}", liveReservation);
 

@@ -1,11 +1,10 @@
-package com.faitmain.domain.user.service;
+package com.faitmain.global.util.security;
 
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.mapper.UserMapper;
 
 import lombok.RequiredArgsConstructor;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 
-public class LoginDetailService implements UserDetailsService{
+public class SecurityUserDetailService implements UserDetailsService{
 // UserDetailsService , username(id)를 가지고 사용자 정보를 조회하고, sesseion에 저장될 UserDetails를 반환
 	
 	
@@ -37,14 +36,14 @@ public class LoginDetailService implements UserDetailsService{
 
 		}  
 		
-			SecurityUser loginDetail = new SecurityUser(); // DB에 유저 정보를 확인하고 있다면 , loginDetail에 User를 담아서 반환하며 시큐리티 세션에 저장  
+			SecurityUserService loginDetail = new SecurityUserService(); // DB에 유저 정보를 확인하고 있다면 , loginDetail에 User를 담아서 반환하며 시큐리티 세션에 저장
              loginDetail.setUser( user ); // 유저 디테일에 user 던짐
              
  	           System.out.println("유저 있음");
         
 //		//	            	return loginDetail;
 //         
-		return   new SecurityUser(user);
+		return new SecurityUserService(user);
 	}
 
 	

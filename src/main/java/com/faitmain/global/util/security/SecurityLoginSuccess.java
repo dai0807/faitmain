@@ -1,4 +1,4 @@
-package com.faitmain.domain.user.service;
+package com.faitmain.global.util.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class LoginSuccess implements AuthenticationSuccessHandler{
+public class SecurityLoginSuccess implements AuthenticationSuccessHandler{
 
     @Override
     public void onAuthenticationSuccess( HttpServletRequest request , HttpServletResponse response , Authentication authentication ) throws IOException, ServletException{
