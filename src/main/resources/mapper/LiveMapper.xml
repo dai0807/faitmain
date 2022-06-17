@@ -246,8 +246,8 @@
 		SELECT l.*, u.store_name, u.store_logo_image
         FROM live_reservation l, user u
 		WHERE l.store_id = u.id
-			  AND reservation_date = #{value};
-		
+			  AND l.reservation_date = #{value}
+		ORDER BY l.reservation_time;
 	</select>
 	    
     <!-- GET LIST ListUserStatus -->

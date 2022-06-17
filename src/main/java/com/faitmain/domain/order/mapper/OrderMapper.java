@@ -24,12 +24,6 @@ public interface OrderMapper{
     /* 주문 상품 정보 (주문 처리) */
     OrderProduct selectOrderProduct( int productNumber );
 
-    /* 주문 상품 리스트 */
-    List<Order> selectOrderList( Criterion criterion );
-
-    /* 주문 총 개수 */
-    int selectOrderTotal( Criterion criterion );
-
     /* 주문 상품 정보 (주문취소) */
     List<OrderProduct> selectOrderProductList( int orderNumber );
 
@@ -57,6 +51,12 @@ public interface OrderMapper{
     /* 주문 재고 차감 */
     int updateStock( Product product );
 
+
+    /* 주문 상품 리스트 */
+    List<Order> selectOrderList( Criterion criterion );
+
+    /* 주문 총 개수 */
+    int selectOrderTotal( Criterion criterion );
 
 
 
