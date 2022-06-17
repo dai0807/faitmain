@@ -259,64 +259,59 @@ function videoInit() {
 // 공통 코드 =====================================
 const vChatCloud = new VChatCloud();
 
-const str = $('#storeId').val();
-const parsingUserId = str.split("@");
-
-console.log(parsingUserId);
-
 let channel, // joinRoom() 내부에서 채널 객체를 저장할 곳
-  userId = parsingUserId[0], // 접속자의 닉네임, 사용자에게 입력받은 값을 사용해도 된다.
+  userId = $('#storeId').val(), // 접속자의 닉네임, 사용자에게 입력받은 값을 사용해도 된다.
   userNick = $('#storeNickname').val(),
   userKey; // 접속자 고유 키
 // rtc
 let myCam
 
-   window.addEventListener("load", function () {
-     // 접속자의 미디어 소스를 보여줄 위치
-      c = $('div.chat_contents').hide();
-     likeInif();
+	window.addEventListener("load", function () {
+  	// 접속자의 미디어 소스를 보여줄 위치
+  	 c = $('div.chat_contents').hide();
+  	likeInif();
   
-     myCam = $('.my_cam');
-     myCam.attr('name', 'my_cam');
+  	myCam = $('.my_cam');
+  	myCam.attr('name', 'my_cam');
 
     $('div.bottom div.name').text(userNick)
     
     joinRoom(channelKey,  userId, userNick, function(err, history) {
-       if(err){
-          openError(err.code, function(){
-             c.hide();
-             vChatCloud.disconnect();
-          });
-          c.show();
-          
-       }else{
-          videoInit();
-          //채팅영역에 글쓰기가 활성화될시 활성화(최신공지 한개만 남기기)
-          let flag = undefined;
-          if(typeof write == 'function') history && history.forEach(function(m){
-             if(m.messageType == 'notice'){
-                if(flag == undefined){
-                   flag = true;
-                   write(m, 'notice', 'history');
-                }
-             }else{
-                write(m, '', 'history');
-             }
-          });
-             
-          c.show();
-       
-            //이벤트 바인딩 시작
-            chatInit();
-            personalInit();
-            msgInit();
-            getRoomInfo();
-            likeInif();
-         }   
-      });
+    	if(err){
+    		openError(err.code, function(){
+    			c.hide();
+    			vChatCloud.disconnect();
+    		});
+    		c.show();
+    		
+    	}else{
+    		videoInit();
+    		//채팅영역에 글쓰기가 활성화될시 활성화(최신공지 한개만 남기기)
+    		let flag = undefined;
+    		if(typeof write == 'function') history && history.forEach(function(m){
+    			if(m.messageType == 'notice'){
+    				if(flag == undefined){
+    					flag = true;
+    					write(m, 'notice', 'history');
+    				}
+    			}else{
+    				write(m, '', 'history');
+    			}
+    		});
+    			
+    		c.show();
+    	
+   			//이벤트 바인딩 시작
+   			chatInit();
+   			personalInit();
+   			msgInit();
+   			getRoomInfo();
+   			likeInif();
+   		}	
+   	});
 })
 
-   
+	
   function joinRoom(roomId, clientKey, nickName, callback) {
   // vchatcloud 객체
 
