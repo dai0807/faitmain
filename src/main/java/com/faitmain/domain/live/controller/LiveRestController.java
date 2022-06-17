@@ -20,6 +20,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ import com.faitmain.domain.live.domain.LiveReservation;
 import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.live.service.LiveService;
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.domain.user.service.SecurityUser;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -66,8 +68,11 @@ public class LiveRestController {
 
 		log.info("getLiveUserList = {} ", this.getClass());
 
-		User user = (User) session.getAttribute("user");
+		//User user = (User) session.getAttribute("user");
 
+		SecurityUser securityUser = (SecurityUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
+      	 User  user = (User)securityUser.getUser() ; 
+		
 		JSONObject result = null;
 		StringBuilder sb = new StringBuilder();
 

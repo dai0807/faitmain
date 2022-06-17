@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,9 +36,10 @@ public class UserRestController{
 	   @Autowired
 	   @Qualifier("userServiceImpl")	   
 	   private UserSerivce userSerivce;
-	   
+	    @Autowired
+	    private PasswordEncoder pwdEncoder;	   
 	   public UserRestController() {
-		    log.info(  "Controller {}" , this.getClass() );
+		 //   log.info(  "Controller {}" , this.getClass() );
 		   
 	   }
 
@@ -144,11 +146,11 @@ public class UserRestController{
 			return jsonObject.toJSONString();
 		}	
 	   
-	   
+	   //안씀 
 	   @PostMapping( "json/login" )
 	   public String RESTlongin(  User loginuser,  HttpSession session) throws Exception {
 	      
-		   log.info("LostController 탔어용 login Page 도착");
+		   log.info("json LostController 탔어용 login Page 도착");
 		   log.info("받은 유저 user 출력  :: {}" , loginuser);
 		   
  		   String result = "";
@@ -259,8 +261,7 @@ public class UserRestController{
        log.info( "updateUser :: result 출력  = {} " , result );
        //	log.info("updateUser ::  user 세션 값 변경 전   {} "  ,  (User)request.getSession(true).getAttribute("user"));
        user = userSerivce.getUser( user.getId() );
-       session.setAttribute( "user" , user );
-       log.info( "updateUser ::  user 세션 값 변경 후   {} " , request.getSession( true ).getAttribute( "user" ) );
+
        return result;
    }
 
@@ -433,8 +434,11 @@ public class UserRestController{
     //updatePassword
     @PostMapping( "updatePassword" )
     public int updatePassword( @ModelAttribute( "user" ) User user ) throws Exception{
+        
+        String encPwd =pwdEncoder.encode(user.getPassword());  //PW 암호화
+        user.setPassword(encPwd);
+        
         log.info( "##POST ##updatePassword {} ##" , user );
-
 
         int restult = userSerivce.updateUserPassword( user );
         log.info( "update Password 결과 {}" , restult );
