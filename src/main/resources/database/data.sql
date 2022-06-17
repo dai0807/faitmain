@@ -76,6 +76,16 @@ INSERT INTO product (product_name, product_price, store_id, product_main_image, 
      VALUES ('수제 터키 과자 딜라이트', 10000, 'store03@naver.com', 'product_main_image.jpg', 'product_detail 02', '01', '01', NOW(), 3000, 10);
 INSERT INTO product (product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
      VALUES ('프랑스에서 만든 마카롱 10개 세트', 20000, 'store03@naver.com', 'product_main_image.jpg', 'product_detail 02', '01', '01', NOW(), 3000, 10);
+     
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10030, '현무암 친환경 칫솔홀더', 19000, 'store05@naver.com', 'product1.png', '02', '01', 3000, 10, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10030', 'product1-1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10030', 'product1-2.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10030', 'product1-3.png');
+
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES ('마스크스트랩', 5000, 'store05@naver.com', 'product2.png', '04', '01', 3000, 10, now());
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES ('바스크치즈케이크', 12000, 'store05@naver.com', 'product3.png', '01', '01', 3000, 10, now());
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES ('고당도 수박', 18500, 'store05@naver.com', 'product4.png', '01', '01', 3000, 10, now());
+INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES ('랜덤 썬캐쳐', 11500, 'store05@naver.com', 'product5.png', '05', '01', 3000, 10, now());     
 
 /* live */
 INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_status, chatting_status) VALUES ('admin@naver.com', 'WNJOYtULLN-qPbfm8l9nO-20220610231056', 'live_title 01', 'live_intro 01', 'live_image 01', 0, 0);

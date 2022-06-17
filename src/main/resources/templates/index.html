@@ -119,7 +119,9 @@
 							
 								<div class="col-md-3 pb-3" th:each="product : ${map.list}">
 									<div class="card" style="position : relative; height : 530px">
-										<img class="card-img-top" alt="Bootstrap Thumbnail First" src="https://dummyimage.com/235x400/343a40/6c757d" style="height : 400px"/>
+										<a th:href="@{/product/getProduct?productNumber=} + ${product.productNumber}">
+											<img class="card-img-top" alt="Bootstrap Thumbnail First" th:src="|../img/upload/${ product.productMainImage }|" style="height : 400px"/>
+										</a>
 										<div class="card-block" >
 											<h5 th:text="${product.productName}" class="card-title pt-3 pb-2 px-2">
 												Product Name

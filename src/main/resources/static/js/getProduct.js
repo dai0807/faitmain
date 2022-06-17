@@ -264,4 +264,19 @@ $(function () {
 		$("#totalPrice").text(totalPrice);
 		optionIndex--;
 	});
+	
+	$("#addInquiry").on("click", function() {
+		let orderLink = $("input[name=buyerId]").val();
+		
+		if (orderLink) { //로그인 했을 때
+			
+			console.log(orderLink);
+			
+			self.location = "/inquiry/addInquiry?productNumber=" + productGroupNumber;
+			
+		} else { //로그인 안했을 때
+			self.location = "/user/login";
+		}
+	});
+	
 });
