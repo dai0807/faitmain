@@ -124,7 +124,7 @@ public class OrderController{
 
         } catch ( Exception e ) {
             paymentService.paymentCancel( token , order.getImpUid() , amount , "결제 에러" );
-            return new ResponseEntity<String>( "결제 에러" , HttpStatus.BAD_REQUEST );
+            return "index";
         }
     }
 
