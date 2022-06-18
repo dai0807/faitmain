@@ -274,12 +274,24 @@ public class UserRestController{
        //	result = userSerivce.updateUser(user);
        result = userSerivce.updateUser( user);
        log.info( "updateUser :: result 출력  = {} " , result );
+       user = userSerivce.getUser( user.getId() );
 
-      
-   	
+      //////////////////////////////////////////////////////
+       SecurityContextHolder.clearContext();
        
+       SecurityUserService  SecurityUser = new SecurityUserService(user);
+		System.out.println("  #updateUserDetails : "+SecurityUser);
+
+
+	       System.out.println(""+SecurityUser.getAuth() );
+	     Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(SecurityUser ,null ,  SecurityUser.getAuthorities()   )) ;
+	     SecurityContextHolder.getContext().setAuthentication(authentication)   ;
+	      
+		
+//		   Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword()    ,  securityUserService.getAuth()   )) ;
+//		     SecurityContextHolder.getContext().setAuthentication(authentication)   ;
+//		      
        //	log.info("updateUser ::  user 세션 값 변경 전   {} "  ,  (User)request.getSession(true).getAttribute("user"));
-      // user = userSerivce.getUser( user.getId() );
 
        
 //  2번째 눈물의 똥꾜쇼      
@@ -289,10 +301,20 @@ public class UserRestController{
 //  
 //       String encPwd =pwdEncoder.encode(user.getPassword());  //PW 암호화
 //       user.setPassword(encPwd);
-       System.out.println(""+securityUserService.getAuth() );
-     Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword()    ,  securityUserService.getAuth()   )) ;
-     SecurityContextHolder.getContext().setAuthentication(authentication)   ;
-      
+		
+		
+//		
+//       System.out.println(""+SecurityUser.getAuth() );
+//     Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(SecurityUser ,null ,  SecurityUser.getAuthorities()   )) ;
+//     SecurityContextHolder.getContext().setAuthentication(authentication)   ;
+//      
+//     
+//		Authentication newAuthentication = new UsernamePasswordAuthenticationToken(
+//				loginUser, null, loginUser.getAuthorities());
+//		System.out.println("  #newAuthentication : "+newAuthentication);
+//		
+//		SecurityContextHolder.getContext().setAuthentication(newAuthentication);
+//		 
        
  //=====================강제로 세션 만들다가 안됨 ,,눈물 흘린다. ㅇㅇㅇ어어어어어엉=================
        // Authentication 토큰 만들기 
@@ -311,17 +333,16 @@ public class UserRestController{
        
        
        
-       
-     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
-
-     //Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
-     System.out.println("====getMyInfo1==== "+ principal);
-     System.out.println("====getMyInfo1==== "+ principal.toString());
-     SecurityUserService securityUser = (SecurityUserService)principal ;
+//       
+//     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
+//
+//     //Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+//     System.out.println("====getMyInfo1==== "+ principal);
+//     System.out.println("====getMyInfo1==== "+ principal.toString());
+//     SecurityUserService securityUser = (SecurityUserService)principal ;
      
-     System.out.println(   "securityUser "+ securityUser  );
-     System.out.println(   " securityUser.getUser()   "+  securityUser.getUser()  );
-       
+     System.out.println(   "securityUser "+ SecurityUser.getUser()  );
+        
        
        
        
