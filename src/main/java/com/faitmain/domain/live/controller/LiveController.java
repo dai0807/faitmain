@@ -537,25 +537,25 @@ public class LiveController {
 			
 		String returnUrl = "live/watchLive";
 		
-		
-		if( authentication != null ) {
-		
-		SecurityUserService securityUser= (SecurityUserService)authentication.getPrincipal();
-		User user = (User) securityUser.getUser();
-	
-		LiveUserStatus liveUser = new LiveUserStatus();
-		liveUser.setLiveNumber(liveNumber);
-		liveUser.setNickName(user.getNickname());
-		
-		liveUser = liveService.getLiveUserStatus(liveUser);
-		
-			if( liveUser.getKickStatus() == 1 ) {			
-				returnUrl = "/live/returnIndex";
-			}else {
-				
-			}
-	
-		}
+//		
+//		if( authentication != null ) {
+//		
+//		SecurityUserService securityUser= (SecurityUserService)authentication.getPrincipal();
+//		User user = (User) securityUser.getUser();
+//	
+//		LiveUserStatus liveUser = new LiveUserStatus();
+//		liveUser.setLiveNumber(liveNumber);
+//		liveUser.setNickName(user.getNickname());
+//		
+//		liveUser = liveService.getLiveUserStatus(liveUser);
+//		
+//			if( liveUser.getKickStatus() == 1 ) {			
+//				returnUrl = "/live/returnIndex";
+//			}else {
+//				
+//			}
+//	
+//		}
 
 		Live live = liveService.getLive(liveNumber);
 
