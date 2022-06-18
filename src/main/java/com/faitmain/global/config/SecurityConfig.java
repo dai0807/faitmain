@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
 	SecurityLoginSuccess securityLoginSuccess;
 
-
+//Authentication를 만들어 주는 AuthenticationManager를 선언 한다. 
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception{
@@ -73,7 +73,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	                .logout()
 	                .logoutUrl("/user/logout")
 	    			.invalidateHttpSession(true)  // 로그아웃시 세션 삭제 여부
-	    			.logoutSuccessUrl("/")
+	    			// .invalidateHttpSession(true).deleteCookies("JSESSIONID")
+ 	    			.logoutSuccessUrl("/")
 	    		.and()
 	    			.exceptionHandling().accessDeniedPage("/user/accessDenied");  // 권한 상관없이 갈시 
  // 참고 사이트  https://www.baeldung.com/spring-security-custom-access-denied-page        		
@@ -140,7 +141,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     
     @Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    	System.out.println("configureconfigure 암호화 돌아돌아");
+    	
  		auth.userDetailsService( securityUserDetailService ).passwordEncoder(passwordEncoder());
+ 		
+ 		
  	// spring security에서 모든 인증은 authenticationmanager를 통해 이뤄지고, 이를 생성하기 위해 builder 사용
  		// 로그인 처리, 즉 인증을 위해서는 Userdetailservice를 통해 필요한 정보를 가져오는데,
  		// 여기에서는 loginDetailService에서 이를 처리함

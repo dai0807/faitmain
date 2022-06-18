@@ -3,6 +3,8 @@ package com.faitmain.domain.user.controller;
 import com.faitmain.domain.user.domain.StoreApplicationDocument;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserSerivce;
+import com.faitmain.global.util.security.SecurityUserService;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.io.FileUtils;
@@ -10,6 +12,12 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +30,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -33,11 +42,20 @@ public class UserRestController{
 
 	@Value("${upload-path}")
 	private String fileStorageLocation; 
-	   @Autowired
-	   @Qualifier("userServiceImpl")	   
-	   private UserSerivce userSerivce;
-	    @Autowired
-	    private PasswordEncoder pwdEncoder;	   
+	   
+	@Autowired
+	@Qualifier("userServiceImpl")	   
+	private UserSerivce userSerivce;
+
+	 @Autowired
+	 private PasswordEncoder pwdEncoder;	   
+	    
+     @Autowired
+    private SecurityUserService securityUserService;
+    
+	 @Autowired
+	 private AuthenticationManager authenticationManager;
+ 
 	   public UserRestController() {
 		 //   log.info(  "Controller {}" , this.getClass() );
 		   
@@ -239,10 +257,7 @@ public class UserRestController{
 
 
     @PostMapping( value = "json/updateUser" )  
-    public int ajaxupdateUser( User user ,
- 			 
-			   HttpSession session ,
-			   HttpServletRequest request ) throws Exception{
+    public int ajaxupdateUser( User user ,  @AuthenticationPrincipal SecurityUserService securityUserService  ) throws Exception{
 //       User user = new User();
 //       user.setId( id );
 //       user.setNickname( nickname );
@@ -259,9 +274,61 @@ public class UserRestController{
        //	result = userSerivce.updateUser(user);
        result = userSerivce.updateUser( user);
        log.info( "updateUser :: result 출력  = {} " , result );
-       //	log.info("updateUser ::  user 세션 값 변경 전   {} "  ,  (User)request.getSession(true).getAttribute("user"));
-       user = userSerivce.getUser( user.getId() );
 
+      
+   	
+       
+       //	log.info("updateUser ::  user 세션 값 변경 전   {} "  ,  (User)request.getSession(true).getAttribute("user"));
+      // user = userSerivce.getUser( user.getId() );
+
+       
+//  2번째 눈물의 똥꾜쇼      
+//   //authenticationManager를 통해 세션값을 다시 지정해 줬으니 알아서 DB에서 id,pw 가져와서 비교해서  매니져서 다시 일치하는지 확인함    
+//       Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword()         )) ;
+//       SecurityContextHolder.getContext().setAuthentication(authentication)   ;
+//  
+//       String encPwd =pwdEncoder.encode(user.getPassword());  //PW 암호화
+//       user.setPassword(encPwd);
+       System.out.println(""+securityUserService.getAuth() );
+     Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword()    ,  securityUserService.getAuth()   )) ;
+     SecurityContextHolder.getContext().setAuthentication(authentication)   ;
+      
+       
+ //=====================강제로 세션 만들다가 안됨 ,,눈물 흘린다. ㅇㅇㅇ어어어어어엉=================
+       // Authentication 토큰 만들기 
+       //UsernamePasswordAuthenticationToken 이 securityUser를 통해 토큰을 만들어 줄거임 
+//       Authentication authentication =
+//    		   new UsernamePasswordAuthenticationToken(securityUser,  null , securityUser.getAuthorities() ) ;
+//       SecurityContext securityContext =SecurityContextHolder.getContext() ; //SecurityContextHolder 안에 있는 컨텍스트에 접근 
+//       securityContext.setAuthentication(authentication);
+//
+//       session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext) ;       
+//       	SecurityContextHolder.getContext().setAuthentication(authentication) ; // 강제로  Authentication에 저장 된 세션 값 바꾸는 거임 
+// 직접    Authentication 바꾸는거 안됨   
+       
+       
+       
+       
+       
+       
+       
+     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
+
+     //Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+     System.out.println("====getMyInfo1==== "+ principal);
+     System.out.println("====getMyInfo1==== "+ principal.toString());
+     SecurityUserService securityUser = (SecurityUserService)principal ;
+     
+     System.out.println(   "securityUser "+ securityUser  );
+     System.out.println(   " securityUser.getUser()   "+  securityUser.getUser()  );
+       
+       
+       
+       
+       
+        
+       
+       
        return result;
    }
 
@@ -433,14 +500,36 @@ public class UserRestController{
 
     //updatePassword
     @PostMapping( "updatePassword" )
-    public int updatePassword( @ModelAttribute( "user" ) User user ) throws Exception{
+    public int updatePassword( @ModelAttribute( "user" ) User user  ,
+    		 @AuthenticationPrincipal SecurityUserService securityUserService ) throws Exception{
         
-        String encPwd =pwdEncoder.encode(user.getPassword());  //PW 암호화
-        user.setPassword(encPwd);
+    
+        int restult = userSerivce.updateUserPassword( user );
+
+        
+//      Authentication authentication =
+//		   new UsernamePasswordAuthenticationToken(securityUser,  null , securityUser.getAuthorities() ) ;
+//SecurityContext securityContext =SecurityContextHolder.getContext() ; //SecurityContextHolder 안에 있는 컨텍스트에 접근 
+//securityContext.setAuthentication(authentication);
+        
+        
+   
+        
+        System.out.println("11");
+
+        
+        //세션 등록 
+        
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword()      )) ;
+System.out.println("ddd");
+        SecurityContextHolder.getContext().setAuthentication(authentication)   ;
+ 
+        
+        
+        
         
         log.info( "##POST ##updatePassword {} ##" , user );
 
-        int restult = userSerivce.updateUserPassword( user );
         log.info( "update Password 결과 {}" , restult );
 
 

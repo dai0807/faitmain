@@ -12,6 +12,7 @@ import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,8 +45,9 @@ public class UserServiceImpl implements UserSerivce{
     private UserMapper userMapper;
 
 
-
-
+	 @Autowired
+	 private PasswordEncoder pwdEncoder;	   
+ 
 
 
     /* ********************************************** */
@@ -222,6 +224,12 @@ public class UserServiceImpl implements UserSerivce{
     //패스워드 재설정
     public int updateUserPassword( User user ) throws Exception{
         // TODO Auto-generated method stub
+    	
+
+        String encPwd =pwdEncoder.encode(user.getPassword());  //PW 암호화
+        user.setPassword(encPwd);
+        
+    	
         return userMapper.updateUserPassword( user );
     }
     //  UPDATE - 스토어로 업데이트
