@@ -70,6 +70,7 @@ public class OrderController{
     public String paymentComplete( Order order ) throws IOException{
 
         User user = orderService.getBuyer( order.getBuyerId() );
+        log.info( "user = {}" , user );
 
         // 1. 아임포트 API 키와 SECRET키로 토큰을 생성
         String token = paymentService.getToken();
