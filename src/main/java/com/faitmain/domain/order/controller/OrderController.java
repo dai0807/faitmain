@@ -67,10 +67,12 @@ public class OrderController{
 
     /* IAMPORT 결제 로직 */
     @PostMapping( "/complete" )
+
     public String paymentComplete( Order order ) throws IOException{
 
         User user = orderService.getBuyer( order.getBuyerId() );
         log.info( "user = {}" , user );
+
 
         // 1. 아임포트 API 키와 SECRET키로 토큰을 생성
         String token = paymentService.getToken();
@@ -103,10 +105,12 @@ public class OrderController{
                     log.info( "/* 로그인 하지 않았는데 포인트가 사용되었을 때 */" );
                     paymentService.paymentCancel( token , order.getImpUid() , amount , "비회원 포인트사용 오류" );
                     return "index";
+
                 }
             }
 
             orderService.addOrder( order );
+
 //
 //            try {
 //                user = orderService.getBuyer( order.getBuyerId() );
@@ -117,9 +121,10 @@ public class OrderController{
 
             return "order/list";
 
+
         } catch ( Exception e ) {
             paymentService.paymentCancel( token , order.getImpUid() , amount , "결제 에러" );
-            return "index";
+            return new ResponseEntity<String>( "결제 에러" , HttpStatus.BAD_REQUEST );
         }
     }
 

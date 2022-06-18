@@ -46,25 +46,33 @@
 				<div class="form-group">
 					<label for="inquiryTitle" class="col-sm-offset-1 col-sm-3 control-label">문의 제목</label>
 					<div class="col-sm-4">
-						<input type="text" name="inquiryTitle" th:value="*{inquiryTitle}"/>
+						<input type="text" th:if="*{inquiryReplyStatus == false}"  value=""/>					  
+				      <p th:text="*{inquiryTitle}"></p>
 				    </div>
 				</div>
 				<div class="form-group">
-					<label for="inquiryReplyContent" class="col-sm-offset-1 col-sm-3 control-label">문의 내용</label>
+					<label for="inquiryContent" class="col-sm-offset-1 col-sm-3 control-label">문의 내용</label>
 					<div class="col-sm-4">
-						<textarea id="test" cols="30" rows="10" name="inquiryContent" th:text="*{inquiryContent}"></textarea>
+						<p th:text="*{inquiryContent}"></p>
+				    </div>
+				</div>
+				<div class="form-group">
+					<label for="inquiryReplyContent" class="col-sm-offset-1 col-sm-3 control-label">문의 답변 내용</label>
+					<div class="col-sm-4">
+						<textarea id="test" cols="30" rows="10" name="inquiryReplyContent"></textarea>
 						<div id="test_cnt">(0 / 300)</div>
 				    </div>
 				</div>
-				
 				<div class="form-group">
-					<label for="inquirySecret" class="col-sm-offset-1 col-sm-3 control-label">비밀글 설정</label>
+					<label for="inquiryReplyContent" class="col-sm-offset-1 col-sm-3 control-label">문의 답변 내용</label>
 					<div class="col-sm-4">
-				      	<input type=checkbox name="secret" id="secretCheck" th:checked="*{secret ? 'check' : ''}">
+						<select name="inquiryReplyStatus">
+							<option value="false">미답변</option>
+							<option value="true">답변완료</option>
+						</select>
 				    </div>
 				</div>
-				
-				<button type="submit">수정</button>
+				<button type="submit">등록</button>
 				<input type="hidden" th:field="*{inquiryNumber}" />
 				<input type="hidden" th:field="*{secret}" />
 			</form>

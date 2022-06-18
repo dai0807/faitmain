@@ -9,31 +9,26 @@ $(function () {
 	//console.log("productGroupNumber : " + productGroupNumber)
     /*********************************************************/
     
-    let quantity = $(".mtext-104.cl3.txt-center.num-product").val(); // 수량 input 값 저장
+    let quantity = $(".quantity_input").val(); // 수량 input 값 저장
 
 	/* 수량 +  */
-    $(".fs-16.zmdi.zmdi-plus").on("click", function () { 
-		console.log("productQuantity : " + productQuantity);
+    $(".plus_btn").on("click", function () { 
         if (quantity < productQuantity) {
-            //$(".quantity_input").val(++quantity);
-            console.log("+++ : " + $(".mtext-104.cl3.txt-center.num-product").val());
-            $(".mtext-104.cl3.txt-center.num-product").val(++quantity);
-            $("#totalPrice").text(Number($.trim($("#totalPrice").text())) + productPrice);
+            $(".quantity_input").val(++quantity);
+            $("#totalPrice").text(Number($("#totalPrice").text()) + productPrice);
         } else {
             alert("최대 수량입니다!");
         }
     });
 
 	/* 수량 - */
-	$(".fs-16.zmdi.zmdi-minus").on("click", function () { 
+    $(".minus_btn").on("click", function () { 
         if (quantity > 1) {
-			console.log("--- : " + $(".mtext-104.cl3.txt-center.num-product").val());
-            $(".mtext-104.cl3.txt-center.num-product").val(--quantity);
-            //$(".quantity_input").val(--quantity);
-            $("#totalPrice").text(Number($.trim($("#totalPrice").text())) - productPrice);
+            $(".quantity_input").val(--quantity);
+            $("#totalPrice").text(Number($("#totalPrice").text()) - productPrice);
         }
     });
-    
+
 	/* 장바구니 담기 */
     $("#addCart").on("click", function () { 
 
@@ -51,7 +46,7 @@ $(function () {
 			
 			console.log("buyerId exist");
 			
-			if ($.trim($("#totalPrice").text()) == '0') { // 옵션 선택 안했을 때
+			if ($("#totalPrice").text() == '0') { // 옵션 선택 안했을 때
 				alert("옵션을 선택해주세요");
 				return;
 			}
@@ -107,7 +102,7 @@ $(function () {
 			
 			console.log(orderLink);
 			
-			if ($.trim($("#totalPrice").text()) == '0') { //옵션 선택 안했을 때
+			if ($("#totalPrice").text() == '0') { //옵션 선택 안했을 때
 				alert("옵션을 선택해주세요");
 			}
 			
@@ -119,7 +114,7 @@ $(function () {
 		}
 	});
 	
-	/* kakao 공유하기 
+	/* kakao 공유하기 */
 	console.log("product : " + productMainImage);
 	Kakao.init('9e7bfe9bda76f4fc82c74df2aa9c4c98');
 	Kakao.isInitialized();
@@ -158,7 +153,7 @@ $(function () {
 			},
 		],
 	})
-	*/
+	
 	var optionIndex = 0;
 	$("select[name=options]").change(function() {
 		console.log($(this).val()); //value값 가져오기
@@ -172,8 +167,8 @@ $(function () {
 		let productName = $("select[name=options] option:selected").text();
 		console.log("optionQuantity : " + optionQuantity);
 		var list = [];
-		$(".size-203.flex-c-m.respon6").each(function(index, item) {
-			list.push($.trim($(item).text()));
+		$(".selectName").each(function(index, item) {
+			list.push($(item).text());
 		});
 
 		console.log("selectNames : " + list[0]);
@@ -184,76 +179,55 @@ $(function () {
 
 		} else {
 
-			$("#totalPrice").text(Number($.trim($("#totalPrice").text())) + productPrice);
+			$("#totalPrice").text(Number($("#totalPrice").text()) + productPrice);
 
-			$("#optionArea").append(
-				"<div class='flex-w flex-r-m p-b-10'>"
-				
-				+	"<div class='size-203 flex-c-m respon6'>" + productName + "</div>"
-				
-				+	"<div class='size-204 respon6-next'>"
-				
-				+		"<div class='wrap-num-product flex-w m-r-20 m-tb-10'>"
-				
-				+			"<div class='btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m'>"
-				+				"<i class='fs-16 zmdi zmdi-minus option'></i>"
-				+			"</div>"
-				
-				+			"<input class='mtext-104 cl3 txt-center num-product option' name='orderPageProductList["+ optionIndex + "].productOrderCount' readonly='readonly' type='text' value='1' />"
-				
-				+			"<div class='btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m'>"
-				+				"<i class='fs-16 zmdi zmdi-plus option'></i>"
-				+			"</div>"
-				
-				+ 			"<input type='hidden' value='" + productNumber + "' name='orderPageProductList[" + optionIndex + "].productNumber' />"
-				+ 			"<input type='hidden' value='" + productName + "' name='orderPageProductList[" + optionIndex + "].productName'/>"
-				+ 			"<input type='hidden' value='" + productPrice + "' name='orderPageProductList[" + optionIndex + "].productPrice'/>"
-				+ 			"<input type='hidden' value='" + productMainImage + "' name='orderPageProductList[" + optionIndex + "].productMainImage'/>"
-				+ 			"<input type='hidden' value='" + optionQuantity + "' class='optionQuantity' />"
-				
-				+		"</div>"				
-				
-				+	"</div>"	
-				
-				+ 	"<button type='button' style='float:right;' class='optionDelBtn'>" + "삭제" + "</button>"		
-				
+			$(".optionArea").append(
+				"<div>"
+				+ "<span class='selectName'>" + productName + "</span>"
+				+ "<button type='button' class='optionQuantity_minus_btn'>-</button>"
+
+				+ "<input type='text' class='quantity_input' style='width:100px;' value='1' readonly name='orderPageProductList[" + optionIndex + "].productOrderCount' />"
+				+ "<button type='button' class='optionQuantity_plus_btn'>+</button>"
+				+ "<button type='button' style='float:right;' id='optionDelBtn' class='btn-btn dark'>" + "삭제" + "</button>"
+				+ "<input type='hidden' value='" + productNumber + "' name='orderPageProductList[" + optionIndex + "].productNumber' />"
+				+ "<input type='hidden' value='" + productName + "' name='orderPageProductList[" + optionIndex + "].productName'/>"
+				+ "<input type='hidden' value='" + productPrice + "' name='orderPageProductList[" + optionIndex + "].productPrice'/>"
+				+ "<input type='hidden' value='" + productMainImage + "' name='orderPageProductList[" + optionIndex + "].productMainImage'/>"
+
+				+ "<input type='hidden' value='" + optionQuantity + "' class='optionQuantity' />"
 				+ "</div>"
-
 			);
 			optionIndex++;
 		}
 
 	});
-	
+
 	/* 수량버튼 */
-	$(document).on("click", ".fs-16.zmdi.zmdi-plus.option", function() {
-		let quantity = Number($(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val());
-		let maxQuantity = Number($(this).parent().parent("div").find(".optionQuantity").val());
-		//let quantity = Number($(this).parent().find(".quantity_input").val());
-		//let maxQuantity = Number($(this).parent("div").find(".optionQuantity").val());
+	$(document).on("click", ".optionQuantity_plus_btn", function() {
+		let quantity = Number($(this).parent("div").find(".quantity_input").val());
+		let maxQuantity = Number($(this).parent("div").find(".optionQuantity").val());
 		console.log("quantity : " + quantity);
 		console.log("maxQuantity : " + maxQuantity);
-		console.log("result : " + (quantity < maxQuantity));
+		console.log("result : " + quantity < maxQuantity);
 		if (quantity < maxQuantity) {
-			$(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val(++quantity);
-			console.log("수량 왜 안넘어가 : " + quantity);
-			$("#totalPrice").text(Number($.trim($("#totalPrice").text())) + productPrice);
+			$(this).parent("div").find(".quantity_input").val(++quantity);
+			$("#totalPrice").text(Number($("#totalPrice").text()) + productPrice);
 		} else {
 			alert("수량 초과");
 		}
 	});
 
-	$(document).on("click", ".fs-16.zmdi.zmdi-minus.option", function() {
-		let quantity = Number($(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val());
+	$(document).on("click", ".optionQuantity_minus_btn", function() {
+		let quantity = $(this).parent("div").find(".quantity_input").val();
 		if (quantity > 1) {
-			$(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val(--quantity);
-			$("#totalPrice").text(Number($.trim($("#totalPrice").text())) - productPrice);
+			$(this).parent("div").find(".quantity_input").val(--quantity);
+			$("#totalPrice").text(Number($("#totalPrice").text()) - productPrice);
 		}
 	});
 
-	$(document).on("click", ".optionDelBtn", function() {
-		let quantity = Number($(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val());
-		let totalPrice = $.trim($("#totalPrice").text());
+	$(document).on("click", "#optionDelBtn", function() {
+		let quantity = Number($(this).parent("div").find(".quantity_input").val());
+		let totalPrice = $("#totalPrice").text();
 		totalPrice = totalPrice - (productPrice * quantity);
 		if (totalPrice < 0) {
 			totalPrice = 0;
@@ -264,19 +238,4 @@ $(function () {
 		$("#totalPrice").text(totalPrice);
 		optionIndex--;
 	});
-	
-	$("#addInquiry").on("click", function() {
-		let orderLink = $("input[name=buyerId]").val();
-		
-		if (orderLink) { //로그인 했을 때
-			
-			console.log(orderLink);
-			
-			self.location = "/inquiry/addInquiry?productNumber=" + productGroupNumber;
-			
-		} else { //로그인 안했을 때
-			self.location = "/user/login";
-		}
-	});
-	
 });

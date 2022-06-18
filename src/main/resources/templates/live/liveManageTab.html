@@ -2,6 +2,8 @@
 <html>
 <head>
 <meta charset="EUC-KR">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script src = "https://code.jquery.com/jquery-1.12.4.min.js" type = "text/javascript"></script>
 <title>Fait-Main 채팅창 관리탭</title>
 <style>
@@ -103,6 +105,7 @@ function lal() {
 	
 	var clientKey = []; // key 값을 담을 배열
     var roomId = $('.roomId').val();
+    var nickName = $('.nickName').val();
            
     //삭제 key value
     // chk라는 클래스를 가진 체크박스 중에 체크가 된
@@ -114,7 +117,7 @@ function lal() {
     console.log("클라이언트 키 : " + clientKey);
     console.log("채널 키 : " + roomId);
     	$.ajax({
-		url : '/live/json/kickUser/' + roomId + "/" + clientKey ,
+		url : '/live/json/kickUser/' + roomId + "/" + clientKey + "/" + nickName ,
 		type : 'GET',
 		async : true,
 		dataType : "json",
@@ -184,10 +187,13 @@ function lol(){
     /*]]>*/
 </script>
 
+<br/>
 
 <h1> Live User List </h1>
-<button type="button" id="kick" onclick="lal()"/>강퇴</button>
-<button type="button" id="mute" onclick="lai()"/>채팅 제한</button>
+<button type="button" class="btn btn-danger"  id="kick" onclick="lal()"/>강퇴</button>
+<button type="button" class="btn btn-warning" id="mute" onclick="lai()"/>채팅 제한</button>
+<button type="button" class="btn btn-warning" id="d" onclick=""/>강제퇴장 유저 조회</button>
+<button type="button" class="btn btn-warning" id="d" onclick=""/>벙어리 유저 조회</button>
 <div style="height:200px; overflow:auto">
 	<table class="rwd-table">
 	  <tr>
@@ -200,6 +206,7 @@ function lol(){
 	  <tr class="test">
 		<td><input class="clientKey" type="checkbox" name="ClientKey" th:value="${data.clientKey}"/></td>
 		<input class="roomId" type="hidden" name="roomId" th:value="${data.roomId}"/> 
+		<input class="nickName" type="hidden" name="nickName" th:value="${data.nickName}"/>
 	    <td data-th="ClientKey">[[${data.clientKey}]]</td>
 	    <td data-th="NickName">[[${data.nickName}]]</td>
 	    <td data-th="Grade">[[${data.grade}]]</td>
