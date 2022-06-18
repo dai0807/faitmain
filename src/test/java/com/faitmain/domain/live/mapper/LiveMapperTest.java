@@ -214,41 +214,41 @@ public class LiveMapperTest {
 	/*================================= Live User Status ====================================== */
 	
 	//@Test
-	public void addLiveUserStatusTest() throws Exception{
-		System.out.println("addLiveUserStatusTest start");
-			
-		LiveUserStatus liveUserStatus = new LiveUserStatus();
-		
-		liveUserStatus.setLiveNumber(10001);
-		liveUserStatus.setId("user02@naver.com");
-			
-		assertThat(liveMapper.addLiveUserStatus(liveUserStatus) == 1);
-			
-		System.out.println("addLiveUserStatusTest end");
-	}
+//	public void addLiveUserStatusTest() throws Exception{
+//		System.out.println("addLiveUserStatusTest start");
+//			
+//		LiveUserStatus liveUserStatus = new LiveUserStatus();
+//		
+//		liveUserStatus.setLiveNumber(10001);
+//		liveUserStatus.setId("user02@naver.com");
+//			
+//		assertThat(liveMapper.addLiveUserStatus(liveUserStatus) == 1);
+//			
+//		System.out.println("addLiveUserStatusTest end");
+//	}
 	
-	@Test
-	public void updateLiveUserStatusTest() throws Exception{
-		System.out.println("updateLiveUserStatusTest start");
+//	@Test
+//	public void updateLiveUserStatusTest() throws Exception{
+//		System.out.println("updateLiveUserStatusTest start");
 				
-		LiveUserStatus liveUserStatus = new LiveUserStatus();
+//		LiveUserStatus liveUserStatus = new LiveUserStatus();
 			
-		liveUserStatus.setLiveNumber(10002);
-		liveUserStatus.setId("user03@naver.com");
-		liveUserStatus.setAlarmStatus(true);
-		liveUserStatus.setKickStatus(true);
-		liveUserStatus.setDumbStatus(true);
+//		liveUserStatus.setLiveNumber(10002);
+//		liveUserStatus.setId("user03@naver.com");
+//		liveUserStatus.setAlarmStatus(true);
+//		liveUserStatus.setKickStatus(true);
+//		liveUserStatus.setDumbStatus(true);
 				
-		int result = liveMapper.updateLiveUserStatus(liveUserStatus);
-		System.out.println("result = " + result);
-		
-		LiveUserStatus updateLiveUserStatus = liveMapper.getLiveUserStatus(liveUserStatus);
-		
-		assertThat(updateLiveUserStatus.getLiveNumber()==10002);
-		assertThat(updateLiveUserStatus.getId()).isEqualTo("user03@naver.com");
-				
-		System.out.println("updateLiveUserStatusTest end");
-	}
+//		int result = liveMapper.updateLiveUserStatus(liveUserStatus);
+//		System.out.println("result = " + result);
+//		
+//		LiveUserStatus updateLiveUserStatus = liveMapper.getLiveUserStatus(liveUserStatus);
+//		
+//		assertThat(updateLiveUserStatus.getLiveNumber()==10002);
+////		assertThat(updateLiveUserStatus.getId()).isEqualTo("user03@naver.com");
+////				
+//		System.out.println("updateLiveUserStatusTest end");
+//	}
 	
 	//@Test
 	public void getLiveUserStatusListTest() throws Exception{
