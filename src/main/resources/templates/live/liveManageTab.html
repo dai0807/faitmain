@@ -105,6 +105,7 @@ function lal() {
 	
 	var clientKey = []; // key 값을 담을 배열
     var roomId = $('.roomId').val();
+    var nickName = $('.nickName').val();
            
     //삭제 key value
     // chk라는 클래스를 가진 체크박스 중에 체크가 된
@@ -116,7 +117,7 @@ function lal() {
     console.log("클라이언트 키 : " + clientKey);
     console.log("채널 키 : " + roomId);
     	$.ajax({
-		url : '/live/json/kickUser/' + roomId + "/" + clientKey ,
+		url : '/live/json/kickUser/' + roomId + "/" + clientKey + "/" + nickName ,
 		type : 'GET',
 		async : true,
 		dataType : "json",
@@ -205,6 +206,7 @@ function lol(){
 	  <tr class="test">
 		<td><input class="clientKey" type="checkbox" name="ClientKey" th:value="${data.clientKey}"/></td>
 		<input class="roomId" type="hidden" name="roomId" th:value="${data.roomId}"/> 
+		<input class="nickName" type="hidden" name="nickName" th:value="${data.nickName}"/>
 	    <td data-th="ClientKey">[[${data.clientKey}]]</td>
 	    <td data-th="NickName">[[${data.nickName}]]</td>
 	    <td data-th="Grade">[[${data.grade}]]</td>
