@@ -89,12 +89,22 @@ public class OrderServiceImpl implements OrderService{
         order.setOrderProductList( orderProductList );
         order.getOrderPriceInfo();
 
+        log.info( "order = {}" , order );
+
         /* DB 넣기 */
         /* ORDER 등록 */
-        orderMapper.insertOrder( order );
+        log.info( "/* ORDER 등록 */" );
+        try {
+            orderMapper.insertOrder( order );
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
+
         /* ORDER PRODUCT 등록 */
+        log.info( "/* ORDER PRODUCT 등록 */" );
         for ( OrderProduct orderProduct : order.getOrderProductList() ) {
-            orderProduct.setOrderNumber( orderProduct.getOrderNumber() );
+            orderProduct.setOrderNumber( order.getOrderNumber() );
+            orderMapper.insertOrderProduct( orderProduct );
         }
 
         /* 포인트 변동 적용 */

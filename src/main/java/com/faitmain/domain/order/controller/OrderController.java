@@ -68,7 +68,7 @@ public class OrderController{
     /* IAMPORT 결제 로직 */
     @PostMapping( "/complete" )
 
-    public String paymentComplete( Order order ) throws IOException{
+    public String paymentComplete( Order order,Criterion criterion, Model model ) throws IOException{
 
         User user = orderService.getBuyer( order.getBuyerId() );
         log.info( "user = {}" , user );
@@ -119,7 +119,14 @@ public class OrderController{
 //                e.printStackTrace();
 //            }
 
-            return "order/list";
+            List<Order> orderList = orderService.getOrderList( criterion );
+            if ( !orderList.isEmpty() ) {
+                model.addAttribute( "orderList" , orderList );
+                model.addAttribute( "pageMaker" , new Page( criterion , orderService.getOrderTotal( criterion ) ) );
+            } else {
+                model.addAttribute( "listCheck" , "empty" );
+            }
+            return "order/orderList";
 
 
         } catch ( Exception e ) {
@@ -127,9 +134,6 @@ public class OrderController{
             return "index";
         }
     }
-
-
-
 
     /* ************************* ADMIN *************************** */
 
