@@ -191,7 +191,6 @@ public class LiveRestController {
 
 		// JSON데이터에서 "data"라는 JSONObject를 가져온다.
 		JSONArray data = (JSONArray) result.get("list");
-
 		JSONObject tmp = null;
 		for (int i = 0; i < data.size(); i++) {
 			tmp = (JSONObject) data.get(i);

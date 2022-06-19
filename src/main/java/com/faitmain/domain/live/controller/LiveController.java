@@ -449,7 +449,7 @@ public class LiveController {
 
 			liveService.updateLive(live);
 
-			model.addAttribute("Live", live);
+			model.addAttribute("live", live);
 
 			System.out.println(
 					"라이브 방송 정보 : " + liveService.getLive(liveService.getLiveByStoreId(user.getId()).getLiveNumber()));
@@ -557,6 +557,7 @@ public class LiveController {
 //			}
 //	
 //		}
+
 
 		Live live = liveService.getLive(liveNumber);
 
