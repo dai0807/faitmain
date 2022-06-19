@@ -449,7 +449,7 @@ public class LiveController {
 
 			liveService.updateLive(live);
 
-			model.addAttribute("Live", live);
+			model.addAttribute("live", live);
 
 			System.out.println(
 					"라이브 방송 정보 : " + liveService.getLive(liveService.getLiveByStoreId(user.getId()).getLiveNumber()));
@@ -539,25 +539,24 @@ public class LiveController {
 		
 //		이 씨발 개좆같은 강퇴유저 검증 씨발 개좆같네 ? 진짜 개씨발 개호로잡년같은 씨발개씨발
 		
-//		if( authentication != null ) {
-//		
-//		SecurityUserService securityUser= (SecurityUserService)authentication.getPrincipal();
-//		User user = (User) securityUser.getUser();
-//	
-//		LiveUserStatus liveUser = new LiveUserStatus();
-//		liveUser.setLiveNumber(liveNumber);
-//		liveUser.setNickName(user.getNickname());
-//		
-//		liveUser = liveService.getLiveUserStatus(liveUser);
-//		
-//			if( liveUser.getKickStatus() == 1 ) {			
-//				returnUrl = "/live/returnIndex";
-//			}else {
-//				
-//			}
-//	
-//		}
-
+		if( authentication != null ) {
+		
+		SecurityUserService securityUser= (SecurityUserService)authentication.getPrincipal();
+		User user = (User) securityUser.getUser();
+	
+		LiveUserStatus liveUser = new LiveUserStatus();
+		liveUser.setLiveNumber(liveNumber);
+		liveUser.setNickName(user.getNickname());
+		
+		liveUser = liveService.getLiveUserStatus(liveUser);
+		
+			if( liveUser.getKickStatus() == 1 ) {			
+				returnUrl = "/live/returnIndex";
+			}else {
+				
+			}
+	
+		}
 		Live live = liveService.getLive(liveNumber);
 
 		List<LiveProduct> list = liveService.getLiveProductListByLiveNumber(live.getLiveNumber());
