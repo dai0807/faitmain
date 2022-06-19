@@ -2,8 +2,7 @@ package com.faitmain.global.config;
 
  
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,9 +13,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.faitmain.global.util.security.SecurityUserDetailService;
+import com.faitmain.domain.user.controller.UserRestController;
 import com.faitmain.global.util.security.SecurityLoginFail;
- import com.faitmain.global.util.security.SecurityLoginSuccess;
+import com.faitmain.global.util.security.SecurityLoginSuccess;
+import com.faitmain.global.util.security.SecurityOauthUserService;
+import com.faitmain.global.util.security.SecurityUserDetailService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,24 +28,25 @@ import lombok.extern.slf4j.Slf4j;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	
+	@Autowired
+	 SecurityOauthUserService  securityOauthUserService ;
+	
+    @Autowired
+     SecurityUserDetailService loginDetailService;
 
     @Autowired
-	SecurityUserDetailService securityUserDetailService;
+    SecurityLoginFail loginFail;
 
     @Autowired
-	SecurityLoginFail securityLoginFail;
+    SecurityLoginSuccess loginSuccess;
 
-    @Autowired
-	SecurityLoginSuccess securityLoginSuccess;
-
-//Authentication를 만들어 주는 AuthenticationManager를 선언 한다. 
-	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception{
-		return super.authenticationManagerBean();
-	}
-
-	@Override
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+    
+    @Override
     protected void configure( HttpSecurity http ) throws Exception{
      	log.info("   configure  :: + \" "    );
         http.csrf().disable();  // csrf 공격 방지 허용 
@@ -63,21 +65,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	                .loginPage("/user/login") // 인증 필요한 페이지 접근시 이동페이지 GET
 	                 .loginProcessingUrl("/user/login")  //POST (security를 이용해 인증처리)  spring security에서 로그인
 	    			.defaultSuccessUrl("/")				//  로그인 성공 시 이동 URL
-	                 .successHandler( securityLoginSuccess )
+	                 .successHandler( loginSuccess )
 	                 .usernameParameter("id")//아이디 파라미터명 설정
 	                 .passwordParameter("password")//패스워드 파라미터명 설정	                 
-	                 .failureHandler( securityLoginFail )
+	                 .failureHandler( loginFail )
 	               // .failureUrl("/user")		//로그인 실패 시 /loginForm으로 이동
+	            
 	                 
                 .and()
-	                .logout()
+                	  .logout()
 	                .logoutUrl("/user/logout")
 	    			.invalidateHttpSession(true)  // 로그아웃시 세션 삭제 여부
-	    			// .invalidateHttpSession(true).deleteCookies("JSESSIONID")
- 	    			.logoutSuccessUrl("/")
+	    			.logoutSuccessUrl("/")
 	    		.and()
-	    			.exceptionHandling().accessDeniedPage("/user/accessDenied");  // 권한 상관없이 갈시 
- // 참고 사이트  https://www.baeldung.com/spring-security-custom-access-denied-page        		
+	    			.exceptionHandling().accessDeniedPage("/user/accessDenied")
+	    		.and()
+	    		.oauth2Login().loginPage("/user/login")
+     			.userInfoEndpoint()
+    			.userService(securityOauthUserService );
+  		
+	    		  // 권한 상관없이 갈시 
+ // oauth 로그인후 후처리가 필요함 , 1. 코드받기(인증) , 2.사용자 정보 엑세스토큰(권한_) 3.사용자 프로필 정보 가져옴 4. 그정보 토대로 회원가입 
+ // 4-2 정보가 부족하면        추가적으로 회원가입창이 나와서 회원가입을 해야함 
+   
+        
+        // 참고 사이트  https://www.baeldung.com/spring-security-custom-access-denied-page        		
 	        
                 /*
                 .and()
@@ -141,11 +153,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     
     @Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    	System.out.println("configureconfigure 암호화 돌아돌아");
-    	
- 		auth.userDetailsService( securityUserDetailService ).passwordEncoder(passwordEncoder());
- 		
- 		
+ 		auth.userDetailsService(loginDetailService).passwordEncoder(passwordEncoder());
  	// spring security에서 모든 인증은 authenticationmanager를 통해 이뤄지고, 이를 생성하기 위해 builder 사용
  		// 로그인 처리, 즉 인증을 위해서는 Userdetailservice를 통해 필요한 정보를 가져오는데,
  		// 여기에서는 loginDetailService에서 이를 처리함

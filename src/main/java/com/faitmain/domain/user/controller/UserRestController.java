@@ -12,8 +12,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+ import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -55,10 +54,10 @@ public class UserRestController{
     private SecurityUserService securityUserService;
      
  	private Authentication authentication;
-
-	 @Autowired
-	 private AuthenticationManager authenticationManager;
- 
+//
+//	 @Autowired
+//	 private AuthenticationManager authenticationManager;
+// 
 	   public UserRestController() {
 		 //   log.info(  "Controller {}" , this.getClass() );
 		   
