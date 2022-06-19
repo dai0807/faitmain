@@ -587,9 +587,23 @@ public class UserRestController{
 	    System.out.println("클리어  :: "      );
 	    
 	    
-		SecurityUserService securityUserService = new SecurityUserService(user);   //  디테일 섭스를 다시 만들어서 만
+		SecurityUserService securityUserService = new SecurityUserService(user);   //  디테일 섭스를 다시 만들어서 주입
 		System.out.println("securityUserService :: " + securityUserService );
 		
+        // authentication 에 토큰 새로 만들어서 주입 
+      Authentication authentication =
+		   new UsernamePasswordAuthenticationToken(securityUserService,  null , securityUserService.getAuthorities() ) ;
+			SecurityContext securityContext =SecurityContextHolder.getContext() ; //SecurityContextHolder 안에 있는 컨텍스트에 접근 
+			securityContext.setAuthentication(authentication);          //securityContext 에 setAuthentication 에 authentication 세팅
+        
+        
+        log.info( "uauthRequest :: = {}" , authentication );
+
+ log.info( "##POST ##updatePassword {} ##" , user );
+
+ log.info( "update Password 결과 {}" , restult );
+
+
 		
 		
 //		Authentication newAuthentication = new UsernamePasswordAuthenticationToken(
@@ -601,19 +615,6 @@ public class UserRestController{
 //        log.info( "uauthRequest :: = {}" , authRequest );
 
 	         
-	         
-	       Authentication authentication =
-			   new UsernamePasswordAuthenticationToken(securityUserService,  null , securityUserService.getAuthorities() ) ;
-				SecurityContext securityContext =SecurityContextHolder.getContext() ; //SecurityContextHolder 안에 있는 컨텍스트에 접근 
-				securityContext.setAuthentication(authentication);         
-	         
-	         
-	         log.info( "uauthRequest :: = {}" , authentication );
-
-      log.info( "##POST ##updatePassword {} ##" , user );
-
-      log.info( "update Password 결과 {}" , restult );
-
 
         
         
