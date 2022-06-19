@@ -77,8 +77,13 @@ $(function () {
 					var selectRes = confirm(confirmText + "\n" + "장바구니로 이동하시겠습니까?");
 					
 					if(selectRes){ // 장바구니 이동
+					
 						let buyerId = $("input[name=buyerId]").val();
+						
+						console.log("buyerId : " + buyerId);
+									
 						self.location = "/cart/" + buyerId;
+						
 					}else{ }// 장바구니 이동 취소
 					
 				},
