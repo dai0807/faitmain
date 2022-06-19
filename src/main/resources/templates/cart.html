@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang = "ko" layout:decorate = "~{/layout/default_layout}"
-      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang = "ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+		layout:decorate="~{/layout/default_layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset = "UTF-8">
     <title>장바구니 페이지</title>
@@ -399,15 +399,15 @@
             <form th:action = "@{/cart/update}" class = "quantity_update_form" method = "post">
                 <input class = "update_cartNumber" name = "cartNumber" type = "hidden">
                 <input class = "update_productOrderCount" name = "productOrderCount" type = "hidden">
-                <input name = "buyerId" type = "hidden" th:value = "${session.user.id}">
+                <input name = "buyerId" type = "hidden" th:value = "${#authentication.principal.user.id}">
             </form>
             <!-- 삭제 form -->
             <form action = "/cart/delete" class = "quantity_delete_form" method = "post">
                 <input class = "delete_cartId" name = "cartId" type = "hidden">
-                <input name = "memberId" type = "hidden" th:value = "${session.user.id}">
+                <input name = "memberId" type = "hidden" th:value = "${#authentication.principal.user.id}">
             </form>
             <!-- 주문 form -->
-            <form th:action = "@{/order/{buyerId}(buyerId=${session.user.id})}" class = "order_form" method = "get">
+            <form th:action = "@{/order/} + ${#authentication.principal.user.id}" class = "order_form" method = "get">
             </form>
         </div>
 
