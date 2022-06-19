@@ -87,13 +87,24 @@
 			}
 			
     		function findId(){
- 					self.location="/user/findId";
+ 					
+ 						popWin 
+				= window.open("/user/findId",
+											"popWin", 
+											"top=200,left=300,width=780,height=550,marginwidth=0,marginheight=0,"+
+											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
+				
+ 					
 	
 			}			
 			
     		function findPassword(){
- 					self.location="/user/findPassword";
-	
+ 				//	self.location="/user/findPassword";
+						popWin 
+				= window.open("/user/findPassword",
+											"popWin", 
+											"top=200,left=300,width=780,height=550,marginwidth=0,marginheight=0,"+
+											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
 			}
 				
     		function addStore(){

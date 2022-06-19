@@ -45,8 +45,6 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController{
 
 
-//    @Autowired
-//    private BCryptPasswordEncoder pwdEncoder;
 
 
     // Field
@@ -639,16 +637,16 @@ public class UserController{
     
 //    
 //    // find Id Rest Control로 갈 운명
-//    @GetMapping( "findPassword" )
-//    public String findId( @ModelAttribute( "user" ) User user ){
-//
-//        log.info( "###Stat###findId ={} ##" , user );
-//
-//
-//        return ( "/user/findUserId" );
-//
-//
-//    }
+    @GetMapping( "findPassword" )
+    public String findPassword( ){
+
+        log.info( "###Stat###findUserPassword ={} ##"   );
+
+
+        return ( "/user/findUserPassword" );
+
+
+    }
     
     
     //find PW Rest Control로 갈 운명

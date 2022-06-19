@@ -11,7 +11,7 @@
      <link href="@{/css/styles.css}" rel="stylesheet" />
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
- 
+     <link href="@{/css/styles.css}" rel="stylesheet" />
 
     <meta charset = "UTF-8">
     <title>상세정보 </title>
@@ -21,124 +21,12 @@
 		margin-top:10px ;
  	 
 		}
-		.div_css{
-			margin: 0 0 1.5em 0;
-	
-}
+		
 		form-horizontal{font-family: 'Nanum Gothic Coding', monospace;}
 		 
-		 #getUser, input, select, textarea {
-		color: #585858;
-		font-family: "Source Sans Pro", Helvetica, sans-serif;
-		font-size: 11pt;
-		font-weight: 300;
-		line-height: 1.75;
-	}
-		 
-			input[type="submit"]:hover,
-		input[type="reset"]:hover,
-		input[type="button"]:hover,
-		button:hover,
-		.button:hover {
-			color: #f2849e !important;
-			box-shadow: inset 0 0 0 2px #f2849e;
-		}
-
-		input[type="submit"]:active,
-		input[type="reset"]:active,
-		input[type="button"]:active,
-		button:active,
-		.button:active {
-			background-color: rgba(242, 132, 158, 0.1);
-		} 
- 
-
-		@media screen and (max-width: 1680px) {
-
-			body, input, select, textarea {
-				font-size: 14pt;
-			}
-
-		}
-
-		@media screen and (max-width: 1280px) {
-
-			body, input, select, textarea {
-				font-size: 12pt;
-			}
-
-		}
-		 input[type="text"],
-	input[type="password"],
-	input[type="email"],
-	input[type="tel"],
-	select,
-	textarea {
-		-moz-appearance: none;
-		-webkit-appearance: none;
-		-ms-appearance: none;
-		appearance: none;
-		background-color: transparent;
-		border: none;
-		border-radius: 0;
-		border-bottom: solid 1px #c9c9c9;
-		color: inherit;
-		display: block;
-		outline: 0;
-		padding: 0;
-		text-decoration: none;
-		width: 100%;
-	}
-
-		input[type="text"]:invalid,
-		input[type="password"]:invalid,
-		input[type="email"]:invalid,
-		input[type="tel"]:invalid,
-		select:invalid,
-		textarea:invalid {
-			box-shadow: none;
-		}
-
-		input[type="text"]:focus,
-		input[type="password"]:focus,
-		input[type="email"]:focus,
-		input[type="tel"]:focus,
-		select:focus,
-		textarea:focus {
-			border-bottom-color: #f2849e;
-			box-shadow: inset 0 -1px 0 0 #f2849e;
-		}
-		
-		.form-text {
-  margin-top: 0.25rem;
-  font-size: 0.875em;
-  color: #6c757d;
-}
-
-.form-control {
-  display: block;
-  width: 100%;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 2.5;
-  color: #212529;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  border-radius: 0.25rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-		 
-			 
- 
     </style>
 
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<noscript><link rel="stylesheet" th:href="@{/user/noscript.css}" /></noscript>
+
 <script type="text/javascript">
  
  	
@@ -539,20 +427,17 @@
 
 	<body>
 	
-<article id ="getUser" class="py-5" layout:fragment="content"  >
+<article  class="py-5" layout:fragment="content"  >
 
-
-    <div class = "container col-lg-2">
-    </div>
 
 
 			
-<div  class="container col-lg-8 ">
+<div  class="container ">
 			
 			
 			
 	<div class="text-center">
-               <h3>상세 정보</h3> 
+                <h2 class="fw-bolder"> 상세 정보  </h2>    
                 <p>데이터 다 뽑으면  , 정신 차리고 화면 꾸미기 </p>
                 
  	   </div>
@@ -562,49 +447,45 @@
 		<form id ="form" name ="form"   class="form-horizontal">
 		
 		  <div class="form-group">
-			     <div class="div_css" >
-			    	<h5 > 아이디</h5>
-				   
-				    <input type="text" class="form-control" th:id="id" th:name="id"  th:value="${getuser.id}"  readonly>  
-				<!--	 [[${getuser.id}]] -->
-				   </div>
-				   
-				  <div class="div_css" >			    
-				  	<h5 class="fw-bolder"> 이름 </h5>
-					    
-					   <input type="text" class="form-control" th:id="name" th:name="name"  th:value="${getuser.name}"  readonly>  
-			 
-					</div>
+		    <h5 class="fw-bolder"> 아이디</h5>
+			    <div >
+			    <input type="text" class="form-control" th:id="id" th:name="id"  th:value="${getuser.id}"  readonly>  
+			<!--	 [[${getuser.id}]] -->
+			    </div>
+		  	<h5 class="fw-bolder"> 이름 </h5>
+			    <div >
+			   <input type="text" class="form-control" th:id="name" th:name="name"  th:value="${getuser.name}"  readonly>  
+	 
+			    </div>
 			<!--여기에 스토어 유저 가르는 if 쓰기  -->    
 			
 			
  			
-					<div class="div_css" th:if="${getuser.role == 'user'}" >
-		 				<h5 class="fw-bolder"> 닉네임 </h5>
-						     
-						   <input type="text" class="form-control" th:id="nickname" th:name="nickname" maxlength='10' th:value="${getuser.nickname}"   readonly> 
-						    <span id="nickname_info">  &nbsp; </span>
- 
-					</div>
+			<div th:if="${getuser.role == 'user'}" >
+				<h5 class="fw-bolder"> 닉네임 </h5>
+				    <div >
+				   <input type="text" class="form-control" th:id="nickname" th:name="nickname" maxlength='10' th:value="${getuser.nickname}"   readonly>  
+				    </div>		  
+				    <span id="nickname_info">  &nbsp; </span>
+		
+			</div>
 			
-		<div th:if="${getuser.role == 'store' || getuser.role =='storeX'}" >
-		     <div class="div_css" >				<h5 class="fw-bolder"> 스토어 이름  </h5>
-				  
+		 <div th:if="${getuser.role == 'store' || getuser.role =='storeX'}" >
+				<div>
+				<h5 class="fw-bolder"> 스토어 이름  </h5>
+				    <div >
 				   <input type="text" class="form-control" th:id="storeName" th:name="storeName" maxlength='10' th:value="${getuser.storeName}"   readonly>  
-				   	
-		         
+				    </div>		  
 				    <span id="storeName_info">  &nbsp; </span>
-			 </div>	 
-		     <div class="div_css" >				 	    
+				    
 				   	<h5 class="fw-bolder"> 스토어 소개  </h5>
-				    
+				    <div >
 				   <input type="text" class="form-control" th:id="storeIntroduction" th:name="storeIntroduction"   th:value="${getuser.storeIntroduction}"   readonly>  
-				    
-		     </div>	    		  
-				    
+				    </div>		  
 				    
 				    
-		     <div class="div_css" >					    
+				    
+				    
 				    	<h5 class="fw-bolder"> 스토어 로고  </h5>
 				      
 				      
@@ -615,7 +496,7 @@
 				    <div >
 					 	<img id="store_image" src="#" alt="" >
 
-							<img class = "img-thumbnail" id="user_image" name="storeLogoImage" th:src="@{/img/upload/} +${getuser.storeLogoImage}" />
+							<img class = "img-thumbnail" id="user_image" name="storeLogoImage" th:src="@{/img/upload} +${getuser.storeLogoImage}" />
  
 							 
 
@@ -625,10 +506,8 @@
 				
 				
 				</div>
-		</div> <!-- 스토어 if  -->
-		
-		
-			<div class="div_css" >	
+			</div>
+			
 			<h5 class="fw-bolder"> 휴대폰번호 </h5>
 			     <div class="input-group">
 
@@ -637,9 +516,6 @@
 
 	 
 			    </div>
-
-
-
 			  	
 				<div>
 				
@@ -655,27 +531,32 @@
 			  		
 
  		    </div>
-			</div>   
-			     		  
+			    
+			    
+			    
+			    
+			    
+			    
+			    		  
  				<div >
-						<h5 class="fw-bolder"> 성별 </h5>
-					   
-					   <span th:text="${getuser.gender == 'W' ? '여성' :'남성'}" >  
-				 
-		 
+			<h5 class="fw-bolder"> 성별 </h5>
+			   
+			   <span th:text="${getuser.gender == 'W' ? '여성' :'남성'}" >  
+	 
+	 
 			    </div>		  
 		 
- 			<div class="div_css" >	
+ 			 <div >
 
-				<h5 class="fw-bolder"> 가입일자 </h5>
-				   <span th:text="${getuser.regDate}" >  
+			<h5 class="fw-bolder"> 가입일자 </h5>
+			   <span th:text="${getuser.regDate}" >  
 	 
-			  </div>		  
+			    </div>		  
 		 
  	  
  	  
- 				<div class="div_css" >	
-  					<h5 class="fw-bolder"> 주소 </h5>
+ 
+  			<h5 class="fw-bolder"> 주소 </h5>
 				    <div >
 				      	 <div class="input-group mb-2">
                                       
@@ -684,16 +565,12 @@
                         </div>
                         
                         <input class = "form-control" id = "userAddress2"  name = "userAddress2" placeholder = "주소"    th:value="${getuser.userAddress2}" readonly type = "text">
-                        <input class = "form-control" id = "userAddress3"   name = "userAddress3" placeholder = "추가입력" th:value="${getuser.userAddress3}" readonly type = "text">
+                        <input class = "form-control" id = "userAddress3"   name = "userAddress3" placeholder = "추가입력" th:value="${getuser.userAddress3}" readonly type = "text`">
   
                         </div>
- 					</div>   
+		 		 		 		  		  
+		  </div>
 		</form> 
-				 		 		 		  		  
-		  </div><!-- from 관련 div -->
-
-		
-		
 			<br/>  
 			<a href="javascript:history.back()" class="btn btn-secondary btn-xs" role="button">확인</a>
  				<button type="button" id ="updatebutton"class="btn btn-success"  >정보수정</button>
@@ -723,11 +600,8 @@
  				 </span>
 			<!--   <a th:href="@{/oreder/details(id=${orderInfo.seq})}">  -->
 			
-			
+			 <!-- 컨테이너 끝-->		  
   
-  </div>
-    <div class = "container col-lg-2">
-    </div>
 </article>
 	
 	
