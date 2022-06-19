@@ -21,4 +21,6 @@ public class WebMvcConfig implements WebMvcConfigurer{
                 .addPathPatterns( "/cart/**" )
                 .excludePathPatterns( "/cart/add" );
     }
+    
+
 }

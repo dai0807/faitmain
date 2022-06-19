@@ -47,7 +47,10 @@ public class CustomerServiceImpl implements CustomerService{
 		return customerMapper.getCustomerBoard(boardNumber);
 	}
 	
-	
+	@Override
+	public Customer getLiveGuide(String boardType) throws Exception{
+		return customerMapper.getLiveGuide(boardType);
+	}
 
 	@Override
 	public int addCustomerBoard(Customer customer) throws Exception {
@@ -74,6 +77,7 @@ public class CustomerServiceImpl implements CustomerService{
 		
 		return (queryResult == 1) ? true : false;
 	}
+		
 	
 	@Override
 	public List<Customer> getCustomerBoardList(String boardType) throws Exception {

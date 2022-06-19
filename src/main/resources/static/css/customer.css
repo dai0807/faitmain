@@ -12,7 +12,7 @@ html, body, div, h1, h2, a, form, table, caption, thead, tbody, tr, th, td, subm
     font-size:0.875em; line-height:1.5; color:#666; -webkit-text-size-adjust:none; min-width:320px;
     font-family:'NanumGothic','나눔고딕',dotum, "Helvetica Neue", Helvetica, Verdana, Arial, Sans-Serief;
 } */
-h1, h2, h3 {font-size: 1.5em;}
+/* h1, h2, h3 {font-size: 1.5em;}
 p{margin:0; padding:0;}
 ul{margin:0;}
 a:link, a:visited {text-decoration:none; color: #656565;}
@@ -40,7 +40,7 @@ caption {display:none; width:0; height:0; margin-top:-1px; overflow:hidden; visi
 .btn:hover {background: #6b9ab8;}
 
 
-.file_list a {display:inherit !important;}
+.file_list a {display:inherit !important;} */
 /* 
 html, body{
 	margin: 0;

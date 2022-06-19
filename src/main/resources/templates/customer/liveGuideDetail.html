@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-				layout:decorate = "~{layout/customer_default_layout2}"
+				layout:decorate="~{layout/fragment/header}"
       			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
       			
 
 <head>	
-	<th:block layout:fragment="title">
+	
 		<title>faitmain</title>
-	</th:block>
+	
 </head>
 
 <body>
-	<th:block layout:fragment="content">
-
-	
-	<th:block layout:fragment="script">
-		
-	</th:block>
+	<article class = "lg-1" layout:fragment = "content">
+		 <div class = "container">
+				<input type="hidden" name="boardType" value='N'/> 
+					<tr>
+						<td colspan="3">
+							<input type="text" id="title" name="boardTitle" 
+								th:value="${customer.boardTitle } "  readonly style="resize:none; border:none;" />
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4" class="view_text">
+							<textarea title="내용" id="contents" name="boardContent" th:text="${customer.boardContent }" ></textarea>
+								
+						</td>
+					</tr>
+			</form>
+		</div>
+	</article>
 </body>
 </html> 

@@ -165,6 +165,8 @@ $(document).ready(function() {
 <body>
 <article  class="py-5" layout:fragment="content">
 	<form method="post" th:action="@{/admin/addLiveGuide}" name="addLiveGuideForm" id="addLiveGuideForm">
+	
+	<input type="hidden" name="boardType" value='L'/>
 	<h4>라이브 가이드 등록</h4>
 	<hr />
 	
@@ -186,9 +188,9 @@ $(document).ready(function() {
 	</div>
 	
 	</table>
-	<div class="col-sm-4">
+	
   		<button class="btn btn-d btn-circle" type="submit">등록</button>
-	</div>
+	
 	</form>
 </article>
 

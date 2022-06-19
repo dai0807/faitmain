@@ -24,6 +24,8 @@ public interface CustomerService {
 	
 	public Customer getCustomerBoard(int boardNumber) throws Exception;
 	
+	public Customer getLiveGuide(String boardType) throws Exception;
+	
 	public boolean deleteCustomerBoard(int boardNumber) throws Exception;
 	
 

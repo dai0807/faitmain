@@ -29,7 +29,8 @@ public class CustomerController extends UiUtils{
 	@GetMapping("noticeIndex")
 	public String openBoardNoticeIndex(){
 		
-		return "customer/noticeIndex";
+		/* return "customer/noticeIndex"; */
+		 return "customer/noticeIndex"; 
 	}
 
 	
@@ -80,6 +81,11 @@ public class CustomerController extends UiUtils{
 		
 	}
 	
+	@GetMapping("detailLiveGuide")
+	public String openLive() throws Exception{
+		return "customer/liveGuideDetail";
+	}
+	
 	@PostMapping("addBoard")
 	public String addBoard(@RequestParam(value = "boardNumber", required = false)Integer boardNumber, Customer customer, Model model) throws Exception{
 				
@@ -125,6 +131,16 @@ public class CustomerController extends UiUtils{
 		
 	}
 	
+	
+	@GetMapping("detailGuide")
+	public String openGuideDetail(@RequestParam(value="boardType", required=false)String boardType, Model model) throws Exception{
+		
+		Customer customer = customerService.getLiveGuide(boardType);
+		
+		model.addAttribute("liveguide", customer);
+		
+		return "customer/liveGuideDetail";
+	}
 	
 //	@PostMapping("register")
 //	public String registerBoard(final Customer params, Model model)  throws Exception {
@@ -192,6 +208,7 @@ public class CustomerController extends UiUtils{
 		
 		return "customer/noticeDetail";
 	}
+	
 	
 //	@PostMapping("delete")
 //	public String deleteBoard(@RequestParam(value = "boardNumber", required = false) Integer boardNumber, Model model) {

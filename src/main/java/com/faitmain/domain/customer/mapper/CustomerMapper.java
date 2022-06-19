@@ -23,8 +23,11 @@ public interface CustomerMapper {
 	//INSERT 
 	public int addCustomerBoard(Customer customer) throws Exception;
 	
-	//SELECT Detail
+	//Detail
 	public Customer getCustomerBoard(int boardNumber) throws Exception;
+	
+	//Detail LiveGuide
+	public Customer getLiveGuide(String boardType) throws Exception;
 	
 	//UPDATE
 	public int updateCustomerBoard(Customer customer) throws Exception;
