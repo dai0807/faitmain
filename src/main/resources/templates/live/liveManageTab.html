@@ -101,7 +101,7 @@ h1 {
 <script th:inline="javascript">
     /*<![CDATA[*/
 //유저 강제퇴장 - 1
-function lal() { 
+function kickUser() { 
 	
 	var clientKey = []; // key 값을 담을 배열
     var roomId = $('.roomId').val();
@@ -128,7 +128,7 @@ function lal() {
 	});
    }
    //유저 벙어리 - 1
-   function lai() { 
+   function muteUser() { 
 	
 	var clientKey = []; // key 값을 담을 배열
     var roomId = $('.roomId').val();
@@ -184,16 +184,55 @@ function lol(){
 	});
 }
 
+//강제퇴장 및 채팅제한 유저를 동시에 조회하는 식으로 구현해야함.. AND 해당되는 유저 체크박스 체크 후 제재해체 시 유저가 당한 제재가 풀리는식으로 ...
+//and  클라이언트키가 유지되게 만들어야함.. liveController 쪽에서 구현해봤는데 어려움 . 
+function sanctionUserList(){
+	
+	$.ajax({
+		url : '/live/json/sanctionUserList',
+		type : 'POST',
+		async : true,
+		cache : true,
+		dataType : "json",
+		timeout : 2000,
+		success : function(data){
+			$(".test").remove();	
+				var abc = "";		
+			for(let i = 0 ; i < data.length ; i++) {
+					abc += "<tr class='test'><td><input class='clientKey' type='checkbox' name='clientKey' value=" + data[i].clientKey + "></td>"
+					     + "<td data-th='ClientKey'>" + data[i].clientKey + "</td>"
+					     + "<td data-th='NickName'>" + data[i].nickName + "</td>"
+					     + "<td data-th='Grade'>" + data[i].grade + "</td><input class='roomId' type='hidden' name='roomId' value=" + data[i].roomId + "></tr>";
+	}
+	
+				for(let i = 0 ; i < data.length ; i++) {
+					abc += "<tr class='test'><td><input class='clientKey' type='checkbox' name='clientKey' value=" + data[i].clientKey + "></td>"
+					     + "<td data-th='ClientKey'>" + data[i].clientKey + "</td>"
+					     + "<td data-th='NickName'>" + data[i].nickName + "</td>"
+					     + "<td data-th='Grade'>" + data[i].grade + "</td><input class='roomId' type='hidden' name='roomId' value=" + data[i].roomId + "></tr>";
+	}
+				console.log(abc);
+			
+				$("table").children(":first").append(abc);
+			
+			
+			
+		},
+		error : function(error){}	
+	});
+}
+
+
     /*]]>*/
 </script>
 
 <br/>
 
 <h1> Live User List </h1>
-<button type="button" class="btn btn-danger"  id="kick" onclick="lal()"/>강퇴</button>
-<button type="button" class="btn btn-warning" id="mute" onclick="lai()"/>채팅 제한</button>
-<button type="button" class="btn btn-warning" id="d" onclick=""/>강제퇴장 유저 조회</button>
-<button type="button" class="btn btn-warning" id="d" onclick=""/>벙어리 유저 조회</button>
+<button type="button" class="btn btn-danger"  id="kick" onclick="kickUser()"/>강퇴</button>
+<button type="button" class="btn btn-warning" id="mute" onclick="muteUser()"/>채팅 제한</button>
+<button type="button" class="btn btn-warning" id="kickUserList" onclick="sanctionUserList()"/>강제퇴장 유저 조회</button>
+<button type="button" class="btn btn-warning" id="muteUserList" onclick=""/>벙어리 유저 조회</button>
 <div style="height:200px; overflow:auto">
 	<table class="rwd-table">
 	  <tr>

@@ -537,7 +537,8 @@ public class LiveController {
 			
 		String returnUrl = "live/watchLive";
 		
-//		
+//		이 씨발 개좆같은 강퇴유저 검증 씨발 개좆같네 ? 진짜 개씨발 개호로잡년같은 씨발개씨발
+		
 //		if( authentication != null ) {
 //		
 //		SecurityUserService securityUser= (SecurityUserService)authentication.getPrincipal();
