@@ -648,7 +648,19 @@ public class UserController{
 
     }
     
-    
+//  
+//  // find Id Rest Control로 갈 운명
+  @GetMapping( "index" )
+  public String index( ){
+
+      log.info( "###index###index ={} ##"   );
+
+
+      return ( "/user/index" );
+
+
+  }
+   
     //find PW Rest Control로 갈 운명
     @PostMapping( "ddddd" )
     public String findPw( @ModelAttribute( "user" ) User user , Model model ) throws Exception{

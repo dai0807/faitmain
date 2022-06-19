@@ -279,26 +279,35 @@ public class UserRestController{
        log.info( "updateUser :: result 출력  = {} " , result );
        user = userSerivce.getUser( user.getId() );
 
-      //////////////////////////////////////////////////////
+      ///////////////////SecurityContextHolder 날림 ///////////////////////////////////
        SecurityContextHolder.clearContext();
        
        SecurityUserService  securityUser = new SecurityUserService(user);
 		System.out.println("  #updateUserDetails : "+securityUser);
 
-//      Authentication authentication =
-//		   new UsernamePasswordAuthenticationToken(securityUser,  null , securityUser.getAuthorities() ) ;
-//
-//		SecurityContextHolder.getContext().setAuthentication(authentication);
-//		
-//		/// SecurityContextHolder 에  Authentication 넣어쥑 
-//		System.out.println("  #updateUserDetails : "+authentication);
-
-        
+	      ///////////////////SecurityContextHolder 세팅 ///////////////////////////////////
+   
         Authentication authRequest = new UsernamePasswordAuthenticationToken(securityUser, null , securityUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authRequest);       
 		
 		System.out.println("  #updateUserDetails : "+authRequest);
 	
+		
+		
+/*		
+		public UsernamePasswordAuthenticationToken(Object principal, Object credentials,
+				Collection<? extends GrantedAuthority> authorities) {
+			super(authorities);
+			this.principal = principal;
+			this.credentials = credentials;
+			super.setAuthenticated(true); // must use super, as we override
+		}		
+*/
+	 
+		
+		
+		
+		
       //	       System.out.println(""+SecurityUser.getAuth() );
 //	     Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getId() , user.getPassword()  )) ;
 //	     SecurityContextHolder.getContext().setAuthentication(authentication)   ;
@@ -316,24 +325,9 @@ public class UserRestController{
 //			SecurityContextHolder.getContext().setAuthentication(authentication); 		
 // 
 			
-//			Authentication newAuthentication = new UsernamePasswordAuthenticationToken(
-//			loginUser, null, loginUser.getAuthorities());
-//	System.out.println("  #newAuthentication : "+newAuthentication);
-//	
-//	SecurityContextHolder.getContext().setAuthentication(newAuthentication);
+ 
 			
-			
-			
-	/*		
-			public UsernamePasswordAuthenticationToken(Object principal, Object credentials,
-					Collection<? extends GrantedAuthority> authorities) {
-				super(authorities);
-				this.principal = principal;
-				this.credentials = credentials;
-				super.setAuthenticated(true); // must use super, as we override
-			}		
-*/
-			
+		
 //		   Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword()    ,  securityUserService.getAuth()   )) ;
 //		     SecurityContextHolder.getContext().setAuthentication(authentication)   ;
 //		      
@@ -387,7 +381,7 @@ public class UserRestController{
 //     System.out.println("====getMyInfo1==== "+ principal.toString());
 //     SecurityUserService securityUser = (SecurityUserService)principal ;
      
-     System.out.println(   "securityUser "+ securityUser.getUser()  );
+     log.info(   "securityUser , update 유저 끝 ={}", securityUser.getUser()  );
         
        
        
@@ -571,7 +565,7 @@ public class UserRestController{
   public int updatePassword( @ModelAttribute( "user" ) User user  ) throws Exception{
 	  
 	  
-		System.out.println("  #newAuthentication : "+ SecurityContextHolder.getContext().getAuthentication());
+		System.out.println("  #Authentication : "+ SecurityContextHolder.getContext().getAuthentication());
        
 
         int restult = userSerivce.updateUserPassword( user );
@@ -586,17 +580,39 @@ public class UserRestController{
 		SecurityContextHolder.clearContext();  // 없애고 
 	    System.out.println("클리어  :: "      );
 	    
+	   
+	    
+	    
 	    
 		SecurityUserService securityUserService = new SecurityUserService(user);   //  디테일 섭스를 다시 만들어서 주입
 		System.out.println("securityUserService :: " + securityUserService );
 		
-        // authentication 에 토큰 새로 만들어서 주입 
+
+
+		
+ //        authentication 에 토큰 새로 만들어서 주입  됨
       Authentication authentication =
 		   new UsernamePasswordAuthenticationToken(securityUserService,  null , securityUserService.getAuthorities() ) ;
 			SecurityContext securityContext =SecurityContextHolder.getContext() ; //SecurityContextHolder 안에 있는 컨텍스트에 접근 
 			securityContext.setAuthentication(authentication);          //securityContext 에 setAuthentication 에 authentication 세팅
-        
-        
+
+			// 무슨 짓을 해도..... 안되서 직접 인증 토큰 만들어서 주입해줌			
+			// Authentication 만들기
+			// AuthenticationManager 에서 인증을 인증에 성공하면 Authentication을 만들어서 컨텍스트 홀더에 주입
+			// 그럼 우리도 SecurityContextHolder.clearContext()를 없애고 UsernamePasswordAuthenticationToken를 직접만들어서 setAuthentication에 set 
+	//		Authentication newAuth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+    //
+			
+		
+			// 실패
+			/// authenticationManager  안됨 
+
+//			 Authentication request = new UsernamePasswordAuthenticationToken(securityUserService, null,securityUserService.getAuthorities());
+//			 Authentication result = authenticationManager.authenticate(request);
+//			 SecurityContextHolder.getContext().setAuthentication(result);
+			    
+ 			
+			
         log.info( "uauthRequest :: = {}" , authentication );
 
  log.info( "##POST ##updatePassword {} ##" , user );
@@ -640,9 +656,9 @@ public class UserRestController{
 //
 //SecurityContextHolder.getContext().setAuthentication(newAuthentication);
 //System.out.println("  #newAuthentication : "+newAuthentication);
-//        
-        
-   
+//  
+ 
+ 
  //3번     
 //    Authentication authentication =
 //		   new UsernamePasswordAuthenticationToken(securityUser,  null , securityUser.getAuthorities() ) ;
