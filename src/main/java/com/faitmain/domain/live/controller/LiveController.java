@@ -540,8 +540,10 @@ public class LiveController {
 		
 		if( authentication != null ) {
 		
-		SecurityUser securityUser= (SecurityUser)authentication.getPrincipal();
-		User user = (User) securityUser.getUser();
+	         SecurityUserService securityUserService = ( SecurityUserService )authentication.getPrincipal() ;
+	         
+	        
+		User user = (User) securityUserService.getUser();
 	
 		LiveUserStatus liveUser = new LiveUserStatus();
 		liveUser.setLiveNumber(liveNumber);
