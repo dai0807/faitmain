@@ -59,90 +59,9 @@ $(document).ready(function () {
 
     /* 주문 요청 */
     $(".order_btn").on("click", function () {
-
-        /* 주소 정보 & 받는이*/
-        $(".addressInfo_input_div").each(function(i, obj){
-            if($(obj).find(".selectAddress").val() === 'T'){
-                $("input[name='receiverName']").val($(obj).find(".address0_input").val());
-                $("input[name='receiverAddress1']").val($(obj).find(".address1_input").val());
-                $("input[name='receiverAddress2']").val($(obj).find(".address2_input").val());
-                $("input[name='receiverAddress3']").val($(obj).find(".address3_input").val());
-            }
-        });
-
-        /* 사용 포인트 */
-        $("input[name='usePoint']").val($(".order_point_input").val());
-
-        /* 상품정보 */
-        let form_contents;
-        $(".goods_table_price_td").each(function (index, element) {
-
-            let productNumber = $(element).find(".individual_productNumber_input").val();
-            let productOrderCount = $(element).find(".individual_productOrderCount_input").val();
-
-            let productNumber_input = "<input name='orderProductList[" + index + "].productNumber' type='hidden' value='" + productNumber + "'>";
-            let productOrderCount_input = "<input name='orderProductList[" + index + "].productOrderCount' type='hidden' value='" + productOrderCount + "'>";
-
-            form_contents += productNumber_input;
-            form_contents += productOrderCount_input;
-
-        });
-
-
-
-        $(".order_form").append(form_contents);
-
-        /* 정보 */
-        const data = {
-            amount: finalTotalPriceToAPI,
-            orderNumber: createOrderNum(),
-            receiverPhone: $("#receiverPhone").val(),
-            // receiverName: $("#buyerName").val(),
-            // receiverAddress1: $("#receiverAddress1").val(),
-            // receiverAddress2: $("#receiverAddress2").val(),
-            // receiverAddress3: $("#receiverAddress3").val(),
-            // productNumber: $("#productNumber").val(),
-            // buyerId: $("#buyerId").val(),
-        }
-
-        var IMP = window.IMP;
-        IMP.init("imp76668016");
-        IMP.request_pay({
-            pay_method: "card",
-            amount: data.amount,
-            merchant_uid: data.orderNumber,
-            buyer_tel: data.receiverPhone,
-            // buyer_name: data.receiverName,
-            // buyer_addr: data.receiverAddress2 + " " + data.receiverAddress3,
-            // buyer_postcode: data.receiverAddress1
-        }, function (rsp) { // callback
-            if (rsp.success) {
-                // 결제 성공
-                data.impUid = rsp.imp_uid;
-                data.merchant_uid = rsp.merchant_uid;
-                data.amount = rsp.amount;
-
-
-                let impUid = "<input id='impUid' name='impUid' type='hidden' value='" + rsp.imp_uid + "'>";
-                let merchantUid = "<input id='orderNumber' name='orderNumber' type='hidden' value='" + rsp.merchant_uid + "'>";
-                let amount = "<input id='orderFinalSalePrice' name='orderFinalSalePric' type='hidden' value='" + rsp.amount + "'>";
-
-
-                let appendData = impUid + merchantUid + amount;
-
-                $('.order_form').append(appendData);
-
-                /* 서버 전송 */
-                $(".order_form").submit();
-
-            } else {
-                alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
-            }
-        });
-
+        payment()
     });
 });
-
 
 
 /* 주문번호 만들기 */
@@ -158,6 +77,89 @@ function createOrderNum() {
     }
     return orderNumber;
 }
+
+/* 결제 ver 1 */
+function payment() {
+
+    /* 상품정보 */
+    let form_contents = '';
+    $(".goods_table_price_td").each(function (index, element) {
+        let productNumber = $(element).find(".individual_productNumber_input").val();
+        let productOrderCount = $(element).find(".individual_productOrderCount_input").val();
+        let productNumber_input = "<input name='orderProductList[" + index + "].productNumber' type='hidden' value='" + productNumber + "'>";
+        form_contents += productNumber_input;
+        let productOrderCount_input = "<input name='orderProductList[" + index + "].productOrderCount' type='hidden' value='" + productOrderCount + "'>";
+        form_contents += productOrderCount_input;
+    });
+
+    /* 정보 */
+    const data = {
+        orderNumber: createOrderNum(),
+        receiverName: $("#buyerName").val(),
+        receiverPhone: $("#receiverPhone").val(),
+        receiverAddress1: $("#receiverAddress1").val(),
+        receiverAddress2: $("#receiverAddress2").val(),
+        receiverAddress3: $("#receiverAddress3").val(),
+        productNumber: $("#productNumber").val(),
+        productName: $("#productName").val(),
+        buyerId: $("#buyerId").val(),
+        amount: finalTotalPriceToAPI,
+    }
+
+    console.log(typeof data.orderNumber)
+
+    paymentCard(data)
+}
+
+/* 결제 */
+function paymentCard(data) {
+    var IMP = window.IMP;
+    IMP.init("imp76668016");
+    IMP.request_pay({
+        pay_method: "card",
+        merchant_uid: data.orderNumber,
+        name: data.productName,
+        amount: data.amount,
+        buyer_email: data.buyerId,
+        buyer_name: data.receiverName,
+        buyer_tel: data.receiverPhone,
+        buyer_addr: data.receiverAddress2 + " " + data.receiverAddress3,
+        buyer_postcode: data.receiverAddress1
+    }, function (rsp) { // callback
+        if (rsp.success) {
+            // 결제 성공
+            data.impUid = rsp.imp_uid;
+            data.merchant_uid = rsp.merchant_uid;
+            data.amount = rsp.amount;
+
+            paymentComplete(data)
+        } else {
+            alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
+        }
+    });
+}
+
+// 계산 완료
+function paymentComplete(data) {
+
+    $.ajax({
+        url: "/order/complete", method: "POST", data: data,
+    })
+        .done(function (result) {
+            messageSend();
+            swal({
+                text: result, closeOnClickOutside: false
+            })
+                .then(function () {
+                    location.replace("/orderList");
+                })
+        }) // done
+        .fail(function () {
+            alert("에러");
+            location.replace("/");
+        })
+}
+
 
 /* 주소입력란 버튼 숨김 & 표시 */
 function showAddress(className) {

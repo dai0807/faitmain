@@ -20,6 +20,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -528,10 +529,33 @@ public class LiveController {
 
 		return "/live/addLive";
 	}
+	
 
 	@GetMapping("watchLive/{liveNumber}")
-	public String watchLive(Model model, @PathVariable int liveNumber) throws Exception {
+	public String watchLive( Authentication authentication, Model model, @PathVariable int liveNumber ) throws Exception {
 		log.info("watchLive() : GET start...");
+			
+		String returnUrl = "live/watchLive";
+		
+		
+		if( authentication != null ) {
+		
+		SecurityUser securityUser= (SecurityUser)authentication.getPrincipal();
+		User user = (User) securityUser.getUser();
+	
+		LiveUserStatus liveUser = new LiveUserStatus();
+		liveUser.setLiveNumber(liveNumber);
+		liveUser.setNickName(user.getNickname());
+		
+		liveUser = liveService.getLiveUserStatus(liveUser);
+		
+			if( liveUser.getKickStatus() == 1 ) {			
+				returnUrl = "/live/returnIndex";
+			}else {
+				
+			}
+	
+		}
 
 		Live live = liveService.getLive(liveNumber);
 
@@ -543,7 +567,7 @@ public class LiveController {
 
 		log.info("live = " + model.getAttribute("live"));
 		log.info("listProduct = " + model.getAttribute("listProduct"));
-		return "live/watchLive";
+		return returnUrl;
 	}
 
 	@GetMapping("addLiveUserStatus")

@@ -163,24 +163,24 @@ public class LiveRestController {
 		System.out.println("/live/json/sendMessage : POST end...");
 	}
 
-	@PostMapping("json/updateLiveUserStatus")
-	public void addLiveUserStatus(@RequestBody LiveUserStatus liveUserStatus) throws Exception {
-		System.out.println("/live/json/updateLiveUserStatus : POST start...");
-
-		if (liveService.getLiveUserStatus(liveUserStatus) == null) {
-			System.out.println("addLiveUserStatus start...");
-			System.out.println("result : " + liveService.addLiveUserStatus(liveUserStatus));
-			System.out.println(liveUserStatus);
-			System.out.println("addLiveUserStatus end...");
-		} else {
-			System.out.println("updateLiveUserStatus start...");
-			System.out.println("result : " + liveService.updateLiveUserStatus(liveUserStatus));
-			System.out.println(liveUserStatus);
-			System.out.println("updateLiveUserStatus end...");
-		}
-
-		System.out.println("/live/json/updateLiveUserStatus : POST end...");
-	}
+//	@PostMapping("json/updateLiveUserStatus")
+//	public void addLiveUserStatus(@RequestBody LiveUserStatus liveUserStatus) throws Exception {
+//		System.out.println("/live/json/updateLiveUserStatus : POST start...");
+//
+//		if (liveService.getLiveUserStatus(liveUserStatus) == null) {
+//			System.out.println("addLiveUserStatus start...");
+//			System.out.println("result : " + liveService.addLiveUserStatus(liveUserStatus));
+//			System.out.println(liveUserStatus);
+//			System.out.println("addLiveUserStatus end...");
+//		} else {
+//			System.out.println("updateLiveUserStatus start...");
+//			System.out.println("result : " + liveService.updateLiveUserStatus(liveUserStatus));
+//			System.out.println(liveUserStatus);
+//			System.out.println("updateLiveUserStatus end...");
+//		}
+//
+//		System.out.println("/live/json/updateLiveUserStatus : POST end...");
+//	}
 
 	// LIVE RESERVATION
 	@GetMapping("json/getLiveReservationCal")
@@ -291,13 +291,26 @@ public class LiveRestController {
 //	}
 
 	// 유저 강제퇴장
-	@GetMapping("json/kickUser/{roomId}/{clientKey}")
-	public void kickUser(@PathVariable("roomId") String roomId, @PathVariable("clientKey") List<String> clientKey)
+	@GetMapping("json/kickUser/{roomId}/{clientKey}/{nickName}")
+	public void kickUser(@PathVariable("roomId") String roomId, @PathVariable("clientKey") List<String> clientKey, @PathVariable("nickName") List<String> nickName)
 
 			throws Exception {
 
 		log.info("editRoom = {} ", this.getClass());
-		System.out.println("방송 정보 수정");
+		
+		//DB에 강제퇴장 내용 등록
+		
+		LiveUserStatus live = new LiveUserStatus();
+		for (String nick : nickName) {
+			live.setLiveNumber(liveService.getLiveNumberByRoomId(roomId).getLiveNumber());
+			live.setNickName(nick);
+			live.setKickStatus(1);
+			
+			liveService.addLiveUserStatus(live);
+			
+			System.out.println(live);
+		}
+		
 
 		String token = getToken();
 

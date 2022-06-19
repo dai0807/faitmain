@@ -2,13 +2,13 @@ package com.faitmain.global.config;
 
  
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -155,23 +155,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
  
  		
 	}
-    
-    
- // 스프링 시큐리티는 적용하되 HTTP로 거르는 방법   
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());  // static 리소스들의 기본 위치들을 스프링 시큐리티에서 제외 
-        // 무시하는 거 설정    
-        //				web.ignoring().mvcMatchers("/user")  ///user뿐 아니라, /user/ , user/acouunt/~~~ ㄷ등 허용
-        //    			web.ignoring().antMatcher("/user")   /acount라는 URL가 정확하게 일치하는 경우에만 허용
-       // 참고 https://ohtaeg.tistory.com/11 
-        
-       
-
-
-    }
-    
-    
 	
 //   
 //    @Override
