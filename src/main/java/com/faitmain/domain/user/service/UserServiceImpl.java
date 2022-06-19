@@ -223,11 +223,10 @@ public class UserServiceImpl implements UserSerivce{
 
     //패스워드 재설정
     public int updateUserPassword( User user ) throws Exception{
-        // TODO Auto-generated method stub
-    	
-
-        String encPwd =pwdEncoder.encode(user.getPassword());  //PW 암호화
+     	
+		String encPwd =pwdEncoder.encode(user.getPassword());  //PW 암호화
         user.setPassword(encPwd);
+
         
     	
         return userMapper.updateUserPassword( user );
