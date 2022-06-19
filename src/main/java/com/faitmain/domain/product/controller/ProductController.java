@@ -106,18 +106,17 @@ public class ProductController {
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
-		search.setPageSize(10);
+		search.setPageSize(12);
 		
-		Map<String, Object> searchMap = new HashMap<String, Object>();		
-		searchMap.put("searchKeyword", search.getSearchKeyword());
+		Map<String, Object> searchMap = new HashMap<String, Object>();	
 		
 		if(resultJsp.equals("listProductStore")) {
 			// 시큐리티 적용해야 됨
 			searchMap.put("searchStore",  "store01@naver.com");
 		}
 		
-		searchMap.put("endRowNum",  search.getEndRowNum());
-		searchMap.put("startRowNum",  search.getStartRowNum());
+		searchMap.put("endRowNum",  new Integer(search.getEndRowNum()));
+		searchMap.put("startRowNum",  new Integer(search.getStartRowNum()));
 		searchMap.put("searchKeyword", search.getSearchKeyword());
 		searchMap.put("searchStatus", search.getSearchStatus());
 		searchMap.put("searchCategory", search.getSearchCategory());
@@ -127,11 +126,11 @@ public class ProductController {
 		
 		Map<String, Object> map = productService.getProductList(searchMap);
 				
-		MiniProjectPage resultPage = new MiniProjectPage( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 4, 10);
+		MiniProjectPage resultPage = new MiniProjectPage( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 4, 12);
 		
 		log.info("resultPage : " + resultPage);
 		
-		log.info("list : " + ((List<Product>)map.get("list")).get(0));
+		//log.info("list : " + ((List<Product>)map.get("list")).get(0));
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);	

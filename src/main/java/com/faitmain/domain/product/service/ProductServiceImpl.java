@@ -279,4 +279,9 @@ public class ProductServiceImpl implements ProductService {
 		return fileName;
 	}
 
+	@Override
+	public List<String> getProductNameList(String keyword) throws Exception {
+		return productMapper.getProductNameList(keyword);
+	}
+
 }

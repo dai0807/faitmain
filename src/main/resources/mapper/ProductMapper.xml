@@ -101,22 +101,22 @@
 			   			<where>
 			   				p.product_group_number is null
 			   				AND p.product_status IN('01', '03')
-			   				<if test="searchStore != null">
+			   				<if test="searchStore != null and searchStore != ''">
 				 				AND p.store_id = #{searchStore}
 							</if>
-			   				<if test="searchStatus != null">
+			   				<if test="searchStatus != null and searchStatus != ''">
 						 		AND p.product_status = #{searchStatus}
 							</if> 
-							<if test="searchKeyword != null">
+							<if test="searchKeyword != null and searchKeyword != ''">
 				 				AND p.product_name LIKE CONCAT('%',#{searchKeyword},'%')
 							</if>										
-							<if test="searchCategory != null">
+							<if test="searchCategory != null and searchCategory != ''">
 				 				AND p.product_category_code = #{searchCategory}
 							</if>
 			   			</where>  
 			   			ORDER BY <if test="searchOrderName != null">${searchOrderName}</if>
-			   					 <if test="searchOrderName == null">reg_date DESC</if> ) inner_table 
-			   	WHERE (@ROWNUM:=0)=0 limit #{endRowNum} ) result_table 
+			   					 <if test="searchOrderName == null or searchOrderName == ''">reg_date DESC</if> ) inner_table 
+			   	WHERE (@ROWNUM:=0)=0 LIMIT #{endRowNum} ) result_table 
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}; 	  	
 	  	
 	 </select>
@@ -130,28 +130,40 @@
 			AND product_group_number is null
 		</where>
 	 </select>
+	 
+	 <select  id="getProductNameList"	parameterType="String"	resultType="String">
+		SELECT product_name
+		FROM product
+		<!-- --> 
+		<where>
+			product_group_number is null
+			<if test="value != null and value != ''">
+				AND product_name LIKE CONCAT('%',#{value},'%')				
+			</if>
+		</where>
+	</select>
 	 		
 	<!-- SQL : SELECT ROW Count (현재 search 없음) -->	 
 	<select  id="getTotalCount"  parameterType="map"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT *
-				FROM product
-				<where>
-					product_group_number is null
-					AND product_status IN('01', '03')
-					<if test="searchStore != null ">
-		 				AND store_id = #{searchStore}
-					</if> 
-					<if test="searchStatus != null ">
-		 				AND product_status = #{searchStatus}
-					</if> 
-					<if test="searchKeyword != null ">
-		 				AND product_name LIKE CONCAT('%',#{searchKeyword},'%')
-					</if>										
-					<if test="searchCategory != null ">
-		 				AND product_category_code = #{searchCategory}
+	  	FROM(	SELECT p.product_number, p.product_name, p.product_price, p.product_main_image, p.product_category_code	
+	   			FROM product p 
+	   			<where>
+	   				p.product_group_number is null
+	   				AND p.product_status IN('01', '03')
+	   				<if test="searchStore != null and searchStore != ''">
+		 				AND p.store_id = #{searchStore}
 					</if>
-				</where>
+	   				<if test="searchStatus != null and searchStatus != ''">
+				 		AND p.product_status = #{searchStatus}
+					</if> 
+					<if test="searchKeyword != null and searchKeyword != ''">
+		 				AND p.product_name LIKE CONCAT('%',#{searchKeyword},'%')
+					</if>										
+					<if test="searchCategory != null and searchCategory != ''">
+		 				AND p.product_category_code = #{searchCategory}
+					</if>
+	   			</where>
 			) countTable						
 	 </select> 
 
