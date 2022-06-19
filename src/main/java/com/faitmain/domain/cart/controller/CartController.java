@@ -3,8 +3,11 @@ package com.faitmain.domain.cart.controller;
 import com.faitmain.domain.cart.domain.Cart;
 import com.faitmain.domain.cart.service.CartServiceImpl;
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.global.util.security.SecurityUserService;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,16 +25,9 @@ public class CartController{
 
     @PostMapping( "/add" )
     @ResponseBody
-    public String addCartPOST( Cart cart , HttpServletRequest request ) throws Exception{
+    public String addCartPOST( Cart cart ) throws Exception{
 
         log.info( "cart = {}" , cart );
-        /* 로그인 체크 */
-        HttpSession session = request.getSession();
-        User user = ( User ) session.getAttribute( "user" );
-        if ( user == null ) {
-            return "5";
-        }
-        cart.setBuyerId( user.getId() );
 
         int result = cartService.addCart( cart );
         return String.valueOf( result );
@@ -40,6 +36,15 @@ public class CartController{
 
     @GetMapping( "/{buyerId}" )
     public String cartPageGET( @PathVariable String buyerId , Model model ) throws Exception{
+
+        model.addAttribute( "cartList" , cartService.getCartList( buyerId ) );
+        log.info( "buyerId = {}" , buyerId );
+        log.info( "cartList = {}" , cartService.getCartList( buyerId ) );
+        return "/cart";
+    }
+    
+    @GetMapping( "/getCartList" )
+    public String cartGET( @RequestParam("buyerId") String buyerId , Model model ) throws Exception{
 
         model.addAttribute( "cartList" , cartService.getCartList( buyerId ) );
         log.info( "buyerId = {}" , buyerId );

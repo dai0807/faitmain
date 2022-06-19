@@ -9,16 +9,20 @@ import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserServiceImpl;
 import com.faitmain.global.common.Criterion;
 import com.faitmain.global.common.Page;
+import com.faitmain.global.util.UserInfoSessionUpdate;
+import com.faitmain.global.util.security.SecurityUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -39,6 +43,11 @@ public class OrderController{
     @Autowired
     private UserServiceImpl userSerivce;
 
+    @Autowired
+    private SecurityUserService securityUserService;
+
+    @Autowired
+    private UserInfoSessionUpdate userInfoSessionUpdate;
 
     @PostMapping( "/{buyerId}" )
     public String orderPage( @PathVariable String buyerId , OrderPage orderPage , Model model ){
@@ -53,31 +62,17 @@ public class OrderController{
         return "order";
     }
 
-    @PostMapping( "/add" )
-    private String orderAdd( Order order , HttpServletRequest request ) throws Exception{
 
-        log.info( "insertOrder ={}" , order );
-
-        orderService.addOrder( order );
-        User user = new User();
-        user.setId( order.getBuyerId() );
-        HttpSession session = request.getSession();
-        try {
-            User userLogin = userSerivce.getUser( user.getId() );
-            userLogin.setPassword( "" );
-            session.setAttribute( "user" , userLogin );
-        } catch ( Exception e ) {
-            e.printStackTrace();
-        }
-        return "redirect:index";
-    }
 
 
     /* IAMPORT 결제 로직 */
     @PostMapping( "/complete" )
-    public ResponseEntity<String> paymentComplete( HttpSession session , Order order ) throws IOException{
 
-        User user = ( User ) session.getAttribute( "user" );
+    public String paymentComplete( Order order ) throws IOException{
+
+        User user = orderService.getBuyer( order.getBuyerId() );
+        log.info( "user = {}" , user );
+
 
         // 1. 아임포트 API 키와 SECRET키로 토큰을 생성
         String token = paymentService.getToken();
@@ -96,48 +91,42 @@ public class OrderController{
             log.info( "/* 주문 시 사용한 포인트 */" );
             log.info( "usingPoint = {}" , usingPoint );
 
-            if ( user  != null ) {
-                int point = user.getTotalPoint();
-                log.info( "point = {}" , point );
+            int point = user.getTotalPoint();
+            log.info( "point = {}" , point );
 
 
-                if ( point < usingPoint ) {
-                    log.info( "/* 사용된 포인트가 유저의 포인트보다 많을 때 */" );
-                    paymentService.paymentCancel( token , order.getImpUid() , amount , "유저 포인트 오류" );
-                    return new ResponseEntity<String>( " 유저 포인트 오류" , HttpStatus.BAD_REQUEST );
-                } else {
+            if ( point < usingPoint ) {
+                log.info( "/* 사용된 포인트가 유저의 포인트보다 많을 때 */" );
+                paymentService.paymentCancel( token , order.getImpUid() , amount , "유저 포인트 오류" );
+                return "index";
+            } else {
 
-                    if ( usingPoint != 0 ) {
-                        log.info( "/* 로그인 하지 않았는데 포인트가 사용되었을 때 */" );
-                        paymentService.paymentCancel( token , order.getImpUid() , amount , "비회원 포인트사용 오류" );
-                        return new ResponseEntity<String>( "비회원 포인트 사용 오류 " , HttpStatus.BAD_REQUEST );
-                    }
+                if ( usingPoint != 0 ) {
+                    log.info( "/* 로그인 하지 않았는데 포인트가 사용되었을 때 */" );
+                    paymentService.paymentCancel( token , order.getImpUid() , amount , "비회원 포인트사용 오류" );
+                    return "index";
+
                 }
             }
 
             orderService.addOrder( order );
-            return new ResponseEntity<>( "주문이 완료되었습니다" , HttpStatus.OK );
+
+//
+//            try {
+//                user = orderService.getBuyer( order.getBuyerId() );
+//                securityUser.setUser( user );
+//            } catch ( Exception e ) {
+//                e.printStackTrace();
+//            }
+
+            return "order/list";
+
 
         } catch ( Exception e ) {
             paymentService.paymentCancel( token , order.getImpUid() , amount , "결제 에러" );
-            return new ResponseEntity<String>( "결제 에러" , HttpStatus.BAD_REQUEST );
+            return "index";
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -146,12 +135,12 @@ public class OrderController{
 
     /* 주문현황 페이지*/
     @GetMapping( "/list" )
-    public String orderList( Criterion criterion , Model model ) throws Exception{
+    public String orderList( Criterion criterion , Model model ){
 
         List<Order> orderList = orderService.getOrderList( criterion );
         if ( !orderList.isEmpty() ) {
             model.addAttribute( "orderList" , orderList );
-            model.addAttribute( "pagemMaker" , new Page( criterion , orderService.getOrderTotal( criterion ) ) );
+            model.addAttribute( "pageMaker" , new Page( criterion , orderService.getOrderTotal( criterion ) ) );
         } else {
             model.addAttribute( "listCheck" , "empty" );
         }
@@ -168,7 +157,7 @@ public class OrderController{
 
 
     @GetMapping( "/pay" )
-    public String pay(){
+    public String pay( @AuthenticationPrincipal SecurityUserService securityUserService ){
 
         return "order/sample";
     }

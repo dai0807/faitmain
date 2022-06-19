@@ -49,10 +49,10 @@
     
     <resultMap id="liveUserStatusMap" type="LiveUserStatus">
        <result property="liveNumber" column="live_number" jdbcType="INTEGER" />
-       <result property="id" column="id" jdbcType="VARCHAR" />
-       <result property="alarmStatus" column="alarm_status" jdbcType="BIT" />
-       <result property="kickStatus" column="kick_status" jdbcType="BIT" />
-       <result property="dumbStatus" column="dumb_status" jdbcType="BIT" />
+       <result property="nickName" column="id" jdbcType="VARCHAR" />
+       <result property="alarmStatus" column="alarm_status" jdbcType="INTEGER" />
+       <result property="kickStatus" column="kick_status" jdbcType="INTEGER" />
+       <result property="dumbStatus" column="dumb_status" jdbcType="INTEGER" />
     </resultMap>
     
     <!-- ================================================================================= ADD =================================================================================== -->
@@ -94,9 +94,8 @@
        INSERT INTO live_user_status
           (live_number, id, alarm_status, kick_status, dumb_status)
        VALUES
-          (#{liveNumber}, #{id}, #{alarmStatus}, #{kickStatus}, #{dumbStatus})
-    </insert>
-    
+          (#{liveNumber}, #{nickName}, #{alarmStatus}, #{kickStatus}, #{dumbStatus})
+    </insert>   
     
     <!-- ================================================================================= UPDATE============================================================================== -->
     <!-- UPDATE Live -->
@@ -162,10 +161,10 @@
    <!-- GET LiveUserStatus -->
    <select id="getLiveUserStatus" parameterType="LiveUserStatus" resultMap="liveUserStatusMap">
       SELECT * FROM live_user_status
-      <where>
+	<where>
          live_number = #{liveNumber}
-         AND id = #{id}
-      </where>
+     AND id = #{nickName}        
+	</where>
    </select>
    
    <!-- GET LiveReservation -->
@@ -192,6 +191,13 @@
    			store_id = #{store.id}
    			AND reservation_date > #{reservationDate} OR (reservation_date = #{reservationDate} AND reservation_time >= #{reservationTime})
    		</where>
+   </select>
+   
+   <select id="getLiveNumberByRoomId" parameterType="string" resultMap="liveMap">
+   	SELECT * FROM live
+   	<where>
+   	 room_id = #{roomId}
+   	</where>
    </select>
    
    <!-- GET LiveReservation 
@@ -246,8 +252,8 @@
 		SELECT l.*, u.store_name, u.store_logo_image
         FROM live_reservation l, user u
 		WHERE l.store_id = u.id
-			  AND reservation_date = #{value};
-		
+			  AND l.reservation_date = #{value}
+		ORDER BY l.reservation_time;
 	</select>
 	    
     <!-- GET LIST ListUserStatus -->

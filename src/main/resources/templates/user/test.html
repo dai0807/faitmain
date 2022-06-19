@@ -58,6 +58,7 @@ authenticated(인증 여부): <p th:text="${#authentication.authenticated}">  </
 
  
  <!--  밑은 , 컨트롤러에서 보내준 user 정보를 가져옴 -->
+      name : <p th:text="${#authentication.name}"></p>
      
   아이디 : [[${user.id}]]  &nbsp; 이름 : &nbsp;  [[${user.name}]]  &nbsp; 주소1:  &nbsp; [[${user.userAddress1}]]    &nbsp; 주소2:&nbsp; [[${user.userAddress2}]]    &nbsp; 주소3:&nbsp; [[${user.userAddress3}]]  <br>
     &nbsp; 권한: [[${user.role}]]   

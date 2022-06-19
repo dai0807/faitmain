@@ -10,20 +10,16 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.authentication.jaas.JaasAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -36,7 +32,7 @@ import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.user.domain.StoreApplicationDocument;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.ApiService;
- import com.faitmain.domain.user.service.SecurityUser;
+ import com.faitmain.global.util.security.SecurityUserService;
 import com.faitmain.domain.user.service.UserSerivce;
 import com.faitmain.global.common.MiniProjectPage;
 import com.faitmain.global.common.Search;
@@ -76,7 +72,7 @@ public class UserController{
 //    
 //    @Qualifier( "securityUser" )
 //    @Autowired
-//    private SecurityUser securityUser;
+//    private SecurityUserService securityUser;
     
     
     public UserController(){
@@ -91,18 +87,18 @@ public class UserController{
      public String test( Authentication authentication , Model model ){
          System.out.println("====test======");
          
-         //Authentication 클래스 안에  getPrincipal 를 사용해서 그 안에 있는  SecurityUser 를 가져옵니다. 
-         //SecurityUser 안에 각종 인증 정보가 들어 있음 
+         //Authentication 클래스 안에  getPrincipal 를 사용해서 그 안에 있는  SecurityUserService 를 가져옵니다.
+         //SecurityUserService 안에 각종 인증 정보가 들어 있음
          
-         SecurityUser securityUser= (SecurityUser)authentication.getPrincipal() ;
+         SecurityUserService securityUserService = ( SecurityUserService )authentication.getPrincipal() ;
          
-         System.out.println("==securityUser="+securityUser); //  
+         System.out.println("==securityUser="+ securityUserService ); //
         
-         System.out.println("==securityUser.getUser()="+securityUser.getUser());
+         System.out.println("==securityUser.getUser()="+ securityUserService.getUser());
                  
-         System.out.println("==User="+ (User)securityUser.getUser() );
+         System.out.println("==User="+ securityUserService.getUser() );
         
-         model.addAttribute("user" , (User)securityUser.getUser()) ;
+         model.addAttribute("user" , securityUserService.getUser() ) ;
          
          System.out.println("====test==끝====");
 
@@ -131,7 +127,7 @@ public class UserController{
 //          //Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
 //          System.out.println("====getMyInfo1==== "+ principal);
 //          System.out.println("====getMyInfo1==== "+ principal.toString());
-//          SecurityUser securityUser = (SecurityUser)principal ;  
+//          SecurityUserService securityUser = (SecurityUserService)principal ;
 //          
 //          System.out.println(   "securityUser "+ securityUser  );
 //          System.out.println(   " securityUser.getUser()   "+  securityUser.getUser()  );
@@ -140,37 +136,37 @@ public class UserController{
 //          return  securityUser.getUser().toString() ;
 
       
-  		SecurityUser securityUser = (SecurityUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
-      	 User  user = (User)securityUser.getUser() ; 
+  		SecurityUserService securityUserService = ( SecurityUserService )SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
+      	 User  user = securityUserService.getUser();
       	 model.addAttribute("user" , user) ;
       	 
       return "/user/test";
       
       }   
      
- //  
+ //
      @GetMapping("test2")
-     public String test2( @AuthenticationPrincipal SecurityUser securityUser , Model model ){
+     public String test2( @AuthenticationPrincipal SecurityUserService securityUserService , Model model ){
          System.out.println("====test======");
-         
-         //Authentication 클래스 안에  getPrincipal 를 사용해서 그 안에 있는  SecurityUser 를 가져옵니다. 
-         //SecurityUser 안에 각종 인증 정보가 들어 있음 
-         System.out.println("==securityUser="+(User)securityUser.getUser()); // Security 용 Usr 임 
-         model.addAttribute("user" , (User)securityUser.getUser()) ;
- 
+
+         //Authentication 클래스 안에  getPrincipal 를 사용해서 그 안에 있는  SecurityUserService 를 가져옵니다.
+         //SecurityUserService 안에 각종 인증 정보가 들어 있음
+         System.out.println("==securityUser="+ securityUserService.getUser() ); // Security 용 Usr 임
+         model.addAttribute("user" , securityUserService.getUser() ) ;
+
           return "/user/test" ;
-          
-          
+
+
        }
-  //  @AuthenticationPrincipal 은 인증이후 편의적으로 현재 인증된 세션유저를 가져오기 위해 
-  //  @AuthenticationPrincipal 어노테이션을 통해 UserDetails 인터페이스를 구현한 유저 객체를 SecurityUser를 주입할때 사용       
-     
-     
-     
-     
-     
-     
-     // 권한이 맞지 않을때 감 
+  //  @AuthenticationPrincipal 은 인증이후 편의적으로 현재 인증된 세션유저를 가져오기 위해
+  //  @AuthenticationPrincipal 어노테이션을 통해 UserDetails 인터페이스를 구현한 유저 객체를 SecurityUser를 주입할때 사용
+
+
+
+
+
+
+     // 권한이 맞지 않을때 감
      @GetMapping("accessDenied")
      public String accessDenied(){
 
@@ -215,13 +211,10 @@ public class UserController{
 			}
 			search.setPageSize(100);
 			
-			Map<String, Object> searchMap = new HashMap<String, Object>();		
+			Map<String, Object> searchMap = new HashMap<>();
 			searchMap.put("searchKeyword", search.getSearchKeyword());
-			
-		 
 			searchMap.put("endRowNum",  search.getEndRowNum());
 			searchMap.put("startRowNum",  search.getStartRowNum());
-			searchMap.put("searchKeyword", search.getSearchKeyword());
 			searchMap.put("searchStatus", search.getSearchStatus());
 			searchMap.put("searchCategory", search.getSearchCategory());
 			searchMap.put("searchOrderName", search.getOrderName());
@@ -230,7 +223,7 @@ public class UserController{
 			
 			Map<String, Object> map = userSerivce.getStoreApplicationDocumentList(searchMap);
 					
-			MiniProjectPage resultPage = new MiniProjectPage( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 4, 10);
+			MiniProjectPage resultPage = new MiniProjectPage( search.getCurrentPage(), ( Integer ) map.get( "totalCount" ) , 4, 10);
 			
 			log.info("resultPage : " + resultPage);
 			
@@ -254,7 +247,7 @@ public class UserController{
 	   
 	   
 	   @GetMapping( "login" )
-	   public String longin( Model model ) throws Exception {
+	   public String longin( ){
 	      
 		   
 		   log.info( " 컨트롤러 탐 login Page로 이동"  );
@@ -281,7 +274,7 @@ public class UserController{
  			   User user = userSerivce.getUser(loginuser.getId()) ;   // 로그인 된 사람 정보 가져와서 회월탈퇴 값 있는지 검증 
  			   
 			 			  System.out.println("너의 값은 무엇이냐" +user.getWithdrawalStatus()) ;
-				 			   if(user.getWithdrawalStatus() == true) { // true 는 회원 탈퇴
+				 			   if( user.getWithdrawalStatus() ) { // true 는 회원 탈퇴
 				 				   result="withdraw" ; //
 				 				   
 				 			      return result;
@@ -294,7 +287,7 @@ public class UserController{
  			   session.setAttribute("user", user) ; // user 정보 로그인
  			   
  			   
- 		        Map<String, Object> map = new HashMap<String, Object>();
+ 		        Map<String, Object> map = new HashMap<>();
 
  		        map.put( "orderName" , "product_name DESC" );
  		        map.put( "startRowNum" , 1 );
@@ -338,7 +331,7 @@ public class UserController{
 		   
 		   log.info("getUserList  도착 !! ");
 		 
-		   Map<String, Object> searchMap = new HashMap<String, Object>();
+		   Map<String, Object> searchMap = new HashMap<>();
 		   
 		   if( searchCondition != null) {
 			   log.info("getUserList searchCondition ={}", searchCondition);
@@ -401,7 +394,7 @@ public class UserController{
 
 
     @GetMapping( "logout" )
-    public RedirectView logout( HttpSession session , HttpServletRequest request ) throws Exception{
+    public RedirectView logout( HttpSession session , HttpServletRequest request ){
 
 
         log.info( "get :: logout    " );
@@ -414,7 +407,7 @@ public class UserController{
 
 
     @GetMapping( "selectRegisterType" )
-    public String selectRegisterType( Model model ) throws Exception{
+    public String selectRegisterType( ){
 
         log.info( "get :: selectRegisterType    " );
 
@@ -423,7 +416,7 @@ public class UserController{
 
 
     @GetMapping( "addUser" )
-    public String addUser( Model model ) throws Exception{
+    public String addUser( ){
 
         log.info( "get :: addUser " );
 
@@ -432,7 +425,7 @@ public class UserController{
 
 
     @GetMapping( "addStore" )
-    public String addStore( Model model ) throws Exception{
+    public String addStore( ){
 
         log.info( "get :: addStore " );
 
@@ -534,7 +527,7 @@ public class UserController{
         } // 존재 할때
 
 
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
 
         map.put( "orderName" , "product_name DESC" );
         map.put( "startRowNum" , 1 );
@@ -581,7 +574,7 @@ public class UserController{
         session.setAttribute( "user" , kuser );
 
 
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
 
         map.put( "orderName" , "product_name DESC" );
         map.put( "startRowNum" , 1 );
@@ -604,7 +597,7 @@ public class UserController{
     @PostMapping( "naverUser" )
     public String naverUser( @RequestParam( value = "code", required = false ) String code , Model model , @ModelAttribute( "user" ) User kuser , HttpSession session ) throws Exception{
 
-
+        /* TODO : 구현할 것 */
         return ( "redirect:/live/main.jsp" );
 
 
@@ -613,13 +606,13 @@ public class UserController{
 
     //UpdatePassword
     @GetMapping( "updatePassword" )
-    public String updatePassword( @RequestParam( value = "id", required = false ) String id , Model model , HttpSession session , HttpServletRequest request ) throws Exception{
+    public String updatePassword( @RequestParam( value = "id", required = false ) String id , Model model ){
         log.info( "##updatePassword {} ##" );
 
 
         if ( id == null ) {
-      		SecurityUser securityUser = (SecurityUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음        	
-            id =  securityUser.getUser().getId() ;
+      		SecurityUserService securityUserService = ( SecurityUserService )SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
+            id =  securityUserService.getUser().getId() ;
         
         }
         log.info( "updatePassword id :: {}  " + id );
@@ -634,7 +627,7 @@ public class UserController{
 
     // find Id Rest Control로 갈 운명
     @GetMapping( "findId" )
-    public String findId( @ModelAttribute( "user" ) User user , Model model ) throws Exception{
+    public String findId( @ModelAttribute( "user" ) User user ){
 
         log.info( "###Stat###findId ={} ##" , user );
 
@@ -678,18 +671,17 @@ public class UserController{
     //			//id가 있으면 list에서 온거 , 아니면 내 정보 조회에서 온 것
 //getUser 유저 상세    // 변자기돈 getUSer시 아이디 날라가기 
     @GetMapping( "getUser" )
-    public String getUser( Model model , @RequestParam( value = "id", required = false ) String id
-            , HttpSession session , HttpServletRequest request ) throws Exception{
+    public String getUser( Model model , @RequestParam( value = "id", required = false ) String id ) throws Exception{
 
         log.info( " GestUSer에 옴 출력하라 id  {}" , id );
         User user = null;
 
         if ( id == null ) {
         	
-    		SecurityUser securityUser = (SecurityUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
-          	    user = (User)securityUser.getUser() ; 
+    		SecurityUserService securityUserService = ( SecurityUserService )SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
+          	    user = securityUserService.getUser();
          
-        	log.info(" 로그인한 유저   ={} ", (User)securityUser.getUser() );
+        	log.info(" 로그인한 유저   ={} ", securityUserService.getUser() );
         	
  
         } else {
@@ -726,7 +718,7 @@ public class UserController{
 
     //스토어 재 신청 Add
     @GetMapping( "addStoreApplication" )
-    public String addStoreApplicationDocument( Model model ) throws Exception{
+    public String addStoreApplicationDocument( ){
         log.info( " start !!  addStoreApplicationDocument " );
 
 

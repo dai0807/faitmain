@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.faitmain.global.util.security.SecurityUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.faitmain.domain.product.domain.Product;
-import com.faitmain.domain.product.service.InquiryService;
 import com.faitmain.domain.product.service.ProductService;
-import com.faitmain.domain.product.service.ReviewService;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserSerivce;
 import com.faitmain.global.common.MiniProjectPage;
@@ -69,9 +69,13 @@ public class ProductController {
 		
 		log.info("/product/addProduct = {}", "POST");
 		
-		User user = new User();
-		user.setId("store01@naver.com");
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+		
 		product.setStore(user);
+		log.info("store = {} ",product.getStore());
+	
+		
 		productService.addProduct(product, mRequest);
 		
 		log.info("productNumber 확인 = {} ", product.getProductGroupNumber());
@@ -94,22 +98,6 @@ public class ProductController {
 		return "/product/getProduct";
 	}
 	
-	///////// Test용 ///////////
-	@GetMapping("getProduct2")
-	public String getProduct2( @RequestParam("productNumber") int productNumber, Model model ) throws Exception {
-		
-		log.info("/product/getProduct2");
-		
-		Product product = productService.getProduct(productNumber);
-		
-		log.info("product = {}", product);
-		
-		model.addAttribute("product", product);
-		
-		return "/product/getProduct2";
-	}
-	//////////////////////////
-	
 	@RequestMapping(value="getProductList")
 	public String getProductList(@ModelAttribute Search search, @RequestParam("resultJsp") String resultJsp, Model model) throws Exception{
 		
@@ -124,6 +112,7 @@ public class ProductController {
 		searchMap.put("searchKeyword", search.getSearchKeyword());
 		
 		if(resultJsp.equals("listProductStore")) {
+			// 시큐리티 적용해야 됨
 			searchMap.put("searchStore",  "store01@naver.com");
 		}
 		
@@ -167,8 +156,9 @@ public class ProductController {
 		
 		log.info("/product/updateProduct = {}", "POST");
 		
-		User user = new User();
-		user.setId("store01@naver.com");
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+		
 		product.setStore(user);
 		productService.updateProduct(product, mRequest);
 		
