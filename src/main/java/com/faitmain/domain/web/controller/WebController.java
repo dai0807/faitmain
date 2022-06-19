@@ -36,9 +36,9 @@ public class WebController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		map.put("orderName", "product_name DESC");
+		map.put("orderName", "reg_date DESC");
 		map.put("startRowNum", 1);
-		map.put("endRowNum", 5);
+		map.put("endRowNum", 16);
 
 		map = productService.getProductList(map);
 

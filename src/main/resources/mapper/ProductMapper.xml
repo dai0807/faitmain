@@ -96,7 +96,7 @@
 	<select  id="getProductList"  parameterType="map"	resultMap="productSelectMap">
 		SELECT * 
 		FROM ( SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq 
-			   FROM (	SELECT p.product_number, p.product_name, p.product_price, p.product_main_image 	
+			   FROM (	SELECT p.product_number, p.product_name, p.product_price, p.product_main_image, p.product_category_code	
 			   			FROM product p 
 			   			<where>
 			   				p.product_group_number is null
@@ -121,13 +121,14 @@
 	  	
 	 </select>
 
-	<!-- 판매자 상품 목록 조회 (현재 search 없어서 if문 수정 필요) -->
+	<!-- 판매자 상품 목록 조회 -->
 	 <select  id="getProductListByStoreId"  parameterType="String"	resultMap="productSelectMap">
-	  							SELECT *
-								FROM product
-								<where>
-									store_id = #{value}
-								</where>
+		SELECT *
+		FROM product
+		<where>
+			store_id = #{value}
+			AND product_group_number is null
+		</where>
 	 </select>
 	 		
 	<!-- SQL : SELECT ROW Count (현재 search 없음) -->	 
