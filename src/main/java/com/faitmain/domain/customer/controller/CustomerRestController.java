@@ -50,7 +50,7 @@ public class CustomerRestController {
 	}
 	
 	@RequestMapping(value = "/json/getFAQCategoryCode", method = RequestMethod.GET, produces="application/json;")
-	public @ResponseBody List<Customer> getFAQCategoryCode(String FAQCategoryCode){
+	public @ResponseBody List<Customer> getFAQCategoryCode(String FAQCategoryCode) throws Exception{
 		String result = "";
 		List<Customer> boardList = customerService.getFAQCategoryCode(FAQCategoryCode);
 		

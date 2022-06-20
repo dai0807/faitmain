@@ -10,6 +10,7 @@ import com.faitmain.domain.customer.domain.BanStatus;
 import com.faitmain.domain.customer.domain.Customer;
 
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.global.common.Criterion;
 import com.faitmain.global.common.Image;
 
 
@@ -20,28 +21,34 @@ public interface CustomerMapper {
 
 	//CustomerBoard
 	
-	//INSERT 
+//	게시판 등록 
 	public int addCustomerBoard(Customer customer) throws Exception;
 	
-	//Detail
+//	게시판 상세조회
 	public Customer getCustomerBoard(int boardNumber) throws Exception;
 	
-	//Detail LiveGuide
+//	라이브가이드 상세조회
 	public Customer getLiveGuide(char boardType) throws Exception;
 	
-	//UPDATE
+//	게시판 수정
 	public int updateCustomerBoard(Customer customer) throws Exception;
 	
-	//SELECT List
+//	게시판 리스트 조회
 	public List<Customer> getCustomerBoardList(char boardType) throws Exception;
 	
-	//DELETE
+//	게시판 삭제
 	public int deleteCustomerBoard(int boardNumber) throws Exception;
-	//delete_yn column 이용해서 실제로 데이터 삭제하지않고 column 값을 Y or N 으로 지정하여 N일 경우에만 데이터가 노출되게끔
 	
+//	게시판 총 개수
 	public int getBoardTotalCount() throws Exception;
 	
-	public List<Customer> getFAQCategoryCode(String FAQCategoryCode);
+//	라이브가이드 리스트 조회(카테고리이용)	
+	public List<Customer> getFAQCategoryCode(String FAQCategoryCode) throws Exception;
+	
+// 게시판 목록(페이징 적용)
+	public List<Customer> getListPaging(Criterion criterion) throws Exception;
+	
+	
 
 	//INSERT
 //	public void addCustomerBoardImage(Image image) throws Exception;

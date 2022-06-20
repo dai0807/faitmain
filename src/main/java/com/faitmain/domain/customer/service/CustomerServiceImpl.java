@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.mapper.CustomerMapper;
+import com.faitmain.global.common.Criterion;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,62 +28,59 @@ public class CustomerServiceImpl implements CustomerService{
 	public CustomerServiceImpl(CustomerMapper customerMapper) {
 		this.customerMapper = customerMapper;
 	}
-	
-//	@Override
-//	public boolean registerCustomerBoard(Customer params) throws Exception {
-//		int queryResult = 0;													//queryResult : Query를 실행한 횟수
-//		
-//		if(params.getBoardNumber() == 0) {									//'0' -> int default
-//			queryResult = customerMapper.addCustomerBoard(params);
-//		}else {
-//			queryResult = customerMapper.updateCustomerBoard(params);
-//		}
-//		
-//		return(queryResult == 1) ? true : false ;
-//		
-//	}
-//	
+
+//	게시판 상세조회
 	@Override
 	public Customer getCustomerBoard(int boardNumber) throws Exception {
 		return customerMapper.getCustomerBoard(boardNumber);
 	}
 	
-	public List<Customer> getFAQCategoryCode(String FAQCategoryCode){
+//	라이브가이드 리스트 조회(카테고리 이용)	
+	@Override
+	public List<Customer> getFAQCategoryCode(String FAQCategoryCode) throws Exception{
 		return customerMapper.getFAQCategoryCode(FAQCategoryCode);
 	}
 	
+//	라이브가이드 상세조회	
 	@Override
 	public Customer getLiveGuide(char boardType) throws Exception{
 		return customerMapper.getLiveGuide(boardType);
 	}
 
+//	게시판 등록
 	@Override
 	public int addCustomerBoard(Customer customer) throws Exception {
-		/* customerMapper.addCustomerBoard(customer); */
 		return customerMapper.addCustomerBoard(customer);
-		
 	}
-	
+
+//	게시판 수정	
 	@Override
 	public int updateCustomerBoard(Customer customer) throws Exception{ 
 		 return customerMapper.updateCustomerBoard(customer);
 	  
 	}
-
-	@Override
-	public boolean deleteCustomerBoard(int boardNumber) throws Exception {
-		int queryResult = 0;
-		
-		Customer customer = customerMapper.getCustomerBoard(boardNumber);
-		
-		if(customer != null && "N".equals(customer.getDeleteYn())) {		// 삭제여부 - 'Y' : 삭제 x, 'N' : 삭제
-			queryResult = customerMapper.deleteCustomerBoard(boardNumber);
-		}
-		
-		return (queryResult == 1) ? true : false;
-	}
-		
 	
+//	게시판 삭제
+	@Override
+	public int deleteCustomerBoard(int boardNumber) throws Exception{
+		return customerMapper.deleteCustomerBoard(boardNumber);
+	}
+	
+// 게시판 삭제(Enum 활용)
+//	@Override
+//	public boolean deleteCustomerBoard(int boardNumber) throws Exception {
+//		int queryResult = 0;
+//		
+//		Customer customer = customerMapper.getCustomerBoard(boardNumber);
+//		
+//		if(customer != null && "N".equals(customer.getDeleteYn())) {		// 삭제여부 - 'Y' : 삭제 x, 'N' : 삭제
+//			queryResult = customerMapper.deleteCustomerBoard(boardNumber);
+//		}
+//		
+//		return (queryResult == 1) ? true : false;
+//	}
+		
+// 게시판 조회	
 	@Override
 	public List<Customer> getCustomerBoardList(char boardType) throws Exception {
 				
@@ -93,11 +91,18 @@ public class CustomerServiceImpl implements CustomerService{
 		if(boardTotalCount > 0) {
 			list = customerMapper.getCustomerBoardList(boardType);
 		}
-		
 		return list; 
 	}
 	
+// 게시물 총 개수
+	public int getBoardTotalCount() throws Exception{
+		return customerMapper.getBoardTotalCount();
+	}
 	
+// 게시판 목록(페이징 적용)
+	public List<Customer> getListPaging(Criterion criterion) throws Exception{
+		return customerMapper.getListPaging(criterion);
+	}
 	
 		  
 

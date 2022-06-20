@@ -53,10 +53,10 @@
 
     	SELECT 
     	customer_board_number, customer_board_title, customer_board_content, view_cnt, 
-		delete_yn, reg_date, update_date, customer_FAQ_category_code, customer_board_type, customer_id
+		reg_date, update_date, customer_FAQ_category_code, customer_board_type, customer_id
     	FROM customer 
     	<where>
-			delete_yn = 'N' AND customer_board_number = #{boardNumber}
+			 customer_board_number = #{boardNumber}
       	</where>    			  	
     </select>
     
@@ -64,10 +64,10 @@
 
     	SELECT 
     	customer_board_number, customer_board_title, customer_board_content, view_cnt, 
-		delete_yn, reg_date, update_date, customer_FAQ_category_code, customer_board_type, customer_id
+		reg_date, update_date, customer_FAQ_category_code, customer_board_type, customer_id
     	FROM customer 
     	<where>
-			delete_yn = 'N' AND customer_board_type = #{boardType}
+			customer_board_type = #{boardType}
       	</where>    	
       		ORDER BY reg_date	
       		DESC LIMIT 1	  	
@@ -98,15 +98,23 @@
     	</where>
     </update>
     
-      <update id="deleteCustomerBoard" parameterType="int" >
-    	UPDATE customer
-    	<set>
-    		delete_yn = 'Y'
-    	</set>
+  <!--  게시판 삭제 -->  
+      <delete id="deleteCustomerBoard" parameterType="int" >
+    	DELETE FROM customer
+    	
     	<where>
     		customer_board_number = #{boardNumber}
     	</where>
-    </update>
+    </delete>
+    
+ <!-- Enum 활용 삭제 -->   
+     <!-- <update id="deleteCustomerBoard" parameterType="int" >
+    	UPDATE customer
+    	
+    	<where>
+    		delete_Yn == 'Y' and customer_board_number = #{boardNumber}
+    	</where>
+    </update> -->
     
    <!--  <select id="getViewCount" parameterType="int" resultMap="customerMap">
     	SELECT hit
@@ -116,24 +124,47 @@
     	</where>
     </select> -->
     
-    <!-- SQL : SELECT LIST -->
+<!-- SQL : SELECT LIST -->
+<!-- 게시판 목록(페이징, LIMIT활용) -->
     <select id="getCustomerBoardList" parameterType="String" resultMap="customerMap" >
     
-    	SELECT * 
+    	SELECT customer_board_number, customer_board_title, customer_id, reg_date, customer_board_type
     	FROM customer
     	<where>
-    		delete_yn = 'N' AND customer_board_type = #{boardType}
+    		customer_board_type = #{boardType}
     	</where> 
     	ORDER BY reg_date DESC
+    	limit 10, 10
     	
-    </select> 
+    </select>
+    
+<!-- 게시판 목록(페이징, ROWNUM) -->
+    <!--  <select id="getCustomerBoardList" parameterType="String" resultMap="customerMap" >
+    
+	    SELECT * FROM
+	    	(SELECT @ROWNUM := @ROWNUM + 1 as rn, customer_board_number, customer_board_title, customer_id, reg_date, customer_board_type
+	    		FROM customer, (SELECT @ROWNUM := 0) as rowcolumn ORDER BY reg_date DESC) as rownum_table
+	    		WHERE rn BETWEEN 10 AND 20
+    	
+    </select>   -->
+    
+    <select id="getListPaging" resultType="Customer">
+    
+    	SELECT * FROM ( 
+    				SELECT customer_board_number, customer_board_title, customer_id, reg_date, customer_board_type
+    				FROM customer 
+    				ORDER BY reg_date DESC) AS T1
+    				<!-- limit ((${pageNum}-1 * ${amount}), ${amount} -->
+    		limit #{skip}, #{amount}
+    
+    </select>
     
     <select id="getFAQCategoryCode" parameterType="String" resultMap="customerMap" >
     
     	SELECT * 
     	FROM customer
     	<where>
-    		delete_yn = 'N' AND customer_FAQ_category_code = #{FAQCategoryCode}
+    		customer_FAQ_category_code = #{FAQCategoryCode}
     	</where> 
     	ORDER BY reg_date DESC
     	
@@ -172,13 +203,13 @@
 	
     
     
-     <!-- 게시글 수  -->
-    <select id="getBoardTotalCount" parameterType="Customer" resultType="int">
+     <!-- 게시글 총 개수  -->
+    <select id="getBoardTotalCount"  resultType="int">
     
     	SELECT COUNT(*)
     	FROM customer
     	<where>
-    		delete_yn = 'N'
+    		
     	</where> 
     
     </select> 
