@@ -10,9 +10,14 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                    		 <li sec:authorize  ="isAnonymous()" class="nav-item"><a class="nav-link" th:href="@{/user/login}">로그인</a></li>
-                   		 <li sec:authorize  ="isAuthenticated()" th:if="${#authentication.principal.user.joinPath !='KAKAO' }" class="nav-item"><a class="nav-link" th:href="@{/user/logout}">로그아웃</a></li>
+                   		<th:block   sec:authorize="isAuthenticated()" >
+                   		 	<li      class="nav-item"><a class="nav-link" th:href="@{/user/logout}">로그아웃</a></li>
+                   		</th:block>
+ 
  <!-- 라이브 오빠들 로그아웃 <li th:if="${session.user != null AND session.user.joinPath =='KAKAO' }" class="nav-item"><a class="nav-link" th:href="@{https://kauth.kakao.com/oauth/logout?client_id=f0b36852932e865ae00c9ff2fcd19874&logout_redirect_uri=https://fait-main.kro.kr:8080/user/logout}">로그아웃</a></li> -->
-                       	<li sec:authorize ="isAuthenticated()"   th:if="${#authentication.principal.user.joinPath =='KAKAO' }"  class="nav-item"><a class="nav-link" th:href="@{https://kauth.kakao.com/oauth/logout?client_id=f0b36852932e865ae00c9ff2fcd19874&logout_redirect_uri=http://localhost:8080/user/logout}">카카오로그아웃</a></li>
+<!--                       	<li sec:authorize ="isAuthenticated()"   th:if="${#authentication.principal.user.joinPath =='NAVER' }"  class="nav-item"><a class="nav-link" th:href="@{https://kauth.kakao.com/oauth/logout?client_id=f0b36852932e865ae00c9ff2fcd19874&logout_redirect_uri=http://localhost:8080/user/logout}">카카오로그아웃</a></li> -->
+<!--				      	<li sec:authorize ="isAuthenticated()"   th:if="${#authentication.principal.user.joinPath =='NAVER' }"  class="nav-item"><a class="nav-link" th:href="@{https://kauth.kakao.com/oauth/logout?client_id=f0b36852932e865ae00c9ff2fcd19874&logout_redirect_uri=http://localhost:8080/user/logout}">카카오로그아웃</a></li> -->
+
 
                     
                      

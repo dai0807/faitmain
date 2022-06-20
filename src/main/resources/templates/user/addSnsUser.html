@@ -24,61 +24,7 @@
 <!-- 주소 api-->
 <script type="text/javascript">
  
- 			
- 	$(function() {	
-			$("#id").on("keyup",function (){ 		
-			  var  id = $('#id').val(); //id값이 "id"인 입력란의 값을 저장
-			
-				console.log("id :: "+ id ) ;
-			 
-					 if(id == null && id.length <9 ){
-						$('.text-danger').css("display","none");
-				                     $('.id_ok').css("display", "none");
-				                     $('.id_info').css("display", "inline-block");
-						total_check_id = 0 ;
-						console.log("이메일 검사 ")
-							return false;
-					}
-					if(email_check(id)){
-						 $.ajax({
-				             url:"/user/idCheck?id="+id,
-				             type:'GET',
-				             
-				             success:function(cnt){ //컨트롤러에서 넘어온 cnt값을 받는다 
-				                 if(cnt != 1){ //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 아이디 
-				             
-									 $('.text-danger').css("display","none");
-				                     $('.id_ok').css("display", "inline-block");
-				                     $('.id_info').css("display", "none");
-						total_check_id = 1
-
-
-
-				                 } else { // cnt가 1일 경우 -> 이미 존재하는 아이디
-				                     $('.text-danger').css("display","inline-block");
-				                     $('.id_ok').css("display", "none");
-				                     $('.id_info').css("display", "none");
-						total_check_id = 0 ;
-				                     
-				                 }
-				             },
-				             error:function(){
-				                 alert("에러입니다");
-				             }
-						         });		
-						       
-						       } else{
-							 $('.text-danger').css("display","none");
-				                     $('.id_ok').css("display", "none");
-				                     $('.id_info').css("display", "inline-block");
-						total_check_id = 0 ;
-							
-						}
-						})	
-			});
-			
-			
-
+ 
 			
 				
 	 		$(function() {	
@@ -198,7 +144,7 @@
 				
 		 
 		
-					$("form").attr("method","POST").attr("action","/user/kakaoaddUser").submit();
+					$("form").attr("method","POST").attr("action","/user/addSnsUser").submit();
 
 													
 					
@@ -227,7 +173,7 @@
  
         
             <div class="text-center">
-                <h2 class="fw-bolder">카카오 회원 가입 </h2>
+                <h2 class="fw-bolder">sns 회원 가입 </h2>
                 <p class="lead fw-normal text-muted ">회원 정보를 입력해주세요 </p>
             </div>
             
@@ -243,8 +189,10 @@
 		    <!--<label for="userId" class="col-form-label-lg" style="font-size:20px;">아 이 디</label>  -->
 		    <h5 class="fw-bolder"> 아이디</h5>
 		    <div >
-		      <input type="hidden"  id="id" name="id" th:value="${kakaouserId}" >
-		       [[${kakaouserId}]] 
+		      <input type="hidden"  id="id" name="id" th:value="${userid}" >
+		       <input type="hidden"  id="joinPath" name="joinPath" th:value="${joinPath}" >
+
+		       [[${userid}]] 
  		    </div>
 		  
 		  </div>

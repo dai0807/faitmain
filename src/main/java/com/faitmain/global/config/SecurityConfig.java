@@ -80,9 +80,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	    		.and()
 	    			.exceptionHandling().accessDeniedPage("/user/accessDenied")
 	    		.and()
-	    		.oauth2Login().loginPage("/user/login")
-                .loginProcessingUrl("/user/loginnaver")  //POST (security를 이용해 인증처리)  spring security에서 로그인
-
+	    		.oauth2Login()
+	    		.loginPage("/user/login")
+ 
      			.userInfoEndpoint()
     			.userService(securityOauthUserService );
   		
