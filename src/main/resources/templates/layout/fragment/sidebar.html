@@ -36,8 +36,7 @@
 				<a href="#" class="list-group-item list-group-item-action">반품 / 교환</a>
 				<a href="#" class="list-group-item list-group-item-action">취소 / 환불</a>
 				<a href="#" class="list-group-item list-group-item-action">포인트 이용 내역</a>
-				<a href="#" class="list-group-item list-group-item-action">문의 목록</a>
-				<!--<a th:href="@{/review/getReviewList?searchCondition=userId&searchKeyword=} + ${session.user.id}" class="list-group-item list-group-item-action">리뷰 목록</a> -->
+				<a th:href="@{/inquiry/getInquiryList?resultJsp=listInquiryUser&searchCondition=userId&searchKeyword=} + ${#authentication.principal.user.id}" class="list-group-item list-group-item-action">문의 목록</a>				
 				<a th:href="@{/review/getReviewList?searchCondition=userId&searchKeyword=} + ${#authentication.principal.user.id}" class="list-group-item list-group-item-action">리뷰 목록</a>
 
 				
@@ -49,8 +48,9 @@
 				<h4 class="myShopping">나의 스토어</h4>
 				<hr/>
 				<a th:href="@{/product/addProduct}" class="list-group-item list-group-item-action">상품 등록</a>
+				<a th:href="@{/product/getProductList?resultJsp=listProductStore}" class="list-group-item list-group-item-action">등록 상품 목록</a>
 				<a th:href="@{/user/getUser}" class="list-group-item list-group-item-action">스토어 정보</a>
-				<a href="#" class="list-group-item list-group-item-action">문의 내역</a>
+				<a th:href="@{/inquiry/getInquiryList?resultJsp=listInquiryStore&searchCondition=storeId&searchKeyword=} + ${#authentication.principal.user.id}" class="list-group-item list-group-item-action">문의 내역</a>
 				<a href="#" class="list-group-item list-group-item-action">주문 내역</a>
 				<a href="#" class="list-group-item list-group-item-action">반품 신청 내역</a>
 				<a href="#" class="list-group-item list-group-item-action">환불 신청 내역</a>
