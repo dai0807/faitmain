@@ -128,7 +128,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		// 접근 권한 없을 때 로그인 페이지로 이동하도록 명시 
         
         
-     	log.info("  시큐리티컴피그 돌아돌아  "  );
+     	log.info(" ::: SecurityConfig  Start  :::"  );
        
          
     }
