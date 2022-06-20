@@ -1,3 +1,10 @@
+
+@font-face{
+	src: url("../font/BMJUA_ttf.ttf");
+	font-family: "jua";
+}
+
+
 body{
 	/* background: #eff3f6; */
 	font-family: "Noto Sans KR"; /* dr 변경 210630 */
@@ -655,7 +662,7 @@ div.livecommerce{
 	font-size: 14px;
 	color: #fff;
 	line-height: 1.7;
-	margin: 20px auto;
+	margin: 20px;
 	text-align: left;
 }
 .livecommerce .title .close{ /* dr 생성 210630 */
@@ -705,7 +712,7 @@ div.livecommerce{
 	background: rgba(0,0,0,0.5);
 }
 .livecommerce .chat_input .textbox{
-	width: 220px;
+	width: 700px;
 	color: #fff;
 	font-size: 12px;
 	margin: 0 15px;
