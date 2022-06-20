@@ -6,17 +6,28 @@
 <head>
 	
 	<link rel="stylesheet"  th:href="@{/customerDesign/faqCss/css/style.css}">
-	
 	<title>faitmain</title>
+	<script src="https://code.jquery.com/jquer-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquer-latest.js"></script>
+	
+	<script type="text/javascript">
+		
+
+			
+		
+	</script>
 </head>
 
 <body>
+
+
+
 <article class = "fq-1" layout:fragment = "content">
 	<div class="container">
 	
 		<h3 class ="mb-5">자주묻는질문</h3>
 		<hr/>
-	
+		<table class="table">
 		<div id="faq-links">
 		    <div id="total" class="faq-selected">전체</div>
 		    <div id="pay">결제</div>
@@ -26,7 +37,7 @@
 		    <div id="point">포인트</div>
 		</div>
 	
-			<div id="faq-wrapper" class="about-service">
+			<div id="faq-wrapper" class="about-service ">
 			
 			<div class="faq-group">
 			        <div class="slide-left">
@@ -36,19 +47,19 @@
 			</div><!--faq-group-->
 			<div class="slide-left">
 			              <div  class="faq">
-			                 <ul class="faq-accordion">
+			                 <ul class="faq-accordion" th:if="${not #lists.isEmpty(boardList)}" th:each="row : ${boardList}">
 			
 			                    <li>
-			                        <a href="#">insane ipsum</a>
-			                        <ul class="faq-content">
+			                        <a title="Click" th:text="${row.boardTitle}"></a>
+			                         <ul class="faq-content">
 			                            <li>
-			                                <div><p>Bacon ipsum dolor sit amet ham beef ribs pork, sirloin tail meatball filet mignon pancetta strip steak. T-bone swine turducken fatback beef ribs andouille meatball. Corned beef short ribs ribeye, hamburger brisket venison capicola boudin filet mignon drumstick shankle bacon beef. Shoulder shank filet k.</p></div>
+			                                <div><p th:text="${row.boardContent}"></p></div>
 			                            </li>
-			                        </ul>
+			                        </ul> 
 			                    </li>
 			                    <!--Bacon ipsum-->
 			
-			                    <li>
+			                   <!--  <li>
 			                        <a href="#">Beer Ipsum</a>
 			                        <ul class="faq-content">
 			                            <li>
@@ -56,7 +67,7 @@
 			                            </li>
 			                        </ul>
 			                    </li>
-			                    <!--Beer ipsum-->
+			                    Beer ipsum
 			
 			                    <li>
 			                        <a href="#">Carey ipsum</a>
@@ -65,7 +76,7 @@
 			                                <div><p>Alrighty then it's because i'm green isn't it! here she comes to wreck the day. alrighty then kinda hot in these rhinos. i just heard about evans new position,good luck to you evan backstabber, bastard, i mean baxter. your entrance was good, his was better. we're going for a ride on the information super highway. we're going for a ride on the information super highway. look at that, it's exactly three seconds before i honk your nose and pull your underwear over your head. brain freeze. we got no food we got no money and our pets heads are falling off! haaaaaaarry.</p></div>
 			                            </li>
 			                        </ul>
-			                    </li>
+			                    </li> -->
 			                    <!--Carey ipsum-->
 			                    </ul>
 			            </div>
@@ -80,185 +91,8 @@
 
 
 
-        <div class="about-installation faq-hide">
-
-<div class="faq-group">
-        <div class="slide-left">
-            <div>installation</div>
-        </div>
-    <hr>
-</div>
-                 
-          <div class="slide-left">     
-                 <ul class="faq-accordion">
-
-                    <li>
-                        <a href="#">Bacon ipsum</a>
-                        <ul class="faq-content">
-                            <li>
-                                <div><p>Bacon ipsum dolor sit amet ham beef ribs pork, sirloin tail meatball filet mignon pancetta strip steak. T-bone swine turducken fatback beef ribs andouille meatball. Corned beef short ribs ribeye, hamburger brisket venison capicola boudin filet mignon drumstick shankle bacon beef. Shoulder shank filet mignon, kevin meatball beef ribs short loin shankle kielbasa jowl pancetta. Biltong shank tri-tip prosciutto sirloin pastrami. Turkey swine pork loin ground round pig chicken kielbasa sausage kevin ham hock.</p></div>
-                            </li>
-                        </ul>
-                    </li>
-                    <!--Bacon ipsum-->
-
-                    <li>
-                        <a href="#">Beer Ipsum</a>
-                        <ul class="faq-content">
-                            <li>
-                                <div><p>ester saccharification mead lambic draft (draught), hand pump cask. brewing ale balthazar hops, " bitter becher craft beer keg alpha acid." crystal malt racking mouthfeel mash, barrel ale; malt! brewpub; biere de garde balthazar acid rest alcohol carbonation. wit beer krug brew mash hop back? shelf life, balthazar hand pump.</p></div>
-                            </li>
-                        </ul>
-                    </li>
-                    <!--Beer ipsum-->
-
-                    <li>
-                        <a href="#">Carey ipsum</a>
-                        <ul class="faq-content">
-                            <li>
-                                <div><p>Alrighty then it's because i'm green isn't it! here she comes to wreck the day. alrighty then kinda hot in these rhinos. i just heard about evans new position,good luck to you evan backstabber, bastard, i mean baxter. your entrance was good, his was better. we're going for a ride on the information super highway. we're going for a ride on the information super highway. look at that, it's exactly three seconds before i honk your nose and pull your underwear over your head. brain freeze. we got no food we got no money and our pets heads are falling off! haaaaaaarry.</p></div>
-                            </li>
-                        </ul>
-                    </li>
-                    <!--Carey ipsum-->
-                    </ul>
-                    
-                </div><!--lide-left --> 
-        </div>
-
-
-        <div  class="about-plan faq-hide">
-
-<div class="faq-group">
-    <div class="slide-left">
-    <div>plan</div>
-    </div>
-    <hr>
-</div>
-            <div class="slide-left">
-                 <ul class="faq-accordion">
-
-                    <li>
-                        <a href="#">Duh ipsum</a>
-                        <ul class="faq-content">
-                            <li>
-                                <div><p>Bacon ipsum dolor sit amet ham beef ribs pork, sirloin tail meatball filet mignon pancetta strip steak. T-bone swine turducken fatback beef ribs andouille meatball. Corned beef short ribs ribeye, hamburger brisket venison capicola boudin filet mignon drumstick shankle bacon beef. Shoulder shank filet mignon, kevin meatball beef ribs short loin shankle kielbasa jowl pancetta. Biltong shank tri-tip prosciutto sirloin pastrami. Turkey swine pork loin ground round pig chicken kielbasa sausage kevin ham hock.</p></div>
-                            </li>
-                        </ul>
-                    </li>
-                    <!--Bacon ipsum-->
-
-                    <li>
-                        <a href="#">Buh Ipsum</a>
-                        <ul class="faq-content">
-                            <li>
-                                <div><p>ester saccharification mead lambic draft (draught), hand pump cask. brewing ale balthazar hops, " bitter becher craft beer keg alpha acid." crystal malt racking mouthfeel mash, barrel ale; malt! brewpub; biere de garde balthazar acid rest alcohol carbonation. wit beer krug brew mash hop back? shelf life, balthazar hand pump.</p></div>
-                            </li>
-                        </ul>
-                    </li>
-                    <!--Beer ipsum-->
-
-                    <li>
-                        <a href="#">Muh ipsum</a>
-                        <ul class="faq-content">
-                            <li>
-                                <div><p>Alrighty then it's because i'm green isn't it! here she comes to wreck the day. alrighty then kinda hot in these rhinos. i just heard about evans new position,good luck to you evan backstabber, bastard, i mean baxter. your entrance was good, his was better. we're going for a ride on the information super highway. we're going for a ride on the information super highway. look at that, it's exactly three seconds before i honk your nose and pull your underwear over your head. brain freeze. we got no food we got no money and our pets heads are falling off! haaaaaaarry.</p></div>
-                            </li>
-                        </ul>
-                    </li>
-                    <!--Carey ipsum-->
-                    </ul>
-                </div><!--slide-left-->
-        </div>
-
-        <div class="about-features faq-hide">
-
-<div class="faq-group">
-    <div class="slide-left">
-    <div>features</div>
-    </div>
-    <hr>
-</div>
-            <div class="slide-left">
-                 <ul class="faq-accordion">
-
-                    <li>
-                        <a href="#">Veggie ipsum</a>
-                        <ul class="faq-content">
-                            <li>
-                                <div><p>Bacon ipsum dolor sit amet ham beef ribs pork, sirloin tail meatball filet mignon pancetta strip steak. T-bone swine turducken fatback beef ribs andouille meatball. Corned beef short ribs ribeye, hamburger brisket venison capicola boudin filet mignon drumstick shankle bacon beef. Shoulder shank filet mignon, kevin meatball beef ribs short loin shankle kielbasa jowl pancetta. Biltong shank tri-tip prosciutto sirloin pastrami. Turkey swine pork loin ground round pig chicken kielbasa sausage kevin ham hock.</p></div>
-                            </li>
-                        </ul>
-                    </li>
-                    <!--Bacon ipsum-->
-
-                    <li>
-                        <a href="#">Wine Ipsum</a>
-                        <ul class="faq-content">
-                            <li>
-                                <div><p>ester saccharification mead lambic draft (draught), hand pump cask. brewing ale balthazar hops, " bitter becher craft beer keg alpha acid." crystal malt racking mouthfeel mash, barrel ale; malt! brewpub; biere de garde balthazar acid rest alcohol carbonation. wit beer krug brew mash hop back? shelf life, balthazar hand pump.</p></div>
-                            </li>
-                        </ul>
-                    </li>
-                    <!--Beer ipsum-->
-
-                    <li>
-                        <a href="#">Woody ipsum</a>
-                        <ul class="faq-content">
-                            <li>
-                                <div><p>Alrighty then it's because i'm green isn't it! here she comes to wreck the day. alrighty then kinda hot in these rhinos. i just heard about evans new position,good luck to you evan backstabber, bastard, i mean baxter. your entrance was good, his was better. we're going for a ride on the information super highway. we're going for a ride on the information super highway. look at that, it's exactly three seconds before i honk your nose and pull your underwear over your head. brain freeze. we got no food we got no money and our pets heads are falling off! haaaaaaarry.</p></div>
-                            </li>
-                        </ul>
-                    </li>
-                   
-                    </ul>
-                </div><!--slide-left-->
-        </div> <!--about-features faq-hide-->
-
-
-         <div  class="about-mobile faq-hide">
-
-<div class="faq-group">
-        <div class="slide-left">
-            <div>mobile</div>
-        </div>
-    <hr>
-</div>
-            <div class="slide-left">
-                 <ul class="faq-accordion">
-
-                    <li>
-                        <a href="#">Bacon ipsum</a>
-                        <ul class="faq-content">
-                            <li>
-                                <div><p>Bacon ipsum dolor sit amet ham beef ribs pork, sirloin tail meatball filet mignon pancetta strip steak. T-bone swine turducken fatback beef ribs andouille meatball. Corned beef short ribs ribeye, hamburger brisket venison capicola boudin filet mignon drumstick shankle bacon beef. Shoulder shank filet mignon, kevin meatball beef ribs short loin shankle kielbasa jowl pancetta. Biltong shank tri-tip prosciutto sirloin pastrami. Turkey swine pork loin ground round pig chicken kielbasa sausage kevin ham hock.</p></div>
-                            </li>
-                        </ul>
-                    </li>
-                    <!--Bacon ipsum-->
-
-                    <li>
-                        <a href="#">Beer Ipsum</a>
-                        <ul class="faq-content">
-                            <li>
-                                <div><p>ester saccharification mead lambic draft (draught), hand pump cask. brewing ale balthazar hops, " bitter becher craft beer keg alpha acid." crystal malt racking mouthfeel mash, barrel ale; malt! brewpub; biere de garde balthazar acid rest alcohol carbonation. wit beer krug brew mash hop back? shelf life, balthazar hand pump.</p></div>
-                            </li>
-                        </ul>
-                    </li>
-                    <!--Beer ipsum-->
-
-                    <li>
-                        <a href="#">Carey ipsum</a>
-                        <ul class="faq-content">
-                            <li>
-                                <div><p>Alrighty then it's because i'm green isn't it! here she comes to wreck the day. alrighty then kinda hot in these rhinos. i just heard about evans new position,good luck to you evan backstabber, bastard, i mean baxter. your entrance was good, his was better. we're going for a ride on the information super highway. we're going for a ride on the information super highway. look at that, it's exactly three seconds before i honk your nose and pull your underwear over your head. brain freeze. we got no food we got no money and our pets heads are falling off! haaaaaaarry.</p></div>
-                            </li>
-                        </ul>
-                    </li>
-                    <!--Carey ipsum-->
-                    </ul>
-                </div><!--slide-left-->
-        </div> <!--about-mobile faq-hide-->
+ 
+        </table>
      </div><!--container-->
       <script type="text/javascript" th:src="@{/customerDesign/faqCss/js/cFAQ.js}"></script>
     </article>

@@ -58,11 +58,14 @@
 										<if test="searchCondition == 'productNumber' and searchKeyword !='' ">
 							 				AND i.product_number = #{searchKeyword}
 										</if> 
-										<if test="searchCondition == 'userId'and searchKeyword !='' ">
+										<if test="searchCondition == 'userId' and searchKeyword !='' ">
 							 				AND i.user_id = #{searchKeyword}
-										</if>	
+										</if>
 										<if test="searchCondition == 'storeId' and searchKeyword !='' ">
 							 				AND i.store_id = #{searchKeyword}
+										</if>	
+										<if test="searchCondition == 'replyStatus' and searchKeyword !='' ">
+							 				AND i.inquiry_reply_status = #{searchKeyword}
 										</if>																	
 									</if>
 								</where>
@@ -87,6 +90,9 @@
 						</if>	
 						<if test="searchCondition == 'storeId' and searchKeyword !='' ">
 			 				AND i.store_id = #{searchKeyword}
+						</if>
+						<if test="searchCondition == 'replyStatus' and searchKeyword !='' ">
+			 				AND i.inquiry_reply_status = #{searchKeyword}
 						</if>																	
 					</if>
 				</where>

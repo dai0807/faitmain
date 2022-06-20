@@ -14,7 +14,7 @@ public class Customer{
 	private String boardContent;
 	private Timestamp boardRegDate;
 	private Time boardUpdateDate;
-	private int FAQCategoryCode;
+	private String FAQCategoryCode;
 	private char boardType;
 	private User customerId;
 //	private int totalCount;

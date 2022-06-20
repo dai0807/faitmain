@@ -4,85 +4,57 @@
       			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
       			xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	
-	
+<head>	
 	<th:block layout:fragment="title">
 	<link th:href="@{/css/customer.css}" rel="stylesheet" />
 		<title>faitmain</title>
 	</th:block>
+</head>
 
-	<th:block layout:fragment="content">
-		<div class="card-content">
-			<form class="form-horizontal" th:action="@{/customer/addBoard}" method="post" > <!-- onsubmit="return registerBoard(this)" -->
-				<!--/* update의 경우 서버로 전달할 게시글 번호 (PK) */-->
-				<!-- <input type="hidden" th:if="*{boardNumber = null and boardNumber != 0}" th:field="*{boardNumber}" /> -->
- 
-				<!-- <div class="form-group">
-					<label for="highlightNoticeYn" class="col-sm-2 control-label">강조 설정</label>
-					<div class="col-sm-10" style="margin-top: 10px;">
-						<input type="checkbox" th:value="*{highlightNoticeYn}" id="highlightNoticeYn" name="highlightNoticeYn" th:checked="*{#strings.equals( highlightNoticeYn, 'Y' )}" />
-					</div>
-				</div> -->
+<body>
+	<article class="py-5" layout:fragment="content">
+			<div class="card-content">
+				<form class="form-h" th:action="@{/customer/addBoard}" method="post" id="addFAQForm" > <!-- onsubmit="return registerBoard(this)" -->
 				
-				<input type="hidden" name="boardType" value='F'/> 
-				<h4>자주묻는질문 등록</h4>
-				<hr />
-
-				<div class="form-group">
-					<label for="title" class="col-sm-2 control-label">제목</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" name="boardTitle" placeholder="제목을 입력해 주세요." />
+					
+					<input type="hidden" name="boardType" value='F'/> 
+					<h4>자주묻는질문 등록</h4>
+					<hr />
+					
+					<div class="form-group">
+				    <label for="FAQCategoryCode" class="col-sm-offset-1 col-sm-3 control-label">FAQ 카테고리</label>
+				    <div class="col-sm-4">
+				      <select  name="FAQCategoryCode" id="FAQCategoryCode" >
+				      	<option  value="0">전체</option>
+				      	<option  value="1">결제</option>
+				      	<option  value="2">교환/반품</option>
+				      	<option  value="3">배송</option>
+				      	<option  value="4">라이브</option>
+				      	<option  value="5">포인트</option>
+				      </select>
+				    </div>
+				
+	
+					
+						<label for="title" class="col-sm-2 control-label">제목</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" name="boardTitle" placeholder="제목을 입력해 주세요." />
+						</div>
+					
+	
+					
+						<label for="content" class="col-sm-2 control-label">내용</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" name="boardContent" placeholder="내용을 입력해 주세요."></textarea>
+						</div>
 					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="writer" class="col-sm-2 control-label">아이디</label>
-					<div class="col-sm-10">
-						<input type="text"  class="form-control" name="customerId.id" placeholder="이름을 입력해 주세요." />
+	
+					<div class="btn_wrap text-center">
+						<a th:href="@{/customer/listNotice}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
+						<button type="submit" class="btn btn-primary waves-effect waves-light">저장하기</button>
 					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="content" class="col-sm-2 control-label">내용</label>
-					<div class="col-sm-10">
-						<textarea class="form-control" name="boardContent" placeholder="내용을 입력해 주세요."></textarea>
-					</div>
-				</div>
-
-				<div class="btn_wrap text-center">
-					<a th:href="@{/customer/listNotice}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
-					<button type="submit" class="btn btn-primary waves-effect waves-light">저장하기</button>
-				</div>
-			</form>
-		</div>
-		<!-- /.card-content -->
-	</th:block>
-
-	<th:block layout:fragment="script">
-		<script th:inline="javascript">
-			/*<![CDATA[		자바스크립트 코드 사용시 필요 */
- 
-	/* 		function registerBoard(form) {
-
-				form.noticeYn.value = form.noticeYn.checked == false ? 'N' : 'Y';
-				form.secretYn.value = form.secretYn.checked == false ? 'N' : 'Y';
-
-				var result = (
-						   isValid(form.title, "제목", null, null)
-						&& isValid(form.writer, "이름", null, null)
-						&& isValid(form.content, "내용", null, null)
-				);
-
-				if ( result == false ) { 
-					return false;
-				}
-			}  
-			*/
-			/*[- end of function -]*/
-
-			$(function(){
-				$()
-			})
-			/*]]>*/
-		</script>
-	</th:block>
+				</form>
+			</div>
+	</article>
+</body>
 </html>

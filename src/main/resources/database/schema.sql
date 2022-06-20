@@ -75,11 +75,11 @@ CREATE TABLE `order` (
                      `receiver_address1` varchar(100)  NULL ,
                      `receiver_address2` varchar(100)  NULL ,
                      `receiver_address3` varchar(100)  NULL ,
+                     `order_date`        timestamp    NULL  ,
                      `order_status`      varchar(30)   NULL ,
                      `delivery_charge`   int           NULL ,
                      `using_point`       int           NULL ,
-                     `imp_uid` int NULL ,
-                     `order_date`        timestamp    NULL DEFAULT NOW( ) ,
+                     `imp_uid` varchar(100) NULL ,
                      PRIMARY KEY ( order_number ) ,
                      FOREIGN KEY ( buyer_id ) REFERENCES user ( id )
                      );
@@ -89,9 +89,9 @@ CREATE TABLE order_product (
                            `order_product_number` int NOT NULL AUTO_INCREMENT ,
                            `order_number`         int NULL ,
                            `product_number`       int NULL ,
-                           `product_order_count`  int NOT NULL ,
-                           `product_price`        int NOT NULL ,
-                           `reward_point`         int NOT NULL ,
+                           `product_order_count`  int NULL ,
+                           `product_price`        int NULL ,
+                           `reward_point`         int NULL ,
                            PRIMARY KEY ( order_product_number ) ,
                            FOREIGN KEY ( order_number ) REFERENCES `order` ( order_number ) ,
                            FOREIGN KEY ( product_number ) REFERENCES product ( product_number )
@@ -146,13 +146,13 @@ CREATE TABLE `image` (
 
 CREATE TABLE `customer` (
                         `customer_board_number`      int           NOT NULL AUTO_INCREMENT ,
-                        `customer_board_title`       varchar(30)   NOT NULL ,
-                        `customer_board_content`     varchar(1000) NOT NULL ,
+                        `customer_board_title`       varchar(30)   DEFAULT NULL ,
+                        `customer_board_content`     LONGTEXT	    NOT NULL ,
                         `reg_date`                   TIMESTAMP     NOT NULL ,
                         `update_date`                TIMESTAMP      DEFAULT NULL ,
                         `customer_FAQ_category_code` int            DEFAULT NULL ,
-                        `customer_board_type`        char(1)       NOT NULL ,
-                        `customer_id`                varchar(25)   NOT NULL ,
+                        `customer_board_type`        VARCHAR(2)       NOT NULL ,
+                        `customer_id`                varchar(25)   DEFAULT NULL ,
                         `delete_yn`                  ENUM ('Y','N') DEFAULT 'N' ,
                         `view_cnt`                   int            DEFAULT 0 ,
                         PRIMARY KEY ( `customer_board_number` ) ,
@@ -258,7 +258,10 @@ ALTER TABLE live_product AUTO_INCREMENT = 10000;
 ALTER TABLE customer MODIFY COLUMN customer_faq_category_code INT NULL;
 ALTER TABLE customer MODIFY reg_date TIMESTAMP;
 ALTER TABLE customer MODIFY update_date TIMESTAMP;
-
+ALTER TABLE customer MODIFY customer_board_title VARCHAR(50);
+ALTER TABLE customer MODIFY customer_id VARCHAR(25);
+ALTER TABLE customer MODIFY customer_board_content LONGTEXT NOT NULL;
+ALTER TABLE customer MODIFY customer_FAQ_category_code VARCHAR(2)  NULL;
 /*BAN PERIOD*/
 ALTER TABLE ban_period MODIFY COLUMN respondent_nickname VARCHAR(20) NULL;
 ALTER TABLE ban_period MODIFY COLUMN respondent_store_name VARCHAR(20) NULL;

@@ -1,6 +1,7 @@
 package com.faitmain.domain.web.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.faitmain.domain.live.domain.Live;
+import com.faitmain.domain.live.domain.LiveProduct;
 import com.faitmain.domain.live.domain.LiveReservation;
 import com.faitmain.domain.live.service.LiveService;
 import com.faitmain.domain.product.service.ProductService;
@@ -50,10 +52,15 @@ public class WebController {
 		log.info("liveReservation : {}", liveReservation);
 
 		Live live = null;
+
 		if (liveReservation != null) {
+			List<LiveProduct> liveProduct = liveService.getLiveProductList(liveReservation.getLiveReservationNumber());
 			live = liveService.getLiveByStoreId(liveReservation.getStore().getId());
+			liveReservation.setLiveProduct(liveProduct);
+			log.info("liveProduct = {}", liveProduct);
 		}
-		log.info("live : {}", live);
+
+		log.info("live = {}", live);
 
 		model.addAttribute("map", map);
 		model.addAttribute("liveReservation", liveReservation);

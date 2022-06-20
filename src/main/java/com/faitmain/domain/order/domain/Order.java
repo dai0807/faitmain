@@ -85,6 +85,7 @@ public class Order{
         }
         /* 최종비용 */
         orderFinalSalePrice = orderSalePrice + deliveryCharge - usingPoint;
+        log.info( "orderFinalSalePrice = {}",orderFinalSalePrice );
     }
 
 

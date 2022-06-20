@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-				layout:decorate="~{layout/fragment/header}"
-      			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
+<html
+        layout:decorate = "~{/layout/default_layout}"
+        xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
       			
 
 <head>	
@@ -11,23 +11,19 @@
 </head>
 
 <body>
-	<article class = "lg-1" layout:fragment = "content">
-		 <div class = "container">
-				<input type="hidden" name="boardType" value='N'/> 
-					<tr>
-						<td colspan="3">
-							<input type="text" id="title" name="boardTitle" 
-								th:value="${customer.boardTitle } "  readonly style="resize:none; border:none;" />
-						</td>
-					</tr>
-					<tr>
-						<td colspan="4" class="view_text">
-							<textarea title="내용" id="contents" name="boardContent" th:text="${customer.boardContent }" ></textarea>
-								
-						</td>
-					</tr>
-			</form>
+	<article class = "lgf-1" layout:fragment = "content">
+		 <div class = "container" th:action="@{/customer/detailGuide}">
+		 <input type="hidden" name="boardType" value='L'/> 
+		 
+		<!-- 	<input type="hidden" name="boardType" value='L'/> --> 
+				<tr>
+					<td >
+						<!-- <textarea title="내용" id="contents" name="boardContent" th:text="${customer.boardContent }"  ></textarea>	 -->	
+							<th:block th:utext = "${ customer.boardContent }"></th:block>
+					</td>
+				</tr>
 		</div>
 	</article>
 </body>
 </html> 
+					

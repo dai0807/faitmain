@@ -151,7 +151,7 @@
 							
 							<!-- 상품명, 가격 표시 -->
 							<p class="stext-102 cl3 p-t-23">
-								<a th:href="@{/product/getStoreInfo(storeId=*{store.id})}" th:text="*{store.storeName}"></a>>
+								<a th:href="@{/product/getStoreInfo(storeId=*{store.id})}" th:text="*{store.storeName}"></a>
 							</p>
 							<h4 class="mtext-105 cl2 js-name-detail p-b-14" th:text="*{ productName }"></h4>	
 													
@@ -374,7 +374,7 @@
 								
 								<!-- 문의 있음 -->
 								<th:block th:unless="${#lists.size(product.inquiryList) == 0}">
-									<div class="wrap-table-shopping-cart">
+									<td class="wrap-table-shopping-cart">
 										<table class="table-shopping-cart">
 											<tr class="table_head">
 												<th class="column-1"></th>
@@ -387,12 +387,19 @@
 											<tr class="table_row"  th:each="inquiry : ${product.inquiryList}">
 												<td class="column-1">
 													<img src="/productDesign/images/icons/lock.png" alt="IMG" th:if="${inquiry.secret}">
+													<button th:if="${!inquiry.secret}" class="getInquiry">
+														<input type="hidden" th:value="${inquiry.inquiryNumber}" />
+														<img src="/productDesign/images/icons/arrow_down.png" alt="IMG">	
+													</button>
+													
 												</td>
 												<td class="column-2" th:text="${inquiry.secret} ? '비밀문의' : ${inquiry.inquiryTitle}"></td>
 												<td class="column-3" th:text="${inquiry.userId}"></td>
 												<td class="column-4" th:text="${inquiry.inquiryDate}"></td>
 												<td class="column-5" th:text="${inquiry.inquiryReplyStatus} ? '답변완료' : '미답변'"></td>
+												<td class="getInquiryArea"></td>
 											</tr>
+											
 										</table>
 									</div>
 								</th:block>

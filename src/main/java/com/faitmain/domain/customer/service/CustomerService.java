@@ -24,12 +24,14 @@ public interface CustomerService {
 	
 	public Customer getCustomerBoard(int boardNumber) throws Exception;
 	
-	public Customer getLiveGuide(String boardType) throws Exception;
+	public Customer getLiveGuide(char boardType) throws Exception;
 	
 	public boolean deleteCustomerBoard(int boardNumber) throws Exception;
 	
 
-	public List<Customer> getCustomerBoardList(String boardType) throws Exception;
+	public List<Customer> getCustomerBoardList(char boardType) throws Exception;
+
+	public List<Customer> getFAQCategoryCode(String FAQCategoryCode);
 	
 
 //	public BanStatus updateBanStatus(int reportNumber) throws Exception;
