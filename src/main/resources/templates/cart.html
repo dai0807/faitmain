@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang = "ko" xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate = "~{/layout/default_layout}">
+<html lang = "ko" layout:decorate = "~{/layout/default_layout}"
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset = "UTF-8">
     <title>장바구니 페이지</title>
-    <script type = "text/javascript" src = "/js/cart.js"></script>
+    <script src = "/js/cart.js" type = "text/javascript"></script>
     <!--  고유 CSS 추가 -->
     <style>
 
@@ -105,7 +105,7 @@
             color: #333;
             border-bottom: 1px solid #e7e7e7;
             border-top: 1px solid #181a1c;
-            background: #f4f9fd;
+            background: #ffffff;
             padding: 2px 0;
         }
 
@@ -278,172 +278,172 @@
 <article class = "py-5" layout:fragment = "content">
     <div class = "container">
 
-                <div class = "content_area">
-                    <div class = "content_subject"><span>장바구니</span></div>
-                    <!-- 장바구니 리스트 -->
-                    <div class = "content_middle_section"></div>
-                    <!-- 장바구니 가격 합계 -->
+        <div class = "content_area">
+            <div class = "content_subject"><span>장바구니</span></div>
+            <!-- 장바구니 리스트 -->
+            <div class = "content_middle_section"></div>
+            <!-- 장바구니 가격 합계 -->
 
-                    <!-- 장바구니 정보  -->
-                    <div class = "content_totalCount_section">
+            <!-- 장바구니 정보  -->
+            <div class = "content_totalCount_section">
 
-                        <!-- 체크박스 전체 여부 -->
-                        <div class = "all_check_input_div">
-                            <input checked = "checked" class = "all_check_input input_size_20" type = "checkbox"><span class = "all_chcek_span">전체선택</span>
-                        </div>
-
-                        <table class = "subject_table">
-                            <caption>표 제목 부분</caption>
-                            <tbody>
-
-                            <tr>
-                                <th class = "td_width_1"></th>
-                                <th class = "td_width_2"></th>
-                                <th class = "td_width_3">상품명</th>
-                                <th class = "td_width_4">가격</th>
-                                <th class = "td_width_4">수량</th>
-                                <th class = "td_width_4">합계</th>
-                                <th class = "td_width_4">삭제</th>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <table class = "cart_table">
-                            <caption>표 내용 부분</caption>
-                            <tbody>
-                            <th:block th:each = " cart : ${cartList}">
-                                <tr>
-                                    <td class = "td_width_1 cart_info_td">
-                                        <input checked = "checked" class = "individual_cart_checkbox input_size_20" type = "checkbox">
-                                        <input class = "individual_productPrice_input" type = "hidden" th:value = "${cart.productPrice}">
-                                        <input class = "individual_salePrice_input" type = "hidden" th:value = "${cart.salePrice}">
-                                        <input class = "individual_productOrderCount_input" type = "hidden" th:value = "${cart.productOrderCount}">
-                                        <input class = "individual_totalPrice_input" type = "hidden" th:value = "${cart.salePrice * cart.productOrderCount}">
-                                        <input class = "individual_point_input" type = "hidden" th:value = "${cart.point}">
-                                        <input class = "individual_totalPoint_input" type = "hidden" th:value = "${cart.totalPoint}">
-                                        <input class = "individual_productNumber_input" type = "hidden" th:value = "${cart.productNumber}">
-                                    </td>
-                                    <td class = "td_width_2">
-                                        <img class = "img_product" th:src = "|../img/upload/${cart.productMainImage}|"/>
-                                    </td>
-                                    <td class = "td_width_3" th:text = "${cart.productName}"></td>
-                                    <td class = "td_width_4 price_td">
-                                        판매가 : <span class = "red_color" th:text = "${cart.salePrice}"></span><br>
-                                        마일리지 : <span class = "green_color" th:text = "${cart.point}"></span>
-                                    </td>
-                                    <td class = "td_width_4 table_text_align_center">
-                                        <div class = "table_text_align_center quantity_div">
-                                            <input class = "quantity_input" type = "text" th:value = "${cart.productOrderCount}">
-                                            <button class = "quantity_btn plus_btn" type = "button">+</button>
-                                            <button class = "quantity_btn minus_btn" type = "button">-</button>
-
-                                        </div>
-<!--                                        <button class = "quantity_modify_btn" th:data-cartNumber = "${cart.cartNumber}">변경</button>-->
-                                        <a class="quantity_modify_btn" th:data-cart-number="${cart.cartNumber}">변경</a>
-                                    </td>
-                                    <td class = "td_width_4 table_text_align_center">
-                                        <th:block th:text = "${cart.salePrice * cart.productOrderCount}"/>
-                                    </td>
-                                    <td class = "td_width_4 table_text_align_center">
-                                        <button class = "delete_btn" th:data-cart-number = "${cart.cartNumber}">삭제</button>
-                                    </td>
-                                </tr>
-                            </th:block>
-                            </tbody>
-                        </table>
-                        <table class = "list_table">
-                        </table>
-                    </div>
-                    <!-- 가격 종합 -->
-                    <div class = "content_total_section">
-                        <div class = "total_wrap">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <table>
-                                            <tr>
-                                                <td>총 상품 가격</td>
-                                                <td>
-                                                    <span class = "totalPrice_span"></span> 원
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>배송비</td>
-                                                <td>
-                                                    <span class = "delivery_price"></span>원
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>총 주문 상품수</td>
-                                                <td><span class = "totalCount_span"></span>개
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                            <div class = "boundary_div">구분선</div>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <table>
-                                            <tbody>
-                                            <tr>
-                                                <td>
-                                                    <strong>총 결제 예상 금액</strong>
-                                                </td>
-                                                <td>
-                                                    <span class = "finalTotalPrice_span">70000</span> 원
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table>
-                                            <tbody>
-                                            <tr>
-                                                <td>
-                                                    <strong>총 적립 예상 마일리지</strong>
-
-                                                </td>
-                                                <td>
-                                                    <span class = "totalPoint_span">70000</span> 원
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- 구매 버튼 영역 -->
-                    <div class = "content_btn_section">
-                        <a class = "order_btn">주문하기</a>
-                    </div>
-                    <!-- 수량 조정 form -->
-                    <form th:action = "@{/cart/update}" class = "quantity_update_form" method = "post">
-                        <input class = "update_cartNumber" name = "cartNumber" type = "number" style="display: none">
-                        <input class = "update_productOrderCount" name = "productOrderCount" type = "number" style="display: none">
-                        <input name = "buyerId" type = "hidden" th:value = "${#authentication.principal.user.id}">
-                    </form>
-                    <!-- 삭제 form -->
-                    <form action = "/cart/delete" class = "quantity_delete_form" method = "post">
-                        <input class = "delete_cartNumber" name = "cartNumber" type = "hidden">
-                        <input name = "buyerId" type = "hidden" th:value = "${#authentication.principal.user.id}">
-                    </form>
-                    <!-- 주문 form -->
-                    <form th:action = "|@{/order/} + ${#authentication.principal.user.id}|" class = "order_form" method = "GET">
-                    </form>
+                <!-- 체크박스 전체 여부 -->
+                <div class = "all_check_input_div">
+                    <input checked = "checked" class = "all_check_input input_size_20" type = "checkbox"><span class = "all_chcek_span">전체선택</span>
                 </div>
+
+                <table class = "subject_table">
+                    <caption>표 제목 부분</caption>
+                    <tbody>
+
+                    <tr>
+                        <th class = "td_width_1"></th>
+                        <th class = "td_width_2"></th>
+                        <th class = "td_width_3">상품명</th>
+                        <th class = "td_width_4">가격</th>
+                        <th class = "td_width_4">수량</th>
+                        <th class = "td_width_4">합계</th>
+                        <th class = "td_width_4">삭제</th>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class = "cart_table">
+                    <caption>표 내용 부분</caption>
+                    <tbody>
+                    <th:block th:each = " cart : ${cartList}">
+                        <tr>
+                            <td class = "td_width_1 cart_info_td">
+                                <input checked = "checked" class = "individual_cart_checkbox input_size_20" type = "checkbox">
+                                <input class = "individual_productPrice_input" th:value = "${cart.productPrice}" type = "hidden">
+                                <input class = "individual_salePrice_input" th:value = "${cart.salePrice}" type = "hidden">
+                                <input class = "individual_productOrderCount_input" th:value = "${cart.productOrderCount}" type = "hidden">
+                                <input class = "individual_totalPrice_input" th:value = "${cart.salePrice * cart.productOrderCount}" type = "hidden">
+                                <input class = "individual_point_input" th:value = "${cart.point}" type = "hidden">
+                                <input class = "individual_totalPoint_input" th:value = "${cart.totalPoint}" type = "hidden">
+                                <input class = "individual_productNumber_input" th:value = "${cart.productNumber}" type = "hidden">
+                            </td>
+                            <td class = "td_width_2">
+                                <img class = "img_product" th:src = "|../img/upload/${cart.productMainImage}|"/>
+                            </td>
+                            <td class = "td_width_3" th:text = "${cart.productName}"></td>
+                            <td class = "td_width_4 price_td">
+                                판매가 : <span class = "red_color" th:text = "${cart.salePrice}"></span><br>
+                                마일리지 : <span class = "green_color" th:text = "${cart.point}"></span>
+                            </td>
+                            <td class = "td_width_4 table_text_align_center">
+                                <div class = "table_text_align_center quantity_div">
+                                    <input class = "quantity_input" th:value = "${cart.productOrderCount}" type = "text">
+                                    <button class = "quantity_btn plus_btn" type = "button">+</button>
+                                    <button class = "quantity_btn minus_btn" type = "button">-</button>
+
+                                </div>
+                                <!--                                        <button class = "quantity_modify_btn" th:data-cartNumber = "${cart.cartNumber}">변경</button>-->
+                                <a class = "quantity_modify_btn" th:data-cart-number = "${cart.cartNumber}">변경</a>
+                            </td>
+                            <td class = "td_width_4 table_text_align_center">
+                                <th:block th:text = "${cart.salePrice * cart.productOrderCount}"/>
+                            </td>
+                            <td class = "td_width_4 table_text_align_center">
+                                <button class = "delete_btn" th:data-cart-number = "${cart.cartNumber}">삭제</button>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+                <table class = "list_table">
+                </table>
+            </div>
+            <!-- 가격 종합 -->
+            <div class = "content_total_section">
+                <div class = "total_wrap">
+                    <table>
+                        <tr>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td>총 상품 가격</td>
+                                        <td>
+                                            <span class = "totalPrice_span"></span> 원
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>배송비</td>
+                                        <td>
+                                            <span class = "delivery_price"></span>원
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>총 주문 상품수</td>
+                                        <td><span class = "totalCount_span"></span>개
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class = "boundary_div">구분선</div>
+                    <table>
+                        <tr>
+                            <td>
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <strong>총 결제 예상 금액</strong>
+                                        </td>
+                                        <td>
+                                            <span class = "finalTotalPrice_span">70000</span> 원
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <strong>총 적립 예상 마일리지</strong>
+
+                                        </td>
+                                        <td>
+                                            <span class = "totalPoint_span">70000</span> 원
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!-- 구매 버튼 영역 -->
+            <div class = "content_btn_section">
+                <a class = "order_btn">주문하기</a>
+            </div>
+            <!-- 수량 조정 form -->
+            <form class = "quantity_update_form" method = "post" th:action = "@{/cart/update}">
+                <input class = "update_cartNumber" name = "cartNumber" style = "display: none" type = "number">
+                <input class = "update_productOrderCount" name = "productOrderCount" style = "display: none" type = "number">
+                <input name = "buyerId" th:value = "${#authentication.principal.user.id}" type = "hidden">
+            </form>
+            <!-- 삭제 form -->
+            <form action = "/cart/delete" class = "quantity_delete_form" method = "post">
+                <input class = "delete_cartNumber" name = "cartNumber" type = "hidden">
+                <input name = "buyerId" th:value = "${#authentication.principal.user.id}" type = "hidden">
+            </form>
+            <!-- 주문 form -->
+            <form class = "order_form" method = "GET" th:action = "@{/order/}+${#authentication.principal.user.id}">
+            </form>
+        </div>
     </div>
 </article>
 

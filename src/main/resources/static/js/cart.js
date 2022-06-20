@@ -3,14 +3,11 @@ $(document).ready(function () {
     /* 종합 정보 섹션 정보 삽입 */
     setTotalInfo();
 
-
-
     /* 체크여부에따른 종합 정보 변화 */
     $(".individual_cart_checkbox").on("change", function () {
         /* 총 주문 정보 세팅(배송비, 총 가격, 마일리지, 물품 수, 종류) */
         setTotalInfo($(".cart_info_td"));
     });
-
 
     /* 체크박스 전체 선택 */
     $(".all_check_input").on("click", function(){
@@ -26,8 +23,6 @@ $(document).ready(function () {
 
     });
 
-
-
     /* 수량버튼 */
     $(".plus_btn").on("click", function () {
         let quantity = $(this).parent("div").find("input").val();
@@ -40,7 +35,6 @@ $(document).ready(function () {
         }
     });
 
-
     /* 수량 수정 버튼 */
     $(".quantity_modify_btn").on("click", function () {
         let cartNumber = $(this).data("cartNumber");
@@ -50,9 +44,6 @@ $(document).ready(function () {
         $(".quantity_update_form").submit();
     });
 
-
-
-
     /* 장바구니 삭제 버튼 */
     $(".delete_btn").on("click", function (e) {
         console.log("삭제버튼 : " + e);
@@ -61,9 +52,6 @@ $(document).ready(function () {
         $(".delete_cartNumber").val(cartNumber);
         $(".quantity_delete_form").submit();
     });
-
-
-
 
     /* 주문 페이지 이동 */
     $(".order_btn").on("click", function () {
