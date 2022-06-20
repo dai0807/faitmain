@@ -21,6 +21,25 @@
 		
 		h5,span{font-family: 'Nanum Gothic Coding', monospace;}
 		
+		div .wrap-table-shopping-cart {
+					
+			/* Box */
+			height: 100%;
+			width: 800.984px;
+			border: 0;
+			border-top: 0px none rgb(128, 128, 128);
+			border-right: 1px solid rgb(230, 230, 230);
+			border-bottom: 0px none rgb(128, 128, 128);
+			border-left: 1px solid rgb(230, 230, 230);
+			margin: 0px;
+			padding: 0px;
+			max-height: none;
+			min-height: 0px;
+			max-width: none;
+			min-width: 0px;
+		
+		}
+		
     </style>
     
     <script type="text/javascript">
@@ -137,7 +156,7 @@
 								<th:block th:each="inquiry : ${list}">
 									<tr class="table_row">
 										<td class="column-1">
-											<div class="how-itemcart1">
+											<div class="how-itemcart">
 												<img th:src="|../img/upload/${ inquiry.inquiryProduct.productMainImage }|" alt="IMG">
 											</div>
 										</td>

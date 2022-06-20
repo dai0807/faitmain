@@ -60,7 +60,7 @@ public class ProductController {
 		
 		log.info("/product/addProduct : GET");
 //		view/common/admin/main
-		return "/product/addProduct";
+		return "/product/addProduct2";
 		
 	}
 	
