@@ -27,19 +27,21 @@ public interface CustomerMapper {
 	public Customer getCustomerBoard(int boardNumber) throws Exception;
 	
 	//Detail LiveGuide
-	public Customer getLiveGuide(String boardType) throws Exception;
+	public Customer getLiveGuide(char boardType) throws Exception;
 	
 	//UPDATE
 	public int updateCustomerBoard(Customer customer) throws Exception;
 	
 	//SELECT List
-	public List<Customer> getCustomerBoardList(String boardType) throws Exception;
+	public List<Customer> getCustomerBoardList(char boardType) throws Exception;
 	
 	//DELETE
 	public int deleteCustomerBoard(int boardNumber) throws Exception;
 	//delete_yn column 이용해서 실제로 데이터 삭제하지않고 column 값을 Y or N 으로 지정하여 N일 경우에만 데이터가 노출되게끔
 	
 	public int getBoardTotalCount() throws Exception;
+	
+	public List<Customer> getFAQCategoryCode(String FAQCategoryCode);
 
 	//INSERT
 //	public void addCustomerBoardImage(Image image) throws Exception;

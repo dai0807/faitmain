@@ -4,16 +4,19 @@ package com.faitmain.domain.customer.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +40,23 @@ public class CustomerRestController {
 		log.info("Controller = {} ", CustomerRestController.class);
 	}
 	
+	@GetMapping("json/FAQListConditionPayment")
+	public JSONArray FAQListConditionPayment () throws Exception {
+		
+		
+		JSONArray lol = new JSONArray();
+		
+		return lol;
+	}
+	
+	@RequestMapping(value = "/json/getFAQCategoryCode", method = RequestMethod.GET, produces="application/json;")
+	public @ResponseBody List<Customer> getFAQCategoryCode(String FAQCategoryCode){
+		String result = "";
+		List<Customer> boardList = customerService.getFAQCategoryCode(FAQCategoryCode);
+		
+		return boardList;
+	}
+	
 	
 	
 	@PostMapping("json/updateCustomerBoard")
@@ -56,9 +76,12 @@ public class CustomerRestController {
  		return result;
 	}
 	
+//	/customer/json/uploadSummernoteImageFile	
 	@PostMapping(value="json/uploadSummernoteImageFile", produces = "application/json")
 	@ResponseBody
-	public JSONObject uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
+	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
+		
+		System.out.println("uploadSummernoteImageFile");
 		
 		JSONObject jsonObject = new JSONObject();
 		
@@ -81,7 +104,7 @@ public class CustomerRestController {
 //			jsonObject.addProperty("responseCode", "error");
 			e.printStackTrace();
 		}
-		return jsonObject;
+		return jsonObject.toJSONString();
 	}
 	
 	

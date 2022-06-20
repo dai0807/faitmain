@@ -47,8 +47,12 @@ public class CustomerServiceImpl implements CustomerService{
 		return customerMapper.getCustomerBoard(boardNumber);
 	}
 	
+	public List<Customer> getFAQCategoryCode(String FAQCategoryCode){
+		return customerMapper.getFAQCategoryCode(FAQCategoryCode);
+	}
+	
 	@Override
-	public Customer getLiveGuide(String boardType) throws Exception{
+	public Customer getLiveGuide(char boardType) throws Exception{
 		return customerMapper.getLiveGuide(boardType);
 	}
 
@@ -80,7 +84,7 @@ public class CustomerServiceImpl implements CustomerService{
 		
 	
 	@Override
-	public List<Customer> getCustomerBoardList(String boardType) throws Exception {
+	public List<Customer> getCustomerBoardList(char boardType) throws Exception {
 				
 		List<Customer> list = Collections.emptyList();
 	

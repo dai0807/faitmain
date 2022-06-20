@@ -1,10 +1,14 @@
 package com.faitmain.domain.customer.controller;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.service.CustomerService;
+import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.util.UiUtils;
+import com.faitmain.global.util.security.SecurityUserService;
 
 @Controller
 @RequestMapping("/customer/")
@@ -60,13 +66,26 @@ public class CustomerController extends UiUtils {
 	
 	
 	@PostMapping("addBoard")
-	public String addBoard(@RequestParam(value = "boardType", required = false)String boardType, Customer customer, Model model) throws Exception{
+	public String addBoard( @RequestParam(value = "boardType", required = false) char boardType, @RequestParam(value = "categoryCode", required = false) String FAQCategoryCode, Customer customer, Model model) throws Exception{
+		
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+		
 		String url =  null;
+		
+		System.out.println("ddd" + boardType);
+		System.out.println("ddd" + FAQCategoryCode);
 
+		customer.setBoardType(boardType);
+		customer.setFAQCategoryCode(FAQCategoryCode);
+		
+		System.out.println(FAQCategoryCode);
+		
 		customerService.addCustomerBoard(customer);
 
-		List<Customer> list = customerService.getCustomerBoardList(customer.getBoardType()+"");
+		List<Customer> list = customerService.getCustomerBoardList(customer.getBoardType());
 		model.addAttribute("boardList", list);
+		
 		
 		if(customer.getBoardType() == 'N') {
 			url = "customer/noticeList";
@@ -74,8 +93,6 @@ public class CustomerController extends UiUtils {
 			url = "customer/liveGuideDetail";
 		}else if(customer.getBoardType() == 'F') {
 			url =  "customer/faqList";
-		}else if(customer.getBoardType() == 'R') {
-			url = "customer/noticeIndex";
 		}
 		
 		return url;
@@ -85,21 +102,31 @@ public class CustomerController extends UiUtils {
 
 	
 	@GetMapping("listBoard")
-	public String openBoardList(@RequestParam(value= "boardType", required=false) String boardType, Model model) throws Exception {
+	public String openBoardList(@RequestParam(value= "boardType", required=false) char boardType, @RequestParam(value="FAQCategoryCode", required=false) String FAQCategoryCode, Model model ) throws Exception {
 		System.out.println("=======list==========");
-		System.err.println(boardType);
-		
+		System.out.println(boardType);
 		List<Customer> boardList = customerService.getCustomerBoardList(boardType);
 		
 		model.addAttribute("boardList", boardList);
 		System.out.println(boardList);
 		String url =  null;
 //		model.addAttribute("boardList", customerService.getCustomerBoardList());
-		if(boardType.equals("N")) {
+		if(boardType == 'N') {
 			url= "customer/noticeList";
-		}else if(boardType.equals("F")){
-			url= "customer/faqList";
-		}
+		}else if(boardType == 'F'){	
+			
+			if(FAQCategoryCode.equals("0")) {
+				url= "customer/faqList?FAQCategoryCode="+FAQCategoryCode;
+			}else if(FAQCategoryCode.equals("1")) {
+				url= "customer/faqList?FAQCategoryCode="+FAQCategoryCode;
+			}else if(FAQCategoryCode.equals("2")) {
+				url= "customer/faqList?FAQCategoryCode="+FAQCategoryCode;
+			}else if(FAQCategoryCode.equals("3")) {
+				url= "customer/faqList?FAQCategoryCode="+FAQCategoryCode;
+			}else if(FAQCategoryCode.equals("4")) {
+				url= "customer/faqList?FAQCategoryCode="+FAQCategoryCode;
+			}
+		}		
 		System.out.println(url);
 		return url;
 		
@@ -107,49 +134,20 @@ public class CustomerController extends UiUtils {
 	
 	
 	@GetMapping("detailGuide")
-	public String openGuideDetail(@RequestParam(value="boardType", required=false)String boardType, Model model) throws Exception{
+	public String openGuideDetail(@RequestParam(value="boardType", required=false)char boardType, Model model) throws Exception{
 		
 		Customer customer = customerService.getLiveGuide(boardType);
 		
-		model.addAttribute("liveguide", customer);
-		
-		return "customer/liveGuideDetail";
+		model.addAttribute("customer", customer);
+		String url = null;
+		if(boardType =='L') {
+		 url = "customer/liveGuideDetail";
+		}
+		return url;
 	}
 	
 
-//	@PostMapping("register")
-//	public String registerBoard(final Customer params, Model model)  throws Exception {
-//		System.out.println("AAAAAAAAAAAAAAAAAAAAAA");
-//	//z	System.out.println(params);
-//			
-//		List<Customer> boardList = customerService.getCustomerBoardList();
-//		Map<String, Object> Map = new HashMap<String, Object>();		
-//		Map.put("map", boardList) ;
-//  	//	System.out.println("map 들어갔니 ={}  "   + Map  );
-//		
-//		try {
-//				boolean isRegistered = customerService.registerCustomerBoard(params);
-//				if(isRegistered == false) {
-//					return showMessageWithRedirect("게시글 등록에 실패하였습니다.", "/customer/list", Method.GET, null, model);
-//				}
-//			}catch(DataAccessException e) {
-//				return showMessageWithRedirect("데이터베이스 처리 과정에 문제가 발생하였습니다.", "/customer/list", Method.GET, null, model);
-//			
-//			}catch(Exception e) {
-//				return showMessageWithRedirect("시스템에 문제가 발생하였습니다.", "/customer/list", Method.GET, null, model);
-//			}
-//			
-//			return showMessageWithRedirect("게시글 등록이 완료되었습니다.", "/customer/list", Method.GET, Map,  model);
-//			/*if(register == false) {
-//				//게시글 "등록실패"
-//				System.out.println("등록 실패");*/
-//		
-//			//boolean register = customerService.registerCustomerBoard(params);
-//			//System.out.println(customer);
-//		
-//		//return "redirect:/list";
-//	}
-//	
+
 
 
 //	@GetMapping("listFAQ")
@@ -188,26 +186,6 @@ public class CustomerController extends UiUtils {
 	}
 
 	
-	
-
-//	@PostMapping("delete")
-//	public String deleteBoard(@RequestParam(value = "boardNumber", required = false) Integer boardNumber, Model model) {
-//		if(boardNumber == null) {
-//			return showMessageWithRedirect("올바르지 않은 접근입니다.", "/customer/list", Method.GET, null, model);
-//			//return "redirect: /customer/list";
-//		}
-//		try {
-//			boolean isDeleted = customerService.deleteCustomerBoard(boardNumber);
-//			if(isDeleted == false) {
-//				return showMessageWithRedirect("게시글 삭제에 실패하였습니다.", "/customer/list", Method.GET, null, model);
-//			}
-//		}catch(DataAccessException e) {
-//			return showMessageWithRedirect("데이터베이스 처리 과정에 문제가 발생하였습니다.", "/customer/list", Method.GET, null, model);
-//		}catch(Exception e) {
-//			return showMessageWithRedirect("시스템에 문제가 발생하였습니다.", "/customer/list", Method.GET, null, model);
-//		}
-//		return showMessageWithRedirect("게시글 삭제가 완료되었습니다.", "/customer/list", Method.GET, null, model);
-//	}
 
 	
 	@PostMapping("deleteBoard")

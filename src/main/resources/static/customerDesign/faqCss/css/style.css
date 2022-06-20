@@ -50,7 +50,8 @@ a{text-decoration: none}
 .faq-accordion>li  {
     border-top: 1px solid rgba(198, 198, 198, 0.4);
     color: #666;
-    padding: 1.125em 0
+    padding: 1.125em 0;
+    list-style: none;
 }
 
 .faq-accordion li a {

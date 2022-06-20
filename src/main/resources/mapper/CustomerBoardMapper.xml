@@ -10,7 +10,7 @@
 		<result property="boardContent"					column="customer_board_content" 	jdbcType="VARCHAR" />
 		<result property="boardRegDate"					column="reg_date"	 				jdbcType="DATE" />
 		<result property="boardUpdateDate"				column="update_date" 				jdbcType="DATE" />
-		<result property="FAQCategoryCode"			 	column="customer_FAQ_category_code" jdbcType="INTEGER" />
+		<result property="FAQCategoryCode"			 	column="customer_FAQ_category_code" jdbcType="VARCHAR" />
 		<result property="boardType"  					column="customer_board_type" 		jdbcType="CHAR" />
 		<result property="viewCount"  					column="view_cnt" 					jdbcType="INTEGER" />
 		<result property="deleteYn"  					column="delete_yn" 					jdbcType="VARCHAR" />
@@ -59,13 +59,26 @@
 			delete_yn = 'N' AND customer_board_number = #{boardNumber}
       	</where>    			  	
     </select>
+    
+    <select id="getLiveGuide" parameterType="String" resultType="Customer" resultMap ="customerMap">
+
+    	SELECT 
+    	customer_board_number, customer_board_title, customer_board_content, view_cnt, 
+		delete_yn, reg_date, update_date, customer_FAQ_category_code, customer_board_type, customer_id
+    	FROM customer 
+    	<where>
+			delete_yn = 'N' AND customer_board_type = #{boardType}
+      	</where>    	
+      		ORDER BY reg_date	
+      		DESC LIMIT 1	  	
+    </select>
 	
 	<insert id="addCustomerBoard" parameterType="Customer" >
 		    INSERT INTO customer
 		    ( customer_board_title, customer_board_content, 
 		     delete_yn, reg_date, update_date, customer_FAQ_category_code, customer_board_type,  customer_id )
 		VALUES
-		    ( #{boardTitle}, #{boardContent},'N', NOW(), NULL, NULL, #{boardType}, #{customerId.id} )    
+		    ( #{boardTitle}, #{boardContent},'N', NOW(), NULL, #{FAQCategoryCode}, #{boardType}, #{customerId.id} )    
 	</insert>
 	
 	
@@ -115,6 +128,50 @@
     	
     </select> 
     
+    <select id="getFAQCategoryCode" parameterType="String" resultMap="customerMap" >
+    
+    	SELECT * 
+    	FROM customer
+    	<where>
+    		delete_yn = 'N' AND customer_FAQ_category_code = #{FAQCategoryCode}
+    	</where> 
+    	ORDER BY reg_date DESC
+    	
+    </select> 
+    
+    <select id="getFAQList" parameterType="String" resultMap="customerMap">
+	  	 SELECT *
+	  	FROM (	SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq
+	  					FROM		(	SELECT customer_board_number, customer_board_title, customer_board_content, reg_date, customer_FAQ_category_code 
+	  										FROM customer
+	  							<if test="searchCondition != null">
+	  							<where>
+									customer_board_number is null
+										<if test="searchCondition == FAQCategoryCode and searchKeyword == '1' ">
+							 				customer_FAQ_category_code = #{searchKeyword}
+										</if> 
+										<if test="searchCondition == FAQCategoryCode and searchKeyword == '2' ">
+							 				customer_FAQ_category_code = #{searchKeyword}
+										</if>										
+										<if test="searchCondition == FAQCategoryCode and searchKeyword == '3' ">
+							 				customer_FAQ_category_code = #{searchKeyword}
+										</if>	
+										<if test="searchCondition == FAQCategoryCode and searchKeyword == '4' ">
+							 				customer_FAQ_category_code = #{searchKeyword}
+										</if>
+										<if test="searchCondition == FAQCategoryCode and searchKeyword == '5' ">
+							 				customer_FAQ_category_code = #{searchKeyword}
+										</if>																		
+												
+								</where>
+								</if>
+								ORDER BY reg_date ) inner_table
+								WHERE (@ROWNUM:=0)=0 limit #{endRowNum} ) result_table
+								WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	
+    
+    
      <!-- 게시글 수  -->
     <select id="getBoardTotalCount" parameterType="Customer" resultType="int">
     
@@ -125,6 +182,9 @@
     	</where> 
     
     </select> 
+    
+    
+    
     
     
 <!-- ============================================================================= -->	
@@ -242,33 +302,7 @@
    		<!-- 	n.* FROM customer AS c,(SELECT @ROWNUM:=0) AS c ORDER BY reg_date DESC) AS c1 
 				WHERE row_num &gt; #{startRowNum} AND row_num &lt;= #{endRowNum};  -->
 
-	  	<!-- SELECT *
-	  	FROM (	SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq
-	  					FROM		(	SELECT customer_board_number, prod_name, price, reg_date 
-	  										FROM report r 
-	  							<where>
-									customer_board_number is null
-									
-									<if test="searchCondition != null">
-										<if test="searchCondition == 알파벳순 and searchKeyword !='' ">
-							 				AND r.respondent_id IN (${searchKeyword})
-										</if> 
-										<if test="searchCondition == 등록일순 and searchKeyword !='' ">
-							 				AND c.reg_date LIKE '%'||#{searchKeyword}||'%'
-										</if>										
-										<if test="searchCondition == 카테고리로 검색 and searchKeyword !='' ">
-							 				AND p.product_category_code = #{searchKeyword}
-										</if>																			
-									</if>
-									<if test="boardRegDate != null">
-										AND c.reg_date BETWEEN #{beforeDate} and #{afterDate}
-									</if>
-								</where>
-						ORDER BY ${orderName} ) inner_table
-				WHERE (@ROWNUM:=0)=0 limit #{endRowNum} ) result_table
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
-	</select>
-	
+	<!-- 
 	SQL : SELECT ROW Count	 
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
@@ -285,13 +319,9 @@
 							</where>
 						</if> ) countTable						
 	 </select>
-     
-    
-<<<<<<< HEAD
-     get Customer 
+      -->
+  
 	
-
-	</select>-->
 
 
  	
