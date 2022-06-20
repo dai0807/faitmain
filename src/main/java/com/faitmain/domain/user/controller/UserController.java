@@ -45,8 +45,6 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController{
 
 
-//    @Autowired
-//    private BCryptPasswordEncoder pwdEncoder;
 
 
     // Field
@@ -69,10 +67,9 @@ public class UserController{
 // 보안을 위해 사용함 
     @Autowired
     private PasswordEncoder pwdEncoder;
-//    
-//    @Qualifier( "securityUser" )
-//    @Autowired
-//    private SecurityUserService securityUser;
+    
+     @Autowired
+    private SecurityUserService securityUserService;
     
     
     public UserController(){
@@ -637,8 +634,35 @@ public class UserController{
 
     }
 
+    
+//    
+//    // find Id Rest Control로 갈 운명
+    @GetMapping( "findPassword" )
+    public String findPassword( ){
+
+        log.info( "###Stat###findUserPassword ={} ##"   );
+
+
+        return ( "/user/findUserPassword" );
+
+
+    }
+    
+//  
+//  // find Id Rest Control로 갈 운명
+  @GetMapping( "index" )
+  public String index( ){
+
+      log.info( "###index###index ={} ##"   );
+
+
+      return ( "/user/index" );
+
+
+  }
+   
     //find PW Rest Control로 갈 운명
-    @PostMapping( "findPw" )
+    @PostMapping( "ddddd" )
     public String findPw( @ModelAttribute( "user" ) User user , Model model ) throws Exception{
 
         log.info( "##findPw {} ##" , user );
@@ -655,7 +679,7 @@ public class UserController{
 
             model.addAttribute( "user" , user );
 
-
+             
             return ( "forward:/user/updatePassword.jsp" );
 
 
@@ -671,15 +695,17 @@ public class UserController{
     //			//id가 있으면 list에서 온거 , 아니면 내 정보 조회에서 온 것
 //getUser 유저 상세    // 변자기돈 getUSer시 아이디 날라가기 
     @GetMapping( "getUser" )
-    public String getUser( Model model , @RequestParam( value = "id", required = false ) String id ) throws Exception{
+    public String getUser( Model model , @RequestParam( value = "id", required = false ) String id 
+    		// , @AuthenticationPrincipal SecurityUserService securityUserService 
+    		 ) throws Exception{
 
         log.info( " GestUSer에 옴 출력하라 id  {}" , id );
         User user = null;
 
         if ( id == null ) {
         	
-    		SecurityUserService securityUserService = ( SecurityUserService )SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
-          	    user = securityUserService.getUser();
+    	  securityUserService = ( SecurityUserService )SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
+           user = securityUserService.getUser();
          
         	log.info(" 로그인한 유저   ={} ", securityUserService.getUser() );
         	
@@ -695,6 +721,13 @@ public class UserController{
             user.setStoreApplicationDocumentNumber( storeNumber );
         }
 
+        
+ 
+        
+        
+        
+        
+        
         log.info( " 출력하라 getUSer {}" , user );
 
 
