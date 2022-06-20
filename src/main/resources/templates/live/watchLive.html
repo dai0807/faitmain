@@ -88,15 +88,21 @@
 </style>
 
 <body>
-
-   <div id="wrap">
+	
+	<!-- ================================= 필요 데이터 =========================================================== -->
+		<input sec:authorize="isAuthenticated()" type="hidden" id="userNickname" th:value="${#authentication.principal.user.nickname}">
+	    <input sec:authorize="isAuthenticated()" type="hidden" id="userId" th:value="${#authentication.principal.user.id}">
+	    <input type="hidden" id="channelKey" th:value="${live.roomId}">
+	    <input type="hidden" id="storeId" th:value="${live.storeId}">
+	<!-- ====================================================================================================== -->
+   
+   	<div id="wrap" style="width:55%; height:700px; margin-top: 50px;">
         <section>
             <!-- 샘플 화면 -->
             <div class="livecommerce">
                
-                    <div class="remote_cam" style="height : 675px"></div>
+            	<div class="remote_cam" style="height : 675px"></div>
                
-                
                 <!-- 에러 팝업 -->
                 <div class="errorpopup">
                     <p><i class="fas fa-exclamation-circle"></i></p>
@@ -147,18 +153,41 @@
         </section>
     </div>
     
-    <input sec:authorize="isAuthenticated()" type="hidden" id="userNickname" th:value="${#authentication.principal.user.nickname}">
-   <input sec:authorize="isAuthenticated()" type="hidden" id="userId" th:value="${#authentication.principal.user.id}">
-    <input type="hidden" id="channelKey" th:value="${live.roomId}">
-    <input type="hidden" id="storeId" th:value="${live.storeId}">
-       
-      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-   	  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-   
-        
-
-                        
-                        
+    <div style="float: right; width:40%; height:700px; background-color:white; border-radius: 30px; margin-top:50px; margin-right:50px;">
+   		<div>
+   			<h5 style="margin-left:50px; margin-top:15px; margin-bottom:15px; font-size: 30px; font-family:jua; font-weight: bold; ">상품 목록</h5>
+   		</div>
+   		<div style="height:620px; width:650px; overflow: auto; margin-left:5px;">
+   			<table class="table">
+   				<colgroup>
+   					<col width="150px"/>
+   					<col width="450px"/>
+   				</colgroup>
+				<thead class="thead-dark">
+			    	<tr>
+			      		<th scope="col">사진</th>
+			      		<th scope="col">상품</th>
+			    	</tr>
+			  	</thead>
+			  	<tbody>
+			  		<th:block th:each="productList : ${listProduct}">
+				    	<tr style="cursor:pointer" th:onclick="'openProductView('+${productList.productNumber}+');'">
+						    <th scope="row">
+						    	<img th:src="'../img/upload/'+${productList.productMainImage}" style="width:150px; height:150px;">
+						    </th>
+						    <td>
+						    	<div th:text="${productList.productName}"></div>
+		                        <div th:text="${productList.price}"></div>
+		                	</td>
+					    </tr>
+				    </th:block>
+				</tbody>
+			</table>
+   			
+   		</div>
+   	</div>
+         
+                <!--  삭제 예정
                <div th:unless="${#lists.size(listProduct)==0}" class="row" style="margin-bottom: 10px; background-color : #D8D8D8;">
                   <div class="col-md-9">
                      <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
@@ -186,14 +215,10 @@
                         </div>      
                      </div>
                   </div>
-               </div>
+               </div> -->
 </body>
 
 <script th:inline="javascript">
-    
-     function nav() {
-         location.href="/";
-   }
      
  // 채널에 접속하기 위해서 사용자의 userNick, userKey와 CMS에서 발급받은 channelKey가 필요합니다.
 
@@ -338,10 +363,6 @@
        p.show();
      }
      
-     function nav(){
-        self.location("/");
-     }
-     
      function exit() {
        if (channel) {
          var exit_chk = confirm("종료 하시겠습니까?");
@@ -357,6 +378,11 @@
          // 로그인 되지 않았음!
        }
      }
+     
+     function openProductView(productNumber){
+		var win = window.open('/product/getProduct?productNumber='+productNumber, '_blank');
+		win.focus();
+	}
     
 </script>
 

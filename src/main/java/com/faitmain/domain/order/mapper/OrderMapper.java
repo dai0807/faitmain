@@ -6,9 +6,13 @@ import com.faitmain.domain.order.domain.OrderPageProduct;
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Criterion;
+import com.faitmain.global.util.log.LogTrace;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 
 @Mapper
 public interface OrderMapper{
@@ -19,7 +23,7 @@ public interface OrderMapper{
     User selectBuyer( String id );
 
     /* 주문 상품 정보 (주문 페이지) */
-    OrderPageProduct selectOrderPageProduct( int productNumber );
+    OrderPageProduct selectOrderPageProduct(  int productNumber );
 
     /* 주문 상품 정보 (주문 처리) */
     OrderProduct selectOrderProduct( int productNumber );
@@ -50,6 +54,9 @@ public interface OrderMapper{
 
     /* 주문 재고 차감 */
     int updateStock( Product product );
+
+
+
 
 
     /* 주문 상품 리스트 */

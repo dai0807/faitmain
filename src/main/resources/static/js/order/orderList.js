@@ -1,44 +1,120 @@
+$(document).ready(function () {
 
-$(document).ready(function() {
+    let searchForm = $('#searchForm');
+    let moveForm = $('#moveForm');
+    /* 작거 검색 버튼 동작 */
+    $("#searchForm button").on("click", function (e) {
 
-	let searchForm = $('#searchForm');
-	let moveForm = $('#moveForm');
-	/* 작거 검색 버튼 동작 */
-	$("#searchForm button").on("click", function (e) {
+        e.preventDefault();
+        /* 검색 키워드 유효성 검사 */
+        if (!searchForm.find("input[name='keyword']").val()) {
+            alert("키워드를 입력하십시오");
+            return false;
+        }
+        searchForm.find("input[name='pageNum']").val("1");
+        searchForm.submit();
 
-		e.preventDefault();
+    });
+    /* 페이지 이동 버튼 */
+    $(".pageMaker_btn a").on("click", function (e) {
 
-		/* 검색 키워드 유효성 검사 */
-		if (!searchForm.find("input[name='keyword']").val()) {
-			alert("키워드를 입력하십시오");
-			return false;
-		}
+        e.preventDefault();
+        console.log($(this).attr("href"));
+        moveForm.find("input[name='pageNum']").val($(this).attr("href"));
+        moveForm.submit();
 
-		searchForm.find("input[name='pageNum']").val("1");
+    });
+    $(".delete_btn").on("click", function (e) {
 
-		searchForm.submit();
+        e.preventDefault();
 
-	});
-	/* 페이지 이동 버튼 */
-	$(".pageMaker_btn a").on("click", function (e) {
+        let id = $(this).data("orderid");
 
-		e.preventDefault();
+        $("#deleteForm").find("input[name='orderId']").val(id);
+        $("#deleteForm").submit();
+    });
 
-		console.log($(this).attr("href"));
+}); // ready
 
-		moveForm.find("input[name='pageNum']").val($(this).attr("href"));
 
-		moveForm.submit();
+$(document).ready(function () {
 
-	});
-	$(".delete_btn").on("click", function (e) {
+    // 리뷰 쓰기 버튼
+    $(".review").click(function () {
+        let modal;
 
-		e.preventDefault();
+        if ($(this).hasClass("regi")) {
+            modal = $(".review_modal");
+        } else {
+            modal = $(".review_modify_modal");
 
-		let id = $(this).data("orderid");
+            const reviewContent = $(this).siblings(".review_content").val();
+            const reviewScore = $(this).siblings(".review_score").val();
+            const reviewImg = $(this).siblings(".review_img").val();
 
-		$("#deleteForm").find("input[name='orderId']").val(id);
-		$("#deleteForm").submit();
-	});
+            $(".review_modify_modal textarea").val(reviewContent);
+            $(".review_modify_modal .preview").attr("src", reviewImg);
+            $(".review_modify_modal .img_box div").css("display", "block");
+
+        }
+
+        openModal(modal);
+
+        const orderNum = $(this).siblings(".order_num").val();
+        const storeId = $(this).siblings(".store_id").val();
+
+        modal.find(".order_num").val(orderNum);
+        modal.find(".store_id").val(storeId);
+
+
+        // 별점주기
+        let score = 0;
+
+        $(".score_box i").off().click(function () {
+            score = $(this).index() + 1;
+
+            $(".score_box i").removeClass("fas");
+            $(this).addClass("fas").prevAll().addClass("fas");
+
+            modal.find(".score").val(score);
+
+            inputCheck(modal);
+        });
+
+
+        $(".review_text textarea").off().keyup(function () {
+            inputCheck(modal);
+        })
+
+
+        // 리뷰 작성, 별점 체크 했는지 확인
+        function inputCheck(modal) {
+            let text = modal.find(".review_text textarea").val();
+            let score = modal.find(".score").val();
+
+            if (text.length == 0 || score == "" || score == null) {
+                modal.find(".review_submit_btn").css("background", "#ddd");
+                modal.find(".review_submit_btn").attr("disabled", true);
+            } else {
+                modal.find(".review_submit_btn").attr("disabled", false);
+                modal.find(".review_submit_btn").css("background", "#30DAD9");
+            }
+        }
+    });
+
+
+    $(".img").change(function (e) {
+        imgPreview(e, $(this));
+    })
+
+    $(".img_close").click(function () {
+        imgClose();
+    })
+
+
+    $(".order_detail").click(function () {
+        const orderNum = $(this).siblings(".order_num").val();
+        location.href = "/orderListDetail/" + orderNum;
+    });
 
 }); // ready

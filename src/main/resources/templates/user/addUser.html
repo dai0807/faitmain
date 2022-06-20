@@ -7,7 +7,8 @@
 <head>
     <link href = "https://fonts.googleapis.com" rel = "preconnect">
     <link crossorigin href = "https://fonts.gstatic.com" rel = "preconnect">
-    <link href = "@{/css/styles.css}" rel = "stylesheet"/>
+    <link href = "/css/styles.css" rel = "stylesheet"/>
+     <link href = "/user/css/form.css" rel = "stylesheet"/>
 
     <link href = "https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap"
           rel = "stylesheet">
@@ -25,6 +26,11 @@
             font-family: 'Nanum Gothic Coding', monospace;
         }
 
+	h5{
+		    color: #888;
+
+		
+	}
     </style>
 
     <script src = "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -451,7 +457,7 @@
 
                 <div class = "form-group">
                     <!--<label for="userId" class="col-form-label-lg" style="font-size:20px;">아 이 디</label>  -->
-                    <h5 class = "fw-bolder"> 아이디</h5>
+                    <h5 > 아이디</h5>
                     <div>
                         <input class = "form-control" id = "id" name = "id" placeholder = "이메일을 입력하세요" type = "text">
                         <span class = "help-block" id = "helpBlock">
@@ -466,7 +472,7 @@
 
                 <div class = "form-group">
                     <!-- <label for="password" class="control-label">비밀번호</label>-->
-                    <h5 class = "fw-bolder"> 비밀번호</h5>
+                    <h5  > 비밀번호</h5>
                     <div>
                         <input class = "form-control" id = "password" maxlength = '12' name = "password"
                                placeholder = "비밀번호" type = "password">
@@ -475,7 +481,7 @@
 
                 <div class = "form-group">
                     <!--<label for="password2" class="col-md-8 control-label">비밀번호 확인</label> -->
-                    <h5 class = "fw-bolder"> 비밀번호 확인</h5>
+                    <h5  > 비밀번호 확인</h5>
                     <div>
                         <input class = "form-control" id = "password2" maxlength = '15' name = "password2"
                                placeholder = "비밀번호 확인" type = "password">
@@ -488,7 +494,7 @@
 
                 <div class = "form-group">
                     <!--<label for="name" class="col-md-8 control-label">이름</label>-->
-                    <h5 class = "fw-bolder">이름</h5>
+                    <h5 >이름</h5>
                     <div>
                         <input class = "form-control" id = "name" name = "name" placeholder = "회원이름" type = "text">
                     </div>
@@ -497,7 +503,7 @@
                 </div>
                 <div class = "form-group">
                     <!--  <label for="userName" class="col-md-8 control-label">닉네임</label>-->
-                    <h5 class = "fw-bolder">닉네임</h5>
+                    <h5  >닉네임</h5>
                     <div>
                         <input class = "form-control" id = "nickname" maxlength = '10' name = "nickname"
                                placeholder = "2~10자 사이의 사용할 닉네임을 입력해주세요"
@@ -516,7 +522,7 @@
 
 
                     <!--<label for="userId" class="col-md-8control-label">주소</label>-->
-                    <h5 class = "fw-bolder"> 주소 </h5>
+                    <h5  > 주소 </h5>
                     <div>
                         <div class = "input-group mb-2">
 
@@ -532,7 +538,7 @@
                              <input class = "form-control" id = "userAddress1" name = "userAddress1" placeholder = "우편주소."
                                    readonly type = "text"/>
                             <button class = "btn btn-success" id = "button-newsletter" onclick = "findAddr()"
-                                    type = "button">주소찾기
+                                    type = "button" return false;>주소찾기
                             </button>
                         </div>
                         <input class = "form-control" id = "userAddress2"  name = "userAddress2" placeholder = "주소" readonly type = "text">
@@ -547,13 +553,14 @@
 
                     <div class = "form-group">
                         <!--	<label for="name" class="control-label">휴대폰번호</label> -->
-                        <h5 class = "fw-bolder"> 인증번호 </h5>
+                        <h5  > 인증번호 </h5>
                         <div>
                             <div class = "input-group mb-2">
                                 <input class = "form-control" id = "phone" name = "phoneNumber"
                                        placeholder = "휴대전화번호 입력 01012345678"
                                        type = "type"/>
-                                <span class = "btn btn-success" id = "phoneChk"> 인증번호 보내기</span>
+                                <!--<span class = "btn btn-success" id = "phoneChk"> 인증번호 보내기</span>-->
+                                  <button class = "btn btn-success" id = "phoneChk"  type = "button" return false;>인증번호 보내기
                             </div>
                         </div>
 
@@ -563,8 +570,10 @@
                                 <input class = "form-control" disabled id = "phone2" name = "CertificationNumber"
                                        placeholder = "인증번호 입력" required type = "number"/>
 
-                                <span class = "btn btn-success" disabled id = "phoneChk2"
+                             <span class = "btn btn-success" disabled id = "phoneChk2"
                                       name = "CertificationNumber" placeholder = "인증번호 입력" required>  본인인증</span>
+		         			   <!--  <button class = "btn btn-success"   id = "phoneChk2" 
+		         			  	 name = "CertificationNumber"         return false;  >본인인증      -->                                 
 
                             </div>
                             <span class = "point successPhoneChk">휴대폰 번호 입력후 인증번호 보내기를 해주십시오.</span>
@@ -585,7 +594,7 @@
 
 
                     <div class = "form-group">
-                        <h5 class = "fw-bolder">성별&nbsp;&nbsp;&nbsp;</h5>
+                        <h5  >성별&nbsp;&nbsp;&nbsp;</h5>
                         <p class = "tip">
                             <input name = "gender" type = "radio" value = "M">남
                             <input name = "gender" type = "radio" value = "W">여

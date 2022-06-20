@@ -12,6 +12,14 @@ body {
   background-color:aqua;
 }
 
+tr.kick {
+	color:crimson;
+}
+
+tr.mute {
+	color:coral;
+}
+
 .rwd-table {
   margin: 1em 0;
   min-width: 300px;
@@ -99,7 +107,12 @@ h1 {
 
 <body onLoad="self.focus();window.onblur=function(){ if(!opener.closed) window.focus()}">
 <script th:inline="javascript">
-    /*<![CDATA[*/
+    /*<![CDATA[*/ 
+
+$('body').on('click', '[name=return]', function(event) {
+	lel();
+});   
+    
 //유저 강제퇴장 - 1
 function kickUser() { 
 	
@@ -154,8 +167,10 @@ function kickUser() {
 	});
    }
     opener.popup = this;
-    
+
+//채팅방 유저 조회    
 function lol(){
+	if(status == 0){		
 	
 	$.ajax({
 		url : '/live/json/liveManageTab',
@@ -165,7 +180,8 @@ function lol(){
 		dataType : "json",
 		timeout : 2000,
 		success : function(data){
-			$(".test").remove();	
+			var status = 0;
+			$('.test').remove();
 				var abc = "";		
 			for(let i = 0 ; i < data.length ; i++) {
 					abc += "<tr class='test'><td><input class='clientKey' type='checkbox' name='clientKey' value=" + data[i].clientKey + "></td>"
@@ -176,6 +192,44 @@ function lol(){
 				console.log(abc);
 			
 				$("table").children(":first").append(abc);
+			
+			
+			
+		},
+		error : function(error){}	
+	});
+	}
+}
+
+//제재 유저 조회에서 다시 채팅방 유저 조회 페이지로...
+function lel(){
+	
+	$.ajax({
+		url : '/live/json/liveManageTab',
+		type : 'POST',
+		async : true,
+		cache : true,
+		dataType : "json",
+		timeout : 2000,
+		success : function(data){
+			status = 0;
+			$('.test').remove();
+			$('.kick').remove();
+			$('.mute').remove();
+			$('.muteBar').remove();
+				var abc = "";		
+			for(let i = 0 ; i < data.length ; i++) {
+					abc += "<tr class='test'><td><input class='clientKey' type='checkbox' name='clientKey' value=" + data[i].clientKey + "></td>"
+					     + "<td data-th='ClientKey'>" + data[i].clientKey + "</td>"
+					     + "<td data-th='NickName'>" + data[i].nickName + "</td>"
+					     + "<td data-th='Grade'>" + data[i].grade + "</td><input class='roomId' type='hidden' name='roomId' value=" + data[i].roomId + "></tr>";
+	}
+				console.log(abc);
+			
+				$("table").children(":first").append(abc);
+				$('.button').children(":last").remove();
+
+				$('.button').append("<button type='button' class='btn btn-warning' id='kickUserList' onclick='sanctionUserList()'>제재 유저 조회</button>");
 			
 			
 			
@@ -188,6 +242,8 @@ function lol(){
 //and  클라이언트키가 유지되게 만들어야함.. liveController 쪽에서 구현해봤는데 어려움 . 
 function sanctionUserList(){
 	
+	status = 1;
+	
 	$.ajax({
 		url : '/live/json/sanctionUserList',
 		type : 'POST',
@@ -196,22 +252,52 @@ function sanctionUserList(){
 		dataType : "json",
 		timeout : 2000,
 		success : function(data){
-			$(".test").remove();	
+			$(".test").remove();
+			$("#kickUserList").remove();
+			$("div.button").append("<button type='button' name='return' class='btn btn-primary'>채팅방 유저 조회</button>");
 				var abc = "";		
 			for(let i = 0 ; i < data.length ; i++) {
-					abc += "<tr class='test'><td><input class='clientKey' type='checkbox' name='clientKey' value=" + data[i].clientKey + "></td>"
-					     + "<td data-th='ClientKey'>" + data[i].clientKey + "</td>"
-					     + "<td data-th='NickName'>" + data[i].nickName + "</td>"
-					     + "<td data-th='Grade'>" + data[i].grade + "</td><input class='roomId' type='hidden' name='roomId' value=" + data[i].roomId + "></tr>";
-	}
-	
-				for(let i = 0 ; i < data.length ; i++) {
-					abc += "<tr class='test'><td><input class='clientKey' type='checkbox' name='clientKey' value=" + data[i].clientKey + "></td>"
+					abc += "<tr class='kick'><td><input class='clientKey' type='checkbox' name='clientKey' value=" + data[i].clientKey + "></td>"
 					     + "<td data-th='ClientKey'>" + data[i].clientKey + "</td>"
 					     + "<td data-th='NickName'>" + data[i].nickName + "</td>"
 					     + "<td data-th='Grade'>" + data[i].grade + "</td><input class='roomId' type='hidden' name='roomId' value=" + data[i].roomId + "></tr>";
 	}
 				console.log(abc);
+				
+				$("table").children(":first").append(abc);
+				
+			
+			muteUserList();
+		},
+		error : function(error){}	
+	});
+}
+
+function muteUserList(){
+	
+	$.ajax({
+		url : '/live/json/muteUserList',
+		type : 'POST',
+		async : true,
+		cache : true,
+		dataType : "json",
+		timeout : 2000,
+		success : function(data){
+				var abc = "";
+				
+					abc+= "<tr class='muteBar'>"
+	    			    + "<th>Select</th>"
+	    				+ "<th>ClientKey</th>"
+	   					+ "<th>NickName</th>"
+	    				+ "<th>Grade</th>"
+	  					+ "</tr>";		
+			for(let i = 0 ; i < data.length ; i++) {
+					abc +="<tr class='mute'><td><input class='clientKey' type='checkbox' name='clientKey' value=" + data[i].clientKey + "></td>"
+					     + "<td data-th='ClientKey'>" + data[i].clientKey + "</td>"
+					     + "<td data-th='NickName'>" + data[i].nickName + "</td>"
+					     + "<td data-th='Grade'>" + data[i].grade + "</td><input class='roomId' type='hidden' name='roomId' value=" + data[i].roomId + "></tr>";
+	}
+				console.log("알랄랄");
 			
 				$("table").children(":first").append(abc);
 			
@@ -222,17 +308,17 @@ function sanctionUserList(){
 	});
 }
 
-
     /*]]>*/
 </script>
 
 <br/>
 
 <h1> Live User List </h1>
+<div class="button">
 <button type="button" class="btn btn-danger"  id="kick" onclick="kickUser()"/>강퇴</button>
 <button type="button" class="btn btn-warning" id="mute" onclick="muteUser()"/>채팅 제한</button>
-<button type="button" class="btn btn-warning" id="kickUserList" onclick="sanctionUserList()"/>강제퇴장 유저 조회</button>
-<button type="button" class="btn btn-warning" id="muteUserList" onclick=""/>벙어리 유저 조회</button>
+<button type="button" class="btn btn-warning" id="kickUserList" onclick="sanctionUserList()"/>제재 유저 조회</button>
+</div>
 <div style="height:200px; overflow:auto">
 	<table class="rwd-table">
 	  <tr>
