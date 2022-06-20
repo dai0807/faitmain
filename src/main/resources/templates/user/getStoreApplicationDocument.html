@@ -8,17 +8,21 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-     <link href="@{/css/styles.css}" rel="stylesheet" />
+     <link href="/css/styles.css" rel="stylesheet" />
+     <link href = "/user/css/form.css" rel = "stylesheet"/>
 
     <meta charset = "UTF-8">
     <title>상세정보 </title>
     <style>
+    
 	  .form-group{
  
 		margin-top:10px ;
  	 
 		}
-		
+		.div_css{
+			margin: 0 0 1.5em 0;
+		}
 		form-horizontal{font-family: 'Nanum Gothic Coding', monospace;}
 		 
     </style>
@@ -89,63 +93,79 @@ function showValue(target){
 
 <body>
 	<article  class="py-5" layout:fragment="content"  >
-	
-	<h2> 스토어 신청서 </h2>
-	
-	<div class="form-group">
-	
-		  	 <form id="form">    			    
-	<input type="hidden"  th:id="storeApplicationDocumentNumber" th:name="storeApplicationDocumentNumber"    th:value="${StoreApplicationDocument.storeApplicationDocumentNumber}"  >
+	    <div class = "container col-lg-3">
+    </div>
 
-		    <h5 class="fw-bolder"> 아이디</h5>
-			    <div >
-			    <input type="text" class="form-control" th:id="id" th:name="id"  th:value="${StoreApplicationDocument.id}"  readonly>  
+<div  class="container col-lg-6 ">
+
+        <div class = "text-center">
+            <h3  > 스토어 신청서</h3>
+            <p class = "lead fw-normal text-muted "> 등록하신 스토어 신청서 입니다.  </p>
+        </div>
+	
+		  	 <form id="form">    	
+		  	 		<div class="form-group">
+
+					    <div class="div_css">
+		  	 			    
+						<input type="hidden"  th:id="storeApplicationDocumentNumber" th:name="storeApplicationDocumentNumber"    th:value="${StoreApplicationDocument.storeApplicationDocumentNumber}"  >
+		
+				   		 <h5  > 아이디</h5>
+					    <input type="text" class="form-control" th:id="id" th:name="id"  th:value="${StoreApplicationDocument.id}"  readonly>  
+					
+					    </div>
+		  	 		</div>   
+		  	 		<div class="form-group">
+					    <div class="div_css">
+
+						  	<h5  > 이름 </h5>
+ 							   <input type="text" class="form-control" th:id="storeName" th:name="storeName"  th:value="${StoreApplicationDocument.storeName}"  readonly>  
+					 
+							    </div>
+		  	 		</div>	    
+		  	 		<div class="form-group">
+					    <div class="div_css">
+			    
+				      	<h5  > 스토어 소개 </h5>
+ 						   <input type="text" class="form-control" th:id="storeIntroduction" th:name="storeIntroduction"  th:value="${StoreApplicationDocument.storeIntroduction}"  readonly>  
+				 
+				  		  </div>
+		  	 		</div>	  
+			    
+		  	 		<div class="form-group">
+						   	<h5  > 스토어 심사 상태 </h5>
+						  <input th:if="${StoreApplicationDocument.examinationStatus =='W'}" id="examinationStatus" type="text" class="form-control"  value="대기"  disabled>  
+						  <input th:if="${StoreApplicationDocument.examinationStatus =='A'}" id="examinationStatus" type="text" class="form-control"  value="승인"  disabled>  
+						  <input th:if="${StoreApplicationDocument.examinationStatus =='R'}"  id="examinationStatus" type="text" class="form-control"  value="반려"  disabled>  
 			
-			    </div>
-		  	<h5 class="fw-bolder"> 이름 </h5>
-			    <div >
-			   <input type="text" class="form-control" th:id="storeName" th:name="storeName"  th:value="${StoreApplicationDocument.storeName}"  readonly>  
-	 
-			    </div>
-			    
-			    
-			      	<h5 class="fw-bolder"> 스토어 소개 </h5>
-			    <div >
-			   <input type="text" class="form-control" th:id="storeIntroduction" th:name="storeIntroduction"  th:value="${StoreApplicationDocument.storeIntroduction}"  readonly>  
-	 
-			    </div>
-			    
-			    <div >
-			   	<h5 class="fw-bolder"> 스토어 심사 상태 </h5>
-			  <input th:if="${StoreApplicationDocument.examinationStatus =='W'}" id="examinationStatus" type="text" class="form-control"  value="대기"  disabled>  
-			  <input th:if="${StoreApplicationDocument.examinationStatus =='A'}" id="examinationStatus" type="text" class="form-control"  value="승인"  disabled>  
-			  <input th:if="${StoreApplicationDocument.examinationStatus =='R'}"  id="examinationStatus" type="text" class="form-control"  value="반려"  disabled>  
-
- 	 
-			    </div>			    
-		    <div >
-			   	<h5 class="fw-bolder"> 제품소개 및 심사 사진  </h5>
-
-	 				<span th:utext=${StoreApplicationDocument.productDetial}></span>
-			    </div>			  
-			  
+			 	 <br><br/>
+			    	</div>	
+			     <div class="form-group">
+		    
+					    <div class="div_css">
+					   	<h5  > 제품소개 및 심사 사진  </h5>
+		<hr/>
+			 				<span th:utext=${StoreApplicationDocument.productDetial}></span>
+					    </div>			  
+			     </div>
 			  
 			  <div sec:authorize="hasRole('admin')">
 				  <div id="StoreApplicationDocumentinfo" th:if="${StoreApplicationDocument.examinationStatus =='W'}" >
 
  				 <br><br>  <hr>
-			    
-			     	<h5 class="fw-bolder" > 심사  </h5>
- 
-			     
-						<select   th:id="examinationStatus"    name="examinationStatus" >
-						  <option value="W" selected="selected">대기</option>
-						  <option value="A">승인</option>
-						  <option value="R" >반려</option>
-						</select>
-                            <span class = "fw-bolder btn btn-success col-md-2" id = "button"> 심사하기</span> 
+		  	 		<div class="form-group">
+					    
+					     	<h5  > 심사  </h5>
+		 
+					     
+								<select   th:id="examinationStatus"    name="examinationStatus" >
+								  <option value="W" selected="selected">대기</option>
+								  <option value="A">승인</option>
+								  <option value="R" >반려</option>
+								</select>
+		                            <span class = "fw-bolder btn btn-success col-md-2" id = "button"> 심사하기</span> 
 
-				
+		  	 		</div>
 		
     		  		<div>
 					   
@@ -171,10 +191,13 @@ function showValue(target){
 			    
 	</div>
 	
-	     
- 	
+	    <div class = "container col-lg-3">
+ 			
 	<br><br>
-			    
+			  
+    </div>
+	     
+   
 
 	
 	</article>

@@ -449,7 +449,7 @@ public class LiveController {
 
 			liveService.updateLive(live);
 
-			model.addAttribute("Live", live);
+			model.addAttribute("live", live);
 
 			System.out.println(
 					"라이브 방송 정보 : " + liveService.getLive(liveService.getLiveByStoreId(user.getId()).getLiveNumber()));
@@ -539,9 +539,11 @@ public class LiveController {
 		
 		
 		if( authentication != null ) {
-		
-		SecurityUserService securityUser= (SecurityUserService ) authentication.getPrincipal();
-		User user = (User) securityUser.getUser();
+
+			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			SecurityUserService securityUserService = ( SecurityUserService ) principal;
+			User user = (User) securityUserService.getUser();
+
 	
 		LiveUserStatus liveUser = new LiveUserStatus();
 		liveUser.setLiveNumber(liveNumber);

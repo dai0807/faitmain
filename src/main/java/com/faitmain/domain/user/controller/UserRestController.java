@@ -3,6 +3,8 @@ package com.faitmain.domain.user.controller;
 import com.faitmain.domain.user.domain.StoreApplicationDocument;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserSerivce;
+import com.faitmain.global.util.security.SecurityUserService;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.io.FileUtils;
@@ -10,6 +12,12 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+ import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +30,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -33,11 +42,22 @@ public class UserRestController{
 
 	@Value("${upload-path}")
 	private String fileStorageLocation; 
-	   @Autowired
-	   @Qualifier("userServiceImpl")	   
-	   private UserSerivce userSerivce;
-	    @Autowired
-	    private PasswordEncoder pwdEncoder;	   
+	   
+	@Autowired
+	@Qualifier("userServiceImpl")	   
+	private UserSerivce userSerivce;
+
+	 @Autowired
+	 private PasswordEncoder pwdEncoder;	   
+	    
+     @Autowired
+    private SecurityUserService securityUserService;
+     
+ 	private Authentication authentication;
+//
+//	 @Autowired
+//	 private AuthenticationManager authenticationManager;
+// 
 	   public UserRestController() {
 		 //   log.info(  "Controller {}" , this.getClass() );
 		   
@@ -239,10 +259,7 @@ public class UserRestController{
 
 
     @PostMapping( value = "json/updateUser" )  
-    public int ajaxupdateUser( User user ,
- 			 
-			   HttpSession session ,
-			   HttpServletRequest request ) throws Exception{
+    public int ajaxupdateUser( User user ,  @AuthenticationPrincipal SecurityUserService securityUserService  ) throws Exception{
 //       User user = new User();
 //       user.setId( id );
 //       user.setNickname( nickname );
@@ -259,9 +276,119 @@ public class UserRestController{
        //	result = userSerivce.updateUser(user);
        result = userSerivce.updateUser( user);
        log.info( "updateUser :: result 출력  = {} " , result );
-       //	log.info("updateUser ::  user 세션 값 변경 전   {} "  ,  (User)request.getSession(true).getAttribute("user"));
        user = userSerivce.getUser( user.getId() );
 
+      ///////////////////SecurityContextHolder 날림 ///////////////////////////////////
+       SecurityContextHolder.clearContext();
+       
+       SecurityUserService  securityUser = new SecurityUserService(user);
+		System.out.println("  #updateUserDetails : "+securityUser);
+
+	      ///////////////////SecurityContextHolder 세팅 ///////////////////////////////////
+   
+        Authentication authRequest = new UsernamePasswordAuthenticationToken(securityUser, null , securityUser.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authRequest);       
+		
+		System.out.println("  #updateUserDetails : "+authRequest);
+	
+		
+		
+/*		
+		public UsernamePasswordAuthenticationToken(Object principal, Object credentials,
+				Collection<? extends GrantedAuthority> authorities) {
+			super(authorities);
+			this.principal = principal;
+			this.credentials = credentials;
+			super.setAuthenticated(true); // must use super, as we override
+		}		
+*/
+	 
+		
+		
+		
+		
+      //	       System.out.println(""+SecurityUser.getAuth() );
+//	     Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getId() , user.getPassword()  )) ;
+//	     SecurityContextHolder.getContext().setAuthentication(authentication)   ;
+//	   
+  
+   		// authentication을 SecurityContextHolder.getContext().setAuthentication(...)를 set 
+
+//		Authentication authentication =
+//		   new UsernamePasswordAuthenticationToken(securityUser,  null , securityUser.getAuthorities() ) ;
+//       		 SecurityContextHolder.getContext().setAuthentication(authentication) ; //SecurityContextHolder 안에 있는 컨텍스트에 접근 
+ 
+		//UsernamePasswordAuthenticationToken은  Authentication의 구현체다  
+		
+//			Authentication authentication = new UsernamePasswordAuthenticationToken(securityUser, null , securityUser.getAuthorities());
+//			SecurityContextHolder.getContext().setAuthentication(authentication); 		
+// 
+			
+ 
+			
+		
+//		   Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword()    ,  securityUserService.getAuth()   )) ;
+//		     SecurityContextHolder.getContext().setAuthentication(authentication)   ;
+//		      
+       //	log.info("updateUser ::  user 세션 값 변경 전   {} "  ,  (User)request.getSession(true).getAttribute("user"));
+
+       
+//  2번째 눈물의 똥꾜쇼      
+//   //authenticationManager를 통해 세션값을 다시 지정해 줬으니 알아서 DB에서 id,pw 가져와서 비교해서  매니져서 다시 일치하는지 확인함    
+//       Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword()         )) ;
+//       SecurityContextHolder.getContext().setAuthentication(authentication)   ;
+//  
+//       String encPwd =pwdEncoder.encode(user.getPassword());  //PW 암호화
+//       user.setPassword(encPwd);
+		
+		
+//		
+//       System.out.println(""+SecurityUser.getAuth() );
+//     Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(SecurityUser ,null ,  SecurityUser.getAuthorities()   )) ;
+//     SecurityContextHolder.getContext().setAuthentication(authentication)   ;
+//      
+//     
+//		Authentication newAuthentication = new UsernamePasswordAuthenticationToken(
+//				loginUser, null, loginUser.getAuthorities());
+//		System.out.println("  #newAuthentication : "+newAuthentication);
+//		
+//		SecurityContextHolder.getContext().setAuthentication(newAuthentication);
+//		 
+       
+ //=====================강제로 세션 만들다가 안됨 ,,눈물 흘린다. ㅇㅇㅇ어어어어어엉=================
+       // Authentication 토큰 만들기 
+       //UsernamePasswordAuthenticationToken 이 securityUser를 통해 토큰을 만들어 줄거임 
+//       Authentication authentication =
+//    		   new UsernamePasswordAuthenticationToken(securityUser,  null , securityUser.getAuthorities() ) ;
+//       SecurityContext securityContext =SecurityContextHolder.getContext() ; //SecurityContextHolder 안에 있는 컨텍스트에 접근 
+//       securityContext.setAuthentication(authentication);
+//
+//       session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext) ;       
+//       	SecurityContextHolder.getContext().setAuthentication(authentication) ; // 강제로  Authentication에 저장 된 세션 값 바꾸는 거임 
+// 직접    Authentication 바꾸는거 안됨   
+       
+       
+       
+       
+       
+       
+//       
+//     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
+//
+//     //Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+//     System.out.println("====getMyInfo1==== "+ principal);
+//     System.out.println("====getMyInfo1==== "+ principal.toString());
+//     SecurityUserService securityUser = (SecurityUserService)principal ;
+     
+     log.info(   "securityUser , update 유저 끝 ={}", securityUser.getUser()  );
+        
+       
+       
+       
+       
+        
+       
+       
        return result;
    }
 
@@ -430,25 +557,144 @@ public class UserRestController{
         return result;
     }
 
-
-    //updatePassword
-    @PostMapping( "updatePassword" )
-    public int updatePassword( @ModelAttribute( "user" ) User user ) throws Exception{
-        
-        String encPwd =pwdEncoder.encode(user.getPassword());  //PW 암호화
-        user.setPassword(encPwd);
-        
-        log.info( "##POST ##updatePassword {} ##" , user );
+    
+    
+     
+  @PostMapping( "updatePassword" )
+  public int updatePassword( @ModelAttribute( "user" ) User user  ) throws Exception{
+	  
+	  
+		System.out.println("  #Authentication : "+ SecurityContextHolder.getContext().getAuthentication());
+       
 
         int restult = userSerivce.updateUserPassword( user );
-        log.info( "update Password 결과 {}" , restult );
+      
+        
+        
+        
+        user = userSerivce.getUser(user.getId()) ;
+        
+        System.out.println("업데이트 유저  :: " +  restult );
+
+		SecurityContextHolder.clearContext();  // 없애고 
+	    System.out.println("클리어  :: "      );
+	    
+	   
+	    
+	    
+	    
+		SecurityUserService securityUserService = new SecurityUserService(user);   //  디테일 섭스를 다시 만들어서 주입
+		System.out.println("securityUserService :: " + securityUserService );
+		
 
 
-        return restult;
+		
+ //        authentication 에 토큰 새로 만들어서 주입  됨
+      Authentication authentication =
+		   new UsernamePasswordAuthenticationToken(securityUserService,  null , securityUserService.getAuthorities() ) ;
+			SecurityContext securityContext =SecurityContextHolder.getContext() ; //SecurityContextHolder 안에 있는 컨텍스트에 접근 
+			securityContext.setAuthentication(authentication);          //securityContext 에 setAuthentication 에 authentication 세팅
+
+			// 무슨 짓을 해도..... 안되서 직접 인증 토큰 만들어서 주입해줌			
+			// Authentication 만들기
+			// AuthenticationManager 에서 인증을 인증에 성공하면 Authentication을 만들어서 컨텍스트 홀더에 주입
+			// 그럼 우리도 SecurityContextHolder.clearContext()를 없애고 UsernamePasswordAuthenticationToken를 직접만들어서 setAuthentication에 set 
+	//		Authentication newAuth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+    //
+			
+		
+			// 실패
+			/// authenticationManager  안됨 
+
+//			 Authentication request = new UsernamePasswordAuthenticationToken(securityUserService, null,securityUserService.getAuthorities());
+//			 Authentication result = authenticationManager.authenticate(request);
+//			 SecurityContextHolder.getContext().setAuthentication(result);
+			    
+ 			
+			
+        log.info( "uauthRequest :: = {}" , authentication );
+
+ log.info( "##POST ##updatePassword {} ##" , user );
+
+ log.info( "update Password 결과 {}" , restult );
 
 
-    }
+		
+		
+//		Authentication newAuthentication = new UsernamePasswordAuthenticationToken(
+//				securityUserService, null, securityUserService.getAuthorities());
+	
 
+//		   Authentication authRequest = new UsernamePasswordAuthenticationToken(securityUserService, null , securityUserService.getAuthorities());
+//	         SecurityContextHolder.getContext().setAuthentication(authRequest);        
+//        log.info( "uauthRequest :: = {}" , authRequest );
+
+	         
+
+        
+        
+        
+   //1번 눈물      
+//    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword()      )) ;
+//System.out.println("ddd");
+//    SecurityContextHolder.getContext().setAuthentication(authentication)   ;
+
+//       
+  
+      
+ //1번 눈물      
+//  Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(securityUserService, null, securityUserService.getAuthorities()      )) ;
+//System.out.println("ddd");
+//  SecurityContextHolder.getContext().setAuthentication(authentication)   ;
+
+//         
+      
+      // 2번
+//		Authentication newAuthentication = new UsernamePasswordAuthenticationToken(
+//		securityUserService, null, securityUserService.getAuthorities());
+//
+//SecurityContextHolder.getContext().setAuthentication(newAuthentication);
+//System.out.println("  #newAuthentication : "+newAuthentication);
+//  
+ 
+ 
+ //3번     
+//    Authentication authentication =
+//		   new UsernamePasswordAuthenticationToken(securityUser,  null , securityUser.getAuthorities() ) ;
+//SecurityContext securityContext =SecurityContextHolder.getContext() ; //SecurityContextHolder 안에 있는 컨텍스트에 접근 
+//securityContext.setAuthentication(authentication);
+//      
+//   
+      
+ //4번 
+//    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword()      )) ;
+//System.out.println("ddd");
+//    SecurityContextHolder.getContext().setAuthentication(authentication)   ;
+   
+      
+        
+//        user = userSerivce.getUser(user.getId()) ;
+//      
+//        System.out.println("업데이트 유저  :: " +  restult );
+//
+//		SecurityContextHolder.clearContext();
+//	    System.out.println("클리어  :: "      );
+//		SecurityUserService securityUserService = new SecurityUserService(user);
+//		System.out.println("securityUserService :: " + securityUserService );
+//		Authentication  authentication = new UsernamePasswordAuthenticationToken(
+//				securityUserService, null, securityUserService.getAuthorities());
+//		 
+//		SecurityContextHolder.getContext().setAuthentication(authentication);
+//		System.out.println("  #authentication : "+authentication);
+// 아 제발 그만 하고 싶어 진짜 그만 하고 싶 펑 , 내가 너만 6시간째 ,,,, 해야하니
+ 
+
+      return restult;
+
+
+  }
+    
+ 
 
     //스토어 권한 업데이트
     @PostMapping( "json/updateStoreApplicationDocument")
