@@ -20,6 +20,8 @@ public interface ProductService {
 	public Product getProduct(int productNumber) throws Exception;
 
 	public int getProductQuantity(int productNumber) throws Exception;
+	
+//	public int getOrderCount(int productNumber) throws Exception;
 
 	// 상품 목록 조회
 	public Map<String, Object> getProductList(Map<String, Object> map) throws Exception;
@@ -42,7 +44,7 @@ public interface ProductService {
 	public void updateProductStatus(Product product) throws Exception;
 
 	// 상품 삭제
-	public void deleteProduct(int productNumber) throws Exception;
+	public int deleteProduct(int productNumber) throws Exception;
 
 	public void deleteProductOption(int productNumber) throws Exception;
 

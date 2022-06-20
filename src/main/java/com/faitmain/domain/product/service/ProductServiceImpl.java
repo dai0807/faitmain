@@ -149,12 +149,26 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Map<String, Object> getProductList(Map<String, Object> map) throws Exception {
 		log.info("serviceImpl");
-		List<Product> list = productMapper.getProductList(map);
-		log.info("list : {}", list);
-		int totalCount = productMapper.getTotalCount(map);
-		log.info("totalCount : {}", totalCount);
-
+		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
+		int totalCount;
+		List<Product> list;
+		
+		if(map.get("forStore") != null) {
+			
+			list = productMapper.getProductListForStore(map);			
+			totalCount = productMapper.getTotalCountForStore(map);						
+			
+		}else {
+			
+			list = productMapper.getProductList(map);			
+			totalCount = productMapper.getTotalCount(map);
+			
+		}
+		
+		log.info("list : {}", list);
+		log.info("totalCount : {}", totalCount);
+		
 		resultMap.put("list", list);
 		resultMap.put("totalCount", new Integer(totalCount));
 		/**/
@@ -233,8 +247,17 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void deleteProduct(int productNumber) throws Exception {
-		productMapper.deleteProduct(productNumber);
+	public int deleteProduct(int productNumber) throws Exception {
+		
+		int result;
+		
+		if((productMapper.getOrderCount(productNumber)) == 0) {
+		 	result = productMapper.deleteProduct(productNumber);			
+		}else {
+			result = 0;
+		}
+		
+		return result;
 
 	}
 
@@ -284,4 +307,10 @@ public class ProductServiceImpl implements ProductService {
 		return productMapper.getProductNameList(keyword);
 	}
 
+	/*
+	@Override
+	public int getOrderCount(int productNumber) throws Exception {
+		return productMapper.getOrderCount(productNumber);
+	}
+	*/
 }

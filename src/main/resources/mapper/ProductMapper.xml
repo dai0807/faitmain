@@ -92,11 +92,11 @@
 	</select>
 	<!-- ////////////////////////////////////  -->
 	
-	<!-- 상품 목록 조회 (현재 search 없어서 if문 수정 필요) -->
+	<!-- 상품 목록 조회 - 일반 User 입장 -->
 	<select  id="getProductList"  parameterType="map"	resultMap="productSelectMap">
 		SELECT * 
 		FROM ( SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq 
-			   FROM (	SELECT p.product_number, p.product_name, p.product_price, p.product_main_image, p.product_category_code	
+			   FROM (	SELECT p.product_number, p.product_name, p.product_price, p.product_main_image, p.product_category_code, p.product_status,	p.reg_date
 			   			FROM product p 
 			   			<where>
 			   				p.product_group_number is null
@@ -117,8 +117,7 @@
 			   			ORDER BY <if test="searchOrderName != null">${searchOrderName}</if>
 			   					 <if test="searchOrderName == null or searchOrderName == ''">reg_date DESC</if> ) inner_table 
 			   	WHERE (@ROWNUM:=0)=0 LIMIT #{endRowNum} ) result_table 
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}; 	  	
-	  	
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}; 	  		  	
 	 </select>
 
 	<!-- 판매자 상품 목록 조회 -->
@@ -131,10 +130,10 @@
 		</where>
 	 </select>
 	 
+	 <!-- 상품 이름 리스트 -->
 	 <select  id="getProductNameList"	parameterType="String"	resultType="String">
 		SELECT product_name
-		FROM product
-		<!-- --> 
+		FROM product		 
 		<where>
 			product_group_number is null
 			<if test="value != null and value != ''">
@@ -144,7 +143,7 @@
 	</select>
 	 		
 	<!-- SQL : SELECT ROW Count (현재 search 없음) -->	 
-	<select  id="getTotalCount"  parameterType="map"	 resultType="int">
+	<select  id="getTotalCount"  parameterType="map"	resultType="int">
 	  	SELECT COUNT(*)
 	  	FROM(	SELECT p.product_number, p.product_name, p.product_price, p.product_main_image, p.product_category_code	
 	   			FROM product p 
@@ -166,6 +165,68 @@
 	   			</where>
 			) countTable						
 	 </select> 
+	 
+	 <!-- 상품 목록 조회 - Store 입장 -->
+	<select  id="getProductListForStore"  parameterType="map"	resultMap="productSelectMap">
+		SELECT * 
+		FROM ( SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq 
+			   FROM (	SELECT p.product_number, p.product_name, p.product_price, p.product_main_image, p.product_category_code, p.product_status,	p.reg_date
+			   			FROM product p 
+			   			<where>
+			   				p.product_group_number is null
+			   				AND p.product_status IN('01', '02', '03')
+			   				<if test="searchStore != null and searchStore != ''">
+				 				AND p.store_id = #{searchStore}
+							</if>
+			   				<if test="searchStatus != null and searchStatus != ''">
+						 		AND p.product_status = #{searchStatus}
+							</if> 
+							<if test="searchKeyword != null and searchKeyword != ''">
+				 				AND p.product_name LIKE CONCAT('%',#{searchKeyword},'%')
+							</if>										
+							<if test="searchCategory != null and searchCategory != ''">
+				 				AND p.product_category_code = #{searchCategory}
+							</if>
+			   			</where>  
+			   			ORDER BY <if test="searchOrderName != null">${searchOrderName}</if>
+			   					 <if test="searchOrderName == null or searchOrderName == ''">reg_date DESC</if> ) inner_table 
+			   	WHERE (@ROWNUM:=0)=0 LIMIT #{endRowNum} ) result_table 
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}; 	  		  	
+	 </select>
+	 
+	 <!-- SQL : SELECT ROW Count (현재 search 없음) -->	 
+	<select  id="getTotalCountForStore"  parameterType="map"	resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT p.product_number, p.product_name, p.product_price, p.product_main_image, p.product_category_code	
+	   			FROM product p 
+	   			<where>
+	   				p.product_group_number is null
+	   				AND p.product_status IN('01', '02', '03')
+	   				<if test="searchStore != null and searchStore != ''">
+		 				AND p.store_id = #{searchStore}
+					</if>
+	   				<if test="searchStatus != null and searchStatus != ''">
+				 		AND p.product_status = #{searchStatus}
+					</if> 
+					<if test="searchKeyword != null and searchKeyword != ''">
+		 				AND p.product_name LIKE CONCAT('%',#{searchKeyword},'%')
+					</if>										
+					<if test="searchCategory != null and searchCategory != ''">
+		 				AND p.product_category_code = #{searchCategory}
+					</if>
+	   			</where>
+			) countTable						
+	 </select> 
+	 
+	 <!-- 상품 주문 내역 조회 -->
+	 <select id="getOrderCount" parameterType="int" resultType="int">
+		SELECT count(o.order_status) FROM `order` o,  (SELECT order_number 
+									    FROM product p, order_product odp
+									    WHERE odp.product_number = p.product_number
+											  AND p.product_group_number = #{value}) result_table
+		WHERE o.order_number = result_table.order_number
+      		  AND o.order_status &lt;&gt; '주문완료'
+	 </select>
 
 	<!-- 상품 수정 -->	
 	<update id="updateProduct" parameterType="Product" >
