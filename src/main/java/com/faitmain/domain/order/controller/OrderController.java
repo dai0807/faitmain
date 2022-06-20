@@ -43,7 +43,7 @@ public class OrderController{
     @Autowired
     private LogTrace trace;
 
-    @PostMapping( "/{buyerId}" )
+    @GetMapping( "/{buyerId}" )
     public String orderPage( @PathVariable String buyerId , OrderPage orderPage , Model model ){
 
         TraceStatus status = null;
