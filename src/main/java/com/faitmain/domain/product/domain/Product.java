@@ -12,6 +12,7 @@ import lombok.Data;
 @Data
 public class Product {
 
+	/* Product */
 	private int productNumber;
 	private String productName;
 	private User store;
@@ -26,8 +27,13 @@ public class Product {
 	private int deliveryCharge;
 	private int productGroupNumber;
 	private List<Product> productOptions;
+	
+	/* Review & Inquiry */	
 	private List<Review> reviewList;
+	private int reviewCount;
+	
 	private List<Inquiry> inquiryList;
+	private int inquiryCount;
 	
 	@Builder
 	public Product(int productNumber, String productName) {

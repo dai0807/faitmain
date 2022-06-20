@@ -31,7 +31,7 @@ function videoInit() {
 const vChatCloud = new VChatCloud();
 
 let channel, // joinRoom() 내부에서 채널 객체를 저장할 곳
-  userNick = $('#storeName').val(), // 접속자의 닉네임, 사용자에게 입력받은 값을 사용해도 된다.
+  userNick = $('#storeNickname').val(), // 접속자의 닉네임, 사용자에게 입력받은 값을 사용해도 된다.
   userKey; // 접속자 고유 키
 
 

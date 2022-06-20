@@ -65,6 +65,10 @@ public class LiveServiceImpl implements LiveService {
 	public Live getLiveByStoreId(String storeId) throws Exception {
 		return liveMapper.getLiveByStoreId(storeId);
 	}
+	
+	public Live getLiveNumberByRoomId(String roomId) throws Exception {
+		return liveMapper.getLiveNumberByRoomId(roomId);
+	}
 
 	public Map<String, Object> getLiveList() throws Exception {
 		log.info("Impl getLiveList start...");
@@ -196,8 +200,13 @@ public class LiveServiceImpl implements LiveService {
 	// liveUserStatus
 	public int addLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception {
 
-		liveUserStatus.getId();// 수정해야댐 수정해야댐 수정해야댐 무지성으로 걍 박아놓은거임
+//		liveUserStatus.getId();// 수정해야댐 수정해야댐 수정해야댐 무지성으로 걍 박아놓은거임
 		return liveMapper.addLiveUserStatus(liveUserStatus);
+	}
+	
+	public int addLiveUserKick(int liveNumber, String storeId) throws Exception {
+		
+		return liveMapper.addLiveUserKick(liveNumber, storeId);
 	}
 
 	public int updateLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception {
