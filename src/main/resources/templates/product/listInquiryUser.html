@@ -3,6 +3,15 @@
 <head>
     <meta charset = "UTF-8">
     <title>문의 목록</title>
+    
+    <link rel="stylesheet" type="text/css" href="/productDesign/vendor/bootstrap/css/bootstrap.min.css">
+	
+	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
+	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
+		
+	<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
+	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">
 	
 	<style>
 	
@@ -11,6 +20,25 @@
 		}
 		
 		h5,span{font-family: 'Nanum Gothic Coding', monospace;}
+		
+		div .wrap-table-shopping-cart {
+					
+			/* Box */
+			height: 100%;
+			width: 800.984px;
+			border: 0;
+			border-top: 0px none rgb(128, 128, 128);
+			border-right: 1px solid rgb(230, 230, 230);
+			border-bottom: 0px none rgb(128, 128, 128);
+			border-left: 1px solid rgb(230, 230, 230);
+			margin: 0px;
+			padding: 0px;
+			max-height: none;
+			min-height: 0px;
+			max-width: none;
+			min-width: 0px;
+		
+		}
 		
     </style>
     
@@ -22,47 +50,53 @@
 			$("#currentPage").val(currentPage);	
 			$("form").submit();		
 		}
+		
+		function getInquirys(e) {
+			let inquiryNumber = $(e).children("input[type=hidden]").val();
+			console.log("inquiryNumber : " + inquiryNumber);
+			$.ajax(
+				{
+					url: "/inquiry/json/getInquiry/" + inquiryNumber,
+					method: "GET",
+					dataType: "json",
+					headers: {
+						"Accept": "application/json",
+						"Content-Type": "application/json"
+					},
+					success: function (JSONData, status) {
+						console.log("inquiryContent : " + typeof JSONData.inquiryReplyStatus);
+						var displayValue = "<tr class='table_row getInquiryArea' id='" + JSONData.inquiryNumber + "'>"
+							+ "<td colspan='4' style='padding-left:40px;'> Q. " + JSONData.inquiryContent + "<br/>";
+						if (JSONData.inquiryReplyStatus) {
+							console.log("답변이 존재함");
+							displayValue += "A. " + JSONData.inquiryReplyContent + "<br/>"
+										 + "   " + JSONData.inquiryReplyDate
+										 + "</td>"
+										 + "<td>"										
+										 +		"<button type='button' class='deleteBtn'>삭제</button>"
+										 + "</td>";
+						}else{
+							displayValue += "</td>"
+										 +  "<td>"
+										 +  	"<button type='button' class='updateBtn' style='padding-right:30px;'>수정</button>"
+										 +		"<button type='button' class='deleteBtn'>삭제</button>"
+										 +	"</td>";
+						}
+
+						displayValue += "</tr>";
+
+						$(".table_row.getInquiryArea").remove();
+						
+						console.log("currentTr " + $(e).parent().parent().index());
+						
+						$("#inquiryTable tr").eq($(e).parent().parent().index()).after(displayValue);									
+					}
+				});
+			}
     	
     	$(function(){
 			
-			$(".getInquiry").on("click", function () {
-				
-				let inquiryNumber = $(this).parent().children("input[type=hidden]").val();
-				console.log("inquiryNumber : " + inquiryNumber);
-				
-				$.ajax(
-					{
-						url: "/inquiry/json/getInquiry/" + inquiryNumber,
-						method: "GET",
-						dataType: "json",
-						headers: {
-							"Accept": "application/json",
-							"Content-Type": "application/json"
-						},
-						success: function (JSONData, status) {
-							console.log("inquiryContent : " + typeof JSONData.inquiryReplyStatus);
-							var displayValue = "<h6>" 
-												+ "<p>문의 제목 : " + JSONData.inquiryTitle + "</p>"
-												+ "<p>문의 내용 : " + JSONData.inquiryContent + "</p>"
-												+ "<p>문의 id : " + JSONData.userId + "</p>";
-							if(JSONData.inquiryReplyStatus){
-								console.log("aaaa ");
-								displayValue += "<p>답변 날짜 : " + JSONData.inquiryReplyDate + "</p>"
-												+ "<p>답변 내용 : " + JSONData.inquiryReplyContent + "</p>"
-							}else{
-								displayValue += "<button type='button' class='inquiryUpdateBtn'>수정</button>";
-							}
-							
-							displayValue += "<button type='button' class='inquiryDeleteBtn'>삭제</button></h6>"; 
-							
-							$("h6").remove();
-							$("#" + inquiryNumber + "").html(displayValue);
-												
-						}
-					})
-			});
-			
-			$(document).on("click", ".inquiryUpdateBtn", function () {
+			$(document).on("click", ".updateBtn", function () {
 				var inquiryNumber= $(this).parent().parent().attr('id');
 				/*
 				let popUrl = "/inquiry/updateInquiry?resultJsp=updateInquiry&inquiryNumber=" + inquiryNumber;
@@ -74,7 +108,7 @@
 				
 			});
 			
-			$(document).on("click", ".inquiryDeleteBtn", function () {
+			$(document).on("click", ".deleteBtn", function () {
 				
 				console.log("삭제");
 				console.log($(this).parent().parent().attr('id'));
@@ -106,62 +140,95 @@
 <body>
 	<article  class="py-5" layout:fragment="content">
 		<div class="container">
-			<div th:if="${#lists.size(list) > 0}" th:each="inquiry : ${list}">
-				
-				<p th:text="${inquiry.inquiryTitle}"></p>
-				<span th:if="${inquiry.inquiryReplyStatus == true}">답변완료</span>
-				<span th:if="${inquiry.inquiryReplyStatus == false}">미답변</span>
-				<button type="button" class="getInquiry">V</button>				
-				<div th:id= "${inquiry.inquiryNumber}"></div>
-				<input type="hidden" th:value="${inquiry.inquiryNumber}" />					
+			<div class="row">
+				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
+					<div class="m-l-25 m-r--38 m-lr-0-xl">
+						<div class="wrap-table-shopping-cart">
+							<table class="table-shopping-cart" id="inquiryTable">
+								<tr class="table_head">
+									<th class="column-1" style="padding-right: 30px;">상품명</th>
+									<th class="column-2"></th>
+									<th class="column-3">문의제목</th>
+									<th class="column-4">답변상태</th>
+									<th class="column-5"></th>
+								</tr>
+								
+								<th:block th:each="inquiry : ${list}">
+									<tr class="table_row">
+										<td class="column-1">
+											<div class="how-itemcart">
+												<img th:src="|../img/upload/${ inquiry.inquiryProduct.productMainImage }|" alt="IMG">
+											</div>
+										</td>
+										<td class="column-2" th:text="${inquiry.inquiryProduct.productName}"></td>
+										<td class="column-3" th:text="${inquiry.inquiryTitle}"></td>
+										<td class="column-4">
+											<th:block th:if="${inquiry.inquiryReplyStatus == true}">답변완료</th:block>
+											<th:block th:if="${inquiry.inquiryReplyStatus == false}">미답변</th:block>
+										</td>
+										<td class="column-5">
+											<button type="button" class="getInquiry" onclick="getInquirys(this)">
+												<input type="hidden" th:value="${inquiry.inquiryNumber}" />
+												<img src="/productDesign/images/icons/arrow_down.png">
+											</button>										
+										</td>
+									</tr>
+								</th:block>	
+								
+							</table>	
+
+						</div>
+					</div>
+				</div>
 			</div>
-		</div>
-		
-		<nav>
-		  <!-- 크기조절 :  pagination-lg pagination-sm-->
-		  <ul class="pagination" >
-		    
-		    <!--  <<== 좌측 nav -->
-		  	<th:block th:if="${ resultPage.currentPage <= resultPage.pageUnit }">
-		 		<li class="disabled">
-			</th:block>
-			<th:block th:if="${ resultPage.currentPage > resultPage.pageUnit }">
-				<li>
-			</th:block>
-		      <a th:href="|javascript:fncGetList('${ resultPage.currentPage-1}')|" aria-label="Previous">
-		        <span aria-hidden="true">&laquo;</span>
-		      </a>
-		    </li>
-		    
-		    <!--  중앙  -->
-			<!--<c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">-->
-			<th:block th:each="num : ${#numbers.sequence(resultPage.beginUnitPage,resultPage.endUnitPage)}">	
-				<!--<th:block th:if test="${ resultPage.currentPage == num }">-->
-					<!--  현재 page 가르킬경우 : active -->
-			    <li class="active" th:if="${ resultPage.currentPage == num }">
-			    	<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}"><span class="sr-only">(current)</span></a>
-			    </li>	
-				
-				<!--<c:if test="${ resultPage.currentPage != i}">-->	
-				<li th:if="${ resultPage.currentPage != num }">
-					<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}"></a>
+			
+			<!-- 페이지(어떻게 할지 모르겠다) -->
+			<ul class="pagination">
+			
+				<!--  <<== 좌측 nav -->
+				<th:block th:if="${ resultPage.currentPage <= resultPage.pageUnit }">
+					<li class="disabled">
+				</th:block>
+				<th:block th:if="${ resultPage.currentPage > resultPage.pageUnit }">
+					<li>
+				</th:block>
+				<a th:href="|javascript:fncGetList('${ resultPage.currentPage-1}')|" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
 				</li>
-				<!--</c:if>-->
-			</th:block>
-		    
-		     <!--  우측 nav==>> -->
-		     <th:block th:if="${ resultPage.endUnitPage >= resultPage.maxPage }">
-		  		<li class="disabled">
-			</th:block>
-			<th:block th:if="${ resultPage.endUnitPage < resultPage.maxPage }">
-				<li>
-			</th:block>
-		      <a th:href="|javascript:fncGetList('${resultPage.endUnitPage+1}')|" aria-label="Next">
-		        <span aria-hidden="true">&raquo;</span>
-		      </a>
-		    </li>
-		  </ul>
-		</nav>
+			
+				<!--  중앙  -->
+				<!--<c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">-->
+				<th:block th:each="num : ${#numbers.sequence(resultPage.beginUnitPage,resultPage.endUnitPage)}">
+					<!--<th:block th:if test="${ resultPage.currentPage == num }">-->
+					<!--  현재 page 가르킬경우 : active -->
+					<li class="active" th:if="${ resultPage.currentPage == num }">
+						<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}"><span
+								class="sr-only">(current)</span></a>
+					</li>
+			
+					<!--<c:if test="${ resultPage.currentPage != i}">-->
+					<li th:if="${ resultPage.currentPage != num }">
+						<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}"></a>
+					</li>
+					<!--</c:if>-->
+				</th:block>
+			
+				<!--  우측 nav==>> -->
+				<th:block th:if="${ resultPage.endUnitPage >= resultPage.maxPage }">
+					<li class="disabled">
+				</th:block>
+				<th:block th:if="${ resultPage.endUnitPage < resultPage.maxPage }">
+					<li>
+				</th:block>
+				<a th:href="|javascript:fncGetList('${resultPage.endUnitPage+1}')|" aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+				</a>
+				</li>
+			</ul>
+			
+		</div>		
+		  
 	</article>
 </body>
 </html>

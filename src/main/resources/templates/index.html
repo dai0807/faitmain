@@ -28,7 +28,8 @@
         <!-- Core theme JS-->
        	
        	<!-- live -->
-
+		
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
        	<script th:src="@{js/vchatcloud-1.2.0.min.js}"></script> 
 		<script th:src="@{js/like.js}"></script>
     	<script th:src="@{js/draw.js}"></script>
@@ -54,7 +55,6 @@
 
     </head>
     <body>
-    
     <article layout:fragment="content" style="padding-top : 0px" >
             <!-- Header-->
             <header class="bg-dark" style="padding-top : 0px">
@@ -62,24 +62,50 @@
                     <div class="row align-items-center justify-content-center" style="padding-bottom: 30px;">
 	                  	<div class="col-md-4 text-center" style="width: 424px">
 	                  		<div class="row">
-	                  			<div class="col-md-12" style="height: 100px;">
-	                  				<a class="btn btn-outline-light btn-lg" th:href="@{live/getLiveReservationCal}">
-	                  					프리미엄 라이브<br/>
-	                  					예약 확인
+	                  			<div class="col-md-12" style="height: 100px; display: flex; align-items: center; flex-direction:row; justify-content: center;">
+	                  				<a class="btn btn-outline-light btn-lg" th:href="@{live/getLiveReservationCal}" style="font-family:jua;">
+	                  					프리미엄 라이브 예약 확인
 	                  				</a>
 	                  			</div>
 	                  		</div>
 	                  		<div class="row">
-	                  			<div class="col-md-12" style="height: 575px;">
-	                  				<h5 style="color : white">오늘 예약 목록</h5>
+	                  			<div class="col-md-12" style="border-radius:30px; right:15px; padding-top: 20px; height: 570px; background-color:white;">
 	                  				<div>
-	                  				
+	                  					<h5 style="font-size:30px; color : black; font-family:jua;">프리미엄 상품 목록</h5>
+	                  				</div>
+	                  				<div>
+	                  					<table class="table">
+							   				<colgroup>
+							   					<col width="10px"/>
+							   					<col width="330px"/>
+							   				</colgroup>
+
+										  	<tbody>
+											  	<th:block th:if="${liveReservation!=null}">
+											  		<th:block th:each="liveProduct : ${liveReservation.liveProduct}">
+												    	<tr style="cursor:pointer" th:onclick="'openProductView('+${liveProduct.productNumber}+');'">
+														    <th scope="row">
+														    	<img th:src="'../img/upload/'+${liveProduct.productMainImage}" style="width:50px; height:50px;">
+														    </th>
+														    <td style="text-align: left;">
+														    	<div th:text="${liveProduct.productName}" style="font-family:jua;"></div>
+										                        <marquee><th:block th:text="${liveProduct.productDetail}" style="font-family:jua;"></th:block></marquee>
+										                	</td>
+													    </tr>
+												    </th:block>
+											    </th:block>
+											    <th:block th:unless="${liveReservation!=null}">
+											    	등록된 예약이 없습니다.
+											    </th:block>
+											</tbody>
+											
+										</table>
 	                  				</div>
 	                  			</div>
 	                  		</div>
 	                  	</div>
 	                  	
-						<div class="livecommerce col-md-8">
+						<div class="livecommerce col-md-8" style="padding-left:0px; padding-right:0px;">
 	                        <div id="remote_cam">
 	                        	 
 	                        
@@ -201,7 +227,7 @@
 						<!-- Load more -->
 						<div class="flex-c-m flex-w w-full p-t-45">
 							<a th:href="@{/product/getProductList?resultJsp=listProduct}" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
-								Load More
+								전체 상품
 							</a>
 						</div>
 						
