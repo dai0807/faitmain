@@ -102,7 +102,7 @@
 	<div id="wrap" style="width:55%; height:700px; margin-top: 50px;">
 		<section>
 		<!-- 샘플 화면 -->
-			<div class="livecommerce">
+			<div class="livecommerce" style="margin-left: 50px;">
 			                
 				<div class="my_cam" style="height : 675px"></div>
 			                    
@@ -162,20 +162,20 @@
 		</section>
 	</div>
 	
-   	<div style="float: right; width:40%; height:700px; background-color:white; border-radius: 30px; margin-top:50px; margin-right:50px;">
+   	<div style="float: right; width:40%; height:700px; background-color:white; border-radius: 30px; margin-top:50px; margin-right:70px;">
    		<div>
    			<h5 style="margin-left:50px; margin-top:15px; margin-bottom:15px; font-size: 30px; font-family:jua; font-weight: bold; ">상품 목록</h5>
    		</div>
-   		<div style="height:620px; width:650px; overflow: auto; margin-left:5px;">
+   		<div style="height:620px; width:750px; overflow: auto; margin-left:5px;">
    			<table class="table">
    				<colgroup>
    					<col width="150px"/>
-   					<col width="450px"/>
+   					<col width="550px"/>
    				</colgroup>
 				<thead class="thead-dark">
 			    	<tr>
-			      		<th scope="col">사진</th>
-			      		<th scope="col">상품</th>
+			      		<th scope="col" style="font-family:jua;">사진</th>
+			      		<th scope="col" style=font-family:jua;"">상품</th>
 			    	</tr>
 			  	</thead>
 			  	<tbody>
@@ -185,8 +185,8 @@
 						    	<img th:src="'../img/upload/'+${productList.productMainImage}" style="width:150px; height:150px;">
 						    </th>
 						    <td>
-						    	<div th:text="${productList.productName}"></div>
-		                        <div th:text="${productList.price}"></div>
+						    	<div th:text="${productList.productName}" style="font-family:jua;"></div>
+		                        <div th:text="${productList.price}" style="font-family:jua;"></div>
 		                	</td>
 					    </tr>
 				    </th:block>
@@ -198,19 +198,16 @@
    
    <!-- =========================== 카메라 / 마이크 ON OFF 수정 해야함 ============================================== -->
 
-        <div class="cam-footer">
-          <p class="roomtitle"></p>
-          <ul class="cam-btn">
-            <li class="mic btn_on" onclick="mic_on_off(this)">
+        <div class="cam-footer" style="width: 1046px; text-align: center;">
+          <div class="cam-btn">
+            <div class="mic btn_on" onclick="mic_on_off(this)" style="display:inline-block;">
               <img src="https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/on_mic.png" alt="마이크 재생">
-            </li>
-            <li class="exit btn_on">
-              <img src="https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/exit.png" alt="화상채팅 종료">
-            </li>
-            <li class="cam btn_on" onclick="cam_on_off(this)">
+            </div>
+
+            <div class="cam btn_on" onclick="cam_on_off(this)" style="display:inline-block;">
               <img src="https://www.vchatcloud.com/chat-demo/iframe/iframe_rtc_2/img/webRTC/on_cam.png" alt="카메라 재생">
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
    <!-- ===================================================================================================== -->
      
