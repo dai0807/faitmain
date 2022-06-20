@@ -58,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	        		.antMatchers("/user/getUser" ).hasAnyRole("user","store","storeX","admin")// 인증된 사람들만 접근 가능
 //	        		.antMatchers("/user/getUserlist").hasRole("admin" ) //admin만 갈수 있음
+	        		
 	                .anyRequest().permitAll()  //모든 요청 허용 쌉가능
 	                
                 .and()
@@ -80,7 +81,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	    		.and()
 	    			.exceptionHandling().accessDeniedPage("/user/accessDenied")
 	    		.and()
+//	    		.oauth2Login().loginPage("/user/loginForm")
+
 	    		.oauth2Login().loginPage("/user/login")
+	    		
+//                .loginProcessingUrl("/user/login")  //POST (security를 이용해 인증처리)  spring security에서 로그인
      			.userInfoEndpoint()
     			.userService(securityOauthUserService );
   		
