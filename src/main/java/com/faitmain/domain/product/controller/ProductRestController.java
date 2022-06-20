@@ -3,6 +3,7 @@ package com.faitmain.domain.product.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
@@ -111,4 +112,17 @@ public class ProductRestController {
 		return jsonObject.toJSONString();
 	}
 	
+	@GetMapping("json/productNameList/{keyword}")
+	public List<String> productNameList(@PathVariable String keyword) throws Exception{
+		
+		System.out.println("/product/json/productNameList");
+		System.out.println("keyword : " + keyword);
+		
+		List<String> productNames = productService.getProductNameList(keyword);
+		System.out.println("productNames : " + productNames);
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("productNames", productNames);
+		
+		return productNames;
+	}
 }

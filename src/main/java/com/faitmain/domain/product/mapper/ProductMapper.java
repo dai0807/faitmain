@@ -36,6 +36,9 @@ public interface ProductMapper {
 	//SELECT - 상품 목록 조회
 	public List<Product> getProductListByStoreId(String storeId) throws Exception;
 	
+	//SELECT - 상품 이름 목록 조회
+	public List<String> getProductNameList(String keyword) throws Exception;
+	
 	//SELECT - 상품 count
 	public int getTotalCount(Map<String, Object> map) throws Exception;
 	

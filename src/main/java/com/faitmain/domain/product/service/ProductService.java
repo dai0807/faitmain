@@ -1,5 +1,6 @@
 package com.faitmain.domain.product.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -25,6 +26,9 @@ public interface ProductService {
 
 	// 유저별 상품 목록 조회
 	public Map<String, Object> getProductListByStoreId(String storeId) throws Exception;
+	
+	//SELECT - 상품 이름 목록 조회
+	public List<String> getProductNameList(String keyword) throws Exception;
 
 	// 상품 수정
 	public void updateProduct(Product product, MultipartHttpServletRequest mRequest) throws Exception;

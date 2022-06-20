@@ -30,88 +30,19 @@
     	function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage);	
 			$("form").submit();		
-		}
-		
-		function getInquirys(e) {
-			let inquiryNumber = $(e).children("input[type=hidden]").val();
-			console.log("inquiryNumber : " + inquiryNumber);
-			$.ajax(
-				{
-					url: "/inquiry/json/getInquiry/" + inquiryNumber,
-					method: "GET",
-					dataType: "json",
-					headers: {
-						"Accept": "application/json",
-						"Content-Type": "application/json"
-					},
-					success: function (JSONData, status) {
-						console.log("inquiryContent : " + typeof JSONData.inquiryReplyStatus);
-						var displayValue = "<tr class='table_row getInquiryArea' id='" + JSONData.inquiryNumber + "'>"
-							+ "<td colspan='4' style='padding-left:40px;'> Q. " + JSONData.inquiryContent + "<br/>";
-						if (JSONData.inquiryReplyStatus) {
-							console.log("답변이 존재함");
-							displayValue += "A. " + JSONData.inquiryReplyContent + "<br/>"
-										 + "   " + JSONData.inquiryReplyDate
-										 + "</td>"
-										 + "<td>"										
-										 +		"<button type='button' class='deleteBtn'>삭제</button>"
-										 + "</td>";
-						}else{
-							displayValue += "</td>"
-										 +  "<td>"
-										 +  	"<button type='button' class='updateBtn' style='padding-right:30px;'>수정</button>"
-										 +		"<button type='button' class='deleteBtn'>삭제</button>"
-										 +	"</td>";
-						}
-
-						displayValue += "</tr>";
-
-						$(".table_row.getInquiryArea").remove();
-						
-						console.log("currentTr " + $(e).parent().parent().index());
-						
-						$("#inquiryTable tr").eq($(e).parent().parent().index()).after(displayValue);									
-					}
-				});
-			}
+		}	
     	
     	$(function(){
-			
-			$(document).on("click", ".updateBtn", function () {
-				var inquiryNumber= $(this).parent().parent().attr('id');
-				/*
-				let popUrl = "/inquiry/updateInquiry?resultJsp=updateInquiry&inquiryNumber=" + inquiryNumber;
-				let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
-				
-				window.open(popUrl,"문의 수정",popOption);
-				*/
-				self.location = "/inquiry/updateInquiry?resultJsp=updateInquiry&inquiryNumber=" + inquiryNumber
-				
+						
+			$("#replyYes").on("click", function () {
+				$("#searchKeyword").val("true");
+				console.log($("#searchKeyword").val());
+				fncGetList(1);
 			});
 			
-			$(document).on("click", ".deleteBtn", function () {
-				
-				console.log("삭제");
-				console.log($(this).parent().parent().attr('id'));
-				var inquiryNumber= $(this).parent().parent().attr('id');
-				/**/
-				$.ajax(
-					{
-						url: "/inquiry/json/deleteInquiry/" + inquiryNumber,
-						method: "GET",
-						dataType: "json",
-						headers: {
-							"Accept": "application/json",
-							"Content-Type": "application/json"
-						},
-						success: function (data) {
-							console.log("delete : " + data.responseCode);
-							alert('삭제되었습니다');
-							location.reload();							
-						}
-					})
-				
-				
+			$("#replyNo").on("click", function () {
+				$("#searchKeyword").val("false");
+				fncGetList(1);
 			});
 			
 		});
@@ -120,16 +51,32 @@
 </head>
 <body>
 	<article  class="py-5" layout:fragment="content">
-		<div class="container">
+		<div class="container">		
+						
 			<div class="row">
+				<form th:action="@{/inquiry/getInquiryList?resultJsp=listInquiryStore}" method="post">
+					<input type="hidden" name="searchCondition" value="replyStatus" />
+					<input type="hidden" id="searchKeyword" name="searchKeyword" value=""/>
+				</form>
+				<span class="flex-w flex-m stext-111 cl2 p-b-19">
+					<span>
+						<button type="button" class="cl4" id="replyYes">답변완료</button>
+						<span class="cl12 m-l-4 m-r-6">|</span>
+					</span>
+				
+					<span>
+						<button type="button" class="cl4" id="replyNo">미답변</button>
+					</span>
+				</span>
+			
 				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
 					<div class="m-l-25 m-r--38 m-lr-0-xl">
 						<div class="wrap-table-shopping-cart">
 							<table class="table-shopping-cart" id="inquiryTable">
 								<tr class="table_head">
-									<th class="column-1" style="padding-right: 30px;">상품명</th>
-									<th class="column-2"></th>
-									<th class="column-3">문의제목</th>
+									<th class="column-1">상품번호</th>
+									<th class="column-2">문의제목</th>
+									<th class="column-3">문의자</th>
 									<th class="column-4">답변상태</th>
 									<th class="column-5"></th>
 								</tr>
@@ -137,21 +84,34 @@
 								<th:block th:each="inquiry : ${list}">
 									<tr class="table_row">
 										<td class="column-1">
-											<div class="how-itemcart1">
-												<img th:src="|../img/upload/${ inquiry.inquiryProduct.productMainImage }|" alt="IMG">
-											</div>
+											<a class="stext-115 cl7 hov-cl1 size-213 p-t-18" 
+											   th:href="@{/product/getProduct(productNumber=${inquiry.inquiryProduct.productNumber})}" 
+											   th:text="${inquiry.inquiryProduct.productNumber}">
+											</a>
 										</td>
-										<td class="column-2" th:text="${inquiry.inquiryProduct.productName}"></td>
-										<td class="column-3" th:text="${inquiry.inquiryTitle}"></td>
+										<td class="column-2" >
+										
+											<th:block th:if="${inquiry.inquiryReplyStatus == true}">
+												<a class="stext-115 cl7 hov-cl1 size-213 p-t-18" 
+												   th:href="@{/inquiry/updateInquiry?resultJsp=updateInquiryStore&inquiryNumber=} + ${inquiry.inquiryNumber}" 
+												   th:text="${inquiry.inquiryTitle}">
+												</a>
+											</th:block>
+											
+											<th:block th:if="${inquiry.inquiryReplyStatus == false}">
+												<a class="stext-115 cl7 hov-cl1 size-213 p-t-18" 
+												   th:href="@{/inquiry/updateInquiry?resultJsp=addInquiryReply&inquiryNumber=} + ${inquiry.inquiryNumber}" 
+												   th:text="${inquiry.inquiryTitle}">
+												</a>
+											</th:block>			
+																			
+										</td>
+										<td class="column-3" th:text="|${#strings.substring(inquiry.userId, 0, 3)}****|"></td>
 										<td class="column-4">
 											<th:block th:if="${inquiry.inquiryReplyStatus == true}">답변완료</th:block>
 											<th:block th:if="${inquiry.inquiryReplyStatus == false}">미답변</th:block>
 										</td>
-										<td class="column-5">
-											<button type="button" class="getInquiry" onclick="getInquirys(this)">
-												<input type="hidden" th:value="${inquiry.inquiryNumber}" />
-												<img src="/productDesign/images/icons/arrow_down.png">
-											</button>										
+										<td class="column-5">																					
 										</td>
 									</tr>
 								</th:block>	
