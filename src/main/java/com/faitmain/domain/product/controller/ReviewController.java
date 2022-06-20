@@ -1,40 +1,23 @@
 package com.faitmain.domain.product.controller;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.faitmain.domain.order.domain.OrderProduct;
-import com.faitmain.domain.order.service.OrderServiceImpl;
-import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.domain.Review;
-import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.product.service.ReviewService;
-import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.MiniProjectPage;
-import com.faitmain.global.common.Page;
 import com.faitmain.global.common.Search;
 
 import lombok.extern.slf4j.Slf4j;

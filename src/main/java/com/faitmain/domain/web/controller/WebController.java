@@ -38,7 +38,7 @@ public class WebController {
 
 		map.put("orderName", "reg_date DESC");
 		map.put("startRowNum", 1);
-		map.put("endRowNum", 5);
+		map.put("endRowNum", 16);
 
 		map = productService.getProductList(map);
 

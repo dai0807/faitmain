@@ -13,7 +13,7 @@
     </select>
 
     <!-- 주문 테이블 등록 -->
-    <insert id="insertOrder" parameterType="com.faitmain.domain.order.domain.Order">
+    <insert id="insertOrder">
         INSERT INTO `order`( order_number
                            , buyer_id
                            , order_status
@@ -25,7 +25,7 @@
                            , receiver_address2
                            , receiver_address3
                            , using_point
-                           , imp_uid )
+                        ,  imp_uid)
         VALUES ( #{orderNumber}
                , #{buyerId}
                , '배송준비'
@@ -37,7 +37,7 @@
                , #{receiverAddress2}
                , #{receiverAddress3}
                , #{usingPoint}
-               , #{impUid} )
+               ,#{impUid})
     </insert>
 
     <!-- 주문 상품 테이블 등록 -->

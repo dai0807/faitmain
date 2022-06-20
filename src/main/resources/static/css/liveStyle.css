@@ -678,7 +678,8 @@ div.livecommerce{
 	margin-top: 196px;
 }
 .livecommerce .chat_contents{
-	padding: 0 15px;
+	padding-bottom: 65px;
+	padding-left: 20px;
 	margin-top: 80px;
 	height: 180px;
 	overflow-y: auto;
@@ -688,7 +689,7 @@ div.livecommerce{
 .livecommerce .chat_contents::-webkit-scrollbar { width: 3px;}
 .livecommerce .chat_contents::-webkit-scrollbar-thumb{ background: rgba(255,255,255,0);}
 .livecommerce .chat_contents::-webkit-scrollbar-track{ background: rgba(0,0,0,0);}
-.livecommerce .chat_contents p { padding: 5px 0; line-height: 1.5;}
+.livecommerce .chat_contents p { padding: 0; line-height: 0.35;}
 .livecommerce .marketer{ text-align: center; color: #fff000; }
 .livecommerce .name{ color: #c3c3c3; } /* dr 변경 210625 */
 .livecommerce span.name{ color: #c3c3c3; margin-right: 5px;} /* dr 변경 210625 */

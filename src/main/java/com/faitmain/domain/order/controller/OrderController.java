@@ -9,6 +9,7 @@ import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserServiceImpl;
 import com.faitmain.global.common.Criterion;
 import com.faitmain.global.common.Page;
+import com.faitmain.global.util.UserInfoSessionUpdate;
 import com.faitmain.global.util.security.SecurityUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,8 @@ public class OrderController{
     @Autowired
     private SecurityUserService securityUserService;
 
+    @Autowired
+    private UserInfoSessionUpdate userInfoSessionUpdate;
 
     @PostMapping( "/{buyerId}" )
     public String orderPage( @PathVariable String buyerId , OrderPage orderPage , Model model ){
@@ -64,15 +67,12 @@ public class OrderController{
 
     /* IAMPORT 결제 로직 */
     @PostMapping( "/complete" )
+
     public String paymentComplete( Order order ) throws IOException{
 
-        User user = new User();
-        user.setId( order.getBuyerId() );
-        try {
-            userSerivce.getUser( user.getId() );
-        } catch ( Exception e ) {
-            e.printStackTrace();
-        }
+        User user = orderService.getBuyer( order.getBuyerId() );
+        log.info( "user = {}" , user );
+
 
         // 1. 아임포트 API 키와 SECRET키로 토큰을 생성
         String token = paymentService.getToken();
@@ -105,32 +105,28 @@ public class OrderController{
                     log.info( "/* 로그인 하지 않았는데 포인트가 사용되었을 때 */" );
                     paymentService.paymentCancel( token , order.getImpUid() , amount , "비회원 포인트사용 오류" );
                     return "index";
+
                 }
             }
 
             orderService.addOrder( order );
+
+//
+//            try {
+//                user = orderService.getBuyer( order.getBuyerId() );
+//                securityUser.setUser( user );
+//            } catch ( Exception e ) {
+//                e.printStackTrace();
+//            }
+
             return "order/list";
+
 
         } catch ( Exception e ) {
             paymentService.paymentCancel( token , order.getImpUid() , amount , "결제 에러" );
             return "index";
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -144,7 +140,7 @@ public class OrderController{
         List<Order> orderList = orderService.getOrderList( criterion );
         if ( !orderList.isEmpty() ) {
             model.addAttribute( "orderList" , orderList );
-            model.addAttribute( "pagemMaker" , new Page( criterion , orderService.getOrderTotal( criterion ) ) );
+            model.addAttribute( "pageMaker" , new Page( criterion , orderService.getOrderTotal( criterion ) ) );
         } else {
             model.addAttribute( "listCheck" , "empty" );
         }
