@@ -7,7 +7,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="@{/css/styles.css}" rel="stylesheet" />
-
+    	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/bootstrap/css/bootstrap.min.css">	
+		<link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
+		<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
+		
+		<link rel="stylesheet" type="text/css" href="/productDesign/vendor/animsition/css/animsition.min.css">
+		
+		<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
+		<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">	
 </head>
     <title> 회원 리스트 조회 </title>
 
@@ -18,9 +26,111 @@
 		margin-top:10px ;
  	 
 		}
-		
-		form-horizontal{font-family: 'Nanum Gothic Coding', monospace;}
-		 
+
+ 
+.card {
+       position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0px solid transparent;
+    border-radius: 0px;
+}
+ 
+
+.card-body {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+.card .card-title {
+    position: relative;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+
+* {
+    outline: none;
+}
+
+.table th, .table thead th {
+    font-weight: 500;
+}
+
+ 
+.table th, .table thead th {
+    font-weight: 500;
+}
+
+
+th {
+    text-align: inherit;
+}
+
+
+.m-b-20 {
+    margin-bottom: 20px;
+}
+
+
+
+.customcheckbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: -3px;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 6px;
+}
+
+
+.customcheckbox input:checked ~ .checkmark {
+    background-color: #2196BB;
+}
+
+
+.customcheckbox .checkmark:after {
+    left: 8px;
+    top: 4px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
+#p-b-52{
+	padding-bottom:5px ;
+}
+
     </style>
 
 
@@ -30,18 +140,90 @@
 
 <body>
 <article  class="py-5" layout:fragment="content"  >
+    <div class = "container col-lg-2">
+    </div>
 
-    <div class="container">
-        <h2>게시글 목록</h2>
+
+    <div class="container col-lg-8">
+        <h4 class="h4 .mtext-112 ">게시글 목록</h4>
+        <br>
+   
         
-        <div>
-               <a class = "fw-bolder btn btn-success col-md-1"  id = ""  th:href="@{/user/getUserlist}"> 전체</a> 
-                <a class = "fw-bolder btn btn-success col-md-1"  id = "" th:href="@{/user/getUserlist(searchCondition=user)}"> 유저</a> 
-               <a class = "fw-bolder btn btn-success col-md-1"  id = "" th:href="@{/user/getUserlist(searchCondition=store)}" > 스토어</a> 
- 
-        </div>
-        
-        <table class="board_list">
+
+ 					<div class="container">
+						<div class="flex-w flex-sb-m p-b-52" style="padding-bottom:10px ;">
+							<div class="flex-w flex-l-m filter-tope-group m-tb-10">
+								<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" th:action="@{/user/getUserlist}" data-filter="*">
+									AII
+								</button>
+			
+								<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"  th:action="@{/user/getUserlist(searchCondition=user)}" data-filter=".01">
+									user
+								</button>
+			
+								<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" th:action="@{/user/getUserlist(searchCondition=store)}" data-filter=".02">
+									store
+								</button>
+			
+								 
+							</div>						
+						</div>
+						</div>	
+	<div class="container">
+                      
+                                
+                    <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                           
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                                                               <th scope="col"> </th>
+
+                                                <th scope="col">아이디</th>
+                                                <th scope="col">이름</th>
+                                                <th scope="col">휴대전화 번호</th>
+                                                  <th scope="col">role</th>
+
+                                                <th scope="col">가입일</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="customtable">
+        									  	<tr class="table_row" th:each="user:${userList}" >
+                                                <td></td>
+                                                <td> <a th:text="${user.id}" th:href="@{/user/getUser(id=${user.id})}"> ..</a>  </td>
+                                                <td th:text="${user.name}" > </td>
+                                                <td th:text="${user.phoneNumber}" > </td>
+                                                <td th:text="${user.role}" > </td>
+                                                
+                                                <td th:text="${user.regDate}"></td>
+                                             
+                                            </tr>
+                                          
+                                             
+                                             
+                                             
+                                 
+                                   
+                                             
+                                             
+                                             
+                                               
+                                          
+                                        </tbody>
+                                    </table>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                   </div> 
+	
+		<!--  전 리스트
+			
+			        <table class="board_list">
             <colgroup>
                 <col width="15%"/>
                 <col width="*"/>
@@ -58,18 +240,7 @@
                 </tr>
             </thead>
             <tbody>
-            <!--
-                <tr th:if="${#lists.size(list)} > 0" th:each="list : ${list}">
-                    <td th:text="${list.boardIdx}"></td>
-                    <td class="title" th:text="${list.title}"></td>
-                    <td th:text="${#temporals.format(list.createdDatetime, 
-                        'yyyy-MM-dd HH:mm::ss')}"></td>
-                </tr> 
-                <tr th:unless="${#lists.size(list)} > 0">
-                    <td colspan="4">조회된 결과가 없습니다.</td>
-                </tr>
-            </tbody>
-            -->
+     
             
             <tr th:each="user:${userList}">
             		<td ><a th:text="${user.id}" th:href="@{/user/getUser(id=${user.id})}"> ..</a> </td>
@@ -83,8 +254,24 @@
             
             
         </table>
+              
+            <tr th:each="user:${userList}">
+            		<td ><a th:text="${user.id}" th:href="@{/user/getUser(id=${user.id})}"> ..</a> </td>
+             		<td th:text="${user.name}"></td>
+             		<td th:text="${user.role}"></td>
+            		<td th:text="${user.regDate}"></td>
+
+            
+            
+            </tr>
+			-->
+        
+        
+        
      </div>
 
+    <div class = "container col-lg-2">
+    </div>
 
 
 
