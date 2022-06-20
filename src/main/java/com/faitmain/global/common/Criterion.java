@@ -1,18 +1,16 @@
 package com.faitmain.global.common;
 
-import lombok.Data;
-import lombok.ToString;
+import java.util.Arrays;
 
-@Data
-public class Criterion{
+public class Criterion {
 
     /* 현재 페이지 번호 */
-    private int pageNumber;
+    private int pageNum;
 
     /* 페이지 표시 개수 */
-    private int pageAmount;
+    private int amount;
 
-    /* 페이지 스킵 */
+    /* 페이지 skip */
     private int skip;
 
     /* 검색 타입 */
@@ -21,84 +19,107 @@ public class Criterion{
     /* 검색 키워드 */
     private String keyword;
 
-    /* 카테고리 코드 */
-    private String categoryCode;
+    /* 작가 리스트 */
+    private String[] authorArr;
 
-    /* 상품 번호 */
+    /* 카테고리 코드 */
+    private String cateCode;
+
+    /* 상품 번호(댓글 기능에서 사용) */
     private int productNumber;
 
-    /* CRITERION 생성자 */
-    public Criterion( int pageNumber , int pageAmount ){
-        this.pageNumber = pageNumber;
-        this.pageAmount = pageAmount;
-        this.skip = ( pageNumber - 1 ) * pageAmount;
+    /* Criteria 생성자 */
+    public Criterion(int pageNum, int amount) {
+        this.pageNum = pageNum;
+        this.amount = amount;
+        this.skip = (pageNum -1) * amount;
     }
 
-    /* CRITERION 기본 생성자*/
+    /* Criteria 기본 생성자 */
     public Criterion(){
-        this( 1 , 10 );
+        this(1,10);
     }
 
     /* 검색 타입 데이터 배열 변환 */
-    public String[] getTypeArray(){
-        return type == null ? new String[] {} : type.split( "" );
+    public String[] getTypeArr() {
+        return type == null? new String[] {}:type.split("");
     }
 
-    public int getPageNumber(){
-        return pageNumber;
+    public int getPageNum() {
+        return pageNum;
     }
 
-    public void setPageNumber( int pageNumber ){
-        this.pageNumber = pageNumber;
-        this.skip = ( pageNumber - 1 ) * this.pageAmount;
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+        this.skip = (pageNum - 1) * this.amount;
     }
 
-    public int getPageAmount(){
-        return pageAmount;
+    public int getAmount() {
+        return amount;
     }
 
-    public void setPageAmount( int pageAmount ){
-        this.pageAmount = pageAmount;
-        this.skip = ( pageNumber - 1 ) * this.pageAmount;
+    public void setAmount(int amount) {
+        this.amount = amount;
+        this.skip = (this.pageNum - 1) * amount;
     }
 
-    public int getSkip(){
+    public int getSkip() {
         return skip;
     }
 
-    public void setSkip( int skip ){
+    public void setSkip(int skip) {
         this.skip = skip;
     }
 
-    public String getType(){
+    public String getType() {
         return type;
     }
 
-    public void setType( String type ){
+    public void setType(String type) {
         this.type = type;
     }
 
-    public String getKeyword(){
+    public String getKeyword() {
         return keyword;
     }
 
-    public void setKeyword( String keyword ){
+    public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
 
-    public String getCategoryCode(){
-        return categoryCode;
+
+    public String[] getAuthorArr() {
+        return authorArr;
     }
 
-    public void setCategoryCode( String categoryCode ){
-        this.categoryCode = categoryCode;
+    public void setAuthorArr(String[] authorArr) {
+        this.authorArr = authorArr;
     }
 
-    public int getProductNumber(){
+    public String getCateCode() {
+        return cateCode;
+    }
+
+    public void setCateCode(String cateCode) {
+        this.cateCode = cateCode;
+    }
+
+    public int getProductNumber() {
         return productNumber;
     }
 
-    public void setProductNumber( int productNumber ){
+    public void setProductNumber( int productNumber ) {
         this.productNumber = productNumber;
     }
+
+    @Override
+    public String toString() {
+        return "Criteria [pageNum=" + pageNum + ", amount=" + amount + ", skip=" + skip + ", type=" + type
+                + ", keyword=" + keyword + ", authorArr=" + Arrays.toString(authorArr) + ", cateCode=" + cateCode
+                + ", productNumber=" + productNumber + "]";
+    }
+
+
+
+
 }

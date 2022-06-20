@@ -10,11 +10,11 @@ import com.faitmain.domain.user.service.UserServiceImpl;
 import com.faitmain.global.common.Criterion;
 import com.faitmain.global.common.Page;
 import com.faitmain.global.util.UserInfoSessionUpdate;
+import com.faitmain.global.util.log.LogTrace;
+import com.faitmain.global.util.log.TraceStatus;
 import com.faitmain.global.util.security.SecurityUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.client.HttpClientErrorException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -41,36 +38,38 @@ public class OrderController{
     private PaymentServiceImpl paymentService;
 
     @Autowired
-    private UserServiceImpl userSerivce;
+    private UserServiceImpl userService;
 
     @Autowired
-    private SecurityUserService securityUserService;
-
-    @Autowired
-    private UserInfoSessionUpdate userInfoSessionUpdate;
+    private LogTrace trace;
 
     @PostMapping( "/{buyerId}" )
     public String orderPage( @PathVariable String buyerId , OrderPage orderPage , Model model ){
 
-
-        model.addAttribute( "orderPageProductList" , orderService.getOrderPageProductList( orderPage.getOrderPageProductList() ) );
-        model.addAttribute( "buyer" , orderService.getBuyer( buyerId ) );
-
-        log.info( "orderPageProductList = {} " , orderPage.getOrderPageProductList() );
-        log.info( "buyer = {} " , orderService.getBuyer( buyerId ) );
-
-        return "order";
+        TraceStatus status = null;
+        try {
+            status = trace.begin( "OrderController.orderPage()" );
+            model.addAttribute( "orderPageProductList" , orderService.getOrderPageProductList( status.getTraceId() , orderPage.getOrderPageProductList() ) );
+            model.addAttribute( "buyer" , orderService.getBuyer( status.getTraceId() , buyerId ) );
+            log.info( "orderPageProductList = {} " , orderPage.getOrderPageProductList() );
+            log.info( "buyer = {} " , orderService.getBuyer( status.getTraceId() , buyerId ) );
+            trace.end( status );
+            return "order";
+        } catch ( Exception e ) {
+            trace.exception( status , e );
+            throw e;
+        }
     }
-
-
 
 
     /* IAMPORT 결제 로직 */
     @PostMapping( "/complete" )
 
-    public String paymentComplete( Order order,Criterion criterion, Model model ) throws IOException{
+    public String paymentComplete( Order order , Criterion criterion , Model model ) throws Exception{
 
-        User user = orderService.getBuyer( order.getBuyerId() );
+        TraceStatus status = null;
+
+        User user = userService.getUser( order.getBuyerId() );
         log.info( "user = {}" , user );
 
 
@@ -119,13 +118,14 @@ public class OrderController{
 //                e.printStackTrace();
 //            }
 
-            List<Order> orderList = orderService.getOrderList( criterion );
-            if ( !orderList.isEmpty() ) {
-                model.addAttribute( "orderList" , orderList );
-                model.addAttribute( "pageMaker" , new Page( criterion , orderService.getOrderTotal( criterion ) ) );
-            } else {
-                model.addAttribute( "listCheck" , "empty" );
-            }
+//            List<Order> orderList = orderService.getOrderList( criterion );
+//
+//            if ( !orderList.isEmpty() ) {
+//                model.addAttribute( "orderList" , orderList );
+//                model.addAttribute( "pageMaker" , new Page( criterion , orderService.getOrderTotal( criterion ) ) );
+//            } else {
+//                model.addAttribute( "listCheck" , "empty" );
+//            }
             return "order/orderList";
 
 
@@ -141,14 +141,16 @@ public class OrderController{
     @GetMapping( "/list" )
     public String orderList( Criterion criterion , Model model ){
 
-        List<Order> orderList = orderService.getOrderList( criterion );
-        if ( !orderList.isEmpty() ) {
-            model.addAttribute( "orderList" , orderList );
+        List<Order> list = orderService.getOrderList( criterion );
+        log.info( "orderList = {}" , list );
+        if ( !list.isEmpty() ) {
+            model.addAttribute( "list" , list );
             model.addAttribute( "pageMaker" , new Page( criterion , orderService.getOrderTotal( criterion ) ) );
         } else {
             model.addAttribute( "listCheck" , "empty" );
         }
-        return "admin/orderList";
+        log.info( "model = {}" , model );
+        return "order/orderList";
     }
 
     /* 주문삭제 */
