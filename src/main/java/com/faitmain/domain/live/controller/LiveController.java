@@ -548,12 +548,27 @@ public class LiveController {
 		liveUser.setLiveNumber(liveNumber);
 		liveUser.setNickName(user.getNickname());
 		
-		liveUser = liveService.getLiveUserStatus(liveUser);
+		LiveUserStatus userStatus = liveService.getLiveUserStatus(liveUser);
 		
-			if( liveUser.getKickStatus() == 1 ) {			
-				returnUrl = "/live/returnIndex";
-			}else {
+			if( liveService.getLiveUserStatus(liveUser) != null ) {
 				
+				if( userStatus.getKickStatus() == 1 ) {
+					
+				returnUrl = "/live/returnIndex";				
+				}
+			
+			}else {
+				Live live = liveService.getLive(liveNumber);
+
+				List<LiveProduct> list = liveService.getLiveProductListByLiveNumber(live.getLiveNumber());
+
+				System.out.println("찍먹 : " + list);
+				model.addAttribute("live", live);
+				model.addAttribute("listProduct", list);
+
+				log.info("live = " + model.getAttribute("live"));
+				log.info("listProduct = " + model.getAttribute("listProduct"));
+				return "/live/watchLive";
 			}
 	
 		}
