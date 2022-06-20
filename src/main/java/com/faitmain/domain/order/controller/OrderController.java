@@ -108,15 +108,6 @@ public class OrderController{
                 }
             }
 
-            orderService.addOrder( order );
-
-//
-//            try {
-//                user = orderService.getBuyer( order.getBuyerId() );
-//                securityUser.setUser( user );
-//            } catch ( Exception e ) {
-//                e.printStackTrace();
-//            }
 
 //            List<Order> orderList = orderService.getOrderList( criterion );
 //
@@ -134,6 +125,8 @@ public class OrderController{
             return "index";
         }
     }
+
+
 
     /* ************************* ADMIN *************************** */
 
