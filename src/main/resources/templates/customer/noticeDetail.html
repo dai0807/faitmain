@@ -15,7 +15,8 @@
 
 <body>
 	<th:block layout:fragment="content">
-	<div class="card-content">
+	<div class="card-content" th:action="@{/customer/detailBoard}">
+	<input type="hidden" name="boardType" value='N'/>
 		<h2>공지사항</h2>
 		<hr />
 		
@@ -28,7 +29,7 @@
 					<col width="15%"/>
 					<col width="35%"/>
 				</colgroup>
-				<caption>게시글 상세내용</caption>
+				
 				<tbody>
 					<tr>
 						<th scope="row">글 번호</th>
@@ -72,12 +73,12 @@
 		
 			
 			<button type="button" class="btn btn-danger waves-effect waves-light" 
-					th:onclick="deleteBoard([[${customer.boardNumber}]])">삭제하기</button>	
+					th:onclick="deleteBoard([[${customer.boardNumber}]], [[${customer.boardType}]])">삭제하기</button>	
 		</div>
 		</th:block>
 		
 		<div class="btn_wrap text-center" >
-			<a th:href="@{/customer/list}" class="btn btn-default waves-effect waves-light">목록으로</a>
+			<a th:href="@{/customer/listBoard(boardType=${customer.boardType})}" class="btn btn-default waves-effect waves-light">목록으로</a>
 		</div>
 	</div>
 	<!-- <th:block layout:fragment="script"> -->
@@ -160,19 +161,24 @@ function update(){
 <script th:inline="javascript">
 			/*<![CDATA[*/
 
-			function deleteBoard(boardNumber) {
+			function deleteBoard(boardNumber, boardType) {
 
+				
+				console.log('boardType = '+ boardType);
+				
 				if (confirm(boardNumber + "번 게시글을 삭제할까요?")) {
-					var uri = /*[[ @{/customer/deleteNotice} ]]*/ null;
+					var uri = /*[[ @{/customer/deleteBoard} ]]*/ null;
 					var html = "";
 
 					html += '<form name="dataForm" action="'+uri+'" method="post">';
 						html += '<input type="hidden" name="boardNumber" value="'+boardNumber+'" />';
+						html += '<input type="hidden" name="boardType" value="'+boardType+'" />';
 					html += '</form>';
-
+					
 					$("body").append(html);
 					document.dataForm.submit();
 				}
+			
 			}
 			/*[- end of function -]*/
 

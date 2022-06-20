@@ -20,6 +20,13 @@ public class WebMvcConfig implements WebMvcConfigurer{
         registry.addInterceptor( new CartInterceptor() )
                 .addPathPatterns( "/cart/**" )
                 .excludePathPatterns( "/cart/add" );
+
     }
+
+
 */    
+
+
 }
+
+

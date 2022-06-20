@@ -1,6 +1,8 @@
 
+
 <!DOCTYPE html>
-<html lang="ko" layout:decorate="~{layout/default_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<html lang = "ko" layout:decorate = "~{/layout/default_layout}"
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
 
 
 <head>
@@ -74,25 +76,25 @@
                             <strong class="screen_out">주요서비스 고객센터 보기</strong>
                             <ul class="grid-image">
                                 <li class="fst">           
-                                    <a class="link_service" th:href="@{/customer/list}">
+                                    <a class="link_service" th:href="@{/customer/listBoard?boardType=N}">
                                         <img alt="공지사항" class="thumb_img"   src="/img/notification.png">
                                         <span class="txt_service" >공지사항</span>
                                     </a>
                                 </li>
                                 <li class="fst">                                
-                                    <a class="link_service" href="#">
+                                    <a class="link_service" th:href="@{/customer/listBoard?boardType=F}">
                                         <img alt="자주묻는질문" class="thumb_img"  src="/img/FAQ.png">
                                         <span class="txt_service">자주묻는질문</span>
                                     </a>
                                 </li>
                                 <li class="fst">                               
-                                    <a class="link_service" href="#">
+                                    <a class="link_service" th:href="@{/customer/detailGuide?boardType=L}">
                                         <img alt="라이브가이드" class="thumb_img"  src="/img/liveGuide.png">
                                         <span class="txt_service">라이브 가이드</span>
                                     </a>
                                 </li>
                                 <li class="fst">                             
-                                    <a class="link_service" href="#">
+                                    <a class="link_service" th:href="@{/customer/addReport}">
                                         <img alt="신고" class="thumb_img"  src="/img/siren.png">
                                         <span class="txt_service">신 고</span>
                                     </a>

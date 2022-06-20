@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+				layout:decorate = "~{layout/customer_default_layout2}"
+      			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
+      			xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/customerDesign/noticeListCss/fonts/icomoon/style.css}">
+
+    <link rel="stylesheet"  th:href="@{/customerDesign/noticeListCss/css/owl.carousel.min.css}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"  th:href="@{/customerDesign/noticeListCss/css/bootstrap.min.css}">
+    
+    <!-- Style -->
+    <link rel="stylesheet"  th:href="@{/customerDesign/noticeListCss/css/style.css}">
+
+    <title>faitmain</title>
+  </head>
+  <body>
+  
+<article class = "nl-1" layout:fragment = "content">
+    
+    <div class="container">
+    <input type="hidden" name="boardType" value='N'/> 
+      <h3 class="mb-5">공지사항</h3>
+      <hr/>
+
+      <div class="table-responsive">
+        <table class="table custom-table">
+          <thead>
+            <tr>
+              
+              <th scope="col">제목</th>
+              <th scope="col">작성자</th>
+              <th scope="col">등록일</th>
+              <th scope="col">조회수</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:if="${not #lists.isEmpty( boardList )}" th:each="row : ${boardList}">
+				<td class="text-left">
+					<a th:href="@{/customer/detailBoard( boardNumber=${row.boardNumber} )}" th:text="${row.boardTitle}"></a>
+				</td>
+				<td th:text="${row.customerId.id}"></td> 
+				<td th:text="${#dates.format(row.boardRegDate, 'yyyy-MM-dd')}"></td>
+				<td th:text="${row.viewCount}"></td> 
+			</tr>
+            <tr th:unless="${not #lists.isEmpty( boardList )}">
+				<td colspan="5">조회된 결과가 없습니다.</td>
+			</tr>
+          </tbody>
+        </table>
+      </div>
+    
+		<th:block sec:authorize="isAuthenticated()">
+			<div class="btn_wrap text-right" sec:authorize="hasRole('ROLE_admin')">
+					<a th:href="@{/customer/addNotice}" class="btn btn-primary waves-effect waves-light">등록</a>
+			</div> 	
+		</th:block>
+		
+    </div>
+    
+    <script type="text/javascript" th:src="@{/customerDesign/noticeListCss/js/jquery-3.3.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/customerDesign/noticeListCss/js/popper.min.js}"></script>
+    <script type="text/javascript" th:src="@{/customerDesign/noticeListCss/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/customerDesign/noticeListCss/js/main.js}"></script>
+ 	
+ </article>
+ </body>
+  
+</html>
+                   
+
+            
