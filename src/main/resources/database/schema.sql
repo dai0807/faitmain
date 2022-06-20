@@ -75,11 +75,11 @@ CREATE TABLE `order` (
                      `receiver_address1` varchar(100)  NULL ,
                      `receiver_address2` varchar(100)  NULL ,
                      `receiver_address3` varchar(100)  NULL ,
+                     `order_date`        timestamp    NULL  ,
                      `order_status`      varchar(30)   NULL ,
                      `delivery_charge`   int           NULL ,
                      `using_point`       int           NULL ,
-                     `imp_uid` int NULL ,
-                     `order_date`        timestamp    NULL DEFAULT NOW( ) ,
+                     `imp_uid` varchar(100) NULL ,
                      PRIMARY KEY ( order_number ) ,
                      FOREIGN KEY ( buyer_id ) REFERENCES user ( id )
                      );
@@ -89,9 +89,9 @@ CREATE TABLE order_product (
                            `order_product_number` int NOT NULL AUTO_INCREMENT ,
                            `order_number`         int NULL ,
                            `product_number`       int NULL ,
-                           `product_order_count`  int NOT NULL ,
-                           `product_price`        int NOT NULL ,
-                           `reward_point`         int NOT NULL ,
+                           `product_order_count`  int NULL ,
+                           `product_price`        int NULL ,
+                           `reward_point`         int NULL ,
                            PRIMARY KEY ( order_product_number ) ,
                            FOREIGN KEY ( order_number ) REFERENCES `order` ( order_number ) ,
                            FOREIGN KEY ( product_number ) REFERENCES product ( product_number )

@@ -284,4 +284,39 @@ $(function () {
 		}
 	});
 	
+	
+			
+	$(".getInquiry").on("click", function() {
+
+		let inquiryNumber = $(this).children("input[type=hidden]").val();
+		console.log("inquiryNumber : " + inquiryNumber);
+
+		$.ajax(
+			{
+				url: "/inquiry/json/getInquiry/" + inquiryNumber,
+				method: "GET",
+				dataType: "json",
+				headers: {
+					"Accept": "application/json",
+					"Content-Type": "application/json"
+				},
+				success: function(JSONData, status) {
+					console.log("inquiryContent : " + typeof JSONData.inquiryReplyStatus);
+					var displayValue = "<h6>"
+						+ "<p>문의 제목 : " + JSONData.inquiryTitle + "</p>"
+						+ "<p>문의 내용 : " + JSONData.inquiryContent + "</p>"
+						+ "<p>문의 id : " + JSONData.userId + "</p>";
+					if (JSONData.inquiryReplyStatus) {
+						console.log("aaaa ");
+						displayValue += "<p>답변 날짜 : " + JSONData.inquiryReplyDate + "</p>"
+							+ "<p>답변 내용 : " + JSONData.inquiryReplyContent + "</p>"
+					} 
+
+					$("h6").remove();
+					$(this).parent().parent().find(".getInquiryArea").html(displayValue);
+
+				}
+			})
+	});
+	
 });

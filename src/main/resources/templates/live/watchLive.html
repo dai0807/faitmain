@@ -68,8 +68,6 @@
    width: 900px;
    height: 675px;
    position: absolute;
-     left: 50%;
-     transform: translateX(-50%);
    }
     
     .title p {
@@ -99,7 +97,7 @@
    	<div id="wrap" style="width:55%; height:700px; margin-top: 50px;">
         <section>
             <!-- 샘플 화면 -->
-            <div class="livecommerce">
+            <div class="livecommerce" style="margin-left: 50px;">
                
             	<div class="remote_cam" style="height : 675px"></div>
                
@@ -123,7 +121,7 @@
 	                	</div>
 	                    <div>
 	                     	<!-- 나가기 버튼 -->
-	                    	<button type="button" class="btn btn-warning" onclick='exit()'>나가기</button>
+	                    	<button type="button" class="btn btn-warning" onclick='exit()' style="margin-left:17px;">나가기</button>
 	                	</div>
 	                </div>
                 </article>
@@ -153,15 +151,15 @@
         </section>
     </div>
     
-    <div style="float: right; width:40%; height:700px; background-color:white; border-radius: 30px; margin-top:50px; margin-right:50px;">
+    <div style="float: right; width:40%; height:700px; background-color:white; border-radius: 30px; margin-top:50px; margin-right:70px;">
    		<div>
    			<h5 style="margin-left:50px; margin-top:15px; margin-bottom:15px; font-size: 30px; font-family:jua; font-weight: bold; ">상품 목록</h5>
    		</div>
-   		<div style="height:620px; width:650px; overflow: auto; margin-left:5px;">
+   		<div style="height:620px; width:750px; overflow: auto; margin-left:5px;">
    			<table class="table">
    				<colgroup>
    					<col width="150px"/>
-   					<col width="450px"/>
+   					<col width="550px"/>
    				</colgroup>
 				<thead class="thead-dark">
 			    	<tr>
@@ -173,7 +171,7 @@
 			  		<th:block th:each="productList : ${listProduct}">
 				    	<tr style="cursor:pointer" th:onclick="'openProductView('+${productList.productNumber}+');'">
 						    <th scope="row">
-						    	<img th:src="'../img/upload/'+${productList.productMainImage}" style="width:150px; height:150px;">
+						    	<img th:src="'../../img/upload/'+${productList.productMainImage}" style="width:150px; height:150px;">
 						    </th>
 						    <td>
 						    	<div th:text="${productList.productName}"></div>
@@ -187,35 +185,6 @@
    		</div>
    	</div>
          
-                <!--  삭제 예정
-               <div th:unless="${#lists.size(listProduct)==0}" class="row" style="margin-bottom: 10px; background-color : #D8D8D8;">
-                  <div class="col-md-9">
-                     <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
-                        <div class="carousel-inner">
-                           
-                                                      <th:block th:each="productList : ${listProduct}" >
-                              <div th:if="${productListStat.first}">
-                                 <span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
-                                 <span>
-                                    <th:block th:text="${productList.productName}"></th:block>
-                                    <th:block th:text="${productList.price}"></th:block>
-                                    <a type="button" class="btn btn-danger" th:href="@{'/product/getProduct?productNumber=' + ${productList.productNumber}}">상품 상세조회</a>
-                                 </span>
-                              </div>
-                              <div th:unless="${productListStat.first}">
-                                 <span><img src="https://dummyimage.com/200x200/343a40/6c757d"></span>
-                                 <span>
-                                    <th:block th:text="${productList.productName}"></th:block>
-                                    <th:block th:text="${productList.price}"></th:block>
-                                    <a type="button" class="btn btn-danger" th:href="@{'/product/getProduct?productNumber=' + ${productList.productNumber}}">상품 상세조회</a>
-                                 </span>
-                              </div>
-                           </th:block>
-                           
-                        </div>      
-                     </div>
-                  </div>
-               </div> -->
 </body>
 
 <script th:inline="javascript">
@@ -223,7 +192,7 @@
  // 채널에 접속하기 위해서 사용자의 userNick, userKey와 CMS에서 발급받은 channelKey가 필요합니다.
 
      var channelKey = $('#channelKey').val(); // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
-   var storeId = $('#storeId').val();
+  	 var storeId = $('#storeId').val();
 
      function videoInit() {
 
@@ -231,7 +200,7 @@
        channel.on("rtcRemoteStreamAppend", function (event) {
              // TODO : 나중에 해야지
           if(event.clientKey == storeId){
-             remoteVideo = document.createElement("video");
+            remoteVideo = document.createElement("video");
             let stream = event.target;
             remoteVideo.srcObject = stream;
             remoteVideo.setAttribute("autoplay", true);
@@ -261,6 +230,8 @@
        
           remoteCam = $('.remote_cam');
           remoteCam.attr('name', 'remote_cam');
+          
+          console.log('channelKey = '+channelKey);
           
          $('div.bottom div.name').text(userNick);
          joinRoom(channelKey,   randomNick, ((userNick == null || userNick == "")? randomNick : userNick), function(err, history){

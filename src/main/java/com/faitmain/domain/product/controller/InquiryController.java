@@ -93,6 +93,7 @@ public class InquiryController {
 		
 		log.info("/inquiry/getInquiryList");
 		log.info("search = {}", search);
+		log.info("resultJsp = {}", resultJsp);
 						
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
@@ -121,6 +122,7 @@ public class InquiryController {
 		Inquiry inquiry = inquiryService.getInquiry(inquiryNumber);
 		
 		model.addAttribute("inquiry", inquiry);
+		model.addAttribute("resultJsp", resultJsp);
 		
 		log.info("inquiry : " + inquiry);
 		
@@ -137,7 +139,15 @@ public class InquiryController {
 		
 		inquiryService.updateInquiry(inquiry);
 		
-		return "redirect:/inquiry/getInquiryList?resultJsp=listInquiryUser&searchCondition=userId&searchKeyword=" + inquiry.getUserId();
+		String searchParam = "";
+		
+		if(inquiry.getStoreId() != null && inquiry.getUserId() == null) {
+			searchParam = "resultJsp=listInquiryStore&searchCondition=storeId&searchKeyword=" + inquiry.getStoreId();
+		}else {
+			searchParam = "resultJsp=listInquiryUser&searchCondition=userId&searchKeyword=" + inquiry.getUserId();
+		}
+		
+		return "redirect:/inquiry/getInquiryList?" + searchParam;
 	}
 	
 	@GetMapping("deleteInquiry")
