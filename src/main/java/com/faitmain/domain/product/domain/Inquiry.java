@@ -2,8 +2,6 @@ package com.faitmain.domain.product.domain;
 
 import java.sql.Date;
 
-import com.faitmain.domain.user.domain.User;
-
 import lombok.Builder;
 import lombok.Data;
 

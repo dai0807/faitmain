@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+				layout:decorate = "~{layout/customer_default_layout2}"
+      			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+	
+	<link rel="stylesheet"  th:href="@{/customerDesign/faqCss/css/style.css}">
+	<title>faitmain</title>
+	<script src="https://code.jquery.com/jquer-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquer-latest.js"></script>
+	
+	<script type="text/javascript">
+		
+
+			
+		
+	</script>
+</head>
+
+<body>
+
+
+
+<article class = "fq-1" layout:fragment = "content">
+	<div class="container">
+	
+		<h3 class ="mb-5">자주묻는질문</h3>
+		<hr/>
+		<table class="table">
+		<div id="faq-links">
+		    <div id="total" class="faq-selected">전체</div>
+		    <div id="pay">결제</div>
+		    <div id="return">교환/반품</div>
+		    <div id="order">배송</div>
+		    <div id="live">라이브</div>
+		    <div id="point">포인트</div>
+		</div>
+	
+			<div id="faq-wrapper" class="about-service ">
+			
+			<div class="faq-group">
+			        <div class="slide-left">
+			            <!-- <div>service</div> -->
+			        </div>
+			    <hr>
+			</div><!--faq-group-->
+			<div class="slide-left">
+			              <div  class="faq">
+			                 <ul class="faq-accordion" th:if="${not #lists.isEmpty(boardList)}" th:each="row : ${boardList}">
+			
+			                    <li>
+			                        <a title="Click" th:text="${row.boardTitle}"></a>
+			                         <ul class="faq-content">
+			                            <li>
+			                                <div><p th:text="${row.boardContent}"></p></div>
+			                            </li>
+			                        </ul> 
+			                    </li>
+			                    <!--Bacon ipsum-->
+			
+			                   <!--  <li>
+			                        <a href="#">Beer Ipsum</a>
+			                        <ul class="faq-content">
+			                            <li>
+			                                <div><p>ester saccharification mead lambic draft (draught), hand pump cask. brewing ale balthazar hops, " bitter becher craft beer keg alpha acid." crystal malt racking mouthfeel mash, barrel ale; malt! brewpub; biere de garde balthazar acid rest alcohol carbonation. wit beer krug brew mash hop back? shelf life, balthazar hand pump.</p></div>
+			                            </li>
+			                        </ul>
+			                    </li>
+			                    Beer ipsum
+			
+			                    <li>
+			                        <a href="#">Carey ipsum</a>
+			                        <ul class="faq-content">
+			                            <li>
+			                                <div><p>Alrighty then it's because i'm green isn't it! here she comes to wreck the day. alrighty then kinda hot in these rhinos. i just heard about evans new position,good luck to you evan backstabber, bastard, i mean baxter. your entrance was good, his was better. we're going for a ride on the information super highway. we're going for a ride on the information super highway. look at that, it's exactly three seconds before i honk your nose and pull your underwear over your head. brain freeze. we got no food we got no money and our pets heads are falling off! haaaaaaarry.</p></div>
+			                            </li>
+			                        </ul>
+			                    </li> -->
+			                    <!--Carey ipsum-->
+			                    </ul>
+			            </div>
+			</div>
+			</div>
+				
+
+
+
+
+
+
+
+
+ 
+        </table>
+     </div><!--container-->
+      <script type="text/javascript" th:src="@{/customerDesign/faqCss/js/cFAQ.js}"></script>
+    </article>
+</body>
+</html> 

@@ -77,7 +77,7 @@ class OrderMappperTest{
         OrderItemDTO oid = new OrderItemDTO();
 
         oid.setOrderId("2021_test1");
-        oid.setBookId(61);
+        oid.setProductNumber(61);
         oid.setBookCount(1);
         oid.setBookPrice(70000);
         oid.setBookDiscount(0.1);
@@ -106,7 +106,7 @@ class OrderMappperTest{
     public void deductStockTest() {
         BookVO book = new BookVO();
 
-        book.setBookId(61);
+        book.setProductNumber(61);
         book.setBookStock(77);
 
         mapper.updateStock(book);

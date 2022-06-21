@@ -39,6 +39,11 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 /*//////////////////////////////////////////////////////////////////
 [ FONT ]*/
 
+@font-face{
+	src: url("/font/BMJUA_ttf.ttf");
+	font-family: jua;
+}
+
 @font-face {
   font-family: Poppins-Regular;
   src: url('../fonts/Poppins/Poppins-Regular.ttf'); 
@@ -868,8 +873,8 @@ button.mfp-close {
 
 .show-search:hover:after,
 .show-filter:hover:after {
-  background-color: #717fe0;
-  border-color: #717fe0;
+  background-color: #fff;
+  border-color: #E31D2E;
 }
 
 /*---------------------------------------------*/
@@ -885,13 +890,13 @@ button.mfp-close {
 }
 
 .filter-link:hover {
-  color: #6c7ae0;
-  border-bottom: 1px solid #6c7ae0;
+  color: #E31D2E;
+  border-bottom: 1px solid #E31D2E;
 }
 
 .filter-link-active {
-  color: #6c7ae0;
-  border-bottom: 1px solid #6c7ae0;
+  color: #E31D2E;
+  border-bottom: 1px solid #E31D2E;
 }
 
 @media (max-width: 767px) {
@@ -1254,7 +1259,7 @@ input.num-product::-webkit-inner-spin-button {
     TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT
 ==================================================================*/
 .cl0 {color: #fff;}
-.cl1 {color: #717fe0;}
+.cl1 {color: #E31D2E;}
 .cl2 {color: #333;}
 .cl3 {color: #666;}
 .cl4 {color: #999;}
@@ -1476,6 +1481,11 @@ input.num-product::-webkit-inner-spin-button {
   text-transform: uppercase;
 }
 
+.mtext-114 {
+  font-family: Poppins-Regular;
+  font-size: 14px;
+  line-height: 1.222222;
+}
 
 /*//////////////////////////////////////////////////////////////////
 [ L-Text >= 26 ]*/
@@ -1685,6 +1695,11 @@ input.num-product::-webkit-inner-spin-button {
   height: 40px;
 }
 
+.size-126 {
+  width: 20%;
+  height: 40px;
+}
+
 /*//////////////////////////////////////////////////////////////////
 [ Width ]*/
 .size-201 {
@@ -1759,7 +1774,13 @@ input.num-product::-webkit-inner-spin-button {
   max-width: 286px;
 }
 
+.size-219 {
+  width: 38.5%;
+}
 
+.size-220 {
+  width: 61.5%;
+}
 
 /*//////////////////////////////////////////////////////////////////
 [ Height ]*/
@@ -2095,6 +2116,17 @@ input.num-product::-webkit-inner-spin-button {
 
 
 /*---------------------------------------------*/
+.how-itemcart {
+  width: 60px;
+  position: relative;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.how-itemcart img {
+  width: 100%;
+}
+
 .how-itemcart1 {
   width: 60px;
   position: relative;
@@ -2192,7 +2224,7 @@ input.num-product::-webkit-inner-spin-button {
 
 .hov-cl0:hover {color: #fff;}
 .hov-bg0:hover {background-color: #fff;}
-.hov-cl1:hover {color: #717fe0;}
+.hov-cl1:hover {color: #E31D2E; }
 .hov-bg1:hover {background-color: #717fe0;}
 
 /*---------------------------------------------*/
@@ -2259,8 +2291,8 @@ input.num-product::-webkit-inner-spin-button {
 
 /*---------------------------------------------*/
 .hov-tag1:hover {
-  color: #717fe0;
-  border-color: #717fe0;
+  color: #E31D2E;
+  border-color: #E31D2E;
 }
 
 

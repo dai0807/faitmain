@@ -1,6 +1,5 @@
 package com.faitmain.domain.product.service;
 
-import java.util.List;
 import java.util.Map;
 
 import com.faitmain.domain.product.domain.Inquiry;

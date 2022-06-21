@@ -14,11 +14,19 @@ public class WebMvcConfig implements WebMvcConfigurer{
         registry.addResourceHandler( "/summernoteImage/**" )
                 .addResourceLocations( "file:///C:/summernote_image/" );
     }
-
+/*
     @Override
     public void addInterceptors( InterceptorRegistry registry ){
         registry.addInterceptor( new CartInterceptor() )
                 .addPathPatterns( "/cart/**" )
                 .excludePathPatterns( "/cart/add" );
+
     }
+
+
+*/    
+
+
 }
+
+
