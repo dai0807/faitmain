@@ -5,11 +5,8 @@ import com.faitmain.domain.order.domain.OrderProduct;
 import com.faitmain.domain.order.domain.OrderPageProduct;
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.user.domain.User;
-import com.faitmain.global.common.Criterion;
-import com.faitmain.global.util.log.LogTrace;
+import com.faitmain.global.common.Paging;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -34,6 +31,8 @@ public interface OrderMapper{
     /* 주문 정보 (주문취소) */
     Order selectOrder( int orderNumber );
 
+
+
     /* INSERT */
 
     /* 주문 테이블 등록 */
@@ -42,10 +41,15 @@ public interface OrderMapper{
     /* 주문 상품 테이블 등록 */
     int insertOrderProduct( OrderProduct orderProduct );
 
+
+
     /* DELETE */
 
     /* 주문 취소 */
     int deleteOrder( int orderNumber );
+
+
+
 
     /* UPDATE */
 
@@ -59,11 +63,12 @@ public interface OrderMapper{
 
 
 
+    /* 주문 현황 */
     /* 주문 상품 리스트 */
-    List<Order> selectOrderList( Criterion criterion );
+    List<Order> selectOrderList( Paging paging );
 
     /* 주문 총 개수 */
-    int selectOrderTotal( Criterion criterion );
+    int selectOrderTotal( Paging paging );
 
 
 
