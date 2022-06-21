@@ -178,9 +178,9 @@ INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_st
 INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_status, chatting_status) VALUES ('store03@naver.com', 'QrDhLBOccs-eBz3A1wC62-20220613171809', 'live_title 04', 'live_intro 04', 'live_image 04', 0, 0);
 
 
-INSERT INTO live_user_status (live_number, id, alarm_status, kick_status, dumb_status) VALUES (10000, 'user01@naver.com', 01, 00, 00);
-INSERT INTO live_user_status (live_number, id, alarm_status, kick_status, dumb_status) VALUES (10001, 'user02@naver.com', 00, 02, 01);
-INSERT INTO live_user_status (live_number, id, alarm_status, kick_status, dumb_status) VALUES (10002, 'user03@naver.com', 03, 01, 02);
+INSERT INTO live_user_status (live_number, id, alarm_status, kick_status, dumb_status) VALUES (10000, 'user01@naver.com', '고양고양',01, 00, 00);
+INSERT INTO live_user_status (live_number, id, alarm_status, kick_status, dumb_status) VALUES (10001, 'user02@naver.com', '냥냥',00, 02, 01);
+INSERT INTO live_user_status (live_number, id, alarm_status, kick_status, dumb_status) VALUES (10002, 'user03@naver.com', '뉴뉴',03, 01, 02);
 
 INSERT INTO live_reservation (store_id, reservation_date, title, reservation_time) VALUES ('admin@naver.com', '2022-06-09', null, 1);
 INSERT INTO live_reservation (store_id, reservation_date, title, reservation_time) VALUES ('store01@naver.com', '2022-06-09', null, 2);

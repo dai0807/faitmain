@@ -28,8 +28,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
 
     <script src="/js/vchatcloud-1.2.0.min.js"></script>
-    <!-- <script src="/js/watchlogin.js"></script> -->
-    <script src="/js/like.js"></script>
     <script src="/js/draw.js"></script>
     <script src="/js/errMsg.js"></script>
 </head>
@@ -133,16 +131,15 @@
                         <div id="content1">
                         </div>
                     </div>
-                    <div class="chat_bottom">
+                    <div sec:authorize="isAuthenticated()" class="chat_bottom">
                         <!-- 메시지 작성 -->
-                        <div class="chat_input">
+                        <div  class="chat_input">
                             <div class="textbox" id="content" contenteditable="true" placeholder="메세지 입력하기"></div>
                             <div class="send"><a href="#!" id="sendCounter">전송</a></div>
                         </div>
-                        <!-- 좋아요 -->
+                        <!-- 알람 설정 -->
                         <div class="like">
                             <a href="#!" id="sendLike"><i class="fas fa-heart"></i></a>
-                            <span id="likeCounter"></span>
                         </div>
                     </div>
                     
@@ -152,9 +149,9 @@
         </section>
     </div>
     
-    <div style="float: right; width:40%; height:700px; background-color:white; border-radius: 30px; margin-top:50px; margin-right:70px;">
+    <div style="float: right; width:40%; height:700px; background-color:white; border-radius: 30px; margin-top:50px; margin-right:70px; font-family:jua;">
    		<div>
-   			<h5 style="margin-left:50px; margin-top:15px; margin-bottom:15px; font-size: 30px; font-family:jua; font-weight: bold; ">상품 목록</h5>
+   			<h5 style="margin-left:50px; margin-top:15px; margin-bottom:15px; font-size: 30px; font-weight: bold; ">상품 목록</h5>
    		</div>
    		<div style="height:620px; width:750px; overflow: auto; margin-left:5px;">
    			<table class="table">
@@ -235,7 +232,6 @@
           // 접속자의 미디어 소스를 보여줄 위치
        
         let c = $('div.chat_contents').hide();
-          likeInif();
        
           remoteCam = $('.remote_cam');
           remoteCam.attr('name', 'remote_cam');
@@ -272,11 +268,34 @@
                   personalInit();
                   msgInit();
                   getRoomInfo();
-                  likeInif();
                }   
          });
+         
+         $('#sendLike').on("click", function() {
+	 			
+	 			var obj = { "roomId" : channelKey };
+	 		
+	 			$.ajax({
+	 				url : "/live/json/updateAlarm",
+	 				type : "POST",
+	 				data : JSON.stringify(obj),
+	 				dataType : "JSON",
+	 				contentType : "application/json; charset=utf-8",
+	 			
+	 				success: function(response){
+	 					console.log("[requestPostBodyJson] : [success]");
+	 				},
+	 			
+	 				error: function(xhr){
+	 					console.log("[requestPostBodyJson] : [error] : " + JSON.stringify(xhr));
+	 				}
+	 			
+	 				
+	 			});
+	    	 
+	     	});
      })
-
+	
      function joinRoom(roomId, clientKey, nickName, callback) {
        // vchatcloud 객체
        console.log("clientKey : " + clientKey);

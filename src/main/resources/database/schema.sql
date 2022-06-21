@@ -209,6 +209,7 @@ CREATE TABLE `live` (
 CREATE TABLE `live_user_status` (
                                 `live_number`  int         NOT NULL ,
                                 `id`           varchar(25) NOT NULL ,
+                                `nick_name`		varchar(25) NULL,
                                 `alarm_status` tinyint DEFAULT '0' ,
                                 `kick_status`  tinyint DEFAULT '0' ,
                                 `dumb_status`  tinyint DEFAULT '0'

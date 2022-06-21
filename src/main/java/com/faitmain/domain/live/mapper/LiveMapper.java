@@ -23,7 +23,7 @@ public interface LiveMapper {
 	public Live getLive(int liveNumber) throws Exception;
 
 	public Live getLiveByStoreId(String storId) throws Exception;
-	
+
 	public Live getLiveNumberByRoomId(String roomId) throws Exception;
 
 	public List<Live> getLiveList() throws Exception;
@@ -65,13 +65,15 @@ public interface LiveMapper {
 
 	// liveUserStatus
 	public int addLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception;
-	
+
 	public int addLiveUserKick(int liveNumber, String storeId) throws Exception;
 
 	public int updateLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception;
 
 	public LiveUserStatus getLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception;
 
-	public List<LiveUserStatus> getLiveUserStatusList(int liveNumber) throws Exception;
+	public List<LiveUserStatus> getStoreLiveUserStatusList(int liveNumber) throws Exception;
+
+	public List<LiveUserStatus> getUserLiveUserStatusList(LiveUserStatus liveUserStatus) throws Exception;
 
 }
