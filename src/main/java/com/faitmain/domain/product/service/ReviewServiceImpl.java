@@ -87,8 +87,8 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public void deleteReview(int reviewNumber) throws Exception {
-		reviewMapper.deleteReview(reviewNumber);		
+	public int deleteReview(int reviewNumber) throws Exception {
+		return reviewMapper.deleteReview(reviewNumber);		
 	}
 
 	@Override

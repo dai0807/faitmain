@@ -285,7 +285,7 @@ $(function () {
 	});
 	
 	
-			
+	/* 		
 	$(".getInquiry").on("click", function() {
 
 		let inquiryNumber = $(this).children("input[type=hidden]").val();
@@ -319,4 +319,42 @@ $(function () {
 			})
 	});
 	
+	*/
+	
 });
+
+function getInquirys(e) {
+	let inquiryNumber = $(e).children("input[type=hidden]").val();
+	console.log("inquiryNumber : " + inquiryNumber);
+	$.ajax(
+		{
+			url: "/inquiry/json/getInquiry/" + inquiryNumber,
+			method: "GET",
+			dataType: "json",
+			headers: {
+				"Accept": "application/json",
+				"Content-Type": "application/json"
+			},
+			success: function(JSONData, status) {
+				console.log("inquiryContent : " + typeof JSONData.inquiryReplyStatus);
+				var displayValue = "<tr class='table_row getInquiryArea' id='" + JSONData.inquiryNumber + "'>"
+					+ "<td colspan='5' style='padding-left:40px;'> Q. " + JSONData.inquiryContent + "<br/>";
+				if (JSONData.inquiryReplyStatus) {
+					console.log("답변이 존재함");
+					displayValue += "A. " + JSONData.inquiryReplyContent + "<br/>"
+						+ "   " + JSONData.inquiryReplyDate
+						+ "</td>";
+				} else {
+					displayValue += "</td>";
+				}
+
+				displayValue += "</tr>";
+
+				$(".table_row.getInquiryArea").remove();
+
+				console.log("currentTr " + $(e).parent().parent().index());
+
+				$("#inquiryTable tr").eq($(e).parent().parent().index()).after(displayValue);
+			}
+		});
+}

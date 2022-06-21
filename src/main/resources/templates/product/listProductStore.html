@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/default_layout}">
+<html lang="ko" layout:decorate="~{layout/myPage_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset = "UTF-8">
     <title>상품 목록</title>
@@ -59,7 +59,6 @@
 		<form class="bg0 p-t-75 p-b-85" th:action="@{/product/getProductList?resultJsp=listProductStore}" method="post">
 			<div class="container">
 				<div class="row">
-					
 					<!-- 상품 -->
 					<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
 						<div class="m-l-25 m-r--38 m-lr-0-xl">

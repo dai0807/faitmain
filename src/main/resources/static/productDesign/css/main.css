@@ -786,10 +786,10 @@ button.mfp-close {
 }
 
 .swal-button {
-  background-color: #717fe0;
+  background-color: #efefef;
   font-family: Poppins-Regular;
   font-size: 16px;
-  color: white;
+  color: black;
   text-transform: uppercase;
   font-weight: unset;
   border-radius: 4px;
@@ -801,6 +801,7 @@ button.mfp-close {
 
 .swal-button:hover {
   background-color: #333;
+  color : white;
 }
 
 .swal-button:active {
@@ -1049,7 +1050,7 @@ input.num-product::-webkit-inner-spin-button {
 .table-shopping-cart {
   border-collapse: collapse;
   width: 100%;
-  min-width: 680px;
+  /*min-width: 680px;*/
 }
 
 .table-shopping-cart tr {
