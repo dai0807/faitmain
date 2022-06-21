@@ -37,4 +37,6 @@ public interface OrderService{
 
     /* 주문 총 개수 */
     int getOrderTotal( Paging paging ) throws Exception;
+
+    List<Order> getOrders( Order order );
 }

@@ -440,7 +440,8 @@
                             <tbody>
                             <tr>
                                 <th>보유 포인트</th>
-                                <td th:text = "${buyer.totalPoint}"></td>
+                                <td class="myPoint" th:text = "${buyer.totalPoint}"></td>
+                                <input class="totalPoint" type="hidden" th:value="${buyer.totalPoint}">
                                 <th>사용 포인트</th>
                                 <td>
                                     <input class = "order_point_input" th:value = "0"/>원
@@ -495,7 +496,7 @@
                             <input name="receiverAddress2" type="hidden">
                             <input name="receiverAddress3" type="hidden">
                             <!-- 사용 포인트 -->
-                            <input name="usePoint" type="hidden">
+                            <input name="usingPoint" type="hidden">
                             <!-- 상품 정보 -->
                         </form>
                     </div>

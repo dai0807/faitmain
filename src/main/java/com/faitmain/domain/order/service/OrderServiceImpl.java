@@ -82,8 +82,9 @@ public class OrderServiceImpl implements OrderService{
             trace.exception( status , e );
             throw e;
         }
-
     }
+
+
 
     /* 주문 */
     @Override
@@ -227,7 +228,10 @@ public class OrderServiceImpl implements OrderService{
         return orderMapper.selectOrderTotal( paging );
     }
 
-
+    @Override
+    public List<Order> getOrders( Order order ){
+        return orderMapper.selectOrders( order.getOrderNumber() );
+    }
 
 
     private void sleep( int millis ){
