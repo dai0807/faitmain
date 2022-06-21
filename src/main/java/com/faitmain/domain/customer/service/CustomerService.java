@@ -16,7 +16,6 @@
 //	
 ////	게시판 등록
 //	public int addCustomerBoard(Customer customer) throws Exception;
-////	
 ////	게시판 수정
 //	public int updateCustomerBoard(Customer customer) throws Exception;
 //	

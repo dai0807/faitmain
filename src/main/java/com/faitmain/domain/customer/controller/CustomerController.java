@@ -20,7 +20,6 @@
 //import com.faitmain.domain.customer.domain.Customer;
 //import com.faitmain.domain.customer.service.CustomerService;
 //import com.faitmain.domain.user.domain.User;
-//import com.faitmain.global.common.Criterion;
 //import com.faitmain.global.common.Page;
 //import com.faitmain.global.util.UiUtils;
 //import com.faitmain.global.util.security.SecurityUserService;
