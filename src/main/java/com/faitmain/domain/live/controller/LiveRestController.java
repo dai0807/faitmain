@@ -131,6 +131,154 @@ public class LiveRestController {
 
 		return data;
 	}
+	
+	@PostMapping("json/sanctionUserList")
+	public JSONArray sanctionUserList(HttpServletRequest req, Model model) throws Exception {
+
+		log.info("Controller = {} ", "/live/getLiveUserList : GET start...");
+
+		log.info("getLiveUserList = {} ", this.getClass());
+
+		// User user = (User) session.getAttribute("user");
+
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+
+		JSONObject result = null;
+		StringBuilder sb = new StringBuilder();
+
+		TrustManager[] trustCerts = new TrustManager[] { new X509TrustManager() {
+			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+				return null;
+			}
+
+			public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+			}
+
+			public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+			}
+		} };
+
+		SSLContext sc = SSLContext.getInstance("TLSv1.2");
+		sc.init(null, trustCerts, new java.security.SecureRandom());
+
+		URL url = new URL(
+				"https://vchatcloud.com/openapi/v1/exiles/" + liveService.getLiveByStoreId(user.getId()).getRoomId());
+
+		System.out.println("유우우우우우우우우ㅏㄹ엘    " + url);
+
+		HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+		conn.setSSLSocketFactory(sc.getSocketFactory());
+		conn.setRequestMethod("GET");
+		conn.setRequestProperty("accept", "*/*");
+		conn.setRequestProperty("API_KEY", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
+		conn.setRequestProperty("X-AUTH-TOKEN", getToken());
+		conn.setDoOutput(true);
+
+		// 데이터 입력 스트림에 답기
+		BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+		while (br.ready()) {
+			sb.append(br.readLine());
+		}
+		conn.disconnect();
+
+		result = (JSONObject) new JSONParser().parse(sb.toString());
+
+		// REST API 호출 상태 출력하기
+		StringBuilder out = new StringBuilder();
+		out.append(result.get("status") + " : " + result.get("status_message") + "\n");
+
+		// JSON데이터에서 "data"라는 JSONObject를 가져온다.
+		JSONArray data = (JSONArray) result.get("list");
+
+		
+		System.out.println("data : " + data);
+
+		log.info("Controller = {} ", "/live/getLiveUserList : GET end...");
+
+		
+		System.out.println("홀롤롤: "  + data);
+		
+		return data;
+		
+	}
+	@PostMapping("json/muteUserList")
+	public JSONArray muteUserList(HttpServletRequest req, Model model) throws Exception {
+
+		log.info("Controller = {} ", "/live/getLiveUserList : GET start...");
+
+		log.info("getLiveUserList = {} ", this.getClass());
+
+		// User user = (User) session.getAttribute("user");
+
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+
+		JSONObject result = null;
+		StringBuilder sb = new StringBuilder();
+
+		TrustManager[] trustCerts = new TrustManager[] { new X509TrustManager() {
+			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+				return null;
+			}
+
+			public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+			}
+
+			public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+			}
+		} };
+
+		SSLContext sc = SSLContext.getInstance("TLSv1.2");
+		sc.init(null, trustCerts, new java.security.SecureRandom());
+
+		URL url = new URL(
+				"https://vchatcloud.com/openapi/v1/mute/" + liveService.getLiveByStoreId(user.getId()).getRoomId());
+
+		System.out.println("유우우우우우우우우ㅏㄹ엘    " + url);
+
+		HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+		conn.setSSLSocketFactory(sc.getSocketFactory());
+		conn.setRequestMethod("GET");
+		conn.setRequestProperty("accept", "*/*");
+		conn.setRequestProperty("API_KEY", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
+		conn.setRequestProperty("X-AUTH-TOKEN", getToken());
+		conn.setDoOutput(true);
+
+		// 데이터 입력 스트림에 답기
+		BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+		while (br.ready()) {
+			sb.append(br.readLine());
+		}
+		conn.disconnect();
+
+		result = (JSONObject) new JSONParser().parse(sb.toString());
+
+		// REST API 호출 상태 출력하기
+		StringBuilder out = new StringBuilder();
+		out.append(result.get("status") + " : " + result.get("status_message") + "\n");
+
+		// JSON데이터에서 "data"라는 JSONObject를 가져온다.
+		JSONArray data = (JSONArray) result.get("list");
+
+
+		JSONObject tmp = null;
+		for (int i = 0; i < data.size(); i++) {
+			tmp = (JSONObject) data.get(i);
+			System.out.println("data[" + i + "] : " + tmp);
+		}
+		
+		
+		
+		
+		System.out.println("data : " + data);
+		System.out.println("홀롤롤: "  + data);
+		log.info("Controller = {} ", "/live/getLiveUserList : GET end...");
+
+		return data;
+	}
 
 //	@GetMapping("json/getLiveProduct")
 //	public Map<String, Object> getLiveProduct(@RequestBody LiveProduct liveProduct) throws Exception {
@@ -163,24 +311,24 @@ public class LiveRestController {
 		System.out.println("/live/json/sendMessage : POST end...");
 	}
 
-	@PostMapping("json/updateLiveUserStatus")
-	public void addLiveUserStatus(@RequestBody LiveUserStatus liveUserStatus) throws Exception {
-		System.out.println("/live/json/updateLiveUserStatus : POST start...");
-
-		if (liveService.getLiveUserStatus(liveUserStatus) == null) {
-			System.out.println("addLiveUserStatus start...");
-			System.out.println("result : " + liveService.addLiveUserStatus(liveUserStatus));
-			System.out.println(liveUserStatus);
-			System.out.println("addLiveUserStatus end...");
-		} else {
-			System.out.println("updateLiveUserStatus start...");
-			System.out.println("result : " + liveService.updateLiveUserStatus(liveUserStatus));
-			System.out.println(liveUserStatus);
-			System.out.println("updateLiveUserStatus end...");
-		}
-
-		System.out.println("/live/json/updateLiveUserStatus : POST end...");
-	}
+//	@PostMapping("json/updateLiveUserStatus")
+//	public void addLiveUserStatus(@RequestBody LiveUserStatus liveUserStatus) throws Exception {
+//		System.out.println("/live/json/updateLiveUserStatus : POST start...");
+//
+//		if (liveService.getLiveUserStatus(liveUserStatus) == null) {
+//			System.out.println("addLiveUserStatus start...");
+//			System.out.println("result : " + liveService.addLiveUserStatus(liveUserStatus));
+//			System.out.println(liveUserStatus);
+//			System.out.println("addLiveUserStatus end...");
+//		} else {
+//			System.out.println("updateLiveUserStatus start...");
+//			System.out.println("result : " + liveService.updateLiveUserStatus(liveUserStatus));
+//			System.out.println(liveUserStatus);
+//			System.out.println("updateLiveUserStatus end...");
+//		}
+//
+//		System.out.println("/live/json/updateLiveUserStatus : POST end...");
+//	}
 
 	// LIVE RESERVATION
 	@GetMapping("json/getLiveReservationCal")
@@ -291,13 +439,26 @@ public class LiveRestController {
 //	}
 
 	// 유저 강제퇴장
-	@GetMapping("json/kickUser/{roomId}/{clientKey}")
-	public void kickUser(@PathVariable("roomId") String roomId, @PathVariable("clientKey") List<String> clientKey)
+	@GetMapping("json/kickUser/{roomId}/{clientKey}/{nickName}")
+	public void kickUser(@PathVariable("roomId") String roomId, @PathVariable("clientKey") List<String> clientKey, @PathVariable("nickName") List<String> nickName)
 
 			throws Exception {
 
 		log.info("editRoom = {} ", this.getClass());
-		System.out.println("방송 정보 수정");
+		
+		//DB에 강제퇴장 내용 등록
+		
+		LiveUserStatus live = new LiveUserStatus();
+		for (String nick : nickName) {
+			live.setLiveNumber(liveService.getLiveNumberByRoomId(roomId).getLiveNumber());
+			live.setNickName(nick);
+			live.setKickStatus(1);
+			
+			liveService.addLiveUserStatus(live);
+			
+			System.out.println(live);
+		}
+		
 
 		String token = getToken();
 

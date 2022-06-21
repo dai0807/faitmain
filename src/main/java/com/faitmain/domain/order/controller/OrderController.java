@@ -7,25 +7,19 @@ import com.faitmain.domain.order.service.OrderServiceImpl;
 import com.faitmain.domain.order.service.PaymentServiceImpl;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserServiceImpl;
-import com.faitmain.global.common.Criterion;
+import com.faitmain.global.common.Paging;
 import com.faitmain.global.common.Page;
-import com.faitmain.global.util.security.SecurityUserService;
+import com.faitmain.global.util.log.LogTrace;
+import com.faitmain.global.util.log.TraceStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.client.HttpClientErrorException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -40,39 +34,40 @@ public class OrderController{
     private PaymentServiceImpl paymentService;
 
     @Autowired
-    private UserServiceImpl userSerivce;
+    private UserServiceImpl userService;
 
     @Autowired
-    private SecurityUserService securityUserService;
+    private LogTrace trace;
 
-
-    @PostMapping( "/{buyerId}" )
+    @GetMapping( "/{buyerId}" )
     public String orderPage( @PathVariable String buyerId , OrderPage orderPage , Model model ){
 
-
-        model.addAttribute( "orderPageProductList" , orderService.getOrderPageProductList( orderPage.getOrderPageProductList() ) );
-        model.addAttribute( "buyer" , orderService.getBuyer( buyerId ) );
-
-        log.info( "orderPageProductList = {} " , orderPage.getOrderPageProductList() );
-        log.info( "buyer = {} " , orderService.getBuyer( buyerId ) );
-
-        return "order";
+        TraceStatus status = null;
+        try {
+            status = trace.begin( "OrderController.orderPage()" );
+            model.addAttribute( "orderPageProductList" , orderService.getOrderPageProductList( status.getTraceId() , orderPage.getOrderPageProductList() ) );
+            model.addAttribute( "buyer" , orderService.getBuyer( status.getTraceId() , buyerId ) );
+            log.info( "orderPageProductList = {} " , orderPage.getOrderPageProductList() );
+            log.info( "buyer = {} " , orderService.getBuyer( status.getTraceId() , buyerId ) );
+            trace.end( status );
+            return "order";
+        } catch ( Exception e ) {
+            trace.exception( status , e );
+            throw e;
+        }
     }
-
-
 
 
     /* IAMPORT 결제 로직 */
     @PostMapping( "/complete" )
-    public String paymentComplete( Order order ) throws IOException{
 
-        User user = new User();
-        user.setId( order.getBuyerId() );
-        try {
-            userSerivce.getUser( user.getId() );
-        } catch ( Exception e ) {
-            e.printStackTrace();
-        }
+    public String paymentComplete( Order order , Paging paging , Model model ) throws Exception{
+
+        TraceStatus status = null;
+
+        User user = userService.getUser( order.getBuyerId() );
+        log.info( "user = {}" , user );
+
 
         // 1. 아임포트 API 키와 SECRET키로 토큰을 생성
         String token = paymentService.getToken();
@@ -105,11 +100,23 @@ public class OrderController{
                     log.info( "/* 로그인 하지 않았는데 포인트가 사용되었을 때 */" );
                     paymentService.paymentCancel( token , order.getImpUid() , amount , "비회원 포인트사용 오류" );
                     return "index";
+
                 }
             }
 
             orderService.addOrder( order );
-            return "order/list";
+
+//            List<Order> orderList = orderService.getOrderList( paging );
+//
+//            if ( !orderList.isEmpty() ) {
+//                model.addAttribute( "orderList" , orderList );
+//                model.addAttribute( "pageMaker" , new Page( paging , orderService.getOrderTotal( paging ) ) );
+//            } else {
+//                model.addAttribute( "listCheck" , "empty" );
+//            }
+
+            return "order/orderList";
+
 
         } catch ( Exception e ) {
             paymentService.paymentCancel( token , order.getImpUid() , amount , "결제 에러" );
@@ -119,36 +126,22 @@ public class OrderController{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /* ************************* ADMIN *************************** */
 
     /* 주문현황 페이지*/
     @GetMapping( "/list" )
-    public String orderList( Criterion criterion , Model model ){
+    public String orderList( Paging paging , Model model ){
 
-        List<Order> orderList = orderService.getOrderList( criterion );
-        if ( !orderList.isEmpty() ) {
-            model.addAttribute( "orderList" , orderList );
-            model.addAttribute( "pagemMaker" , new Page( criterion , orderService.getOrderTotal( criterion ) ) );
+        List<Order> list = orderService.getOrderList( paging );
+        log.info( "orderList = {}" , list );
+        if ( !list.isEmpty() ) {
+            model.addAttribute( "list" , list );
+            model.addAttribute( "pageMaker" , new Page( paging , orderService.getOrderTotal( paging ) ) );
         } else {
             model.addAttribute( "listCheck" , "empty" );
         }
-        return "admin/orderList";
+        log.info( "model = {}" , model );
+        return "order/orderList";
     }
 
     /* 주문삭제 */
@@ -156,17 +149,12 @@ public class OrderController{
     public String orderCancel( OrderCancel orderCancel ) throws Exception{
 
         orderService.cancelOrder( orderCancel );
-        return "redirect:admin/orderList?keyword=" + orderCancel.getKeyword() + "&PageAmount=" + orderCancel.getPageAmount() + "&pageNumber" + orderCancel.getPageNumber();
+        return "redirect:admin/orderList?keyword=" + orderCancel.getKeyword()
+                + "&PageAmount=" + orderCancel.getPageAmount()
+                + "&pageNumber" + orderCancel.getPageNumber();
     }
 
-
-    @GetMapping( "/pay" )
-    public String pay( @AuthenticationPrincipal SecurityUserService securityUserService ){
-
-        return "order/sample";
-    }
 }
-
 
 
 

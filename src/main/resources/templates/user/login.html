@@ -16,7 +16,6 @@
     <script crossorigin = "anonymous" src = "https://kit.fontawesome.com/10b89606ac.js"></script>
     <script src = "https://developers.kakao.com/sdk/js/kakao.js"></script>
 
-
     <script type = "text/javascript">
     
     
@@ -87,13 +86,24 @@
 			}
 			
     		function findId(){
- 					self.location="/user/findId";
+ 					
+ 						popWin 
+				= window.open("/user/findId",
+											"popWin", 
+											"top=200,left=300,width=780,height=550,marginwidth=0,marginheight=0,"+
+											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
+				
+ 					
 	
 			}			
 			
     		function findPassword(){
- 					self.location="/user/findPassword";
-	
+ 				//	self.location="/user/findPassword";
+						popWin 
+				= window.open("/user/findPassword",
+											"popWin", 
+											"top=200,left=300,width=780,height=550,marginwidth=0,marginheight=0,"+
+											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
 			}
 				
     		function addStore(){
@@ -150,15 +160,14 @@
 
                                 <input class = "fadeIn second" id = "id" name = "id" placeholder = "login" type = "text">
                                 <input class = "fadeIn third" id = "password" name = "password" placeholder = "password" type = "password">
-                                <input ; class = "fadeIn fourth " id = "loginButton" style = "margin-bottom: 5px" type = "submit" value = "Log In">
+                                <input  class = "fadeIn fourth " id = "loginButton" style = "margin-bottom: 5px; padding:15px 94px;" type = "submit" value = "Log in"    />
                                 <!--  라이브 오빠들 카카오 로그인 할때는 밑에서 다른 사람은 밑에 꺼 -->
                                 <!--      <a class="p-2" th:href="@{https://kauth.kakao.com/oauth/authorize?client_id=f0b36852932e865ae00c9ff2fcd19874&redirect_uri=https://fait-main.kro.kr:8080/user/kakaoLogin&response_type=code}"> -->
-                                <a class = "p-2"
-                                   th:href = "@{https://kauth.kakao.com/oauth/authorize?client_id=f0b36852932e865ae00c9ff2fcd19874&redirect_uri=http://localhost:8080/user/kakaoLogin&response_type=code}">
-
-                                    <img src = "/img/kakao_login_medium_narrow.png" style = "height:50px">
+                        
                                     <!--  	 <img src="/img/kakao_login_medium_narrow.png" style="height:60px"> -->
-                                </a>
+                               <!--   </a>
+                              <a class = "p-2"  th:href = "@{/oauth2/authorization/naver}">네이버 로그인 </a>  -->
+                                <a class = "p-2"   href = "/oauth2/authorization/naver"> <img src = "/img/btnG_official.png"style = "height:50px;"  > </a> 
 
 
                         </form>

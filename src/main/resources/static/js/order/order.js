@@ -61,8 +61,8 @@ $(document).ready(function () {
     $(".order_btn").on("click", function () {
 
         /* 주소 정보 & 받는이*/
-        $(".addressInfo_input_div").each(function(i, obj){
-            if($(obj).find(".selectAddress").val() === 'T'){
+        $(".addressInfo_input_div").each(function (i, obj) {
+            if ($(obj).find(".selectAddress").val() === 'T') {
                 $("input[name='receiverName']").val($(obj).find(".address0_input").val());
                 $("input[name='receiverAddress1']").val($(obj).find(".address1_input").val());
                 $("input[name='receiverAddress2']").val($(obj).find(".address2_input").val());
@@ -88,14 +88,12 @@ $(document).ready(function () {
 
         });
 
-
-
         $(".order_form").append(form_contents);
 
         /* 정보 */
         const data = {
             amount: finalTotalPriceToAPI,
-            orderNumber: createOrderNum(),
+            orderNumber: new Date().getUTCMilliseconds(),
             receiverPhone: $("#receiverPhone").val(),
             // receiverName: $("#buyerName").val(),
             // receiverAddress1: $("#receiverAddress1").val(),
@@ -125,10 +123,10 @@ $(document).ready(function () {
 
                 let impUid = "<input id='impUid' name='impUid' type='hidden' value='" + rsp.imp_uid + "'>";
                 let merchantUid = "<input id='orderNumber' name='orderNumber' type='hidden' value='" + rsp.merchant_uid + "'>";
-                let amount = "<input id='orderFinalSalePrice' name='orderFinalSalePric' type='hidden' value='" + rsp.amount + "'>";
+                // let amount = "<input id='orderFinalSalePrice' name='orderFinalSalePrice' type='hidden' value='" + rsp.amount + "'>";
 
 
-                let appendData = impUid + merchantUid + amount;
+                let appendData = impUid + merchantUid;
 
                 $('.order_form').append(appendData);
 
@@ -144,20 +142,19 @@ $(document).ready(function () {
 });
 
 
-
-/* 주문번호 만들기 */
-function createOrderNum() {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-
-    let orderNumber = parseInt(year + month + day);
-    for (let i = 0; i < 10; i++) {
-        orderNumber += Math.floor(Math.random() * 8);
-    }
-    return orderNumber;
-}
+// /* 주문번호 만들기 */
+// function createOrderNum() {
+//     const date = new Date();
+//     const year = date.getFullYear();
+//     const month = String(date.getMonth() + 1).padStart(2, "0");
+//     const day = String(date.getDate()).padStart(2, "0");
+//
+//     let orderNumber = parseInt(year + month + day);
+//     for (let i = 0; i < 10; i++) {
+//         orderNumber += Math.floor(Math.random() * 8);
+//     }
+//     return orderNumber;
+// }
 
 /* 주소입력란 버튼 숨김 & 표시 */
 function showAddress(className) {

@@ -82,8 +82,13 @@ $(function () {
 					var selectRes = confirm(confirmText + "\n" + "장바구니로 이동하시겠습니까?");
 					
 					if(selectRes){ // 장바구니 이동
+					
 						let buyerId = $("input[name=buyerId]").val();
+						
+						console.log("buyerId : " + buyerId);
+									
 						self.location = "/cart/" + buyerId;
+						
 					}else{ }// 장바구니 이동 취소
 					
 				},
@@ -277,6 +282,41 @@ $(function () {
 		} else { //로그인 안했을 때
 			self.location = "/user/login";
 		}
+	});
+	
+	
+			
+	$(".getInquiry").on("click", function() {
+
+		let inquiryNumber = $(this).children("input[type=hidden]").val();
+		console.log("inquiryNumber : " + inquiryNumber);
+
+		$.ajax(
+			{
+				url: "/inquiry/json/getInquiry/" + inquiryNumber,
+				method: "GET",
+				dataType: "json",
+				headers: {
+					"Accept": "application/json",
+					"Content-Type": "application/json"
+				},
+				success: function(JSONData, status) {
+					console.log("inquiryContent : " + typeof JSONData.inquiryReplyStatus);
+					var displayValue = "<h6>"
+						+ "<p>문의 제목 : " + JSONData.inquiryTitle + "</p>"
+						+ "<p>문의 내용 : " + JSONData.inquiryContent + "</p>"
+						+ "<p>문의 id : " + JSONData.userId + "</p>";
+					if (JSONData.inquiryReplyStatus) {
+						console.log("aaaa ");
+						displayValue += "<p>답변 날짜 : " + JSONData.inquiryReplyDate + "</p>"
+							+ "<p>답변 내용 : " + JSONData.inquiryReplyContent + "</p>"
+					} 
+
+					$("h6").remove();
+					$(this).parent().parent().find(".getInquiryArea").html(displayValue);
+
+				}
+			})
 	});
 	
 });

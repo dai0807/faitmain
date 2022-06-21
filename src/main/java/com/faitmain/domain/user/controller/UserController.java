@@ -10,8 +10,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -45,8 +47,6 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController{
 
 
-//    @Autowired
-//    private BCryptPasswordEncoder pwdEncoder;
 
 
     // Field
@@ -69,10 +69,9 @@ public class UserController{
 // 보안을 위해 사용함 
     @Autowired
     private PasswordEncoder pwdEncoder;
-//    
-//    @Qualifier( "securityUser" )
-//    @Autowired
-//    private SecurityUserService securityUser;
+    
+     @Autowired
+    private SecurityUserService securityUserService;
     
     
     public UserController(){
@@ -330,18 +329,37 @@ public class UserController{
 		
 		   
 		   log.info("getUserList  도착 !! ");
-		 
+		   log.info("getUserList searchCondition ={}", searchCondition);
+
 		   Map<String, Object> searchMap = new HashMap<>();
 		   
-		   if( searchCondition != null) {
-			   log.info("getUserList searchCondition ={}", searchCondition);
-
+		   if(searchCondition != null && searchCondition.equals("store")  ) {
 			   searchMap.put("searchCondition", searchCondition) ;
+
+			   searchMap.put("searchkeword", searchCondition) ;
+			   
+		   }else if(searchCondition != null && searchCondition.equals("user")) {
+			   searchMap.put("searchkeword", searchCondition) ;  
+			   searchMap.put("searchCondition", searchCondition) ;
+
+		   } else {
+			   searchMap.put("searchkeword", "ALL") ;
+
+			   searchMap.put("searchCondition", "ALL") ;
+
 		   }
+		   
+
+		   
 		   List<User> userList = userSerivce.getlist(searchMap) ;
 		   for(User user : userList) {
 			   System.out.println("getUserlist : 유저 출력"+user);
 		   }
+		   
+		   
+		   
+		   
+		   
 		   
 		   
 		   
@@ -554,24 +572,49 @@ public class UserController{
 
     // RedirectView longin( RedirectAttributes model ,
     //kakao회원 추가 가입
-    @PostMapping( "kakaoaddUser" )
-    public RedirectView kakaoaddUser( @RequestParam( value = "code", required = false ) String code , RedirectAttributes model ,
+    @PostMapping( "addSnsUser" )
+    public RedirectView addSnsUser( @RequestParam( value = "code", required = false ) String code , RedirectAttributes model ,
                                       @ModelAttribute( "user" ) User kuser , HttpSession session ) throws Exception{
-        log.info( "##code {} ##" , code );
-        log.info( "##kuser {} ##" , kuser );
+//        log.info( "##code {} ##" , code );
+//        log.info( "##kuser {} ##" , kuser );
+//
+//        kuser.setRole( "user" );
+//
+//        kuser.setPassword( "12345" ); //  패스워드 고정
+//        kuser.setJoinPath( "KAKAO" ); // 카카오는 KAKAO로 고정 , 자사는 HOME 로 고정, 네이버 NAVER
 
-        kuser.setRole( "user" );
-
-        kuser.setPassword( "12345" ); //  패스워드 고정
-        kuser.setJoinPath( "KAKAO" ); // 카카오는 K로 고정 , 자사는 H 로 고정
-
-        log.info( "##kuser {} ##" , kuser );
-        log.info( "회원가입이 완료 되었습니다. " );
+        log.info( "##kuser {}  sns USER 추가 창에 왔습니다. ##"  );
+        log.info( "##kuser {}  sns USER 추가 창에 왔습니다. ##" , kuser );
 
         int result = userSerivce.addUser( kuser );
         log.info( "##kakaoUser 결과  {} ##" , result );
 
-        session.setAttribute( "user" , kuser );
+        kuser = userSerivce.getUser(kuser.getId()) ;
+        log.info( "##kuser {}  getUSer 함  ##" , kuser );
+   
+
+			if( result ==1   ) {
+				
+				
+				SecurityUserService securityUserService = new SecurityUserService(kuser);   //  디테일 섭스를 다시 만들어서 주입
+
+			     Authentication authentication =
+			  		   new UsernamePasswordAuthenticationToken(securityUserService,  null , securityUserService.getAuthorities() ) ;
+			  			SecurityContext securityContext =SecurityContextHolder.getContext() ; //SecurityContextHolder 안에 있는 컨텍스트에 접근 
+				
+				
+			  	        log.info( "##authentication  ##" , authentication );
+
+				
+				
+			}
+        
+	        log.info( "회원가입이 완료 되었습니다. " );
+
+        
+        
+        
+        
 
 
         Map<String, Object> map = new HashMap<>();
@@ -637,49 +680,50 @@ public class UserController{
 
     }
 
-    //find PW Rest Control로 갈 운명
-    @PostMapping( "findPw" )
-    public String findPw( @ModelAttribute( "user" ) User user , Model model ) throws Exception{
+    
+//    
+//    // find Id Rest Control로 갈 운명
+    @GetMapping( "findPassword" )
+    public String findPassword( ){
 
-        log.info( "##findPw {} ##" , user );
-
-
-        Map<String, Object> map = new HashMap<>();
-        map.put( "phoneNumber" , user.getPhoneNumber() );
-        map.put( "id" , user.getId() );
+        log.info( "###Stat###findUserPassword ={} ##"   );
 
 
-        log.info( "findPW {}" , userSerivce.findUser( map ) );
-
-        if ( userSerivce.findUser( map ) == 1 ) {
-
-            model.addAttribute( "user" , user );
-
-
-            return ( "forward:/user/updatePassword.jsp" );
-
-
-        } else {
-            return ( "forward:/main" );
-
-        }
+        return ( "/user/findUserPassword" );
 
 
     }
+    
+//  
+//  // find Id Rest Control로 갈 운명
+  @GetMapping( "index" )
+  public String index( ){
+
+      log.info( "###index###index ={} ##"   );
+
+
+      return ( "/user/index" );
+
+
+  }
+   
+ 
 
     //유저 상세 정보
     //			//id가 있으면 list에서 온거 , 아니면 내 정보 조회에서 온 것
 //getUser 유저 상세    // 변자기돈 getUSer시 아이디 날라가기 
     @GetMapping( "getUser" )
-    public String getUser( Model model , @RequestParam( value = "id", required = false ) String id ) throws Exception{
+    public String getUser( Model model , @RequestParam( value = "id", required = false ) String id 
+    		// , @AuthenticationPrincipal SecurityUserService securityUserService 
+    		 ) throws Exception{
 
         log.info( " GestUSer에 옴 출력하라 id  {}" , id );
         User user = null;
 
         if ( id == null ) {
         	
-    		SecurityUserService securityUserService = ( SecurityUserService )SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
-          	    user = securityUserService.getUser();
+    	  securityUserService = ( SecurityUserService )SecurityContextHolder.getContext().getAuthentication().getPrincipal();   //principal 에 사용자 인증 정보 담음
+           user = securityUserService.getUser();
          
         	log.info(" 로그인한 유저   ={} ", securityUserService.getUser() );
         	
@@ -695,6 +739,13 @@ public class UserController{
             user.setStoreApplicationDocumentNumber( storeNumber );
         }
 
+        
+ 
+        
+        
+        
+        
+        
         log.info( " 출력하라 getUSer {}" , user );
 
 
@@ -712,7 +763,7 @@ public class UserController{
 
         model.addAttribute( "StoreApplicationDocument" , storeApplicationDocument );
 
-        return "/user/getStoreApplicationDocument";
+        return "/user/getStoreApplicationDocument2";
     }
 
 
@@ -722,7 +773,7 @@ public class UserController{
         log.info( " start !!  addStoreApplicationDocument " );
 
 
-        return "/user/addStoreApplicationDocument";
+        return "/user/addStoreApplicationDocument2";
     }
 
 
@@ -738,10 +789,13 @@ public class UserController{
 
             int addStoreApplicationNumber = userSerivce.getStoreApplicationDocumenNumber( storeApplicationDocument.getId() );
             storeApplicationDocument.setStoreApplicationDocumentNumber( addStoreApplicationNumber );
-
+            storeApplicationDocument.setExaminationStatus("W"); //대기 
+            log.info( "StoreApplicationDocument {}" , storeApplicationDocument );
 
         }
 
+        
+        
 
         model.addAttribute( "StoreApplicationDocument" , storeApplicationDocument );
 
@@ -749,5 +803,70 @@ public class UserController{
         return "/user/getStoreApplicationDocument";
     }
 
+    
+    
+    
+    
+    @PostMapping( "/updateStoreApplicationDocument")
+    public String updateStoreApplicationDocument(   Model model ,StoreApplicationDocument storeApplicationDocument ) throws Exception{
+        log.info( " 그냥 커트롤러 updateStoreApplicationDocument 에 들어옴 ");
+
+        log.info( "  들어온 값 storeApplicationDocument {}" , storeApplicationDocument );
+        System.out.println(storeApplicationDocument) ; 
+        String returnResult = "";
+        int result = userSerivce.updateStoreApplicationDocument( storeApplicationDocument );
+        log.info( "##  결과  {} ##" , result );
+
+        //신청서 심사 UPDATE가 성공 적일떄
+        if ( result == 1 ) {
+
+            //스토어 정보 가져오기
+            storeApplicationDocument = userSerivce.getStoreApplicationDocument( storeApplicationDocument.getStoreApplicationDocumentNumber() );
+            if ( storeApplicationDocument.getExaminationStatus().equals( "A" ) ) {  //A 승인일때
+
+                Map<String, Object> map = new HashMap<>();
+                map.put( "role" , "store" );
+                map.put( "id" , storeApplicationDocument.getId() );
+                log.info( "map 값은 :  {}" , map );
+                result = 0;
+                result = userSerivce.updateUserStore( map );
+                log.info( "##신청서 승인된 User , Role 권한 상승  결과  {} ##" , result );
+
+            }
+
+            returnResult = storeApplicationDocument.getExaminationStatus(); // 스토어 신청서 상태 리턴
+            System.out.println("결과 ={} " +returnResult ) ; 
+
+             
+        } else {
+            returnResult = "error";  // result 값이 1이 아니면 update 실패 한거
+            System.out.println("결과 ={} " +returnResult ) ; 
+            
+        }
+
+        model.addAttribute( "StoreApplicationDocument" , storeApplicationDocument );
+        return "/user/getStoreApplicationDocument2";
+    }
+
+    
+    
+    
+    
+    //스토어 재 신청 Add
+    @GetMapping( "withdrawUser" )
+    public String withdrawUser( ) throws Exception{
+        System.out.println("withdrawUser"  ) ; 
+
+
+ 
+ 
+        return "/user/withdrawUser";
+    }
+
+    
+    
+    
+    
+    
 
 }
