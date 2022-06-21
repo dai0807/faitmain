@@ -85,7 +85,7 @@ public class SecurityOauthUserService extends   DefaultOAuth2UserService {
           
             
             String providerId = oAuth2UserInfo.getProviderId();	//수정
-            String password = provider+"_"+snsUserid;  	 // 암호화 예정 
+            String password = provider+"_"+snsUserid ;  	 // 암호화 예정 
 
             user=usermapper.getUser(snsUserid) ;
     	 
@@ -98,6 +98,8 @@ public class SecurityOauthUserService extends   DefaultOAuth2UserService {
     	           System.out.println("유저 없음");
     	           User user2 = new User() ; 
     	           user2.setId(snsUserid)   	;
+    	           user2.setName(oAuth2UserInfo.getName() );
+    	           
     	           user2.setPassword(password);   
     	           user2.setNickname(userNickName);
     	           user2.setRole( "user" );

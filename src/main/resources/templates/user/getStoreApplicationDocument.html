@@ -1,234 +1,251 @@
 <!DOCTYPE html>
-<html layout:decorate = "~{layout/myPage_layout}"
-      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout" >
- 
+<html layout:decorate="~{layout/myPage_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 
 <head>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-     <link href="/css/styles.css" rel="stylesheet" />
-     <link href = "/user/css/form.css" rel = "stylesheet"/>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<link href="/css/styles.css" rel="stylesheet" />
+	<link href="/user/css/form.css" rel="stylesheet" />
 
-    <meta charset = "UTF-8">
-    <title>상세정보 </title>
-    <style>
-    
-	  .form-group{
- 
-		margin-top:10px ;
- 	 
+	<meta charset="UTF-8">
+	<title>상세정보 </title>
+	<style>
+		.form-group {
+
+			margin-top: 10px;
+
 		}
-		.div_css{
+
+		.div_css {
 			margin: 0 0 1.5em 0;
 		}
-		form-horizontal{font-family: 'Nanum Gothic Coding', monospace;}
-		 
-    </style>
 
- <script type = "text/javascript">
+		form-horizontal {
+			font-family: 'Nanum Gothic Coding', monospace;
+		}
+	</style>
 
-
-/*
-function showValue(target){
- console.log(target.value);	
- let examinationStatus = target.value ;
-}
-*/
- 
-   $(function () {
-	$("#button").on("click",function(){
-		
-	
-                         //alert("버튼울림 :: ") ;
-
-   var formData = $("#form").serialize() ;
- // alert(formData) ;
-		$.ajax({
-			 url: "/user/json/updateStoreApplicationDocument" ,
-			 type: 'POST',
-			 data: formData , 
-		//	 dataType : 'json',
-
-                        success: function (data) { //컨트롤러에서 넘어온 cnt값을 받는다
-                        
-                      
-                        
-                        	if(data =='W'){
-	
-							}else if (data =='A'){
-								
-								
-								$("#examinationStatus").val("승인")
-								$("#StoreApplicationDocumentinfo").css("display","none"); // 심사 영역 안보이게
- 
-								
-								
-							}else if(data =='R'){
-							 $("#examinationStatus").val("반려")
-								$("#StoreApplicationDocumentinfo").css("display","none"); // 심사 영역 안보이게
-
-							}
-							
-                          alert("결과 :: " + data) ;
-                        
-                        } 
-           
-			
-		}) //ajax 괄호
-			
-			
-		 
-		
- 
-	}) ;
-	
-} );	
+	<script type="text/javascript">
 
 
-</script>
-    
+		/*
+		function showValue(target){
+		 console.log(target.value);	
+		 let examinationStatus = target.value ;
+		}
+		*/
+
+		$(function () {
+			$("#button").on("click", function () {
+
+
+				//alert("버튼울림 :: ") ;
+
+				var formData = $("#form").serialize();
+				// alert(formData) ;
+				$.ajax({
+					url: "/user/json/updateStoreApplicationDocument",
+					type: 'POST',
+					data: formData,
+					//	 dataType : 'json',
+
+					success: function (data) { //컨트롤러에서 넘어온 cnt값을 받는다
+
+
+
+						if (data == 'W') {
+
+						} else if (data == 'A') {
+
+
+							$("#examinationStatus").val("승인")
+							$("#StoreApplicationDocumentinfo").css("display", "none"); // 심사 영역 안보이게
+
+
+
+						} else if (data == 'R') {
+							$("#examinationStatus").val("반려")
+							$("#StoreApplicationDocumentinfo").css("display", "none"); // 심사 영역 안보이게
+
+						}
+
+						alert("결과 :: " + data);
+
+					}
+
+
+				}) //ajax 괄호
+
+
+
+
+
+			});
+
+		});
+
+
+	</script>
+
 </head>
 
 <body>
-	<article  class="py-5" layout:fragment="content"  >
-	    <div class = "container col-lg-3">
-    </div>
+	<article class="py-5" layout:fragment="content">
+		<div class="container col-lg-3">
+		</div>
 
 
 
 
 
 
-		<div  class="container col-lg-6 ">
+		<div class="container col-lg-6 ">
 			<div>
-			 <section>
+				<section>
 
-			 
-			        <div class = "text-center">
-			            <h3  > 스토어 신청서</h3>
-			            <p class = "lead fw-normal text-muted "> 등록하신 스토어 신청서 입니다.  </p>
-			        </div>
-				 <div class="col-12">
-              <div class="card">	
-              
-              <p>		
-					  	 <form id="form">    	
-					  	 		<div class="form-group">
-			
-								    <div class="div_css">
-								   <p> 	 
-								 
-								   
-								   
-								       <img class = "img-thumbnail" id="user_image" name="storeLogoImage" th:src="@{/img/upload/} +${StoreApplicationDocument.storeLogoImage}" />
-	    																    <h5>[[${StoreApplicationDocument.storeName}]]</h5>
 
-								   </p>
-	    
-	    
-	    
-	    
-									<input type="hidden"  th:id="storeApplicationDocumentNumber" th:name="storeApplicationDocumentNumber"    th:value="${StoreApplicationDocument.storeApplicationDocumentNumber}"  >
-					
-							   		 <h5  > 아이디</h5>
-								    <input type="text" class="form-control" th:id="id" th:name="id"  th:value="${StoreApplicationDocument.id}"  readonly>  
-								
-								    </div>
-					  	 		</div> 
-					  	 		  
-					  	 		<div class="form-group">
-								    <div class="div_css">
-			
-									  	<h5  > 이름 </h5>
-			 							   <input type="text" class="form-control" th:id="storeName" th:name="storeName"  th:value="${StoreApplicationDocument.storeName}"  readonly>  
-								 
-										    </div>
-					  	 		</div>	    
-					  	 		<div class="form-group">
-								    <div class="div_css">
-						    
-							      	<h5  > 스토어 소개 </h5>
-			 						   <input type="text" class="form-control" th:id="storeIntroduction" th:name="storeIntroduction"  th:value="${StoreApplicationDocument.storeIntroduction}"  readonly>  
-							 
-							  		  </div>
-					  	 		</div>	  
-						    
-					  	 		<div class="form-group">
-									   	<h5  > 스토어 심사 상태 </h5>
-									  <input th:if="${StoreApplicationDocument.examinationStatus =='W'}" id="examinationStatus" type="text" class="form-control"  value="대기"  disabled>  
-									  <input th:if="${StoreApplicationDocument.examinationStatus =='A'}" id="examinationStatus" type="text" class="form-control"  value="승인"  disabled>  
-									  <input th:if="${StoreApplicationDocument.examinationStatus =='R'}"  id="examinationStatus" type="text" class="form-control"  value="반려"  disabled>  
-						
-						 	 <br><br/>
-						    	</div>	
-						     <div class="form-group">
-					    
-								    <div class="div_css">
-								   	<h5  > 제품소개 및 심사 사진  </h5>
-					<hr/>
-						 				<span th:utext=${StoreApplicationDocument.productDetial}></span>
-								    </div>			  
-						     </div>
-						  
-						  <div sec:authorize="hasRole('admin')">
-							  <div id="StoreApplicationDocumentinfo" th:if="${StoreApplicationDocument.examinationStatus =='W'}" >
-			
-			 				 <br><br>  <hr>
-					  	 		<div class="form-group">
-								    
-								     	<h5  > 심사  </h5>
-					 
-								     
-											<select   th:id="examinationStatus"    name="examinationStatus" >
-											  <option value="W" selected="selected">대기</option>
-											  <option value="A">승인</option>
-											  <option value="R" >반려</option>
+					<div class="text-center">
+						<h3> 스토어 신청서</h3>
+						<p class="lead fw-normal text-muted "> 등록하신 스토어 신청서 입니다. </p>
+					</div>
+					<div class="col-12">
+						<div class="card">
+
+							<p>
+							<form id="form">
+								<div class="form-group">
+
+									<div class="div_css">
+										<p>
+
+
+
+											<img class="img-thumbnail" id="user_image" name="storeLogoImage"
+												th:src="@{/img/upload/} +${StoreApplicationDocument.storeLogoImage}" />
+										<h5>[[${StoreApplicationDocument.storeName}]]</h5>
+
+										</p>
+
+
+
+
+										<input type="hidden" th:id="storeApplicationDocumentNumber"
+											th:name="storeApplicationDocumentNumber"
+											th:value="${StoreApplicationDocument.storeApplicationDocumentNumber}">
+
+										<h5> 아이디</h5>
+										<input type="text" class="form-control" th:id="id" th:name="id"
+											th:value="${StoreApplicationDocument.id}" readonly>
+
+									</div>
+								</div>
+
+								<div class="form-group">
+									<div class="div_css">
+
+										<h5> 이름 </h5>
+										<input type="text" class="form-control" th:id="storeName" th:name="storeName"
+											th:value="${StoreApplicationDocument.storeName}" readonly>
+
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="div_css">
+
+										<h5> 스토어 소개 </h5>
+										<input type="text" class="form-control" th:id="storeIntroduction"
+											th:name="storeIntroduction"
+											th:value="${StoreApplicationDocument.storeIntroduction}" readonly>
+
+									</div>
+								</div>
+
+								<div class="form-group">
+									<h5> 스토어 심사 상태 </h5>
+									<input th:if="${StoreApplicationDocument.examinationStatus =='W'}"
+										id="examinationStatus" type="text" class="form-control" value="대기" disabled>
+									<input th:if="${StoreApplicationDocument.examinationStatus =='A'}"
+										id="examinationStatus" type="text" class="form-control" value="승인" disabled>
+									<input th:if="${StoreApplicationDocument.examinationStatus =='R'}"
+										id="examinationStatus" type="text" class="form-control" value="반려" disabled>
+
+									<br><br />
+								</div>
+								<div class="form-group">
+
+									<div class="div_css">
+										<h5> 제품소개 및 심사 사진 </h5>
+										<hr />
+										<span th:utext=${StoreApplicationDocument.productDetial}></span>
+									</div>
+								</div>
+
+								<div sec:authorize="hasRole('admin')">
+									<div id="StoreApplicationDocumentinfo"
+										th:if="${StoreApplicationDocument.examinationStatus =='W'}">
+
+										<br><br>
+										<hr>
+										<div class="form-group">
+
+											<h5> 심사 </h5>
+
+
+											<select th:id="examinationStatus" name="examinationStatus">
+												<option value="W" selected="selected">대기</option>
+												<option value="A">승인</option>
+												<option value="R">반려</option>
 											</select>
-					                            <span class = "fw-bolder btn btn-success col-md-2" id = "button"> 심사하기</span> 
-			
-					  	 		</div>
-					
-			    		  		<div>
-								   
-							  <span   th:if="${StoreApplicationDocument.examinationStatus !='W'}" > 이미 심사된 스토어 신청서입니다.    </span>
-			                    </div>
-								    
-                       </div>
-                       </div>	    
-                       
-                       </p>		
-			    		</form>	
-			    		
-						    
-						  <hr>
-							<a href="javascript:history.back()" class="btn btn-secondary btn-xs" role="button">확인</a>
-							 <br><br>
-							 
-							  <a th:if="${StoreApplicationDocument.examinationStatus =='R'}"  class="btn btn-secondary btn-xs" role="button" th:href="@{../../../user/addStoreApplication}" >  스토어 재심청    <a>
-			
-			                    
-						 </div>
-						    
-			    
-			 </section>    
-			    
-		</div>			    
-			    
-	</div>
-	
-	    <div class = "container col-lg-3">
- 			
-	<br><br>
-			  
-    </div>
-	     
-   
+											<span class="fw-bolder btn btn-success col-md-2" id="button"> 심사하기</span>
 
-	
+										</div>
+
+										<div>
+
+											<span th:if="${StoreApplicationDocument.examinationStatus !='W'}"> 이미 심사된
+												스토어 신청서입니다. </span>
+										</div>
+
+									</div>
+								</div>
+
+								</p>
+							</form>
+
+
+							<hr>
+							<a href="javascript:history.back()" class="btn btn-secondary btn-xs" role="button">확인</a>
+							<br><br>
+
+							<a th:if="${StoreApplicationDocument.examinationStatus =='R'}"
+								class="btn btn-secondary btn-xs" role="button"
+								th:href="@{../../../user/addStoreApplication}"> 스토어 재심청 <a>
+
+
+						</div>
+
+
+				</section>
+
+			</div>
+
+		</div>
+
+		<div class="container col-lg-3">
+
+			<br><br>
+
+		</div>
+
+
+
+
 	</article>
 
 
 </body>
+
 </html>

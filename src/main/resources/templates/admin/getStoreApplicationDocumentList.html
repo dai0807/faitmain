@@ -1,241 +1,251 @@
 <!DOCTYPE html>
-<html layout:decorate = "~{layout/myPage_layout}"
-      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout" >
- 
+<html layout:decorate="~{layout/myPage_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 
 <head>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link th:href="@{/css/styles.css}" rel="stylesheet" />
-    	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/bootstrap/css/bootstrap.min.css">	
-		<link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
-		<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
-		
-		<link rel="stylesheet" type="text/css" href="/productDesign/vendor/animsition/css/animsition.min.css">
-		
-		<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
-		<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">	
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link th:href="@{/css/styles.css}" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
+	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
+
+	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/animsition/css/animsition.min.css">
+
+	<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
+	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">
 </head>
-    <title> 스토어 신청서 조회  </title>
+<title> 스토어 신청서 조회 </title>
 
 
- <style>
-	  .form-group{
- 
-		margin-top:10px ;
- 	 
-		}
-		
-		 h2 form-horizontal{font-family: 'Nanum Gothic Coding', monospace;}
-		 
-		 
-		 
-		 .card {
-       position: relative;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 0px solid transparent;
-    border-radius: 0px;
-}
- 
+<style>
+	.form-group {
 
-.card-body {
-    -webkit-box-flex: 1;
-    -ms-flex: 1 1 auto;
-    flex: 1 1 auto;
-    padding: 1.25rem;
-}
+		margin-top: 10px;
 
-.card .card-title {
-    position: relative;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
+	}
 
-
-.table {
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 1rem;
-    background-color: transparent;
-}
-
-* {
-    outline: none;
-}
-
-.table th, .table thead th {
-    font-weight: 500;
-}
-
- 
-.table th, .table thead th {
-    font-weight: 500;
-}
-
-
-th {
-    text-align: inherit;
-}
-
-
-.m-b-20 {
-    margin-bottom: 20px;
-}
+	h2 form-horizontal {
+		font-family: 'Nanum Gothic Coding', monospace;
+	}
 
 
 
-.customcheckbox input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-}
-
-.checkmark {
-    position: absolute;
-    top: -3px;
-    left: 0;
-    height: 20px;
-    width: 20px;
-    background-color: rgb(255, 255, 255);
-    border-radius: 6px;
-}
-
-
-.customcheckbox input:checked ~ .checkmark {
-    background-color: #2196BB;
-}
+	.card {
+		position: relative;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-orient: vertical;
+		-webkit-box-direction: normal;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		min-width: 0;
+		word-wrap: break-word;
+		background-color: #fff;
+		background-clip: border-box;
+		border: 0px solid transparent;
+		border-radius: 0px;
+	}
 
 
-.customcheckbox .checkmark:after {
-    left: 8px;
-    top: 4px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
+	.card-body {
+		-webkit-box-flex: 1;
+		-ms-flex: 1 1 auto;
+		flex: 1 1 auto;
+		padding: 1.25rem;
+	}
+
+	.card .card-title {
+		position: relative;
+		font-weight: 600;
+		margin-bottom: 10px;
+	}
 
 
-#p-b-52{
-	padding-bottom:5px ;
-}
+	.table {
+		width: 100%;
+		max-width: 100%;
+		margin-bottom: 1rem;
+		background-color: transparent;
+	}
+
+	* {
+		outline: none;
+	}
+
+	.table th,
+	.table thead th {
+		font-weight: 500;
+	}
 
 
-.Tsize-114 {
-  width: calc(100% - 38px);
- }
+	.table th,
+	.table thead th {
+		font-weight: 500;
+	}
 
-		 
-		 
-    </style>
+
+	th {
+		text-align: inherit;
+	}
+
+
+	.m-b-20 {
+		margin-bottom: 20px;
+	}
+
+
+
+	.customcheckbox input {
+		position: absolute;
+		opacity: 0;
+		cursor: pointer;
+	}
+
+	.checkmark {
+		position: absolute;
+		top: -3px;
+		left: 0;
+		height: 20px;
+		width: 20px;
+		background-color: rgb(255, 255, 255);
+		border-radius: 6px;
+	}
+
+
+	.customcheckbox input:checked~.checkmark {
+		background-color: #2196BB;
+	}
+
+
+	.customcheckbox .checkmark:after {
+		left: 8px;
+		top: 4px;
+		width: 5px;
+		height: 10px;
+		border: solid white;
+		border-width: 0 3px 3px 0;
+		-webkit-transform: rotate(45deg);
+		-ms-transform: rotate(45deg);
+		transform: rotate(45deg);
+	}
+
+
+	#p-b-52 {
+		padding-bottom: 5px;
+	}
+
+
+	.Tsize-114 {
+		width: calc(100% - 38px);
+	}
+</style>
 
 
 <script type="text/javascript">
 
- 	   	function fncGetList(currentPage) {
-			$("#currentPage").val(currentPage);	
-			$("form").submit();		
-		}
-   
- 
+	function fncGetList(currentPage) {
+		$("#currentPage").val(currentPage);
+		$("form").submit();
+	}
+
+
 </script>
 
 <body>
-<article  class="py-5" layout:fragment="content"  >
+	<article class="py-5" layout:fragment="content">
 
 
-    <div class = "container col-lg-2">
-    </div>
+		<div class="container col-lg-2">
+		</div>
 
-    <div class="container col-lg-8">
-    
-    	<div class="text-center">
+		<div class="container col-lg-8">
 
-        <h2 > 스토어 신청서 조회   </h2>
-    	</div>
-      
-      
-      <br>
- 
- 				<!-- ---- 리스트  --- --> 			
-					<div class="container">    
-      
- 				        
-				      
-                    <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                           
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead class="thead-light">
-						              	  <tr>
-						              	         <th scope="col"> </th>
-						                     <th scope="col">스토어신청서 번호</th>
-						                    <th scope="col">스토어 아이디</th>
-						                    <th scope="col">스토어 이름</th>
-						                    <th scope="col">신청일</th>
-						                     <th scope="col">심사결과</th>
-						                  
-						                </tr>
-						            </thead>
-						            
-						            <tbody class='customtable'>
-						         
-						          	  <tr class="table_row" th:each="StoreApplicationDocument:${list}  ">
-	                                          <td></td>
-					 			             <td	class ="Number "th:text="${StoreApplicationDocument.storeApplicationDocumentNumber}" onclick="getStoreApplication()" th:value="${StoreApplicationDocument.storeApplicationDocumentNumber}" />
-								             <td > <a th:href="@{/user/getStoreApplicationDocument(storeApplicationDocumentNumber =${StoreApplicationDocument.storeApplicationDocumentNumber})}" th:text="${StoreApplicationDocument.id}"> dd..</a></td>
-								             <td 	th:text="${StoreApplicationDocument.storeName}"/>
-								             <td 	th:text="${StoreApplicationDocument.regDate}"/>
-							             <th:block th:if="${StoreApplicationDocument.examinationStatus.equals('A')}">
-							
-								             <td > <a th:href="@{/user/getStoreApplicationDocument(storeApplicationDocumentNumber =${StoreApplicationDocument.storeApplicationDocumentNumber})}" > 승인</a> </td>
- 							             </th:block>
-							             <th:block th:if="${StoreApplicationDocument.examinationStatus.equals('W')}">
-								             <td > <a th:href="@{/user/getStoreApplicationDocument(storeApplicationDocumentNumber =${StoreApplicationDocument.storeApplicationDocumentNumber})}" > 대기</a></td>
-							             </th:block>
-							             <th:block th:if="${StoreApplicationDocument.examinationStatus.equals('R')}">
-								             <td > <a th:href="@{/user/getStoreApplicationDocument(storeApplicationDocumentNumber =${StoreApplicationDocument.storeApplicationDocumentNumber})}" > 반려</a> </td>
-							             </th:block>							             							             
+			<div class="text-center">
+
+				<h2> 스토어 신청서 조회 </h2>
+			</div>
 
 
-						          	  </tr>
-						             
-						        </tbody>
-				          </table>
-					</div>  
-		          
-		        
-		     </div>
+			<br>
 
-
-        
-     </div>
-
-    <div class = "container col-lg-2">
-    </div>
-
- 
+			<!-- ---- 리스트  --- -->
+			<div class="container">
 
 
 
+				<div class="row">
+					<div class="col-12">
+						<div class="card">
 
-</article>
+							<div class="table-responsive">
+								<table class="table">
+									<thead class="thead-light">
+										<tr>
+											<th scope="col"> </th>
+											<th scope="col">스토어신청서 번호</th>
+											<th scope="col">스토어 아이디</th>
+											<th scope="col">스토어 이름</th>
+											<th scope="col">신청일</th>
+											<th scope="col">심사결과</th>
+
+										</tr>
+									</thead>
+
+									<tbody class='customtable'>
+
+										<tr class="table_row" th:each="StoreApplicationDocument:${list}  ">
+											<td></td>
+											<td class="Number "
+												th:text="${StoreApplicationDocument.storeApplicationDocumentNumber}"
+												onclick="getStoreApplication()"
+												th:value="${StoreApplicationDocument.storeApplicationDocumentNumber}" />
+											<td> <a th:href="@{/user/getStoreApplicationDocument(storeApplicationDocumentNumber =${StoreApplicationDocument.storeApplicationDocumentNumber})}"
+													th:text="${StoreApplicationDocument.id}"> dd..</a></td>
+											<td th:text="${StoreApplicationDocument.storeName}" />
+											<td th:text="${StoreApplicationDocument.regDate}" />
+											<th:block th:if="${StoreApplicationDocument.examinationStatus.equals('A')}">
+
+												<td> <a
+														th:href="@{/user/getStoreApplicationDocument(storeApplicationDocumentNumber =${StoreApplicationDocument.storeApplicationDocumentNumber})}">
+														승인</a> </td>
+											</th:block>
+											<th:block th:if="${StoreApplicationDocument.examinationStatus.equals('W')}">
+												<td> <a
+														th:href="@{/user/getStoreApplicationDocument(storeApplicationDocumentNumber =${StoreApplicationDocument.storeApplicationDocumentNumber})}">
+														대기</a></td>
+											</th:block>
+											<th:block th:if="${StoreApplicationDocument.examinationStatus.equals('R')}">
+												<td> <a
+														th:href="@{/user/getStoreApplicationDocument(storeApplicationDocumentNumber =${StoreApplicationDocument.storeApplicationDocumentNumber})}">
+														반려</a> </td>
+											</th:block>
+
+
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+
+
+						</div>
+
+
+
+					</div>
+
+					<div class="container col-lg-2">
+					</div>
+
+
+
+
+
+
+	</article>
 
 </body>
 

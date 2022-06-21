@@ -865,6 +865,58 @@ public class UserController{
 
     
     
+
+    @PostMapping( value = "/updateUser" )  
+    public String ajaxupdateUser(Model model, User user ,  @AuthenticationPrincipal SecurityUserService securityUserService  ) throws Exception{
+ 
+   	
+   	log.info("ajax Updtae에 옴  user 값은 = {}" , user) ;
+   	
+       //아직  checkDuplication 없음
+       int result = 0;
+       //log.info("updateUser :: user 출력   {} "  ,  user );
+       //	result = userSerivce.updateUser(user);
+       result = userSerivce.updateUser( user);
+       log.info( "updateUser :: result 출력  = {} " , result );
+       user = userSerivce.getUser( user.getId() );
+
+        
+       
+       if ( user.getRole().equals( "store" ) || user.getRole().equals( "storeX" ) ) {
+           //롤이 스토어면 스토어 넘버 가져와서 user에 넣어라
+           int storeNumber = userSerivce.getStoreApplicationDocumenNumber( user.getId() );
+           user.setStoreApplicationDocumentNumber( storeNumber );
+       }
+
+       /////////////////날리기전 //////////////////////
+		System.out.println("  #Authentication : " + SecurityContextHolder.getContext().getAuthentication());
+
+      ///////////////////SecurityContextHolder 날림 ///////////////////////////////////
+       SecurityContextHolder.clearContext();
+       
+       SecurityUserService  securityUser = new SecurityUserService(user);
+		System.out.println("  #updateUserDetails : "+securityUser);
+
+	      ///////////////////SecurityContextHolder 세팅 ///////////////////////////////////
+   
+        Authentication authRequest = new UsernamePasswordAuthenticationToken(securityUser, null , securityUser.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authRequest);       
+		
+		System.out.println("  #updateUserDetails : "+authRequest);
+ 
+     
+     
+     
+     
+     log.info( " 출력하라 getUSer {}" , user );
+
+
+     model.addAttribute( "getuser" , user );
+     return "/user/getUser";
+    }
+
+    
+    
     
     
     

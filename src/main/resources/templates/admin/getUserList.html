@@ -1,167 +1,168 @@
 <!DOCTYPE html>
-<html layout:decorate = "~{layout/myPage_layout}"
-      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout" >
- 
+<html layout:decorate="~{layout/myPage_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 
 <head>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="@{/css/styles.css}" rel="stylesheet" />
-    	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/bootstrap/css/bootstrap.min.css">	
-		<link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
-		<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
-		
-		<link rel="stylesheet" type="text/css" href="/productDesign/vendor/animsition/css/animsition.min.css">
-		
-		<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
-		<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">	
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="@{/css/styles.css}" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
+	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
+
+	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/animsition/css/animsition.min.css">
+
+	<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
+	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">
 </head>
-    <title> 회원 리스트 조회 </title>
+<title> 회원 리스트 조회 </title>
 
 
- <style>
-	  .form-group{
- 
-		margin-top:10px ;
- 	 
-		}
+<style>
+	.form-group {
 
- 
-.card {
-       position: relative;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 0px solid transparent;
-    border-radius: 0px;
-}
- 
+		margin-top: 10px;
 
-.card-body {
-    -webkit-box-flex: 1;
-    -ms-flex: 1 1 auto;
-    flex: 1 1 auto;
-    padding: 1.25rem;
-}
-
-.card .card-title {
-    position: relative;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
+	}
 
 
-.table {
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 1rem;
-    background-color: transparent;
-}
-
-* {
-    outline: none;
-}
-
-.table th, .table thead th {
-    font-weight: 500;
-}
-
- 
-.table th, .table thead th {
-    font-weight: 500;
-}
+	.card {
+		position: relative;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-orient: vertical;
+		-webkit-box-direction: normal;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		min-width: 0;
+		word-wrap: break-word;
+		background-color: #fff;
+		background-clip: border-box;
+		border: 0px solid transparent;
+		border-radius: 0px;
+	}
 
 
-th {
-    text-align: inherit;
-}
+	.card-body {
+		-webkit-box-flex: 1;
+		-ms-flex: 1 1 auto;
+		flex: 1 1 auto;
+		padding: 1.25rem;
+	}
+
+	.card .card-title {
+		position: relative;
+		font-weight: 600;
+		margin-bottom: 10px;
+	}
 
 
-.m-b-20 {
-    margin-bottom: 20px;
-}
+	.table {
+		width: 100%;
+		max-width: 100%;
+		margin-bottom: 1rem;
+		background-color: transparent;
+	}
+
+	* {
+		outline: none;
+	}
+
+	.table th,
+	.table thead th {
+		font-weight: 500;
+	}
+
+
+	.table th,
+	.table thead th {
+		font-weight: 500;
+	}
+
+
+	th {
+		text-align: inherit;
+	}
+
+
+	.m-b-20 {
+		margin-bottom: 20px;
+	}
 
 
 
-.customcheckbox input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-}
+	.customcheckbox input {
+		position: absolute;
+		opacity: 0;
+		cursor: pointer;
+	}
 
-.checkmark {
-    position: absolute;
-    top: -3px;
-    left: 0;
-    height: 20px;
-    width: 20px;
-    background-color: rgb(255, 255, 255);
-    border-radius: 6px;
-}
-
-
-.customcheckbox input:checked ~ .checkmark {
-    background-color: #2196BB;
-}
+	.checkmark {
+		position: absolute;
+		top: -3px;
+		left: 0;
+		height: 20px;
+		width: 20px;
+		background-color: rgb(255, 255, 255);
+		border-radius: 6px;
+	}
 
 
-.customcheckbox .checkmark:after {
-    left: 8px;
-    top: 4px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
+	.customcheckbox input:checked~.checkmark {
+		background-color: #2196BB;
+	}
 
 
-#p-b-52{
-	padding-bottom:5px ;
-}
+	.customcheckbox .checkmark:after {
+		left: 8px;
+		top: 4px;
+		width: 5px;
+		height: 10px;
+		border: solid white;
+		border-width: 0 3px 3px 0;
+		-webkit-transform: rotate(45deg);
+		-ms-transform: rotate(45deg);
+		transform: rotate(45deg);
+	}
 
 
-.Tsize-114 {
-  width: calc(100% - 38px);
- }
+	#p-b-52 {
+		padding-bottom: 5px;
+	}
 
-    </style>
- 
+
+	.Tsize-114 {
+		width: calc(100% - 38px);
+	}
+</style>
+
 <body>
-<article  class="py-5" layout:fragment="content"  >
-    <div class = "container col-lg-2">
-    </div>
+	<article class="py-5" layout:fragment="content">
+		<div class="container col-lg-2">
+		</div>
 
 
-    <div class="container col-lg-8">
-       	<div class="text-center">
+		<div class="container col-lg-8">
+			<div class="text-center">
 
-        <h4 class=".ltext-109 ">회원  조회 </h4>
-        
-       	</div>
-        <br>
-   
-        
- 
- 					<div class="container">
-						<div class="flex-w flex-sb-m p-b-52" style="padding-bottom:10px ;">
-							<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-								<th:div class="getUserList">
-									<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"   th:href='@{/user/getUserlist(searchCondition=ALL)}' >
-										ALL
-									</button>
-								</th:div>
+				<h4 class=".ltext-109 ">회원 조회 </h4>
+
+			</div>
+			<br>
+
+
+
+			<div class="container">
+				<div class="flex-w flex-sb-m p-b-52" style="padding-bottom:10px ;">
+					<div class="flex-w flex-l-m filter-tope-group m-tb-10">
+						<th:div class="getUserList">
+							<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"
+								th:href='@{/user/getUserlist(searchCondition=ALL)}'>
+								ALL
+							</button>
+						</th:div>
 						<!--		
 							
 								 <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"  onclick="getUserList('ALL')" >
@@ -180,173 +181,179 @@ th {
 									</button>
 								</th:div>
 								-->
-								
-								
-								<th:div class="getUserList">
 
-									<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"   th:href='@{/user/getUserlist(searchCondition=user)}' >
-										user
-									</a>
-								</th:div>
-								<th:div class="getUserList">
-									<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"  th:href='@{/user/getUserlist(searchCondition=store)}'>
-										store
-									</a>
-								</th:div>
-								
-								 
-							</div>		
-	
-							 <script type="text/javascript"> 
-							 
-							 function getUserList(text){
 
-										console.log("text  "+ text) ;	
-										
-										
-								 $.ajax({ 
-												 type:"GET", 
-												 url:"/user/json/getUserlist?order=" +  text,  
-												dataType : "json",
-											 success:function(data){ 
-												let addtbody =""
-												
-												$('.table_row').remove();
+						<th:div class="getUserList">
 
-												for(let i = 0 ; i < data.length ; i++) {
+							<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"
+								th:href='@{/user/getUserlist(searchCondition=user)}'>
+								user
+							</a>
+						</th:div>
+						<th:div class="getUserList">
+							<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"
+								th:href='@{/user/getUserlist(searchCondition=store)}'>
+								store
+							</a>
+						</th:div>
 
-													 console.log("userList." + data[i].id) 
-													 
-													 
-											
-													 		  addtbody += 
-												"<tr class='table_row'> <td></td>"
-                                               + "<td> <a th:text='" +data[i].id+"' th:href='@{/user/getUser(id="+data[i].id +"+)}'></a>  </td>"
-                                              +  "<td th:text="+data[i].name+ " > </td> " 
-                                              +  "<td th:text="+data[i].phoneNumber+ " > </td> " 
-                                              +  "<td th:text="+data[i].role+ " > </td> " 
-                                               +  "<td th:text="+data[i].regDate+ " > </td> " 
-                                             
-                                              +  " </tr>  " ;
-                                              
-                                             $("table").children(":first").append(addtbody);
 
-                                          
-                                     
-													console.log(   addtbody   )  
-													 
-													 
-															
-													}			 
+					</div>
 
-															
-														 
-														  
-													 
-											} 
-											});
-										
-										
-																	
-							}; // 스크립트 
-							 
-							 </script>
+					<script type="text/javascript">
 
-						
-								
-						<div class="flex-w flex-c-m m-tb-10">
-							 <div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
-									<input class="stext-111 cl2 Tsize-114 plh2 p-r-15" type="text" id="searchKeyword" name="searchKeyword" placeholder="Search">
-							</div>
-								
-							<div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
-								<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
-								<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
-								Search
-							</div>
-						</div>	
-						
-									
+						function getUserList(text) {
+
+							console.log("text  " + text);
+
+
+							$.ajax({
+								type: "GET",
+								url: "/user/json/getUserlist?order=" + text,
+								dataType: "json",
+								success: function (data) {
+									let addtbody = ""
+
+									$('.table_row').remove();
+
+									for (let i = 0; i < data.length; i++) {
+
+										console.log("userList." + data[i].id)
+
+
+
+										addtbody +=
+											"<tr class='table_row'> <td></td>"
+											+ "<td> <a th:text='" + data[i].id + "' th:href='@{/user/getUser(id=" + data[i].id + "+)}'></a>  </td>"
+											+ "<td th:text=" + data[i].name + " > </td> "
+											+ "<td th:text=" + data[i].phoneNumber + " > </td> "
+											+ "<td th:text=" + data[i].role + " > </td> "
+											+ "<td th:text=" + data[i].regDate + " > </td> "
+
+											+ " </tr>  ";
+
+										$("table").children(":first").append(addtbody);
+
+
+
+										console.log(addtbody)
+
+
+
+									}
+
+
+
+
+
+								}
+							});
+
+
+
+						}; // 스크립트 
+
+					</script>
+
+
+
+					<div class="flex-w flex-c-m m-tb-10">
+						<div
+							class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
+							<input class="stext-111 cl2 Tsize-114 plh2 p-r-15" type="text" id="searchKeyword"
+								name="searchKeyword" placeholder="Search">
+						</div>
+
+						<div
+							class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
+							<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
+							<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+							Search
+						</div>
+					</div>
+
+
 				</div>
-					 
-					 
-						
- 
-					
-					
-				
-				
-						
-				<!-- ---- 리스트  --- --> 			
-					<div class="container">
-                      
-                                
-                    <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                           
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                   <th scope="col"> </th>
-
-                                                <th scope="col">아이디</th>
-                                                <th scope="col">이름</th>
-                                                <th scope="col">휴대전화 번호</th>
-                                                  <th scope="col">role</th>
-
-                                                <th scope="col">가입일</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class='customtable'>
-        									  	<tr class="table_row" th:each="user:${userList}" >
-                                                <td></td>
-                                                <td> <a th:text="${user.id}" th:href="@{/user/getUser(id=${user.id})}" > ..</a>  </td>
-                                                <td th:text="${user.name}" > </td>
-                                                <td th:text="${user.phoneNumber}" > </td>
-                                                <td th:text="${user.role}" > </td>
-                                                
-                                                <td th:text="${user.regDate}"></td>
-                                             
-                                            </tr>
-                                            
-                                          
-                                        </tbody>
-                                    </table>
-                   
-                                    
-                                </div>
-                                
-                                
-                                
-                       
-                                
-                                
-                        </div>
-                    </div>
-                </div>
-
- 
 
 
-                   </div> 
- 
- 
- 
- 
- 
-        
-     </div>
-
-    <div class = "container col-lg-2">
-    </div>
-
- 
- 
 
 
-</article>
+
+
+
+
+
+				<!-- ---- 리스트  --- -->
+				<div class="container">
+
+
+					<div class="row">
+						<div class="col-12">
+							<div class="card">
+
+								<div class="table-responsive">
+									<table class="table">
+										<thead class="thead-light">
+											<tr>
+												<th scope="col"> </th>
+
+												<th scope="col">아이디</th>
+												<th scope="col">이름</th>
+												<th scope="col">휴대전화 번호</th>
+												<th scope="col">role</th>
+
+												<th scope="col">가입일</th>
+											</tr>
+										</thead>
+										<tbody class='customtable'>
+											<tr class="table_row" th:each="user:${userList}">
+												<td></td>
+												<td> <a th:text="${user.id}" th:href="@{/user/getUser(id=${user.id})}">
+														..</a> </td>
+												<td th:text="${user.name}"> </td>
+												<td th:text="${user.phoneNumber}"> </td>
+												<td th:text="${user.role}"> </td>
+
+												<td th:text="${user.regDate}"></td>
+
+											</tr>
+
+
+										</tbody>
+									</table>
+
+
+								</div>
+
+
+
+
+
+
+							</div>
+						</div>
+					</div>
+
+
+
+
+				</div>
+
+
+
+
+
+
+			</div>
+
+			<div class="container col-lg-2">
+			</div>
+
+
+
+
+
+	</article>
 
 </body>
 
