@@ -267,6 +267,19 @@
             margin: auto;
         }
 
+        .delete_btn {
+            border: none;
+            color: white;
+            padding: 5px 5px;
+            cursor: pointer;
+            border-radius: 20%;
+            background-color: #f7564b;
+        }
+
+        .delete_btn:hover {
+            background-color: #da190b;
+        }
+
 
     </style>
 
@@ -344,7 +357,7 @@
                                 <th:block th:text = "${cart.salePrice * cart.productOrderCount}"/>
                             </td>
                             <td class = "td_width_4 table_text_align_center">
-                                <button class = "delete_btn" th:data-cart-number = "${cart.cartNumber}">삭제</button>
+                                <button class = "delete_btn" th:data-cart-number = "${cart.cartNumber}">X</button>
                             </td>
                         </tr>
                     </th:block>

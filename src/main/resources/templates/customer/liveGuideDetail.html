@@ -16,14 +16,15 @@
 		 <input type="hidden" name="boardType" value='L'/> 
 		 
 		<!-- 	<input type="hidden" name="boardType" value='L'/> --> 
-				<tr>
+				<tr >
 					<td >
-						<!-- <textarea title="내용" id="contents" name="boardContent" th:text="${customer.boardContent }"  ></textarea>	 -->	
-							<th:block th:utext = "${ customer.boardContent }"></th:block>
+						 <!-- <textarea title="내용" id="contents" name="boardContent" th:text="${row.boardContent }"  ></textarea>	 -->	
+							<th:block th:utext = "${customer.boardContent }"></th:block>
 					</td>
 				</tr>
 		</div>
 	</article>
+	
 </body>
 </html> 
 					

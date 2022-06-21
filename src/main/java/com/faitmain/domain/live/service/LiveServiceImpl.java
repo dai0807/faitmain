@@ -32,10 +32,6 @@ public class LiveServiceImpl implements LiveService {
 	@Autowired
 	private LiveMapper liveMapper;
 
-	public LiveServiceImpl(LiveMapper liveMapper) {
-		this.liveMapper = liveMapper;
-	}
-
 //	public void setLiveMapper(LiveMapper liveMapper) {
 //		this.liveMapper = liveMapper;
 //	}
@@ -65,7 +61,7 @@ public class LiveServiceImpl implements LiveService {
 	public Live getLiveByStoreId(String storeId) throws Exception {
 		return liveMapper.getLiveByStoreId(storeId);
 	}
-	
+
 	public Live getLiveNumberByRoomId(String roomId) throws Exception {
 		return liveMapper.getLiveNumberByRoomId(roomId);
 	}
@@ -203,9 +199,9 @@ public class LiveServiceImpl implements LiveService {
 //		liveUserStatus.getId();// 수정해야댐 수정해야댐 수정해야댐 무지성으로 걍 박아놓은거임
 		return liveMapper.addLiveUserStatus(liveUserStatus);
 	}
-	
+
 	public int addLiveUserKick(int liveNumber, String storeId) throws Exception {
-		
+
 		return liveMapper.addLiveUserKick(liveNumber, storeId);
 	}
 
@@ -217,9 +213,20 @@ public class LiveServiceImpl implements LiveService {
 		return liveMapper.getLiveUserStatus(liveUserStatus);
 	}
 
-	public Map<String, Object> getLiveUserStatusList(int liveNumber) throws Exception {
+	public Map<String, Object> getStoreLiveUserStatusList(int liveNumber) throws Exception {
 
-		List<LiveUserStatus> list = liveMapper.getLiveUserStatusList(liveNumber);
+		List<LiveUserStatus> list = liveMapper.getStoreLiveUserStatusList(liveNumber);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("list", list);
+
+		return map;
+	}
+
+	public Map<String, Object> getUserLiveUserStatusList(LiveUserStatus liveUserStatus) throws Exception {
+
+		List<LiveUserStatus> list = liveMapper.getUserLiveUserStatusList(liveUserStatus);
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
