@@ -506,25 +506,14 @@ public class LiveRestController {
 		}
 	}
 	
-	@GetMapping("json/cancleKickUser/{roomId}/{clientKey}/{nickName}")
-	public void cancleKickUser(@PathVariable("roomId") String roomId, @PathVariable("clientKey") List<String> clientKey, @PathVariable("nickName") List<String> nickName)
+	@GetMapping("json/cancleKickUser/{roomId}/{clientKey}")
+	public void cancleKickUser(@PathVariable("roomId") String roomId, @PathVariable("clientKey") List<String> clientKey)
 
 			throws Exception {
 
 		log.info("editRoom = {} ", this.getClass());
 		
 		//DB에 강제퇴장 내용 등록
-		
-		LiveUserStatus live = new LiveUserStatus();
-		for (String nick : nickName) {
-			live.setLiveNumber(liveService.getLiveNumberByRoomId(roomId).getLiveNumber());
-			live.setNickName(nick);
-			live.setKickStatus(0);
-			
-			liveService.addLiveUserStatus(live);
-			
-			System.out.println(live);
-		}
 		
 
 		String token = getToken();

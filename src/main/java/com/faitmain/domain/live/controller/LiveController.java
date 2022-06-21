@@ -537,43 +537,8 @@ public class LiveController {
 
 	@GetMapping("watchLive/{liveNumber}")
 	public String watchLive(Authentication authentication, Model model, @PathVariable int liveNumber) throws Exception {
+		
 		log.info("watchLive() : GET start...");
-
-		String returnUrl = "live/watchLive";
-
-		if (authentication != null) {
-
-			SecurityUserService securityUser = (SecurityUserService) authentication.getPrincipal();
-			User user = (User) securityUser.getUser();
-
-			LiveUserStatus liveUser = new LiveUserStatus();
-			liveUser.setLiveNumber(liveNumber);
-			liveUser.setNickName(user.getNickname());
-
-			LiveUserStatus userStatus = liveService.getLiveUserStatus(liveUser);
-
-			if (liveService.getLiveUserStatus(liveUser) != null) {
-
-				if (userStatus.getKickStatus() == 1) {
-
-					returnUrl = "/live/returnIndex";
-				}
-
-			} else {
-				Live live = liveService.getLive(liveNumber);
-
-				List<LiveProduct> list = liveService.getLiveProductListByLiveNumber(live.getLiveNumber());
-
-				System.out.println("찍먹 : " + list);
-				model.addAttribute("live", live);
-				model.addAttribute("listProduct", list);
-
-				log.info("live = " + model.getAttribute("live"));
-				log.info("listProduct = " + model.getAttribute("listProduct"));
-				return "/live/watchLive";
-			}
-
-		}
 
 		Live live = liveService.getLive(liveNumber);
 
@@ -585,7 +550,7 @@ public class LiveController {
 
 		log.info("live = " + model.getAttribute("live"));
 		log.info("listProduct = " + model.getAttribute("listProduct"));
-		return returnUrl;
+		return "live/watchLive";
 	}
 
 	@GetMapping("addLiveUserStatus")
