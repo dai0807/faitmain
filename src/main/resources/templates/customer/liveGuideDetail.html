@@ -14,7 +14,9 @@
 	<article class = "lgf-1" layout:fragment = "content">
 		 <div class = "container" th:action="@{/customer/detailGuide}">
 		 <input type="hidden" name="boardType" value='L'/> 
-		 
+		 <div class="btn_wrap text-center" >
+			<a th:href="@{/customer/updateBoard}" class="btn btn-default waves-effect waves-light">수정</a>
+		</div>
 		<!-- 	<input type="hidden" name="boardType" value='L'/> --> 
 				<tr >
 					<td >
