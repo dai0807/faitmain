@@ -434,8 +434,74 @@ public class LiveRestController {
 //	}
 
 	// 유저 강제퇴장
-	@GetMapping("json/kickUser/{roomId}/{clientKey}/{nickName}")
-	public void kickUser(@PathVariable("roomId") String roomId, @PathVariable("clientKey") List<String> clientKey,
+	@GetMapping("json/kickUser/{roomId}/{clientKey}")
+	public void kickUser(@PathVariable("roomId") String roomId, @PathVariable("clientKey") List<String> clientKey)
+
+			throws Exception {
+
+		log.info("editRoom = {} ", this.getClass());
+
+//		//DB에 강제퇴장 내용 등록
+//		
+//		LiveUserStatus live = new LiveUserStatus();
+//		for (String nick : nickName) {
+//			live.setLiveNumber(liveService.getLiveNumberByRoomId(roomId).getLiveNumber());
+//			live.setNickName(nick);
+//			live.setKickStatus(1);
+//			
+//			liveService.addLiveUserStatus(live);
+//			
+//			System.out.println(live);
+//		}
+
+		String token = getToken();
+
+		JSONObject result = null;
+		StringBuilder sb = new StringBuilder();
+
+		TrustManager[] trustCerts = new TrustManager[] { new X509TrustManager() {
+			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+				return null;
+			}
+
+			public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+			}
+
+			public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+			}
+		} };
+
+		SSLContext sc = SSLContext.getInstance("TLSv1.2");
+		sc.init(null, trustCerts, new java.security.SecureRandom());
+
+		for (String client : clientKey) {
+
+			URL url = new URL("https://vchatcloud.com/openapi/v1/exiles/" + roomId + "/" + client);
+
+			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+			conn.setSSLSocketFactory(sc.getSocketFactory());
+
+			conn.setRequestMethod("POST");
+
+			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+			conn.setRequestProperty("accept", "*/*");
+			conn.setRequestProperty("api_key", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
+			conn.setRequestProperty("X-AUTH-TOKEN", token);
+			conn.setDoOutput(true);
+
+			// 데이터 입력 스트림에 담기
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+			while (br.ready()) {
+				sb.append(br.readLine());
+			}
+
+			conn.disconnect();
+
+		}
+	}
+
+	@GetMapping("json/cancleKickUser/{roomId}/{clientKey}/{nickName}")
+	public void cancleKickUser(@PathVariable("roomId") String roomId, @PathVariable("clientKey") List<String> clientKey,
 			@PathVariable("nickName") List<String> nickName)
 
 			throws Exception {
@@ -447,8 +513,9 @@ public class LiveRestController {
 		LiveUserStatus live = new LiveUserStatus();
 		for (String nick : nickName) {
 			live.setLiveNumber(liveService.getLiveNumberByRoomId(roomId).getLiveNumber());
-			live.setNickName(nick);
-			live.setKickStatus(1);
+			// live.setNickName(nick);
+
+			live.setKickStatus(0);
 
 			liveService.addLiveUserStatus(live);
 
@@ -482,7 +549,7 @@ public class LiveRestController {
 			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 			conn.setSSLSocketFactory(sc.getSocketFactory());
 
-			conn.setRequestMethod("POST");
+			conn.setRequestMethod("PUT");
 
 			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
 			conn.setRequestProperty("accept", "*/*");
@@ -601,9 +668,10 @@ public class LiveRestController {
 
 		if (liveService.getLiveUserStatus(liveUserStatus) == null) {
 			liveUserStatus.setAlarmStatus(1);
-			addAlarm(liveUserStatus);
+			liveService.addLiveUserStatus(liveUserStatus);
 		} else {
 			liveUserStatus = liveService.getLiveUserStatus(liveUserStatus);
+
 			if (liveUserStatus.getAlarmStatus() == 0) {
 				liveUserStatus.setAlarmStatus(1);
 			} else {
@@ -619,13 +687,6 @@ public class LiveRestController {
 		log.info("updateAlarm POST : end...");
 
 		return map;
-	}
-
-	public int addAlarm(LiveUserStatus liveUserStatus) throws Exception {
-		log.info("addUserStatus METHOD start...");
-
-		log.info("addUserStatus METHOD end...");
-		return liveService.addLiveUserStatus(liveUserStatus);
 	}
 
 }

@@ -597,7 +597,7 @@ progress {
   color: #6c757d;
 }
 .blockquote-footer::before {
-  content: "— ";
+  content: "— ";
 }
 
 .img-fluid {
@@ -11357,4 +11357,3 @@ div.livecommerce {
 	font-size: 20px;
 	color: #fff;
 }
-

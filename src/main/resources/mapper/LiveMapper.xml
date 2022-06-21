@@ -257,13 +257,23 @@
 	</select>
 	    
     <!-- GET LIST ListUserStatus -->
-    <select id="getLiveUserStatusList" parameterType="LiveUserStatus" resultMap="liveUserStatusMap">
+    <select id="getStoreLiveUserStatusList" parameterType="int" resultMap="liveUserStatusMap">
       SELECT * FROM live_user_status
       <where>
          live_number = #{liveNumber}
+         AND alarm_status = 1
       </where>
-   </select>
-
+   	</select>
+	
+	<select id="getUserLiveUserStatusList" parameterType="LiveUserStatus" resultMap="liveUserStatusMap">
+      SELECT * FROM live_user_status
+      <where>
+         live_number = #{liveNumber}
+         AND id = #{id}
+         AND alarm_status = 1
+      </where>
+   	</select>
+	
 
    <!-- ================================================================================= DELETE ============================================================================== -->
    <delete id="deleteLiveReservation" parameterType="int">

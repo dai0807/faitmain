@@ -189,6 +189,7 @@
  // 채널에 접속하기 위해서 사용자의 userNick, userKey와 CMS에서 발급받은 channelKey가 필요합니다.
 
      var channelKey = $('#channelKey').val(); // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
+     var clientKey = $('#userNickname').val();
   	 var storeId = $('#storeId').val();
 
      function videoInit() {
@@ -230,7 +231,7 @@
           console.log('channelKey = '+channelKey);
           
          $('div.bottom div.name').text(userNick);
-         joinRoom(channelKey,   randomNick, ((userNick == null || userNick == "")? randomNick : userNick), function(err, history){
+         joinRoom(channelKey, clientKey, ((userNick == null || userNick == "")? randomNick : userNick), function(err, history){
                if(err){
                   openError(err.code, function(){
                      c.hide();
@@ -336,21 +337,7 @@
      }
 
      function openError(code, callback) {
-       let p = $("div.errorpopup").hide();
-       if (errMsg[code] == undefined) {
-         $("p:nth-child(2)", p).text(code);
-       } else {
-         $("p:nth-child(2)", p).text(errMsg[code].kor);
-       }
-       $("a", p)
-         .off()
-         .click(function () {
-           p.hide();
-           if (typeof callback == "function") {
-             callback();
-           }
-         });
-       p.show();
+       self.location="/live/returnIndex";
      }
      
      function exit() {

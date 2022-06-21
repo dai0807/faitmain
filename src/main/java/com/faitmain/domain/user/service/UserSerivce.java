@@ -33,8 +33,7 @@ public interface UserSerivce{
 	public int getLogin( User user ) throws Exception;
 
     //SELECT  유저 상세 조회
-	public User getUser( String id ) throws Exception;
-
+	public User getUser( String id ) throws Exception ;
     // SELECT 아이디/PW 찾기 할때 사용하는 findUser
 	public int findUser( Map<String, Object> hasMap ) throws Exception;
 

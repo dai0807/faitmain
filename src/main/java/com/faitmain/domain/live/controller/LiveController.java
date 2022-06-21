@@ -530,6 +530,11 @@ public class LiveController {
 		return "/live/addLive";
 	}
 
+	@GetMapping("returnIndex")
+	public String returnIndex() throws Exception {
+		return "/live/returnIndex";
+	}
+
 	@GetMapping("watchLive/{liveNumber}")
 	public String watchLive(Authentication authentication, Model model, @PathVariable int liveNumber) throws Exception {
 		log.info("watchLive() : GET start...");
@@ -543,7 +548,7 @@ public class LiveController {
 
 			LiveUserStatus liveUser = new LiveUserStatus();
 			liveUser.setLiveNumber(liveNumber);
-			liveUser.setNickName(user.getNickname());
+			liveUser.setId(user.getId());
 
 			LiveUserStatus userStatus = liveService.getLiveUserStatus(liveUser);
 
@@ -695,7 +700,7 @@ public class LiveController {
 			tmp = (JSONObject) data.get(i);
 			System.out.println("data[" + i + "] : " + tmp);
 		}
-		System.out.println("data : " + data);
+		System.out.println("userList : " + data);
 
 		model.addAttribute("userList", data);
 
