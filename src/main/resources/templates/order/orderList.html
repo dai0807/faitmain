@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html layout:decorate = "~{layout/default_layout}"
-      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset = "UTF-8">
     <title>주문현황 페이지</title>
     <!--  고유 CSS 추가 -->
     <style>
+
+        .delete_btn {
+            border: none;
+            color: white;
+            padding: 5px 15px;
+            cursor: pointer;
+            border-radius: 20%;
+            background-color: #f7564b;
+        }
+
+        .delete_btn:hover {
+            background-color: #da190b;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -124,7 +139,7 @@
 
         /* 관리자페이지 컨텐츠 영역 */
         .admin_content_wrap {
-            width: 80%;
+            width: 95%;
             float: left;
             min-height: 700px;
         }
@@ -133,7 +148,8 @@
             font-size: 40px;
             font-weight: bolder;
             padding-left: 15px;
-            background-color: #0f1011;
+            background-color: #222223;
+            border-radius: 5%;
             height: 80px;
             line-height: 80px;
             color: white;
@@ -147,7 +163,7 @@
 
         .order_table {
             margin: auto;
-            width: 100%;
+            width: 90%;
             border: 1px solid #d3d8e1;
             text-align: center;
             border-collapse: collapse;
@@ -155,7 +171,8 @@
         }
 
         .order_table td {
-            padding: 10px 5px;
+            padding: 5px 5px;
+            height: 5px;
             border: 1px solid #e9ebf0;
         }
 
@@ -319,104 +336,102 @@
 <!-- Page Content-->
 <article class = "py-5" layout:fragment = "content">
 
-    <div class = "admin_content_wrap">
-        <div class = "admin_content_subject"><span>주문 현황</span></div>
-        <div class = "author_table_wrap">
-            <!-- 게시물 O -->
-            <table class = "order_table" th:if = "${listCheck != 'empty'}">
-                <colgroup>
-                    <col width = "21%">
-                    <col width = "20%">
-                    <col width = "20%">
-                    <col width = "20%">
-                    <col width = "19%%">
-                </colgroup>
-                <thead>
-                <tr>
-                    <td class = "th_column_1">주문 번호</td>
-                    <td class = "th_column_2">주문 아이디</td>
-                    <td class = "th_column_3">주문 날짜</td>
-                    <td class = "th_column_4">주문 상태</td>
-                    <td class = "th_column_5">취소</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each = "list : ${list}">
-                    <td th:text = "${list.orderNumber}"></td>
-                    <td th:text = "${list.buyerId}"></td>
-                    <td th:text = "${list.orderDate}"></td>
-                    <td th:text = "${list.orderStatus}"></td>
-                    <td th:if = "${list.orderStatus =='배송준비'}">
-                        <button class = "delete_btn" th:data-orderNumber = "${list.orderNumber}">취소</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+    <div class = "container-fluid">
+        <div class = "admin_content_wrap">
+            <div class = "admin_content_subject"><span>주문 현황</span></div>
+            <div class = "author_table_wrap">
+                <!-- 게시물 O -->
+                <table class = "order_table" th:if = "${listCheck != 'empty'}">
+                    <colgroup>
+                        <col width = "21%">
+                        <col width = "20%">
+                        <col width = "20%">
+                        <col width = "20%">
+                        <col width = "19%%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <td class = "th_column_0" style="width: 10px">결제 번호</td>
+                        <td class = "th_column_1">주문 번호</td>
+                        <td class = "th_column_2">주문 아이디</td>
+                        <td class = "th_column_3">주문 날짜</td>
+                        <td class = "th_column_4">주문 상태</td>
+                        <td class = "th_column_5">취소</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each = "list : ${list}">
+                        <td th:text = "${list.impUid}"></td>
+                        <td th:text = "${list.orderNumber}"></td>
+                        <td th:text = "${list.buyerId}"></td>
+                        <td th:text = "${list.orderDate}"></td>
+                        <td th:text = "${list.orderStatus}"></td>
+                        <td th:if = "${list.orderStatus =='주문접수'}">
+                            <button class = "delete_btn" th:data-order-number = "${list.orderNumber}" type = "button">X</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
 
-            <!-- 게시물 x -->
-            <th:block th:if = "${listCheck == 'empty'}">
-                <div class = "table_empty">?????</div>
-            </th:block>
+                <!-- 게시물 x -->
+                <th:block th:if = "${listCheck == 'empty'}">
+                    <div class = "table_empty">?????</div>
+                </th:block>
 
-        </div>
-        <!-- 검색 영역 -->
-        <div class = "search_wrap">
-            <form action = "/order/orderList" id = "searchForm" method = "get">
-                <div class = "search_input">
-                    <input name = "keyword" type = "text" value = '<th:block th:value="${pageMaker.cri.keyword}"></th:block>'>
-                    <input name = "pageNum" type = "hidden" value = '<th:block th:value="${pageMaker.cri.pageNum }"></th:block>'>
-                    <input name = "amount" type = "hidden" value = '${pageMaker.cri.amount}'>
-
-                    <input type = "hidden" name = "pageNum" value = "${pageMaker.cri.pageNum}">
-                    <input type = "hidden" name = "amount" value = "${pageMaker.cri.amount}">
-                    <input type = "hidden" name = "keyword" value = "${pageMaker.cri.keyword}">
-                    <button class = 'btn search_btn'>검 색</button>
-                </div>
-            </form>
+            </div>
+            <!-- 검색 영역 -->
+            <div class = "search_wrap">
+                <form id = "searchForm" method = "get" th:action = "@{/order/list}">
+                    <div class = "search_input">
+                        <input name = "keyword" th:text = "${pageMaker.paging.keyword}" type = "text">
+                        <input name = "pageNum" th:value = "${pageMaker.paging.pageNum }" type = "hidden">
+                        <input name = "amount" th:value = '${pageMaker.paging.amount}' type = "hidden">
+                        <button class = 'btn search_btn'>검 색</button>
+                    </div>
+                </form>
+            </div>
         </div>
 
         <!--         페이지 이동 인터페이스 영역-->
         <div class = "pageMaker_wrap">
-
             <ul class = "pageMaker">
-                <!--                 이전 버튼-->
-                <li class = "pageMaker_btn prev" th:if = "${pageMaker.prev}">
-                    <a th:href = "@{${pageMaker.pageStart - 1}}">이전</a>
-                </li>
+                <!--  이전 버튼-->
+                <th:block th:if = "${pageMaker.prev}">
+                    <li class = "pageMaker_btn prev">
+                        <a th:href = "@{${pageMaker.pageStart - 1}}">이전</a>
+                    </li>
+                </th:block>
 
-                <!--                 페이지 번호-->
+                <!-- 페이지 번호 -->
+                <th:block th:each = "num,iterStat : ${#numbers.sequence(pageMaker.pageStart,pageMaker.pageEnd)}">
+                    <li th:class = "|pageMaker_btn ${pageMaker.paging.pageNum == num ? 'active' : ''}|">
+                        <a th:href = "@{${num}}" th:text = "${num}"></a>
+                    </li>
+                </th:block>
 
-                <!--                </th:block>-->
-                <li th:each = "num,iterStat : ${#numbers.sequence(pageMaker.pageStart,pageMaker.pageEnd)}">
-                    <a th:with = "link=|/link${num}|" th:href = "@{${link}}" th:text = "${num}"> </a>
-                </li>
-                <!--                 다음 버튼-->
+                <!--  다음 버튼-->
                 <th:block th:if = "${pageMaker.next}">
                     <li class = "pageMaker_btn next">
                         <a th:href = "@{${pageMaker.pageEnd + 1}}">다음</a>
                     </li>
                 </th:block>
-
             </ul>
-
         </div>
     </div>
 
-    <form action = "/order/orderList" id = "moveForm" method = "get">
-        <input name = "pageNum" type = "hidden" value = "${pageMaker.cri.pageNum}">
-        <input name = "amount" type = "hidden" value = "${pageMaker.cri.amount}">
-        <input name = "keyword" type = "hidden" value = "${pageMaker.cri.keyword}">
+    <form id = "moveForm" method = "get" th:action = "@{/order/list}">
+        <input name = "pageNum" th:value = "${pageMaker.paging.pageNum}" type = "hidden">
+        <input name = "amount" th:value = "${pageMaker.paging.amount}" type = "hidden">
+        <input name = "keyword" th:value = "${pageMaker.paging.keyword}" type = "hidden">
     </form>
 
-    <form action = "/order/cancel" id = "deleteForm" method = "post">
-        <input name = "orderId" type = "hidden">
-        <input name = "pageNum" type = "hidden" value = "${pageMaker.cri.pageNum}">
-        <input name = "amount" type = "hidden" value = "${pageMaker.cri.amount}">
-        <input name = "keyword" type = "hidden" value = "${pageMaker.cri.keyword}">
-        <input name = "memberId" type = "hidden" value = "${member.memberId}">
+    <form id = "deleteForm" method = "post" th:action = "@{/order/cancel}">
+        <input name = "orderNumber" type = "hidden">
+        <input name = "pageNum" th:value = "${pageMaker.paging.pageNum}" type = "hidden">
+        <input name = "amount" th:value = "${pageMaker.paging.amount}" type = "hidden">
+        <input name = "keyword" th:value = "${pageMaker.paging.keyword}" type = "hidden">
+        <input name = "buyerId" th:value = "${#authentication.principal.user.id}" type = "hidden">
     </form>
-
-
 </article>
 
 </body>

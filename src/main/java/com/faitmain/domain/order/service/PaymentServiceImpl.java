@@ -101,7 +101,7 @@ public class PaymentServiceImpl implements PaymentService{
     }
 
     @Override
-    public void paymentCancel( String access_token , String imp_uid , int amount , String reason ) throws IOException{
+    public void paymentCancel( String access_token , String imp_uid , int amount ) throws IOException{
 
         log.info( "/* 결제 취소로직 시작*/" );
         log.info( "access_token = {}", access_token );
@@ -121,7 +121,6 @@ public class PaymentServiceImpl implements PaymentService{
 
         JsonObject json = new JsonObject();
 
-        json.addProperty( "reason", reason );
         json.addProperty( "imp_uid", imp_uid );
         json.addProperty( "amount", amount );
         json.addProperty( "checkSum" , amount );
