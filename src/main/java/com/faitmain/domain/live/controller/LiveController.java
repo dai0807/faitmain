@@ -914,4 +914,53 @@ public class LiveController {
 		return new RedirectView("/live/getLiveReservationList?date=" + date);
 	}
 
+	@GetMapping("getStoreAlarmList")
+	public String getStoreAlarmList(Authentication authentication, Model model) throws Exception {
+		log.info("getStoreAlarmList GET start...");
+
+		SecurityUserService securityUser = (SecurityUserService) authentication.getPrincipal();
+		User user = (User) securityUser.getUser();
+
+		int liveNumver = (liveService.getLiveByStoreId(user.getId())).getLiveNumber();
+
+		Map<String, Object> map = liveService.getStoreLiveUserStatusList(liveNumver);
+
+		log.info("map = {}", map);
+
+		model.addAttribute("map", map);
+
+		log.info("getStoreAlarmList GET end...");
+		return "/live/getStoreAlarmList";
+	}
+
+	@GetMapping("getUserAlarmList")
+	public String getUserAlarmList(Authentication authentication, Model model) throws Exception {
+		log.info("getUserAlarmList GET start...");
+
+		SecurityUserService securityUser = (SecurityUserService) authentication.getPrincipal();
+		User user = (User) securityUser.getUser();
+
+		LiveUserStatus liveUserStatus = new LiveUserStatus();
+		liveUserStatus.setId(user.getId());
+
+		Map<String, Object> map = liveService.getUserLiveUserStatusList(liveUserStatus);
+		List<Live> liveList = new ArrayList<>();
+		Live live = new Live();
+
+		for (LiveUserStatus list : (List<LiveUserStatus>) map.get("list")) {
+			live = liveService.getLive(list.getLiveNumber());
+
+			liveList.add(live);
+		}
+
+		map.put("liveList", liveList);
+
+		log.info("map = {}", map);
+
+		model.addAttribute("map", map);
+
+		log.info("getUserAlarmList GET end...");
+		return "/live/getUserAlarmList";
+	}
+
 }

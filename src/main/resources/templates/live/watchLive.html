@@ -130,14 +130,14 @@
                         <div id="content1">
                         </div>
                     </div>
-                    <div class="chat_bottom">
+                    <div sec:authorize="isAuthenticated()" class="chat_bottom">
                         <!-- 메시지 작성 -->
-                        <div class="chat_input">
+                        <div  class="chat_input">
                             <div class="textbox" id="content" contenteditable="true" placeholder="메세지 입력하기"></div>
                             <div class="send"><a href="#!" id="sendCounter">전송</a></div>
                         </div>
                         <!-- 알람 설정 -->
-                        <div sec:authorize="isAuthenticated()" class="like">
+                        <div class="like">
                             <a href="#!" id="sendLike"><i class="fas fa-heart"></i></a>
                         </div>
                     </div>

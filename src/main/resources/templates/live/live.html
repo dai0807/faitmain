@@ -94,7 +94,7 @@
 
 <body>
 	<!-- ================================= 필요 데이터 =========================================================== -->
-      <input type="hidden" id="storeNickname" th:value="${#authentication.principal.user.nickname}" /> 
+      <input type="hidden" id="storeNickname" th:value="${#authentication.principal.user.storeName}" /> 
       <input type="hidden" id="storeId" th:value="${#authentication.principal.user.id}" />   
       <input type="hidden" id="channelKey" th:value="${channelKey}"/> 
 	<!-- ====================================================================================================== -->

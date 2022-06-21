@@ -67,8 +67,6 @@ public class LiveRestController {
 
 		log.info("getLiveUserList = {} ", this.getClass());
 
-		// User user = (User) session.getAttribute("user");
-
 		SecurityUserService securityUserService = (SecurityUserService) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
 		User user = (User) securityUserService.getUser();
@@ -139,8 +137,6 @@ public class LiveRestController {
 
 		log.info("getLiveUserList = {} ", this.getClass());
 
-		// User user = (User) session.getAttribute("user");
-
 		SecurityUserService securityUserService = (SecurityUserService) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
 		User user = (User) securityUserService.getUser();
@@ -208,8 +204,6 @@ public class LiveRestController {
 		log.info("Controller = {} ", "/live/getLiveUserList : GET start...");
 
 		log.info("getLiveUserList = {} ", this.getClass());
-
-		// User user = (User) session.getAttribute("user");
 
 		SecurityUserService securityUserService = (SecurityUserService) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
@@ -441,18 +435,18 @@ public class LiveRestController {
 
 		log.info("editRoom = {} ", this.getClass());
 
-//		//DB에 강제퇴장 내용 등록
-//		
-//		LiveUserStatus live = new LiveUserStatus();
-//		for (String nick : nickName) {
-//			live.setLiveNumber(liveService.getLiveNumberByRoomId(roomId).getLiveNumber());
-//			live.setNickName(nick);
-//			live.setKickStatus(1);
-//			
-//			liveService.addLiveUserStatus(live);
-//			
-//			System.out.println(live);
-//		}
+		// DB에 강제퇴장 내용 등록
+
+		LiveUserStatus live = new LiveUserStatus();
+		for (String id : clientKey) {
+			live.setLiveNumber(liveService.getLiveNumberByRoomId(roomId).getLiveNumber());
+			live.setId(id);
+			live.setKickStatus(1);
+
+			liveService.addLiveUserStatus(live);
+
+			System.out.println(live);
+		}
 
 		String token = getToken();
 
@@ -664,6 +658,7 @@ public class LiveRestController {
 
 		LiveUserStatus liveUserStatus = new LiveUserStatus();
 		liveUserStatus.setId(user.getId());
+		liveUserStatus.setNickName(user.getNickname());
 		liveUserStatus.setLiveNumber(live.getLiveNumber());
 
 		if (liveService.getLiveUserStatus(liveUserStatus) == null) {

@@ -50,6 +50,7 @@
     <resultMap id="liveUserStatusMap" type="LiveUserStatus">
        <result property="liveNumber" column="live_number" jdbcType="INTEGER" />
        <result property="id" column="id" jdbcType="VARCHAR" />
+       <result property="nickName" column="nick_name" jdbcType="VARCHAR" />
        <result property="alarmStatus" column="alarm_status" jdbcType="INTEGER" />
        <result property="kickStatus" column="kick_status" jdbcType="INTEGER" />
        <result property="dumbStatus" column="dumb_status" jdbcType="INTEGER" />
@@ -92,9 +93,9 @@
     <!-- ADD LiveUserStatus -->
      <insert id="addLiveUserStatus" parameterType="LiveUserStatus">
        INSERT INTO live_user_status
-          (live_number, id, alarm_status, kick_status, dumb_status)
+          (live_number, id, nick_name, alarm_status, kick_status, dumb_status)
        VALUES
-          (#{liveNumber}, #{id}, #{alarmStatus}, #{kickStatus}, #{dumbStatus})
+          (#{liveNumber}, #{id}, #{nickName}, #{alarmStatus}, #{kickStatus}, #{dumbStatus})
     </insert>   
     
     <!-- ================================================================================= UPDATE============================================================================== -->
@@ -256,7 +257,7 @@
 		ORDER BY l.reservation_time;
 	</select>
 	    
-    <!-- GET LIST ListUserStatus -->
+    <!-- GET LIST ListStoreUserStatus -->
     <select id="getStoreLiveUserStatusList" parameterType="int" resultMap="liveUserStatusMap">
       SELECT * FROM live_user_status
       <where>
@@ -265,11 +266,11 @@
       </where>
    	</select>
 	
+	<!-- GET LIST ListUseLiveUserrStatus -->
 	<select id="getUserLiveUserStatusList" parameterType="LiveUserStatus" resultMap="liveUserStatusMap">
       SELECT * FROM live_user_status
       <where>
-         live_number = #{liveNumber}
-         AND id = #{id}
+         id = #{id}
          AND alarm_status = 1
       </where>
    	</select>
