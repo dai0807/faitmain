@@ -4,7 +4,7 @@ import com.faitmain.domain.order.domain.Order;
 import com.faitmain.domain.order.domain.OrderCancel;
 import com.faitmain.domain.order.domain.OrderPageProduct;
 import com.faitmain.domain.user.domain.User;
-import com.faitmain.global.common.Criterion;
+import com.faitmain.global.common.Paging;
 import com.faitmain.global.util.log.TraceId;
 
 import java.util.List;
@@ -23,6 +23,8 @@ public interface OrderService{
     /* 주문 */
     void addOrder( Order order ) throws Exception;
 
+
+
     /* 주문 취소 */
     void cancelOrder( OrderCancel orderCancel ) throws Exception;
 
@@ -31,8 +33,8 @@ public interface OrderService{
     /* 주문 현황 */
 
     /* 주문 상품 리스트 */
-    List<Order> getOrderList( Criterion criterion ) throws Exception;
+    List<Order> getOrderList( Paging paging ) throws Exception;
 
     /* 주문 총 개수 */
-    int getOrderTotal( Criterion criterion ) throws Exception;
+    int getOrderTotal( Paging paging ) throws Exception;
 }

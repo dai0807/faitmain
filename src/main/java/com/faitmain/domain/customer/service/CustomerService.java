@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import com.faitmain.domain.customer.domain.BanStatus;
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.user.domain.User;
-import com.faitmain.global.common.Criterion;
 import com.faitmain.global.common.Image;
+import com.faitmain.global.common.Paging;
 
 
 public interface CustomerService {
@@ -39,24 +39,22 @@ public interface CustomerService {
 	public int getBoardTotalCount() throws Exception;
 	
 // 게시판 목록(페이징 적용)
-	public List<Customer> getListPaging(Criterion criterion) throws Exception;
+	public List<Customer> getListPaging(Paging paging) throws Exception;
 	
-
-//	public BanStatus updateBanStatus(int reportNumber) throws Exception;
-//	
-//	public int updateBanStatus(BanStatus banStatus) throws Exception;
-//	
-//	public void addCustomerBoard(Image image) throws Exception;
-	
-	
-	
-	
-	
-
-	
-	
-	/*
-	 * public void increaseViewCount(int customer_board_number, HttpSession session)
-	 * throws Exception;
-	 */
 }
+//	public BanStatus updateBanStatus(int reportNumber) throws Exception;
+
+
+//	
+//	
+//	
+//	
+//	
+//
+//	
+//	
+//	/*
+//	 * public void increaseViewCount(int customer_board_number, HttpSession session)
+//	 * throws Exception;
+//	 */
+//}

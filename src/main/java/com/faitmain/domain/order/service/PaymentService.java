@@ -9,5 +9,5 @@ public interface PaymentService{
 
     int paymentInfo( String imp_uid , String access_token ) throws IOException;
 
-    void paymentCancel( String access_token , String imp_uid , int amount , String reason ) throws MalformedURLException, IOException;
+    void paymentCancel( String access_token , String imp_uid , int amount ) throws MalformedURLException, IOException;
 }

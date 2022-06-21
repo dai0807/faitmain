@@ -10,11 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.mapper.CustomerMapper;
-import com.faitmain.global.common.Criterion;
-
-import lombok.RequiredArgsConstructor;
-
-
+import com.faitmain.global.common.Paging;
 
 
 
@@ -78,8 +74,55 @@ public class CustomerServiceImpl implements CustomerService{
 //		}
 //		
 //		return (queryResult == 1) ? true : false;
+
 //	}
-		
+//
+////	게시판 상세조회
+//	@Override
+//	public Customer getCustomerBoard(int boardNumber) throws Exception {
+//		return customerMapper.getCustomerBoard(boardNumber);
+//	}
+//	
+//	
+////	라이브가이드 상세조회	
+//	@Override
+//	public Customer getLiveGuide(char boardType) throws Exception{
+//		return customerMapper.getLiveGuide(boardType);
+//	}
+//
+////	게시판 등록
+//	@Override
+//	public int addCustomerBoard(Customer customer) throws Exception {
+//		return customerMapper.addCustomerBoard(customer);
+//	}
+//
+////	게시판 수정	
+//	@Override
+//	public int updateCustomerBoard(Customer customer) throws Exception{ 
+//		 return customerMapper.updateCustomerBoard(customer);
+//	  
+//	}
+//	
+////	게시판 삭제
+//	@Override
+//	public int deleteCustomerBoard(int boardNumber) throws Exception{
+//		return customerMapper.deleteCustomerBoard(boardNumber);
+//	}
+//	
+//// 게시판 삭제(Enum 활용)
+////	@Override
+////	public boolean deleteCustomerBoard(int boardNumber) throws Exception {
+////		int queryResult = 0;
+////		
+////		Customer customer = customerMapper.getCustomerBoard(boardNumber);
+////		
+////		if(customer != null && "N".equals(customer.getDeleteYn())) {		// 삭제여부 - 'Y' : 삭제 x, 'N' : 삭제
+////			queryResult = customerMapper.deleteCustomerBoard(boardNumber);
+////		}
+////		
+////		return (queryResult == 1) ? true : false;
+////	}
+//		
 // 게시판 조회	
 	@Override
 	public List<Customer> getCustomerBoardList(char boardType) throws Exception {
@@ -100,13 +143,13 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 	
 // 게시판 목록(페이징 적용)
-	public List<Customer> getListPaging(Criterion criterion) throws Exception{
-		return customerMapper.getListPaging(criterion);
+	public List<Customer> getListPaging(Paging paging) throws Exception{
+		return customerMapper.getListPaging(paging);
 	}
-	
-		  
-
-	
-	
+//	
+//		  
+//
+//	
+//	
 }
-
+//

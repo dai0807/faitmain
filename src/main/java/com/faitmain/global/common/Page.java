@@ -1,6 +1,5 @@
 package com.faitmain.global.common;
 
-
 import lombok.Data;
 
 @Data
@@ -20,23 +19,23 @@ public class Page{
     private int total;
 
     /* 현재페이지 번호(pageNum), 행 표시 수(amount), 검색 키워드(keyword), 검색 종류(type) */
-    private Criterion cri;
+    private Paging paging;
 
     /* 생성자(클래스 호출 시 각 변수 값 초기화) */
-    public Page(Criterion cri, int total) {
+    public Page( Paging paging, int total) {
 
         /* cri, total 초기화 */
-        this.cri = cri;
+        this.paging = paging;
         this.total = total;
 
         /* 페이지 끝 번호 */
-        this.pageEnd = (int)(Math.ceil(cri.getPageNum()/10.0))*10;
+        this.pageEnd = (int)(Math.ceil(paging.getPageNum()/10.0))*10;
 
         /* 페이지 시작 번호 */
         this.pageStart = this.pageEnd - 9;
 
         /* 전체 마지막 페이지 번호 */
-        int realEnd = (int)(Math.ceil(total*1.0/cri.getAmount()));
+        int realEnd = (int)(Math.ceil(total*1.0/paging.getAmount()));
 
         /* 페이지 끝 번호 유효성 체크 */
         if(realEnd < pageEnd) {
@@ -91,18 +90,18 @@ public class Page{
         this.total = total;
     }
 
-    public Criterion getCri() {
-        return cri;
+    public Paging getPaging() {
+        return paging;
     }
 
-    public void setCri(Criterion cri) {
-        this.cri = cri;
+    public void setPaging( Paging paging ) {
+        this.paging = paging;
     }
 
     @Override
     public String toString() {
         return "PageDTO [pageStart=" + pageStart + ", pageEnd=" + pageEnd + ", next=" + next + ", prev=" + prev
-                + ", total=" + total + ", cri=" + cri + "]";
+                + ", total=" + total + ", paging=" + paging + "]";
     }
     
 

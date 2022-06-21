@@ -10,8 +10,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -551,24 +553,49 @@ public class UserController{
 
     // RedirectView longin( RedirectAttributes model ,
     //kakao회원 추가 가입
-    @PostMapping( "kakaoaddUser" )
-    public RedirectView kakaoaddUser( @RequestParam( value = "code", required = false ) String code , RedirectAttributes model ,
+    @PostMapping( "addSnsUser" )
+    public RedirectView addSnsUser( @RequestParam( value = "code", required = false ) String code , RedirectAttributes model ,
                                       @ModelAttribute( "user" ) User kuser , HttpSession session ) throws Exception{
-        log.info( "##code {} ##" , code );
-        log.info( "##kuser {} ##" , kuser );
+//        log.info( "##code {} ##" , code );
+//        log.info( "##kuser {} ##" , kuser );
+//
+//        kuser.setRole( "user" );
+//
+//        kuser.setPassword( "12345" ); //  패스워드 고정
+//        kuser.setJoinPath( "KAKAO" ); // 카카오는 KAKAO로 고정 , 자사는 HOME 로 고정, 네이버 NAVER
 
-        kuser.setRole( "user" );
-
-        kuser.setPassword( "12345" ); //  패스워드 고정
-        kuser.setJoinPath( "KAKAO" ); // 카카오는 K로 고정 , 자사는 H 로 고정
-
-        log.info( "##kuser {} ##" , kuser );
-        log.info( "회원가입이 완료 되었습니다. " );
+        log.info( "##kuser {}  sns USER 추가 창에 왔습니다. ##"  );
+        log.info( "##kuser {}  sns USER 추가 창에 왔습니다. ##" , kuser );
 
         int result = userSerivce.addUser( kuser );
         log.info( "##kakaoUser 결과  {} ##" , result );
 
-        session.setAttribute( "user" , kuser );
+        kuser = userSerivce.getUser(kuser.getId()) ;
+        log.info( "##kuser {}  getUSer 함  ##" , kuser );
+   
+
+			if( result ==1   ) {
+				
+				
+				SecurityUserService securityUserService = new SecurityUserService(kuser);   //  디테일 섭스를 다시 만들어서 주입
+
+			     Authentication authentication =
+			  		   new UsernamePasswordAuthenticationToken(securityUserService,  null , securityUserService.getAuthorities() ) ;
+			  			SecurityContext securityContext =SecurityContextHolder.getContext() ; //SecurityContextHolder 안에 있는 컨텍스트에 접근 
+				
+				
+			  	        log.info( "##authentication  ##" , authentication );
+
+				
+				
+			}
+        
+	        log.info( "회원가입이 완료 되었습니다. " );
+
+        
+        
+        
+        
 
 
         Map<String, Object> map = new HashMap<>();

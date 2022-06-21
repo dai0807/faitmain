@@ -10,7 +10,7 @@ import com.faitmain.domain.order.mapper.OrderMapper;
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.product.mapper.ProductMapper;
 import com.faitmain.domain.user.domain.User;
-import com.faitmain.global.common.Criterion;
+import com.faitmain.global.common.Paging;
 import com.faitmain.global.util.log.LogTrace;
 import com.faitmain.global.util.log.TraceId;
 import com.faitmain.global.util.log.TraceStatus;
@@ -178,18 +178,22 @@ public class OrderServiceImpl implements OrderService{
 
         /* 회원 */
         User user = orderMapper.selectBuyer( orderCancel.getBuyerId() );
+
         /* 주문상품 */
         List<OrderProduct> orderProductList = orderMapper.selectOrderProductList( orderCancel.getOrderNumber() );
         for ( OrderProduct orderProduct : orderProductList ) {
             orderProduct.initSaleTotal();
         }
+
         /* 주문 */
         Order order = orderMapper.selectOrder( orderCancel.getOrderNumber() );
         order.setOrderProductList( orderProductList );
         order.getOrderPriceInfo();
 
         /* 주문상품 취소 DB */
+        log.info( "deleteOrder 실행 전" );
         orderMapper.deleteOrder( order.getOrderNumber() );
+        log.info( "deleteOrder 실행 후" );
 
         /* 포인트 & 재고 변환 */
 
@@ -197,9 +201,11 @@ public class OrderServiceImpl implements OrderService{
         int calTotalPoint = user.getTotalPoint();
         calTotalPoint = calTotalPoint - order.getUsingPoint() + order.getOrderRewardPoint();
         user.setTotalPoint( calTotalPoint );
+        log.info( "user = {}", user );
 
         /* DB 적용 */
         orderMapper.updatePoint( user );
+        log.info( "user = {}", user );
 
         /* 재고 */
         for ( OrderProduct orderProduct : order.getOrderProductList() ) {
@@ -211,14 +217,14 @@ public class OrderServiceImpl implements OrderService{
 
     /* 주문 상품 리스트 */
     @Override
-    public List<Order> getOrderList( Criterion criterion ){
-        return orderMapper.selectOrderList( criterion );
+    public List<Order> getOrderList( Paging paging ){
+        return orderMapper.selectOrderList( paging );
     }
 
     /* 주문 총 개수 */
     @Override
-    public int getOrderTotal( Criterion criterion ){
-        return orderMapper.selectOrderTotal( criterion );
+    public int getOrderTotal( Paging paging ){
+        return orderMapper.selectOrderTotal( paging );
     }
 
 

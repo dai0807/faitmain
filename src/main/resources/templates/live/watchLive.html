@@ -21,14 +21,13 @@
     <link href="/css/liveStyle.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/c13f14f04a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
 
     <script src="/js/vchatcloud-1.2.0.min.js"></script>
-    <!-- <script src="/js/watchlogin.js"></script> -->
-    <script src="/js/like.js"></script>
     <script src="/js/draw.js"></script>
     <script src="/js/errMsg.js"></script>
 </head>
@@ -132,16 +131,15 @@
                         <div id="content1">
                         </div>
                     </div>
-                    <div class="chat_bottom">
+                    <div sec:authorize="isAuthenticated()" class="chat_bottom">
                         <!-- 메시지 작성 -->
-                        <div class="chat_input">
+                        <div  class="chat_input">
                             <div class="textbox" id="content" contenteditable="true" placeholder="메세지 입력하기"></div>
                             <div class="send"><a href="#!" id="sendCounter">전송</a></div>
                         </div>
-                        <!-- 좋아요 -->
+                        <!-- 알람 설정 -->
                         <div class="like">
                             <a href="#!" id="sendLike"><i class="fas fa-heart"></i></a>
-                            <span id="likeCounter"></span>
                         </div>
                     </div>
                     
@@ -151,9 +149,9 @@
         </section>
     </div>
     
-    <div style="float: right; width:40%; height:700px; background-color:white; border-radius: 30px; margin-top:50px; margin-right:70px;">
+    <div style="float: right; width:40%; height:700px; background-color:white; border-radius: 30px; margin-top:50px; margin-right:70px; font-family:jua;">
    		<div>
-   			<h5 style="margin-left:50px; margin-top:15px; margin-bottom:15px; font-size: 30px; font-family:jua; font-weight: bold; ">상품 목록</h5>
+   			<h5 style="margin-left:50px; margin-top:15px; margin-bottom:15px; font-size: 30px; font-weight: bold; ">상품 목록</h5>
    		</div>
    		<div style="height:620px; width:750px; overflow: auto; margin-left:5px;">
    			<table class="table">
@@ -190,9 +188,8 @@
 <script th:inline="javascript">
      
  // 채널에 접속하기 위해서 사용자의 userNick, userKey와 CMS에서 발급받은 channelKey가 필요합니다.
-
-     var channelKey = $('#channelKey').val(); // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
-  	 var storeId = $('#storeId').val();
+ 
+ 
 
      function videoInit() {
 
@@ -217,6 +214,15 @@
        userNick = $("#userNickname").val(), // 접속자의 닉네임, 사용자에게 입력받은 값을 사용해도 된다.
        randomNick = 'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }), // 접속자 고유 키
      userKey = $('#userId').val();
+     
+    if( $('#userNickname').val() == null || $('#userNickname').val() == "" ){
+		var clientKey = randomNick;
+	} else {
+			clientKey = $('#userNickname').val();
+	}
+
+     var channelKey = $('#channelKey').val(); // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
+  	 var storeId = $('#storeId').val();
 
 
      // rtc
@@ -226,7 +232,6 @@
           // 접속자의 미디어 소스를 보여줄 위치
        
         let c = $('div.chat_contents').hide();
-          likeInif();
        
           remoteCam = $('.remote_cam');
           remoteCam.attr('name', 'remote_cam');
@@ -234,7 +239,7 @@
           console.log('channelKey = '+channelKey);
           
          $('div.bottom div.name').text(userNick);
-         joinRoom(channelKey,   randomNick, ((userNick == null || userNick == "")? randomNick : userNick), function(err, history){
+         joinRoom(channelKey, clientKey, ((userNick == null || userNick == "")? randomNick : userNick), function(err, history){
                if(err){
                   openError(err.code, function(){
                      c.hide();
@@ -263,11 +268,34 @@
                   personalInit();
                   msgInit();
                   getRoomInfo();
-                  likeInif();
                }   
          });
+         
+         $('#sendLike').on("click", function() {
+	 			
+	 			var obj = { "roomId" : channelKey };
+	 		
+	 			$.ajax({
+	 				url : "/live/json/updateAlarm",
+	 				type : "POST",
+	 				data : JSON.stringify(obj),
+	 				dataType : "JSON",
+	 				contentType : "application/json; charset=utf-8",
+	 			
+	 				success: function(response){
+	 					console.log("[requestPostBodyJson] : [success]");
+	 				},
+	 			
+	 				error: function(xhr){
+	 					console.log("[requestPostBodyJson] : [error] : " + JSON.stringify(xhr));
+	 				}
+	 			
+	 				
+	 			});
+	    	 
+	     	});
      })
-
+	
      function joinRoom(roomId, clientKey, nickName, callback) {
        // vchatcloud 객체
        console.log("clientKey : " + clientKey);
@@ -317,26 +345,33 @@
      }
 
      function openError(code, callback) {
-       let p = $("div.errorpopup").hide();
-       if (errMsg[code] == undefined) {
-         $("p:nth-child(2)", p).text(code);
-       } else {
-         $("p:nth-child(2)", p).text(errMsg[code].kor);
-       }
-       $("a", p)
-         .off()
-         .click(function () {
-           p.hide();
-           if (typeof callback == "function") {
-             callback();
-           }
-         });
-       p.show();
-     }
+			colsole.log(code);
+		if ( code == 10106 ){ 
+			self.location="/live/returnIndex";
+		} else if ( code == 10109 ) {
+			Swal.fire({
+				icon: 'warning',
+				title: '경고!',
+				text: '방송이 종료되었습니다.',
+				confirmButtonText: '돌아가기',
+			}).then((result) => {
+				if(result.isConfirmed){
+					self.location="/";
+				}
+			})
+		} else if ( code == "글쓰기가 제한되었습니다." ) {
+			Swal.fire({
+				icon: 'warning',
+				title: '경고!',
+				text: '글쓰기가 제한되었습니다.',
+				confirmButtonText: '돌아가기',  
+			})
+		}
+	}
      
      function exit() {
        if (channel) {
-         var exit_chk = confirm("종료 하시겠습니까?");
+       	var exit_chk = confirm("종료 하시겠습니까?");
          if (!exit_chk) return;
          $(".cam-footer .cam-btn .mic").off("click.rtc");
          $(".cam-footer .cam-btn .cam").off("click.rtc");

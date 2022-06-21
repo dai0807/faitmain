@@ -2,7 +2,7 @@ package com.faitmain.global.common;
 
 import java.util.Arrays;
 
-public class Criterion {
+public class Paging{
 
     /* 현재 페이지 번호 */
     private int pageNum;
@@ -28,15 +28,15 @@ public class Criterion {
     /* 상품 번호(댓글 기능에서 사용) */
     private int productNumber;
 
-    /* Criteria 생성자 */
-    public Criterion(int pageNum, int amount) {
+    /* PAGING 생성자 */
+    public Paging( int pageNum, int amount) {
         this.pageNum = pageNum;
         this.amount = amount;
         this.skip = (pageNum -1) * amount;
     }
 
-    /* Criteria 기본 생성자 */
-    public Criterion(){
+    /* PAGING 기본 생성자 */
+    public Paging(){
         this(1,10);
     }
 
@@ -114,7 +114,7 @@ public class Criterion {
 
     @Override
     public String toString() {
-        return "Criteria [pageNum=" + pageNum + ", amount=" + amount + ", skip=" + skip + ", type=" + type
+        return "Paging [pageNum=" + pageNum + ", amount=" + amount + ", skip=" + skip + ", type=" + type
                 + ", keyword=" + keyword + ", authorArr=" + Arrays.toString(authorArr) + ", cateCode=" + cateCode
                 + ", productNumber=" + productNumber + "]";
     }
