@@ -111,7 +111,37 @@ h1 {
 
 $('body').on('click', '[name=return]', function(event) {
 	lel();
-});   
+});
+
+$('body').on('click', '[name=cancleKick]', function(event) {
+	
+	let clientKey = []; // key 값을 담을 배열
+    const roomId = $('.roomId').val();
+    const nickName = $('.nickName').val();
+           
+    //삭제 key value
+    // chk라는 클래스를 가진 체크박스 중에 체크가 된
+    // object들을 찾아서 delchk라는 배열에 담는다.
+    
+    $('.clientKey:checked').each(function(){
+        clientKey.push($(this).val());
+    });
+	
+	$.ajax({
+		url : '/live/json/cancleKickUser/' + roomId + "/" + clientKey + "/" + nickName ,
+		type : 'GET',
+		async : true,
+		dataType : "json",
+		timeout : 2000,
+		success : function(data){},
+		error : function(error){}
+		
+	});
+});  
+
+$('body').on('click', '[name=cancleMute]', function(event) {
+	alert("씨발");
+});     
     
 //유저 강제퇴장 - 1
 function kickUser() { 
@@ -217,6 +247,14 @@ function lel(){
 			$('.kick').remove();
 			$('.mute').remove();
 			$('.muteBar').remove();
+			$('#cancleKick').remove();
+			$('#cancleMute').remove();
+			$('#return').remove();
+			$('div.button').append("<button type='button' class='btn btn-danger'  id='kick' onclick='kickUser()'>강제퇴장</button> ");
+			$('div.button').append('<button type="button" class="btn btn-warning" id="mute" onclick="muteUser()">채팅제한</button> ');
+			$('div.button').append('<button type="button" class="btn btn-warning" id="kickUserList" onclick="sanctionUserList()">제재 유저 조회</button>');
+			
+		
 				var abc = "";		
 			for(let i = 0 ; i < data.length ; i++) {
 					abc += "<tr class='test'><td><input class='clientKey' type='checkbox' name='clientKey' value=" + data[i].clientKey + "></td>"
@@ -227,9 +265,9 @@ function lel(){
 				console.log(abc);
 			
 				$("table").children(":first").append(abc);
-				$('.button').children(":last").remove();
+				
 
-				$('.button').append("<button type='button' class='btn btn-warning' id='kickUserList' onclick='sanctionUserList()'>제재 유저 조회</button>");
+				
 			
 			
 			
@@ -254,7 +292,11 @@ function sanctionUserList(){
 		success : function(data){
 			$(".test").remove();
 			$("#kickUserList").remove();
-			$("div.button").append("<button type='button' name='return' class='btn btn-primary'>채팅방 유저 조회</button>");
+			$('#mute').remove();
+			$('#kick').remove();
+			$("div.button").append("<button type='button' name='cancleKick' id='cancleKick' class='btn btn-danger'>강제퇴장 해제</button> ");
+			$("div.button").append("<button type='button' name='cancleMute' id='cancleMute' class='btn btn-warning'>채팅제한 해제</button> ");
+			$("div.button").append("<button type='button' name='return' id='return' class='btn btn-primary'>채팅방 유저 조회</button>");
 				var abc = "";		
 			for(let i = 0 ; i < data.length ; i++) {
 					abc += "<tr class='kick'><td><input class='clientKey' type='checkbox' name='clientKey' value=" + data[i].clientKey + "></td>"
@@ -312,11 +354,15 @@ function muteUserList(){
 </script>
 
 <br/>
+<th:block th:each="data : ${data}" >
+<input class="roomId" type="hidden" name="roomId" th:value="${data.roomId}"/> 
+<input class="nickName" type="hidden" name="nickName" th:value="${data.nickName}"/>
+</th:block>
 
 <h1> Live User List </h1>
 <div class="button">
-<button type="button" class="btn btn-danger"  id="kick" onclick="kickUser()"/>강퇴</button>
-<button type="button" class="btn btn-warning" id="mute" onclick="muteUser()"/>채팅 제한</button>
+<button type="button" class="btn btn-danger"  id="kick" onclick="kickUser()"/>강제퇴장</button>
+<button type="button" class="btn btn-warning" id="mute" onclick="muteUser()"/>채팅제한</button>
 <button type="button" class="btn btn-warning" id="kickUserList" onclick="sanctionUserList()"/>제재 유저 조회</button>
 </div>
 <div style="height:200px; overflow:auto">

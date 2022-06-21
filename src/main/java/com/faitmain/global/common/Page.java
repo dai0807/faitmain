@@ -1,6 +1,5 @@
 package com.faitmain.global.common;
 
-
 import lombok.Data;
 
 @Data
