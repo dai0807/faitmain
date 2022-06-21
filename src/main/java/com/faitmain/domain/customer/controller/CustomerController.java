@@ -90,6 +90,27 @@ public class CustomerController extends UiUtils {
 		return url;
 
 	}
+	
+// 게시판 수정
+	@GetMapping("updateBoard")
+	public String updateBoard(@RequestParam("boardType")char boardType, Model model) throws Exception {
+	
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+		
+		model.addAttribute("customer", customerService.getLiveGuide(boardType));
+		return "customer/updateLiveGuide";
+	}
+	
+	@PostMapping("updateBoard")
+	public String updateBoard(Customer customer) throws Exception {
+		
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+		
+		customerService.updateCustomerBoard(customer);
+		return "redirect: /detailGuide?boardType="+ customer.getBoardType();
+	}
 
 
 //	게시판 목록	(페이징 적용, 게시판 타입별, 라이브가이드 카테고리별 조회 적용)	
@@ -104,6 +125,10 @@ public class CustomerController extends UiUtils {
 			url= "customer/noticeList";
 			
 			System.out.println(boardList);
+			
+		}else if(customer.getBoardType() == 'L') {
+			boardList = customerService.getCustomerBoardList(customer.getBoardType());
+			url = "admin/liveGuideList";
 			
 //		model.addAttribute("boardList",customerService.getListPaging(criterion));
 //		int total = customerService.getBoardTotalCount();
@@ -222,21 +247,30 @@ public class CustomerController extends UiUtils {
 
 	
 	@PostMapping("deleteBoard")
-	public String deleteBoard(@RequestParam(value = "boardNumber", required=false) Integer boardNumber, 
-									@RequestParam(value="boardType", required=false)char boardType, Customer customer) throws Exception {
+	public String deleteBoard(@ModelAttribute Customer customer, @RequestParam(value = "valueArr[]") List<Integer> valueArrs, Model model) throws Exception {
 		
-		int isDeleted = customerService.deleteCustomerBoard(boardNumber);
-		
+		int isDeleted = customerService.deleteCustomerBoard(customer.getBoardNumber());
 		
 		String url = null;
 		
-		if(boardType == 'N') {
+		if(customer.getBoardType() == 'N') {
 			return "redirect:/customer/noticeList";
-		}else if(boardType == 'L') {
+			
+			
+		}else if(customer.getBoardType() == 'L') {
+		
+			int size = valueArrs.size();
+			int[] intArr = valueArrs.stream().mapToInt(i->i).toArray();		//List<Integer> to int[]
+			
+			for(int i=0; i<size; i++) {
+				customerService.deleteCustomerBoard(intArr[i]);
+			}
 			return "redirect:/customer/customerCenterIndex2";
 		}
 		return url;
 	}		
+	
+	
 }	
 
 //	@PostMapping("deleteNotice")

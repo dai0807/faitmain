@@ -62,6 +62,8 @@ public class CustomerServiceImpl implements CustomerService{
 		return customerMapper.deleteCustomerBoard(boardNumber);
 	}
 	
+
+	
 // 게시판 삭제(Enum 활용)
 //	@Override
 //	public boolean deleteCustomerBoard(int boardNumber) throws Exception {
