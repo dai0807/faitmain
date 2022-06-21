@@ -3,13 +3,21 @@
 <head>
     <meta charset = "UTF-8">
     <title>나의 리뷰 목록</title>
-    
-    <link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="/productDesign/images/icons/favicon.png"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
 	
 	<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">	
+	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">
 	
 	<style>
 	
@@ -17,118 +25,204 @@
 			margin-top:10px ; 	 
 		}
 		
-		h5, span{font-family: 'Nanum Gothic Coding', monospace;}
-	
-    </style>
+		h5,span{font-family: 'Nanum Gothic Coding', monospace;}
+		
+		.statusDeleteBtnArea{
+			display: block;
+			/*border: 1px solid red;*/
+			margin: 0px;
+			height: 70px;			
+		}
+		
+		.statusDeleteBtnArea button{	
+			float: right;
+			margin-left: 20px;
+		}
+		
+		.statusDeleteBtnArea input{	
+			float: left;
+			margin-top: 25px;
+			margin-left: 20px;
+			height: 30%;
+		}
+		
+		.checkReview{
+			margin-left: 20px;
+			margin-right: 0px;
+		}		
+		
+   	</style>
     
-    <script type="text/javascript">
-    
-    	function fncGetList(currentPage) {
+   	<script type="text/javascript">
+   	
+	   	function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage);	
 			$("form").submit();		
 		}
-    	
-    	$(function(){
-			
-			
-			
-		});
 		
-    </script>
+		
+		$(function () {
+			
+				//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+				$("#search").on("click", function () {
+					fncGetList(1);
+				});
+
+				$(".orderName li").on("click", function () {
+					alert("선택됨" + $(this).text());
+					let selectOrderBy = $(this).text();
+
+					if (selectOrderBy == '최신순') {
+						$("#orderName").val("reg_date DESC");
+					} else if (selectOrderBy == '낮은 가격순') {
+						$("#orderName").val("product_price");
+					} else if (selectOrderBy == '높은 가격순') {
+						$("#orderName").val("product_price DESC");
+					}
+					$("form").submit();
+				});
+ 
+				
+				$("#checkAll").change(function(){
+					
+					let checked = $(this).prop("checked");
+					
+					if(checked){
+						$(".checkReview").prop("checked", true);
+					}else{
+						$(".checkReview").prop("checked", false);
+					}
+					
+				});
+				
+				$("#deleteReview").on("click", function(){
+					
+					console.log("삭제");
+					
+					var checkArray = new Array();
+					
+					$(".checkReview:checked").each(function(){
+						checkArray.push($(this).val());
+					});
+					
+					if(checkArray.length < 1){
+						
+						alert("값을 선택해주시기 바랍니다.");
+						
+					}else{
+						
+						console.log(checkArray);
+						
+						$.ajax({
+							url:"/review/json/deleteReview",
+							type:"post",
+							dataType: "json",
+							data:{
+								"reviewNumbers" : checkArray
+							},
+							success: function(data){
+								console.log("컨트롤러에서 받은 data : " + data);
+								
+								if(data == '1'){
+									alert("삭제가 완료되었습니다.");
+									location.reload();
+								}else{
+									alert("삭제 되지 않았습니다.");
+								}
+							}
+						});
+						
+					}
+				});
+				
+			});
+   	</script>
+	
+	
 </head>
-<body>
-	<article  class="py-5" layout:fragment="content">
+<body >
+	<article class="py-5" layout:fragment="content">
+	
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
-					<div class="p-b-30 m-lr-15-sm">
-						
+	
+				<div class="m-l-25 m-r--38 m-lr-0-xl">
+	
+					<!-- 모든 리뷰 삭제 -->
+					<div class="statusDeleteBtnArea">
+	
+						<button type="button" id="deleteReview" class="flex-c-m stext-101 cl2 size-126 bg8 bor13 hov-btn3 trans-04 pointer m-tb-10">
+							삭제
+						</button>
+	
 						<input type="checkbox" id="checkAll" />
-						
-						<!-- 리뷰 없음 -->
-						<th:block th:if="${#lists.size(list) == 0}">
-							<p class="stext-102 cl6">
-								리뷰가 없습니다.
-							</p>
-						</th:block>
-						
-						<!-- 리뷰 있음 -->
-						<th:block th:unless="${#lists.size(list) == 0}" th:each="review : ${list}">
-							<input type="checkbox" class="checkReview" />
-							<div class="flex-w flex-t p-b-68">								
-								
-								<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
-									<img th:src="|../img/upload/${ review.reviewImage }|" alt="Review-IMG">
-								</div>
-								
-								<div class="size-207">
-									<div class="flex-w flex-sb-m p-b-17">
-										<span class="mtext-107 cl2 p-r-20" th:text="${review.userId}">																
-										</span>
-								
+	
+					</div>
+					<!-- ========== -->
+					
+					<!-- 리뷰 목록 -->
+					<div class="wrap-table-shopping-cart">
+	
+						<table class="table-shopping-cart">
+							<tr class="table_head">
+								<th class="column-3"></th>
+								<th class="column-3">상품명</th>
+								<th class="column-1">리뷰</th>
+								<th class="column-2"></th>
+								<th class="column-3">별점</th>
+								<th class="column-5">등록날짜</th>								
+							</tr>
+	
+							<th:block th:each="review : ${list}">
+								<tr class="table_row">
+									<td class="column-3">
+										<input type="checkbox" class="checkReview" th:value="${review.reviewNumber}" />
+									</td>
+									<td class="column-3">
+										<span th:text="${review.orderProduct.productName}" class="stext-117 cl6 p-b-26"></span>
+									</td>
+									<td class="column-1">
+										<div class="how-itemcart">
+											<img th:src="|../img/upload/${ review.reviewImage }|" alt="IMG">
+										</div>
+									</td>
+									<td class="column-2">
+										<a class="stext-115 cl7 hov-cl1 size-213 p-t-18"
+											th:href="@{/review/updateReview(reviewNumber=${review.reviewNumber})}">
+											<p th:text="${review.reviewContent}"
+												style="width: 150px; word-wrap: break-word;"></p>
+										</a>
+									</td>
+									<td class="column-3">
 										<span class="fs-18 cl11">
 											<th:block th:each="num : ${#numbers.sequence(1, 5)}">
 												<i class="zmdi zmdi-star" th:if="${num le review.rating}"></i>
 												<i class="zmdi zmdi-star-outline" th:if="${num gt review.rating}"></i>
 											</th:block>
 										</span>
-									</div>
-								
-									<p class="stext-102 cl6" th:text="${review.reviewContent}">															
-									</p>
-								</div>
-								
-							</div>	
-						</th:block>
-															
+									</td>
+									<td class="column-5" th:text="${review.reviewRegDate}"></td>									
+								</tr>
+							</th:block>
+	
+						</table>
+	
 					</div>
+	
+				</div>
+				
+			</div>
+			
 		</div>
 		
-		<nav>
-		  <!-- 크기조절 :  pagination-lg pagination-sm-->
-		  <ul class="pagination" >
-		    
-		    <!--  <<== 좌측 nav -->
-		  	<th:block th:if="${ resultPage.currentPage <= resultPage.pageUnit }">
-		 		<li class="disabled">
-			</th:block>
-			<th:block th:if="${ resultPage.currentPage > resultPage.pageUnit }">
-				<li>
-			</th:block>
-		      <a th:href="|javascript:fncGetList('${ resultPage.currentPage-1}')|" aria-label="Previous">
-		        <span aria-hidden="true">&laquo;</span>
-		      </a>
-		    </li>
-		    
-		    <!--  중앙  -->
-			<!--<c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">-->
-			<th:block th:each="num : ${#numbers.sequence(resultPage.beginUnitPage,resultPage.endUnitPage)}">	
-				<!--<th:block th:if test="${ resultPage.currentPage == num }">-->
-					<!--  현재 page 가르킬경우 : active -->
-			    <li class="active" th:if="${ resultPage.currentPage == num }">
-			    	<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}"><span class="sr-only">(current)</span></a>
-			    </li>	
-				
-				<!--<c:if test="${ resultPage.currentPage != i}">-->	
-				<li th:if="${ resultPage.currentPage != num }">
-					<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}"></a>
-				</li>
-				<!--</c:if>-->
-			</th:block>
-		    
-		     <!--  우측 nav==>> -->
-		     <th:block th:if="${ resultPage.endUnitPage >= resultPage.maxPage }">
-		  		<li class="disabled">
-			</th:block>
-			<th:block th:if="${ resultPage.endUnitPage < resultPage.maxPage }">
-				<li>
-			</th:block>
-		      <a th:href="|javascript:fncGetList('${resultPage.endUnitPage+1}')|" aria-label="Next">
-		        <span aria-hidden="true">&raquo;</span>
-		      </a>
-		    </li>
-		  </ul>
-		</nav>
+		
+	
+		<!-- 템플릿 디자인 관련 js -->
+		<script src="/productDesign/vendor/jqueryui/jquery-ui.js"></script>
+		<script src="/productDesign/vendor/bootstrap/js/bootstrap.min.js"></script>
+		<!-- ============ -->
+		
+		
 	</article>
 </body>
 </html>

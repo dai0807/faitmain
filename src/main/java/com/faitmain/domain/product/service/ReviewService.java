@@ -24,6 +24,6 @@ public interface ReviewService {
 	public void updateReview(Review review, MultipartHttpServletRequest mRequest) throws Exception;
 		
 	//리뷰 삭제
-	public void deleteReview(int reviewNumber) throws Exception;
+	public int deleteReview(int reviewNumber) throws Exception;
 	
 }
