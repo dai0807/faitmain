@@ -10,6 +10,8 @@
 	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
 	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
 		
+	<script src="/productDesign/vendor/sweetalert/sweetalert.min.js"></script>	
+		
 	<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
 	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">
 	
@@ -73,13 +75,13 @@
 										 + "   " + JSONData.inquiryReplyDate
 										 + "</td>"
 										 + "<td>"										
-										 +		"<button type='button' class='deleteBtn'>삭제</button>"
+										 +		"<button type='button' class='deleteBtn'><img src='/productDesign/images/icons/icon-close2.png' width='60%'/></button>"
 										 + "</td>";
 						}else{
 							displayValue += "</td>"
 										 +  "<td>"
 										 +  	"<button type='button' class='updateBtn' style='padding-right:30px;'>수정</button>"
-										 +		"<button type='button' class='deleteBtn'>삭제</button>"
+										 +		"<button type='button' class='deleteBtn'><img src='/productDesign/images/icons/icon-close2.png' width='60%' /></button>"
 										 +	"</td>";
 						}
 
@@ -97,13 +99,8 @@
     	$(function(){
 			
 			$(document).on("click", ".updateBtn", function () {
-				var inquiryNumber= $(this).parent().parent().attr('id');
-				/*
-				let popUrl = "/inquiry/updateInquiry?resultJsp=updateInquiry&inquiryNumber=" + inquiryNumber;
-				let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
 				
-				window.open(popUrl,"문의 수정",popOption);
-				*/
+				var inquiryNumber= $(this).parent().parent().attr('id');
 				self.location = "/inquiry/updateInquiry?resultJsp=updateInquiry&inquiryNumber=" + inquiryNumber
 				
 			});
@@ -114,21 +111,38 @@
 				console.log($(this).parent().parent().attr('id'));
 				var inquiryNumber= $(this).parent().parent().attr('id');
 				/**/
-				$.ajax(
-					{
-						url: "/inquiry/json/deleteInquiry/" + inquiryNumber,
-						method: "GET",
-						dataType: "json",
-						headers: {
-							"Accept": "application/json",
-							"Content-Type": "application/json"
-						},
-						success: function (data) {
-							console.log("delete : " + data.responseCode);
-							alert('삭제되었습니다');
-							location.reload();							
+				
+				swal({
+						title: "삭제하시겠습니까?", 
+						icon: "info",
+						buttons: true,
+						dangerMode: true,
+					}).then((result) => {
+						if(result){
+							
+							$.ajax(
+								{
+									url: "/inquiry/json/deleteInquiry/" + inquiryNumber,
+									method: "GET",
+									dataType: "json",
+									headers: {
+										"Accept": "application/json",
+										"Content-Type": "application/json"
+									},
+									success: function (data) {
+										console.log("delete : " + data.responseCode);
+										swal("리뷰 삭제", "삭제가 완료되었습니다!", "success").then(function () {
+												location.reload();
+										});
+									}
+								})
+								
+						}else{
+							swal("취소되었습니다");
 						}
-					})
+
+					});	
+				
 				
 				
 			});
@@ -186,49 +200,57 @@
 			</div>
 			
 			<!-- 페이지(어떻게 할지 모르겠다) -->
-			<ul class="pagination">
-			
-				<!--  <<== 좌측 nav -->
-				<th:block th:if="${ resultPage.currentPage <= resultPage.pageUnit }">
-					<li class="disabled">
-				</th:block>
-				<th:block th:if="${ resultPage.currentPage > resultPage.pageUnit }">
-					<li>
-				</th:block>
-				<a th:href="|javascript:fncGetList('${ resultPage.currentPage-1}')|" aria-label="Previous">
-					<span aria-hidden="true">&laquo;</span>
-				</a>
-				</li>
-			
-				<!--  중앙  -->
-				<!--<c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">-->
-				<th:block th:each="num : ${#numbers.sequence(resultPage.beginUnitPage,resultPage.endUnitPage)}">
-					<!--<th:block th:if test="${ resultPage.currentPage == num }">-->
-					<!--  현재 page 가르킬경우 : active -->
-					<li class="active" th:if="${ resultPage.currentPage == num }">
-						<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}"><span
-								class="sr-only">(current)</span></a>
-					</li>
-			
-					<!--<c:if test="${ resultPage.currentPage != i}">-->
-					<li th:if="${ resultPage.currentPage != num }">
-						<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}"></a>
-					</li>
-					<!--</c:if>-->
-				</th:block>
-			
-				<!--  우측 nav==>> -->
-				<th:block th:if="${ resultPage.endUnitPage >= resultPage.maxPage }">
-					<li class="disabled">
-				</th:block>
-				<th:block th:if="${ resultPage.endUnitPage < resultPage.maxPage }">
-					<li>
-				</th:block>
-				<a th:href="|javascript:fncGetList('${resultPage.endUnitPage+1}')|" aria-label="Next">
-					<span aria-hidden="true">&raquo;</span>
-				</a>
-				</li>
-			</ul>
+			<div class="flex-c-m flex-w w-full p-t-38">
+				<nav aria-label="Page navigation">
+				
+					<ul class="pagination">
+				
+						<!--  <<== 좌측 nav -->
+						<th:block th:if="${ resultPage.currentPage <= resultPage.pageUnit }">
+							<li class="disabled">
+						</th:block>
+						<th:block th:if="${ resultPage.currentPage > resultPage.pageUnit }">
+							<li>
+						</th:block>
+								<a th:href="|javascript:fncGetList('${ resultPage.currentPage-1}')|" aria-label="Previous" class="flex-c-m how-pagination1 trans-04 m-all-7">
+									<span aria-hidden="true">&lt;</span>
+								</a>
+							</li>
+				
+						<!--  중앙  -->
+						<!--<c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">-->
+						<th:block th:each="num : ${#numbers.sequence(resultPage.beginUnitPage,resultPage.endUnitPage)}">
+							<!--<th:block th:if test="${ resultPage.currentPage == num }">-->
+							<!--  현재 page 가르킬경우 : active -->
+							<li class="active" th:if="${ resultPage.currentPage == num }">
+								<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}" 
+									th:class="|flex-c-m how-pagination1 trans-04 m-all-7 ${resultPage.currentPage == num ? 'active-pagination1' : ''}|">
+									<span class="sr-only">(current)</span>
+								</a>
+							</li>
+				
+							<!--<c:if test="${ resultPage.currentPage != i}">-->
+							<li th:if="${ resultPage.currentPage != num }" >
+								<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}" class="flex-c-m how-pagination1 trans-04 m-all-7"></a>
+							</li>
+							<!--</c:if>-->
+						</th:block>
+				
+						<!--  우측 nav==>> -->
+						<th:block th:if="${ resultPage.endUnitPage >= resultPage.maxPage }">
+							<li class="disabled">
+						</th:block>
+						<th:block th:if="${ resultPage.endUnitPage < resultPage.maxPage }">
+							<li>
+						</th:block>
+								<a th:href="|javascript:fncGetList('${resultPage.endUnitPage+1}')|" aria-label="Next" class="flex-c-m how-pagination1 trans-04 m-all-7">
+									<span aria-hidden="true">&gt;</span>
+								</a>
+							</li>
+					</ul>
+				
+				</nav>
+			</div>			
 			
 		</div>		
 		  

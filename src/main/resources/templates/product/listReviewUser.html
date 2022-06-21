@@ -16,6 +16,8 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
 	
+	<script src="/productDesign/vendor/sweetalert/sweetalert.min.js"></script>
+	
 	<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
 	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">
 	
@@ -107,30 +109,47 @@
 					
 					if(checkArray.length < 1){
 						
-						alert("값을 선택해주시기 바랍니다.");
+						swal("리뷰 삭제", "리뷰가 선택되지 않았습니다", "info");
 						
 					}else{
 						
 						console.log(checkArray);
 						
-						$.ajax({
-							url:"/review/json/deleteReview",
-							type:"post",
-							dataType: "json",
-							data:{
-								"reviewNumbers" : checkArray
-							},
-							success: function(data){
-								console.log("컨트롤러에서 받은 data : " + data);
-								
-								if(data == '1'){
-									alert("삭제가 완료되었습니다.");
-									location.reload();
-								}else{
-									alert("삭제 되지 않았습니다.");
-								}
+						swal({
+							title: checkArray.length + "개의 리뷰를 삭제하시겠습니까?",
+							text: "선택하신 리뷰를 삭제하면 다시 복구되지 않습니다.",
+							icon: "info",
+							buttons: true,
+							dangerMode: true,
+						}).then((result) => {
+							if (result) {
+
+								$.ajax({
+									url: "/review/json/deleteReview",
+									type: "post",
+									dataType: "json",
+									data: {
+										"reviewNumbers": checkArray
+									},
+									success: function (data) {
+										console.log("컨트롤러에서 받은 data : " + data);
+
+										if (data == '1') {
+											swal("리뷰 삭제", "삭제가 완료되었습니다!", "success").then(function () {
+												location.reload();
+											});
+
+										} else {
+											swal("리뷰 삭제", "리뷰가 삭제되지 않았습니다", "error");
+										}
+									}
+								});
+
+							} else {
+								swal("취소되었습니다");
 							}
-						});
+
+						});						
 						
 					}
 				});
@@ -183,7 +202,9 @@
 									</td>
 									<td class="column-1">
 										<div class="how-itemcart">
-											<img th:src="|../img/upload/${ review.reviewImage }|" alt="IMG">
+											<th:block th:if="${not #strings.isEmpty(review.reviewImage)}">
+												<img th:src="|../img/upload/${review.reviewImage}" alt="IMG">
+											</th:block>											
 										</div>
 									</td>
 									<td class="column-2">
