@@ -491,6 +491,8 @@ public class LiveController {
 
 		model.addAttribute("channelKey", roomId);
 
+		//liveService.sendSMS();
+
 		return "live/live";
 
 	}
@@ -530,45 +532,15 @@ public class LiveController {
 		return "/live/addLive";
 	}
 
+	@GetMapping("returnIndex")
+	public String returnIndex() throws Exception {
+		return "/live/returnIndex";
+	}
+
 	@GetMapping("watchLive/{liveNumber}")
 	public String watchLive(Authentication authentication, Model model, @PathVariable int liveNumber) throws Exception {
+
 		log.info("watchLive() : GET start...");
-
-		String returnUrl = "live/watchLive";
-
-		if (authentication != null) {
-
-			SecurityUserService securityUser = (SecurityUserService) authentication.getPrincipal();
-			User user = (User) securityUser.getUser();
-
-			LiveUserStatus liveUser = new LiveUserStatus();
-			liveUser.setLiveNumber(liveNumber);
-			liveUser.setNickName(user.getNickname());
-
-			LiveUserStatus userStatus = liveService.getLiveUserStatus(liveUser);
-
-			if (liveService.getLiveUserStatus(liveUser) != null) {
-
-				if (userStatus.getKickStatus() == 1) {
-
-					returnUrl = "/live/returnIndex";
-				}
-
-			} else {
-				Live live = liveService.getLive(liveNumber);
-
-				List<LiveProduct> list = liveService.getLiveProductListByLiveNumber(live.getLiveNumber());
-
-				System.out.println("찍먹 : " + list);
-				model.addAttribute("live", live);
-				model.addAttribute("listProduct", list);
-
-				log.info("live = " + model.getAttribute("live"));
-				log.info("listProduct = " + model.getAttribute("listProduct"));
-				return "/live/watchLive";
-			}
-
-		}
 
 		Live live = liveService.getLive(liveNumber);
 
@@ -580,7 +552,7 @@ public class LiveController {
 
 		log.info("live = " + model.getAttribute("live"));
 		log.info("listProduct = " + model.getAttribute("listProduct"));
-		return returnUrl;
+		return "live/watchLive";
 	}
 
 	@GetMapping("addLiveUserStatus")
@@ -695,7 +667,7 @@ public class LiveController {
 			tmp = (JSONObject) data.get(i);
 			System.out.println("data[" + i + "] : " + tmp);
 		}
-		System.out.println("data : " + data);
+		System.out.println("userList : " + data);
 
 		model.addAttribute("userList", data);
 
@@ -909,4 +881,79 @@ public class LiveController {
 		return new RedirectView("/live/getLiveReservationList?date=" + date);
 	}
 
+	@GetMapping("getStoreAlarmList")
+	public String getStoreAlarmList(Authentication authentication, Model model) throws Exception {
+		log.info("getStoreAlarmList GET start...");
+
+		SecurityUserService securityUser = (SecurityUserService) authentication.getPrincipal();
+		User user = (User) securityUser.getUser();
+
+		int liveNumver = (liveService.getLiveByStoreId(user.getId())).getLiveNumber();
+
+		Map<String, Object> map = liveService.getStoreLiveUserStatusList(liveNumver);
+
+		log.info("map = {}", map);
+
+		model.addAttribute("map", map);
+
+		log.info("getStoreAlarmList GET end...");
+		return "/live/getStoreAlarmList";
+	}
+
+	@GetMapping("getUserAlarmList")
+	public String getUserAlarmList(Authentication authentication, Model model) throws Exception {
+		log.info("getUserAlarmList GET start...");
+
+		SecurityUserService securityUser = (SecurityUserService) authentication.getPrincipal();
+		User user = (User) securityUser.getUser();
+
+		LiveUserStatus liveUserStatus = new LiveUserStatus();
+		liveUserStatus.setId(user.getId());
+
+		Map<String, Object> map = liveService.getUserLiveUserStatusList(liveUserStatus);
+		List<User> storeList = new ArrayList<>();
+		Live live = new Live();
+		User store = new User();
+
+		for (LiveUserStatus list : (List<LiveUserStatus>) map.get("list")) {
+			live = liveService.getLive(list.getLiveNumber());
+			store = userSerivce.getUser(live.getStoreId());
+
+			storeList.add(store);
+		}
+
+		map.put("storeList", storeList);
+
+		log.info("map = {}", map);
+
+		model.addAttribute("map", map);
+
+		log.info("getUserAlarmList GET end...");
+		return "/live/getUserAlarmList";
+	}
+
+	@PostMapping("updateAlarmList")
+	public RedirectView updateAlarmList(@RequestParam List<String> liveNumber, Authentication authentication)
+			throws Exception {
+		log.info("updateAlarmList GET start...");
+
+		log.info("List liveNumber = {}", liveNumber);
+
+		SecurityUserService securityUser = (SecurityUserService) authentication.getPrincipal();
+		User user = (User) securityUser.getUser();
+
+		LiveUserStatus liveUserStatus = new LiveUserStatus();
+		liveUserStatus.setId(user.getId());
+
+		for (String str : liveNumber) {
+			liveUserStatus.setLiveNumber(Integer.parseInt(str));
+			liveUserStatus = liveService.getLiveUserStatus(liveUserStatus);
+			liveUserStatus.setAlarmStatus(0);
+
+			liveService.updateLiveUserStatus(liveUserStatus);
+		}
+
+		log.info("updateAlarmList GET end...");
+		return new RedirectView("/live/getUserAlarmList");
+	}
 }

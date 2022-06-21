@@ -21,7 +21,7 @@ public interface LiveService {
 	public Live getLive(int liveNumber) throws Exception;
 
 	public Live getLiveByStoreId(String storeId) throws Exception;
-	
+
 	public Live getLiveNumberByRoomId(String roomId) throws Exception;
 
 	public Map<String, Object> getLiveList() throws Exception;
@@ -63,13 +63,17 @@ public interface LiveService {
 
 	// liveUserStatus
 	public int addLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception;
-	
+
 	public int addLiveUserKick(int liveNumber, String storeId) throws Exception;
 
 	public int updateLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception;
 
 	public LiveUserStatus getLiveUserStatus(LiveUserStatus liveUserStatus) throws Exception;
 
-	public Map<String, Object> getLiveUserStatusList(int liveNumber) throws Exception;
+	public Map<String, Object> getStoreLiveUserStatusList(int liveNumber) throws Exception;
+
+	public Map<String, Object> getUserLiveUserStatusList(LiveUserStatus liveUserStatus) throws Exception;
+
+
 
 }
