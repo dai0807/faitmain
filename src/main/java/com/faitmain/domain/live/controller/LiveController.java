@@ -490,6 +490,7 @@ public class LiveController {
 
 		model.addAttribute("channelKey", roomId);
 
+
 		// sendSMS(live);
 
 		return "live/live";

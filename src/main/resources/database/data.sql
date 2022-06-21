@@ -242,3 +242,44 @@ UPDATE customer SET customer_board_type='R', customer_board_title="TITLE 44", cu
 UPDATE customer SET customer_board_type='L', customer_board_title="TITLE 55", customer_board_title="CONTENT 55", update_date = now(), customer_id = "admin@naver.com"
  WHERE customer_board_number = 7;
 
+
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10001, 'user01@naver.com', 'receiverName 01', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 01');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10002, 'user01@naver.com', 'receiverName 02', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 02');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10003, 'user01@naver.com', 'receiverName 03', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 03');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10004, 'user01@naver.com', 'receiverName 04', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 04');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10005, 'user01@naver.com', 'receiverName 05', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 05');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10006, 'user01@naver.com', 'receiverName 06', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 06');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10007, 'user01@naver.com', 'receiverName 07', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 07');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10008, 'user01@naver.com', 'receiverName 08', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 08');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10009, 'user01@naver.com', 'receiverName 09', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 09');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10100, 'user01@naver.com', 'receiverName 10', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 10');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10101, 'user01@naver.com', 'receiverName 11', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 11');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10102, 'user01@naver.com', 'receiverName 12', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 12');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10103, 'user01@naver.com', 'receiverName 13', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 13');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10104, 'user01@naver.com', 'receiverName 14', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 14');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10105, 'user01@naver.com', 'receiverName 15', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 15');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10106, 'user01@naver.com', 'receiverName 16', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 16');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10107, 'user01@naver.com', 'receiverName 17', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 17');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10108, 'user01@naver.com', 'receiverName 18', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 18');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10109, 'user01@naver.com', 'receiverName 19', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 19');
+INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
+VALUES (10200, 'user01@naver.com', 'receiverName 20', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 20');
