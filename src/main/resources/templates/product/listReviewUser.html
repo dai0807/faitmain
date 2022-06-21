@@ -42,7 +42,9 @@
 			<div class="row">
 				<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
 					<div class="p-b-30 m-lr-15-sm">
-					
+						
+						<input type="checkbox" id="checkAll" />
+						
 						<!-- 리뷰 없음 -->
 						<th:block th:if="${#lists.size(list) == 0}">
 							<p class="stext-102 cl6">
@@ -52,6 +54,7 @@
 						
 						<!-- 리뷰 있음 -->
 						<th:block th:unless="${#lists.size(list) == 0}" th:each="review : ${list}">
+							<input type="checkbox" class="checkReview" />
 							<div class="flex-w flex-t p-b-68">								
 								
 								<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
