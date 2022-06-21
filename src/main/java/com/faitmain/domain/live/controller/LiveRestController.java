@@ -14,7 +14,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.servlet.http.HttpServletRequest;
 
-import com.faitmain.global.util.security.SecurityUserService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -35,6 +34,7 @@ import com.faitmain.domain.live.domain.LiveReservation;
 import com.faitmain.domain.live.domain.LiveUserStatus;
 import com.faitmain.domain.live.service.LiveService;
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.global.util.security.SecurityUserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -69,8 +69,8 @@ public class LiveRestController {
 
 		// User user = (User) session.getAttribute("user");
 
-		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication()
-				.getPrincipal(); // principal 에 사용자 인증 정보 담음
+		SecurityUserService securityUserService = (SecurityUserService) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
 		User user = (User) securityUserService.getUser();
 
 		JSONObject result = null;
@@ -131,7 +131,7 @@ public class LiveRestController {
 
 		return data;
 	}
-	
+
 	@PostMapping("json/sanctionUserList")
 	public JSONArray sanctionUserList(HttpServletRequest req, Model model) throws Exception {
 
@@ -141,8 +141,8 @@ public class LiveRestController {
 
 		// User user = (User) session.getAttribute("user");
 
-		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication()
-				.getPrincipal(); // principal 에 사용자 인증 정보 담음
+		SecurityUserService securityUserService = (SecurityUserService) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
 		User user = (User) securityUserService.getUser();
 
 		JSONObject result = null;
@@ -192,17 +192,16 @@ public class LiveRestController {
 		// JSON데이터에서 "data"라는 JSONObject를 가져온다.
 		JSONArray data = (JSONArray) result.get("list");
 
-		
 		System.out.println("data : " + data);
 
 		log.info("Controller = {} ", "/live/getLiveUserList : GET end...");
 
-		
-		System.out.println("홀롤롤: "  + data);
-		
+		System.out.println("홀롤롤: " + data);
+
 		return data;
-		
+
 	}
+
 	@PostMapping("json/muteUserList")
 	public JSONArray muteUserList(HttpServletRequest req, Model model) throws Exception {
 
@@ -212,8 +211,8 @@ public class LiveRestController {
 
 		// User user = (User) session.getAttribute("user");
 
-		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication()
-				.getPrincipal(); // principal 에 사용자 인증 정보 담음
+		SecurityUserService securityUserService = (SecurityUserService) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
 		User user = (User) securityUserService.getUser();
 
 		JSONObject result = null;
@@ -263,18 +262,14 @@ public class LiveRestController {
 		// JSON데이터에서 "data"라는 JSONObject를 가져온다.
 		JSONArray data = (JSONArray) result.get("list");
 
-
 		JSONObject tmp = null;
 		for (int i = 0; i < data.size(); i++) {
 			tmp = (JSONObject) data.get(i);
 			System.out.println("data[" + i + "] : " + tmp);
 		}
-		
-		
-		
-		
+
 		System.out.println("data : " + data);
-		System.out.println("홀롤롤: "  + data);
+		System.out.println("홀롤롤: " + data);
 		log.info("Controller = {} ", "/live/getLiveUserList : GET end...");
 
 		return data;
@@ -440,25 +435,25 @@ public class LiveRestController {
 
 	// 유저 강제퇴장
 	@GetMapping("json/kickUser/{roomId}/{clientKey}/{nickName}")
-	public void kickUser(@PathVariable("roomId") String roomId, @PathVariable("clientKey") List<String> clientKey, @PathVariable("nickName") List<String> nickName)
+	public void kickUser(@PathVariable("roomId") String roomId, @PathVariable("clientKey") List<String> clientKey,
+			@PathVariable("nickName") List<String> nickName)
 
 			throws Exception {
 
 		log.info("editRoom = {} ", this.getClass());
-		
-		//DB에 강제퇴장 내용 등록
-		
+
+		// DB에 강제퇴장 내용 등록
+
 		LiveUserStatus live = new LiveUserStatus();
 		for (String nick : nickName) {
 			live.setLiveNumber(liveService.getLiveNumberByRoomId(roomId).getLiveNumber());
 			live.setNickName(nick);
 			live.setKickStatus(1);
-			
+
 			liveService.addLiveUserStatus(live);
-			
+
 			System.out.println(live);
 		}
-		
 
 		String token = getToken();
 
@@ -586,6 +581,51 @@ public class LiveRestController {
 
 		log.info("addLiveReservation GET : end...");
 		return timeList;
+	}
+
+	@PostMapping("json/updateAlarm")
+	public Map<String, Object> updateAlarm(@RequestBody Live live) throws Exception {
+		log.info("updateAlarm POST : start...");
+
+		log.info("live = {}", live);
+
+		live = liveService.getLiveNumberByRoomId(live.getRoomId());
+
+		SecurityUserService securityUserService = (SecurityUserService) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+
+		LiveUserStatus liveUserStatus = new LiveUserStatus();
+		liveUserStatus.setId(user.getId());
+		liveUserStatus.setLiveNumber(live.getLiveNumber());
+
+		if (liveService.getLiveUserStatus(liveUserStatus) == null) {
+			liveUserStatus.setAlarmStatus(1);
+			addAlarm(liveUserStatus);
+		} else {
+			liveUserStatus = liveService.getLiveUserStatus(liveUserStatus);
+			if (liveUserStatus.getAlarmStatus() == 0) {
+				liveUserStatus.setAlarmStatus(1);
+			} else {
+				liveUserStatus.setAlarmStatus(0);
+			}
+
+			liveService.updateLiveUserStatus(liveUserStatus);
+		}
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("liveUserStatus", liveUserStatus);
+
+		log.info("updateAlarm POST : end...");
+
+		return map;
+	}
+
+	public int addAlarm(LiveUserStatus liveUserStatus) throws Exception {
+		log.info("addUserStatus METHOD start...");
+
+		log.info("addUserStatus METHOD end...");
+		return liveService.addLiveUserStatus(liveUserStatus);
 	}
 
 }
