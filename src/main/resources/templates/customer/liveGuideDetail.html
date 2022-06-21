@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html
+        layout:decorate = "~{/layout/default_layout}"
+        xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
+      			
+
+<head>	
+	
+		<title>faitmain</title>
+	
+</head>
+
+<body>
+	<article class = "lgf-1" layout:fragment = "content">
+		 <div class = "container" th:action="@{/customer/detailGuide}">
+		 <input type="hidden" name="boardType" value='L'/> 
+		 
+		<!-- 	<input type="hidden" name="boardType" value='L'/> --> 
+				<tr>
+					<td >
+						<!-- <textarea title="내용" id="contents" name="boardContent" th:text="${customer.boardContent }"  ></textarea>	 -->	
+							<th:block th:utext = "${ customer.boardContent }"></th:block>
+					</td>
+				</tr>
+		</div>
+	</article>
+</body>
+</html> 
+					

@@ -42,21 +42,21 @@ public class CartController{
         log.info( "cartList = {}" , cartService.getCartList( buyerId ) );
         return "/cart";
     }
-    
-    @GetMapping( "/getCartList" )
-    public String cartGET( @RequestParam("buyerId") String buyerId , Model model ) throws Exception{
-
-        model.addAttribute( "cartList" , cartService.getCartList( buyerId ) );
-        log.info( "buyerId = {}" , buyerId );
-        log.info( "cartList = {}" , cartService.getCartList( buyerId ) );
-        return "/cart";
-    }
-
 
     /* 장바구니 수량 수정 */
     @PostMapping( "/update" )
     public String updateCartPOST( Cart cart ) throws Exception{
+        log.info( "updateCartPOST 실행 " );
         cartService.updateProductOrderCount( cart );
         return "redirect:/cart/" + cart.getBuyerId();
     }
+
+    /* 장바구니 수량 수정 */
+    @PostMapping("/delete")
+    public String deleteCartPOST(Cart cart) {
+        cartService.deleteCart(cart.getCartNumber());
+        return "redirect:/cart/" + cart.getBuyerId();
+
+    }
+
 }

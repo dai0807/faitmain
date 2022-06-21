@@ -96,7 +96,7 @@
 
     <!-- 상품 총 개수 -->
     <select id="selectOrderTotal" resultType="int">
-        select count(*) from `order`
+        select `count`(*) from `order`
         <if test="keyword != null">
             where `order`.buyer_id like concat('%',#{keyword}, '%')
         </if>

@@ -7,15 +7,12 @@ import com.faitmain.domain.order.service.OrderServiceImpl;
 import com.faitmain.domain.order.service.PaymentServiceImpl;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserServiceImpl;
-import com.faitmain.global.common.Criterion;
+import com.faitmain.global.common.Paging;
 import com.faitmain.global.common.Page;
-import com.faitmain.global.util.UserInfoSessionUpdate;
 import com.faitmain.global.util.log.LogTrace;
 import com.faitmain.global.util.log.TraceStatus;
-import com.faitmain.global.util.security.SecurityUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -43,7 +39,7 @@ public class OrderController{
     @Autowired
     private LogTrace trace;
 
-    @PostMapping( "/{buyerId}" )
+    @GetMapping( "/{buyerId}" )
     public String orderPage( @PathVariable String buyerId , OrderPage orderPage , Model model ){
 
         TraceStatus status = null;
@@ -65,7 +61,7 @@ public class OrderController{
     /* IAMPORT 결제 로직 */
     @PostMapping( "/complete" )
 
-    public String paymentComplete( Order order , Criterion criterion , Model model ) throws Exception{
+    public String paymentComplete( Order order , Paging paging , Model model ) throws Exception{
 
         TraceStatus status = null;
 
@@ -108,15 +104,17 @@ public class OrderController{
                 }
             }
 
+            orderService.addOrder( order );
 
-//            List<Order> orderList = orderService.getOrderList( criterion );
+//            List<Order> orderList = orderService.getOrderList( paging );
 //
 //            if ( !orderList.isEmpty() ) {
 //                model.addAttribute( "orderList" , orderList );
-//                model.addAttribute( "pageMaker" , new Page( criterion , orderService.getOrderTotal( criterion ) ) );
+//                model.addAttribute( "pageMaker" , new Page( paging , orderService.getOrderTotal( paging ) ) );
 //            } else {
 //                model.addAttribute( "listCheck" , "empty" );
 //            }
+
             return "order/orderList";
 
 
@@ -132,13 +130,13 @@ public class OrderController{
 
     /* 주문현황 페이지*/
     @GetMapping( "/list" )
-    public String orderList( Criterion criterion , Model model ){
+    public String orderList( Paging paging , Model model ){
 
-        List<Order> list = orderService.getOrderList( criterion );
+        List<Order> list = orderService.getOrderList( paging );
         log.info( "orderList = {}" , list );
         if ( !list.isEmpty() ) {
             model.addAttribute( "list" , list );
-            model.addAttribute( "pageMaker" , new Page( criterion , orderService.getOrderTotal( criterion ) ) );
+            model.addAttribute( "pageMaker" , new Page( paging , orderService.getOrderTotal( paging ) ) );
         } else {
             model.addAttribute( "listCheck" , "empty" );
         }
@@ -151,17 +149,12 @@ public class OrderController{
     public String orderCancel( OrderCancel orderCancel ) throws Exception{
 
         orderService.cancelOrder( orderCancel );
-        return "redirect:admin/orderList?keyword=" + orderCancel.getKeyword() + "&PageAmount=" + orderCancel.getPageAmount() + "&pageNumber" + orderCancel.getPageNumber();
+        return "redirect:admin/orderList?keyword=" + orderCancel.getKeyword()
+                + "&PageAmount=" + orderCancel.getPageAmount()
+                + "&pageNumber" + orderCancel.getPageNumber();
     }
 
-
-    @GetMapping( "/pay" )
-    public String pay( @AuthenticationPrincipal SecurityUserService securityUserService ){
-
-        return "order/sample";
-    }
 }
-
 
 
 

@@ -60,7 +60,7 @@ public class ProductController {
 		
 		log.info("/product/addProduct : GET");
 //		view/common/admin/main
-		return "/product/addProduct";
+		return "/product/addProduct2";
 		
 	}
 	
@@ -73,7 +73,7 @@ public class ProductController {
 		User user = (User) securityUserService.getUser();
 		
 		product.setStore(user);
-		log.info("store = {} ",product.getStore());
+//		log.info("store = {} ",product.getStore());
 	
 		
 		productService.addProduct(product, mRequest);
@@ -91,7 +91,7 @@ public class ProductController {
 		
 		Product product = productService.getProduct(productNumber);
 		
-		log.info("product = {}", product);
+//		log.info("product = {}", product);
 		
 		model.addAttribute("product", product);
 		
@@ -102,22 +102,27 @@ public class ProductController {
 	public String getProductList(@ModelAttribute Search search, @RequestParam("resultJsp") String resultJsp, Model model) throws Exception{
 		
 		log.info("/product/getProductList");
+		log.info("resultJsp = {}", resultJsp);
 		
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
-		search.setPageSize(10);
+		search.setPageSize(12);
 		
-		Map<String, Object> searchMap = new HashMap<String, Object>();		
-		searchMap.put("searchKeyword", search.getSearchKeyword());
+		Map<String, Object> searchMap = new HashMap<String, Object>();	
 		
 		if(resultJsp.equals("listProductStore")) {
-			// 시큐리티 적용해야 됨
-			searchMap.put("searchStore",  "store01@naver.com");
+			SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+			User user = (User) securityUserService.getUser();
+			
+			searchMap.put("searchStore",  user.getId());
+			search.setPageSize(5);
+			
+			searchMap.put("forStore", true);
 		}
 		
-		searchMap.put("endRowNum",  search.getEndRowNum());
-		searchMap.put("startRowNum",  search.getStartRowNum());
+		searchMap.put("endRowNum",  new Integer(search.getEndRowNum()));
+		searchMap.put("startRowNum",  new Integer(search.getStartRowNum()));
 		searchMap.put("searchKeyword", search.getSearchKeyword());
 		searchMap.put("searchStatus", search.getSearchStatus());
 		searchMap.put("searchCategory", search.getSearchCategory());
@@ -127,11 +132,11 @@ public class ProductController {
 		
 		Map<String, Object> map = productService.getProductList(searchMap);
 				
-		MiniProjectPage resultPage = new MiniProjectPage( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 4, 10);
+		MiniProjectPage resultPage = new MiniProjectPage( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 4, search.getPageSize());
 		
 		log.info("resultPage : " + resultPage);
 		
-		log.info("list : " + ((List<Product>)map.get("list")).get(0));
+		//log.info("list : " + ((List<Product>)map.get("list")).get(0));
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);	
