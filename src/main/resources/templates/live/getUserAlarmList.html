@@ -18,30 +18,52 @@
 
 	<!-- 추가 JS -->
 	<script src="/js/addliveReservationView.js"></script>
+	<script type="text/javascript">
+		
+		$(function(){
+			
+			$('.btn').on("click", function(){
+				$('form').attr("method", "POST").attr("action", "/live/updateAlarmList").submit();	
+			});
+			
+		});
 	
+	</script>
 </head>
 <body>
 	<article layout:fragment="content">
 		<div class="container-fluid">
-		
-			<h5>유저 알림 설정 목록</h5>
+			<div>
+				<h5>유저 알림 설정 목록</h5>
+			</div>
 			
 			<div>
-				<table class="table">
-					<thead class="thead-dark">
-						<tr>
-							<th scope="col">#</th>
-							<th scope="col">상점명</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="list : ${map.list}">
-							<th scope="row" th:text="${listStat.index}">index</th>
-							<td th:text="${'liveList['+ ${listStat.index} +'].}'">nickName</td>
-						</tr>
-					</tbody>
-				</table>
+				<form>
+					<table class="table">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">상점명</th>
+								<th scope="col">비고</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="list : ${map.list}">
+								<th scope="row" th:text="${listStat.index}">index</th>
+								<td th:text="${map.storeList[__${listStat.index}__].storeName}">nickName</td>
+								<td>
+									<input type="checkbox" name="liveNumber" th:value="${list.liveNumber}" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
 			</div>
+			
+			<div>
+				<button type="button" class="btn btn-danger">삭제하기</button>
+			</div>
+			
 		</div>
 	</article>
 </body>

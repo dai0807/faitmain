@@ -38,10 +38,7 @@
 				<a href="#" class="list-group-item list-group-item-action">포인트 이용 내역</a>
 				<a th:href="@{/inquiry/getInquiryList?resultJsp=listInquiryUser&searchCondition=userId&searchKeyword=} + ${#authentication.principal.user.id}" class="list-group-item list-group-item-action">문의 목록</a>				
 				<a th:href="@{/review/getReviewList?searchCondition=userId&searchKeyword=} + ${#authentication.principal.user.id}" class="list-group-item list-group-item-action">리뷰 목록</a>
-
-				
-				
-				<a href="#" class="list-group-item list-group-item-action">라이브 알림 설정 목록</a>
+				<a th:href="@{/live/getUserAlarmList}" class="list-group-item list-group-item-action">라이브 알림 설정 목록</a>
 				<a href="#" class="list-group-item list-group-item-action">신고 목록</a>
 			</div>
 			<div sec:authorize="hasRole('store')" class="list-group list-group-flush">

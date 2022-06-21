@@ -164,7 +164,7 @@
       SELECT * FROM live_user_status
 	<where>
          live_number = #{liveNumber}
-     	 AND id = #{id}        
+     	 AND id = #{id}
 	</where>
    </select>
    

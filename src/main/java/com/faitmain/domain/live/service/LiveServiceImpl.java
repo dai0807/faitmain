@@ -239,4 +239,8 @@ public class LiveServiceImpl implements LiveService {
 		return map;
 	}
 
+	// SMS
+	// 인증 문자 보내기
+//	public void sendSMS(String userPhoneNumber) throws Exception {
+
 }

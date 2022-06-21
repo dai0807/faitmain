@@ -491,6 +491,8 @@ public class LiveController {
 
 		model.addAttribute("channelKey", roomId);
 
+		liveService.sendSMS();
+
 		return "live/live";
 
 	}
@@ -909,16 +911,18 @@ public class LiveController {
 		liveUserStatus.setId(user.getId());
 
 		Map<String, Object> map = liveService.getUserLiveUserStatusList(liveUserStatus);
-		List<Live> liveList = new ArrayList<>();
+		List<User> storeList = new ArrayList<>();
 		Live live = new Live();
+		User store = new User();
 
 		for (LiveUserStatus list : (List<LiveUserStatus>) map.get("list")) {
 			live = liveService.getLive(list.getLiveNumber());
+			store = userSerivce.getUser(live.getStoreId());
 
-			liveList.add(live);
+			storeList.add(store);
 		}
 
-		map.put("liveList", liveList);
+		map.put("storeList", storeList);
 
 		log.info("map = {}", map);
 
@@ -928,4 +932,28 @@ public class LiveController {
 		return "/live/getUserAlarmList";
 	}
 
+	@PostMapping("updateAlarmList")
+	public RedirectView updateAlarmList(@RequestParam List<String> liveNumber, Authentication authentication)
+			throws Exception {
+		log.info("updateAlarmList GET start...");
+
+		log.info("List liveNumber = {}", liveNumber);
+
+		SecurityUserService securityUser = (SecurityUserService) authentication.getPrincipal();
+		User user = (User) securityUser.getUser();
+
+		LiveUserStatus liveUserStatus = new LiveUserStatus();
+		liveUserStatus.setId(user.getId());
+
+		for (String str : liveNumber) {
+			liveUserStatus.setLiveNumber(Integer.parseInt(str));
+			liveUserStatus = liveService.getLiveUserStatus(liveUserStatus);
+			liveUserStatus.setAlarmStatus(0);
+
+			liveService.updateLiveUserStatus(liveUserStatus);
+		}
+
+		log.info("updateAlarmList GET end...");
+		return new RedirectView("/live/getUserAlarmList");
+	}
 }
