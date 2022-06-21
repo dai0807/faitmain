@@ -10,7 +10,7 @@ html {
  
 }
 .process-row {
-  background-color: #1e212b;
+  background-color: rgba(0,0,0,0.8);
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;

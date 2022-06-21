@@ -150,8 +150,8 @@ CREATE TABLE `customer` (
                         `customer_board_content`     LONGTEXT	    NOT NULL ,
                         `reg_date`                   TIMESTAMP     NOT NULL ,
                         `update_date`                TIMESTAMP      DEFAULT NULL ,
-                        `customer_FAQ_category_code` int            DEFAULT NULL ,
-                        `customer_board_type`        VARCHAR(2)       NOT NULL ,
+                        `customer_FAQ_category_code` VARCHAR(2)     DEFAULT NULL ,
+                        `customer_board_type`        CHAR(1)       NOT NULL ,
                         `customer_id`                varchar(25)   DEFAULT NULL ,
                         `delete_yn`                  ENUM ('Y','N') DEFAULT 'N' ,
                         `view_cnt`                   int            DEFAULT 0 ,
@@ -254,14 +254,7 @@ ALTER TABLE live AUTO_INCREMENT = 10000;
 ALTER TABLE live_reservation AUTO_INCREMENT = 10000;
 ALTER TABLE live_product AUTO_INCREMENT = 10000;
 
-/* CUSTOMER */
-ALTER TABLE customer MODIFY COLUMN customer_faq_category_code INT NULL;
-ALTER TABLE customer MODIFY reg_date TIMESTAMP;
-ALTER TABLE customer MODIFY update_date TIMESTAMP;
-ALTER TABLE customer MODIFY customer_board_title VARCHAR(50);
-ALTER TABLE customer MODIFY customer_id VARCHAR(25);
-ALTER TABLE customer MODIFY customer_board_content LONGTEXT NOT NULL;
-ALTER TABLE customer MODIFY customer_FAQ_category_code VARCHAR(2)  NULL;
+
 /*BAN PERIOD*/
 ALTER TABLE ban_period MODIFY COLUMN respondent_nickname VARCHAR(20) NULL;
 ALTER TABLE ban_period MODIFY COLUMN respondent_store_name VARCHAR(20) NULL;

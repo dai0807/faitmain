@@ -35,10 +35,10 @@ public class CustomerServiceImpl implements CustomerService{
 		return customerMapper.getCustomerBoard(boardNumber);
 	}
 	
-//	라이브가이드 리스트 조회(카테고리 이용)	
+//	FAQ 리스트 조회(카테고리 이용)	
 	@Override
-	public List<Customer> getFAQCategoryCode(String FAQCategoryCode) throws Exception{
-		return customerMapper.getFAQCategoryCode(FAQCategoryCode);
+	public List<Customer> getFAQList(String FAQCategoryCode) throws Exception{
+		return customerMapper.getFAQList(FAQCategoryCode);
 	}
 	
 //	라이브가이드 상세조회	

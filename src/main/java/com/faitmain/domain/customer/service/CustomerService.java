@@ -33,7 +33,7 @@ public interface CustomerService {
 	public List<Customer> getCustomerBoardList(char boardType) throws Exception;
 
 //	자주묻는질문 리스트 조회
-	public List<Customer> getFAQCategoryCode(String FAQCategoryCode) throws Exception;
+	public List<Customer> getFAQList(String FAQCategoryCode) throws Exception;
 	
 //	게시판 총 개수
 	public int getBoardTotalCount() throws Exception;
