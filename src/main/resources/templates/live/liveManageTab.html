@@ -118,8 +118,7 @@ $('body').on('click', '[name=return]', function(event) {
 $('body').on('click', '[name=cancleKick]', function(event) {
 	
 	let clientKey = []; // key 값을 담을 배열
-    const roomId = $('.roomId').val();
-    const nickName = $('.nick').val();
+    const roomId = $('.keepRoomId').val();
            
     //삭제 key value
     // chk라는 클래스를 가진 체크박스 중에 체크가 된
@@ -130,7 +129,7 @@ $('body').on('click', '[name=cancleKick]', function(event) {
     });
 	
 	$.ajax({
-		url : '/live/json/cancleKickUser/' + roomId + "/" + clientKey + "/" + nickName ,
+		url : '/live/json/cancleKickUser/' + roomId + "/" + clientKey ,
 		type : 'GET',
 		async : true,
 		dataType : "json",
@@ -139,7 +138,9 @@ $('body').on('click', '[name=cancleKick]', function(event) {
 		error : function(error){}
 		
 	});
+	reloadSanctionUserList();
 });  
+
 
 $('body').on('click', '[name=cancleMute]', function(event) {
 	alert("씨발");
@@ -149,7 +150,7 @@ $('body').on('click', '[name=cancleMute]', function(event) {
 function kickUser() { 
 	
 	var clientKey = []; // key 값을 담을 배열
-    var roomId = $('.roomId').val();
+    var roomId = $('.keepRoomId').val();
            
     //삭제 key value
     // chk라는 클래스를 가진 체크박스 중에 체크가 된
@@ -175,7 +176,7 @@ function kickUser() {
    function muteUser() { 
 	
 	var clientKey = []; // key 값을 담을 배열
-    var roomId = $('.roomId').val();
+    var roomId = $('.keepRoomId').val();
            
     //삭제 key value
     // chk라는 클래스를 가진 체크박스 중에 체크가 된
@@ -218,7 +219,7 @@ function lol(){
 					abc += "<tr class='test'><td><input class='clientKey' type='checkbox' name='clientKey' value=" + data[i].clientKey + "></td>"
 					     + "<td data-th='ClientKey'>" + data[i].clientKey + "</td>"
 					     + "<td data-th='NickName'>" + data[i].nickName + "</td>"
-					     + "<td data-th='Grade'>" + data[i].grade + "</td><input class='roomId' type='hidden' name='roomId' value=" + data[i].roomId + "></tr>";
+					     + "<td data-th='Grade'>" + data[i].grade + "</tr>";
 	}
 				console.log(abc);
 			
@@ -261,7 +262,7 @@ function lel(){
 					abc += "<tr class='test'><td><input class='clientKey' type='checkbox' name='clientKey' value=" + data[i].clientKey + "></td>"
 					     + "<td data-th='ClientKey'>" + data[i].clientKey + "</td>"
 					     + "<td data-th='NickName'>" + data[i].nickName + "</td>"
-					     + "<td data-th='Grade'>" + data[i].grade + "</td><input class='roomId' type='hidden' name='roomId' value=" + data[i].roomId + "></tr>";
+					     + "<td data-th='Grade'>" + data[i].grade + "</td></tr>";
 	}
 				console.log(abc);
 			
@@ -303,7 +304,7 @@ function sanctionUserList(){
 					abc += "<tr class='kick'><td><input class='clientKey' type='checkbox' name='clientKey' value=" + data[i].clientKey + "></td>"
 					     + "<td data-th='ClientKey'>" + data[i].clientKey + "</td>"
 					     + "<td data-th='NickName'>" + data[i].nickName + "</td>"
-					     + "<td data-th='Grade'>" + data[i].grade + "</td><input class='roomId' type='hidden' name='roomId' value=" + data[i].roomId + "></tr>";
+					     + "<td data-th='Grade'>" + data[i].grade + "</td></tr>";
 	}
 				console.log(abc);
 				
@@ -338,7 +339,7 @@ function muteUserList(){
 					abc +="<tr class='mute'><td><input class='clientKey' type='checkbox' name='clientKey' value=" + data[i].clientKey + "></td>"
 					     + "<td data-th='ClientKey'>" + data[i].clientKey + "</td>"
 					     + "<td data-th='NickName'>" + data[i].nickName + "</td>"
-					     + "<td data-th='Grade'>" + data[i].grade + "</td><input class='roomId' type='hidden' name='roomId' value=" + data[i].roomId + "></tr>";
+					     + "<td data-th='Grade'>" + data[i].grade + "</td></tr>";
 	}
 				console.log("알랄랄");
 			
@@ -351,11 +352,50 @@ function muteUserList(){
 	});
 }
 
+function reloadSanctionUserList(){
+	
+	status = 1;
+	
+	$.ajax({
+		url : '/live/json/sanctionUserList',
+		type : 'POST',
+		async : true,
+		cache : true,
+		dataType : "json",
+		timeout : 2000,
+		success : function(data){
+			$(".test").remove();
+			$("#kickUserList").remove();
+			$('#mute').remove();
+			$('.button').children().remove();
+			$('#kick').remove();
+			$
+			$("div.button").append("<button type='button' name='cancleKick' id='cancleKick' class='btn btn-danger'>강제퇴장 해제</button> ");
+			$("div.button").append("<button type='button' name='cancleMute' id='cancleMute' class='btn btn-warning'>채팅제한 해제</button> ");
+			$("div.button").append("<button type='button' name='return' id='return' class='btn btn-primary'>채팅방 유저 조회</button>");
+				var abc = "";		
+			for(let i = 0 ; i < data.length ; i++) {
+					abc += "<tr class='kick'><td><input class='clientKey' type='checkbox' name='clientKey' value=" + data[i].clientKey + "></td>"
+					     + "<td data-th='ClientKey'>" + data[i].clientKey + "</td>"
+					     + "<td data-th='NickName'>" + data[i].nickName + "</td>"
+					     + "<td data-th='Grade'>" + data[i].grade + "</td></tr>";
+	}
+				console.log(abc);
+				
+				$("table").children(":first").append(abc);
+				
+			
+			muteUserList();
+		},
+		error : function(error){}	
+	});
+}
+
     /*]]>*/
 </script>
 
 <br/>
-
+<input class="keepRoomId" type="hidden" name="keepRoomId" th:value="${userList[0].roomId}"/> 
 <h1> Live User List </h1>
 <div class="button">
 <button type="button" class="btn btn-danger"  id="kick" onclick="kickUser()"/>강제퇴장</button>
