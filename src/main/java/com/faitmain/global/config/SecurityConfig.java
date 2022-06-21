@@ -80,7 +80,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	    		.and()
 	    			.exceptionHandling().accessDeniedPage("/user/accessDenied")
 	    		.and()
-	    		.oauth2Login().loginPage("/user/login")
+	    		.oauth2Login()
+	    		.loginPage("/user/login")
+ 
      			.userInfoEndpoint()
     			.userService(securityOauthUserService );
   		
