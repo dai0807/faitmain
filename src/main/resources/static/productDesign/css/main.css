@@ -290,12 +290,12 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 }
 
 .rs1-select2 .select2-container .select2-results__option[aria-selected="true"] {
-  background: #6c7ae0;
+  background: rgb(192, 192, 192);
   color: white;
 }
 
 .rs1-select2 .select2-container .select2-results__option--highlighted[aria-selected] {
-  background: #6c7ae0;
+  background: rgb(192, 192, 192);
   color: white;
 }
 
@@ -1782,6 +1782,14 @@ input.num-product::-webkit-inner-spin-button {
   width: 61.5%;
 }
 
+.size-221 {
+  width: 30.5%;
+}
+
+.size-222 {
+  width: 69.5%;
+}
+
 /*//////////////////////////////////////////////////////////////////
 [ Height ]*/
 .size-301 {
@@ -1811,6 +1819,7 @@ input.num-product::-webkit-inner-spin-button {
 .bg8 {background-color: #f3f3f3;}
 .bg9 {background-color: rgba(255,255,255,0.9);}
 .bg10 {background-color: rgba(255,255,255,0);}
+.bg11 {background-color: #6c757d;}
 
 /*---------------------------------------------*/
 .bg-overlay1::before {

@@ -138,18 +138,18 @@ $(function(){
 		  	 <form id="form">   
 		  	 	<h5 class="fw-bolder"> 스토어 아이디  </h5>
 				    <div >
-				   <input type="text" class="form-control" th:id="id" th:name="id" maxlength='10' th:value="${session.user.id}"   readonly>  
+				   <input type="text" class="form-control" th:id="id" th:name="id" maxlength='10' th:value="${#authentication.principal.user.id}"   readonly>  
 				    </div>		 
 				      			    
 	 			<h5 class="fw-bolder"> 스토어 이름  </h5>
 				    <div >
-				   <input type="text" class="form-control" th:id="storeName" th:name="storeName" maxlength='10' th:value="${session.user.storeName}"   readonly>  
+				   <input type="text" class="form-control" th:id="storeName" th:name="storeName" maxlength='10' th:value="${#authentication.principal.user.storeName}"   readonly>  
 				    </div>		 
 				     
  				    
 				   	<h5 class="fw-bolder"> 스토어 소개  </h5>
 				    <div >
-				   <input type="text" class="form-control" th:id="storeIntroduction" th:name="storeIntroduction"   th:value="${session.user.storeIntroduction}"   readonly>  
+				   <input type="text" class="form-control" th:id="storeIntroduction" th:name="storeIntroduction"   th:value="${#authentication.principal.user.storeIntroduction}"    readonly>  
 				    </div>		  
 				    
 	 

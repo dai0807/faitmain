@@ -3,6 +3,7 @@ package com.faitmain.domain.user.controller;
 import com.faitmain.domain.user.domain.StoreApplicationDocument;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserSerivce;
+import com.faitmain.global.common.Search;
 import com.faitmain.global.util.security.SecurityUserService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -63,6 +65,51 @@ public class UserRestController{
 		   
 	   }
 
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   @GetMapping("/json/getUserlist")
+	   public  List<User>  getUserList  (Model model  ,  @RequestParam ("order") String searchCondition  , Search search )throws Exception {
+		
+		   
+		   log.info("getUserList  도착 !! ");
+		   log.info("getUserList searchCondition ={}", searchCondition);
+
+		   Map<String, Object> searchMap = new HashMap<>();
+		   
+		   if( searchCondition =="store") {
+			   searchMap.put("searchCondition", searchCondition) ;
+		   }else if(searchCondition =="user") {
+			   searchMap.put("searchCondition", searchCondition) ;  
+		   }
+	   
+		   List<User> userList = userSerivce.getlist(searchMap) ;
+		   for(User user : userList) {
+			   System.out.println("getUserlist : 유저 출력"+user);
+		   }
+		   
+		   
+		   Map<String, Object> returnuserList = new HashMap<String, Object>();
+ 		   
+		   returnuserList.put("data", userList) ;
+		   
+		   
+		   log.info("getUserList searchCondition ={} 끝");
+	  
+		   
+		   return userList ;
+		   
+	   }
+	   
+	   
+	   
+	   
+	   
 	   
 		// find Id Rest Control로 갈 운명 
 	   @PostMapping("json/findId")

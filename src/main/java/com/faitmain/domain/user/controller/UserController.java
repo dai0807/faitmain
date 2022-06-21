@@ -329,18 +329,37 @@ public class UserController{
 		
 		   
 		   log.info("getUserList  도착 !! ");
-		 
+		   log.info("getUserList searchCondition ={}", searchCondition);
+
 		   Map<String, Object> searchMap = new HashMap<>();
 		   
-		   if( searchCondition != null) {
-			   log.info("getUserList searchCondition ={}", searchCondition);
-
+		   if(searchCondition != null && searchCondition.equals("store")  ) {
 			   searchMap.put("searchCondition", searchCondition) ;
+
+			   searchMap.put("searchkeword", searchCondition) ;
+			   
+		   }else if(searchCondition != null && searchCondition.equals("user")) {
+			   searchMap.put("searchkeword", searchCondition) ;  
+			   searchMap.put("searchCondition", searchCondition) ;
+
+		   } else {
+			   searchMap.put("searchkeword", "ALL") ;
+
+			   searchMap.put("searchCondition", "ALL") ;
+
 		   }
+		   
+
+		   
 		   List<User> userList = userSerivce.getlist(searchMap) ;
 		   for(User user : userList) {
 			   System.out.println("getUserlist : 유저 출력"+user);
 		   }
+		   
+		   
+		   
+		   
+		   
 		   
 		   
 		   
@@ -688,35 +707,7 @@ public class UserController{
 
   }
    
-    //find PW Rest Control로 갈 운명
-    @PostMapping( "ddddd" )
-    public String findPw( @ModelAttribute( "user" ) User user , Model model ) throws Exception{
-
-        log.info( "##findPw {} ##" , user );
-
-
-        Map<String, Object> map = new HashMap<>();
-        map.put( "phoneNumber" , user.getPhoneNumber() );
-        map.put( "id" , user.getId() );
-
-
-        log.info( "findPW {}" , userSerivce.findUser( map ) );
-
-        if ( userSerivce.findUser( map ) == 1 ) {
-
-            model.addAttribute( "user" , user );
-
-             
-            return ( "forward:/user/updatePassword.jsp" );
-
-
-        } else {
-            return ( "forward:/main" );
-
-        }
-
-
-    }
+ 
 
     //유저 상세 정보
     //			//id가 있으면 list에서 온거 , 아니면 내 정보 조회에서 온 것
@@ -772,7 +763,7 @@ public class UserController{
 
         model.addAttribute( "StoreApplicationDocument" , storeApplicationDocument );
 
-        return "/user/getStoreApplicationDocument";
+        return "/user/getStoreApplicationDocument2";
     }
 
 
@@ -782,7 +773,7 @@ public class UserController{
         log.info( " start !!  addStoreApplicationDocument " );
 
 
-        return "/user/addStoreApplicationDocument";
+        return "/user/addStoreApplicationDocument2";
     }
 
 
@@ -798,10 +789,13 @@ public class UserController{
 
             int addStoreApplicationNumber = userSerivce.getStoreApplicationDocumenNumber( storeApplicationDocument.getId() );
             storeApplicationDocument.setStoreApplicationDocumentNumber( addStoreApplicationNumber );
-
+            storeApplicationDocument.setExaminationStatus("W"); //대기 
+            log.info( "StoreApplicationDocument {}" , storeApplicationDocument );
 
         }
 
+        
+        
 
         model.addAttribute( "StoreApplicationDocument" , storeApplicationDocument );
 
@@ -809,5 +803,70 @@ public class UserController{
         return "/user/getStoreApplicationDocument";
     }
 
+    
+    
+    
+    
+    @PostMapping( "/updateStoreApplicationDocument")
+    public String updateStoreApplicationDocument(   Model model ,StoreApplicationDocument storeApplicationDocument ) throws Exception{
+        log.info( " 그냥 커트롤러 updateStoreApplicationDocument 에 들어옴 ");
+
+        log.info( "  들어온 값 storeApplicationDocument {}" , storeApplicationDocument );
+        System.out.println(storeApplicationDocument) ; 
+        String returnResult = "";
+        int result = userSerivce.updateStoreApplicationDocument( storeApplicationDocument );
+        log.info( "##  결과  {} ##" , result );
+
+        //신청서 심사 UPDATE가 성공 적일떄
+        if ( result == 1 ) {
+
+            //스토어 정보 가져오기
+            storeApplicationDocument = userSerivce.getStoreApplicationDocument( storeApplicationDocument.getStoreApplicationDocumentNumber() );
+            if ( storeApplicationDocument.getExaminationStatus().equals( "A" ) ) {  //A 승인일때
+
+                Map<String, Object> map = new HashMap<>();
+                map.put( "role" , "store" );
+                map.put( "id" , storeApplicationDocument.getId() );
+                log.info( "map 값은 :  {}" , map );
+                result = 0;
+                result = userSerivce.updateUserStore( map );
+                log.info( "##신청서 승인된 User , Role 권한 상승  결과  {} ##" , result );
+
+            }
+
+            returnResult = storeApplicationDocument.getExaminationStatus(); // 스토어 신청서 상태 리턴
+            System.out.println("결과 ={} " +returnResult ) ; 
+
+             
+        } else {
+            returnResult = "error";  // result 값이 1이 아니면 update 실패 한거
+            System.out.println("결과 ={} " +returnResult ) ; 
+            
+        }
+
+        model.addAttribute( "StoreApplicationDocument" , storeApplicationDocument );
+        return "/user/getStoreApplicationDocument2";
+    }
+
+    
+    
+    
+    
+    //스토어 재 신청 Add
+    @GetMapping( "withdrawUser" )
+    public String withdrawUser( ) throws Exception{
+        System.out.println("withdrawUser"  ) ; 
+
+
+ 
+ 
+        return "/user/withdrawUser";
+    }
+
+    
+    
+    
+    
+    
 
 }
