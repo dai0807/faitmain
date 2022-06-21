@@ -74,7 +74,4 @@ public interface LiveService {
 
 	public Map<String, Object> getUserLiveUserStatusList(LiveUserStatus liveUserStatus) throws Exception;
 
-	// SMS
-	public void sendSMS() throws Exception;
-
 }

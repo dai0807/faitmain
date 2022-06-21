@@ -60,7 +60,16 @@ public class LiveController {
 
 	@Autowired
 	@Qualifier("userServiceImpl")
-	private UserSerivce userSerivce;
+	private UserSerivce userService;
+
+	/* final DefaultMessageService messageService; */
+
+	public LiveController() {
+		/*
+		 * this.messageService = NurigoApp.INSTANCE.initialize("NCSLCAD1LDIHGZEO",
+		 * "HDZEBLI8LKM2PVESFMBEXAVENHAFDEDP", "https://api.coolsms.co.kr");
+		 */
+	}
 
 	@GetMapping("liveRoom")
 	public String getLiveRoomList(Model model) throws Exception {
@@ -454,16 +463,6 @@ public class LiveController {
 			System.out.println(
 					"라이브 방송 정보 : " + liveService.getLive(liveService.getLiveByStoreId(user.getId()).getLiveNumber()));
 
-			live = new Live();
-
-//          for(String product : liveProducts) {
-//             System.out.println(product);
-//             }
-
-			// 라이브 판매 상품
-
-			live = liveService.getLiveByStoreId(user.getId());
-
 			liveService.deleteLiveProduct(live.getLiveNumber());
 
 			LiveProduct liveProduct = new LiveProduct();
@@ -491,7 +490,7 @@ public class LiveController {
 
 		model.addAttribute("channelKey", roomId);
 
-		liveService.sendSMS();
+		// sendSMS(live);
 
 		return "live/live";
 
@@ -588,7 +587,7 @@ public class LiveController {
 
 		for (LiveReservation obj : list) {
 			obj.setLiveProduct(liveService.getLiveProductList(obj.getLiveReservationNumber()));
-			obj.setStore(userSerivce.getUser(obj.getStore().getId()));
+			obj.setStore(userService.getUser(obj.getStore().getId()));
 
 			resultList.add(obj);
 		}
@@ -917,7 +916,7 @@ public class LiveController {
 
 		for (LiveUserStatus list : (List<LiveUserStatus>) map.get("list")) {
 			live = liveService.getLive(list.getLiveNumber());
-			store = userSerivce.getUser(live.getStoreId());
+			store = userService.getUser(live.getStoreId());
 
 			storeList.add(store);
 		}
@@ -956,4 +955,41 @@ public class LiveController {
 		log.info("updateAlarmList GET end...");
 		return new RedirectView("/live/getUserAlarmList");
 	}
+
+	/*
+	 * public void sendSMS(Live live) throws Exception {
+	 * 
+	 * User store = userService.getUser(live.getStoreId());
+	 * 
+	 * List<LiveUserStatus> liveUserStatusList = (List<LiveUserStatus>) (liveService
+	 * .getStoreLiveUserStatusList(live.getLiveNumber())).get("live"); List<String>
+	 * phoneNumber = new ArrayList<>(); User user = null;
+	 * 
+	 * for (LiveUserStatus obj : liveUserStatusList) { user =
+	 * userService.getUser(obj.getId()); phoneNumber.add(user.getPhoneNumber()); }
+	 * 
+	 * ArrayList<Message> messageList = new ArrayList<>();
+	 * 
+	 * for (String str : phoneNumber) { Message message = new Message(); // 발신번호 및
+	 * 수신번호는 반드시 01012345678 형태로 입력되어야 합니다. message.setFrom("01011112222");
+	 * message.setTo(str); message.setText(store.getStoreName() +
+	 * "님의 방송이 시작되었습니다.");
+	 * 
+	 * messageList.add(message); }
+	 * 
+	 * try { // send 메소드로 단일 Message 객체를 넣어도 동작합니다!
+	 * MultipleDetailMessageSentResponse response =
+	 * this.messageService.send(messageList);
+	 * 
+	 * // 중복 수신번호를 허용하고 싶으실 경우 위 코드 대신 아래코드로 대체해 사용해보세요! //
+	 * MultipleDetailMessageSentResponse response = //
+	 * this.messageService.send(messageList, true);
+	 * 
+	 * System.out.println(response);
+	 * 
+	 * } catch (NurigoMessageNotReceivedException exception) {
+	 * System.out.println(exception.getFailedMessageList());
+	 * System.out.println(exception.getMessage()); } catch (Exception exception) {
+	 * System.out.println(exception.getMessage()); } }
+	 */
 }

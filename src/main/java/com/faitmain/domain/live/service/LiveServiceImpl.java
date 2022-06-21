@@ -32,10 +32,6 @@ public class LiveServiceImpl implements LiveService {
 	@Autowired
 	private LiveMapper liveMapper;
 
-	public LiveServiceImpl(LiveMapper liveMapper) {
-		this.liveMapper = liveMapper;
-	}
-
 //	public void setLiveMapper(LiveMapper liveMapper) {
 //		this.liveMapper = liveMapper;
 //	}
@@ -238,9 +234,5 @@ public class LiveServiceImpl implements LiveService {
 
 		return map;
 	}
-
-	// SMS
-	// 인증 문자 보내기
-//	public void sendSMS(String userPhoneNumber) throws Exception {
 
 }
