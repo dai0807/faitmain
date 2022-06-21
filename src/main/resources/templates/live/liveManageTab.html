@@ -123,11 +123,12 @@ $('body').on('click', '[name=cancleKick]', function(event) {
     //삭제 key value
     // chk라는 클래스를 가진 체크박스 중에 체크가 된
     // object들을 찾아서 delchk라는 배열에 담는다.
+
     
     $('.clientKey:checked').each(function(){
         clientKey.push($(this).val());
     });
-	
+	   if( clientKey != "" ) {
 	$.ajax({
 		url : '/live/json/cancleKickUser/' + roomId + "/" + clientKey ,
 		type : 'GET',
@@ -138,7 +139,10 @@ $('body').on('click', '[name=cancleKick]', function(event) {
 		error : function(error){}
 		
 	});
-	reloadSanctionUserList();
+	}
+	setTimeout(function(){
+    reloadSanctionUserList();
+    }, 1000)
 });  
 
 
@@ -369,11 +373,14 @@ function reloadSanctionUserList(){
 			$('#mute').remove();
 			$('.button').children().remove();
 			$('#kick').remove();
-			$
+			$('.kick').remove();
+			$('.mute').remove();
 			$("div.button").append("<button type='button' name='cancleKick' id='cancleKick' class='btn btn-danger'>강제퇴장 해제</button> ");
 			$("div.button").append("<button type='button' name='cancleMute' id='cancleMute' class='btn btn-warning'>채팅제한 해제</button> ");
 			$("div.button").append("<button type='button' name='return' id='return' class='btn btn-primary'>채팅방 유저 조회</button>");
-				var abc = "";		
+			$('.lol').remove();	
+				var abc = '<tr class="lol">\ <th>Select</th>\<th>ClientKey</th>\<th>NickName</th><th>Grade</th></tr>';
+		    	
 			for(let i = 0 ; i < data.length ; i++) {
 					abc += "<tr class='kick'><td><input class='clientKey' type='checkbox' name='clientKey' value=" + data[i].clientKey + "></td>"
 					     + "<td data-th='ClientKey'>" + data[i].clientKey + "</td>"
@@ -383,13 +390,44 @@ function reloadSanctionUserList(){
 				console.log(abc);
 				
 				$("table").children(":first").append(abc);
-				
 			
-			muteUserList();
+ 			 	reloadMuteUserList();
+
+		},
+		error : function(error){}	
+	});
+	
+}
+
+function reloadMuteUserList(){
+	
+	$.ajax({
+		url : '/live/json/muteUserList',
+		type : 'POST',
+		async : true,
+		cache : true,
+		dataType : "json",
+		timeout : 2000,
+		success : function(data){
+			$('.muteBar').remove();	
+				var abc = '<tr class="muteBar">\ <th>Select</th>\<th>ClientKey</th>\<th>NickName</th><th>Grade</th></tr>';
+					
+			for(let i = 0 ; i < data.length ; i++) {
+					abc +="<tr class='mute'><td><input class='clientKey' type='checkbox' name='clientKey' value=" + data[i].clientKey + "></td>"
+					     + "<td data-th='ClientKey'>" + data[i].clientKey + "</td>"
+					     + "<td data-th='NickName'>" + data[i].nickName + "</td>"
+					     + "<td data-th='Grade'>" + data[i].grade + "</td></tr>";
+	}
+				console.log("알랄랄");
+			
+				$("table").children(":first").append(abc);
+			
+			
 		},
 		error : function(error){}	
 	});
 }
+
 
     /*]]>*/
 </script>
@@ -404,7 +442,7 @@ function reloadSanctionUserList(){
 </div>
 <div style="height:200px; overflow:auto">
 	<table class="rwd-table">
-	  <tr>
+	  <tr class="lol">
 	    <th>Select</th>
 	    <th>ClientKey</th>
 	    <th>NickName</th>
