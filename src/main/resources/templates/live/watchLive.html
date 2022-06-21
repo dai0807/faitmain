@@ -347,20 +347,31 @@
      function openError(code, callback) {
 			colsole.log(code);
 		if ( code == 10106 ){ 
-       self.location="/live/returnIndex";
-       } else if ( code == "글쓰기가 제한되었습니다." ) {
-
-	Swal.fire({
-                    icon: 'warning',
-                    title: '경고!',
-                    text: '글쓰기가 제한되었습니다.',
-                    confirmButtonText: '돌아가기',  
-                })
-     }
-     }
+			self.location="/live/returnIndex";
+		} else if ( code == 10109 ) {
+			Swal.fire({
+				icon: 'warning',
+				title: '경고!',
+				text: '방송이 종료되었습니다.',
+				confirmButtonText: '돌아가기',
+			}).then((result) => {
+				if(result.isConfirmed){
+					self.location="/";
+				}
+			})
+		} else if ( code == "글쓰기가 제한되었습니다." ) {
+			Swal.fire({
+				icon: 'warning',
+				title: '경고!',
+				text: '글쓰기가 제한되었습니다.',
+				confirmButtonText: '돌아가기',  
+			})
+		}
+	}
+     
      function exit() {
        if (channel) {
-         var exit_chk = confirm("종료 하시겠습니까?");
+       	var exit_chk = confirm("종료 하시겠습니까?");
          if (!exit_chk) return;
          $(".cam-footer .cam-btn .mic").off("click.rtc");
          $(".cam-footer .cam-btn .cam").off("click.rtc");
