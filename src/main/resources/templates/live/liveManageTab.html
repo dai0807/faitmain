@@ -113,11 +113,13 @@ $('body').on('click', '[name=return]', function(event) {
 	lel();
 });
 
+
+//강제퇴장 해제
 $('body').on('click', '[name=cancleKick]', function(event) {
 	
 	let clientKey = []; // key 값을 담을 배열
     const roomId = $('.roomId').val();
-    const nickName = $('.nickName').val();
+    const nickName = $('.nick').val();
            
     //삭제 key value
     // chk라는 클래스를 가진 체크박스 중에 체크가 된
@@ -148,7 +150,6 @@ function kickUser() {
 	
 	var clientKey = []; // key 값을 담을 배열
     var roomId = $('.roomId').val();
-    var nickName = $('.nickName').val();
            
     //삭제 key value
     // chk라는 클래스를 가진 체크박스 중에 체크가 된
@@ -160,7 +161,7 @@ function kickUser() {
     console.log("클라이언트 키 : " + clientKey);
     console.log("채널 키 : " + roomId);
     	$.ajax({
-		url : '/live/json/kickUser/' + roomId + "/" + clientKey + "/" + nickName ,
+		url : '/live/json/kickUser/' + roomId + "/" + clientKey ,
 		type : 'GET',
 		async : true,
 		dataType : "json",
@@ -354,10 +355,6 @@ function muteUserList(){
 </script>
 
 <br/>
-<th:block th:each="data : ${data}" >
-<input class="roomId" type="hidden" name="roomId" th:value="${data.roomId}"/> 
-<input class="nickName" type="hidden" name="nickName" th:value="${data.nickName}"/>
-</th:block>
 
 <h1> Live User List </h1>
 <div class="button">
