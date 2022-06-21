@@ -123,5 +123,10 @@
          WHERE order_number = #{orderNumber}
     </select>
 
+    <select id="selectOrders" resultType="com.faitmain.domain.order.domain.Order">
+        SELECT *
+          FROM `order`
+    </select>
+
 
 </mapper>

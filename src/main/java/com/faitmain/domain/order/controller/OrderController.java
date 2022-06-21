@@ -7,8 +7,8 @@ import com.faitmain.domain.order.service.OrderServiceImpl;
 import com.faitmain.domain.order.service.PaymentServiceImpl;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserServiceImpl;
-import com.faitmain.global.common.Paging;
 import com.faitmain.global.common.Page;
+import com.faitmain.global.common.Paging;
 import com.faitmain.global.util.log.LogTrace;
 import com.faitmain.global.util.log.TraceStatus;
 import lombok.extern.slf4j.Slf4j;
@@ -64,8 +64,6 @@ public class OrderController{
 
     public String paymentComplete( Order order , Paging paging , Model model ) throws Exception{
 
-        TraceStatus status = null;
-
         User user = userService.getUser( order.getBuyerId() );
         log.info( "user = {}" , user );
 
@@ -106,17 +104,22 @@ public class OrderController{
             }
 
             orderService.addOrder( order );
+            model.addAttribute( "order" , order );
+            log.info( "order = {}" , order );
 
-//            List<Order> orderList = orderService.getOrderList( paging );
-//
-//            if ( !orderList.isEmpty() ) {
-//                model.addAttribute( "orderList" , orderList );
-//                model.addAttribute( "pageMaker" , new Page( paging , orderService.getOrderTotal( paging ) ) );
-//            } else {
-//                model.addAttribute( "listCheck" , "empty" );
-//            }
+            List<Order> orderList = orderService.getOrders( order );
+            model.addAttribute( "orderList" , orderList );
+            log.info( "orderList = {}" , orderList );
+/*
 
-            return "order/orderList";
+            if ( !orderList.isEmpty() ) {
+                model.addAttribute( "pageMaker" , new Page( paging , orderService.getOrderTotal( paging ) ) );
+            } else {
+                model.addAttribute( "listCheck" , "empty" );
+            }
+*/
+
+            return "order/orderComplete";
 
 
         } catch ( Exception e ) {
@@ -127,14 +130,14 @@ public class OrderController{
 
     /* 주문삭제 */
     @PostMapping( "/cancel" )
-    public String orderCancel( OrderCancel orderCancel ) {
+    public String orderCancel( OrderCancel orderCancel ){
 
 
         if ( !"".equals( orderCancel.getImpUid() ) ) {
             try {
                 String token = paymentService.getToken();
                 int amount = paymentService.paymentInfo( orderCancel.getImpUid() , token );
-                paymentService.paymentCancel( token,orderCancel.getImpUid(),amount );
+                paymentService.paymentCancel( token , orderCancel.getImpUid() , amount );
             } catch ( IOException e ) {
                 e.printStackTrace();
             }
@@ -169,7 +172,6 @@ public class OrderController{
         log.info( "model = {}" , model );
         return "order/orderList";
     }
-
 
 
 }

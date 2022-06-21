@@ -25,7 +25,7 @@ public interface OrderMapper{
     /* 주문 상품 정보 (주문 처리) */
     OrderProduct selectOrderProduct( int productNumber );
 
-
+    List<Order> selectOrders( int orderNumber );
 
 
 
