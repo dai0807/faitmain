@@ -1,6 +1,8 @@
 package com.faitmain.global.util.security;
 
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.global.util.security.userinfo.OAuth2UserInfo;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,17 +11,19 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Slf4j
 @Service
-public class SecurityUserService implements UserDetails{
+public class SecurityUserService implements UserDetails , OAuth2User {
 
 	// UserDetails : 인증된 핵심 사요자 정보(권한,비밀번호,사용자명,각종상태)를 제공하는  interface
 	// 안만들어도 상관없지만 Warning이 발생함
@@ -28,8 +32,11 @@ public class SecurityUserService implements UserDetails{
 
 	//private ArrayList<GrantedAuthority> authorities; 
     private User user;
-//	private String username; // ID
-//	private String password; // PW
+    
+    //private Map<String, Object> attributes;
+    private OAuth2UserInfo oAuth2UserInfo;
+    
+ 
      
     public SecurityUserService() {
     	
@@ -38,6 +45,11 @@ public class SecurityUserService implements UserDetails{
     public SecurityUserService( User user) {
 		System.out.println("SecurityUserService :: " +user);
 		this.user=user;
+    }
+    
+    public SecurityUserService(User user, OAuth2UserInfo oAuth2UserInfo) {
+        this.user = user;
+        this.oAuth2UserInfo = oAuth2UserInfo;
     }
     
     //ROLE
@@ -90,6 +102,28 @@ public class SecurityUserService implements UserDetails{
     public boolean isEnabled(){
         return true;
     }
+
+
+    /**
+     * OAuth2User 구현
+     * @return
+     */
+    @Override
+    public Map<String, Object> getAttributes() {
+        //return attributes;
+        return oAuth2UserInfo.getAttributes();
+    }
+
+    /**
+     * OAuth2User 구현
+     * @return
+     */
+    @Override
+    public String getName() {
+        //String sub = attributes.get("sub").toString();
+        //return sub;
+        return oAuth2UserInfo.getProviderId();
+    }
     
 //    SecurityContextHolder
 //    SecurityContext를 보관하는 저장소
@@ -97,4 +131,5 @@ public class SecurityUserService implements UserDetails{
 //    Authentication에는 principal, credentials, authorities가 저장된다.
  // 참고 : https://gregor77.github.io/2021/04/21/spring-security-02/  
     
+ 
 }

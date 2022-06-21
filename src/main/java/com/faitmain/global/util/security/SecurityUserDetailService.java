@@ -33,6 +33,7 @@ public class SecurityUserDetailService implements UserDetailsService{
 		User user = usermapper.getUser(id) ;
 		if(user == null) {
             throw new UsernameNotFoundException( "유저없음" );
+            
 
 		}  
 		
