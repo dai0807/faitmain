@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html layout:decorate = "~{layout/myPage_layout}"
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout" 
+              xmlns:sec="http://www.thymeleaf.org/extras/spring-security"  >
+>
+ 
+<!-- 본판 -- >
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+     <!--
+     <link href="/css/styles.css" rel="stylesheet" />
+     <link href = "/user/css/form.css" rel = "stylesheet"/>
+     -->
+     <!-- 문의하기에서 가져온 css -->
+     <link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
+	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
+		
+	<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
+	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">	
+	
+		<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+	<!-- ================ -->
+
+    <meta charset = "UTF-8">
+    <title>상세정보 </title>
+    <style>
+    
+	  .form-group{
+ 
+		margin-top:10px ;
+ 	 
+		}
+		.div_css{
+			margin: 0 0 1.5em 0;
+		}
+		form-horizontal{font-family: 'Nanum Gothic Coding', monospace;}
+		 
+    </style>
+
+ <script type = "text/javascript">
+
+
+/*
+function showValue(target){
+ console.log(target.value);	
+ let examinationStatus = target.value ;
+}
+*/
+ 
+ 
+          //회원가입 버튼 눌렀을때
+        $(function () {
+            $("#submitButton").on("click", function () {
+                 var summernote = $("#summernote")
+
+ 
+
+                if (summernote == null) {
+                    alert("스토어 설명을 다시작성해주세요  ")
+
+                    return;
+                }
+
+ 
+                 alert("신청 완료 ")
+
+ 
+
+                $("#form").attr("method", "POST").attr("action", "/user/addStoreApplicationDocument").submit();
+
+
+            })
+
+
+        });
+ 
+ 
+ 
+   $(function () {
+	$("#button").on("click",function(){
+		
+	
+                         //alert("버튼울림 :: ") ;
+
+   var formData = $("#form").serialize() ;
+ // alert(formData) ;
+		$.ajax({
+			 url: "/user/json/updateStoreApplicationDocument" ,
+			 type: 'POST',
+			 data: formData , 
+		//	 dataType : 'json',
+
+                        success: function (data) { //컨트롤러에서 넘어온 cnt값을 받는다
+                        
+                      
+                        
+                        	if(data =='W'){
+	
+							}else if (data =='A'){
+								
+								
+								$("#examinationStatus").val("승인")
+								$("#StoreApplicationDocumentinfo").css("display","none"); // 심사 영역 안보이게
+ 
+								
+								
+							}else if(data =='R'){
+							 $("#examinationStatus").val("반려")
+								$("#StoreApplicationDocumentinfo").css("display","none"); // 심사 영역 안보이게
+
+							}
+							
+                          alert("결과 :: " + data) ;
+                        
+                        } 
+           
+			
+		}) //ajax 괄호
+			
+			
+		 
+		
+ 
+	}) ;
+	
+} );	
+
+
+
+$(function(){
+			
+			 $('#summernote').summernote({
+					// 에디터 높이
+			        height: 300,
+ 
+			        // 에디터 한글 설정
+			        lang: "ko-KR",
+			        // 에디터에 커서 이동 (input창의 autofocus라고 생각)
+			        focus : true,
+			        toolbar: [
+			            // 글꼴 설정
+			            ['fontname', ['fontname']],
+			            // 글자 크기 설정
+			            ['fontsize', ['fontsize']],
+			            // 굵기, 기울임꼴, 밑줄,취소 선, 서식지우기
+			            ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+			            // 글자색
+			            ['color', ['forecolor','color']],
+			            // 표만들기
+			            ['table', ['table']],
+			            // 글머리 기호, 번호매기기, 문단정렬
+			            ['para', ['ul', 'ol', 'paragraph']],
+			            // 줄간격
+			            ['height', ['height']],
+			         	// 그림첨부
+ 
+			        		            
+			        ],
+			        // 추가한 글꼴
+			        fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
+			        // 추가한 폰트사이즈
+			        fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+			         
+			        callbacks: { //이미지 첨부시  감지하여   밑 실행 
+			            onImageUpload: function(files, editor, welEditable) {
+			            	// 파일 업로드(다중업로드를 위해 반복문 사용)
+			            	for(var i=files.length-1; i>=0; i--){
+			            		console.log("반복반복 ");
+			            		uploadSummernoteImageFile(files[i], this);	
+			            	}
+			            }
+			        }
+			 });			
+		});
+
+		function uploadSummernoteImageFile(file, editor) {
+			console.log("bbb");
+			let data = new FormData();
+			data.append('file', file); //FormData에 어팬드 
+			$.ajax({
+				data: data,
+				type: "POST",
+				url: "/user/json/uploadSummernoteImageFile",
+				contentType: false,
+				enctype: "multipart/form-data",
+				processData: false,
+				success: function(data){
+					console.log(data.url);
+            		$(editor).summernote("editor.insertImage", data.url);	
+            		// 써머노트에 올린 사진 바로 띄어줌 			
+				}				
+			});
+		}
+    </script>
+
+</script>
+    
+</head>
+
+<body>
+	<article  class="py-5" layout:fragment="content"  >
+	   
+	   
+	   			      <div class = "text-center">
+			            <h3  > 스토어 신청서</h3>
+			        </div>
+	   
+	   
+	   <section class="bg0 p-t-104 p-b-116">
+			<div class="container">
+				<div class="flex-w flex-tr">
+					<!-- 문의 할 상품 정보 -->
+					<div class="size-221 bor10 p-lr-60 p-t-55 p-b-70 p-lr-15-lg w-full-md">					
+						<div class="flex-w w-full p-b-42">
+					
+							<div class="size-212 p-t-2">
+								
+								<!-- th:src로 원하는 사진 보여주면 될듯 user.userStoreImage? -->							
+								<img src= "/img/upload/20220612212554fac6d925-0d36-4f3d-88fa-d29731dcf6e0.PNG" alt="IMG-PRODUCT" class="stext-115 cl6 size-213 p-t-18"/>
+								
+								<!-- 필요없으면 지우시오 -->
+								<p class="stext-115 cl7 hov-cl1 size-213 p-t-18">
+									<a class="stext-115 cl7 hov-cl1 size-213 p-t-18" ></a>
+								</p>
+								
+								<br/>
+								
+								<span class="mtext-110 cl2 txt-center"></span>
+								<!-- ============== -->
+								
+							</div>
+							
+						</div>
+					</div>
+					<!-- =================== -->
+					
+					<!-- 스토어 신청서 작성 form -->
+					<div class="size-222 bor10 flex-w flex-col-m p-lr-80 p-tb-30 p-lr-15-lg w-full-md">					
+						<form method="post"   id="form">
+													
+								<h4 class="mtext-105 cl2 txt-center p-b-30">
+									스토어 신청서
+								</h4>
+								
+								<div class="bor8 m-b-30">
+									<p class=".fs-21">
+									<br>
+										 스토어 아이디 :	[[${#authentication.principal.user.id}]] <br>
+										 스토어 이름 :	[[${#authentication.principal.user.storeName}]]<br>
+										 스토어 소개 :	[[${#authentication.principal.user.storeIntroduction}]]<br>
+									</p>
+								</div>
+								
+										<p> 제품소개 및 심사 사진 </p>
+											 <div  class="form-group">			 
+													<textarea id="summernote" name="productDetial" rows="10"></textarea> 
+							 				 </div>
+							 	 		 <br> 
+					 	 				<p>
+					 	 				 안녕하세요 fait-main입니다. <br>
+					 	 				  스토어  신청서를 심사한 후에 빠른 시일내에 결과를 알려드겠습니다. 감사합니다. 
+					 	 				</p>
+					 	 				<br>
+		
+	 							<button type="submit" id="submitButton"class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+									스토어 신청 
+								</button>
+										 		 
+								   <input type="hidden" class="form-control" th:id="id" th:name="id" maxlength='10' th:value="${#authentication.principal.user.id}"   >  
+				 				   <input type="hidden" class="form-control" th:id="storeName" th:name="storeName" maxlength='10' th:value="${#authentication.principal.user.storeName }"   >      		    
+				 				   <input type="hidden" class="form-control" th:id="storeIntroduction" th:name="storeIntroduction"   th:value="${#authentication.principal.user.storeIntroduction}"   >  				    
+		 
+	    		
+						</form>
+					
+					</div>
+					<!-- =================== -->					
+
+	 
+	 
+				
+				
+				
+				
+				
+				</div>
+									 
+				  			
+				  										
+ 					 
+ 											
+						</div>
+				
+			</div>
+	 					
+	
+				
+				
+				
+				
+				</div>
+			
+			</div>
+		
+		</section>	  
+   
+
+	
+	</article>
+
+
+</body>
+</html>

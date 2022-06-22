@@ -13,16 +13,17 @@ import lombok.Data;
 public class StoreApplicationDocument {
 
 
-		int storeApplicationDocumentNumber ;
-		String id ;
-		String storeName ;
-		String storeIntroduction ;
-		String examinationStatus ; // R, A ,W 
-		String productDetial ;
-		List<Image> productmanufacturingImage ;
-		Date regDate ;
-	
-		
+		private	int storeApplicationDocumentNumber ;
+		private	String id ;
+		private	String storeName ;
+		private	String storeIntroduction ;
+		private	String examinationStatus ; // R, A ,W 
+		private	String productDetial ;
+		private	List<Image> productmanufacturingImage ;
+		private Date regDate ;
+		private String storeLogoImage;
+		 
+ 		
 	
 	
 }
