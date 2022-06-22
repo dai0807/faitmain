@@ -17,10 +17,18 @@
 	
 	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/MagnificPopup/magnific-popup.css">
 	
+	<script src="/productDesign/vendor/sweetalert/sweetalert.min.js"></script>
+	
 	<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
 	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">	
         
-	<!--<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>-->
+	<!-- 카카오 공유하기 -->
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	<!-- 
+	<meta property="og:title" th:attr="content=${product.productName}">
+	<meta property="og:url" th:attr="content=|http://192.168.0.90:8080/product/getProduct?productNumber=${product.productNumber}|">
+	<meta property="og:image" th:attr="content=|http://192.168.0.90:8080/img/upload/${product.productMainImage}|">
+	-->
 	
     <style>
     
@@ -32,13 +40,18 @@
             font-family: 'Nanum Gothic Coding', monospace;
         }
 		
+		#buttonArea{
+			text-align: center;			
+		}
+		
 		#buttonArea li {
+			display: inline-block;			
 			list-style-type: none;
-			float: left;
+			/*float: left;*/
 			margin-right: 10px;
 		}
 
-
+		
     </style>
     
 </head>
@@ -245,10 +258,13 @@
 										총 상품 가격
 									</div>
 								
-									<div class="size-204 flex-w flex-m respon6-next" id="totalPrice">
-										<th:block id = "totalPrice" th:if = "${#lists.size(product.productOptions) == 0}" th:text = "${product.productPrice}"></th:block>
+									<div class="size-204 flex-w flex-m respon6-next" id="totalPriceArea">
+										<th:block id = "totalPrice" th:if = "${#lists.size(product.productOptions) == 0}" th:text = "${#numbers.formatInteger(product.productPrice, 3, 'COMMA') + '원'}">
+										</th:block>
 										<th:block th:if = "${#lists.size(product.productOptions) != 0}">0</th:block>																		
 									</div>
+									
+									<input type="hidden" id="totalPrice" th:value="${#lists.size(product.productOptions) == 0 ? product.productPrice : 0}" />
 									
 								</div>
 								<!-- -------------------------------- -->
@@ -256,6 +272,12 @@
 								<!-- 장바구니 & 구매하기 버튼 -->
 								<div class="flex-w flex-r-m p-b-10">
 									<ul id="buttonArea">
+										<li>
+											<a id="create-kakao-link-btn" href="javascript:;">
+												<img src="/img/kakaotalk_sharing_btn_small.png" />
+											</a>
+										</li>
+									
 										<li>
 											<button id="addCart" type="button" class="flex-c-m stext-101 cl2 size-101 bg0 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
 												장바구니
@@ -364,7 +386,11 @@
 						<div class="tab-pane fade" id="inquiry" role="tabpanel">
 							<div class="how-pos2 p-lr-15-md">
 							
-								<button id="addInquiry" type="button">문의하기</button>
+								<div>
+									<button id="addInquiry" type="button" class="flex-c-m stext-101 cl2 size-101 bg0 bor13 hov-btn1 p-lr-15 trans-04 pointer m-tb-10">
+										문의하기
+									</button>
+								</div>								
 								
 								<!-- 문의 없음 -->
 								<th:block th:if="${#lists.size(product.inquiryList) == 0}">

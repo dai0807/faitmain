@@ -201,7 +201,7 @@ public class ProductServiceImpl implements ProductService {
 			if (subFile.size() > 1) {
 				System.out.println("subFile");
 				Image image = new Image();
-				image.setImageClassificationNumber(product.getProductGroupNumber());
+				image.setImageClassificationNumber(product.getProductNumber());
 
 				for (MultipartFile mf : subFile) {
 
@@ -218,7 +218,7 @@ public class ProductServiceImpl implements ProductService {
 				option.setCategoryCode(product.getCategoryCode());
 				option.setProductPrice(product.getProductPrice());
 				option.setProductMainImage(product.getProductMainImage());
-				option.setProductGroupNumber(product.getProductGroupNumber());
+				option.setProductGroupNumber(product.getProductNumber());
 				option.setStore(product.getStore());
 				productMapper.addProduct(option);
 			}

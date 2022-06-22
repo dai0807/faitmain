@@ -255,7 +255,7 @@
 				
 						<!--  <<== 좌측 nav -->
 						<th:block th:if="${ resultPage.currentPage <= resultPage.pageUnit }">
-							<li class="disabled">
+							<li class="disabled" style="pointer-events: none;">
 						</th:block>
 						<th:block th:if="${ resultPage.currentPage > resultPage.pageUnit }">
 							<li>
@@ -286,10 +286,10 @@
 				
 						<!--  우측 nav==>> -->
 						<th:block th:if="${ resultPage.endUnitPage >= resultPage.maxPage }">
-							<li class="disabled">
+							<li class="disabled" style="pointer-events: none;">
 						</th:block>
 						<th:block th:if="${ resultPage.endUnitPage < resultPage.maxPage }">
-							<li>
+							<li style="pointer-events: initial;">
 						</th:block>
 								<a th:href="|javascript:fncGetList('${resultPage.endUnitPage+1}')|" aria-label="Next" class="flex-c-m how-pagination1 trans-04 m-all-7">
 									<span aria-hidden="true">&gt;</span>

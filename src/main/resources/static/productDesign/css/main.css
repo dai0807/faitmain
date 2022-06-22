@@ -2148,7 +2148,14 @@ input.num-product::-webkit-inner-spin-button {
   width: 100%;
 }
 
-.how-itemcart1::after {
+.how-itemcart2 {
+  /*width: 60px;*/
+  position: relative;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.how-itemcart1, .how-itemcart2::after {
   content: '\e870';
   font-family: Linearicons-Free;
   font-size: 16px;
@@ -2173,7 +2180,7 @@ input.num-product::-webkit-inner-spin-button {
   opacity: 0;
 }
 
-.how-itemcart1:hover:after {
+.how-itemcart1, .how-itemcart2:hover:after {
   opacity: 1;
 }
 

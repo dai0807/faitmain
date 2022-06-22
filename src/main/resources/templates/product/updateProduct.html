@@ -147,6 +147,7 @@
 						},
 						success: function (JSONData, status) {
 							console.log(JSONData.responseCode);
+							productExtraImageSize--;
 						}
 					}).done(function () {
 						//$(this).parent().remove();
@@ -236,7 +237,7 @@
 				processData: false,
 				success: function(data){
 					console.log(data.url);
-					console.log("dmdkdkdkdkd : " + productDetail);
+					//console.log("dmdkdkdkdkd : " + productDetail);
             		$(el).summernote("editor.insertImage", data.url);	
             					
 				}				
