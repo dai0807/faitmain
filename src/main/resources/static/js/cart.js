@@ -65,12 +65,15 @@ $(document).ready(function () {
 
                 let productNumber = $(element).find(".individual_productNumber_input").val();
                 let productOrderCount = $(element).find(".individual_productOrderCount_input").val();
+                let productMainImage = $(element).find(".individual_productMainImage_input").val();
 
-                let productNumber_input = "<input name='orderProductList[" + index + "].productNumber' type='hidden' value='" + productNumber + "'>";
-                let productOrderCount_input = "<input name='orderProductList[" + index + "].productOrderCount' type='hidden' value='" + productOrderCount + "'>";
+                let productNumber_input = "<input name='orderPageProductList[" + index + "].productNumber' type='hidden' value='" + productNumber + "'>";
+                let productOrderCount_input = "<input name='orderPageProductList[" + index + "].productOrderCount' type='hidden' value='" + productOrderCount + "'>";
+                let productMainImage_input = "<input name='orderPageProductList[" + index + "].productMainImage' type='hidden' value='" + productMainImage + "'>";
 
                 form_contents += productNumber_input;
                 form_contents += productOrderCount_input;
+                form_contents += productMainImage_input;
 
                 orderNumber += 1;
 
