@@ -123,13 +123,13 @@ public class ProductServiceImpl implements ProductService {
 		search.setPageSize(10);
 		product.setReviewList(reviewMapper.getReviewList(search));
 		product.setReviewCount(reviewMapper.getTotalCount(search)); //리뷰 개수
-		log.info("review List = {}", product.getReviewList());
+//		log.info("review List = {}", product.getReviewList());
 
 		// 상품 관련 문의 조회
 		search.setSearchCondition("productNumber");
 		product.setInquiryList(inquiryMapper.getInquiryList(search));
 		product.setInquiryCount(inquiryMapper.getTotalCount(search)); //문의 개수
-		log.info("inquiry List = {}", product.getInquiryList());
+//		log.info("inquiry List = {}", product.getInquiryList());
 
 //		Map<String, Object> map = new HashMap<String, Object>();
 //		map.put("mainProduct", product);
@@ -148,7 +148,8 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Map<String, Object> getProductList(Map<String, Object> map) throws Exception {
-		log.info("serviceImpl");
+		
+//		log.info("serviceImpl");
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		int totalCount;
@@ -166,8 +167,8 @@ public class ProductServiceImpl implements ProductService {
 			
 		}
 		
-		log.info("list : {}", list);
-		log.info("totalCount : {}", totalCount);
+//		log.info("list : {}", list);
+//		log.info("totalCount : {}", totalCount);
 		
 		resultMap.put("list", list);
 		resultMap.put("totalCount", new Integer(totalCount));

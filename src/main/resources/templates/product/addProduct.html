@@ -209,7 +209,6 @@
 					return;
 				}
 
-
 				if (categoryCode == null || categoryCode == '') {
 					swal("카테고리를 선택해주세요");
 					return;
@@ -225,8 +224,26 @@
 
 					$("#quantity").val(total);
 				}
+				
+				swal({
+					title: "상품을 등록하시겠습니까?",
+					//text: "선택하신 리뷰를 삭제하면 다시 복구되지 않습니다.",
+					icon: "info",
+					buttons: true,
+					dangerMode: true,
+				}).then((result) => {
+					if (result) {
 
-				$("#addProductForm").attr("method", "POST").attr("action", "/product/addProduct").submit();
+						$("#addProductForm").attr("method", "POST").attr("action", "/product/addProduct").submit();
+
+					} else {
+						swal("취소되었습니다");
+						 history.back();
+					}
+
+				});		
+				
+				
 
 			});
 
