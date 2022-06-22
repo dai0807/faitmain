@@ -14,9 +14,14 @@
 	<article class = "lgf-1" layout:fragment = "content">
 		 <div class = "container" th:action="@{/customer/detailGuide}">
 		 <input type="hidden" name="boardType" value='L'/> 
-		 <div class="btn_wrap text-center" >
-			<a th:href="@{/customer/updateBoard}" class="btn btn-default waves-effect waves-light">수정</a>
-		</div>
+			<th:block sec:authorize="isAuthenticated()">
+				 <span class="btn_wrap text-center" sec:authorize="hasRole('ROLE_admin')">
+					<a th:href="@{/customer/updateBoard?boardType=L}" class="btn btn-default waves-effect waves-light">수정</a>
+				</span>
+				<span class="btn_wrap text-center" sec:authorize="hasRole('ROLE_admin')">
+					<a th:href="@{/customer/listBoard?boardType=L}" class="btn btn-default waves-effect waves-light">목록</a>
+				</span>
+			</th:block>
 		<!-- 	<input type="hidden" name="boardType" value='L'/> --> 
 				<tr >
 					<td >
