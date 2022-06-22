@@ -92,8 +92,6 @@ public class LiveRestController {
 		URL url = new URL(
 				"https://vchatcloud.com/openapi/v1/users/" + liveService.getLiveByStoreId(user.getId()).getRoomId());
 
-		System.out.println("유우우우우우우우우ㅏㄹ엘    " + url);
-
 		HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 		conn.setSSLSocketFactory(sc.getSocketFactory());
 		conn.setRequestMethod("GET");
@@ -162,8 +160,6 @@ public class LiveRestController {
 		URL url = new URL(
 				"https://vchatcloud.com/openapi/v1/exiles/" + liveService.getLiveByStoreId(user.getId()).getRoomId());
 
-		System.out.println("유우우우우우우우우ㅏㄹ엘    " + url);
-
 		HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 		conn.setSSLSocketFactory(sc.getSocketFactory());
 		conn.setRequestMethod("GET");
@@ -191,8 +187,6 @@ public class LiveRestController {
 		System.out.println("data : " + data);
 
 		log.info("Controller = {} ", "/live/getLiveUserList : GET end...");
-
-		System.out.println("홀롤롤: " + data);
 
 		return data;
 
@@ -230,8 +224,6 @@ public class LiveRestController {
 		URL url = new URL(
 				"https://vchatcloud.com/openapi/v1/mute/" + liveService.getLiveByStoreId(user.getId()).getRoomId());
 
-		System.out.println("유우우우우우우우우ㅏㄹ엘    " + url);
-
 		HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 		conn.setSSLSocketFactory(sc.getSocketFactory());
 		conn.setRequestMethod("GET");
@@ -262,8 +254,6 @@ public class LiveRestController {
 			System.out.println("data[" + i + "] : " + tmp);
 		}
 
-		System.out.println("data : " + data);
-		System.out.println("홀롤롤: " + data);
 		log.info("Controller = {} ", "/live/getLiveUserList : GET end...");
 
 		return data;

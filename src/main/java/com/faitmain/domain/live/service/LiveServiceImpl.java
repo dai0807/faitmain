@@ -36,10 +36,6 @@ public class LiveServiceImpl implements LiveService {
 //		this.liveMapper = liveMapper;
 //	}
 
-//	public LiveServiceImpl() {
-//		System.out.println(this.getClass());
-//	}
-
 	// live
 	public int addLive(Live live) throws Exception {
 		return liveMapper.addLive(live);
