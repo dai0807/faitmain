@@ -25,6 +25,7 @@ public interface LiveService {
 	public Live getLiveNumberByRoomId(String roomId) throws Exception;
 
 	public Map<String, Object> getLiveList() throws Exception;
+	
 
 	// liveChat
 	public int addLiveChat(LiveChat liveChat) throws Exception;

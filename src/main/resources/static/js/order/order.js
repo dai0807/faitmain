@@ -88,6 +88,7 @@ $(document).ready(function () {
                 $("input[name='receiverAddress1']").val($(obj).find(".address1_input").val());
                 $("input[name='receiverAddress2']").val($(obj).find(".address2_input").val());
                 $("input[name='receiverAddress3']").val($(obj).find(".address3_input").val());
+                $("input[name='receiverPhone']").val($(obj).find(".address5_input").val());
             }
         });
 
@@ -116,6 +117,7 @@ $(document).ready(function () {
             amount: finalTotalPriceToAPI,
             orderNumber: new Date().getUTCMilliseconds(),
             receiverPhone: $("#receiverPhone").val(),
+            name: " ",
             // receiverName: $("#buyerName").val(),
             // receiverAddress1: $("#receiverAddress1").val(),
             // receiverAddress2: $("#receiverAddress2").val(),
@@ -131,6 +133,7 @@ $(document).ready(function () {
             amount: data.amount,
             merchant_uid: data.orderNumber,
             buyer_tel: data.receiverPhone,
+            name: data.name,
             // buyer_name: data.receiverName,
             // buyer_addr: data.receiverAddress2 + " " + data.receiverAddress3,
             // buyer_postcode: data.receiverAddress1

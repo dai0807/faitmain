@@ -133,7 +133,8 @@
 								<div class="col-md-3 pb-3" th:each="live : ${map.liveList}">
 									<div class="card" style="height : 530px">
 										<a th:href="@{'live/watchLive/' + ${live.liveNumber}}"><img class="card-img-top" alt="Bootstrap Thumbnail First" src="https://dummyimage.com/235x400/343a40/6c757d" style="height : 400px"></a>
-											
+										<strong>실시간 시청자 : <span th:if="${live.liveWatcher} == -1">lol</span>
+															 <span th:if="${live.liveWatcher} != -1">[[${live.liveWatcher}]]</span></strong>
 										</img>
 										<div class="card-block">
 											<h5 th:text="${live.liveTitle}" class="card-title pt-3 pb-2 px-2">

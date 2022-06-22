@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html layout:decorate = "~{layout/default_layout}"
-      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout" xmlns = "http://www.w3.org/1999/html">
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
+>
 
 <head>
     <meta charset = "UTF-8">
@@ -332,7 +333,7 @@
                                     <tr>
                                         <th>이름</th>
                                         <td th:text = "${buyer.name}"></td>
-                                        <td><input id = "receiverPhone" th:value = "${buyer.phoneNumber}"></td>
+                                        <td><input class = "address5_input" th:value = "${buyer.phoneNumber}"></td>
                                     </tr>
                                     <tr>
                                         <th>주소</th>
@@ -345,7 +346,6 @@
                                     </tr>
                                     </tbody>
                                 </table>
-
                             </div>
                             <div class = "addressInfo_input_div addressInfo_input_div_2">
                                 <table>
@@ -353,7 +353,7 @@
                                     <tr>
                                         <th>이름</th>
                                         <td><input class = "address0_input"></td>
-                                        <th>휴대폰번호</th>
+                                        <td>휴대폰번호<input class = "address5_input" th:value = "${buyer.phoneNumber}"></td>
                                     </tr>
                                     <tr>
                                         <th>주소</th>
@@ -414,13 +414,13 @@
                                     <div class = "hidden">
 
                                         <!-- HIDDEN CLASS VALUE -->
-                                        <input class = "individual_totalPrice_input" id = "amount" type = "hidden" th:value = "${orderPageProduct.salePrice * orderPageProduct.productOrderCount}">
-                                        <input class = "individual_totalPoint_input" type = "hidden" th:value = "${orderPageProduct.totalPoint}">
-                                        <input class = "individual_productOrderCount_input" type = "hidden" th:value = "${orderPageProduct.productOrderCount}">
-                                        <input class = "individual_productNumber_input" type = "hidden" th:value = "${orderPageProduct.productNumber}">
-                                        <input class = "individual_productPrice_input" type = "hidden" th:value = "${orderPageProduct.productPrice}">
-                                        <input class = "individual_salePrice_input" type = "hidden" th:value = "${orderPageProduct.salePrice}">
-                                        <input class = "individual_point_input" type = "hidden" th:value = "${orderPageProduct.point}">
+                                        <input class = "individual_totalPrice_input" id = "amount" th:value = "${orderPageProduct.salePrice * orderPageProduct.productOrderCount}" type = "hidden">
+                                        <input class = "individual_totalPoint_input" th:value = "${orderPageProduct.totalPoint}" type = "hidden">
+                                        <input class = "individual_productOrderCount_input" th:value = "${orderPageProduct.productOrderCount}" type = "hidden">
+                                        <input class = "individual_productNumber_input" th:value = "${orderPageProduct.productNumber}" type = "hidden">
+                                        <input class = "individual_productPrice_input" th:value = "${orderPageProduct.productPrice}" type = "hidden">
+                                        <input class = "individual_salePrice_input" th:value = "${orderPageProduct.salePrice}" type = "hidden">
+                                        <input class = "individual_point_input" th:value = "${orderPageProduct.point}" type = "hidden">
 
 
                                     </div>
@@ -440,8 +440,8 @@
                             <tbody>
                             <tr>
                                 <th>보유 포인트</th>
-                                <td class="myPoint" th:text = "${buyer.totalPoint}"></td>
-                                <input class="totalPoint" type="hidden" th:value="${buyer.totalPoint}">
+                                <td class = "myPoint" th:text = "${buyer.totalPoint}"></td>
+                                <input class = "totalPoint" th:value = "${buyer.totalPoint}" type = "hidden">
                                 <th>사용 포인트</th>
                                 <td>
                                     <input class = "order_point_input" th:value = "0"/>원
@@ -484,19 +484,20 @@
                         </div>
                         <!-- 버튼 영역 -->
                         <div class = "total_info_btn_div">
-                            <input type = "button" value = "결제하기" class = "order_btn">
+                            <input class = "order_btn" type = "button" value = "결제하기">
                         </div>
                         <!-- 주문 요청 form -->
-                        <form class="order_form" action="/order/complete" method="post">
+                        <form action = "/order/complete" class = "order_form" method = "post">
                             <!-- 주문자 -->
-                            <input name="buyerId" th:value="${buyer.id}" type="hidden">
+                            <input name = "buyerId" th:value = "${buyer.id}" type = "hidden">
                             <!-- 주소록 & 받는이-->
-                            <input name="addressee" type="hidden">
-                            <input name="receiverAddress1" type="hidden">
-                            <input name="receiverAddress2" type="hidden">
-                            <input name="receiverAddress3" type="hidden">
+                            <input name = "receiverName" type = "hidden">
+                            <input name = "receiverAddress1" type = "hidden">
+                            <input name = "receiverAddress2" type = "hidden">
+                            <input name = "receiverAddress3" type = "hidden">
+                            <input name = "receiverPhone" type = "hidden">
                             <!-- 사용 포인트 -->
-                            <input name="usingPoint" type="hidden">
+                            <input name = "usingPoint" type = "hidden">
                             <!-- 상품 정보 -->
                         </form>
                     </div>

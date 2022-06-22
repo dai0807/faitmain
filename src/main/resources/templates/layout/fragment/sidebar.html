@@ -1,83 +1,84 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang = "ko" xmlns:sec = "http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th = "http://www.thymeleaf.org">
 
 
 <head>
-		<link rel="stylesheet" href="css/style.css">
+    <link href = "css/style.css" rel = "stylesheet">
 
-	<!-- BootStrap Css -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <!-- BootStrap Css -->
+    <link crossorigin = "anonymous" href = "https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity = "sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
+          rel = "stylesheet">
 
-	<!-- BootStrap Bundle -->
-	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
- 
-	<!-- STYLE -->
-	<style>
-		h4.myShopping {
-			padding-left: 15px;
-			padding-top: 20px;
-			margin-bottom: 0px;
-		}
-	</style>
+    <!-- BootStrap Bundle -->
+    <script crossorigin = "anonymous" integrity = "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            src = "https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script crossorigin = "anonymous" integrity = "sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+            src = "https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- STYLE -->
+    <style>
+        h4.myShopping {
+            padding-left: 15px;
+            padding-top: 20px;
+            margin-bottom: 0px;
+        }
+    </style>
 </head>
 
 
-	<!-- SideBar -->
-	<th:block th:fragment="sidebar">
-		<!-- Sidebar -->
-		<div>	
-			<div sec:authorize ="hasRole('user')" class="list-group list-group-flush">
-				<h4 class="myShopping">나의 쇼핑활동</h4>
-				<hr/>
-				<a th:href="@{/user/getUser?id=}+${#authentication.principal.user.id}" class="list-group-item list-group-item-action">상세 정보 보기</a>
-				<a th:href="@{/order/list}" class="list-group-item list-group-item-action">주문 / 배송 내역</a>
-				<a href="#" class="list-group-item list-group-item-action">반품 / 교환</a>
-				<a href="#" class="list-group-item list-group-item-action">취소 / 환불</a>
-				<a href="#" class="list-group-item list-group-item-action">포인트 이용 내역</a>
-				<a th:href="@{/inquiry/getInquiryList?resultJsp=listInquiryUser&searchCondition=userId&searchKeyword=} + ${#authentication.principal.user.id}" class="list-group-item list-group-item-action">문의 목록</a>				
-				<a th:href="@{/review/getReviewList?searchCondition=userId&searchKeyword=} + ${#authentication.principal.user.id}" class="list-group-item list-group-item-action">리뷰 목록</a>
-				<a th:href="@{/live/getUserAlarmList}" class="list-group-item list-group-item-action">라이브 알림 설정 목록</a>
-				<a href="#" class="list-group-item list-group-item-action">신고 목록</a>
-			</div>
-			<div sec:authorize="hasRole('store')" class="list-group list-group-flush">
-				<h4 class="myShopping">나의 스토어</h4>
-				<hr/>
-				<a th:href="@{/product/addProduct}" class="list-group-item list-group-item-action">상품 등록</a>
-				<a th:href="@{/product/getProductList?resultJsp=listProductStore}" class="list-group-item list-group-item-action">등록 상품 목록</a>
-				<a th:href="@{/user/getUser}" class="list-group-item list-group-item-action">스토어 정보</a>
-				<a th:href="@{/inquiry/getInquiryList?resultJsp=listInquiryStore&searchCondition=storeId&searchKeyword=} + ${#authentication.principal.user.id}" class="list-group-item list-group-item-action">문의 내역</a>
-				<a href="#" class="list-group-item list-group-item-action">주문 내역</a>
-				<a href="#" class="list-group-item list-group-item-action">반품 신청 내역</a>
-				<a href="#" class="list-group-item list-group-item-action">환불 신청 내역</a>
-				<a th:href="@{/live/getStoreAlarmList}" class="list-group-item list-group-item-action">알림 설정 유저 목록</a>
-				<a th:href="@{/live/addLiveView}" class="list-group-item list-group-item-action">라이브 방송 시작</a>
-			</div>
-			<div sec:authorize="hasRole('storeX')" class="list-group list-group-flush" >
-				<a th:href="@{/user/getUser}" class="list-group-item list-group-item-action">스토어 정보</a>
-				<p>StoreXTest02
-				<p>StoreXTest03
-			</div>
-			<div sec:authorize="hasRole('admin')" class="list-group list-group-flush">
-				<a th:href="@{/user/getUserlist}" class="list-group-item list-group-item-action">회원 목록 조회 </a>
-				<a th:href="@{/user/getStoreApplicationDocumentList}" class="list-group-item list-group-item-action">스토어 신청서 조회 </a>
-				<a th:href="@{/customer/addNotice}" class="list-group-item list-group-item-action">공지사항 등록 </a>
-				<a th:href="@{/customer/listBoard?boardType=L}" class="list-group-item list-group-item-action">라이브가이드</a>
-				<a th:href="@{/customer/addFAQ}" class="list-group-item list-group-item-action">자주묻는질문 등록 </a>
+<!-- SideBar -->
+<th:block th:fragment = "sidebar">
+    <!-- Sidebar -->
+    <div>
+        <div class = "list-group list-group-flush" sec:authorize = "hasRole('user')">
+            <h4 class = "myShopping">나의 쇼핑활동</h4>
+            <hr/>
+            <a class = "list-group-item list-group-item-action" th:href = "@{/user/getUser?id=}+${#authentication.principal.user.id}">상세 정보 보기</a>
+            <a class = "list-group-item list-group-item-action" th:href = "@{/order/myList/{buyerId}(buyerId=${#authentication.principal.user.id})}">주문내역</a>
+            <a class = "list-group-item list-group-item-action" href = "#">포인트 이용 내역</a>
+            <a class = "list-group-item list-group-item-action"
+               th:href = "@{/inquiry/getInquiryList?resultJsp=listInquiryUser&searchCondition=userId&searchKeyword=} + ${#authentication.principal.user.id}">문의 목록</a>
+            <a class = "list-group-item list-group-item-action" th:href = "@{/review/getReviewList?searchCondition=userId&searchKeyword=} + ${#authentication.principal.user.id}">리뷰 목록</a>
+            <a class = "list-group-item list-group-item-action" th:href = "@{/live/getUserAlarmList}">라이브 알림 설정 목록</a>
+            <a class = "list-group-item list-group-item-action" href = "#">신고 목록</a>
+        </div>
+        <div class = "list-group list-group-flush" sec:authorize = "hasRole('store')">
+            <h4 class = "myShopping">나의 스토어</h4>
+            <hr/>
+            <a class = "list-group-item list-group-item-action" th:href = "@{/product/addProduct}">상품 등록</a>
+            <a class = "list-group-item list-group-item-action" th:href = "@{/product/getProductList?resultJsp=listProductStore}">등록 상품 목록</a>
+            <a class = "list-group-item list-group-item-action" th:href = "@{/user/getUser}">스토어 정보</a>
+            <a class = "list-group-item list-group-item-action"
+               th:href = "@{/inquiry/getInquiryList?resultJsp=listInquiryStore&searchCondition=storeId&searchKeyword=} + ${#authentication.principal.user.id}">문의 내역</a>
+            <a class = "list-group-item list-group-item-action" href = "#">주문 내역</a>
+            <a class = "list-group-item list-group-item-action" href = "#">반품 신청 내역</a>
+            <a class = "list-group-item list-group-item-action" href = "#">환불 신청 내역</a>
+            <a class = "list-group-item list-group-item-action" th:href = "@{/live/getStoreAlarmList}">알림 설정 유저 목록</a>
+            <a class = "list-group-item list-group-item-action" th:href = "@{/live/addLiveView}">라이브 방송 시작</a>
+        </div>
+        <div class = "list-group list-group-flush" sec:authorize = "hasRole('storeX')">
+            <a class = "list-group-item list-group-item-action" th:href = "@{/user/getUser}">스토어 정보</a>
+            <p>StoreXTest02
+            <p>StoreXTest03
+        </div>
+        <div sec:authorize = "hasRole('admin')">
+            <a class = "list-group-item list-group-item-action" th:href = "@{/user/getUserlist}">회원 목록 조회 </a>
+            <a class = "list-group-item list-group-item-action" th:href = "@{/order/list}">주문내역</a>
+            <a class = "list-group-item list-group-item-action" th:href = "@{/user/getStoreApplicationDocumentList}">스토어 신청서 조회 </a>
+            <a class = "list-group-item list-group-item-action" th:href = "@{/customer/addNotice}">공지사항 등록 </a>
+            <a class = "list-group-item list-group-item-action" th:href = "@{/customer/listBoard?boardType=L}">라이브가이드</a>
+            <a class = "list-group-item list-group-item-action" th:href = "@{/customer/addFAQ}">자주묻는질문 등록 </a>
 
- 				 
-			</div>
-			
-		</div>
-		
- 
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-			<link rel="stylesheet" href="/user/myPageSidebar/css/Sidebarstyle.css">
-	 
+            <p>
+        </div>
 
-		
-		
-		
-	</th:block>
+    </div>
+
+
+    <link href = "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel = "stylesheet">
+    <link href = "/user/myPageSidebar/css/Sidebarstyle.css" rel = "stylesheet">
+
+
+</th:block>
 </html>

@@ -75,7 +75,7 @@ public class LiveServiceImpl implements LiveService {
 	public Map<String, Object> getLiveList() throws Exception {
 		log.info("Impl getLiveList start...");
 		List<Live> list = liveMapper.getLiveList();
-
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		map.put("liveList", list);
