@@ -109,7 +109,7 @@
  
  <!--  //SELECT 스토어 신청서 넘버로 스토어 가져오기   -->
  	 <select id ="getStoreApplicationDocument" parameterType="int"  resultMap="StoreApplicationDocumentMap" >
-		SELECT	 s.* , u.store_name , u.store_introduction 
+		SELECT	 s.* , u.store_name , u.store_introduction  ,u.store_logo_image
 			FROM	 store_application_document s ,user u  
 			WHERE	  s.id = u.id and store_application_document_number = #{value} 
  			
@@ -119,14 +119,15 @@
  
  <!-- 키워드나 정렬 조건 새로 붙이기  망함 --> 
  <select id ="getlist" parameterType="map"  resultMap ="userMap" >  
-	SELECT user_number, id, password,    phone_number, name, reg_date, join_path,role, store_name, withdrawal_status
+	SELECT user_number, id,   phone_number, name, reg_date, join_path,role, store_name, withdrawal_status
 	FROM user
-	 <if test="searchCondition != null">
+	 	
 			 	<where>
-	
-			    role LIKE CONCAT('%', #{searchCondition},  '%'   )
+						<if test="searchCondition != null and searchCondition != '' and searchCondition != 'ALL' ">
+								    role LIKE CONCAT('%', #{searchkeword},  '%'   )
+			    		 </if>
+			    
 			    </where>
-		 </if>
 
 </select>
 
@@ -399,7 +400,8 @@
    	 <update	id="updateWithdrawalStatus"	parameterType="String" >
 	   	UPDATE user
 	   	<set>
-	   		updateWithdrawalStatus 		= 1				
+	   		updateWithdrawalStatus 		= 1		
+	   		phone_number = NULL		
 	   	</set>
 	   	WHERE  id = #{value}
 	 </update>
@@ -463,6 +465,7 @@
              <result property="regDate"											column="reg_date" 							jdbcType="DATE" />
              <result property="storeIntroduction"								column="store_introduction" 				jdbcType="VARCHAR" />
              <result property="storeName" 										column="store_name" 						jdbcType="VARCHAR"/>
+             <result property="storeLogoImage" 									column="store_logo_image" 				jdbcType="VARCHAR"/>
 
 
     </resultMap>

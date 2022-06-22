@@ -4461,7 +4461,9 @@ a.close.disabled {
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
-  width: 100%;
+  width: 25%;
+   height: 25%;
+ transform: translate(0%, -50%);
   pointer-events: auto;
   background-color: #fff;
   background-clip: padding-box;
