@@ -240,16 +240,16 @@ public class UserServiceImpl implements UserSerivce{
     }
 
 
-    // 거의 안쓸듯
-    public void deleteUser( String id ) throws Exception{
+//    // 거의 안쓸듯
+//    public void deleteUser( String id ) throws Exception{
+//
+//        userMapper.deleteUser( id );
+//    }
 
-        userMapper.deleteUser( id );
-    }
 
+    public int deleteUser( String id ) throws Exception{
 
-    public void updateWithdrawalStatus( String id ) throws Exception{
-
-        userMapper.updateWithdrawalStatus( id );
+       return userMapper.deleteUser( id );
 
 
     }

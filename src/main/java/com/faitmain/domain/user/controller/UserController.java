@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -694,18 +695,7 @@ public class UserController{
 
     }
     
-//  
-//  // find Id Rest Control로 갈 운명
-  @GetMapping( "index" )
-  public String index( ){
-
-      log.info( "###index###index ={} ##"   );
-
-
-      return ( "/user/index" );
-
-
-  }
+ 
    
  
 
@@ -853,32 +843,65 @@ public class UserController{
     
     
     //스토어 재 신청 Add
-    @GetMapping( "withdrawUser" )
-    public String withdrawUser( ) throws Exception{
-        System.out.println("withdrawUser"  ) ; 
+    @GetMapping( "deleteUser" )
+    public String deleteUser( ) throws Exception{
+        System.out.println("GET deleteUser"  ) ; 
 
 
  
  
-        return "/user/withdrawUser";
+        return "/user/deleteUser";
     }
 
-    
+    @PostMapping( "deleteUser" )
+    public RedirectView deleteUser( @ModelAttribute( "user" ) User user , @AuthenticationPrincipal SecurityUserService securityUserService ) throws Exception{
+        System.out.println("POST withdrawUser"  ) ; 
+
+ 		log.info("::POST withdrawUserwithdrawUser ={}", user.getId() );
+ 		int result = userSerivce.deleteUser(user.getId());
+        SecurityContextHolder.clearContext();
+        System.out.println("컨텍스트 홀더 날림"  ) ; 
+
+ 
+        return new RedirectView( "/" );
+    }
+  
     
 
-    @PostMapping( value = "/updateUser" )  
-    public String ajaxupdateUser(Model model, User user ,  @AuthenticationPrincipal SecurityUserService securityUserService  ) throws Exception{
+    @PostMapping( value = "updateUser" )  
+    public String udateUser(Model model, User user ,  MultipartHttpServletRequest mRequest ,
+    		@AuthenticationPrincipal SecurityUserService securityUserService ) throws Exception{
  
-   	
-   	log.info("ajax Updtae에 옴  user 값은 = {}" , user) ;
-   	
-       //아직  checkDuplication 없음
+ 		log.info(":::storeLogoFileName ={}", user);
+//		 
+// 		MultipartFile storeLogo =mRequest.getFile("LogoImage");
+//		log.info(":::storeLogoFileName ={}", storeLogo);
+//   	log.info("ajax Updtae에 옴  user 값은 = {}" , user) ;
+        //아직  checkDuplication 없음
        int result = 0;
        //log.info("updateUser :: user 출력   {} "  ,  user );
-       //	result = userSerivce.updateUser(user);
-       result = userSerivce.updateUser( user);
-       log.info( "updateUser :: result 출력  = {} " , result );
+     	result = userSerivce.updateUser(user);
+
+        
+        log.info( "updateUser :: result 출력  = {} " , result );
        user = userSerivce.getUser( user.getId() );
+  
+       
+       
+//		MultipartFile storeLogo =mRequest.getFile("LogoImage");
+//		log.info("addStore fileStorageLocation ={}" ,  fileStorageLocation );		
+//		
+//		if(!storeLogo.isEmpty()) {
+//			log.info("addStore  로고사진 " );		
+//				String storeLogoFileName = addFile(storeLogo) ;
+//				log.info(":::storeLogoFileName ={}", storeLogoFileName);
+//				user.setStoreLogoImage(storeLogoFileName);
+//		}
+//       
+//       
+       
+       
+       
 
         
        

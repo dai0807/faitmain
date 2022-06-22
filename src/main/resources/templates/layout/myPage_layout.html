@@ -28,7 +28,12 @@
                 <script crossorigin = "anonymous" src = "https://use.fontawesome.com/releases/v6.1.0/js/all.js"></script>
                 <!-- jQuery -->
                 <script src = "https://code.jquery.com/jquery-1.12.4.min.js" type = "text/javascript"></script>
-
+				  <link
+				    rel="stylesheet"
+				    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"  />
+				<script src="https://kit.fontawesome.com/10b89606ac.js" crossorigin="anonymous"></script>
+				
+				
 				<style type="text/css">
 				
 					h4.myShopping {
@@ -49,6 +54,39 @@
 						transform : translateY(-100%);
 					}
 					
+						/*   */	
+		.box {
+    width: 100px;
+    height: 100px; 
+    border-radius: 30%;
+    overflow: hidden;
+}
+
+ 
+
+.profile {
+    width: 100%;
+    height: 99%;
+ }
+ 
+ .cal-md-10 {
+	
+	padding-left :0px;
+}
+			
+			.tempClass{
+				    width: 80px;
+    display: flex;
+    flex-direction: column;
+			}		
+			
+			.tempClass > div{
+				text-align:center;
+			}
+			
+			.tempClass >span {
+				text-align:center;
+			}
 				</style>
 					
         </head>
@@ -58,8 +96,87 @@
 <body>
 			<div id="wrapper">
 				<!-- [header] 영역 시작 -->
-		        <header th:replace = "/layout/fragment/header :: header"></header>
+		        <header th:replace = "/layout/fragment/header :: header"></header>		
+		        
+		        
+		        
 		        <!-- [header] 영역 끝 -->
+	<!--마이페이지-->		
+		<div class="navbar navbar-expand-sm navbar-dark bg-dark">
+		
+		 
+			<div style="padding-left :80px;">
+				<span> <a class="navbar-brand" th:href="@{/myPage}">MyPage</a></span>
+				<div>
+					<!-- 이미지-->
+					<div class="box" style="background: #BDBDBD;">
+						<img class="profile" th:src="|../img/upload/store_logo_image03.PNG|">
+					</div>
+				</div>							
+
+		
+			</div>
+		
+			<div>
+		
+		
+			</div>
+		
+		
+			<div class="container-fluid px-5" >
+				<span>
+				<br><br>
+					<a class="navbar-brand" th:href="@{/}">USER01@NAVERCOM</a><br>
+					<a  >닉네임</a>
+		
+					<p> 멤버의 가입일은 : 2022 -06-22 </p>
+				</span>
+		
+			</div>
+			<div style="padding-right: 20px;">
+				<div class="right-box" >
+			
+					<div class="container-fluid px-5" style="display:flex;">
+					 
+ 			
+						 
+			 		<!-- 정렬-->
+				<div class="tempClass">			
+					  <div style="font-size: 30px;">
+		 				<i class="fas fa-donate"></i> <!-- 포인트-->
+		  			 </div>
+		  			<span>보유포인트</span>
+			 		</div>
+			 		
+			 			<div class="tempClass">			
+					  <div style="font-size: 30px;">
+		 				<i class="fa-light fa-cart-shopping"></i><!-- 장바구니-->
+		  			 </div>
+		  			<span>장바구니</span>
+			 		</div>
+			 		
+			 			<div class="tempClass">			
+					  <div style="font-size: 30px;">
+		 				<i class="fas fa-donate"></i> <!-- 포인트-->
+		  			 </div>
+		  			<span>보유포인트</span>
+			 		</div>
+			 		
+	 		
+		</div>
+		 
+					</div>
+				</div>
+			</div>
+				 
+
+	 
+	 
+<!----마이페이지 끝!!-->
+
+
+
+			
 			
 					<!-- bottom content -->
 					
