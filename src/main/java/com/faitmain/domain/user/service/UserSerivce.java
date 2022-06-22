@@ -88,10 +88,8 @@ public interface UserSerivce{
 	
 	
 
-    //거의 안할 듯
-	void deleteUser( String id ) throws Exception;
-
-    void updateWithdrawalStatus( String id ) throws Exception;
+   
+    int deleteUser( String id ) throws Exception;
 
 
     //문자 보내기
