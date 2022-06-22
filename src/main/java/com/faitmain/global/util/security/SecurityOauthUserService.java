@@ -112,6 +112,19 @@ public class SecurityOauthUserService extends   DefaultOAuth2UserService {
     	           user =user2 ;
     		}  
 
+        }else if   (provider.equals("kakao")) {
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	
         }
         
    
