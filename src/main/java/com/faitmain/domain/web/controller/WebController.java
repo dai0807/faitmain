@@ -34,7 +34,6 @@ public class WebController {
 
 	@GetMapping("/")
 	public String main(Model model) throws Exception {
-		log.info("log = {} ", this.getClass().getName());
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -46,10 +45,8 @@ public class WebController {
 
 		map.put("liveList", liveService.getLiveList().get("liveList"));
 
-		log.info("after getLiveList");
 
 		LiveReservation liveReservation = liveService.getCurrentLiveReservation();
-		log.info("liveReservation : {}", liveReservation);
 
 		Live live = null;
 
@@ -57,14 +54,11 @@ public class WebController {
 			List<LiveProduct> liveProduct = liveService.getLiveProductList(liveReservation.getLiveReservationNumber());
 			live = liveService.getLiveByStoreId(liveReservation.getStore().getId());
 			liveReservation.setLiveProduct(liveProduct);
-			log.info("liveProduct = {}", liveProduct);
 		}
 
-		log.info("live = {}", live);
 
 		model.addAttribute("map", map);
 		model.addAttribute("liveReservation", liveReservation);
-
 		model.addAttribute("live", live);
 
 		System.out.println(model);
@@ -73,9 +67,7 @@ public class WebController {
 
 	@GetMapping("/myPage")
 	public String getMyPage() {
-		log.info("getMyPage : GET start...");
 
-		log.info("getMyPage : GET end...");
 		return "myPage";
 	}
 
