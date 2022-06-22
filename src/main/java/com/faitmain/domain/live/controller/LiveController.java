@@ -43,10 +43,6 @@ import com.faitmain.domain.user.service.UserSerivce;
 import com.faitmain.global.util.security.SecurityUserService;
 
 import lombok.extern.slf4j.Slf4j;
-import net.nurigo.sdk.NurigoApp;
-import net.nurigo.sdk.message.exception.NurigoMessageNotReceivedException;
-import net.nurigo.sdk.message.model.Message;
-import net.nurigo.sdk.message.response.MultipleDetailMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 
 @Slf4j
@@ -482,7 +478,7 @@ public class LiveController {
 
 		log.info("editRoom live = {}", live);
 
-		// sendSMS(live);
+		// liveService.sendSMS(live);
 
 		return "live/live";
 
@@ -946,54 +942,6 @@ public class LiveController {
 
 		log.info("updateAlarmList GET end...");
 		return new RedirectView("/live/getUserAlarmList");
-	}
-
-	// SMS
-	public void sendSMS(Live live) throws Exception {
-		this.messageService = NurigoApp.INSTANCE.initialize("NCSLCAD1LDIHGZEO", "HDZEBLI8LKM2PVESFMBEXAVENHAFDEDP",
-				"https://api.coolsms.co.kr");
-
-		User store = userService.getUser(live.getStoreId());
-
-		log.info("store = {}", store);
-
-		List<LiveUserStatus> liveUserStatus = (List<LiveUserStatus>) (liveService
-				.getStoreLiveUserStatusList(live.getLiveNumber())).get("list");
-
-		log.info("liveUserStatus = {}", liveUserStatus);
-
-		ArrayList<Message> messageList = new ArrayList<>();
-		Message message = null;
-		User user = null;
-
-		for (LiveUserStatus obj : liveUserStatus) {
-			user = userService.getUser(obj.getId());
-
-			message = new Message();
-
-			message.setFrom("01091740269");
-			message.setTo(user.getPhoneNumber());
-			message.setText(store.getStoreName() + "님 방송이 시작되었습니다.");
-
-			messageList.add(message);
-		}
-
-		try {
-			// send 메소드로 단일 Message 객체를 넣어도 동작합니다!
-			MultipleDetailMessageSentResponse response = this.messageService.send(messageList);
-
-			// 중복 수신번호를 허용하고 싶으실 경우 위 코드 대신 아래코드로 대체해 사용해보세요!
-			// MultipleDetailMessageSentResponse response =
-			// this.messageService.send(messageList, true);
-
-			System.out.println(response);
-
-		} catch (NurigoMessageNotReceivedException exception) {
-			System.out.println(exception.getFailedMessageList());
-			System.out.println(exception.getMessage());
-		} catch (Exception exception) {
-			System.out.println(exception.getMessage());
-		}
 	}
 
 }

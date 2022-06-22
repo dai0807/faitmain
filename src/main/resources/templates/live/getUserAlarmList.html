@@ -29,28 +29,49 @@
 		});
 	
 	</script>
+	
+	<style type="text/css">
+		@font-face{
+			src: url("../font/BMJUA_ttf.ttf");
+			font-family: "jua";
+		}
+		
+		h5.title {
+			 font-size: 35px; 
+			 font-family:jua;
+		}
+	</style>
+	
 </head>
 <body>
 	<article layout:fragment="content">
 		<div class="container-fluid">
 			<div>
-				<h5>유저 알림 설정 목록</h5>
+				<h5 class="title">유저 알림 설정 목록</h5>
 			</div>
 			
 			<div>
 				<form>
-					<table class="table">
+					<table class="table" style="width: 1200px; margin:auto;">
+						<colgroup>
+							<col width="10%" />
+							<col width="40%" />
+							<col width="40%" />
+							<col width="10%" />
+						</colgroup>
 						<thead class="thead-dark">
 							<tr>
 								<th scope="col">#</th>
 								<th scope="col">상점명</th>
+								<th scope="col">등록 날짜</th>
 								<th scope="col">비고</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="list : ${map.list}">
-								<th scope="row" th:text="${listStat.index}">index</th>
+								<th scope="row" th:text="${listStat.count}">index</th>
 								<td th:text="${map.storeList[__${listStat.index}__].storeName}">nickName</td>
+								<td th:text="${list.date}">date</td>
 								<td>
 									<input type="checkbox" name="liveNumber" th:value="${list.liveNumber}" />
 								</td>
@@ -60,8 +81,8 @@
 				</form>
 			</div>
 			
-			<div>
-				<button type="button" class="btn btn-danger">삭제하기</button>
+			<div style="text-align: center;">
+				<button type="button" class="btn btn-danger" style="margin-top : 10px;">삭제하기</button>
 			</div>
 			
 		</div>
