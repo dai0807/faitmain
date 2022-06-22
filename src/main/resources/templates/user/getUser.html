@@ -12,11 +12,10 @@
 	<link href="@{/css/styles.css}" rel="stylesheet" />
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"  />
-<script src="https://kit.fontawesome.com/10b89606ac.js" crossorigin="anonymous"></script>
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+	<script src="https://kit.fontawesome.com/10b89606ac.js" crossorigin="anonymous"></script>
+		<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
+		<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css"
 	<meta charset="UTF-8">
 	<title>상세정보 </title>
 	<style>
@@ -150,30 +149,29 @@
 			border-radius: 0.25rem;
 			transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 		}
-		
-		
-		
-		
-	/*   */	
+
+
+
+
+		/*   */
 		.box {
-    width: 100px;
-    height: 100px; 
-    border-radius: 30%;
-    overflow: hidden;
-}
+			width: 100px;
+			height: 100px;
+			border-radius: 30%;
+			overflow: hidden;
+		}
 
- 
 
-.profile {
-    width: 100%;
-    height: 99%;
- }
- 
- .cal-md-10 {
-	
-	padding-left :0px;
-}
- 
+
+		.profile {
+			width: 100%;
+			height: 99%;
+		}
+
+		.cal-md-10 {
+
+			padding-left: 0px;
+		}
 	</style>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -187,7 +185,7 @@
 			var id = $("#id").val();
 
 			popWin
-				= window.open("/user/deleteUser?id="+ id,
+				= window.open("/user/deleteUser?id=" + id,
 					"popWin",
 					"top=200,left=550,width=550,height=550,marginwidth=0,marginheight=0," +
 					"scrollbars=no,scrolling=no,menubar=no,resizable=no");
@@ -606,30 +604,31 @@
 
 <body>
 
-	<article id="getUser"  layout:fragment="content">
+	<article id="getUser" layout:fragment="content">
 
 
 		<div class="container col-lg-2">
 		</div>
 
 
- 
 
-	 
-   
+
+
+
 		<div class="container col-lg-8 ">
 
 
 
 			<div class="text-center">
+			<br>
 				<h3>상세 정보</h3>
-				<p>데이터 다 뽑으면 , 정신 차리고 화면 꾸미기 </p>
+	 
 
 			</div>
 
 			<div class="container col-md-9">
 
-				<form class="form-horizontal"   method="post" name = "form" id="form"  enctype="multipart/form-data">
+				<form class="form-horizontal" method="post" name="form" id="form" enctype="multipart/form-data">
 
 					<div class="form-group">
 						<div class="div_css">
@@ -682,26 +681,28 @@
 
 							<div class="div_css">
 								<h5 class="fw-bolder"> 스토어 로고 </h5>
-							
-							
+
+
 								<div>
 									<!--  사진 바꾸기 실패 함 <input class="form-control" id="LogoImage" name="LogoImage" type="file" onchange="PreviewImage();">-->
-									<input class="form-control" id="LogoImage" name="LogoImage" type="hidden" onchange="PreviewImage();">
+									<input class="form-control" id="LogoImage" name="LogoImage" type="hidden"
+										onchange="PreviewImage();">
 								</div>
-							
+
 								<div id="image_container">
 									<img id="store_image" src="#" alt="">
-							
-									<img class="img-thumbnail" id="user_image" name="user_image" th:value="${getuser.storeLogoImage}"
+
+									<img class="img-thumbnail" id="user_image" name="user_image"
+										th:value="${getuser.storeLogoImage}"
 										th:src="@{../img/upload/} +${getuser.storeLogoImage}" />
-							
-							
-							
+
+
+
 								</div>
-							
-							
-							
-							
+
+
+
+
 							</div>
 						</div> <!-- 스토어 if  -->
 
@@ -790,25 +791,28 @@
 				<a href="#" onclick="getPassword()" class="btn btn-info" role="button">비밀번호 재설정</a>
 				<span>
 
-
-
-					<br /><br />
-					<hr />
-					회원탈퇴를 원하시면 눌러주세요 <a onclick="deleteUser()" class="btn btn-secondary btn-xs" role="button">회원 탈퇴</a>
-
 					<span th:if="${getuser.role == 'store' || getuser.role =='storeX'}">
 						<a href="#" class="btn btn-secondary btn-xs"
 							th:href="@{/user/getStoreApplicationDocument(storeApplicationDocumentNumber =${getuser.storeApplicationDocumentNumber})}"
 							value="${getuser.storeApplicationDocumentNumber}" role="button">스토어 신청서 상세보기 </a>
-						<!-- 
-	
-							
-	
-					-->
+
 
 
 
 					</span>
+					
+				 
+ 
+						
+						
+					<br /><br />
+					<hr />
+					회원탈퇴를 원하시면 눌러주세요 <a onclick="deleteUser()" class="btn btn-wh   btn-xs" role="button">회원 탈퇴</a>
+					<br>
+											 
+					
+ 
+
 					<!--   <a th:href="@{/oreder/details(id=${orderInfo.seq})}">  -->
 
 

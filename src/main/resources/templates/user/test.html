@@ -69,7 +69,8 @@ authenticated(인증 여부): <p th:text="${#authentication.authenticated}">  </
      
   아이디 : [[${user.id}]]  &nbsp; 이름 : &nbsp;  [[${user.name}]]  &nbsp; 주소1:  &nbsp; [[${user.userAddress1}]]    &nbsp; 주소2:&nbsp; [[${user.userAddress2}]]    &nbsp; 주소3:&nbsp; [[${user.userAddress3}]]  <br>
     &nbsp; 권한: [[${user.role}]]   
-    
+    principal 인증 대상에 관한 정보(user 정보 나옴, 타고타고 ): <p th:text="${#authentication.principal.user.role}">  </p>
+ 
  
 <!--https://cornarong.tistory.com/73  참고파일  -->
 

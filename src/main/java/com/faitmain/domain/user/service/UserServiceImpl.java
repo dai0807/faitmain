@@ -173,12 +173,12 @@ public class UserServiceImpl implements UserSerivce{
     //SELECT 스토어 리스트 조회
     public Map<String, Object> getStoreApplicationDocumentList( Map<String, Object> map ) throws Exception{
         List<StoreApplicationDocument> list;
-        list = userMapper.getStoreApplicationDocumentList( map );
-        int totalCount = userMapper.getStoreApplicationDocumenTotalCount( map );
+        list = userMapper.getStoreApplicationDocumentALLList( map );
+//        int totalCount = userMapper.getStoreApplicationDocumenTotalCount( map );
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put( "list" , list );
-        resultMap.put( "totalCount" , new Integer( totalCount ) );
+//        resultMap.put( "totalCount" , new Integer( totalCount ) );
 
 
         return resultMap;

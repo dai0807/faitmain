@@ -3419,6 +3419,19 @@ textarea.form-control-lg {
   background-color: transparent;
 }
 
+
+
+
+.btn-wh {
+  color: #212529;
+  background-color: rgb(192, 192, 192);
+  border-color: rgb(0, 0, 0); }
+.btn-wh:hover {
+    color: #212529;
+    background-color: #f8f9fa;
+    border-color: rgb(0, 0, 0); }
+
+
 .btn-outline-light {
   color: #f8f9fa;
   border-color: #f8f9fa;
