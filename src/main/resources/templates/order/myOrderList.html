@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html layout:decorate = "~{layout/default_layout}"
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset = "UTF-8">
+    <title>주문현황 페이지</title>
+    <!--  고유 CSS 추가 -->
+
+    <style>
+        .table-shopping-cart .table_row {
+            height: 5px;
+        }
+    </style>
+    <!--  고유 스크립트 추가 -->
+    <script src = "/js/order/orderList.js"></script>
+
+    <meta content = "width=device-width, initial-scale=1" name = "viewport">
+    <!--===============================================================================================-->
+    <link href = "/productDesign/images/icons/favicon.png" rel = "icon" type = "image/png"/>
+    <!--===============================================================================================-->
+    <link href = "/productDesign/vendor/bootstrap/css/bootstrap.min.css" rel = "stylesheet" type = "text/css">
+    <!--===============================================================================================-->
+    <link href = "/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel = "stylesheet" type = "text/css">
+    <!--===============================================================================================-->
+    <link href = "/productDesign/fonts/iconic/css/material-design-iconic-font.min.css" rel = "stylesheet" type = "text/css">
+    <!--===============================================================================================-->
+    <link href = "/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css" rel = "stylesheet" type = "text/css">
+
+    <link href = "/productDesign/vendor/select2/select2.min.css" rel = "stylesheet" type = "text/css">
+
+    <link href = "/productDesign/css/util.css" rel = "stylesheet" type = "text/css">
+    <link href = "/productDesign/css/main.css" rel = "stylesheet" type = "text/css">
+
+    <style>
+
+        .form-group {
+            margin-top: 10px;
+        }
+
+        h5, span {
+            font-family: 'Nanum Gothic Coding', monospace;
+        }
+
+
+    </style>
+
+    <style>
+        .table-shopping-cart .fuku {
+            height: 100px;
+        }
+
+        .column {
+            width: 10px;
+            text-align: center;
+        }
+    </style>
+
+    <script type = "text/javascript">
+        $(function () {
+            //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+            $("#search").on("click", function () {
+                fncGetList(1);
+            });
+        });
+    </script>
+
+    <style type = "text/css">
+        .btn {
+            margin-top: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<article class = "py-5" layout:fragment = "content">
+
+    <div class = "container">
+
+        <div class = "row">
+            <div class = "form-horizontal">
+                <div class = "form-group">
+                    <!-- 주문완료 페이지 -->
+                    <form class = "bg0 p-t-75 p-b-85">
+                        <div class = "container">
+                            <div class = "row" style = "text-align: center">
+
+                                <!-- 상품 -->
+                                <h1 class = "page-header" style = "margin-bottom: 50px;">주문 내역</h1>
+                                <table class = "table-shopping-cart" style = "text-align: center">
+                                    <colgroup>
+                                        <col width = "20%"/>
+                                        <col width = "30%"/>
+                                        <col width = "30%"/>
+                                        <col width = "20%"/>
+
+                                    </colgroup>
+                                    <th:block th:each = "list : ${list}">
+                                        <tr bgcolor = "#dcdcdc" class = "table_head" style = "text-align: center">
+                                            <th class = "column">주문번호</th>
+                                            <th class = "column">주문날짜</th>
+                                            <th class = "column">주문상태</th>
+                                            <th class = "column">사용포인트</th>
+                                        </tr>
+                                        <tr class = "fuku">
+                                            <th class = "column" th:text = "${list.orderNumber}"></th>
+                                            <th class = "column" th:text = "${list.orderDate}"></th>
+                                            <th class = "column" th:text = "${list.orderStatus}"></th>
+                                            <th class = "column" th:text = "${list.usingPoint}"></th>
+                                        </tr>
+                                        <tr bgcolor = "#fff0f5" class = "table_head">
+                                            <th class = "column">이미지</th>
+                                            <th class = "column">상품명</th>
+                                            <th class = "column">수량</th>
+                                            <th class = "column">가격</th>
+                                        </tr>
+                                        <tr class = "fuku" th:each = " orplist :${list.orderProductList}" th:style = "${orplistStat.last ? 'border-bottom-width: 50px':'' }">
+                                            <th class = "column">
+                                                <div class = "how-itemcart" style = "margin:auto">
+                                                    <a th:href = "@{/product/getProduct?productNumber=__${orplist.productNumber}__}">
+                                                        <img class = "img_product" th:src = "|/img/upload/${orplist.productMainImage}|"/>
+                                                    </a>
+                                                </div>
+                                            </th>
+                                            <th class = "column">
+                                                <a class = "stext-115 cl7 hov-cl1 size-213 p-t-18" th:text = "${orplist.productName}"></a>
+                                            </th>
+                                            <th class = "column">
+                                                <a th:text = "${orplist.productOrderCount}"></a>
+                                            </th>
+                                            <th class = "column">
+                                                <a th:text = "${orplist.productPrice}"></a>
+                                            </th>
+                                        </tr>
+                                    </th:block>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><!-- class=row -->
+    </div><!-- class=container -->
+
+</article>
+</body>
+</html>

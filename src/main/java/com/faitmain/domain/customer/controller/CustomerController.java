@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.service.CustomerService;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Page;
 import com.faitmain.global.common.Paging;
+import com.faitmain.global.common.Search;
 import com.faitmain.global.util.UiUtils;
 import com.faitmain.global.util.security.SecurityUserService;
 
@@ -98,18 +100,20 @@ public class CustomerController extends UiUtils {
 		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
 		User user = (User) securityUserService.getUser();
 		
-		model.addAttribute("customer", customerService.getLiveGuide(boardType));
-		return "customer/updateLiveGuide";
+		Customer customer = customerService.getLiveGuide(boardType);
+		
+		model.addAttribute("customer", customer);
+		return "admin/updateLiveGuide";
 	}
 	
 	@PostMapping("updateBoard")
-	public String updateBoard(Customer customer) throws Exception {
+	public String updateBoard(@ModelAttribute("customer") Customer customer) throws Exception {
 		
 		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
 		User user = (User) securityUserService.getUser();
 		
 		customerService.updateCustomerBoard(customer);
-		return "redirect: /detailGuide?boardType="+ customer.getBoardType();
+		return "redirect:/customer/detailGuide?boardType="+ customer.getBoardType();
 	}
 
 
@@ -125,16 +129,11 @@ public class CustomerController extends UiUtils {
 			url= "customer/noticeList";
 			
 			System.out.println(boardList);
-			
+						
 		}else if(customer.getBoardType() == 'L') {
 			boardList = customerService.getCustomerBoardList(customer.getBoardType());
 			url = "admin/liveGuideList";
 			
-//		model.addAttribute("boardList",customerService.getListPaging(criterion));
-//		int total = customerService.getBoardTotalCount();
-//		Page page = new Page(criterion, total);
-//		model.addAttribute("page", page);
-	
 		
 		}else if(customer.getBoardType() == 'F'){	
 			boardList = customerService.getFAQList(customer.getFAQCategoryCode());
@@ -147,6 +146,8 @@ public class CustomerController extends UiUtils {
 		return url;
 		
 	}
+	
+
 	
 	
 	@GetMapping("detailBoard")
@@ -247,28 +248,36 @@ public class CustomerController extends UiUtils {
 
 	
 	@PostMapping("deleteBoard")
-	public String deleteBoard(@ModelAttribute Customer customer, @RequestParam(value = "valueArr[]") List<Integer> valueArrs, Model model) throws Exception {
+	public String deleteBoard(@ModelAttribute Customer customer, Model model) throws Exception {
 		
 		int isDeleted = customerService.deleteCustomerBoard(customer.getBoardNumber());
+	
 		
-		String url = null;
+		return "redirect:/customer/listBoard?boardType="+customer.getBoardType();
+			
 		
-		if(customer.getBoardType() == 'N') {
-			return "redirect:/customer/noticeList";
-			
-			
-		}else if(customer.getBoardType() == 'L') {
-		
-			int size = valueArrs.size();
-			int[] intArr = valueArrs.stream().mapToInt(i->i).toArray();		//List<Integer> to int[]
-			
-			for(int i=0; i<size; i++) {
-				customerService.deleteCustomerBoard(intArr[i]);
-			}
-			return "redirect:/customer/customerCenterIndex2";
-		}
-		return url;
 	}		
+	
+	@ResponseBody
+	@PostMapping("deleteGuide")
+	public int deleteLiveGuide(@ModelAttribute Customer customer, 
+								@RequestParam(value = "chbox[]") List<String> chArr, Model model) throws Exception {
+		
+			
+			int result = 0;
+			int bno = 0;
+			
+			for(String i : chArr) {
+				bno = Integer.parseInt(i);
+				customer.setBoardNumber(bno);
+				customerService.deleteCustomerBoard(customer.getBoardNumber());
+			}
+			result = 1;
+			
+			return 1;
+		
+	}
+	
 	
 	
 }	

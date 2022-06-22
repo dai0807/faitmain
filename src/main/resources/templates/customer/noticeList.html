@@ -57,7 +57,48 @@
           </tbody>
         </table>
       </div>
-    
+		<nav style="text-align: center;">
+			<!-- 변수값 초기화 -->
+			<ul class="pagination" th:with="start=${T(Math).floor(list.number/10)*10 +1},
+					last=(${start + 9 < list.totalPages ? start + 9: list.totalPages})">
+					<!-- firstAddr ~ lastAddr 각 페이지 번호 클릭시 요청보낼 url  GET -->
+				<th:block th:with="firstAddr = @{/chart(page = 1)},
+									prevAddr = @{/chart(page = ${list.number})},
+									nextAddr = @{/chart(page = ${list.number + 2})},
+									lastAddr = @{/chart(page = ${list.totalPages})}">
+					<li>
+						<a th:href="${firstAddr}" aria-label="First">
+							<span aria-hidden="true">First</span>
+						</a>
+					</li>
+					<!-- 이전 페이지로 가기 버튼 -->
+					<li th:class="${list.first} ? 'disabled'">
+						<a th:href="${list.first} ? '#' : ${prevAddr}"
+							aria-label="Previous">
+							<span aria-hidden="true">&lt;</span>	
+						</a>
+					</li>
+					<!-- 1,2,3,4,.. 페이지 -->
+					<li th:each="page: ${#numbers.sequence(start, last)}"
+						th:class="${page == list.number + 1 ? 'active'">
+						<a th:text="${page}" th:href="@{/chart(page = ${page})}"></a>
+					</li>
+					<!-- 다음 페이지 -->
+					<li th:class="${list.last} ? 'disabled'">
+						<a th:href="${list.last} ? '#' : ${nextAddr}"
+							aria-label="Next">
+							<span aria-hidden="true">&lt;</span>	
+						</a>
+					</li>
+					<!-- 맨 마지막 페이지로 이동 -->
+					<li>
+						<a th:href="${lastAddr}" aria-label="Last">
+							<span aria-hidden="true">Last</span>
+						</a>
+					</li>
+				</th:block>		
+			</ul>
+		</nav>
 		<th:block sec:authorize="isAuthenticated()">
 			<div class="btn_wrap text-right" sec:authorize="hasRole('ROLE_admin')">
 					<a th:href="@{/customer/addNotice?boardType=N}" class="btn btn-primary waves-effect waves-light">등록</a>

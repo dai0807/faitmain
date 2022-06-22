@@ -23,10 +23,11 @@ public interface OrderService{
     /* 주문 */
     void addOrder( Order order ) throws Exception;
 
-
-
     /* 주문 취소 */
     void cancelOrder( OrderCancel orderCancel ) throws Exception;
+
+
+
 
 
 
@@ -38,5 +39,9 @@ public interface OrderService{
     /* 주문 총 개수 */
     int getOrderTotal( Paging paging ) throws Exception;
 
-    List<Order> getOrders( Order order );
+    List<Order> getMyOrders( String buyerId );
+
+    Order paymentCompleteOrderInfoByDB( Order order );
+
+
 }
