@@ -28,8 +28,8 @@
                            , imp_uid )
         VALUES ( #{orderNumber}
                , #{buyerId}
-               , #{orderStatus}
-               , #{orderDate}
+               , '주문접수'
+               , now()
                , #{deliveryCharge}
                , #{receiverName}
                , #{receiverPhone}
@@ -44,11 +44,15 @@
     <insert id="insertOrderProduct">
         INSERT INTO order_product
         ( order_number
+        , product_name
+        , product_main_image
         , product_number
         , product_order_count
         , product_price
         , reward_point )
         VALUES ( #{orderNumber}
+                ,#{productName}
+                ,#{productMainImage}
                , #{productNumber}
                , #{productOrderCount}
                , #{productPrice}
@@ -78,14 +82,14 @@
 
     <!--  주문 상품 정보 (주문 처리) -->
     <select id="selectOrderProduct" resultType="com.faitmain.domain.order.domain.OrderProduct">
-        SELECT product_number, product_price
+        SELECT *
           FROM product
          WHERE product_number = #{productNumber};
     </select>
 
     <!-- 주문 리스트 -->
     <select id="selectOrderList" resultType="com.faitmain.domain.order.domain.Order">
-        select order_number, buyer_id, order_status, order_date, imp_uid
+        select *
         from `order`
         <if test="keyword != null">
             where `order`.buyer_id like concat('%',#{keyword}, '%')
@@ -123,9 +127,11 @@
          WHERE order_number = #{orderNumber}
     </select>
 
-    <select id="selectOrders" resultType="com.faitmain.domain.order.domain.Order">
+    <select id="selectBuyerOrders" resultType="com.faitmain.domain.order.domain.Order">
         SELECT *
           FROM `order`
+         WHERE buyer_id = #{buyerId}
+        ORDER by order_date desc
     </select>
 
 

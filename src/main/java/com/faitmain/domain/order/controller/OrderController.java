@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -96,22 +97,9 @@ public class OrderController{
             }
 
             orderService.addOrder( order );
-            model.addAttribute( "order" , order );
-            log.info( "order = {}" , order );
 
-            List<Order> orderList = orderService.getOrders( order );
-            model.addAttribute( "orderList" , orderList );
-            log.info( "orderList = {}" , orderList );
-/*
-            if ( !orderList.isEmpty() ) {
-                model.addAttribute( "pageMaker" , new Page( paging , orderService.getOrderTotal( paging ) ) );
-            } else {
-                model.addAttribute( "listCheck" , "empty" );
-            }
-*/
-
+            model.addAttribute( "order" , orderService.paymentCompleteOrderInfoByDB( order ) );
             return "order/orderComplete";
-
 
         } catch ( Exception e ) {
             paymentService.paymentCancel( token , order.getImpUid() , amount );
@@ -145,6 +133,30 @@ public class OrderController{
                 + "&pageNumber" + orderCancel.getPageNumber();
     }
 
+
+    @GetMapping( "/myList/{buyerId}" )
+    public String myOrderList( @PathVariable String buyerId , Paging paging, Model model ){
+
+
+        paging.setKeyword( buyerId );
+        List<Order> list = orderService.getOrderList( paging );
+        List<Order> resultList = new ArrayList<>();
+
+
+        for(Order od : list){
+            resultList.add( orderService.paymentCompleteOrderInfoByDB( od ));
+        }
+
+        if ( !list.isEmpty() ) {
+            model.addAttribute( "list" , resultList );
+            model.addAttribute( "pageMaker" , new Page( paging , orderService.getOrderTotal( paging ) ) );
+        } else {
+            model.addAttribute( "listCheck" , "empty" );
+        }
+
+        log.info( "list = {}" , resultList );
+        return "order/myOrderList";
+    }
 
     /* ************************* ADMIN *************************** */
 
