@@ -25,6 +25,7 @@ public interface LiveService {
 	public Live getLiveNumberByRoomId(String roomId) throws Exception;
 
 	public Map<String, Object> getLiveList() throws Exception;
+	
 
 	// liveChat
 	public int addLiveChat(LiveChat liveChat) throws Exception;
@@ -73,5 +74,9 @@ public interface LiveService {
 	public Map<String, Object> getStoreLiveUserStatusList(int liveNumber) throws Exception;
 
 	public Map<String, Object> getUserLiveUserStatusList(LiveUserStatus liveUserStatus) throws Exception;
+
+	// SMS
+
+	public void sendSMS(Live live) throws Exception;
 
 }

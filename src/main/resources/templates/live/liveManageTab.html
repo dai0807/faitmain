@@ -147,7 +147,37 @@ $('body').on('click', '[name=cancleKick]', function(event) {
 
 
 $('body').on('click', '[name=cancleMute]', function(event) {
-	alert("씨발");
+	
+	let clientKey = []; // key 값을 담을 배열
+    const roomId = $('.keepRoomId').val();
+           
+    //삭제 key value
+    // chk라는 클래스를 가진 체크박스 중에 체크가 된
+    // object들을 찾아서 delchk라는 배열에 담는다.
+
+    
+    $('.clientKey:checked').each(function(){
+        clientKey.push($(this).val());
+    });
+	   if( clientKey != "" ) {
+	$.ajax({
+		url : '/live/json/cancleMuteUser/' + roomId + "/" + clientKey ,
+		type : 'GET',
+		async : true,
+		dataType : "json",
+		timeout : 2000,
+		success : function(data){},
+		error : function(error){}
+		
+	});
+	}
+	
+	setTimeout(function(){
+    reloadSanctionUserList();
+    }, 100)
+
+
+
 });     
     
 //유저 강제퇴장 - 1
@@ -176,6 +206,7 @@ function kickUser() {
 		
 	});
    }
+   
    //유저 벙어리 - 1
    function muteUser() { 
 	
@@ -434,6 +465,7 @@ function reloadMuteUserList(){
 
 <br/>
 <input class="keepRoomId" type="hidden" name="keepRoomId" th:value="${userList[0].roomId}"/> 
+<input type="hidden" id="storeNickname" th:value="${#authentication.principal.user.storeName}" />
 <h1> Live User List </h1>
 <div class="button">
 <button type="button" class="btn btn-danger"  id="kick" onclick="kickUser()"/>강제퇴장</button>

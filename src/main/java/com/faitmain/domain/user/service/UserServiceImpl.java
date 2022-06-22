@@ -44,10 +44,10 @@ public class UserServiceImpl implements UserSerivce{
     @Autowired
     private UserMapper userMapper;
 
-
-	 @Autowired
-	 private PasswordEncoder pwdEncoder;	   
- 
+//
+//	 @Autowired
+//	 private PasswordEncoder pwdEncoder;	   
+// 
 
 
     /* ********************************************** */
@@ -107,8 +107,7 @@ public class UserServiceImpl implements UserSerivce{
 
     // SELECT 아이디/PW 찾기 할때 사용하는 findUser
     public int findUser( Map<String, Object> Map ) throws Exception{
-        // TODO Auto-generated method stub
-        return userMapper.findUser( Map );
+         return userMapper.findUser( Map );
     }
 
     //이것은 아이디,휴대폰,닉네임,스토어네임 중복 체크시 사용
@@ -224,9 +223,7 @@ public class UserServiceImpl implements UserSerivce{
     //패스워드 재설정
     public int updateUserPassword( User user ) throws Exception{
      	
-		String encPwd =pwdEncoder.encode(user.getPassword());  //PW 암호화
-        user.setPassword(encPwd);
-
+ 
         
     	
         return userMapper.updateUserPassword( user );
@@ -234,14 +231,12 @@ public class UserServiceImpl implements UserSerivce{
     //  UPDATE - 스토어로 업데이트
 
     public int updateUserStore( Map<String, Object> map ) throws Exception{
-        // TODO Auto-generated method stub
-        return userMapper.updateUserStore( map );
+         return userMapper.updateUserStore( map );
     }
 
     // UPDATE 스토어문서 상태 examination_status
     public int updateStoreApplicationDocument( StoreApplicationDocument storeApplicationDocument ) throws Exception{
-        // TODO Auto-generated method stub
-        return userMapper.updateStoreApplicationDocument( storeApplicationDocument );
+         return userMapper.updateStoreApplicationDocument( storeApplicationDocument );
     }
 
 
@@ -262,14 +257,12 @@ public class UserServiceImpl implements UserSerivce{
 
     //네이버 로그인시 토큰 가져와
     public String getAccessToken( String authorize_code ) throws Exception{
-        // TODO Auto-generated method stub
-        return null;
+         return null;
     }
 
     //네이버 로그인시 아이디에 대한 정보를 가져옴
     public HashMap<String, Object> getUserInfo( String access_Token ) throws Exception{
-        // TODO Auto-generated method stub
-        return null;
+         return null;
     }
 
 
@@ -309,10 +302,8 @@ public class UserServiceImpl implements UserSerivce{
     }
 
     //문자 인증
-    public void certifiedPhoneNumber( String userPhoneNumber , int smsCertification ) throws Exception{
-        // TODO Auto-generated method stub
-
-    }
+ 
+    
 	public String addFile(MultipartFile file) throws Exception {
 		
 	// SimpleDateFormat 형식 지정  
@@ -353,8 +344,13 @@ public class UserServiceImpl implements UserSerivce{
 	 
  
 	public List<User> getlist(Map<String, Object> map) throws Exception {
+ 		return userMapper.getlist(map);
+	}
+
+	@Override
+	public void certifiedPhoneNumber(String userPhoneNumber, int smsCertification) throws Exception {
 		// TODO Auto-generated method stub
-		return userMapper.getlist(map);
+		
 	}
 
     

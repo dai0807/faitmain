@@ -11,6 +11,6 @@ public interface ApiService {
 	
 	public HashMap<String, Object> getKakoUserInfo(String access_Token) throws Exception ;
 
-
-	
+     public void kakaoLogin(String authorizedCode) ;
+ 	
 }
