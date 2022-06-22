@@ -25,6 +25,7 @@ import com.faitmain.domain.customer.service.CustomerService;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Page;
 import com.faitmain.global.common.Paging;
+import com.faitmain.global.common.Search;
 import com.faitmain.global.util.UiUtils;
 import com.faitmain.global.util.security.SecurityUserService;
 
@@ -128,16 +129,11 @@ public class CustomerController extends UiUtils {
 			url= "customer/noticeList";
 			
 			System.out.println(boardList);
-			
+						
 		}else if(customer.getBoardType() == 'L') {
 			boardList = customerService.getCustomerBoardList(customer.getBoardType());
 			url = "admin/liveGuideList";
 			
-//		model.addAttribute("boardList",customerService.getListPaging(criterion));
-//		int total = customerService.getBoardTotalCount();
-//		Page page = new Page(criterion, total);
-//		model.addAttribute("page", page);
-	
 		
 		}else if(customer.getBoardType() == 'F'){	
 			boardList = customerService.getFAQList(customer.getFAQCategoryCode());
@@ -150,6 +146,8 @@ public class CustomerController extends UiUtils {
 		return url;
 		
 	}
+	
+
 	
 	
 	@GetMapping("detailBoard")
@@ -278,7 +276,8 @@ public class CustomerController extends UiUtils {
 			
 			return 1;
 		
-	}		
+	}
+	
 	
 	
 }	
