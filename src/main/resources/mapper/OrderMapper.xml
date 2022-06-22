@@ -85,7 +85,7 @@
 
     <!-- 주문 리스트 -->
     <select id="selectOrderList" resultType="com.faitmain.domain.order.domain.Order">
-        select order_number, buyer_id, order_status, order_date
+        select order_number, buyer_id, order_status, order_date, imp_uid
         from `order`
         <if test="keyword != null">
             where `order`.buyer_id like concat('%',#{keyword}, '%')
@@ -96,18 +96,17 @@
 
     <!-- 상품 총 개수 -->
     <select id="selectOrderTotal" resultType="int">
-        select `count`(*) from `order`
+        select count(*) from `order`
         <if test="keyword != null">
             where `order`.buyer_id like concat('%',#{keyword}, '%')
         </if>
-
     </select>
 
     <!-- 주문취소 -->
     <update id="deleteOrder">
         UPDATE `order`
            SET order_status = '주문취소'
-         WHERE order_number = #{orderId}
+         WHERE order_number = #{orderNumber}
     </update>
 
     <!-- 주문 상품 정보(주문취소) -->
@@ -122,6 +121,11 @@
         SELECT *
           FROM `order`
          WHERE order_number = #{orderNumber}
+    </select>
+
+    <select id="selectOrders" resultType="com.faitmain.domain.order.domain.Order">
+        SELECT *
+          FROM `order`
     </select>
 
 

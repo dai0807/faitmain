@@ -82,8 +82,9 @@ public class OrderServiceImpl implements OrderService{
             trace.exception( status , e );
             throw e;
         }
-
     }
+
+
 
     /* 주문 */
     @Override
@@ -178,18 +179,22 @@ public class OrderServiceImpl implements OrderService{
 
         /* 회원 */
         User user = orderMapper.selectBuyer( orderCancel.getBuyerId() );
+
         /* 주문상품 */
         List<OrderProduct> orderProductList = orderMapper.selectOrderProductList( orderCancel.getOrderNumber() );
         for ( OrderProduct orderProduct : orderProductList ) {
             orderProduct.initSaleTotal();
         }
+
         /* 주문 */
         Order order = orderMapper.selectOrder( orderCancel.getOrderNumber() );
         order.setOrderProductList( orderProductList );
         order.getOrderPriceInfo();
 
         /* 주문상품 취소 DB */
+        log.info( "deleteOrder 실행 전" );
         orderMapper.deleteOrder( order.getOrderNumber() );
+        log.info( "deleteOrder 실행 후" );
 
         /* 포인트 & 재고 변환 */
 
@@ -197,9 +202,11 @@ public class OrderServiceImpl implements OrderService{
         int calTotalPoint = user.getTotalPoint();
         calTotalPoint = calTotalPoint - order.getUsingPoint() + order.getOrderRewardPoint();
         user.setTotalPoint( calTotalPoint );
+        log.info( "user = {}", user );
 
         /* DB 적용 */
         orderMapper.updatePoint( user );
+        log.info( "user = {}", user );
 
         /* 재고 */
         for ( OrderProduct orderProduct : order.getOrderProductList() ) {
@@ -221,7 +228,10 @@ public class OrderServiceImpl implements OrderService{
         return orderMapper.selectOrderTotal( paging );
     }
 
-
+    @Override
+    public List<Order> getOrders( Order order ){
+        return orderMapper.selectOrders( order.getOrderNumber() );
+    }
 
 
     private void sleep( int millis ){

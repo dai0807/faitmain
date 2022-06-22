@@ -7,8 +7,8 @@ import com.faitmain.domain.order.service.OrderServiceImpl;
 import com.faitmain.domain.order.service.PaymentServiceImpl;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.service.UserServiceImpl;
-import com.faitmain.global.common.Paging;
 import com.faitmain.global.common.Page;
+import com.faitmain.global.common.Paging;
 import com.faitmain.global.util.log.LogTrace;
 import com.faitmain.global.util.log.TraceStatus;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -39,7 +40,7 @@ public class OrderController{
     @Autowired
     private LogTrace trace;
 
-    @GetMapping( "/{buyerId}" )
+    @PostMapping( "/{buyerId}" )
     public String orderPage( @PathVariable String buyerId , OrderPage orderPage , Model model ){
 
         TraceStatus status = null;
@@ -62,8 +63,6 @@ public class OrderController{
     @PostMapping( "/complete" )
 
     public String paymentComplete( Order order , Paging paging , Model model ) throws Exception{
-
-        TraceStatus status = null;
 
         User user = userService.getUser( order.getBuyerId() );
         log.info( "user = {}" , user );
@@ -92,38 +91,68 @@ public class OrderController{
 
             if ( point < usingPoint ) {
                 log.info( "/* 사용된 포인트가 유저의 포인트보다 많을 때 */" );
-                paymentService.paymentCancel( token , order.getImpUid() , amount , "유저 포인트 오류" );
+                paymentService.paymentCancel( token , order.getImpUid() , amount );
                 return "index";
             } else {
 
                 if ( usingPoint != 0 ) {
                     log.info( "/* 로그인 하지 않았는데 포인트가 사용되었을 때 */" );
-                    paymentService.paymentCancel( token , order.getImpUid() , amount , "비회원 포인트사용 오류" );
+                    paymentService.paymentCancel( token , order.getImpUid() , amount );
                     return "index";
 
                 }
             }
 
             orderService.addOrder( order );
+            model.addAttribute( "order" , order );
+            log.info( "order = {}" , order );
 
-//            List<Order> orderList = orderService.getOrderList( paging );
-//
-//            if ( !orderList.isEmpty() ) {
-//                model.addAttribute( "orderList" , orderList );
-//                model.addAttribute( "pageMaker" , new Page( paging , orderService.getOrderTotal( paging ) ) );
-//            } else {
-//                model.addAttribute( "listCheck" , "empty" );
-//            }
+            List<Order> orderList = orderService.getOrders( order );
+            model.addAttribute( "orderList" , orderList );
+            log.info( "orderList = {}" , orderList );
+/*
 
-            return "order/orderList";
+            if ( !orderList.isEmpty() ) {
+                model.addAttribute( "pageMaker" , new Page( paging , orderService.getOrderTotal( paging ) ) );
+            } else {
+                model.addAttribute( "listCheck" , "empty" );
+            }
+*/
+
+            return "order/orderComplete";
 
 
         } catch ( Exception e ) {
-            paymentService.paymentCancel( token , order.getImpUid() , amount , "결제 에러" );
+            paymentService.paymentCancel( token , order.getImpUid() , amount );
             return "index";
         }
     }
 
+    /* 주문삭제 */
+    @PostMapping( "/cancel" )
+    public String orderCancel( OrderCancel orderCancel ){
+
+
+        if ( !"".equals( orderCancel.getImpUid() ) ) {
+            try {
+                String token = paymentService.getToken();
+                int amount = paymentService.paymentInfo( orderCancel.getImpUid() , token );
+                paymentService.paymentCancel( token , orderCancel.getImpUid() , amount );
+            } catch ( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            orderService.cancelOrder( orderCancel );
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/order/list?keyword=" + orderCancel.getKeyword()
+                + "&PageAmount=" + orderCancel.getPageAmount()
+                + "&pageNumber" + orderCancel.getPageNumber();
+    }
 
 
     /* ************************* ADMIN *************************** */
@@ -144,15 +173,6 @@ public class OrderController{
         return "order/orderList";
     }
 
-    /* 주문삭제 */
-    @PostMapping( "/cancle" )
-    public String orderCancel( OrderCancel orderCancel ) throws Exception{
-
-        orderService.cancelOrder( orderCancel );
-        return "redirect:admin/orderList?keyword=" + orderCancel.getKeyword()
-                + "&PageAmount=" + orderCancel.getPageAmount()
-                + "&pageNumber" + orderCancel.getPageNumber();
-    }
 
 }
 

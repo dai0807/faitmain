@@ -1,5 +1,6 @@
 /* IAMPORT 에서 사용할 최종 결제금액 전역변수 */
 let finalTotalPriceToAPI;
+let finalTotalPricePrev;
 
 $(document).ready(function () {
 
@@ -15,11 +16,14 @@ $(document).ready(function () {
 
         /* 사용자가 입력한 값 */
         let inputValue = parseInt($(this).val());
+        console.log(inputValue)
 
         if (inputValue < 0) {
             $(this).val(0);
         } else if (inputValue > maxPoint) {
             $(this).val(maxPoint);
+        } else if (inputValue > finalTotalPricePrev) {
+            $(this).val(finalTotalPricePrev)
         }
 
         /* 주문 조합정보란 최신화 */
@@ -31,27 +35,44 @@ $(document).ready(function () {
      */
     $(".order_point_input_btn").on("click", function () {
 
-        const maxPoint = parseInt('${buyer.totalPoint')
+        const maxPoint = parseInt($('.totalPoint').val())
         console.log(maxPoint)
+
         let state = $(this).data("state");
 
-        if (state == 'N') {
+        let point = parseInt($('.myPoint').text());
+        console.log(point + 1)
+
+        if (state === 'N') {
             console.log("n동작");
             /* 모두사용 */
+
             //값 변경
-            $(".order_point_input").val(maxPoint);
+            if (maxPoint > finalTotalPricePrev) {
+                $(".order_point_input").val(finalTotalPricePrev);
+            }
+
+            point = maxPoint - $('.order_point_input').val() ;
+            $(".myPoint").text(point);
+
             //글 변경
             $(".order_point_input_btn_Y").css("display", "inline-block");
             $(".order_point_input_btn_N").css("display", "none");
-        } else if (state == 'Y') {
+
+        } else if (state === 'Y') {
             console.log("y동작");
             /* 취소 */
+
+            $(".myPoint").text(parseInt($('.order_point_input').val()) + point);
+
             //값 변경
             $(".order_point_input").val(0);
+
             //글 변경
             $(".order_point_input_btn_Y").css("display", "none");
             $(".order_point_input_btn_N").css("display", "inline-block");
         }
+
 
         /* 주문 조합정보란 최신화 */
         setTotalInfo();
@@ -71,7 +92,7 @@ $(document).ready(function () {
         });
 
         /* 사용 포인트 */
-        $("input[name='usePoint']").val($(".order_point_input").val());
+        $("input[name='usingPoint']").val($(".order_point_input").val());
 
         /* 상품정보 */
         let form_contents;
@@ -141,49 +162,6 @@ $(document).ready(function () {
     });
 });
 
-
-// /* 주문번호 만들기 */
-// function createOrderNum() {
-//     const date = new Date();
-//     const year = date.getFullYear();
-//     const month = String(date.getMonth() + 1).padStart(2, "0");
-//     const day = String(date.getDate()).padStart(2, "0");
-//
-//     let orderNumber = parseInt(year + month + day);
-//     for (let i = 0; i < 10; i++) {
-//         orderNumber += Math.floor(Math.random() * 8);
-//     }
-//     return orderNumber;
-// }
-
-/* 주소입력란 버튼 숨김 & 표시 */
-function showAddress(className) {
-
-    /* 컨텐츠 동작 */
-    /* 모두 숨기기 */
-    $(".addressInfo_input_div").css('display', 'none');
-
-    /* 컨텐츠 보이기 */
-    $(".addressInfo_input_div_" + className).css('display', 'block');
-
-    /* 버튼 색상 변경 */
-    /* 모든 색상 동일 */
-    $(".address.btn").css('backgroundColor', '#555');
-
-    /* 지정 색상 변경*/
-    $(".address.btn_" + className).css('backgroundColor', '#3c3838');
-
-    /* selectAddress T/F */
-    /* 모든 selectAddress F만들기 */
-    $(".addressInfo_input_div").each(function (i, obj) {
-        $(obj).find(".selectAddress").val("F");
-    });
-
-    /* 선택한 selectAddress T만들기 */
-    $(".addressInfo_input_div_" + className).find(".selectAddress").val("T");
-}
-
-
 /* 총 주문 정보 세팅(배송비, 총 가격, 마일리지, 물품 수, 종류) */
 function setTotalInfo() {
     let totalPrice = 0;				// 총 가격
@@ -216,6 +194,8 @@ function setTotalInfo() {
 
     /* 사용 포인트 */
     usePoint = $(".order_point_input").val();
+    finalTotalPricePrev = totalPrice + deliveryPrice;
+
     finalTotalPrice = totalPrice + deliveryPrice - usePoint;
     finalTotalPriceToAPI = finalTotalPrice
 
@@ -236,6 +216,35 @@ function setTotalInfo() {
     $(".usePoint_span").text(usePoint.toLocaleString());
 
 }
+
+
+/* 주소입력란 버튼 숨김 & 표시 */
+function showAddress(className) {
+
+    /* 컨텐츠 동작 */
+    /* 모두 숨기기 */
+    $(".addressInfo_input_div").css('display', 'none');
+
+    /* 컨텐츠 보이기 */
+    $(".addressInfo_input_div_" + className).css('display', 'block');
+
+    /* 버튼 색상 변경 */
+    /* 모든 색상 동일 */
+    $(".address.btn").css('backgroundColor', '#555');
+
+    /* 지정 색상 변경*/
+    $(".address.btn_" + className).css('backgroundColor', '#3c3838');
+
+    /* selectAddress T/F */
+    /* 모든 selectAddress F만들기 */
+    $(".addressInfo_input_div").each(function (i, obj) {
+        $(obj).find(".selectAddress").val("F");
+    });
+
+    /* 선택한 selectAddress T만들기 */
+    $(".addressInfo_input_div_" + className).find(".selectAddress").val("T");
+}
+
 
 
 /* 다음 주소 연동 */

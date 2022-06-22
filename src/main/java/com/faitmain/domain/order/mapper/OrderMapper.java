@@ -25,11 +25,7 @@ public interface OrderMapper{
     /* 주문 상품 정보 (주문 처리) */
     OrderProduct selectOrderProduct( int productNumber );
 
-    /* 주문 상품 정보 (주문취소) */
-    List<OrderProduct> selectOrderProductList( int orderNumber );
-
-    /* 주문 정보 (주문취소) */
-    Order selectOrder( int orderNumber );
+    List<Order> selectOrders( int orderNumber );
 
 
 
@@ -47,6 +43,12 @@ public interface OrderMapper{
 
     /* 주문 취소 */
     int deleteOrder( int orderNumber );
+
+    /* 주문 상품 정보 (주문취소) */
+    List<OrderProduct> selectOrderProductList( int orderNumber );
+
+    /* 주문 정보 (주문취소) */
+    Order selectOrder( int orderNumber );
 
 
 

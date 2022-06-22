@@ -28,14 +28,14 @@ public class Paging{
     /* 상품 번호(댓글 기능에서 사용) */
     private int productNumber;
 
-    /* Criteria 생성자 */
+    /* PAGING 생성자 */
     public Paging( int pageNum, int amount) {
         this.pageNum = pageNum;
         this.amount = amount;
         this.skip = (pageNum -1) * amount;
     }
 
-    /* Criteria 기본 생성자 */
+    /* PAGING 기본 생성자 */
     public Paging(){
         this(1,10);
     }

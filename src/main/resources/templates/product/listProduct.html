@@ -207,7 +207,9 @@
 							<!-- prodcut img, name, price -->
 							<div class="block2">
 								<div class="block2-pic hov-img0">
-									<img th:src="|../img/upload/${ product.productMainImage }|" alt="IMG-PRODUCT">
+									<a th:href="@{/product/getProduct?productNumber=} + ${product.productNumber}">
+										<img th:src="|../img/upload/${ product.productMainImage }|" alt="IMG-PRODUCT">
+									</a>
 									<!-- 
 										<a th:href="@{/product/getProduct?productNumber=} + ${product.productNumber}"
 											class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
@@ -221,11 +223,12 @@
 										<a th:href="@{/product/getProduct?productNumber=} + ${product.productNumber}"
 											th:text="${product.productName}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 										</a>
-				
-										<span class="stext-105 cl3"
-											th:text="${#numbers.formatInteger(product.productPrice, 3, 'COMMA') + '원'}">
-										</span>
-				
+										
+										<a th:href="@{/product/getProduct?productNumber=} + ${product.productNumber}">
+											<span class="stext-105 cl3"
+												th:text="${#numbers.formatInteger(product.productPrice, 3, 'COMMA') + '원'}">
+											</span>
+										</a>
 									</div>
 								</div>
 				
@@ -245,45 +248,57 @@
 				</div>
 				
 				<!-- Load more -->
-				<div class="flex-c-m flex-w w-full p-t-45">
-					<ul class="flex-l-m flex-w w-full p-t-10 m-lr--7">
+				<div class="flex-c-m flex-w w-full p-t-38">
+				<nav aria-label="Page navigation">
+				
+					<ul class="pagination">
+				
 						<!--  <<== 좌측 nav -->
-						<th:block th:if="${ resultPage.currentPage le resultPage.pageUnit }">
-							<li disabled="disabled">
+						<th:block th:if="${ resultPage.currentPage <= resultPage.pageUnit }">
+							<li class="disabled">
 						</th:block>
-						<th:block th:if="${ resultPage.currentPage gt resultPage.pageUnit }">
+						<th:block th:if="${ resultPage.currentPage > resultPage.pageUnit }">
 							<li>
 						</th:block>
-								<a class="flex-c-m how-pagination1 trans-04 m-all-7" th:href="|javascript:fncGetList('${ resultPage.currentPage-1}')|" aria-label="Previous">
-									&lt;
+								<a th:href="|javascript:fncGetList('${ resultPage.currentPage-1}')|" aria-label="Previous" class="flex-c-m how-pagination1 trans-04 m-all-7">
+									<span aria-hidden="true">&lt;</span>
 								</a>
 							</li>
 				
+						<!--  중앙  -->
+						<!--<c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">-->
 						<th:block th:each="num : ${#numbers.sequence(resultPage.beginUnitPage,resultPage.endUnitPage)}">
-							<li th:if="${ resultPage.currentPage == num }">
-								<a class="flex-c-m how-pagination1 trans-04 m-all-7" th:href="|javascript:fncGetList('${ num }');|" th:text="${num}">
+							<!--<th:block th:if test="${ resultPage.currentPage == num }">-->
+							<!--  현재 page 가르킬경우 : active -->
+							<li class="active" th:if="${ resultPage.currentPage == num }">
+								<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}" 
+									th:class="|flex-c-m how-pagination1 trans-04 m-all-7 ${resultPage.currentPage == num ? 'active-pagination1' : ''}|">
+									<span class="sr-only">(current)</span>
 								</a>
 							</li>
 				
-							<li th:if="${ resultPage.currentPage != num }">
-								<a class="flex-c-m how-pagination1 trans-04 m-all-7" th:href="|javascript:fncGetList('${ num }');|" th:text="${num}">
-								</a>
+							<!--<c:if test="${ resultPage.currentPage != i}">-->
+							<li th:if="${ resultPage.currentPage != num }" >
+								<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}" class="flex-c-m how-pagination1 trans-04 m-all-7"></a>
 							</li>
+							<!--</c:if>-->
 						</th:block>
 				
 						<!--  우측 nav==>> -->
-						<th:block th:if="${ resultPage.endUnitPage ge resultPage.maxPage }">
-							<li disabled="disabled">
+						<th:block th:if="${ resultPage.endUnitPage >= resultPage.maxPage }">
+							<li class="disabled">
 						</th:block>
-						<th:block th:if="${ resultPage.endUnitPage lt resultPage.maxPage }">
+						<th:block th:if="${ resultPage.endUnitPage < resultPage.maxPage }">
 							<li>
 						</th:block>
-								<a class="flex-c-m how-pagination1 trans-04 m-all-7" th:href="|javascript:fncGetList('${resultPage.endUnitPage+1}')|" aria-label="Next">
-									&gt;
+								<a th:href="|javascript:fncGetList('${resultPage.endUnitPage+1}')|" aria-label="Next" class="flex-c-m how-pagination1 trans-04 m-all-7">
+									<span aria-hidden="true">&gt;</span>
 								</a>
 							</li>
 					</ul>
-				</div>
+				
+				</nav>
+			</div>		
 				
 			</div>			
 		</div>				

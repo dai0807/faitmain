@@ -99,7 +99,7 @@
 		UPDATE review
 		<set>
 			review_content = #{reviewContent},
-			review_image = <if test="reviewImage == ''">null</if>
+			review_image = <if test="reviewImage == '' or reviewImage == null">null</if>
 						   <if test="reviewImage != ''">#{reviewImage:VARCHAR}</if>,		
 			rating = #{rating}
 		</set>

@@ -113,7 +113,7 @@ public class ReviewController {
 		
 		log.info("review : " + review);		
 		
-		return "/product/updateReview";
+		return "/product/updateReview2";
 	}
 	
 	@PostMapping("updateReview")
@@ -135,7 +135,7 @@ public class ReviewController {
 		
 		reviewService.deleteReview(reviewNumber);
 		
-		return "redirect:/inquiry/listInquiry?resultJsp=listReviewUser";	
+		return "redirect:/review/getReviewList?resultJsp=listReviewUser";	
 	}
 	
 	

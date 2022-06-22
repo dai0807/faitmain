@@ -28,6 +28,6 @@ public interface ReviewMapper {
 	public void updateReview(Review review) throws Exception;
 	
 	//DELETE - 리뷰 삭제
-	public void deleteReview(int reviewNumber) throws Exception;
+	public int deleteReview(int reviewNumber) throws Exception;
 	
 }
