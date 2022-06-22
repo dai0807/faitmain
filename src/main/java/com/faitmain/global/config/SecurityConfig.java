@@ -129,6 +129,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		// exceptionhandlign().accessdeniedpage -> 예외가 발생했을 때 exceptionhandling으로 핸들링 가능
 		// 접근 권한 없을 때 로그인 페이지로 이동하도록 명시 
         
+        // Form 로그인이면 UserDetails타입으로, OAuth2 로그인이면 OAuth2User타입으로 반환
         
      	log.info(" ::: SecurityConfig  Start  :::"  );
        

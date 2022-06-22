@@ -1,202 +1,202 @@
 <!DOCTYPE html>
-<html
-        layout:decorate = "~{/layout/default_layout}"
-        xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
+<html layout:decorate="~{/layout/default_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 <head>
 
 
-    <meta charset = "UTF-8">
-    <title>faitmain login</title>
+	<meta charset="UTF-8">
+	<title>faitmain login</title>
 
-    <!-- 카카오  API -->
-    <link href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" rel = "stylesheet"/>
+	<!-- 카카오  API -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" rel="stylesheet" />
 
-    <link href = "/css/login.css" rel = "stylesheet"/>
-    <!-- jQuery -->
-    <script crossorigin = "anonymous" src = "https://kit.fontawesome.com/10b89606ac.js"></script>
-    <script src = "https://developers.kakao.com/sdk/js/kakao.js"></script>
+	<link href="/css/login.css" rel="stylesheet" />
+	<!-- jQuery -->
+	<script crossorigin="anonymous" src="https://kit.fontawesome.com/10b89606ac.js"></script>
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
-    <script type = "text/javascript">
-    
-    
-    
-    
-    
-        $(function () {
+	<script type="text/javascript">
 
 
-            $("#loginButton").on("click", function () {
-                var id = $("#id").val();
-                var pw = $("#password").val();
-
-                if (id == null || id.length < 1) {
-                    alert('ID 를 입력하지 않으셨습니다.');
-                    $("#userId").focus();
-                    return;
-                }
-
-                if (pw == null || pw.length < 1) {
-                    alert('패스워드를 입력하지 않으셨습니다.');
-                    $("#password").focus();
-                    return;
-                }
-
-/* rest login 주석 
-                $.ajax({
-                    url: "/user/json/login", //주소
-                    type: "POST", //전송타입
-                    data: $("#form").serialize(), //봬는 데이터
-                    dataType: "JSON", // 응답 받을 데이터
-                    success: function (data) {
-                        console.log("로그인 결과는 " + data);
-                        if (data == "1") {
-                            location.href = "/"
-
-                        } else if (data == "0") {
-                            alert("아이디 비밀번호를 확인해 주세요 ");
-
-                        } else if (data == "withdraw") {
-                            alert("로그인 할 수 없는 회원입니다. ");
-
-                        }
-
-                    },
-                    //요청 실패시 나오는
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);  //응답 메시지
-                        console.log(textStatus); //"error"로 고정인듯함
-                        console.log(errorThrown);
-                    }
 
 
-                });
-*/
 
-                $("form").attr("method","POST").attr("action","/user/login").submit();
+		$(function () {
 
 
-            });
+			$("#loginButton").on("click", function () {
+				var id = $("#id").val();
+				var pw = $("#password").val();
+
+				if (id == null || id.length < 1) {
+					alert('ID 를 입력하지 않으셨습니다.');
+					$("#userId").focus();
+					return;
+				}
+
+				if (pw == null || pw.length < 1) {
+					alert('패스워드를 입력하지 않으셨습니다.');
+					$("#password").focus();
+					return;
+				}
+
+				/* rest login 주석 
+								$.ajax({
+									url: "/user/json/login", //주소
+									type: "POST", //전송타입
+									data: $("#form").serialize(), //봬는 데이터
+									dataType: "JSON", // 응답 받을 데이터
+									success: function (data) {
+										console.log("로그인 결과는 " + data);
+										if (data == "1") {
+											location.href = "/"
+				
+										} else if (data == "0") {
+											alert("아이디 비밀번호를 확인해 주세요 ");
+				
+										} else if (data == "withdraw") {
+											alert("로그인 할 수 없는 회원입니다. ");
+				
+										}
+				
+									},
+									//요청 실패시 나오는
+									error: function (jqXHR, textStatus, errorThrown) {
+										console.log(jqXHR);  //응답 메시지
+										console.log(textStatus); //"error"로 고정인듯함
+										console.log(errorThrown);
+									}
+				
+				
+								});
+				*/
+
+				$("form").attr("method", "POST").attr("action", "/user/login").submit();
 
 
-        });
-        
-    		function addUser(){
- 					self.location="/user/addUser";
-	
-			}
-			
-    		function findId(){
- 					
- 						popWin 
+			});
+
+
+		});
+
+		function addUser() {
+			self.location = "/user/addUser";
+
+		}
+
+		function findId() {
+
+			popWin
 				= window.open("/user/findId",
-											"popWin", 
-											"top=200,left=300,width=780,height=550,marginwidth=0,marginheight=0,"+
-											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
-				
- 					
-	
-			}			
-			
-    		function findPassword(){
- 				//	self.location="/user/findPassword";
-						popWin 
+					"popWin",
+					"top=200,left=300,width=780,height=550,marginwidth=0,marginheight=0," +
+					"scrollbars=no,scrolling=no,menubar=no,resizable=no");
+
+
+
+		}
+
+		function findPassword() {
+			//	self.location="/user/findPassword";
+			popWin
 				= window.open("/user/findPassword",
-											"popWin", 
-											"top=200,left=300,width=780,height=550,marginwidth=0,marginheight=0,"+
-											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
-			}
-				
-    		function addStore(){
- 					self.location="/user/addStore";
-	
-			}
-        
-    </script>
-    <style>
-        .wrapper {
-            display: grid;
-            place-items: center;
-        }
+					"popWin",
+					"top=200,left=300,width=780,height=550,marginwidth=0,marginheight=0," +
+					"scrollbars=no,scrolling=no,menubar=no,resizable=no");
+		}
+
+		function addStore() {
+			self.location = "/user/addStore";
+
+		}
+
+	</script>
+	<style>
+		.wrapper {
+			display: grid;
+			place-items: center;
+		}
 
 
-        /* BASIC */
-        /*
+		/* BASIC */
+		/*
        html {
          background-color: #56baed;
        }
         #cccccc;
         */
-
-
-    </style>
-    <!-- 길이는 스타일 건들이 -->
+	</style>
+	<!-- 길이는 스타일 건들이 -->
 </head>
 
 <div>
-    <article layout:fragment = "content">
-        <div class = "wrapper">
-        
-        
+	<article layout:fragment="content">
+		<div class="wrapper">
 
 
-            <section class = "py-5" id = "features">
 
 
-                <div class = "wrapper fadeInDown">
-                    <div id = "formContent">
-                        <!-- Tabs Titles -->
-                        <h2 class = "active"> Sign In </h2>
-                        <!-- <h2 class="inactive underlineHover">Sign Up </h2> -->
-
-                        <!-- Icon -->
-                        <div class = "fadeIn first">
-                        </div>
-
-                        <!-- Login Form -->
-                     <!--   <form id = "form" onsubmit = "return false"> -->
-				<form id = "form"  >
-                            <div>
+			<section class="py-5" id="features">
 
 
-                                <input class = "fadeIn second" id = "id" name = "id" placeholder = "login" type = "text">
-                                <input class = "fadeIn third" id = "password" name = "password" placeholder = "password" type = "password">
-                                <input  class = "fadeIn fourth " id = "loginButton" style = "margin-bottom: 5px; padding:15px 94px;" type = "submit" value = "Log in"    />
-                                <!--  라이브 오빠들 카카오 로그인 할때는 밑에서 다른 사람은 밑에 꺼 -->
-                                <!--      <a class="p-2" th:href="@{https://kauth.kakao.com/oauth/authorize?client_id=f0b36852932e865ae00c9ff2fcd19874&redirect_uri=https://fait-main.kro.kr:8080/user/kakaoLogin&response_type=code}"> -->
-                        
-                                    <!--  	 <img src="/img/kakao_login_medium_narrow.png" style="height:60px"> -->
-                               <!--   </a>
+				<div class="wrapper fadeInDown">
+					<div id="formContent">
+						<!-- Tabs Titles -->
+						<h2 class="active"> Sign In </h2>
+						<!-- <h2 class="inactive underlineHover">Sign Up </h2> -->
+
+						<!-- Icon -->
+						<div class="fadeIn first">
+						</div>
+
+						<!-- Login Form -->
+						<!--   <form id = "form" onsubmit = "return false"> -->
+						<form id="form">
+							<div>
+
+
+								<input class="fadeIn second" id="id" name="id" placeholder="login" type="text">
+								<input class="fadeIn third" id="password" name="password" placeholder="password"
+									type="password">
+								<input class="fadeIn fourth " id="loginButton"
+									style="margin-bottom: 5px; padding:15px 94px;" type="submit" value="Log in" />
+								<!--  라이브 오빠들 카카오 로그인 할때는 밑에서 다른 사람은 밑에 꺼 -->
+								<!--      <a class="p-2" th:href="@{https://kauth.kakao.com/oauth/authorize?client_id=f0b36852932e865ae00c9ff2fcd19874&redirect_uri=https://fait-main.kro.kr:8080/user/kakaoLogin&response_type=code}"> -->
+
+								<!--  	 <img src="/img/kakao_login_medium_narrow.png" style="height:60px"> -->
+								<!--   </a>
                               <a class = "p-2"  th:href = "@{/oauth2/authorization/naver}">네이버 로그인 </a>  -->
-                                <a class = "p-2"   href = "/oauth2/authorization/naver"> <img src = "/img/btnG_official.png"style = "height:50px;"  > </a> 
+								<a class="p-2" href="/oauth2/authorization/naver"> <img src="/img/btnG_official.png"
+										style="height:50px;"> </a>
 
 
-                        </form>
-
-
-          
-    <!-- Remind Passowrd -->
-    <div id="formFooter">
-     <a class="underlineHover bi-check" onclick="addUser()">User sign up</a> &nbsp;
-     <a class="underlineHover bi-check" onclick="addStore()">Store sign up</a> &nbsp;
-
-      <br>
-       <a class="underlineHover bi-check" onclick="findPassword()">Forgot Password?</a> &nbsp;
-     	 <a class="underlineHover bi-check" onclick="findId()">Forgot id?</a>
+						</form>
 
 
 
-                        </div>
+						<!-- Remind Passowrd -->
+						<div id="formFooter">
+							<a class="underlineHover bi-check" onclick="addUser()">User sign up</a> &nbsp;
+							<a class="underlineHover bi-check" onclick="addStore()">Store sign up</a> &nbsp;
 
-                    </div>
-                </div>
+							<br>
+							<a class="underlineHover bi-check" onclick="findPassword()">Forgot Password?</a> &nbsp;
+							<a class="underlineHover bi-check" onclick="findId()">Forgot id?</a>
 
 
-            </section>
-        </div>
+
+						</div>
+
+					</div>
+				</div>
 
 
-    </article>
+			</section>
+		</div>
 
-    </body>
+
+	</article>
+
+	</body>
 
 </html>
