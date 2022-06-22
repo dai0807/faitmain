@@ -51,7 +51,7 @@
 <article class = "py-5" layout:fragment = "content">
 
     <!-- 주문완료 페이지 -->
-    <form class = "bg0 p-t-75 p-b-85" method = "post" th:action = "">
+    <form class = "bg0 p-t-75 p-b-85" >
         <div class = "container">
             <div class = "row">
 
@@ -79,7 +79,7 @@
 <!--                                        </td>-->
                                         <td class = "column-2">
                                             <a class = "stext-115 cl7 hov-cl1 size-213 p-t-18"
-<!--                                               th:href = "@{/order/updateorder(orderNumber=${order.orderNumber})}"-->
+                                               th:href = "@{/order/updateorder(orderNumber=${order.orderNumber})}"
                                                th:text = "${list.productName}">
                                             </a>
                                         </td>
