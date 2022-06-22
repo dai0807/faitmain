@@ -13,6 +13,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.service.CustomerService;
+import com.faitmain.domain.user.domain.User;
+import com.faitmain.global.util.security.SecurityUserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,12 +54,32 @@ public class CustomerRestController {
 		return lol;
 	}
 	
-	@RequestMapping(value = "/json/getFAQCategoryCode", method = RequestMethod.GET, produces="application/json;")
-	public @ResponseBody List<Customer> getFAQCategoryCode(String FAQCategoryCode) throws Exception{
-		String result = "";
-		List<Customer> boardList = customerService.getFAQList(FAQCategoryCode);
+//	@RequestMapping(value = "/json/getFAQCategoryCode", method = RequestMethod.GET, produces="application/json;")
+//	public @ResponseBody List<Customer> getFAQCategoryCode(String FAQCategoryCode) throws Exception{
+//		String result = "";
+//		List<Customer> boardList = customerService.getFAQList(FAQCategoryCode);
+//		
+//		return boardList;
+//	}
+	
+	@GetMapping("json/getCustomerBoardList")
+	public List<Customer> listFAQ(String FAQCategoryCode) throws Exception{
 		
-		return boardList;
+		System.out.println(FAQCategoryCode);
+		if(FAQCategoryCode.equals("00")) {
+			List<Customer> boardList = customerService.getFAQList("");
+	
+			return boardList;	
+		
+		}else {
+		
+			List<Customer> boardList = customerService.getFAQList(FAQCategoryCode);
+			System.out.println(boardList);
+
+			return boardList;
+		}
+		
+		
 	}
 	
 	
@@ -63,11 +87,14 @@ public class CustomerRestController {
 	@PostMapping("json/updateCustomerBoard")
 	public int  getCustomerBoard(@ModelAttribute Customer customer) throws Exception{
 		
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+		
 		System.out.println("/customer/json/updateCustomerBoard : POST start ...");
 		System.out.println("찍어보자!! Cutstomer ." + customer);
 
 		
-		
+		customerService.getCustomerBoardList(customer.getBoardType());
 		
 		int result =  customerService.updateCustomerBoard(customer) ; 
 		System.out.println("result = " +  result ); // 수정이 되었으면 1 , 안됨  0  		

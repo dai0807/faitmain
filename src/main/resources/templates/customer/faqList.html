@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 				layout:decorate = "~{layout/customer_default_layout2}"
-      			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
+      			xmlns:layout = "http://www.
+traq.net.nz/thymeleaf/layout">
 
 <head>
 	
@@ -11,9 +12,84 @@
 	<script src="https://code.jquery.com/jquer-latest.js"></script>
 	
 	<script type="text/javascript">
-		
+		function update(){
+			
+			console.log("FAQ 수정")
+			var updateval = $("#update").html();
+			
+			if(updateval == '수정'){
+				
+				$("#title").attr("readonly", false);
+				$("contents").attr("readonly", false);
+				$("updateFAQ").html('수정')
+			}else{
+				
+				var formdata = $(".table").serialize();
+				formdata = decodeURIComponent(formdata);
+				
+				$.ajax({
+					type:"POST",
+					url:"/customer/json/updateCustomerBoard",
+					data: formdata,
+					
+					success: function(result){
+						
+						if(result == 1){
+							alert("수정완료")
+						}else{
+							alert("수정 실패")
+						}
+					}
+				});
+				
+				$("#title").attr("readonly", true);
+				$("contents").attr("readonly", true);
+				$("updateFAQ").html('수정')
+			}
+		}
+		</script>
+		<script type="text/javascript">
+		function getList(code){
+			console.log(code)
+			console.log("리스트 가져오기")
+			var listvar = $(".table").html();
 
 			
+			$.ajax({
+				url:"/customer/json/getCustomerBoardList?boardType=F&FAQCategoryCode="+code,
+				type:"GET",
+				/* data{
+					
+				} */
+				success : function(data){
+					
+					$('div.faq').children().remove();
+					var abc = "";
+					
+					for(let i = 0 ; i < data.length ; i ++){
+						
+				     	abc += '<ul class="faq-accordion" th:if="${not #lists.isEmpty(boardList)}" th:each="row : ${boardList}">'	
+			                +  '<li>'
+			                +  '<a title="Click" class="expanded" id="title" >'+data[i].boardTitle+ '</a>'
+			                +  '<ul class="faq-content" style="display: block;">' 
+			                +  '<li>'
+			                +  '<div id="contents"><p>'+data[i].boardContent+'</p></div>'
+			                +  '</li>'
+			                +  '</ul>' 
+			                +  '</li>'
+			                +  '<button type="button" id="updateFAQ" class="btn_updateFAQ" th:onclick="update()" >수정</button>	</ul>';
+					}
+					
+					$('div.faq').append(abc);
+					
+					
+				},
+				
+				
+			});
+			
+		}
+
 		
 	</script>
 </head>
@@ -27,14 +103,27 @@
 	
 		<h3 class ="mb-5">자주묻는질문</h3>
 		<hr/>
+	
 		<table class="table">
 		<div id="faq-links">
-		    <div id="total" class="faq-selected">전체</div>
-		    <div id="pay">결제</div>
-		    <div id="return">교환/반품</div>
-		    <div id="order">배송</div>
-		    <div id="live">라이브</div>
-		    <div id="point">포인트</div>
+		    <div id="total" class="faq-selected">
+		    	<button style= "border:0; outline:0; background-color: white;" onclick="getList('00')">전체</button>
+		    </div>
+		    <div id="pay" >
+		    	<button style= "border:0; outline:0; background-color: white;" onclick="getList('01')">결제</button>
+		    </div>
+		    <div id="return" >
+		    	<button style= "border:0; outline:0; background-color: white;" onclick="getList('02')">교환/반품</button>
+		    </div>
+		    <div id="order" >
+		    	<button style= "border:0; outline:0; background-color: white;" onclick="getList('03')">배송</button>
+		    </div>
+		    <div id="live" >
+		    	<button style= "border:0; outline:0; background-color: white;" onclick="getList('04')">라이브</button>
+		    </div>
+		    <div id="point">
+		    	<button style= "border:0; outline:0; background-color: white;" onclick="getList('05')">포인트</button>
+		    </div>
 		</div>
 	
 			<div id="faq-wrapper" class="about-service ">
@@ -57,27 +146,7 @@
 			                            </li>
 			                        </ul> 
 			                    </li>
-			                    <!--Bacon ipsum-->
-			
-			                   <!--  <li>
-			                        <a href="#">Beer Ipsum</a>
-			                        <ul class="faq-content">
-			                            <li>
-			                                <div><p>ester saccharification mead lambic draft (draught), hand pump cask. brewing ale balthazar hops, " bitter becher craft beer keg alpha acid." crystal malt racking mouthfeel mash, barrel ale; malt! brewpub; biere de garde balthazar acid rest alcohol carbonation. wit beer krug brew mash hop back? shelf life, balthazar hand pump.</p></div>
-			                            </li>
-			                        </ul>
-			                    </li>
-			                    Beer ipsum
-			
-			                    <li>
-			                        <a href="#">Carey ipsum</a>
-			                        <ul class="faq-content">
-			                            <li>
-			                                <div><p>Alrighty then it's because i'm green isn't it! here she comes to wreck the day. alrighty then kinda hot in these rhinos. i just heard about evans new position,good luck to you evan backstabber, bastard, i mean baxter. your entrance was good, his was better. we're going for a ride on the information super highway. we're going for a ride on the information super highway. look at that, it's exactly three seconds before i honk your nose and pull your underwear over your head. brain freeze. we got no food we got no money and our pets heads are falling off! haaaaaaarry.</p></div>
-			                            </li>
-			                        </ul>
-			                    </li> -->
-			                    <!--Carey ipsum-->
+			                    <button type="button" id="updateFAQ" class="btn_updateFAQ" th:onclick="update()" >수정</button>
 			                    </ul>
 			            </div>
 			</div>
@@ -93,6 +162,7 @@
 
  
         </table>
+     
      </div><!--container-->
       <script type="text/javascript" th:src="@{/customerDesign/faqCss/js/cFAQ.js}"></script>
     </article>

@@ -20,29 +20,55 @@
     <link rel="stylesheet"  th:href="@{/customerDesign/noticeListCss/css/style.css}">
 
     <title>faitmain</title>
-    <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
 	    <script type="text/javascript">
-	    	$(function(){
-	    		var checkObj = document.getElementByName("RowCheck");
-	    		var rowCnt = checkObj.length;
-	    		
-	    		$("input[name='allCheck']").click(function(){
-	    			var check_listArr = $("input[name='RowCheck']");
-	    			for (var i=0; i<check_listArr.length; i++){
-	    				check_listArr[i].checked = this.checked;
-	    			}
-	    		});
-	    		
-	    		$("input[name='RowCheck']").click(function(){
-	    			if($("input[name='RowCheck'] : checked").length == rowCnt){
-	    				$("input[name='allCheck']")[0].checked = true;
-	    			}else{
-	    				$("input[name='allCheck']")[0].checked = false;
-	    			}
-	    		});
-	    	});
+	    $(function(){
+	    
+	    //전체 선택
+	      	$("#allCheck").click(function(){
+	      		var check = $("#allCheck").prop("checked");
+	      		if(check){
+	      			$(".RowCheck").prop("checked", true);
+	      		}else{
+	      			$(".RowCheck").prop("checked", false);
+	      		}
+	      	});
+	      	
+	      // 선택박스 선택시 전체 선택 박스 해제
+    		$(".RowCheck").click(function(){
+    			$("#allCheck").prop("checked", false);
+    		});
+	      
+    	
+    		 $(".selectDelete_btn").click(function(){
+    		 	var confirm_val = confirm("정말 삭제하시겠습니까?");
+    		  	
+    		  		if(confirm_val) {
+    		  			var checkArr = new Array();
+    		   
+    		  			$("input[class='RowCheck']:checked").each(function(){
+    		    			checkArr.push($(this).val());
+    		   			});
+		    		    
+		    		   	$.ajax({
+		    		    	url : "/customer/deleteGuide",
+		    		    	type : "POST",
+		    		    	data : { chbox : checkArr },
+		    		    	success : function(result){
+		    		    		
+		    		    		if(result == 1){
+		    		     			location.reload();
+		    		    		}else{
+		    		    			alert("삭제 실패");
+		    		    		}
+		    		    	}
+		    		   	});
+    		  		} 
+    			 });
+	    })
+	      </script>
 	    	
-	    	function deleteValue(){
+	    	<!-- function deleteValue(){
 	    		var url = "deleteBoard";		//Controller로 보내고자하는 URL
 	    		var valueArr = new Array();
 	    		var list = $("input[name='RowCheck']");
@@ -66,7 +92,7 @@
 	    				success : function(jdata){
 	    					if(jdata = 1){
 	    						alert("삭제되었습니다.");
-	    						location.replace("listBoard")
+	    						location.replace("liveGuideList")
 	    					}else{
 	    						alert("삭제되지 않았습니다.")
 	    					}
@@ -76,7 +102,7 @@
 	    		
 	    	}
 	    	
-	    </script>
+	    </script> -->
   </head>
   <body>
   
@@ -100,10 +126,10 @@
           </thead>
           <tbody>
             <tr th:if="${not #lists.isEmpty( boardList )}" th:each="row : ${boardList}">
-            	<td class="text_ct"><input name="guideCheckBx" type="checkbox" value="${row.boardNumber}"/></td>
+            	<td class="text_ct"><input name="RowCheck" class="RowCheck" type="checkbox" th:value="${row.boardNumber}"/></td>
 				<td th:text="${row.boardNumber}"></td>
 				<td class="text-left">
-					<a th:href="@{/customer/detailBoard( boardNumber=${row.boardNumber})}" th:text="${row.boardTitle}"></a>
+					<a th:href="@{/customer/detailGuide( boardType=${row.boardType})}" th:text="${row.boardTitle}"></a>
 				</td>
 				<td th:text="${#dates.format(row.boardRegDate, 'yyyy-MM-dd')}"></td>
 			</tr>
@@ -117,7 +143,8 @@
 		<th:block sec:authorize="isAuthenticated()">
 			<div class="btn_wrap text-right" sec:authorize="hasRole('ROLE_admin')">
 				<a th:href="@{/customer/addLiveGuide}" class="btn btn-primary waves-effect waves-light">등록</a>
-				<input type="button" value="선택삭제" class="btn btn-primary waves-effect waves-light" onclick="deleteValue();">	
+				<!-- <input type="button" value="선택삭제" class="btn btn-outline-info" onclick="deleteValue();"> -->
+				<button type="button" class="selectDelete_btn">선택삭제</button>	
 			</div> 	
 		</th:block>
 		

@@ -4,9 +4,84 @@
       			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
 <head>	
 	<th:block layout:fragment="title">
-	 <link th:href="@{/css/customer.css}" rel="stylesheet" />
+	
 		<title>faitmain</title>
 	</th:block>
+	<script type="text/javascript">
+	$(function(){
+
+		function update(){
+			
+			console.log("공지사항  수정 눌림 ")
+			var updateval =  $("#update").html() ;
+			alert(updateval) ;
+			
+			if(updateval =='수정하기' ){
+				
+				$("#title").attr("readonly" , false) ; 
+				$("#contents").attr("readonly" , false) ; 
+				 $("#update").html('수정완료') 
+				
+			}else{
+	
+			   var formdata = $("#frm").serialize(); 
+			   formdata = decodeURIComponent(formdata);
+				alert( formdata) ;
+			
+				$.ajax({
+					
+					type:"POST" ,
+					url:"/customer/json/updateCustomerBoard" ,
+					data:formdata ,
+					
+					success: function(result){
+						
+						if(result == 1 ){
+							alert("수정완료 ")  
+							}else{
+								 alert("수정이 완료 되지 못했습니다.  ")  
+							}
+						
+					}
+					
+				}) ; // ajax  여기 까지 	
+				
+				$("#title").attr("readonly" , true) ; 
+				$("#contents").attr("readonly" , true) ; 
+				 $("#update").html('수정하기')  ;
+				
+			}// else 	
+			
+		}
+
+</script>
+
+<script th:inline="javascript">
+			/*<![CDATA[*/
+
+			function deleteBoard(boardNumber, boardType) {
+
+				
+				console.log('boardType = '+ boardType);
+				
+				if (confirm(boardNumber + "번 게시글을 삭제할까요?")) {
+					var uri = /*[[ @{/customer/deleteBoard} ]]*/ null;
+					var html = "";
+
+					html += '<form name="dataForm" action="'+uri+'" method="post">';
+						html += '<input type="hidden" name="boardNumber" value="'+boardNumber+'" />';
+						html += '<input type="hidden" name="boardType" value="'+boardType+'" />';
+					html += '</form>';
+					
+					$("body").append(html);
+					document.dataForm.submit();
+				}
+			
+			}
+			/*[- end of function -]*/
+
+			/*]]>*/
+		</script>
 </head>
 
 
@@ -83,107 +158,6 @@
 	</div>
 	<!-- <th:block layout:fragment="script"> -->
 	
-	<script type="text/javascript">
-
-
-
-function update(){
-	
-	
-	console.log("공지사항  수정 눌림 ")
-
-	
-	
-	var updateval =  $("#update").html() ;
-	alert(updateval) ;
-	
-	if(updateval =='수정하기' ){
-		
-		$("#title").attr("readonly" , false) ; 
-		$("#contents").attr("readonly" , false) ; 
-		
-		
-		
-		 $("#update").html('수정완료') 
-		
-	}else{
-		
-		
-		alert("너 여기 있니?")
-
-		   var formdata = $("#frm").serialize(); 
-		   formdata = decodeURIComponent(formdata);
-			alert( formdata) ;
-		
-		
-			$.ajax({
-				
-				type:"POST" ,
-				url:"/customer/json/updateCustomerBoard" ,
-				data:formdata ,
-				
-				success: function(result){
-					
-					if(result == 1 ){
-						alert("수정완료 ")  
-						}else{
-							 alert("수정이 완료 되지 못했습니다.  ")  
-						}
-					
-				}
-				
-			}) ; // ajax  여기 까지 
-			
-		
-		$("#title").attr("readonly" , true) ; 
-		$("#contents").attr("readonly" , true) ; 
-		
-		
-		
-		 $("#update").html('수정하기')  ;
-		
-	}// else  
-	
-	
-	
-		
-		
-		
- 
-	
-	
-}
-
-
-</script>
-	
-	
-<script th:inline="javascript">
-			/*<![CDATA[*/
-
-			function deleteBoard(boardNumber, boardType) {
-
-				
-				console.log('boardType = '+ boardType);
-				
-				if (confirm(boardNumber + "번 게시글을 삭제할까요?")) {
-					var uri = /*[[ @{/customer/deleteBoard} ]]*/ null;
-					var html = "";
-
-					html += '<form name="dataForm" action="'+uri+'" method="post">';
-						html += '<input type="hidden" name="boardNumber" value="'+boardNumber+'" />';
-						html += '<input type="hidden" name="boardType" value="'+boardType+'" />';
-					html += '</form>';
-					
-					$("body").append(html);
-					document.dataForm.submit();
-				}
-			
-			}
-			/*[- end of function -]*/
-
-			/*]]>*/
-		</script>
 	</th:block> 
 </body>
 </html> 
