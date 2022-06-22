@@ -59,9 +59,12 @@
 			            }
 			        }
 			 });		
-			 
-			 $("#summernote").summernote('code', '${customer.boardContent}');
+		
+			
 		});
+	
+	 $("#summernote").summernote('code', '${customer.boardContent}');
+	
 		
 		function uploadSummernoteImageFile(file, el) {
 			console.log("bbb");
@@ -86,30 +89,26 @@
 </head>
 <body>
 <article  class="py-5" layout:fragment="content">
+		<h4>라이브 가이드 수정</h4>
+		<hr />
 	<div class="container">
-		<form method="post" th:action="@{/customer/addBoard}" name="addGuideForm" id="addGuideForm" class="form-h">
+		<form method="post" th:action="@{/customer/updateBoard}"   name="updateGuideForm" id="updateGuideForm" class="form-h">
 		
 		<input type="hidden" name="boardType" value='L'/>
-		<h4>라이브 가이드 등록</h4>
-		<hr />
 		
-		<div class="form-group">
-			<textarea id="summernote" name="boardContent" ></textarea>
+		
+			<div class="form-group">
+				<textarea id="summernote" name="boardContent" >
 				
-		</div>
+					<th:block th:utext = "${customer.boardContent }"></th:block>
+				</textarea>
+					
+			</div>
 		
-	  		<button class="btn btn-d btn-circle" type="submit">수정</button>
+	  		<button class="btn btn-d btn-circle" type="submit">수정완료</button>
 		
 		</form>
 	</div>
 </article>
-
-	
-	
-					
-	
-		
-
-
 </body>
 </html>

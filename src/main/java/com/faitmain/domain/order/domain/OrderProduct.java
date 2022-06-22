@@ -11,6 +11,12 @@ public class OrderProduct{
     /* 주문번호 FK */
     private int orderNumber;
 
+    /* 상품이름 */
+    private String productName;
+
+    /* 상품 이미지 */
+    private String productMainImage;
+
     /* 상품번호 FK */
     private int productNumber;
 

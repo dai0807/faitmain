@@ -163,8 +163,11 @@
     
     	SELECT * 
     	FROM customer
-    	 
-    	ORDER BY customer_FAQ_category_code 
+    
+    <where>
+    	customer_FAQ_category_code = #{FAQCategoryCode}
+    </where>
+    
     	
     </select> 
     
