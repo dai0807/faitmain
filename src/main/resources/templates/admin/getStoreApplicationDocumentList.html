@@ -182,14 +182,14 @@
 				<div class="flex-w flex-sb-m p-b-52" style="padding-bottom:10px ;">
 					<div class="flex-w flex-l-m filter-tope-group m-tb-10">
 	 						<th:div class="getStoreAPPList">
-							<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" name="searchCondition"
+							<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" name="searchCondition" th:href='@{/user/getStoreApplicationDocumentList(searchCondition=ALL)}'
 								  value="ALL">
 								ALL
 							</a>
 						</th:div>
 						<th:div class="getStoreAPPList">
 
-							<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" name="searchCondition" value="W"
+							<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" name="searchCondition" value="W" th:href='@{/user/getStoreApplicationDocumentList(searchCondition=W)}'
 								  >
 								대기
 							</a>
@@ -197,13 +197,13 @@
 
 						<th:div class="getStoreAPPList">
 
-							<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" name="searchCondition" value="A"
+							<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" name="searchCondition" value="A" th:href='@{/user/getStoreApplicationDocumentList(searchCondition=A)}'
 								 >
 								승인
 							</a>
 						</th:div>
 						<th:div class="getStoreAPPList">
-							<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" name="" value="R"
+							<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" name="" value="R" th:href='@{/user/getStoreApplicationDocumentList(searchCondition=R)}'
 								 >
 								반려
 							</a>
