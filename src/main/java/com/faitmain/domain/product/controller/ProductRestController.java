@@ -75,11 +75,11 @@ public class ProductRestController {
 	
 	@PostMapping("json/updateProductOption")
 	public String updateProductOption(@RequestBody Product productOption) throws Exception{
-		System.out.println("updateProductOption : " + productOption);
+		System.out.println("updateProductOption : " + productOption.getProductName());
 		
 		JSONObject jsonObject = new JSONObject();
 		
-		System.out.println("productNumber : " + productOption.getProductNumber());
+		System.out.println("productQuantity : " + productOption.getProductQuantity());
 		if(productOption.getProductQuantity() > 0) {
 			productOption.setProductStatus("01");			
 		}else {
@@ -108,6 +108,24 @@ public class ProductRestController {
 		JSONObject jsonObject = new JSONObject();
 		productService.deleteProductImage(imageNumber);
 		jsonObject.put("responseCode", "success");
+		
+		return jsonObject.toJSONString();
+	}
+	
+	@GetMapping("json/deleteProduct/{productNumber}")
+	public String deleteProductCheck(@PathVariable int productNumber) throws Exception{
+		
+		JSONObject jsonObject = new JSONObject();
+		int result = productService.deleteProduct(productNumber);
+		
+		System.out.println("상품 삭제 : " + result);
+		
+		if(result > 0) {
+			jsonObject.put("responseCode", "success");
+		}else {
+			jsonObject.put("responseCode", "fail");
+		}
+		
 		
 		return jsonObject.toJSONString();
 	}
