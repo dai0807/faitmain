@@ -113,7 +113,7 @@ public class ReviewController {
 		
 		log.info("review : " + review);		
 		
-		return "/product/updateReview2";
+		return "/product/updateReview";
 	}
 	
 	@PostMapping("updateReview")

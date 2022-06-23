@@ -173,12 +173,12 @@ public class UserServiceImpl implements UserSerivce{
     //SELECT 스토어 리스트 조회
     public Map<String, Object> getStoreApplicationDocumentList( Map<String, Object> map ) throws Exception{
         List<StoreApplicationDocument> list;
-        list = userMapper.getStoreApplicationDocumentList( map );
-        int totalCount = userMapper.getStoreApplicationDocumenTotalCount( map );
+        list = userMapper.getStoreApplicationDocumentALLList( map );
+//        int totalCount = userMapper.getStoreApplicationDocumenTotalCount( map );
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put( "list" , list );
-        resultMap.put( "totalCount" , new Integer( totalCount ) );
+//        resultMap.put( "totalCount" , new Integer( totalCount ) );
 
 
         return resultMap;
@@ -240,16 +240,16 @@ public class UserServiceImpl implements UserSerivce{
     }
 
 
-    // 거의 안쓸듯
-    public void deleteUser( String id ) throws Exception{
+//    // 거의 안쓸듯
+//    public void deleteUser( String id ) throws Exception{
+//
+//        userMapper.deleteUser( id );
+//    }
 
-        userMapper.deleteUser( id );
-    }
 
+    public int deleteUser( String id ) throws Exception{
 
-    public void updateWithdrawalStatus( String id ) throws Exception{
-
-        userMapper.updateWithdrawalStatus( id );
+       return userMapper.deleteUser( id );
 
 
     }

@@ -30,6 +30,7 @@ import com.faitmain.domain.live.domain.LiveReservation;
 import com.faitmain.domain.live.service.LiveService;
 import com.faitmain.domain.product.service.ProductService;
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.domain.user.service.UserSerivce;
 import com.faitmain.global.util.security.SecurityUserService;
 
 import lombok.AllArgsConstructor;
@@ -37,7 +38,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@AllArgsConstructor
 public class WebController {
 
 	@Autowired
@@ -47,6 +47,11 @@ public class WebController {
 	@Autowired
 	@Qualifier("liveServiceImpl")
 	private LiveService liveService;
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserSerivce userService;
+	
 	@GetMapping("/")
 	public String main(Model model) throws Exception {
 
@@ -60,17 +65,20 @@ public class WebController {
 		
 		
 		List<Live> list = (List<Live>) liveService.getLiveList().get("liveList");	
-		System.out.println("개찍먹띵 : " + list );
 		
 		List<Live> userList = new ArrayList<Live>();
+		List<User> storeList = new ArrayList<User>();
 	
 		for(Live lol : list) {
 			Live live = lol;
 			lol.setLiveWatcher(getLiveUserList(lol.getRoomId()).size()-1);
 			userList.add(lol);
+			User storeInfo = userService.getUser(lol.getStoreId());
+			storeList.add(storeInfo);
 		}		
 		
 		map.put("liveList", userList);
+		map.put("store", storeList);
 
 
 		LiveReservation liveReservation = liveService.getCurrentLiveReservation();
