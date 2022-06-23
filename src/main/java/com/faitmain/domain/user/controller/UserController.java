@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -203,42 +204,54 @@ public class UserController{
     
   //admin 페이지 리스트 보이기    , 스토어 신청서 리스트  
 	   @GetMapping("getStoreApplicationDocumentList")
-	   public String getStoreApplicationDocumentList(Model model ,@ModelAttribute Search search   )  throws Exception {
+	   public String getStoreApplicationDocumentList(Model model ,@ModelAttribute Search search    )  throws Exception {
 		 
-		   if(search.getCurrentPage() == 0) {
+			log.info("search = {}", search);
+ 							
+			if(search.getCurrentPage() == 0) {
 				search.setCurrentPage(1);
 			}
-			search.setPageSize(100);
-			
-			Map<String, Object> searchMap = new HashMap<>();
-			searchMap.put("searchKeyword", search.getSearchKeyword());
-			searchMap.put("endRowNum",  search.getEndRowNum());
-			searchMap.put("startRowNum",  search.getStartRowNum());
-			searchMap.put("searchStatus", search.getSearchStatus());
-			searchMap.put("searchCategory", search.getSearchCategory());
-			searchMap.put("searchOrderName", search.getOrderName());
-			
-			System.out.println("Search : " + search);
-			
-			Map<String, Object> map = userSerivce.getStoreApplicationDocumentList(searchMap);
-					
-			MiniProjectPage resultPage = new MiniProjectPage( search.getCurrentPage(), ( Integer ) map.get( "totalCount" ) , 4, 10);
-			
-			log.info("resultPage : " + resultPage);
-			
-			log.info("list : " + ((List<Product>)map.get("list")).get(0));
+	// searchCondition		
+			search.setPageSize(10);
 			
 			
-			model.addAttribute("list", map.get("list"));
-			model.addAttribute("resultPage", resultPage);
-			model.addAttribute("search", search);	
+			if( search.getSearchCondition() ==null) {
+				search.setSearchCondition("W");
+				
+			}
+			
 
+ 		Map<String, Object> searchMap = new HashMap<>();
+ 		searchMap.put("searchCondition", search.getSearchCondition()) ;
+// 
+//			
+//			System.out.println("Search : " + search);
+//			
+ 		Map<String, Object> map = userSerivce.getStoreApplicationDocumentList(searchMap);
+//					
+//			MiniProjectPage resultPage = new MiniProjectPage( search.getCurrentPage(), ( Integer ) map.get( "totalCount" ) , 4, 5);
+//			log.info("resultPage : " + resultPage);
+//
+// 			
+// 			
+//			
+ 		model.addAttribute("list", map.get("list"));
+//			model.addAttribute("resultPage", resultPage);
+//			model.addAttribute("search", search);	
+//
+//			System.out.println("Search : " + search);
+//		 
+//		 
+//		   
+//			log.info("get :: addStore " );
+//	      
+			
+ 
+
+ 
 			System.out.println("Search : " + search);
-		 
-		 
-		   
-			log.info("get :: addStore " );
-	      
+			
+			
 	   return "/admin/getStoreApplicationDocumentList";
 	   }
 	   
@@ -424,14 +437,7 @@ public class UserController{
     }
 
 
-    @GetMapping( "selectRegisterType" )
-    public String selectRegisterType( ){
-
-        log.info( "get :: selectRegisterType    " );
-
-        return "/user/selectRegisterType";
-    }
-
+ 
 
     @GetMapping( "addUser" )
     public String addUser( ){
@@ -694,18 +700,7 @@ public class UserController{
 
     }
     
-//  
-//  // find Id Rest Control로 갈 운명
-  @GetMapping( "index" )
-  public String index( ){
-
-      log.info( "###index###index ={} ##"   );
-
-
-      return ( "/user/index" );
-
-
-  }
+ 
    
  
 
@@ -853,32 +848,65 @@ public class UserController{
     
     
     //스토어 재 신청 Add
-    @GetMapping( "withdrawUser" )
-    public String withdrawUser( ) throws Exception{
-        System.out.println("withdrawUser"  ) ; 
+    @GetMapping( "deleteUser" )
+    public String deleteUser( ) throws Exception{
+        System.out.println("GET deleteUser"  ) ; 
 
 
  
  
-        return "/user/withdrawUser";
+        return "/user/deleteUser";
     }
 
-    
+    @PostMapping( "deleteUser" )
+    public RedirectView deleteUser( @ModelAttribute( "user" ) User user , @AuthenticationPrincipal SecurityUserService securityUserService ) throws Exception{
+        System.out.println("POST withdrawUser"  ) ; 
+
+ 		log.info("::POST withdrawUserwithdrawUser ={}", user.getId() );
+ 		int result = userSerivce.deleteUser(user.getId());
+        SecurityContextHolder.clearContext();
+        System.out.println("컨텍스트 홀더 날림"  ) ; 
+
+ 
+        return new RedirectView( "/" );
+    }
+  
     
 
-    @PostMapping( value = "/updateUser" )  
-    public String ajaxupdateUser(Model model, User user ,  @AuthenticationPrincipal SecurityUserService securityUserService  ) throws Exception{
+    @PostMapping( value = "updateUser" )  
+    public String udateUser(Model model, User user ,  MultipartHttpServletRequest mRequest ,
+    		@AuthenticationPrincipal SecurityUserService securityUserService ) throws Exception{
  
-   	
-   	log.info("ajax Updtae에 옴  user 값은 = {}" , user) ;
-   	
-       //아직  checkDuplication 없음
+ 		log.info(":::storeLogoFileName ={}", user);
+//		 
+// 		MultipartFile storeLogo =mRequest.getFile("LogoImage");
+//		log.info(":::storeLogoFileName ={}", storeLogo);
+//   	log.info("ajax Updtae에 옴  user 값은 = {}" , user) ;
+        //아직  checkDuplication 없음
        int result = 0;
        //log.info("updateUser :: user 출력   {} "  ,  user );
-       //	result = userSerivce.updateUser(user);
-       result = userSerivce.updateUser( user);
-       log.info( "updateUser :: result 출력  = {} " , result );
+     	result = userSerivce.updateUser(user);
+
+        
+        log.info( "updateUser :: result 출력  = {} " , result );
        user = userSerivce.getUser( user.getId() );
+  
+       
+       
+//		MultipartFile storeLogo =mRequest.getFile("LogoImage");
+//		log.info("addStore fileStorageLocation ={}" ,  fileStorageLocation );		
+//		
+//		if(!storeLogo.isEmpty()) {
+//			log.info("addStore  로고사진 " );		
+//				String storeLogoFileName = addFile(storeLogo) ;
+//				log.info(":::storeLogoFileName ={}", storeLogoFileName);
+//				user.setStoreLogoImage(storeLogoFileName);
+//		}
+//       
+//       
+       
+       
+       
 
         
        

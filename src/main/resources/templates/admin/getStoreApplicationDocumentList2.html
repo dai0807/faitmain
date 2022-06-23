@@ -151,7 +151,29 @@
 		$("form").submit();
 	}
 
- 
+
+$(".getStoreAPPList").on("click", function () {
+					console.log("선택됨" + $(this).text());
+					let searchCondition = $.trim($(this).text());
+
+					if (searchCondition == 'ALL') {
+						console.log("ALL");
+						$("#searchCondition").val("");
+						
+					} else if (searchCondition == '대기') {
+						$("#searchCondition").val(W);
+ 					} else if (searchCondition == '승인') {
+						$("#searchCondition").val(A);
+ 					}else{  //반려
+						$("#searchCondition").val(R);
+
+						
+					}
+					$("form").submit();
+
+});
+
+
 
 
 </script>
@@ -276,20 +298,64 @@
 
 						</div>
 
- 		 
-					</div>
-	</div>	</div>	</div></div>
+<ul class="pagination">
 			
+				<!--  <<== 좌측 nav -->
+				<th:block th:if="${ resultPage.currentPage <= resultPage.pageUnit }">
+					<li class="disabled">
+				</th:block>
+				<th:block th:if="${ resultPage.currentPage > resultPage.pageUnit }">
+					<li>
+				</th:block>
+				<a th:href="|javascript:fncGetList('${ resultPage.currentPage-1}')|" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+				</li>
+			
+				<!--  중앙  -->
+				<!--<c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">-->
+				<th:block th:each="num : ${#numbers.sequence(resultPage.beginUnitPage,resultPage.endUnitPage)}">
+					<!--<th:block th:if test="${ resultPage.currentPage == num }">-->
+					<!--  현재 page 가르킬경우 : active -->
+					<li class="active" th:if="${ resultPage.currentPage == num }">
+						<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}"><span
+								class="sr-only">(current)</span></a>
+					</li>
+			
+					<!--<c:if test="${ resultPage.currentPage != i}">-->
+					<li th:if="${ resultPage.currentPage != num }">
+						<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}"></a>
+					</li>
+					<!--</c:if>-->
+				</th:block>
+			
+				<!--  우측 nav==>> -->
+				<th:block th:if="${ resultPage.endUnitPage >= resultPage.maxPage }">
+					<li class="disabled">
+				</th:block>
+				<th:block th:if="${ resultPage.endUnitPage < resultPage.maxPage }">
+					<li>
+				</th:block>
+				<a th:href="|javascript:fncGetList('${resultPage.endUnitPage+1}')|" aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+				</a>
+				</li>
+			</ul>
+
+					</div>
+
+					<div class="container col-lg-2">
+					</div>
+
+
  
- 
+				<input type="hidden" id="orderName" name="orderName" th:value="${search.orderName}" />
+
 
 
 	
 	</form>
-			<div class="container col-lg-2">
-					</div>
-
-
+	
 	</article>
 
 </body>

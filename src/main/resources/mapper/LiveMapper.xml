@@ -54,6 +54,7 @@
        <result property="alarmStatus" column="alarm_status" jdbcType="INTEGER" />
        <result property="kickStatus" column="kick_status" jdbcType="INTEGER" />
        <result property="dumbStatus" column="dumb_status" jdbcType="INTEGER" />
+       <result property="date" column="date" jdbcType="DATE" />
     </resultMap>
     
     <!-- ================================================================================= ADD =================================================================================== -->
@@ -93,9 +94,9 @@
     <!-- ADD LiveUserStatus -->
      <insert id="addLiveUserStatus" parameterType="LiveUserStatus">
        INSERT INTO live_user_status
-          (live_number, id, nick_name, alarm_status, kick_status, dumb_status)
+          (live_number, id, nick_name, alarm_status, kick_status, dumb_status, date)
        VALUES
-          (#{liveNumber}, #{id}, #{nickName}, #{alarmStatus}, #{kickStatus}, #{dumbStatus})
+          (#{liveNumber}, #{id}, #{nickName}, #{alarmStatus}, #{kickStatus}, #{dumbStatus}, now())
     </insert>   
     
     <!-- ================================================================================= UPDATE============================================================================== -->

@@ -92,8 +92,6 @@ public class LiveRestController {
 		URL url = new URL(
 				"https://vchatcloud.com/openapi/v1/users/" + liveService.getLiveByStoreId(user.getId()).getRoomId());
 
-		System.out.println("유우우우우우우우우ㅏㄹ엘    " + url);
-
 		HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 		conn.setSSLSocketFactory(sc.getSocketFactory());
 		conn.setRequestMethod("GET");
@@ -162,8 +160,6 @@ public class LiveRestController {
 		URL url = new URL(
 				"https://vchatcloud.com/openapi/v1/exiles/" + liveService.getLiveByStoreId(user.getId()).getRoomId());
 
-		System.out.println("유우우우우우우우우ㅏㄹ엘    " + url);
-
 		HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 		conn.setSSLSocketFactory(sc.getSocketFactory());
 		conn.setRequestMethod("GET");
@@ -191,8 +187,6 @@ public class LiveRestController {
 		System.out.println("data : " + data);
 
 		log.info("Controller = {} ", "/live/getLiveUserList : GET end...");
-
-		System.out.println("홀롤롤: " + data);
 
 		return data;
 
@@ -230,8 +224,6 @@ public class LiveRestController {
 		URL url = new URL(
 				"https://vchatcloud.com/openapi/v1/mute/" + liveService.getLiveByStoreId(user.getId()).getRoomId());
 
-		System.out.println("유우우우우우우우우ㅏㄹ엘    " + url);
-
 		HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 		conn.setSSLSocketFactory(sc.getSocketFactory());
 		conn.setRequestMethod("GET");
@@ -262,8 +254,6 @@ public class LiveRestController {
 			System.out.println("data[" + i + "] : " + tmp);
 		}
 
-		System.out.println("data : " + data);
-		System.out.println("홀롤롤: " + data);
 		log.info("Controller = {} ", "/live/getLiveUserList : GET end...");
 
 		return data;
@@ -393,16 +383,16 @@ public class LiveRestController {
 
 		// DB에 강제퇴장 내용 등록
 
-		LiveUserStatus live = new LiveUserStatus();
-		for (String id : clientKey) {
-			live.setLiveNumber(liveService.getLiveNumberByRoomId(roomId).getLiveNumber());
-			live.setId(id);
-			live.setKickStatus(1);
-
-			liveService.addLiveUserStatus(live);
-
-			System.out.println(live);
-		}
+//		LiveUserStatus live = new LiveUserStatus();
+//		for (String id : clientKey) {
+//			live.setLiveNumber(liveService.getLiveNumberByRoomId(roomId).getLiveNumber());
+//			live.setId(id);
+//			live.setKickStatus(1);
+//
+//			liveService.addLiveUserStatus(live);
+//
+//			System.out.println(live);
+//		}
 
 		String token = getToken();
 
@@ -504,6 +494,61 @@ public class LiveRestController {
 		}
 	}
 
+	// 유저 채팅제한 풀기
+	@GetMapping("json/cancleMuteUser/{roomId}/{clientKey}")
+	public void cancleMuteUser(@PathVariable("roomId") String roomId, @PathVariable("clientKey") List<String> clientKey)
+			throws Exception {
+
+		log.info("editRoom = {} ", this.getClass());
+
+		// DB에 강제퇴장 내용 등록
+
+		String token = getToken();
+
+		JSONObject result = null;
+		StringBuilder sb = new StringBuilder();
+
+		TrustManager[] trustCerts = new TrustManager[] { new X509TrustManager() {
+			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+				return null;
+			}
+
+			public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+			}
+
+			public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+			}
+		} };
+
+		SSLContext sc = SSLContext.getInstance("TLSv1.2");
+		sc.init(null, trustCerts, new java.security.SecureRandom());
+
+		for (String client : clientKey) {
+
+			URL url = new URL("https://vchatcloud.com/openapi/v1/mute/" + roomId + "/" + client);
+
+			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+			conn.setSSLSocketFactory(sc.getSocketFactory());
+
+			conn.setRequestMethod("PUT");
+
+			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+			conn.setRequestProperty("accept", "*/*");
+			conn.setRequestProperty("api_key", "cjnipw-Z5WmzV-1fC64X-AaOxWY-20220610111801");
+			conn.setRequestProperty("X-AUTH-TOKEN", token);
+			conn.setDoOutput(true);
+
+			// 데이터 입력 스트림에 담기
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+			while (br.ready()) {
+				sb.append(br.readLine());
+			}
+
+			conn.disconnect();
+
+		}
+	}
+	
 	// 유저 채팅제한
 	@GetMapping("json/muteUser/{roomId}/{clientKey}")
 	public void muteUser(@PathVariable("roomId") String roomId, @PathVariable("clientKey") List<String> clientKey)

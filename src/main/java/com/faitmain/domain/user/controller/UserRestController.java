@@ -24,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -64,15 +65,7 @@ public class UserRestController{
 		 //   log.info(  "Controller {}" , this.getClass() );
 		   
 	   }
-
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
+    
 	   @GetMapping("/json/getUserlist")
 	   public  List<User>  getUserList  (Model model  ,  @RequestParam ("order") String searchCondition  , Search search )throws Exception {
 		
@@ -612,5 +605,19 @@ public class UserRestController{
         return returnResult;
     }
 
+    @PostMapping( "/json/deleteUser" )
+    public int deleteUser( @ModelAttribute( "user" ) User user , @AuthenticationPrincipal SecurityUserService securityUserService ) throws Exception{
+        System.out.println("POST withdrawUser"  ) ; 
+
+ 		log.info("::POST withdrawUserwithdrawUser ={}", user.getId() );
+ 		int result = userSerivce.deleteUser(user.getId());
+        SecurityContextHolder.clearContext();
+        System.out.println("컨텍스트 홀더 날림"  ) ; 
+
+ 
+        return result;
+    }
+    
+    
 
 }

@@ -60,8 +60,9 @@ $(function() {
 		    	    joinRoom(channelKey,  userNick, userNick, function(err, history){
 		    	    	if(err){
 		    	    		vChatCloud.disconnect();
-		    	    		var src = '/img/intro/99C121435B4F72C327.gif';
+		    	    		var src = '/img/intro/liveddd.jpg';
 		    	    		remoteCam.append('<img src="'+src+'" style="width:904px; height:659px;"/>')
+		    	    		$('article.title').hide();
 		    	    			
 		    	    		console.log('joinRoom error');
 		    	    		

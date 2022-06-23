@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang = "ko" layout:decorate = "~{/layout/default_layout}"
-      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
+>
 <head>
     <meta charset = "UTF-8">
     <title>장바구니 페이지</title>
@@ -56,7 +57,7 @@
         .content_subject {
             height: 110px;
             line-height: 110px;
-            background-color: #0b0c0c;
+            background-color: #9aa2a2;
             margin-bottom: 60px;
 
         }
@@ -334,6 +335,7 @@
                                 <input class = "individual_point_input" th:value = "${cart.point}" type = "hidden">
                                 <input class = "individual_totalPoint_input" th:value = "${cart.totalPoint}" type = "hidden">
                                 <input class = "individual_productNumber_input" th:value = "${cart.productNumber}" type = "hidden">
+                                <input class = "individual_productMainImage_input" th:value = "${cart.productMainImage}" type = "hidden">
                             </td>
                             <td class = "td_width_2">
                                 <img class = "img_product" th:src = "|../img/upload/${cart.productMainImage}|"/>
@@ -438,23 +440,27 @@
                     </table>
                 </div>
             </div>
+
             <!-- 구매 버튼 영역 -->
             <div class = "content_btn_section">
                 <a class = "order_btn">주문하기</a>
             </div>
+
             <!-- 수량 조정 form -->
             <form class = "quantity_update_form" method = "post" th:action = "@{/cart/update}">
                 <input class = "update_cartNumber" name = "cartNumber" style = "display: none" type = "number">
                 <input class = "update_productOrderCount" name = "productOrderCount" style = "display: none" type = "number">
                 <input name = "buyerId" th:value = "${#authentication.principal.user.id}" type = "hidden">
             </form>
+
             <!-- 삭제 form -->
             <form action = "/cart/delete" class = "quantity_delete_form" method = "post">
                 <input class = "delete_cartNumber" name = "cartNumber" type = "hidden">
                 <input name = "buyerId" th:value = "${#authentication.principal.user.id}" type = "hidden">
             </form>
+
             <!-- 주문 form -->
-            <form class = "order_form" method = "GET" th:action = "@{/order/}+${#authentication.principal.user.id}">
+            <form class = "order_form" method = "POST" th:action = "@{/order/__${#authentication.principal.user.id}__}">
             </form>
         </div>
     </div>

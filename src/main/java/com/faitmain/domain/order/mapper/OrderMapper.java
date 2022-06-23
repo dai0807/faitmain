@@ -1,8 +1,8 @@
 package com.faitmain.domain.order.mapper;
 
 import com.faitmain.domain.order.domain.Order;
-import com.faitmain.domain.order.domain.OrderProduct;
 import com.faitmain.domain.order.domain.OrderPageProduct;
+import com.faitmain.domain.order.domain.OrderProduct;
 import com.faitmain.domain.product.domain.Product;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Paging;
@@ -25,7 +25,7 @@ public interface OrderMapper{
     /* 주문 상품 정보 (주문 처리) */
     OrderProduct selectOrderProduct( int productNumber );
 
-    List<Order> selectOrders( int orderNumber );
+    List<Order> selectBuyerOrders( String buyerId );
 
 
 

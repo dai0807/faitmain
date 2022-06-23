@@ -62,7 +62,7 @@ public interface UserMapper{
 	int getStoreApplicationDocumenTotalCount( Map<String, Object> map );
 
 	//SELECT 스토어 리스트 조회
-	List<StoreApplicationDocument> getStoreApplicationDocumentList( Map<String, Object> map );
+	List<StoreApplicationDocument> getStoreApplicationDocumentALLList( Map<String, Object> map );
 
 	//SELECT  유저 total Count
 	int getUserTotalCount( Map<String, Object> map );

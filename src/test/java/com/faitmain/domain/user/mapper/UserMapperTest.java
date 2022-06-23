@@ -235,37 +235,37 @@ public class UserMapperTest {
  
 			
 	 }	
-	  
-	  // @Test //스토어 리스트  뽑기
-	 @DisplayName("getStoreApplicationDocumentList   Test")
-		public void getStoreApplicationDocumentList() throws Exception {
-			System.out.println("getStoreApplicationDocumentList start");
- 		 
-		 
-			System.out.println("getProductListTest start");
-			
-			Map<String, Object> map = new HashMap<String, Object>();
-			//map.put("orderName", "product_name DESC");
-			map.put("searchCondition", "2");
-			map.put("startRowNum", 1+"");
-			map.put("endRowNum", 3+"");
-			
-			List<StoreApplicationDocument> list = usermapper.getStoreApplicationDocumentList(map);
- 			
-			System.out.println(list);
-			
-			
-			for(StoreApplicationDocument StoreApplicationDocument :list) {
-				System.out.println("신청서 출력 " + StoreApplicationDocument ) ;
-				
-			}
-		 
-			
-			System.out.println("Last getStoreApplicationDocumentList : ");
- 
- 
-			
-	 }	
+//	  
+//	  // @Test //스토어 리스트  뽑기
+//	 @DisplayName("getStoreApplicationDocumentList   Test")
+//		public void getStoreApplicationDocumentList() throws Exception {
+//			System.out.println("getStoreApplicationDocumentList start");
+// 		 
+//		 
+//			System.out.println("getProductListTest start");
+//			
+//			Map<String, Object> map = new HashMap<String, Object>();
+//			//map.put("orderName", "product_name DESC");
+//			map.put("searchCondition", "2");
+//			map.put("startRowNum", 1+"");
+//			map.put("endRowNum", 3+"");
+//			
+//			List<StoreApplicationDocument> list = usermapper.getStoreApplicationDocumentList(map);
+// 			
+//			System.out.println(list);
+//			
+//			
+//			for(StoreApplicationDocument StoreApplicationDocument :list) {
+//				System.out.println("신청서 출력 " + StoreApplicationDocument ) ;
+//				
+//			}
+//		 
+//			
+//			System.out.println("Last getStoreApplicationDocumentList : ");
+// 
+// 
+//			
+//	 }	
 	    
 	// @Test //스토어 리스트  뽑기
 	 @DisplayName("updateUser   Test")

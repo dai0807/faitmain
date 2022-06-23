@@ -58,7 +58,6 @@ public class OrderServiceImpl implements OrderService{
     }
 
 
-
     /* 주문정보 */
     @Override
     public List<OrderPageProduct> getOrderPageProductList( TraceId traceId , List<OrderPageProduct> orderPageProductList ){
@@ -85,7 +84,6 @@ public class OrderServiceImpl implements OrderService{
     }
 
 
-
     /* 주문 */
     @Override
     @Transactional
@@ -102,19 +100,27 @@ public class OrderServiceImpl implements OrderService{
 
         /* 주문정보 */
         List<OrderProduct> orderProductList = new ArrayList<>();
+
         for ( OrderProduct orderProduct : order.getOrderProductList() ) {
 
-            log.info( "orderProduct = {}" , orderProduct );
+
             OrderProduct op = orderMapper.selectOrderProduct( orderProduct.getProductNumber() );
+
+            /* 주문번호 */
+            op.setOrderNumber( order.getOrderNumber() );
+
             /* 수량세팅 */
             op.setProductOrderCount( orderProduct.getProductOrderCount() );
+
             /* 기본정보 세팅 */
             op.initSaleTotal();
+
             /* LIST 객체 추가 */
             orderProductList.add( op );
+            log.info( "op = {}" , op );
         }
 
-        log.info( "orderProductList = {}" , order.getOrderProductList() );
+        log.info( "orderProductList = {}" , orderProductList );
 
         /* ORDER 세팅 */
         order.setOrderProductList( orderProductList );
@@ -123,20 +129,20 @@ public class OrderServiceImpl implements OrderService{
         log.info( "order = {}" , order );
 
         /* DB 넣기 */
-        /* ORDER 등록 */
-        log.info( "/* ORDER 등록 */" );
         try {
+            /* ORDER 등록 */
+            log.info( "/* ORDER 등록 */" );
             orderMapper.insertOrder( order );
+
+            /* ORDER PRODUCT 등록 */
+            log.info( "/* ORDER PRODUCT 등록 */" );
+            for ( OrderProduct orderProduct : order.getOrderProductList() ) {
+                orderMapper.insertOrderProduct( orderProduct );
+            }
         } catch ( Exception e ) {
             e.printStackTrace();
         }
 
-        /* ORDER PRODUCT 등록 */
-        log.info( "/* ORDER PRODUCT 등록 */" );
-        for ( OrderProduct orderProduct : order.getOrderProductList() ) {
-            orderProduct.setOrderNumber( order.getOrderNumber() );
-            orderMapper.insertOrderProduct( orderProduct );
-        }
 
         /* 포인트 변동 적용 */
         int calTotalPoint = user.getTotalPoint();
@@ -163,9 +169,8 @@ public class OrderServiceImpl implements OrderService{
             cartMapper.deleteCart( cart.getCartNumber() );
 
         }
+
     }
-
-
 
 
     /* 주문 취소 */
@@ -202,11 +207,11 @@ public class OrderServiceImpl implements OrderService{
         int calTotalPoint = user.getTotalPoint();
         calTotalPoint = calTotalPoint - order.getUsingPoint() + order.getOrderRewardPoint();
         user.setTotalPoint( calTotalPoint );
-        log.info( "user = {}", user );
+        log.info( "user = {}" , user );
 
         /* DB 적용 */
         orderMapper.updatePoint( user );
-        log.info( "user = {}", user );
+        log.info( "user = {}" , user );
 
         /* 재고 */
         for ( OrderProduct orderProduct : order.getOrderProductList() ) {
@@ -229,8 +234,18 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public List<Order> getOrders( Order order ){
-        return orderMapper.selectOrders( order.getOrderNumber() );
+    public List<Order> getMyOrders( String buyerId ){
+        return orderMapper.selectBuyerOrders( buyerId );
+    }
+
+    @Override
+    public Order paymentCompleteOrderInfoByDB( Order order ){
+
+        order = orderMapper.selectOrder( order.getOrderNumber() );
+        order.setOrderProductList( orderMapper.selectOrderProductList( order.getOrderNumber() ) );
+
+        return order;
+
     }
 
 
