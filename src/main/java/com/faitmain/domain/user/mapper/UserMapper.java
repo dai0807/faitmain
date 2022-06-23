@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.faitmain.domain.user.domain.StoreApplicationDocument;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Image;
+import com.faitmain.global.common.Paging;
 import com.faitmain.global.common.Search;
 
 
@@ -86,6 +87,19 @@ public interface UserMapper{
 
 	//update 회원탈퇴시 false ,true값 비교
 	int updateWithdrawalStatus( String id );
+
+	
+	//StoreApplicationDocument List 
+	List<StoreApplicationDocument> getTestAppList(Paging paging);
+
+	
+	int getTestAppListTotal(Paging paging);
+
+	//User List 
+
+	List<User> getUserList(Paging paging);
+
+	int getUserListTotal(Paging paging);
 
 
 //	 //토탈카운트

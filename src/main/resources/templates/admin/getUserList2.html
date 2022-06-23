@@ -161,7 +161,7 @@
 						<th:div class="getUserList">
 
 							<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"
-								th:href='@{/user/getUserlist(keyword=ALL)}'>
+								th:href='@{/user/getUserlist(searchCondition=ALL)}'>
 								ALL
 							</a>
 						</th:div>
@@ -169,13 +169,13 @@
 						<th:div class="getUserList">
 
 							<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"
-								th:href='@{/user/getUserlist(keyword=user)}'>
+								th:href='@{/user/getUserlist(searchCondition=user)}'>
 								user
 							</a>
 						</th:div>
 						<th:div class="getUserList">
 							<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"
-								th:href='@{/user/getUserlist(keyword=store)}'>
+								th:href='@{/user/getUserlist(searchCondition=store)}'>
 								store
 							</a>
 						</th:div>
@@ -252,62 +252,15 @@
 
 
 
- 
-	
+
+
 
 			</div>
 
-
-
-	
-					<!--         페이지 이동 인터페이스 영역-->
-					
-					<div class="flex-c-m flex-w w-full p-t-38" th:fragment="pageNavi" >
-								<ul class="pageMaker">
-									<!--  이전 버튼-->
-									<th:block th:if="${pageMaker.prev}">
-										<li class="pageMaker_btn prev">
-											<a th:href="@{${pageMaker.pageStart - 1}}">이전</a>
-										</li>
-									</th:block>
-			
-									<!-- 페이지 번호 -->
-									<th:block th:each="num,iterStat : ${#numbers.sequence(pageMaker.pageStart,pageMaker.pageEnd)}">
-										<li th:class="|pageMaker_btn ${pageMaker.paging.pageNum == num ? 'active' : ''}|">
-											<a th:href="@{${num}}" th:text="${num}"></a>
-										</li>
-									</th:block>
-			
-									<!--  다음 버튼-->
-									<th:block th:if="${pageMaker.next}">
-										<li class="pageMaker_btn next">
-											<a th:href="@{${pageMaker.pageEnd + 1}}">다음</a>
-										</li>
-									</th:block>
-								</ul>
-							</div>
-			
-							<form id="moveForm" method="get" th:action="@{/user/getStoreApplicationDocumentList}">
-								<input name="pageNum" th:value="${pageMaker.paging.pageNum}" type="hidden">
-								<input name="amount" th:value="${pageMaker.paging.amount}" type="hidden">
-								<input name="keyword" th:value="${pageMaker.paging.keyword}" type="hidden">
-							</form>
-			
-							<script src="/js/userlist.js"></script>
-			
-			
-					
-				</div> <!-- 검ㅅ개 끝-->
-	
-
-
-
-
-
-			</div>	</div>
-
-
 			<div class="container col-lg-2">
+			</div>
+
+
 
 
 
