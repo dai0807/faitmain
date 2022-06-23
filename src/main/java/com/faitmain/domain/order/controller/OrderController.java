@@ -97,8 +97,10 @@ public class OrderController{
             }
 
             orderService.addOrder( order );
+            order =  orderService.paymentCompleteOrderInfoByDB( order );
 
             model.addAttribute( "order" , orderService.paymentCompleteOrderInfoByDB( order ) );
+            log.info( " orderService.paymentCompleteOrderInfoByDB( order ) = {}",  orderService.paymentCompleteOrderInfoByDB( order ) );
             return "order/orderComplete";
 
         } catch ( Exception e ) {

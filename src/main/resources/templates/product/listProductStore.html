@@ -130,7 +130,7 @@
 							<div class="flex-w flex-t bor12 p-t-15 p-b-30">
 								<div class="size-208 w-full-ssm">
 									<span class="stext-110 cl2">
-										카테고리
+										Sort By
 									</span>
 								</div>
 							
@@ -140,7 +140,7 @@
 							
 										<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
 											<select class="js-select2" name="searchCategory">
-												<option value="">선택</option>
+												<option value="">카테고리</option>
 												<option value="01">식품</option>
 												<option value="02">생활</option>
 												<option value="03">뷰티</option>
@@ -152,7 +152,7 @@
 										
 										<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
 											<select class="js-select2" name="searchStatus">
-												<option value="">선택</option>
+												<option value="">판매상태</option>
 												<option value="01">판매중</option>
 												<option value="02">판매중지</option>
 												<option value="03">품절</option>
@@ -189,54 +189,12 @@
 			</div>
 			
 		</form>					
-				
-		<nav>
-		  <!-- 크기조절 :  pagination-lg pagination-sm-->
-		  <ul class="pagination" >
-		    
-		    <!--  <<== 좌측 nav -->
-		  	<th:block th:if="${ resultPage.currentPage <= resultPage.pageUnit }">
-		 		<li class="disabled">
-			</th:block>
-			<th:block th:if="${ resultPage.currentPage > resultPage.pageUnit }">
-				<li>
-			</th:block>
-		      <a th:href="|javascript:fncGetList('${ resultPage.currentPage-1}')|" aria-label="Previous">
-		        <span aria-hidden="true">&laquo;</span>
-		      </a>
-		    </li>
-		    
-		    <!--  중앙  -->
-			<!--<c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">-->
-			<th:block th:each="num : ${#numbers.sequence(resultPage.beginUnitPage,resultPage.endUnitPage)}">	
-				<!--<th:block th:if test="${ resultPage.currentPage == num }">-->
-					<!--  현재 page 가르킬경우 : active -->
-			    <li class="active" th:if="${ resultPage.currentPage == num }">
-			    	<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}"><span class="sr-only">(current)</span></a>
-			    </li>	
-				
-				<!--<c:if test="${ resultPage.currentPage != i}">-->	
-				<li th:if="${ resultPage.currentPage != num }">
-					<a th:href="|javascript:fncGetList('${ num }');|" th:text="${num}"></a>
-				</li>
-				<!--</c:if>-->
-			</th:block>
-		    
-		     <!--  우측 nav==>> -->
-		     <th:block th:if="${ resultPage.endUnitPage >= resultPage.maxPage }">
-		  		<li class="disabled">
-			</th:block>
-			<th:block th:if="${ resultPage.endUnitPage < resultPage.maxPage }">
-				<li>
-			</th:block>
-		      <a th:href="|javascript:fncGetList('${resultPage.endUnitPage+1}')|" aria-label="Next">
-		        <span aria-hidden="true">&raquo;</span>
-		      </a>
-		    </li>
-		  </ul>
-		</nav>			
-		
+			
+		<!-- 페이지(어떻게 할지 모르겠다) -->
+		<div  th:replace="/product/pageNavigation :: pageNavi">
 		</div>
+		<!-- =============== -->
+			
 		<!-- Product 관련 js -->
 		<script src="/productDesign/vendor/jqueryui/jquery-ui.js"></script>
 		<script src="/productDesign/vendor/bootstrap/js/bootstrap.min.js"></script>
