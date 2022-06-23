@@ -211,14 +211,18 @@
      const vChatCloud = new VChatCloud();
 
      let channel, // joinRoom() 내부에서 채널 객체를 저장할 곳
+       userId = $('#userId').val(),
        userNick = $("#userNickname").val(), // 접속자의 닉네임, 사용자에게 입력받은 값을 사용해도 된다.
        randomNick = 'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }), // 접속자 고유 키
-     userKey = $('#userId').val();
+   	   userKey = $('#userId').val();
+   	   
+   	   userId = userId.replace("@", "");
+   	   userId = userId.replace(".", "");
      
     if( $('#userNickname').val() == null || $('#userNickname').val() == "" ){
 		var clientKey = randomNick;
 	} else {
-			clientKey = $('#userNickname').val();
+			clientKey = userId;
 	}
 
      var channelKey = $('#channelKey').val(); // CMS에서 발급받은 키 값, 발급 받은 키 값을 입력해보세요!
@@ -306,6 +310,7 @@
            nickName: nickName
          },
          function (error, history) {
+			console.log('찍어봅시다 : ' + clientKey)
            $('div#content1 p').remove();
            if (error) {
              if (callback) return callback(error, null);

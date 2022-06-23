@@ -115,7 +115,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-2" style="text-align: center; display: table-cell; vertical-align: middle">
+					<div class="col-md-2" style="text-align: center;display: flex;align-items: center;flex-direction: column;justify-content: space-evenly;">
 							
 							<th:block sec:authorize="isAuthenticated()">
 								<th:block th:if="${prodList.store.userNumber} == ${#authentication.principal.user.userNumber}">

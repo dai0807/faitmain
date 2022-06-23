@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html layout:decorate="~{/layout/default_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+				layout:decorate = "~{layout/default_layout}"
+      			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
 
@@ -144,23 +146,23 @@
 
 	<style>
 		.wrapper {
-			display: grid;
+			
 			place-items: center;
 		}
 
 
 		/* BASIC */
-		/*
-       html {
-         background-color: #56baed;
+		
+       body, html {
+        	height: 100%;
        }
-        #cccccc;
-        */
+       
+        
 	</style>
 	<!-- 길이는 스타일 건들이 -->
 </head>
 
-<div>
+<body>
 	<article layout:fragment="content">
 		<div class="wrapper">
 

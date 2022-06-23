@@ -2,6 +2,7 @@ package com.faitmain.domain.customer.mapper;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,7 +11,9 @@ import com.faitmain.domain.customer.domain.Customer;
 
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Image;
+import com.faitmain.global.common.Page;
 import com.faitmain.global.common.Paging;
+import com.faitmain.global.common.Search;
 
 
 @Mapper
@@ -47,6 +50,9 @@ public interface CustomerMapper {
 // 게시판 목록(페이징 적용)
 	public List<Customer> getListPaging(Paging paging) throws Exception;
 	
+	
+
+
 	
 
 	//INSERT
