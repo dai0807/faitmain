@@ -23,7 +23,7 @@
 <!--				      	<li sec:authorize ="isAuthenticated()"   th:if="${#authentication.principal.user.joinPath =='NAVER' }"  class="nav-item"><a class="nav-link" th:href="@{https://kauth.kakao.com/oauth/logout?client_id=f0b36852932e865ae00c9ff2fcd19874&logout_redirect_uri=http://localhost:8080/user/logout}">카카오로그아웃</a></li> -->
 
 					
-					<li  sec:authorize = "isAuthenticated"  class="nav-item"><a class="nav-link" th:href="@{/product/getProductList(resultJsp='listProduct')}">상품</a></li>
+					<li  sec:authorize = "isAnonymous()"  class="nav-item"><a class="nav-link" th:href="@{/product/getProductList(resultJsp='listProduct')}">상품</a></li>
 					
 					<li  sec:authorize = "isAuthenticated"  class="nav-item"><a class="nav-link" th:href="@{/myPage}">회원정보</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/customer/openBoardIndex}">고객센터</a></li>
