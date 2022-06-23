@@ -94,6 +94,8 @@ CREATE TABLE order_product (
                            `product_order_count`  int          NULL ,
                            `product_price`        int          NULL ,
                            `reward_point`         int          NULL ,
+                           `total_price`          int          NULL ,
+                           `total_reward_point`   int          NULL ,
                            PRIMARY KEY ( order_product_number ) ,
                            FOREIGN KEY ( order_number ) REFERENCES `order` ( order_number ) ,
                            FOREIGN KEY ( product_number ) REFERENCES product ( product_number )
