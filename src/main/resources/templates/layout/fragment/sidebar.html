@@ -36,7 +36,6 @@
             <hr/>
             <a class = "list-group-item list-group-item-action" th:href = "@{/user/getUser?id=}+${#authentication.principal.user.id}">상세 정보 보기</a>
             <a class = "list-group-item list-group-item-action" th:href = "@{/order/myList/{buyerId}(buyerId=${#authentication.principal.user.id})}">주문내역</a>
-            <a class = "list-group-item list-group-item-action" href = "#">포인트 이용 내역</a>
             <a class = "list-group-item list-group-item-action"
                th:href = "@{/inquiry/getInquiryList?resultJsp=listInquiryUser&searchCondition=userId&searchKeyword=} + ${#authentication.principal.user.id}">문의 목록</a>
             <a class = "list-group-item list-group-item-action" th:href = "@{/review/getReviewList?searchCondition=userId&searchKeyword=} + ${#authentication.principal.user.id}">리뷰 목록</a>
@@ -51,9 +50,7 @@
             <a class = "list-group-item list-group-item-action" th:href = "@{/user/getUser}">스토어 정보</a>
             <a class = "list-group-item list-group-item-action"
                th:href = "@{/inquiry/getInquiryList?resultJsp=listInquiryStore&searchCondition=storeId&searchKeyword=} + ${#authentication.principal.user.id}">문의 내역</a>
-            <a class = "list-group-item list-group-item-action" href = "#">주문 내역</a>
-            <a class = "list-group-item list-group-item-action" href = "#">반품 신청 내역</a>
-            <a class = "list-group-item list-group-item-action" href = "#">환불 신청 내역</a>
+
             <a class = "list-group-item list-group-item-action" th:href = "@{/live/getStoreAlarmList}">알림 설정 유저 목록</a>
         </div>
         <div class = "list-group list-group-flush" sec:authorize = "hasRole('storeX')">
