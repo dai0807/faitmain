@@ -131,6 +131,9 @@
          WHERE order_number = #{orderNumber}
     </select>
 
+
+
+
     <select id="selectBuyerOrders" resultType="com.faitmain.domain.order.domain.Order">
         SELECT *
           FROM `order`
