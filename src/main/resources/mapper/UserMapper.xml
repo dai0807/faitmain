@@ -247,7 +247,7 @@ order by reg_date desc;
 			WHERE s.id =  u.id
 			
 			<if test="keyword != null and keyword != '' ">
-			 examination_status =#{keyword}
+			 and examination_status =#{keyword}
 	
 			</if>
 	

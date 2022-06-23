@@ -130,8 +130,13 @@ public class UserController {
 
 
 	@GetMapping("login")
-	public String longin() {
+	public String longin(Model model,@RequestParam(value = "errorMessage", required = false) String errorMessage) {
 		log.info(" 컨트롤러 탐 login Page로 이동");
+		if(errorMessage != null) {
+			log.info("err메시지 ={}",errorMessage);
+			model.addAttribute("errorMessage",errorMessage) ;
+		}
+		
 		return "/user/login";
 	}
 
@@ -155,10 +160,11 @@ public class UserController {
 			User user = userSerivce.getUser(loginuser.getId()); // 로그인 된 사람 정보 가져와서 회월탈퇴 값 있는지 검증
 
 			System.out.println("너의 값은 무엇이냐" + user.getWithdrawalStatus());
-			if (user.getWithdrawalStatus()) { // true 는 회원 탈퇴
+			if (user.getWithdrawalStatus()) { // true 는 회원 탈퇴 일때 리터 바로함
 				result = "withdraw"; //
+				model.addAttribute("errorMessage", 3);
 
-				return result;
+				return "/user/login";
 
 			}
 
@@ -219,7 +225,7 @@ public class UserController {
 		
 		List<User> list = userSerivce.getUserList(paging);
 	
-		log.info("getStoreApplicationDocumentList = {}", list);
+		log.info("getUserList = {}", list);
 		if (!list.isEmpty()) {
 			model.addAttribute("userList", list);
 
