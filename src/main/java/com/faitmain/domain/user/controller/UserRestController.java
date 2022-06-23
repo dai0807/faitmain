@@ -612,6 +612,11 @@ public class UserRestController{
 	        //나의 API 키
 	        String api_key = "NCSX1AN2GVPGAKYQ";
 	        String api_secret = "VU56XMOI4OLSANYT4OD1LQJUVNOSS9KN";
+	        
+// 친구가 기부해준 coolsms 키
+//	API : NCSFLNAKPLATWT5U
+//	 시크릿키 :UQHE4HDGLZ99FWYC4YHSECRYKMLHGVZI       
+// 01080077545	        
 
 	        Message coolsms = new Message( api_key , api_secret );
 	        HashMap<String, String> map = new HashMap<String, String>();

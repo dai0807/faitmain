@@ -4,6 +4,8 @@ import com.faitmain.domain.user.domain.StoreApplicationDocument;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.mapper.UserMapper;
 import com.faitmain.global.common.Image;
+import com.faitmain.global.common.Paging;
+
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
@@ -349,11 +351,28 @@ public class UserServiceImpl implements UserSerivce{
 
 	@Override
 	public void certifiedPhoneNumber(String userPhoneNumber, int smsCertification) throws Exception {
-		// TODO Auto-generated method stub
-		
+ 		
 	}
 
-    
+	@Override
+	public List<StoreApplicationDocument> getTestAppList(Paging paging) throws Exception {
+ 		return userMapper.getTestAppList(paging);
+	}
+
+	public int getTestAppListTotal(Paging paging) throws Exception {
+ 		return userMapper.getTestAppListTotal(paging);
   
+
+	}
+
+	@Override
+	public List<User> getUserList(Paging paging) throws Exception {
+ 		return userMapper.getUserList(paging);
+	}
+
+	@Override
+	public int getUserListTotal(Paging paging) throws Exception {
+ 		return userMapper.getUserListTotal(paging);
+	}
 
 }

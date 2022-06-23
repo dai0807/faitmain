@@ -1,6 +1,7 @@
 package com.faitmain.global.util.security;
 
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,19 +25,28 @@ public class SecurityLoginFail implements AuthenticationFailureHandler{
         /* InternalAuthenticationServiceException는 아이디가 없을때 */
    
         String errorMessage = "";       
-        if (exception instanceof BadCredentialsException) {            
-        	errorMessage = "아이디 또는 비밀번호가 맞지 않습니다. 다시 확인해 주세요.";        } 
+        if (exception instanceof UsernameNotFoundException) {      //  계정 없음      //  아이디 못찾아 엉엉   
+        	errorMessage = "1";        }  // 아이디 또는 비밀번호가 맞지 않습니다. 다시 확인해 주세요. 
         else if (exception instanceof InternalAuthenticationServiceException) {   
-        	errorMessage = "내부적으로 발생한 시스템 문제로 인해 요청을 처리할 수 없습니다. 관리자에게 문의하세요.";        
-        	} else if (exception instanceof UsernameNotFoundException) {           
-        		errorMessage = "계정이 존재하지 않습니다. 회원가입 진행 후 로그인 해주세요.";       
-        		}  
-        
+        	errorMessage = "2";        
+        	// InternalAuthenticationServiceException 계정 존재 x
+        	
+        	}      			//UsernameNotFoundException
+        		   
+        	 else if (exception instanceof DisabledException ) {       // 잘못되 접근
+         		errorMessage = "3";       			//UsernameNotFoundException
+         		
+          		} else if(  exception.getMessage().equals("Bad credentials") ){ //일때 
+                	errorMessage = "1";          // 아이디 또는 비밀번호가 맞지 않습니다. 다시 확인해 주세요. 
+
+         		}
         System.out.println("errorMessage+ "+ errorMessage);
         System.out.println("exception: " + exception.getMessage());
 
         
        System.out.println("에러에러");
-        request.getRequestDispatcher("/user/login").forward(request, response); // 로그인 실패시, user/login 페이지로 이동
+      // request.getRequestDispatcher("/user/login").forward(request, response); // 로그인 실패시, user/login 페이지로 이동
+       response.sendRedirect("/user/login?errorMessage=" + errorMessage);	// redirect
+
     }
 }
