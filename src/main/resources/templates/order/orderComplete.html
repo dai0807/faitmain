@@ -51,7 +51,7 @@
 <article class = "py-5" layout:fragment = "content">
 
     <!-- 주문완료 페이지 -->
-    <form class = "bg0 p-t-75 p-b-85" >
+    <form class = "bg0 p-t-75 p-b-85">
         <div class = "container">
             <div class = "row">
 
@@ -60,32 +60,32 @@
                     <div class = "m-l-25 m-r--38 m-lr-0-xl">
 
                         <div class = "wrap-table-shopping-cart">
-                            <h1 class = "page-header" style = "margin-bottom: 50px;">주문이 완료되었습니다.</h1>
+                            <h1 class = "page-header" style = "margin-bottom: 50px; text-align: center">주문이 완료되었습니다.</h1>
                             <table class = "table-shopping-cart">
                                 <tr class = "table_head">
-<!--                                    <th class = "column-1"></th>-->
-                                    <th class = "column-2">상품명</th>
-                                    <th class = "column-3">적립포인트</th>
-                                    <th class = "column-4">수량</th>
-                                    <th class = "column-5">결제금액</th>
+                                    <th class = "column-1" style = "text-align: center">이미지</th>
+                                    <th class = "column-2" style = "text-align: center">상품명</th>
+                                    <th class = "column-3" style = "text-align: center">적립포인트</th>
+                                    <th class = "column-4" style = "text-align: center">수량</th>
+                                    <th class = "column-5" style = "text-align: center">결제금액</th>
                                 </tr>
 
                                 <th:block th:each = "list : ${order.orderProductList}">
                                     <tr class = "table_row">
                                         <td class = "column-1">
                                             <div class = "how-itemcart">
-                                                <img class = "img_product" th:src = "|../img/upload/${list.productMainImage}|"/>
+                                                <a th:href = "@{/product/getProduct?productNumber=__${list.productNumber}__}">
+                                                    <img class = "img_product" th:src = "|../img/upload/${list.productMainImage}|"/>
+                                                </a>
                                             </div>
                                         </td>
                                         <td class = "column-2">
-                                            <a class = "stext-115 cl7 hov-cl1 size-213 p-t-18"
-                                               th:href = "@{/order/updateorder(orderNumber=${order.orderNumber})}"
-                                               th:text = "${list.productName}">
+                                            <a class = "stext-115 cl7 hov-cl1 size-213 p-t-18" th:text = "${list.productName}">
                                             </a>
                                         </td>
-                                        <td class = "column-3" th:text = "${#numbers.formatInteger(list.RewardPoint, 3, 'COMMA') + '원'}"></td>
-                                        <td class = "column-4" th:text = "${list.productOrderCount}"></td>
-                                        <td class = "column-5" th:text = "${#numbers.formatInteger(list.salePrice, 3, 'COMMA') + '원'}"></td>
+                                        <td class = "column-3" style = "text-align: center" th:text = "${#numbers.formatInteger(__${list.totalRewardPoint}__, 3, 'COMMA') + '원'}"></td>
+                                        <td class = "column-4" style = "text-align: center" th:text = "${list.productOrderCount}"></td>
+                                        <td class = "column-5" style = "text-align: center" th:text = "${#numbers.formatInteger(__${list.totalPrice}__, 3, 'COMMA') + '원'}"></td>
                                     </tr>
                                 </th:block>
                             </table>
@@ -100,19 +100,19 @@
                         <div class = "wrap-table-shopping-cart">
                             <table class = "table-shopping-cart">
                                 <tr class = "table_head">
-                                    <th class = "column-1">주문자</th>
-                                    <th class = "column-2">배송지</th>
-                                    <th class = "column-3">전화번호</th>
-                                    <th class = "column-4">주문상태</th>
+                                    <th class = "column-1" style = "text-align: center">주문자</th>
+                                    <th class = "column-2" style = "text-align: center">배송지</th>
+                                    <th class = "column-3" style = "text-align: center">전화번호</th>
+                                    <th class = "column-4" style = "text-align: center">주문상태</th>
                                 </tr>
-                            <!---->
+                                <!---->
                                 <tr class = "table_row">
-                                    <td class = "column-1" th:text = "${order.receiverName}"></td>
-                                    <td class = "column-2" th:text = "|${order.receiverAddress1} ${order.receiverAddress2}|"></td>
-                                    <td class = "column-3" th:text = "${order.receiverPhone}"></td>
-                                    <td class = "column-4" th:text = "${order.orderStatus}"></td>
+                                    <td class = "column-1" style = "text-align: center" th:text = "${order.receiverName}"></td>
+                                    <td class = "column-2" style = "text-align: center" th:text = "|${order.receiverAddress1} ${order.receiverAddress2}|"></td>
+                                    <td class = "column-3" style = "text-align: center" th:text = "${order.receiverPhone}"></td>
+                                    <td class = "column-4" style = "text-align: center" th:text = "${order.orderStatus}"></td>
                                 </tr>
-                            <!---->
+                                <!---->
                             </table>
                         </div>
                     </div>
@@ -121,10 +121,11 @@
             </div>
         </div>
     </form>
-    <div class="row" style="margin: 80px 0; text-align: center;">
-        <button class="btn btn-default myList_btn">주문내역으로 이동하기</button>
+    <div class = "row" style = "margin: 80px 0; text-align: center;">
+        <a th:href = "@{/order/myList/{buyerId}(buyerId=${#authentication.principal.user.id})}">
+            <span>주문내역으로 이동하기</span>
+        </a>
     </div>
-
 
 
     <!-- Product 관련 js -->
@@ -132,25 +133,6 @@
     <script src = "/productDesign/vendor/bootstrap/js/bootstrap.min.js"></script>
     <!-- ============ -->
 
-    <!-- script -->
-    <script>
-        $(document).ready(function() {
-
-            var buyerId = $("#login_userid").val();
-            var productId = $("#productId").val();
-
-            $(".myList_btn").click(function(event) {
-                event.preventDefault();
-                location.assign("/order/myList/" + buyerId);
-            });
-
-            $("li").on('click', function() {
-                var productDist = $(this).attr("value");
-                location.assign("/product/" + productDist);
-            });
-
-        });
-    </script>
 </article>
 </body>
 </html>

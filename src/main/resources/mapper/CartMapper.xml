@@ -10,12 +10,10 @@
         INSERT
             INTO cart( buyer_id
                      , product_order_count
-                     , product_number
-                     )
+                     , product_number )
         VALUES ( #{buyerId}
                , #{productOrderCount}
-               , #{productNumber}
-               )
+               , #{productNumber} )
     </insert>
 
     <!-- 카트 제거 -->
@@ -29,7 +27,8 @@
     <delete id="deleteOrderCart">
         DELETE
           FROM cart
-         WHERE buyer_id = #{buyerId} AND product_number = #{productNumber}
+         WHERE buyer_id = #{buyerId}
+           AND product_number = #{productNumber}
     </delete>
 
     <!-- 카트 확인 -->
@@ -44,7 +43,7 @@
     <!-- 카트 목록 조회 -->
     <select id="selectCartList" resultType="com.faitmain.domain.cart.domain.Cart">
         SELECT c.*, p.*
-          FROM cart c
+          FROM cart                    c
                LEFT OUTER JOIN product p ON p.product_number = c.product_number
          WHERE buyer_id = #{buyerId}
     </select>
@@ -57,6 +56,7 @@
         </set>
         WHERE cart_number = #{cartNumber}
     </update>
+
 
 
 </mapper>
