@@ -216,7 +216,8 @@ CREATE TABLE `live_user_status` (
                                 `nick_name`    varchar(25) NULL ,
                                 `alarm_status` tinyint DEFAULT '0' ,
                                 `kick_status`  tinyint DEFAULT '0' ,
-                                `dumb_status`  tinyint DEFAULT '0'
+                                `dumb_status`  tinyint DEFAULT '0',
+                                `date`		   date NOT NULL
                                 );
 
 CREATE TABLE live_reservation (
