@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,6 +42,8 @@ import com.faitmain.global.common.MiniProjectPage;
 import com.faitmain.global.common.Search;
 
 import lombok.extern.slf4j.Slf4j;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @Slf4j
 @Controller
@@ -822,7 +825,7 @@ public class UserController{
     
     
     
-    
+/////////////이제 rest에서 함     
     @PostMapping( "/updateStoreApplicationDocument")
     public String updateStoreApplicationDocument(   Model model ,StoreApplicationDocument storeApplicationDocument ) throws Exception{
         log.info( " 그냥 커트롤러 updateStoreApplicationDocument 에 들어옴 ");
@@ -834,32 +837,69 @@ public class UserController{
         log.info( "##  결과  {} ##" , result );
 
         //신청서 심사 UPDATE가 성공 적일떄
-        if ( result == 1 ) {
+		if (result == 1) {
 
-            //스토어 정보 가져오기
-            storeApplicationDocument = userSerivce.getStoreApplicationDocument( storeApplicationDocument.getStoreApplicationDocumentNumber() );
-            if ( storeApplicationDocument.getExaminationStatus().equals( "A" ) ) {  //A 승인일때
+			// 스토어 정보 가져오기
+			storeApplicationDocument = userSerivce
+					.getStoreApplicationDocument(storeApplicationDocument.getStoreApplicationDocumentNumber());
+			if (storeApplicationDocument.getExaminationStatus().equals("A")) { // A 승인일때
 
-                Map<String, Object> map = new HashMap<>();
-                map.put( "role" , "store" );
-                map.put( "id" , storeApplicationDocument.getId() );
-                log.info( "map 값은 :  {}" , map );
-                result = 0;
-                result = userSerivce.updateUserStore( map );
-                log.info( "##신청서 승인된 User , Role 권한 상승  결과  {} ##" , result );
+				Map<String, Object> map = new HashMap<>();
+				map.put("role", "store");
+				map.put("id", storeApplicationDocument.getId());
+				log.info("map 값은 :  {}", map);
+				result = 0;
+				result = userSerivce.updateUserStore(map);
+				log.info("##신청서 승인된 User , Role 권한 상승  결과  {} ##", result);
 
-            }
+			}
 
-            returnResult = storeApplicationDocument.getExaminationStatus(); // 스토어 신청서 상태 리턴
-            System.out.println("결과 ={} " +returnResult ) ; 
+			returnResult = storeApplicationDocument.getExaminationStatus(); // 스토어 신청서 상태 리턴
+			System.out.println("결과 ={} " + returnResult);
 
-             
-        } else {
-            returnResult = "error";  // result 값이 1이 아니면 update 실패 한거
-            System.out.println("결과 ={} " +returnResult ) ; 
-            
-        }
+		} else {
+			returnResult = "error"; // result 값이 1이 아니면 update 실패 한거
+			System.out.println("결과 ={} " + returnResult);
 
+		}
+
+ ////////////////////////////////////////////결과 문자 보내기////////////////////// 
+	     User user = userSerivce.getUser(storeApplicationDocument.getId());
+	     System.out.println("결과 ={} " +user ) ; 
+	     System.out.println("getPhoneNumber ={} " + user.getPhoneNumber() ) ; 
+
+	        //나의 API 키
+	        String api_key = "NCSX1AN2GVPGAKYQ";
+	        String api_secret = "VU56XMOI4OLSANYT4OD1LQJUVNOSS9KN";
+
+	        Message coolsms = new Message( api_key , api_secret );
+	        HashMap<String, String> map = new HashMap<String, String>();
+	        map.put( "to" , user.getPhoneNumber() );
+	        // 수신전화번호
+	        map.put( "from" , "01028382468" );
+	        // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+	        map.put( "type" , "SMS" );
+	        map.put( "text" , "Fait-Main입니다. 스토어 신청서 심사가 완료 되었습니다. 확인 부탁드립니다." );
+	        // 문자 내용 입력
+	        map.put( "app_version" , "test app 1.2" );
+	        // application name and version
+	        try {
+	            JSONObject obj = coolsms.send( map );
+	            System.out.println( obj.toString() );
+
+	        } catch ( CoolsmsException e ) {
+	            System.out.println( e.getMessage() );
+	            System.out.println( e.getCode() );
+	            e.printStackTrace();
+	        }
+///////////////////////////////////////////////////////////////////////////////////////////////////
+	     
+     
+     
+     
+	        log.info( "끝 ");
+  
+        
         model.addAttribute( "StoreApplicationDocument" , storeApplicationDocument );
         return "/user/getStoreApplicationDocument2";
     }
