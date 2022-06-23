@@ -24,9 +24,9 @@ CREATE TABLE `user` (
                     `id`                 VARCHAR(25)  NOT NULL ,
                     `password`           VARCHAR(100) NOT NULL ,
                     `gender`             CHAR(4)      NULL ,
-                    `user_address1`      VARCHAR(100) NOT NULL ,
-                    `user_address2`      VARCHAR(100) NOT NULL ,
-                    `user_address3`      VARCHAR(100) NOT NULL ,
+                    `user_address1`      VARCHAR(100)  ,
+                    `user_address2`      VARCHAR(100)  ,
+                    `user_address3`      VARCHAR(100)  ,
                     `nickname`           VARCHAR(20)  NULL ,
                     `phone_number`       VARCHAR(12)  NULL ,
                     `name`               VARCHAR(10)  NOT NULL ,
@@ -94,6 +94,8 @@ CREATE TABLE order_product (
                            `product_order_count`  int          NULL ,
                            `product_price`        int          NULL ,
                            `reward_point`         int          NULL ,
+                           `total_price`          int          NULL ,
+                           `total_reward_point`   int          NULL ,
                            PRIMARY KEY ( order_product_number ) ,
                            FOREIGN KEY ( order_number ) REFERENCES `order` ( order_number ) ,
                            FOREIGN KEY ( product_number ) REFERENCES product ( product_number )
@@ -214,7 +216,8 @@ CREATE TABLE `live_user_status` (
                                 `nick_name`    varchar(25) NULL ,
                                 `alarm_status` tinyint DEFAULT '0' ,
                                 `kick_status`  tinyint DEFAULT '0' ,
-                                `dumb_status`  tinyint DEFAULT '0'
+                                `dumb_status`  tinyint DEFAULT '0',
+                                `date`		   date NOT NULL
                                 );
 
 CREATE TABLE live_reservation (

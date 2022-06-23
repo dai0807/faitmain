@@ -177,11 +177,6 @@ INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_st
 INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_status, chatting_status) VALUES ('store02@naver.com', 'WNJOYtULLN-qPbfm8l9nO-20220610231056', 'live_title 03', 'live_intro 03', 'live_image 03', 0, 0);
 INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_status, chatting_status) VALUES ('store03@naver.com', 'QrDhLBOccs-eBz3A1wC62-20220613171809', 'live_title 04', 'live_intro 04', 'live_image 04', 0, 0);
 
-
-INSERT INTO live_user_status (live_number, id ,nick_name,alarm_status, kick_status, dumb_status) VALUES (10000, 'user01@naver.com', '고양고양',01, 00, 00);
-INSERT INTO live_user_status (live_number, id ,nick_name,alarm_status, kick_status, dumb_status) VALUES (10001, 'user02@naver.com', '냥냥',00, 02, 01);
-INSERT INTO live_user_status (live_number, id ,nick_name,alarm_status, kick_status, dumb_status) VALUES (10002, 'user03@naver.com', '뉴뉴',03, 01, 02);
-
 INSERT INTO live_reservation (store_id, reservation_date, title, reservation_time) VALUES ('admin@naver.com', '2022-06-09', null, 1);
 INSERT INTO live_reservation (store_id, reservation_date, title, reservation_time) VALUES ('store01@naver.com', '2022-06-09', null, 2);
 INSERT INTO live_reservation (store_id, reservation_date, title, reservation_time) VALUES ('store01@naver.com', '2022-06-10', null, 2);
@@ -242,7 +237,7 @@ UPDATE customer SET customer_board_type='R', customer_board_title="TITLE 44", cu
 UPDATE customer SET customer_board_type='L', customer_board_title="TITLE 55", customer_board_title="CONTENT 55", update_date = now(), customer_id = "admin@naver.com"
  WHERE customer_board_number = 7;
 
-
+/*
 INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
 VALUES (10001, 'user01@naver.com', 'receiverName 01', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 01');
 INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
@@ -413,6 +408,6 @@ INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, rece
 INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid) VALUES (92338, 'user03@naver.com', '김옥정', '1812332211', '함경남도열기구손석구', '삼산동 ', '23453', NOW(), '주문접수', 0, 200, 'imp_uid33758');
 INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid) VALUES (95339, 'user03@naver.com', '김옥정', '1912332211', '함경남도열기구손석구', '삼산동 ', '23453', NOW(), '주문접수', 0, 200, 'imp_uid33759');
 INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid) VALUES (92330, 'user03@naver.com', '김옥정', '2012332211', '함경남도열기구손석구', '삼산동 ', '23453', NOW(), '주문접수', 0, 200, 'imp_uid33750');
-
+*/
 
 

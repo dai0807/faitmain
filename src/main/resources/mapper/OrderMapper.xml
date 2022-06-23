@@ -29,7 +29,7 @@
         VALUES ( #{orderNumber}
                , #{buyerId}
                , '주문접수'
-               , now()
+               , NOW( )
                , #{deliveryCharge}
                , #{receiverName}
                , #{receiverPhone}
@@ -49,14 +49,18 @@
         , product_number
         , product_order_count
         , product_price
-        , reward_point )
+        , reward_point
+        , total_price
+        , total_reward_point )
         VALUES ( #{orderNumber}
-                ,#{productName}
-                ,#{productMainImage}
+               , #{productName}
+               , #{productMainImage}
                , #{productNumber}
                , #{productOrderCount}
                , #{productPrice}
-               , #{rewardPoint} );
+               , #{rewardPoint}
+               , #{totalPrice}
+               , #{totalRewardPoint} );
     </insert>
 
     <!-- 주문 금액 차감 -->
@@ -131,7 +135,7 @@
         SELECT *
           FROM `order`
          WHERE buyer_id = #{buyerId}
-        ORDER by order_date desc
+         ORDER BY order_date DESC
     </select>
 
 

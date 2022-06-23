@@ -185,6 +185,8 @@ function kickUser() {
 	
 	var clientKey = []; // key 값을 담을 배열
     var roomId = $('.keepRoomId').val();
+    
+    var ck = unescape(clientKey);
            
     //삭제 key value
     // chk라는 클래스를 가진 체크박스 중에 체크가 된
@@ -193,10 +195,11 @@ function kickUser() {
     $('.clientKey:checked').each(function(){
         clientKey.push($(this).val());
     });
-    console.log("클라이언트 키 : " + clientKey);
+    console.log("클라이언트 키 : " + ck);
     console.log("채널 키 : " + roomId);
+    
     	$.ajax({
-		url : '/live/json/kickUser/' + roomId + "/" + clientKey ,
+		url :  '/live/json/kickUser/' + roomId + "/" + clientKey,
 		type : 'GET',
 		async : true,
 		dataType : "json",

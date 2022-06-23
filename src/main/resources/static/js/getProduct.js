@@ -17,8 +17,17 @@ $(function () {
         if (quantity < productQuantity) {
             //$(".quantity_input").val(++quantity);
             console.log("+++ : " + $(".mtext-104.cl3.txt-center.num-product").val());
-            $(".mtext-104.cl3.txt-center.num-product").val(++quantity);
-            $("#totalPrice").text(Number($.trim($("#totalPrice").text())) + productPrice);
+            $(".mtext-104.cl3.txt-center.num-product").val(++quantity);            
+            
+            let totalPrice = Number($("#totalPrice").val());
+			
+			totalPrice += productPrice;
+			
+			$("#totalPrice").val(totalPrice);
+            $("#totalPriceArea").text(totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+            
+            //$("#totalPrice").val(Number($("#totalPrice").val()) + productPrice);
+            //$("#totalPriceArea").text(($("#totalPrice").val()).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));            
         } else {
             alert("최대 수량입니다!");
         }
@@ -30,7 +39,16 @@ $(function () {
 			console.log("--- : " + $(".mtext-104.cl3.txt-center.num-product").val());
             $(".mtext-104.cl3.txt-center.num-product").val(--quantity);
             //$(".quantity_input").val(--quantity);
-            $("#totalPrice").text(Number($.trim($("#totalPrice").text())) - productPrice);
+            
+            let totalPrice = Number($("#totalPrice").val());
+			
+			totalPrice -= productPrice;
+			
+			$("#totalPrice").val(totalPrice);
+            $("#totalPriceArea").text(totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+            
+            //$("#totalPrice").val(Number($("#totalPrice").val()) - productPrice);
+            //$("#totalPriceArea").text(($("#totalPrice").val()).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
         }
     });
     
@@ -51,7 +69,7 @@ $(function () {
 			
 			console.log("buyerId exist");
 			
-			if ($.trim($("#totalPrice").text()) == '0') { // 옵션 선택 안했을 때
+			if (Number($("#totalPrice").val()) == '0') { // 옵션 선택 안했을 때
 				alert("옵션을 선택해주세요");
 				return;
 			}
@@ -70,7 +88,7 @@ $(function () {
 					let confirmText;
 					
 					if (result == 2) {
-						
+												
 						confirmText = "중복된 상품을 제외하고 장바구니에 추가되었습니다.";
 						
 					} else {
@@ -78,8 +96,8 @@ $(function () {
 						confirmText = "장바구니에 추가되었습니다.";
 						
 					}
-					
-					var selectRes = confirm(confirmText + "\n" + "장바구니로 이동하시겠습니까?");
+					/*
+					var selectRes = confirm(confirmText + "\n" + "장바구니로 이동하시겠습니까?");				
 					
 					if(selectRes){ // 장바구니 이동
 					
@@ -90,6 +108,27 @@ $(function () {
 						self.location = "/cart/" + buyerId;
 						
 					}else{ }// 장바구니 이동 취소
+					 */
+					swal({
+						title: confirmText,
+						text: "장바구니로 이동하시겠습니까?",
+						icon: "success",
+						buttons: true,
+						dangerMode: true,
+					}).then((result) => {
+						if (result) {
+							
+							let buyerId = $("input[name=buyerId]").val();
+
+							console.log("buyerId : " + buyerId);
+
+							self.location = "/cart/" + buyerId;
+
+						} else {
+							
+						}
+
+					});	
 					
 				},
 				//요청 실패 시 이벤트
@@ -112,7 +151,7 @@ $(function () {
 			
 			console.log(orderLink);
 			
-			if ($.trim($("#totalPrice").text()) == '0') { //옵션 선택 안했을 때
+			if (Number($("#totalPrice").val()) == '0') { //옵션 선택 안했을 때
 				alert("옵션을 선택해주세요");
 			}
 			
@@ -124,7 +163,7 @@ $(function () {
 		}
 	});
 	
-	/* kakao 공유하기 
+	/* kakao 공유하기 */
 	console.log("product : " + productMainImage);
 	Kakao.init('9e7bfe9bda76f4fc82c74df2aa9c4c98');
 	Kakao.isInitialized();
@@ -135,8 +174,7 @@ $(function () {
 		objectType: 'commerce',
 		content: {
 			title: 'Fait Main',
-			imageUrl:
-				'http://192.168.0.90:8080/img/upload/' + productMainImage,
+			imageUrl: 'http://192.168.0.90:8080/img/upload/' + productMainImage,
 			link: {
 				mobileWebUrl: 'http://192.168.0.90:8080/product/getProduct?productNumber=' + productGroupNumber,
 				webUrl: 'http://192.168.0.90:8080/product/getProduct?productNumber=' + productGroupNumber,
@@ -154,16 +192,9 @@ $(function () {
 					webUrl: 'http://192.168.0.90:8080/product/getProduct?productNumber=' + productGroupNumber,
 				},
 			},
-			{
-				title: '공유하기',
-				link: {
-					mobileWebUrl: 'http://192.168.0.90:8080/product/getProduct?productNumber=' + productGroupNumber,
-					webUrl: 'http://192.168.0.90:8080/product/getProduct?productNumber=' + productGroupNumber,
-				},
-			},
 		],
 	})
-	*/
+	
 	var optionIndex = 0;
 	$("select[name=options]").change(function() {
 		console.log($(this).val()); //value값 가져오기
@@ -188,8 +219,17 @@ $(function () {
 			alert("이미 선택된 상품입니다");
 
 		} else {
-
-			$("#totalPrice").text(Number($.trim($("#totalPrice").text())) + productPrice);
+			
+			let totalPrice = Number($("#totalPrice").val());
+			
+			totalPrice += productPrice;
+			
+			$("#totalPrice").val(totalPrice);			
+            $("#totalPriceArea").text(totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+			
+			//$("#totalPrice").val(Number($("#totalPrice").val()) + productPrice);
+            //$("#totalPriceArea").text(($("#totalPrice").val()).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));	
+			//$("#totalPrice").text(Number($.trim($("#totalPrice").text())) + productPrice);
 
 			$("#optionArea").append(
 				"<div class='flex-w flex-r-m p-b-10'>"
@@ -242,7 +282,14 @@ $(function () {
 		if (quantity < maxQuantity) {
 			$(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val(++quantity);
 			console.log("수량 왜 안넘어가 : " + quantity);
-			$("#totalPrice").text(Number($.trim($("#totalPrice").text())) + productPrice);
+			
+			let totalPrice = Number($("#totalPrice").val());
+			
+			totalPrice += productPrice;
+			
+			$("#totalPrice").val(totalPrice);
+            $("#totalPriceArea").text(totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+			//$("#totalPrice").text(Number($.trim($("#totalPrice").text())) + productPrice);
 		} else {
 			alert("수량 초과");
 		}
@@ -252,13 +299,25 @@ $(function () {
 		let quantity = Number($(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val());
 		if (quantity > 1) {
 			$(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val(--quantity);
-			$("#totalPrice").text(Number($.trim($("#totalPrice").text())) - productPrice);
+			
+			let totalPrice = Number($("#totalPrice").val());
+			
+			totalPrice -= productPrice;
+			
+			$("#totalPrice").val(totalPrice);
+            $("#totalPriceArea").text(totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+            
+			//$("#totalPrice").val(Number($("#totalPrice").val()) - productPrice);
+            //$("#totalPriceArea").text(($("#totalPrice").val()).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+			//$("#totalPrice").text(Number($.trim($("#totalPrice").text())) - productPrice);
 		}
 	});
 
 	$(document).on("click", ".optionDelBtn", function() {
 		let quantity = Number($(this).parent().parent("div").find(".mtext-104.cl3.txt-center.num-product.option").val());
-		let totalPrice = $.trim($("#totalPrice").text());
+		//let totalPrice = $.trim($("#totalPrice").text());
+		let totalPrice = Number($("#totalPrice").val());
+		
 		totalPrice = totalPrice - (productPrice * quantity);
 		if (totalPrice < 0) {
 			totalPrice = 0;
@@ -266,7 +325,10 @@ $(function () {
 		console.log("totalPrice : " + totalPrice);
 
 		$(this).parent().remove();
-		$("#totalPrice").text(totalPrice);
+		
+		$("#totalPrice").val(totalPrice);
+		totalPrice != 0 ? $("#totalPriceArea").text(totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')) : $("#totalPriceArea").text('0');
+		
 		optionIndex--;
 	});
 	

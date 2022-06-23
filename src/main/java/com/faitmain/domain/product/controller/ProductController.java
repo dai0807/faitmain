@@ -60,7 +60,7 @@ public class ProductController {
 		
 		log.info("/product/addProduct : GET");
 //		view/common/admin/main
-		return "/product/addProduct2";
+		return "/product/addProduct";
 		
 	}
 	
@@ -80,15 +80,15 @@ public class ProductController {
 		
 		log.info("productNumber 확인 = {} ", product.getProductGroupNumber());
 				
-		return "redirect:/product/getProduct?productNumber=" + product.getProductGroupNumber();
+		return "redirect:/product/getProductList?resultJsp=listProductStore";
 		
 	}
 	
 	@GetMapping("getProduct")
 	public String getProduct( @RequestParam("productNumber") int productNumber, Model model ) throws Exception {
 		
-		log.info("/product/getProduct");
-		
+		log.info("/product/getProduct");		
+				
 		Product product = productService.getProduct(productNumber);
 		
 //		log.info("product = {}", product);
@@ -102,7 +102,7 @@ public class ProductController {
 	public String getProductList(@ModelAttribute Search search, @RequestParam("resultJsp") String resultJsp, Model model) throws Exception{
 		
 		log.info("/product/getProductList");
-		log.info("resultJsp = {}", resultJsp);
+//		log.info("resultJsp = {}", resultJsp);
 		
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
@@ -112,6 +112,7 @@ public class ProductController {
 		Map<String, Object> searchMap = new HashMap<String, Object>();	
 		
 		if(resultJsp.equals("listProductStore")) {
+			
 			SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
 			User user = (User) securityUserService.getUser();
 			
@@ -128,13 +129,13 @@ public class ProductController {
 		searchMap.put("searchCategory", search.getSearchCategory());
 		searchMap.put("searchOrderName", search.getOrderName());
 		
-		System.out.println("Search : " + search);
+//		System.out.println("Search : " + search);
 		
 		Map<String, Object> map = productService.getProductList(searchMap);
 				
 		MiniProjectPage resultPage = new MiniProjectPage( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 4, search.getPageSize());
 		
-		log.info("resultPage : " + resultPage);
+//		log.info("resultPage : " + resultPage);
 		
 		//log.info("list : " + ((List<Product>)map.get("list")).get(0));
 		model.addAttribute("list", map.get("list"));
@@ -151,6 +152,8 @@ public class ProductController {
 		
 		Product product = productService.getProduct(productNumber);
 		
+		log.info("product = {}", product);
+		
 		model.addAttribute("product", product);
 		
 		return "/product/updateProduct";
@@ -160,6 +163,7 @@ public class ProductController {
 	public String updateProduct(@ModelAttribute("product") Product product, MultipartHttpServletRequest mRequest) throws Exception{
 		
 		log.info("/product/updateProduct = {}", "POST");
+		log.info("/product/updateProduct = {}", product);
 		
 		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
 		User user = (User) securityUserService.getUser();
@@ -167,7 +171,7 @@ public class ProductController {
 		product.setStore(user);
 		productService.updateProduct(product, mRequest);
 		
-		return "redirect:/product/getProduct?productNumber=" + product.getProductNumber();
+		return "redirect:/product/getProductList?resultJsp=listProductStore";
 	}
 	
 	@GetMapping("deleteProduct")

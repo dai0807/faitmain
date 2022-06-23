@@ -283,18 +283,21 @@ order by reg_date desc;
 
  
 	<select id ="getStoreApplicationDocumentALLList" parameterType="Map"   resultMap ="StoreApplicationDocumentMap">
-		SELECT *
-		FROM store_application_document
-    		<where>
-    				<if test="searchCondition != null">
-    		
-    			examination_status = #{searchCondition}
-    			    	</if>
-    			
-    		</where>
-   
-		
- 		ORDER BY reg_date desc  
+		select inner_table.* ,u.store_name
+		 FROM	(SELECT *
+						FROM store_application_document
+				    		<where>
+				    				<if test="searchCondition != null and searchCondition != '' ">
+				    		
+				    			examination_status = #{searchCondition}
+				    			    	</if>
+				    			
+				    		</where>
+				   
+						
+				 		) inner_table ,User u
+		WHERE inner_table.id = u.id  ORDER BY reg_date desc  
+		 		
 	</select>
 
 
