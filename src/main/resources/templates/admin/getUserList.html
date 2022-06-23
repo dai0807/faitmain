@@ -157,31 +157,14 @@
 			<div class="container">
 				<div class="flex-w flex-sb-m p-b-52" style="padding-bottom:10px ;">
 					<div class="flex-w flex-l-m filter-tope-group m-tb-10">
+	 
 						<th:div class="getUserList">
-							<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"
+
+							<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"
 								th:href='@{/user/getUserlist(searchCondition=ALL)}'>
 								ALL
-							</button>
+							</a>
 						</th:div>
-						<!--		
-							
-								 <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"  onclick="getUserList('ALL')" >
-										ALL
-									</button>
-								</th:div>
-							<th:div class="getUserList">
-
-									<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"   onclick="getUserList('user')" >
-										user
-									</button>
-								</th:div>
-								<th:div class="getUserList">
-									<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"  onclick="getUserList('store')">
-										store
-									</button>
-								</th:div>
-								-->
-
 
 						<th:div class="getUserList">
 
@@ -200,80 +183,8 @@
 
 					</div>
 
-					<script type="text/javascript">
+		 
 
-						function getUserList(text) {
-
-							console.log("text  " + text);
-
-
-							$.ajax({
-								type: "GET",
-								url: "/user/json/getUserlist?order=" + text,
-								dataType: "json",
-								success: function (data) {
-									let addtbody = ""
-
-									$('.table_row').remove();
-
-									for (let i = 0; i < data.length; i++) {
-
-										console.log("userList." + data[i].id)
-
-
-
-										addtbody +=
-											"<tr class='table_row'> <td></td>"
-											+ "<td> <a th:text='" + data[i].id + "' th:href='@{/user/getUser(id=" + data[i].id + "+)}'></a>  </td>"
-											+ "<td th:text=" + data[i].name + " > </td> "
-											+ "<td th:text=" + data[i].phoneNumber + " > </td> "
-											+ "<td th:text=" + data[i].role + " > </td> "
-											+ "<td th:text=" + data[i].regDate + " > </td> "
-
-											+ " </tr>  ";
-
-										$("table").children(":first").append(addtbody);
-
-
-
-										console.log(addtbody)
-
-
-
-									}
-
-
-
-
-
-								}
-							});
-
-
-
-						}; // 스크립트 
-
-					</script>
-
-
-
-					<div class="flex-w flex-c-m m-tb-10">
-						<div
-							class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
-							<input class="stext-111 cl2 Tsize-114 plh2 p-r-15" type="text" id="searchKeyword"
-								name="searchKeyword" placeholder="Search">
-						</div>
-
-						<div
-							class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
-							<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
-							<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
-							Search
-						</div>
-					</div>
-
-
-				</div>
 
 
 

@@ -128,7 +128,7 @@
 			    		 </if>
 			    
 			    </where>
-
+order by reg_date desc;
 </select>
 
   <!-- 
@@ -278,6 +278,27 @@
 	   	</set>
 	   	WHERE  store_application_document_number = #{storeApplicationDocumentNumber}
 	 </update>
+
+
+
+ 
+	<select id ="getStoreApplicationDocumentALLList" parameterType="Map"   resultMap ="StoreApplicationDocumentMap">
+		SELECT *
+		FROM store_application_document
+    		<where>
+    				<if test="searchCondition != null">
+    		
+    			examination_status = #{searchCondition}
+    			    	</if>
+    			
+    		</where>
+   
+		
+ 		ORDER BY reg_date desc  
+	</select>
+
+
+
 	 
 <!-- 리스트 서치시 밑 이용 가능  -->
  <!-- 망한 잔제  
@@ -309,22 +330,23 @@
 	</select>
 	  -->
 	<!-- 0 전체 1 - R , 2 -A , 3 - W -->
-	  <select id ="getStoreApplicationDocumentList" parameterType="map"  resultMap="StoreApplicationDocumentMap" > <!-- role 따라  -->
+<!-- 0 전체 1 - R , 2 -A , 3 - W --><!-- role 따라  
+	  <select id ="getStoreApplicationDocumentList" parameterType="map"  resultMap="StoreApplicationDocumentMap" > 
 		SELECT *
 		  	FROM (	SELECT inner_table.* ,u.store_name , @ROWNUM := @ROWNUM+1 AS row_seq
 			  			FROM(	SELECT *
 								FROM store_application_document
 									<where>
 							 	 
-							 		<if test="searchCondition == 1    ">
+							 		<if test="searchCondition == R">
 										examination_status = 'R'  
 									</if>
 									
-							 		<if test="searchCondition == 2    ">
+							 		<if test="searchCondition == A">
 										examination_status = 'A'  
 									</if>		
 									
-							 		<if test="searchCondition == 3    ">
+							 		<if test="searchCondition == W">
 										examination_status = 'W'  
 									</if>																			 
 								 </where>
@@ -343,15 +365,15 @@
 	  				FROM store_application_document
 									<where>
 							 		
-							 		<if test="searchCondition == 1   ">
+							 		<if test="searchCondition == R   ">
 										examination_status = 'R'  
 									</if>
 									
-							 		<if test="searchCondition == 2  ">
+							 		<if test="searchCondition == A  ">
 										examination_status = 'A'  
 									</if>		
 									
-							 		<if test="searchCondition == 3    ">
+							 		<if test="searchCondition == W    ">
 										examination_status = 'W'  
 									</if>												 
 								 </where>
@@ -362,7 +384,7 @@
 	  	
 	  	) countTable						
 	 </select> 
-
+-->
 	
 	
 	
@@ -390,20 +412,16 @@
 	
 	
 	<!-- delect User -->
-	<delete id= "deleteUser"   parameterType="String"  >
-	DELETE FROM user  WHERE id = #{value}
-	
-	</delete>
+ 
 	
 	
  <!-- updateWithdrawalStatus -->
-   	 <update	id="updateWithdrawalStatus"	parameterType="String" >
+   	 <update	id="deleteUser"	parameterType="String"   >
 	   	UPDATE user
 	   	<set>
-	   		updateWithdrawalStatus 		= 1		
-	   		phone_number = NULL		
-	   	</set>
-	   	WHERE  id = #{value}
+	   		withdrawal_status 		= 1		
+ 	   	</set>
+	   	WHERE  id =  #{value}
 	 </update>
 
 
