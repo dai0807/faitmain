@@ -383,16 +383,16 @@ public class LiveRestController {
 
 		// DB에 강제퇴장 내용 등록
 
-		LiveUserStatus live = new LiveUserStatus();
-		for (String id : clientKey) {
-			live.setLiveNumber(liveService.getLiveNumberByRoomId(roomId).getLiveNumber());
-			live.setId(id);
-			live.setKickStatus(1);
-
-			liveService.addLiveUserStatus(live);
-
-			System.out.println(live);
-		}
+//		LiveUserStatus live = new LiveUserStatus();
+//		for (String id : clientKey) {
+//			live.setLiveNumber(liveService.getLiveNumberByRoomId(roomId).getLiveNumber());
+//			live.setId(id);
+//			live.setKickStatus(1);
+//
+//			liveService.addLiveUserStatus(live);
+//
+//			System.out.println(live);
+//		}
 
 		String token = getToken();
 
