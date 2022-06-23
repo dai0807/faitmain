@@ -2,7 +2,10 @@
 body {font-family: helvetica}
 .container {width: 800px; margin: 0 auto; overflow: hidden}
 a{text-decoration: none}
-
+/*  body, html {
+        	height: 100%;
+       }
+        */
 #faq-links {padding: 10px 20px}
 
 #faq-links div {

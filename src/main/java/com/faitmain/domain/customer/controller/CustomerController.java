@@ -140,36 +140,24 @@ public class CustomerController extends UiUtils {
 	public String getCustomerBoardList(@ModelAttribute Customer customer, Model model, @ModelAttribute Paging paging) throws Exception {
 		
 		System.out.println("=======list==========");
-		
-		List<Customer> boardList = null;
+		model.addAttribute("boardList", customerService.getCustomerBoardList(customer.getBoardType()));
+		model.addAttribute("boardList", customerService.getListPaging(paging));
 		String url =  null;
 		
 		if(customer.getBoardType() == 'N') {
 			
-			boardList = customerService.getCustomerBoardList(customer.getBoardType());
-			
-			System.out.println(boardList);
-			
 			url= "customer/noticeList";
 						
 		}else if(customer.getBoardType() == 'L') {
-			
-			boardList = customerService.getCustomerBoardList(customer.getBoardType());
-			
 			
 			url = "admin/liveGuideList";
 			
 		
 		}else if(customer.getBoardType() == 'F'){	
 			
-			boardList = customerService.getFAQList(customer.getFAQCategoryCode());
-			
-			
 			url="customer/faqList";
 		}		
-		model.addAttribute("boardList", boardList);
 		
-		model.addAttribute("boardList", customerService.getListPaging(paging));
 		
 		int total = customerService.getBoardTotalCount();
         
@@ -187,10 +175,11 @@ public class CustomerController extends UiUtils {
 	@GetMapping("detailBoard")
 	public  String getCustomerBoard(@RequestParam(value="boardNumber", required=false) Integer boardNumber, Model model, Paging paging) throws Exception{
 	
-		boardNumber = 0;
 		System.out.println("============= detail ===============");
+		
 		model.addAttribute("customer", customerService.getCustomerBoard(boardNumber));
 		System.out.println(boardNumber);
+		
 		model.addAttribute("paging", paging);
 		System.out.println(paging);
 		return "customer/noticeDetail";
