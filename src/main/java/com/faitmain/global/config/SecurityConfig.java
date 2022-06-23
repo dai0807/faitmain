@@ -53,8 +53,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
         http.authorizeRequests()
 	        		//.antMatchers("/user/getUser","/product/addProduct").authenticated() // 인증된 사람들만 접근 가능
-					.antMatchers("/user/test" ).authenticated()// 인증된 사람 전부다 접근 가능 // 비회원 말고 갈수 있는 곳은 여기에 명시 
+					.antMatchers("/user/test"  ,"/myPage").authenticated()// 인증된 사람 전부다 접근 가능 // 비회원 말고 갈수 있는 곳은 여기에 명시 
 	        		.antMatchers("/product/addProduct" ).hasAnyRole("store")// 인증된 사람들만 접근 가능
+	        		.antMatchers("/user/getUserlist" ,"/user/getStoreApplicationDocumentList").hasAnyRole("admin")// 
 
 	        		.antMatchers("/user/getUser" ).hasAnyRole("user","store","storeX","admin")// 인증된 사람들만 접근 가능
 //	        		.antMatchers("/user/getUserlist").hasRole("admin" ) //admin만 갈수 있음
