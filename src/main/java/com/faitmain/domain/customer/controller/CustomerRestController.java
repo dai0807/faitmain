@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
@@ -28,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.service.CustomerService;
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.global.common.Search;
 import com.faitmain.global.util.security.SecurityUserService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -63,17 +65,17 @@ public class CustomerRestController {
 //	}
 	
 	@GetMapping("json/getCustomerBoardList")
-	public List<Customer> listFAQ(String FAQCategoryCode) throws Exception{
+	public List<Customer> listFAQ(@ModelAttribute Customer customer, String FAQCategoryCode) throws Exception{
 		
 		System.out.println(FAQCategoryCode);
 		if(FAQCategoryCode.equals("00")) {
-			List<Customer> boardList = customerService.getFAQList("");
+			List<Customer> boardList = customerService.getFAQList(FAQCategoryCode);
 	
 			return boardList;	
 		
 		}else {
 		
-			List<Customer> boardList = customerService.getFAQList(FAQCategoryCode);
+			List<Customer> boardList = customerService.getFAQList(FAQCategoryCode);;
 			System.out.println(boardList);
 
 			return boardList;
@@ -84,25 +86,25 @@ public class CustomerRestController {
 	
 	
 	
-	@PostMapping("json/updateCustomerBoard")
-	public int  getCustomerBoard(@ModelAttribute Customer customer) throws Exception{
-		
-		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
-		User user = (User) securityUserService.getUser();
-		
-		System.out.println("/customer/json/updateCustomerBoard : POST start ...");
-		System.out.println("찍어보자!! Cutstomer ." + customer);
-
-		
-		customerService.getCustomerBoardList(customer.getBoardType());
-		
-		int result =  customerService.updateCustomerBoard(customer) ; 
-		System.out.println("result = " +  result ); // 수정이 되었으면 1 , 안됨  0  		
-		System.out.println("/customer/json/updateCustomerBoard : POST end ...");
-		
-		
- 		return result;
-	}
+//	@PostMapping("json/updateCustomerBoard")
+//	public int  getCustomerBoard(@ModelAttribute Customer customer) throws Exception{
+//		
+//		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+//		User user = (User) securityUserService.getUser();
+//		
+//		System.out.println("/customer/json/updateCustomerBoard : POST start ...");
+//		System.out.println("찍어보자!! Cutstomer ." + customer);
+//
+//		
+////		customerService.getCustomerBoardList(customer.getBoardType());
+//		
+//		int result =  customerService.updateCustomerBoard(customer) ; 
+//		System.out.println("result = " +  result ); // 수정이 되었으면 1 , 안됨  0  		
+//		System.out.println("/customer/json/updateCustomerBoard : POST end ...");
+//		
+//		
+// 		return result;
+//	}
 	
 //	/customer/json/uploadSummernoteImageFile	
 	@PostMapping(value="json/uploadSummernoteImageFile", produces = "application/json")
