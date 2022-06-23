@@ -143,7 +143,6 @@ public class OrderServiceImpl implements OrderService{
             e.printStackTrace();
         }
 
-
         /* 포인트 변동 적용 */
         int calTotalPoint = user.getTotalPoint();
         calTotalPoint = calTotalPoint - order.getUsingPoint() + order.getOrderRewardPoint();
@@ -152,7 +151,8 @@ public class OrderServiceImpl implements OrderService{
         /* 포인트 DB 적용 */
         orderMapper.updatePoint( user );
 
-        /* 재고 변동 적용 */
+
+        log.info( "/* 재고 변동 적용 */" );
         for ( OrderProduct orderProduct : order.getOrderProductList() ) {
             /* 변동 재고 값 구하기 */
             Product product = productMapper.getProduct( orderProduct.getProductNumber() );
@@ -160,14 +160,14 @@ public class OrderServiceImpl implements OrderService{
             /* 변동 값 DB 적용 */
             orderMapper.updateStock( product );
         }
-        /* 장바구니 제거 */
+
+        log.info( "/* 장바구니 제거 */" );
         for ( OrderProduct orderProduct : order.getOrderProductList() ) {
             Cart cart = new Cart();
             cart.setBuyerId( order.getBuyerId() );
             cart.setProductNumber( orderProduct.getProductNumber() );
 
-            cartMapper.deleteCart( cart.getCartNumber() );
-
+            cartMapper.deleteOrderCart( cart );
         }
 
     }
