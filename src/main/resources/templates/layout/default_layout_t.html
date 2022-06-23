@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang = "ko"
+      xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<!-- [head] 영역 시작 -->
+<head>
+    <meta charset = "UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="icon" type="image/png" href="/img/logo.png"/>
+ 	
+ 	<link rel = "stylesheet" th:href = "@{/css/bootstrap.min.css}"/>
+    <link rel = "stylesheet" th:href = "@{/css/main.css}"/>
+    <link rel = "stylesheet" th:href = "@{/css/util.css}"/>
+
+</head>
+<!-- [head] 영역 끝 -->
+
+<body>
+    <!-- [header] 영역 시작 -->
+    <header th:replace = "/layout/fragment/header2 :: header2"></header>
+    <!-- [header] 영역 끝 -->
+
+    <!-- [content] 영역 시작 -->
+    <article layout:fragment = "content"></article>
+    <!-- [content] 영역 끝 -->
+
+	
+<!--===============================================================================================-->	
+	<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<!--===============================================================================================-->
+	<script th:src="@{/js/animsition.min.js}"></script>
+<!--===============================================================================================-->
+	<script th:src="@{/js/popper.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>
+
+</html>
