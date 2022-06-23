@@ -204,28 +204,50 @@ public class UserController{
     
   //admin 페이지 리스트 보이기    , 스토어 신청서 리스트  
 	   @GetMapping("getStoreApplicationDocumentList")
-	   public String getStoreApplicationDocumentList(Model model ,@ModelAttribute Search search    )  throws Exception {
+	   public String getStoreApplicationDocumentList(Model model , @RequestParam (value="searchCondition", required = false)String searchCondition   )  throws Exception {
 		 
-			log.info("search = {}", search);
- 							
-			if(search.getCurrentPage() == 0) {
-				search.setCurrentPage(1);
-			}
-	// searchCondition		
-			search.setPageSize(10);
-			
-			
-			if( search.getSearchCondition() ==null) {
-				search.setSearchCondition("W");
-				
-			}
-			
+		   
+		   
+		   log.info("getUserList  도착 !! ");
+		   log.info("getUserList searchCondition ={}", searchCondition);
+		   Map<String, Object> searchMap = new HashMap<>();
 
- 		Map<String, Object> searchMap = new HashMap<>();
- 		searchMap.put("searchCondition", search.getSearchCondition()) ;
-// 
+		   	if(searchCondition.equals("ALL")) {
+		   		searchMap.put("searchCondition", "") ;
+		   	}else if(searchCondition.equals("A") || searchCondition.equals("W") || searchCondition.equals("R")  ) {
+
+		   		searchMap.put("searchCondition",searchCondition ) ;
+
+		   	}else {
+ 		   		searchMap.put("searchCondition", "W" ) ; // 조건이 없을때는 다 대기 보임
+
+		   		
+		   	}
+		   
+		 
+
+		   
+//		   
+//			log.info("search = {}", search);
+// 							
+//			if(search.getCurrentPage() == 0) {
+//				search.setCurrentPage(1);
+//			}
+//	// searchCondition		
+//			search.setPageSize(10);
 //			
-//			System.out.println("Search : " + search);
+//			
+//			if( search.getSearchCondition() ==null) {
+//				search.setSearchCondition("W");
+//				
+//			}
+//			
+//
+// 		Map<String, Object> searchMap = new HashMap<>();
+// 		searchMap.put("searchCondition", search.getSearchCondition()) ;
+//// 
+////			
+////			System.out.println("Search : " + search);
 //			
  		Map<String, Object> map = userSerivce.getStoreApplicationDocumentList(searchMap);
 //					
@@ -249,8 +271,7 @@ public class UserController{
  
 
  
-			System.out.println("Search : " + search);
-			
+ 			
 			
 	   return "/admin/getStoreApplicationDocumentList";
 	   }
