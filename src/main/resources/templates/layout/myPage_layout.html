@@ -186,9 +186,9 @@
 
 							<div class="tempClass">
 								<div style="font-size: 30px;">
-									<i class="fa-solid fa-bell"></i> <!-- 알림 -->
+									<a th:href = "@{/live/getUserAlarmList}"><i class="fa-solid fa-bell"></i></a> <!-- 알림 -->
 								</div>
-								<span>알림 목록</span>
+								<a th:href = "@{/live/getUserAlarmList}"><span>알림 목록</span></a>
 							</div>
 						</th:block>
 
@@ -198,17 +198,18 @@
 						<th:block sec:authorize="hasAnyRole('ROLE_store','ROLE_storeX')">
 							<div class="tempClass">
 								<div style="font-size: 30px;">
-									<i class="fa-solid fa-play"></i>
+									<a th:href="@{/live/addLiveView}"><i class="fa-solid fa-play"></i></a>
 								</div>
-								<span>라이브 시작</span>
+								<a th:href="@{/live/addLiveView}"><span>라이브 시작</span></a>
 							</div>
-
+							
+							
 							<div class="tempClass">
 								<div style="font-size: 30px;">
-									<i class="fa-solid fa-bell"></i> <!-- 알림 -->
+									<a th:href = "@{/live/getStoreAlarmList}"><i class="fa-solid fa-bell" ></i></a> <!-- 알림 -->
 								</div>
-								<span>팔로우 목록</span>
-							</div>
+								<a th:href = "@{/live/getStoreAlarmList}"><span>팔로우 목록</span></a>
+							</div> 
 						</th:block>
 
 

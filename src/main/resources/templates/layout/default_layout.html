@@ -33,12 +33,14 @@
             height: auto;
             min-height: 100%;
             padding-bottom: 72px;
+            position : relative;
         }
 
         footer {
             height: 72px;
-            position: relative;
-            transform: translateY(-100%);
+            position: absolute;
+            bottom: 0;
+            width: 100%
         }
 
     </style>
@@ -54,10 +56,11 @@
     <!-- [content] 영역 시작 -->
     <article layout:fragment = "content"></article>
     <!-- [content] 영역 끝 -->
-</div>
 
-<!-- [footer] 영역 시작 -->
-<footer th:replace = "/layout/fragment/footer :: footer"></footer>
+
+	<!-- [footer] 영역 시작 -->
+	<footer th:replace = "/layout/fragment/footer :: footer"></footer>
+</div>
 <!-- [footer] 영역 끝 -->
 
 
