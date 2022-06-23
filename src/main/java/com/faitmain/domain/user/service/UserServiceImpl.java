@@ -4,6 +4,8 @@ import com.faitmain.domain.user.domain.StoreApplicationDocument;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.domain.user.mapper.UserMapper;
 import com.faitmain.global.common.Image;
+import com.faitmain.global.common.Paging;
+
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
@@ -173,12 +175,12 @@ public class UserServiceImpl implements UserSerivce{
     //SELECT 스토어 리스트 조회
     public Map<String, Object> getStoreApplicationDocumentList( Map<String, Object> map ) throws Exception{
         List<StoreApplicationDocument> list;
-        list = userMapper.getStoreApplicationDocumentList( map );
-        int totalCount = userMapper.getStoreApplicationDocumenTotalCount( map );
+        list = userMapper.getStoreApplicationDocumentALLList( map );
+//        int totalCount = userMapper.getStoreApplicationDocumenTotalCount( map );
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put( "list" , list );
-        resultMap.put( "totalCount" , new Integer( totalCount ) );
+//        resultMap.put( "totalCount" , new Integer( totalCount ) );
 
 
         return resultMap;
@@ -240,16 +242,16 @@ public class UserServiceImpl implements UserSerivce{
     }
 
 
-    // 거의 안쓸듯
-    public void deleteUser( String id ) throws Exception{
+//    // 거의 안쓸듯
+//    public void deleteUser( String id ) throws Exception{
+//
+//        userMapper.deleteUser( id );
+//    }
 
-        userMapper.deleteUser( id );
-    }
 
+    public int deleteUser( String id ) throws Exception{
 
-    public void updateWithdrawalStatus( String id ) throws Exception{
-
-        userMapper.updateWithdrawalStatus( id );
+       return userMapper.deleteUser( id );
 
 
     }
@@ -349,11 +351,28 @@ public class UserServiceImpl implements UserSerivce{
 
 	@Override
 	public void certifiedPhoneNumber(String userPhoneNumber, int smsCertification) throws Exception {
-		// TODO Auto-generated method stub
-		
+ 		
 	}
 
-    
+	@Override
+	public List<StoreApplicationDocument> getTestAppList(Paging paging) throws Exception {
+ 		return userMapper.getTestAppList(paging);
+	}
+
+	public int getTestAppListTotal(Paging paging) throws Exception {
+ 		return userMapper.getTestAppListTotal(paging);
   
+
+	}
+
+	@Override
+	public List<User> getUserList(Paging paging) throws Exception {
+ 		return userMapper.getUserList(paging);
+	}
+
+	@Override
+	public int getUserListTotal(Paging paging) throws Exception {
+ 		return userMapper.getUserListTotal(paging);
+	}
 
 }

@@ -7,7 +7,7 @@
 
 
 
-
+<!-- 회원 가입 -->
     <insert id ="addUser"   parameterType="User"   >
 
 		INSERT INTO user ( id
@@ -44,7 +44,7 @@
 			   );
 
 	</insert>
-
+<!-- 스토어 싱청 -->
 	<insert id ="addStoreApplicationDocument" parameterType="StoreApplicationDocument"     >
 		INSERT INTO store_application_document ( id, examination_status, product_detail, reg_date)
 		VALUES
@@ -57,7 +57,7 @@
  		WHERE id = #{id} AND password = #{password}
  
  </select>	   
-
+<!--  유저 정보 가져오기 -->
 <select id ="getUser" parameterType="String"    resultMap="userMap" >
 	SELECT user_number, id, `password`, gender, user_address1 , user_address2, user_address3, nickname, phone_number, `name`, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, `role`, store_name, withdrawal_status
 		FROM user
@@ -128,103 +128,17 @@
 			    		 </if>
 			    
 			    </where>
-
+order by reg_date desc;
 </select>
 
-  <!-- 
-  리스트는 계속계속 고치는 중 ,,,  뇌절 중  
-  키워드나 정렬 조건 새로 붙이기   , 이름 / 키워드 등 서치 키워드 다시 설정해서 넣기  0 전체 1 유저 , 2 스토어 검색 --> <!-- role 따라  -->
-<!-- 	  <select id ="getUserList" parameterType="map"   > 
-		SELECT *
-		  	FROM (	SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq
-			  			FROM(	SELECT user_number, id, password, gender,  user_address1 , user_address2, user_address3, nickname, phone_number, `name`, reg_date, join_path, book_number, total_point, store_logo_image, store_introduction, `role`, store_name, withdrawal_status
-								FROM user
-									<where>
-							 		<if test="searchCondition == 0 and searchKeyword !=''  ">
-									
-											name  LIKE '%' || #{searchKeyword} || '%'
-									
-									</if>
-							 		<if test="searchCondition == 1 and searchKeyword !=''  ">
-										role = "user" AND 	name  LIKE '%' || #{searchKeyword} || '%'
-									</if>
-									
-							 		<if test="searchCondition == 2 and searchKeyword !=''  ">
-										role LIKE '%store%' AND 	name  LIKE '%' || #{searchKeyword} || '%'
-									</if>											 
-								 </where>
-								 ) inner_table
-						WHERE (@ROWNUM:=0)=0 limit ${endRowNum} ) total
-			WHERE row_seq BETWEEN ${startRowNum} AND ${endRowNum} 
-	</select>
-
- -->
-
-
-	<!-- SQL : SELECT ROW Count (현재 search 없음) -->	 
-	<select  id="getUserTotalCount"  parameterType="map"	 resultType="int">
-	  	SELECT COUNT(*)
-	  		FROM(	
-	  			SELECT COUNT(*) 	
-	  				FROM user
-									<where>
-							 		<if test="searchCondition == 0 and searchKeyword !=''  ">
-									
-											name  LIKE '%' || #{searchKeyword} || '%'
-									
-									</if>
-							 		<if test="searchCondition == 1 and searchKeyword !=''  ">
-										role = 'user' AND 	name  LIKE '%' || #{searchKeyword} || '%'
-									</if>
-									
-							 		<if test="searchCondition == 2 and searchKeyword !=''  ">
-										role LIKE '%store%' AND 	name  LIKE '%' || #{searchKeyword} || '%'
-									</if>											 
-								 </where>
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	) countTable						
-	 </select> 
-
-
-
-
-
-
-<!-- 
-
-
-<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				user_id = #{searchKeyword}
-													</if>
-
-
- -->
-<!-- 망한 잔제임 
-<select id = "getUserListAll" parameterType="map" resultMap ="userMap">
-
-	SELECT   id,   phone_number, name, reg_date,  role, reg_date
-	FROM  USER
-		<if test="searchCondition != null">
-										<where>
-											<if test="searchCondition == null and searchKeyword !='' ">
-									 				role = #{searchKeyword}
-											</if>
-													 
-											</where>
-		</if>
-
-</select>
-
- -->
  
 
+
+
+ 
   
          
- <!-- 유저 업데이트 -->
+ <!-- 유저 업데이트 정보 업데이트 -->
   	 <update	id="updateUser"	parameterType="User" >
 	   	UPDATE user
 	   	<set>
@@ -250,7 +164,7 @@
 	 
 	 
  
- 
+<!--  스토어 신청서 승인시 role 상승 --> 
   	 <update	id="updateUserStore"	parameterType="map" >
 	   	UPDATE user
 	   	<set>
@@ -278,132 +192,38 @@
 	   	</set>
 	   	WHERE  store_application_document_number = #{storeApplicationDocumentNumber}
 	 </update>
-	 
-<!-- 리스트 서치시 밑 이용 가능  -->
- <!-- 망한 잔제  
- 	 <select id ="getStoreApplicationDocumentList" parameterType="com.faitmain.global.common.Search"   resultMap ="StoreApplicationDocumentMap">
-		SELECT *
-		FROM store_application_document
-		<if test="searchCondition != null">
-    		<where>
-    			examination_status = #{searchKeyword}
-    		</where>
-    	</if>
-   
-		
- 		ORDER BY reg_date desc  
-	</select>
-	
-	
-		 <select id ="getStoreApplicationDocumentALLList" parameterType="Map"   resultMap ="StoreApplicationDocumentMap">
-		SELECT *
-		FROM store_application_document
-		<if test="searchCondition != null">
-    		<where>
-    			examination_status = #{searchKeyword}
-    		</where>
-    	</if>
-   
-		
- 		ORDER BY reg_date desc  
-	</select>
-	  -->
-	<!-- 0 전체 1 - R , 2 -A , 3 - W -->
-	  <select id ="getStoreApplicationDocumentList" parameterType="map"  resultMap="StoreApplicationDocumentMap" > <!-- role 따라  -->
-		SELECT *
-		  	FROM (	SELECT inner_table.* ,u.store_name , @ROWNUM := @ROWNUM+1 AS row_seq
-			  			FROM(	SELECT *
-								FROM store_application_document
-									<where>
-							 	 
-							 		<if test="searchCondition == 1    ">
-										examination_status = 'R'  
-									</if>
-									
-							 		<if test="searchCondition == 2    ">
-										examination_status = 'A'  
-									</if>		
-									
-							 		<if test="searchCondition == 3    ">
-										examination_status = 'W'  
-									</if>																			 
-								 </where>
-								 ) inner_table  ,User u  
-						WHERE inner_table.id = u.id  and
-							 (@ROWNUM:=0)=0 limit ${endRowNum} ) total
-			WHERE row_seq BETWEEN ${startRowNum} AND ${endRowNum} 
-	</select>
-	
-	
-	
-		<select  id="getStoreApplicationDocumenTotalCount"  parameterType="map"	 resultType="int">
-	  	SELECT COUNT(*)
-	  		FROM(	
-	  			SELECT COUNT(*) 	
-	  				FROM store_application_document
-									<where>
-							 		
-							 		<if test="searchCondition == 1   ">
-										examination_status = 'R'  
-									</if>
-									
-							 		<if test="searchCondition == 2  ">
-										examination_status = 'A'  
-									</if>		
-									
-							 		<if test="searchCondition == 3    ">
-										examination_status = 'W'  
-									</if>												 
-								 </where>
-	  	
-	  	
-	  	
-	  	
-	  	
-	  	) countTable						
-	 </select> 
 
-	
-	
-	
-	
-	<!-- store  -->
+
+
  
-	
- <!-- 스토어 이미지 등록(최대 6개) -->
-
- 	<insert id="addImage" parameterType="com.faitmain.global.common.Image">
-		INSERT 
-		INTO image (image_classification_code, image_classification_number, image_name)
-		VALUES ('S', #{imageClassificationNumber}, #{imageName})
-	</insert>
-	
-	<!-- 스토어 이미지 조회 -->
- 	<select id="getImage" parameterType="int">
-		SELECT image_number, image_name
-		FROM image 
-		WHERE image_classification_code = 'S' AND image_classification_number = #{value}
+	<select id ="getStoreApplicationDocumentALLList" parameterType="Map"   resultMap ="StoreApplicationDocumentMap">
+		select inner_table.* ,u.store_name
+		 FROM	(SELECT *
+						FROM store_application_document
+				    		<where>
+				    				<if test="searchCondition != null and searchCondition != '' ">
+				    		
+				    			examination_status = #{searchCondition}
+				    			    	</if>
+				    			
+				    		</where>
+				   
+						
+				 		) inner_table ,User u
+		WHERE inner_table.id = u.id  ORDER BY reg_date desc  
+		 		
 	</select>
-	
-	
-	
-	
-	
-	<!-- delect User -->
-	<delete id= "deleteUser"   parameterType="String"  >
-	DELETE FROM user  WHERE id = #{value}
-	
-	</delete>
+
+ 
 	
 	
  <!-- updateWithdrawalStatus -->
-   	 <update	id="updateWithdrawalStatus"	parameterType="String" >
+   	 <update	id="deleteUser"	parameterType="String"   >
 	   	UPDATE user
 	   	<set>
-	   		updateWithdrawalStatus 		= 1		
-	   		phone_number = NULL		
-	   	</set>
-	   	WHERE  id = #{value}
+	   		withdrawal_status 		= 1		
+ 	   	</set>
+	   	WHERE  id =  #{value}
 	 </update>
 
 
@@ -411,6 +231,71 @@
 
 
 
+
+		<select id="login" resultType="user">
+			SELECT * FROM user
+		</select>
+	
+	
+		<!-- 스토어 신청서 LIST 뽑아오기 -->
+	<select id="getTestAppList"
+		resultMap="StoreApplicationDocumentMap">
+		 
+			SELECT s.* , u.store_name
+			FROM store_application_document s , user u
+			
+			WHERE s.id =  u.id
+			
+			<if test="keyword != null and keyword != '' ">
+			 and examination_status =#{keyword}
+	
+			</if>
+	
+	
+			order by store_application_document_number desc
+			limit #{skip}, #{amount}
+			
+		
+		
+	</select>
+	
+		<!-- 스토어 총 개수 -->
+		<select id="getTestAppListTotal" resultType="int">
+			select count(*) from `store_application_document`
+			<if test="keyword != null  and keyword != '' ">
+				where examination_status =#{keyword}
+			</if>
+		</select>
+	
+
+		<!-- 유저 리스트  LIST 뽑아오기 -->
+	<select id="getUserList"
+		resultMap="userMap">
+		 
+			SELECT *
+			FROM user
+			
+ 			
+			<if test="keyword != null  and keyword != '' ">
+				where role =#{keyword}
+			</if>
+	
+	
+			order by reg_date desc
+			limit #{skip}, #{amount}
+			
+		
+		
+	</select>
+	
+		<!-- 유저 리스트  개수 -->
+		<select id="getUserListTotal" resultType="int">
+			select count(*) from user
+			<if test="keyword != null  and keyword != '' ">
+				where role =#{keyword}
+			</if>
+		</select>
+	
 
 
 
@@ -478,10 +363,102 @@
         </resultMap>
 
 
-	<select id="login" resultType="user">
-		SELECT * FROM user
+
+	 
+<!-- 리스트 서치시 밑 이용 가능  -->
+ <!-- 망한 잔제  
+ 	 <select id ="getStoreApplicationDocumentList" parameterType="com.faitmain.global.common.Search"   resultMap ="StoreApplicationDocumentMap">
+		SELECT *
+		FROM store_application_document
+		<if test="searchCondition != null">
+    		<where>
+    			examination_status = #{searchKeyword}
+    		</where>
+    	</if>
+   
+		
+ 		ORDER BY reg_date desc  
 	</select>
+	
+	
+		 <select id ="getStoreApplicationDocumentALLList" parameterType="Map"   resultMap ="StoreApplicationDocumentMap">
+		SELECT *
+		FROM store_application_document
+		<if test="searchCondition != null">
+    		<where>
+    			examination_status = #{searchKeyword}
+    		</where>
+    	</if>
+   
+		
+ 		ORDER BY reg_date desc  
+	</select>
+	  -->
+	<!-- 0 전체 1 - R , 2 -A , 3 - W -->
+<!-- 0 전체 1 - R , 2 -A , 3 - W --><!-- role 따라  
+	  <select id ="getStoreApplicationDocumentList" parameterType="map"  resultMap="StoreApplicationDocumentMap" > 
+		SELECT *
+		  	FROM (	SELECT inner_table.* ,u.store_name , @ROWNUM := @ROWNUM+1 AS row_seq
+			  			FROM(	SELECT *
+								FROM store_application_document
+									<where>
+							 	 
+							 		<if test="searchCondition == R">
+										examination_status = 'R'  
+									</if>
+									
+							 		<if test="searchCondition == A">
+										examination_status = 'A'  
+									</if>		
+									
+							 		<if test="searchCondition == W">
+										examination_status = 'W'  
+									</if>																			 
+								 </where>
+								 ) inner_table  ,User u  
+						WHERE inner_table.id = u.id  and
+							 (@ROWNUM:=0)=0 limit ${endRowNum} ) total
+			WHERE row_seq BETWEEN ${startRowNum} AND ${endRowNum} 
+	</select>
+	
+	
+	
+		<select  id="getStoreApplicationDocumenTotalCount"  parameterType="map"	 resultType="int">
+	  	SELECT COUNT(*)
+	  		FROM(	
+	  			SELECT COUNT(*) 	
+	  				FROM store_application_document
+									<where>
+							 		
+							 		<if test="searchCondition == R   ">
+										examination_status = 'R'  
+									</if>
+									
+							 		<if test="searchCondition == A  ">
+										examination_status = 'A'  
+									</if>		
+									
+							 		<if test="searchCondition == W    ">
+										examination_status = 'W'  
+									</if>												 
+								 </where>
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	) countTable						
+	 </select> 
+-->
+	
+	
+	
+	
+	<!-- store  -->
+ 
+	
 
 
-
+ 
+	 
 </mapper>

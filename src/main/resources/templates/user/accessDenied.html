@@ -11,6 +11,9 @@
 
 
 </head>
+
+
+
     <title>  accessDenied </title>
 
  
@@ -23,12 +26,61 @@
 		
 		body{font-family: 'Nanum Gothic Coding', monospace;}
 		 
+		 @import url('//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css');
+
+body{
+   margin:0;
+   padding:0;
+}
+section{
+   width:100%;
+   height:1090px;
+   background-color:#BDBDBD;
+}
+.accessdenied{
+   position:absolute;
+   width:40%;
+   height:400px;
+   background-color:#fff;
+   top:50%;
+   left:50%;
+   transform:translate(-50%,-50%);
+   box-shadow:0 5px 20px rgba(0,0,0,0.5);
+   text-align:center;
+}
+.accessdenied h1{
+   margin-top:100px;
+   font-size:40px;
+}
+.accessdenied h1 i{
+   padding:2%;
+   color: #D8000C;
+}
+.accessdenied span{
+   background-color:#636363;
+   color:#fff;
+   padding:2% 5%;
+}
+
+.accessdenied span:hover{
+   box-shadow:0 5px 20px rgba(0,0,0,0.5);
+   border:1px solid #000;
+   background-color:transparent;
+   color:#000;
+   cursor:pointer;
+}
+		 
     </style>
 <body>
- <br> 
-accessDenied , accessDenied , accessDenied 페이지입니다. <br>
- 알맞는 권한으로 접근 부탁드립니다.    
-  <br>
+  
+   <section>
+   <div class="accessdenied">
+      <h1> <i class="fa fa-warning"></i>Access Denied</h1>
+       <br>
+      <span onclick="javascript:history.back();">Exit</span>
+   </div>
+</section>
+  
 </body>
 
 

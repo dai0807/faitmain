@@ -1,6 +1,8 @@
 
 package com.faitmain.domain.customer.controller;
 
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.maven.shared.invoker.SystemOutLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,15 +22,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.service.CustomerService;
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.global.common.MiniProjectPage;
 import com.faitmain.global.common.Page;
 import com.faitmain.global.common.Paging;
 import com.faitmain.global.common.Search;
 import com.faitmain.global.util.UiUtils;
 import com.faitmain.global.util.security.SecurityUserService;
+
 
 @Controller
 @RequestMapping("/customer/")
@@ -36,6 +42,7 @@ public class CustomerController extends UiUtils {
 	@Autowired
 	@Qualifier("customerServiceImpl")
 	private CustomerService customerService;
+	
 
 	@GetMapping("openBoardIndex")
 	public String openBoardIndex() throws Exception {
@@ -77,12 +84,9 @@ public class CustomerController extends UiUtils {
 		
 		List<Customer> list = customerService.getCustomerBoardList(customer.getBoardType());
 		
-		System.out.println(list);
-		
-		
 		model.addAttribute("boardList", list);
 		if(customer.getBoardType() == 'N') {
-			url = "customer/noticeList";
+			url = "redirect:/customer/listBoard?boardType="+customer.getBoardType();
 		}else if(customer.getBoardType() == 'L') {
 			url = "customer/liveGuideDetail";
 		}else if(customer.getBoardType() == 'F') {
@@ -95,54 +99,84 @@ public class CustomerController extends UiUtils {
 	
 // 게시판 수정
 	@GetMapping("updateBoard")
-	public String updateBoard(@RequestParam("boardType")char boardType, Model model) throws Exception {
-	
+	public String updateBoard(@ModelAttribute Customer customer, Model model) throws Exception {
+		System.out.println("=======update=====");
 		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
 		User user = (User) securityUserService.getUser();
 		
-		Customer customer = customerService.getLiveGuide(boardType);
+		String url = null;
 		
-		model.addAttribute("customer", customer);
-		return "admin/updateLiveGuide";
+		model.addAttribute("customer", customerService.getCustomerBoard(customer.getBoardType()));
+		System.out.println(customer.getBoardNumber());
+		
+		if(customer.getBoardType() == 'N') {
+			url = "admin/noticeUpdate";
+		}else if(customer.getBoardType() == 'L'){
+			url = "admin/updateLiveGuide";
+		}
+		return url;
 	}
 	
 	@PostMapping("updateBoard")
-	public String updateBoard(@ModelAttribute("customer") Customer customer) throws Exception {
+	public String updateBoard(@ModelAttribute Customer customer) throws Exception {
 		
 		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
 		User user = (User) securityUserService.getUser();
 		
+		String url = null;
+		
 		customerService.updateCustomerBoard(customer);
-		return "redirect:/customer/detailGuide?boardType="+ customer.getBoardType();
+		if(customer.getBoardType() == 'N') {
+			url =  "redirect:/customer/detailBoard?boardType="+ customer.getBoardType();
+		}else if(customer.getBoardType() == 'L')
+			url = "redirect:/customer/detailGuide?boardType="+ customer.getBoardType();
+		
+		return url;
 	}
 
 
 //	게시판 목록	(페이징 적용, 게시판 타입별, 라이브가이드 카테고리별 조회 적용)	
 	@GetMapping("listBoard")
-	public String openBoardList(@ModelAttribute Customer customer, Model model, Paging paging) throws Exception {
+	public String getCustomerBoardList(@ModelAttribute Customer customer, Model model, @ModelAttribute Paging paging) throws Exception {
 		
 		System.out.println("=======list==========");
+		
+		List<Customer> boardList = null;
 		String url =  null;
-		List<Customer> boardList=null;
+		
 		if(customer.getBoardType() == 'N') {
+			
 			boardList = customerService.getCustomerBoardList(customer.getBoardType());
-			url= "customer/noticeList";
 			
 			System.out.println(boardList);
+			
+			url= "customer/noticeList";
 						
 		}else if(customer.getBoardType() == 'L') {
+			
 			boardList = customerService.getCustomerBoardList(customer.getBoardType());
+			
+			
 			url = "admin/liveGuideList";
 			
 		
 		}else if(customer.getBoardType() == 'F'){	
+			
 			boardList = customerService.getFAQList(customer.getFAQCategoryCode());
-			System.out.println(customer.getFAQCategoryCode());
+			
 			
 			url="customer/faqList";
 		}		
-		System.out.println(url);
 		model.addAttribute("boardList", boardList);
+		
+		model.addAttribute("boardList", customerService.getListPaging(paging));
+		
+		int total = customerService.getBoardTotalCount();
+        
+        Page page = new Page(paging, total);
+        
+        model.addAttribute("page", page);
+		
 		return url;
 		
 	}
@@ -151,10 +185,14 @@ public class CustomerController extends UiUtils {
 	
 	
 	@GetMapping("detailBoard")
-	public String openBoardDetail(@RequestParam(value="boardNumber", required=false) Integer boardNumber, Model model) throws Exception{
-		
+	public  String getCustomerBoard(@RequestParam(value="boardNumber", required=false) Integer boardNumber, Model model, Paging paging) throws Exception{
+	
+		boardNumber = 0;
+		System.out.println("============= detail ===============");
 		model.addAttribute("customer", customerService.getCustomerBoard(boardNumber));
-		
+		System.out.println(boardNumber);
+		model.addAttribute("paging", paging);
+		System.out.println(paging);
 		return "customer/noticeDetail";
 	}
 	
@@ -178,43 +216,6 @@ public class CustomerController extends UiUtils {
 		return url;
 	}
 	
-
-
-
-//	@GetMapping("listFAQ")
-//	public String openFAQList(Model model) throws Exception {
-
-//		
-//		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
-//		User user = (User) securityUserService.getUser();
-//		
-//		String url =  null;
-//		
-//		System.out.println("ddd" + boardType);
-//		System.out.println("ddd" + FAQCategoryCode);
-//
-//		customer.setBoardType(boardType);
-//		customer.setFAQCategoryCode(FAQCategoryCode);
-//		
-//		System.out.println(FAQCategoryCode);
-//		
-//		customerService.addCustomerBoard(customer);
-//
-//		List<Customer> list = customerService.getCustomerBoardList(customer.getBoardType());
-//
-//		model.addAttribute("boardList", list);
-//		
-//		if(customer.getBoardType() == 'N') {
-//			url = "customer/noticeList";
-//		}else if(customer.getBoardType() == 'L') {
-//			url = "customer/liveGuideDetail";
-//		}else if(customer.getBoardType() == 'F') {
-//			url =  "customer/faqList";
-//		}
-//		
-//		return url;
-//
-//	}
 //
 //
 ////	게시판 목록	(페이징 적용, 게시판 타입별, 라이브가이드 카테고리별 조회 적용)	

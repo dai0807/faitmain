@@ -6,6 +6,7 @@ import com.faitmain.domain.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,14 +32,19 @@ public class SecurityUserDetailService implements UserDetailsService{
 		
 		System.out.println("id :: + " + id) ;
 		User user = usermapper.getUser(id) ;
-		if(user == null) {
-            throw new UsernameNotFoundException( "유저없음" );
+		if(user.getId() == null) {
+            throw new UsernameNotFoundException("사용자가 존재하지 않음");
             
-
 		}  
 		
 			SecurityUserService loginDetail = new SecurityUserService(); // DB에 유저 정보를 확인하고 있다면 , loginDetail에 User를 담아서 반환하며 시큐리티 세션에 저장
-             loginDetail.setUser( user ); // 유저 디테일에 user 던짐
+			if( user.getWithdrawalStatus()) {
+			
+        		throw new DisabledException("탈퇴한 회원입니다.");
+
+			}
+			
+			loginDetail.setUser( user ); // 유저 디테일에 user 던짐
              
  	           System.out.println("유저 있음");
         

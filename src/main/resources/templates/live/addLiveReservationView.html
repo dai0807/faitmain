@@ -24,7 +24,7 @@
 	<article layout:fragment="content">
 		<div class="container">
 		
-			<h5>프리미엄 라이브 예약 등록</h5>
+			<h5 style="margin-top: 10px; font-size= 30px;">프리미엄 라이브 예약 등록</h5>
 			
 			<hr/>
 			
@@ -53,8 +53,9 @@
 					<input class="form-check-input" type="checkbox" th:value="${product.productNumber}" id="liveProductNum" name="liveProductNum">
 					<label class="form-check-label" for="liveProduct" th:text="${product.productName}">productName</label>
 				</div>
-				
-				<button type="button" class="btn btn-success">등록하기</button>
+				<div style="display: flex; flex-direction: column-reverse; align-items: center; margin-top: 60px;">
+					<button type="button" class="btn btn-success">등록하기</button>
+				</div>
 				
 			</form>
 			

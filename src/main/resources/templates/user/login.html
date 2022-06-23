@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html layout:decorate="~{/layout/default_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+				layout:decorate = "~{layout/default_layout}"
+      			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
 
@@ -14,6 +16,10 @@
 	<!-- jQuery -->
 	<script crossorigin="anonymous" src="https://kit.fontawesome.com/10b89606ac.js"></script>
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+	
+	<!--sweetalert  -->
 
 	<script type="text/javascript">
 
@@ -40,37 +46,7 @@
 					return;
 				}
 
-				/* rest login 주석 
-								$.ajax({
-									url: "/user/json/login", //주소
-									type: "POST", //전송타입
-									data: $("#form").serialize(), //봬는 데이터
-									dataType: "JSON", // 응답 받을 데이터
-									success: function (data) {
-										console.log("로그인 결과는 " + data);
-										if (data == "1") {
-											location.href = "/"
-				
-										} else if (data == "0") {
-											alert("아이디 비밀번호를 확인해 주세요 ");
-				
-										} else if (data == "withdraw") {
-											alert("로그인 할 수 없는 회원입니다. ");
-				
-										}
-				
-									},
-									//요청 실패시 나오는
-									error: function (jqXHR, textStatus, errorThrown) {
-										console.log(jqXHR);  //응답 메시지
-										console.log(textStatus); //"error"로 고정인듯함
-										console.log(errorThrown);
-									}
-				
-				
-								});
-				*/
-
+		 
 				$("form").attr("method", "POST").attr("action", "/user/login").submit();
 
 
@@ -109,27 +85,84 @@
 			self.location = "/user/addStore";
 
 		}
+	
+	// 로그인 실패시 alert창 
+			$(function () {
 
+
+				var url = window.location.href; // 전체 Url을 가져온다.
+				search = location.search	 // 쿼리 트링
+				console.log(search)
+
+
+				let params = new URLSearchParams(search);
+				let errorMessage = params.get('errorMessage');	 //params 에서 errorMessage 뽑기
+
+				console.log(errorMessage)
+  
+
+				if(errorMessage == 1){
+					Swal.fire({
+						title: '아이디와 비밀번호가 맞지 않습니다.',
+						text: '아이디와 비밀번호 확인 후 입력 부탁드립니다.',
+						icon: 'warning',
+
+					});
+
+
+
+				}
+				else if (errorMessage == 2) {
+					
+					Swal.fire({
+						title: '존재 하지 않는 회원입니다.',
+						text: '회원가입 후 로그인 부탁드립니다. ',
+						icon: 'info',
+					});
+
+				} else if (errorMessage == 3) {
+
+					Swal.fire({
+						title: '아이디와 비밀번호가 맞지 않습니다.',
+						text: '아이디와 비밀번호 확인 후 입력 부탁드립니다.',
+						icon: 'warning',
+
+					});
+
+				} else if (errorMessage == 4){
+					
+				}
+
+ 	});
+		
+		
+		
+		
+	 
+		
 	</script>
+	
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 	<style>
 		.wrapper {
-			display: grid;
+			
 			place-items: center;
 		}
 
 
 		/* BASIC */
-		/*
-       html {
-         background-color: #56baed;
+		
+       body, html {
+        	height: 100%;
        }
-        #cccccc;
-        */
+       
+        
 	</style>
 	<!-- 길이는 스타일 건들이 -->
 </head>
 
-<div>
+<body>
 	<article layout:fragment="content">
 		<div class="wrapper">
 
@@ -168,7 +201,8 @@
                               <a class = "p-2"  th:href = "@{/oauth2/authorization/naver}">네이버 로그인 </a>  -->
 								<a class="p-2" href="/oauth2/authorization/naver"> <img src="/img/btnG_official.png"
 										style="height:50px;"> </a>
-
+								<!--	<a class="p-2" href="/oauth2/authorization/kakao"> <img src="/img/btnG_official.png"
+										style="height:50px;"> </a>-->
 
 						</form>
 

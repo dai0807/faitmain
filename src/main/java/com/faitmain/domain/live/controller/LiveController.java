@@ -478,7 +478,7 @@ public class LiveController {
 
 		log.info("editRoom live = {}", live);
 
-		// liveService.sendSMS(live);
+		liveService.sendSMS(live);
 
 		return "live/live";
 

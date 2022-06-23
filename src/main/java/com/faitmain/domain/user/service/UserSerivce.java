@@ -3,6 +3,7 @@ package com.faitmain.domain.user.service;
 import com.faitmain.domain.user.domain.StoreApplicationDocument;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Image;
+import com.faitmain.global.common.Paging;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,9 +14,27 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 public interface UserSerivce{
 
+// 신청서 리스트 
+	public List<StoreApplicationDocument> getTestAppList(Paging paging) throws Exception;
+ 
+// 신청서 총 개수
+    /* 주문 총 개수 */
+	public int getTestAppListTotal(Paging paging) throws Exception;
 
+	
 
-    //  insert 유저
+	// 신청서 리스트 
+		public List<User> getUserList(Paging paging) throws Exception;
+	 
+	// 신청서 총 개수
+	    /* 주문 총 개수 */
+		public int getUserListTotal(Paging paging) throws Exception;
+
+		
+	
+	
+	
+	//  insert 유저
 	public int addUser( User user ) throws Exception;
 
 	// insert 스토어
@@ -88,10 +107,8 @@ public interface UserSerivce{
 	
 	
 
-    //거의 안할 듯
-	void deleteUser( String id ) throws Exception;
-
-    void updateWithdrawalStatus( String id ) throws Exception;
+   
+    int deleteUser( String id ) throws Exception;
 
 
     //문자 보내기

@@ -3,6 +3,7 @@ package com.faitmain.domain.live.controller;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -380,19 +382,22 @@ public class LiveRestController {
 			throws Exception {
 
 		log.info("editRoom = {} ", this.getClass());
+		
+		
+		
 
 		// DB에 강제퇴장 내용 등록
 
-		LiveUserStatus live = new LiveUserStatus();
-		for (String id : clientKey) {
-			live.setLiveNumber(liveService.getLiveNumberByRoomId(roomId).getLiveNumber());
-			live.setId(id);
-			live.setKickStatus(1);
-
-			liveService.addLiveUserStatus(live);
-
-			System.out.println(live);
-		}
+//		LiveUserStatus live = new LiveUserStatus();
+//		for (String id : clientKey) {
+//			live.setLiveNumber(liveService.getLiveNumberByRoomId(roomId).getLiveNumber());
+//			live.setId(id);
+//			live.setKickStatus(1);
+//
+//			liveService.addLiveUserStatus(live);
+//
+//			System.out.println(live);
+//		}
 
 		String token = getToken();
 
@@ -415,7 +420,7 @@ public class LiveRestController {
 		sc.init(null, trustCerts, new java.security.SecureRandom());
 
 		for (String client : clientKey) {
-
+			
 			URL url = new URL("https://vchatcloud.com/openapi/v1/exiles/" + roomId + "/" + client);
 
 			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
