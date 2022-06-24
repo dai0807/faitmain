@@ -41,7 +41,7 @@
         <table class="table custom-table">
           <thead>
             <tr>
-              
+              <th scope="col">번호</th>
               <th scope="col">제목</th>
               <th scope="col">작성자</th>
               <th scope="col">등록일</th>
@@ -51,8 +51,9 @@
           </thead>
           <tbody>
             <tr th:if="${not #lists.isEmpty(boardList)}" th:each="row : ${boardList}">
+            	<td th:text="${row.boardNumber}"></td>
 				<td class="text-left">
-					<a class="move" th:href="@{/customer/detailBoard?boardNumber=__${row.boardNumber}__&pageNum=__${page.paging.pageNum}__}" th:text="${row.boardTitle}">num</a>
+					<a class="move" th:href="@{/customer/detailBoard?boardNumber=__${row.boardNumber}__&pageNum=__${page.paging.pageNum}__}" th:text="${row.boardTitle}"></a>
 				</td>
 				<td th:text="${row.customerId.id}"></td> 
 				<td th:text="${#dates.format(row.boardRegDate, 'yyyy-MM-dd')}"></td>

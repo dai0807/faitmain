@@ -135,12 +135,15 @@
 		<where>
 			customer_board_type = #{boardType}
 		</where>
-		ORDER BY reg_date DESC) as T1
+		ORDER BY reg_date DESC ) as T1
+		
 		
 		LIMIT #{paging.skip}, #{paging.amount}
 		
 		
 	</select>
+	
+	
     
      <select id="getListPaging"   resultType="Customer"   >
      

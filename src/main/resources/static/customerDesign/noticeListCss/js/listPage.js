@@ -78,5 +78,12 @@ $(document).ready(function () {
     $("#cancel_btn").on("click", function(e){
         form.attr("action", "/board/get");
         form.submit();
-    });    
+    });  
+    
+      
 }); // ready
+
+$(document).ready(function(){
+	
+	let result = '<th:text'
+})

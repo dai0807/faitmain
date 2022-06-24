@@ -13,8 +13,8 @@ public class Customer{
 	private int boardNumber;
 	private String boardTitle;
 	private String boardContent;
-	private Date boardRegDate;
-	private Time boardUpdateDate;
+	private Timestamp boardRegDate;
+	private Timestamp boardUpdateDate;
 	private String FAQCategoryCode;
 	private char boardType;
 	private User customerId;

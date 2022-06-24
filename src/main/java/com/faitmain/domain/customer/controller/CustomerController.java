@@ -105,9 +105,7 @@ public class CustomerController extends UiUtils {
 		User user = (User) securityUserService.getUser();
 		
 		String url = null;
-		
-		
-		
+				
 		model.addAttribute("customer", customerService.getCustomerBoard(customer.getBoardNumber()));
 		System.out.println(customerService.getCustomerBoard(customer.getBoardNumber()));
 		
@@ -120,7 +118,7 @@ public class CustomerController extends UiUtils {
 	}
 	
 	@PostMapping("updateBoard")
-	public String updateCustomerBoardad(@ModelAttribute Customer customer) throws Exception {
+	public String updateCustomerBoardad(@ModelAttribute Customer customer, RedirectAttributes rttr) throws Exception {
 		
 		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
 		User user = (User) securityUserService.getUser();
@@ -128,6 +126,7 @@ public class CustomerController extends UiUtils {
 		String url = null;
 		
 		customerService.updateCustomerBoard(customer);
+		rttr.addFlashAttribute("result", "update success");
 		if(customer.getBoardType() == 'N') {
 			url =  "redirect:/customer/detailBoard?boardType="+ customer.getBoardType();
 		}else if(customer.getBoardType() == 'L')
