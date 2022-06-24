@@ -19,8 +19,7 @@ public class StoreApplicationDocument {
 		private	String storeIntroduction ;
 		private	String examinationStatus ; // R, A ,W 
 		private	String productDetial ;
-		private	List<Image> productmanufacturingImage ;
-		private Date regDate ;
+ 		private Date regDate ;
 		private String storeLogoImage;
 		 
  		

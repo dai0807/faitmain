@@ -96,10 +96,7 @@ public class UserServiceImpl implements UserSerivce{
     }
     //insert  이미지
 
-    public int addImage( Image image ) throws Exception{
-        return userMapper.addImage( image );
-
-    }
+ 
 
     //SELECT  유저 상세 조회
     public User getUser( String id ) throws Exception{
@@ -147,44 +144,38 @@ public class UserServiceImpl implements UserSerivce{
     }
 
 
-    //SELECT 스토어 이미지 조회  사라질 운명
-    public List<Image> getImageList( int storeApplicationDocumentNumber ) throws Exception{
-        List<Image> list;
-        list = userMapper.getImage( storeApplicationDocumentNumber );
-        return list;
-
-    }
-
-    //SELECT USER 리스트 조회
-    public Map<String, Object> getUserList( Map<String, Object> map ) throws Exception{
-        List<User> list;
-        list = userMapper.getUserList( map );
-
-        int totalCount = userMapper.getUserTotalCount( map );
-
-
-        Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put( "list" , list );
-        resultMap.put( "totalCount" , new Integer( totalCount ) );
-
-
-        return resultMap;
-
-    }
-
-    //SELECT 스토어 리스트 조회
-    public Map<String, Object> getStoreApplicationDocumentList( Map<String, Object> map ) throws Exception{
-        List<StoreApplicationDocument> list;
-        list = userMapper.getStoreApplicationDocumentALLList( map );
-//        int totalCount = userMapper.getStoreApplicationDocumenTotalCount( map );
-
-        Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put( "list" , list );
+ 
+//
+//    //SELECT USER 리스트 조회
+//    public Map<String, Object> getUserList( Map<String, Object> map ) throws Exception{
+//        List<User> list;
+//        list = userMapper.getUserList( map );
+//
+//        int totalCount = userMapper.getUserTotalCount( map );
+//
+//
+//        Map<String, Object> resultMap = new HashMap<String, Object>();
+//        resultMap.put( "list" , list );
 //        resultMap.put( "totalCount" , new Integer( totalCount ) );
-
-
-        return resultMap;
-    }
+//
+//
+//        return resultMap;
+//
+//    }
+//
+//    //SELECT 스토어 리스트 조회
+//    public Map<String, Object> getStoreApplicationDocumentList( Map<String, Object> map ) throws Exception{
+//        List<StoreApplicationDocument> list;
+//        list = userMapper.getStoreApplicationDocumentALLList( map );
+////        int totalCount = userMapper.getStoreApplicationDocumenTotalCount( map );
+//
+//        Map<String, Object> resultMap = new HashMap<String, Object>();
+//        resultMap.put( "list" , list );
+////        resultMap.put( "totalCount" , new Integer( totalCount ) );
+//
+//
+//        return resultMap;
+//    }
 
 
     ////////////////////////////////UPDATE////////////////////////////////////////////////////
@@ -276,17 +267,19 @@ public class UserServiceImpl implements UserSerivce{
 
 
         //나의 API 키
-        String api_key = "NCSX1AN2GVPGAKYQ";
-        String api_secret = "VU56XMOI4OLSANYT4OD1LQJUVNOSS9KN";
-
+//        String api_key = "NCSX1AN2GVPGAKYQ";
+//        String api_secret = "VU56XMOI4OLSANYT4OD1LQJUVNOSS9KN";
+        //친구가 공유한  API 키
+      String api_key = "NCSFLNAKPLATWT5U";
+      String api_secret = "UQHE4HDGLZ99FWYC4YHSECRYKMLHGVZI";
         Message coolsms = new Message( api_key , api_secret );
         HashMap<String, String> map = new HashMap<String, String>();
         map.put( "to" , userPhoneNumber );
         // 수신전화번호
-        map.put( "from" , "01028382468" );
+        map.put( "from" , "01080077545" );
         // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
         map.put( "type" , "SMS" );
-        map.put( "text" , "[TEST] 인증번호는" + "[" + randomNumber + "]" + "입니다." );
+        map.put( "text" , "[Fait-Main] 인증번호는" + "[" + randomNumber + "]" + "입니다." );
         // 문자 내용 입력
         map.put( "app_version" , "test app 1.2" );
         // application name and version
@@ -304,7 +297,10 @@ public class UserServiceImpl implements UserSerivce{
     }
 
     //문자 인증
- 
+	@Override
+	public void certifiedPhoneNumber(String userPhoneNumber, int smsCertification) throws Exception {
+ 		
+	}
     
 	public String addFile(MultipartFile file) throws Exception {
 		
@@ -344,23 +340,20 @@ public class UserServiceImpl implements UserSerivce{
 	}
 
 	 
- 
+ /*
 	public List<User> getlist(Map<String, Object> map) throws Exception {
  		return userMapper.getlist(map);
 	}
+*/
+
 
 	@Override
-	public void certifiedPhoneNumber(String userPhoneNumber, int smsCertification) throws Exception {
- 		
+	public List<StoreApplicationDocument> getStoreApplicationDocumentList(Paging paging) throws Exception {
+ 		return userMapper.getStoreApplicationDocumentList(paging);
 	}
 
-	@Override
-	public List<StoreApplicationDocument> getTestAppList(Paging paging) throws Exception {
- 		return userMapper.getTestAppList(paging);
-	}
-
-	public int getTestAppListTotal(Paging paging) throws Exception {
- 		return userMapper.getTestAppListTotal(paging);
+	public int getStoreApplicationDocumentListTotal(Paging paging) throws Exception {
+ 		return userMapper.getStoreApplicationDocumentListTotal(paging);
   
 
 	}
@@ -374,5 +367,7 @@ public class UserServiceImpl implements UserSerivce{
 	public int getUserListTotal(Paging paging) throws Exception {
  		return userMapper.getUserListTotal(paging);
 	}
+
+	 
 
 }
