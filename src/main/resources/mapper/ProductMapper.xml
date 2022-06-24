@@ -96,7 +96,7 @@
 	<select  id="getProductList"  parameterType="map"	resultMap="productSelectMap">
 		SELECT * 
 		FROM ( SELECT inner_table.* , @ROWNUM := @ROWNUM+1 AS row_seq 
-			   FROM (	SELECT p.product_number, p.product_name, p.product_price, p.product_main_image, p.product_category_code, p.product_status,	p.reg_date
+			   FROM (	SELECT p.product_number, p.product_name, p.product_price, p.product_main_image, p.product_category_code, p.product_status,	p.reg_date, p.store_id
 			   			FROM product p 
 			   			<where>
 			   				p.product_group_number is null

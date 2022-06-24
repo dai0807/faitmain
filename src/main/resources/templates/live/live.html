@@ -105,6 +105,8 @@
 			<div class="livecommerce" style="margin-left: 50px;">
 			                
 				<div class="my_cam" style="height : 675px"></div>
+	
+			
 			                    
 				<div class="remote_cam"></div>
 			
@@ -191,7 +193,7 @@
    		</div>
    	</div>
    
-   <!-- =========================== 카메라 / 마이크 ON OFF 수정 해야함 ============================================== -->
+   <!-- =========================== 카메라 / 마이크 ON OFF ============================================== -->
 
         <div class="cam-footer" style="width: 1046px; text-align: center;">
           <div class="cam-btn">
@@ -264,6 +266,7 @@ let channel, // joinRoom() 내부에서 채널 객체를 저장할 곳
 let myCam
 
 	window.addEventListener("load", function () {
+		
   	// 접속자의 미디어 소스를 보여줄 위치
   	 c = $('div.chat_contents').hide();
   	likeInif();

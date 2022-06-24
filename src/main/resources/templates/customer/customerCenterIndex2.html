@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang = "ko" layout:decorate = "~{/layout/default_layout}"
       xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      >
 
 
 <head>
@@ -51,99 +51,98 @@
 </script>
 <!-- End Channel Plugin -->	
     <title>faitmain</title>
-   <style>
+ <!--   <style>
    	body{
    		background-image:url(/img/customer/support2.jpg);
    		background-repeat: no-repeat;
    		background-size: cover;
    		height: 100vh;
    	}
-   </style>
+   </style> -->
 </head> 
      
 <body id="page-top">
 <article class="py-5" layout:fragment="content">
+<div id = 'wrapper'>
+		<div class="container">
+			<div class="process-row">
+			    <div class="activity animate-from-bottom__0">
+			        <div class="relative-block">
+			            <div class="activity-icon">
+			             <a class="link_service" th:href="@{/customer/listBoard?boardType=N}">
+			               <!--  <img alt="An image" src="https://i.ibb.co/ZWp3Yts/ad-operations-process-strategy.png"> -->
+			                <img id = "An image" th:src="@{https://i.ibb.co/ZWp3Yts/}+@{/img/customer/ad-operations-process-strategy.png}" />
+			            </div>
+			            <div class="inactive">
+			                <div class="title"> </div>
+			            </div>
+			            <div class="active">
+			                <div class="title_1">고객센터</div>
+			                <div class="sub-title"></div>
+			            </div>
+			            </a>
+			        </div>
+			    </div>
+			    <div class="activity animate-from-bottom__1">
+			        <div class="relative-block">
+			            <div class="activity-icon">
+			               <!--  <img alt="An image" src="https://i.ibb.co/s2nghrT/ad-operations-process-strategy-activation.png" alt="ad-operations-process-strategy-activation"> -->
+			                <a class="link_service" th:href="@{/customer/listBoard?boardType=F&FAQCategoryCode=00}">
+			                <img id = "An image" th:src="@{https://i.ibb.co/s2nghrT/}+@{/img/customer/ad-operations-process-strategy-activation.png}"  alt="ad-operations-process-strategy-activation"/>
+			            </div>
+			            <div class="inactive">
+			                <div class="title"></div>
+			            </div>
+			            <div class="active">
+			                <div class="title_1">자주묻는질문</div>
+			                <div class="sub-title"></div>
+			                
+			            </div>
+			            </a>
+			        </div>
+			    </div>
+			    <div class="activity animate-from-bottom__2">
+			        <div class="relative-block">
+			            <div class="activity-icon">
+			           <!-- <img alt="An image" src="https://i.ibb.co/ZWp3Yts/ad-operations-process-strategy.png"> -->
+			                <a class="link_service" th:href="@{/customer/detailGuide?boardType=L}">
+			                <img id = "An image" th:src="@{https://i.ibb.co/ZWp3Yts/}+@{/img/customer/ad-operations-process-strategy.png}" />
+			            </div>
+			            <div class="inactive">
+			                <div class="title"></div>
+			            </div>
+			            <div class="active">
+			                <div class="title_1">라이브가이드</div>
+			                <div class="sub-title"></div>
+			            </div>
+			            </a>
+			        </div>
+			    </div>
+			    <div class="activity animate-from-bottom__3">
+			        <div class="relative-block">
+			            <div class="activity-icon">
+			             <!--<img alt="An image" src="https://i.ibb.co/s2nghrT/ad-operations-process-strategy-activation.png" alt="ad-operations-process-strategy-activation"> -->
+			                   <a class="link_service" th:href="@{/customer/addReport}">
+			                  <img id = "An image" th:src="@{https://i.ibb.co/s2nghrT/}+@{/img/customer/ad-operations-process-strategy-activation.png}" alt="ad-operations-process-strategy-activation"/>
+			            </div>
+			            <div class="inactive">
+			                <div class="title"></div>
+			            </div>
+			            <div class="active">
+			                <div class="title_1">신고</div>
+			                <div class="sub-title"></div>
+			        
+			            </div>
+			        </div>
+			    </div>
+			   
+			</div>
+		</div>
 
-<main id="faitmainContent">
-	<div class="container">
-	<div class="process-row">
-	    <div class="activity animate-from-bottom__0">
-	        <div class="relative-block">
-	            <div class="activity-icon">
-	             <a class="link_service" th:href="@{/customer/listBoard?boardType=N}">
-	               <!--  <img alt="An image" src="https://i.ibb.co/ZWp3Yts/ad-operations-process-strategy.png"> -->
-	                <img id = "An image" th:src="@{https://i.ibb.co/ZWp3Yts/}+@{/img/customer/ad-operations-process-strategy.png}" />
-	            </div>
-	            <div class="inactive">
-	                <div class="title"> </div>
-	            </div>
-	            <div class="active">
-	                <div class="title_1">고객센터</div>
-	                <div class="sub-title"></div>
-	            </div>
-	            </a>
-	        </div>
-	    </div>
-	    <div class="activity animate-from-bottom__1">
-	        <div class="relative-block">
-	            <div class="activity-icon">
-	               <!--  <img alt="An image" src="https://i.ibb.co/s2nghrT/ad-operations-process-strategy-activation.png" alt="ad-operations-process-strategy-activation"> -->
-	                <a class="link_service" th:href="@{/customer/listBoard?boardType=F&FAQCategoryCode=00}">
-	                <img id = "An image" th:src="@{https://i.ibb.co/s2nghrT/}+@{/img/customer/ad-operations-process-strategy-activation.png}"  alt="ad-operations-process-strategy-activation"/>
-	            </div>
-	            <div class="inactive">
-	                <div class="title"></div>
-	            </div>
-	            <div class="active">
-	                <div class="title_1">자주묻는질문</div>
-	                <div class="sub-title"></div>
-	                
-	            </div>
-	            </a>
-	        </div>
-	    </div>
-	    <div class="activity animate-from-bottom__2">
-	        <div class="relative-block">
-	            <div class="activity-icon">
-	           <!-- <img alt="An image" src="https://i.ibb.co/ZWp3Yts/ad-operations-process-strategy.png"> -->
-	                <a class="link_service" th:href="@{/customer/detailGuide?boardType=L}">
-	                <img id = "An image" th:src="@{https://i.ibb.co/ZWp3Yts/}+@{/img/customer/ad-operations-process-strategy.png}" />
-	            </div>
-	            <div class="inactive">
-	                <div class="title"></div>
-	            </div>
-	            <div class="active">
-	                <div class="title_1">라이브가이드</div>
-	                <div class="sub-title"></div>
-	            </div>
-	            </a>
-	        </div>
-	    </div>
-	    <div class="activity animate-from-bottom__3">
-	        <div class="relative-block">
-	            <div class="activity-icon">
-	             <!--<img alt="An image" src="https://i.ibb.co/s2nghrT/ad-operations-process-strategy-activation.png" alt="ad-operations-process-strategy-activation"> -->
-	                   <a class="link_service" th:href="@{/customer/addReport}">
-	                  <img id = "An image" th:src="@{https://i.ibb.co/s2nghrT/}+@{/img/customer/ad-operations-process-strategy-activation.png}" alt="ad-operations-process-strategy-activation"/>
-	            </div>
-	            <div class="inactive">
-	                <div class="title"></div>
-	            </div>
-	            <div class="active">
-	                <div class="title_1">신고</div>
-	                <div class="sub-title"></div>
-	        
-	            </div>
-	        	 </a>
-	        </div>
-	    </div>
-	   
-	</div>
-	</div>
-</main>
 
+</div>
+</article>
 </body>
 
-</article>
 
 </html>

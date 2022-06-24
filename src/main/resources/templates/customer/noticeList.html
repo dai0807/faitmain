@@ -20,9 +20,16 @@
     <link rel="stylesheet"  th:href="@{/customerDesign/noticeListCss/css/style.css}">
 
     <title>faitmain</title>
+    
+   <!--  고유 스크립트 추가 -->
+    <script type="text/javascript"
+    		th:src = "@{/customerDesign/noticeListCss/js/listPage.js}"></script>
+ 
+    
   </head>
-  <body>
-  
+ 
+<body>
+  <div id = 'wrapper'>
 <article class = "nl-1" layout:fragment = "content">
     
     <div class="container">
@@ -43,21 +50,68 @@
             </tr>
           </thead>
           <tbody>
-            <tr th:if="${not #lists.isEmpty( boardList )}" th:each="row : ${boardList}">
+            <tr th:if="${not #lists.isEmpty(boardList)}" th:each="row : ${boardList}">
 				<td class="text-left">
-					<a th:href="@{/customer/detailBoard( boardNumber=${row.boardNumber})}" th:text="${row.boardTitle}"></a>
+					<a class="move" th:href="@{/customer/detailBoard( boardNumber=${row.boardNumber})}" th:text="${row.boardTitle}"></a>
 				</td>
 				<td th:text="${row.customerId.id}"></td> 
 				<td th:text="${#dates.format(row.boardRegDate, 'yyyy-MM-dd')}"></td>
 				<td th:text="${row.viewCount}"></td> 
 			</tr>
-            <tr th:unless="${not #lists.isEmpty( boardList )}">
+            <tr th:unless="${not #lists.isEmpty(boardList)}">
 				<td colspan="5">조회된 결과가 없습니다.</td>
 			</tr>
           </tbody>
         </table>
+        <form id="moveForm" method="get">    
+    	</form>
       </div>
-    
+		 <!-- 검색 영역 -->
+            <div class = "search_wrap">
+                <form id = "searchForm" method = "get" th:action = "@{/customer/listBoard}">
+                    <div class = "search_input">
+                        <input name = "keyword" th:value = "${page.paging.keyword}" type = "text">
+                        <input name = "pageNum" th:value = "${page.paging.pageNum }" type = "hidden">
+                        <input name = "amount" th:value = '${page.paging.amount}' type = "hidden">
+                        <button class = 'btn search_btn'>검 색</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!--         페이지 이동 인터페이스 영역-->
+        <div class = "pageMaker_wrap">
+        	<div class = "pageInfo_area">
+	            <ul class = "pageMaker">
+	                <!--  이전 버튼-->
+	                <th:block th:if = "${page.prev}">
+	                    <li class = "pageMaker_btn prev">
+	                        <a th:href = "@{${page.pageStart - 1}}">이전</a>
+	                    </li>
+	                </th:block>
+	
+	                <!-- 페이지 번호 -->
+	                <th:block th:each = "num,iterStat : ${#numbers.sequence(page.pageStart,page.pageEnd)}">
+	                    <li th:class = "|pageMaker_btn ${page.paging.pageNum == num ? 'active' : ''}|">
+	                        <a th:href = "@{${num}}" th:text = "${num}"></a>
+	                    </li>
+	                </th:block>
+	
+	                <!--  다음 버튼-->
+	                <th:block th:if = "${page.next}">
+	                    <li class = "pageMaker_btn next">
+	                        <a th:href = "@{${page.pageEnd + 1}}">다음</a>
+	                    </li>
+	                </th:block>
+	            </ul>
+            </div>
+        </div>	
+        
+        <form id = "moveForm" method = "get" th:action = "@{/customer/listBoard}">
+	        <input name = "pageNum" th:value = "${page.paging.pageNum}" type = "hidden">
+	        <input name = "amount" th:value = "${page.paging.amount}" type = "hidden">
+	        <input name = "keyword" th:value = "${page.paging.keyword}" type = "hidden">
+    	</form>
 		<th:block sec:authorize="isAuthenticated()">
 			<div class="btn_wrap text-right" sec:authorize="hasRole('ROLE_admin')">
 					<a th:href="@{/customer/addNotice?boardType=N}" class="btn btn-primary waves-effect waves-light">등록</a>
@@ -72,6 +126,7 @@
     <script type="text/javascript" th:src="@{/customerDesign/noticeListCss/js/main.js}"></script>
  	
  </article>
+ </div>
  </body>
   
 </html>

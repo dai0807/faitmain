@@ -7,6 +7,8 @@ import com.faitmain.global.common.Search;
 import com.faitmain.global.util.security.SecurityUserService;
 
 import lombok.extern.slf4j.Slf4j;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONObject;
@@ -24,6 +26,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -64,15 +67,7 @@ public class UserRestController{
 		 //   log.info(  "Controller {}" , this.getClass() );
 		   
 	   }
-
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
+    
 	   @GetMapping("/json/getUserlist")
 	   public  List<User>  getUserList  (Model model  ,  @RequestParam ("order") String searchCondition  , Search search )throws Exception {
 		
@@ -608,9 +603,67 @@ public class UserRestController{
         } else {
             returnResult = "error";  // result 값이 1이 아니면 update 실패 한거
         }
+        
+        ////////////////////////////////////////////결과 문자 보내기////////////////////// 
+	     User user = userSerivce.getUser(storeApplicationDocument.getId());
+	     System.out.println("결과 ={} " +user ) ; 
+	     System.out.println("getPhoneNumber ={} " + user.getPhoneNumber() ) ; 
+
+	        //나의 API 키
+	        String api_key = "NCSX1AN2GVPGAKYQ";
+	        String api_secret = "VU56XMOI4OLSANYT4OD1LQJUVNOSS9KN";
+	        
+// 친구가 기부해준 coolsms 키
+//	API : NCSFLNAKPLATWT5U
+//	 시크릿키 :UQHE4HDGLZ99FWYC4YHSECRYKMLHGVZI       
+// 01080077545	        
+
+	        Message coolsms = new Message( api_key , api_secret );
+	        HashMap<String, String> map = new HashMap<String, String>();
+	        map.put( "to" , user.getPhoneNumber() );
+	        // 수신전화번호
+	        map.put( "from" , "01028382468" );
+	        // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+	        map.put( "type" , "SMS" );
+	        map.put( "text" , "Fait-Main입니다. 스토어 신청서 심사가 완료 되었습니다. 확인 부탁드립니다." );
+	        // 문자 내용 입력
+	        map.put( "app_version" , "test app 1.2" );
+	        // application name and version
+	        try {
+	            JSONObject obj = coolsms.send( map );
+	            System.out.println( obj.toString() );
+
+	        } catch ( CoolsmsException e ) {
+	            System.out.println( e.getMessage() );
+	            System.out.println( e.getCode() );
+	            e.printStackTrace();
+	        }
+///////////////////////////////////////////////////////////////////////////////////////////////////
+	     
+    
+    
+    
+	        log.info( "끝 ");
+        
+        
+        
 
         return returnResult;
     }
 
+    @PostMapping( "/json/deleteUser" )
+    public int deleteUser( @ModelAttribute( "user" ) User user , @AuthenticationPrincipal SecurityUserService securityUserService ) throws Exception{
+        System.out.println("POST withdrawUser"  ) ; 
+
+ 		log.info("::POST withdrawUserwithdrawUser ={}", user.getId() );
+ 		int result = userSerivce.deleteUser(user.getId());
+        SecurityContextHolder.clearContext();
+        System.out.println("컨텍스트 홀더 날림"  ) ; 
+
+ 
+        return result;
+    }
+    
+    
 
 }
