@@ -63,8 +63,6 @@ public class LiveController {
 	@Qualifier("userServiceImpl")
 	private UserSerivce userService;
 
-	private DefaultMessageService messageService;
-
 	@GetMapping("liveRoom")
 	public String getLiveRoomList(Model model) throws Exception {
 
