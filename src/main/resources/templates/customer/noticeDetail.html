@@ -40,7 +40,7 @@
 				<hr />
 			</div>
 	     	   
-   				 <!-- <input type="hidden" name="boardNumber" th:value="${customer.boardNumber}"> -->
+   				 <input type="hidden" name="boardNumber" th:value="${customer.boardNumber}">
 	   			 <input type="hidden" name="boardType" value='N'/>
 	   			 
 	   			 <table class="table">
@@ -57,7 +57,7 @@
 						<th scope="row" style="padding:13px 0 0 15px;">작성자</th>
 							<td th:text="${customer.customerId.id}"></td>
 						<th scope="row" style="padding:13px 0 0 15px;">작성일</th>
-							<td th:text="${#dates.format( customer.boardRegDate, 'yyyy-MM-dd HH:mm:ss' )}"></td>
+							<td th:text="${#dates.format( customer.boardRegDate, 'yyyy-MM-dd' )}"></td>
 						<th scope="row" style="padding:13px 0 0 15px;">조회수</th>
 							<td th:text="${customer.viewCount}"></td>
 					</tr>
@@ -92,9 +92,10 @@
 					<a class="btn" id="list_btn">목록 페이지</a>
 				</div>
 				<form id="infoForm"	th:action="@{/customer/updateBoard}" method="get">
-					<input type="hidden" id="boardNumber" name="boardNumber" th:text="${customer.boardNumber}"/>
-					<input type="hidden" id="pageNum" th:text="${page.pageNum}"/>
-					<input type="hidden" id="amount" th:text="${page.amount}"/>
+					<input type="hidden" id="boardNumber" name="boardNumber" th:value="${customer.boardNumber}"/>
+					<input type="hidden" id="boardType" name="boardType" value="N"/>
+					<input type="hidden" id="pageNum" name="pageNum" th:value="${page.pageNum}"/>
+					<input type="hidden" id="amount">
 				</form>
 		
 	</div>

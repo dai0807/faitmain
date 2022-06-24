@@ -127,23 +127,28 @@
     
     
 <!-- 게시판 목록 -->
-	<select id="getCustomerBoardList" parameterType="String" resultMap="customerMap">
+	<select id="getCustomerBoardList" parameterType="com.faitmain.global.common.Paging" resultMap="customerMap">
 	
+			SELECT * FROM(
 		SELECT customer_board_number, customer_board_title, customer_id, reg_date, customer_board_type  
 		FROM customer 
 		<where>
 			customer_board_type = #{boardType}
 		</where>
-		ORDER BY reg_date DESC
+		ORDER BY reg_date DESC) as T1
+		
+		LIMIT #{paging.skip}, #{paging.amount}
+		
 		
 	</select>
     
-     <select id="getListPaging"   resultType="Customer" resultMap="customerMap"   >
+     <select id="getListPaging"   resultType="Customer"   >
      
 		SELECT * FROM(
-				SELECT customer_board_number, customer_board_title, customer_id, reg_date, customer_board_type  
+				SELECT *
 				FROM customer
 				ORDER BY reg_date DESC ) as T1
+		
 		<!-- LIMIT ((${pageNum} - 1) * ${amount}), ${amount} -->
 		LIMIT #{skip}, #{amount}
 		    
@@ -211,7 +216,7 @@
     	SELECT COUNT(*)
     	FROM customer
     	<where>
-    		
+    		customer_board_type = #{boardType}
     	</where> 
     
     </select> 

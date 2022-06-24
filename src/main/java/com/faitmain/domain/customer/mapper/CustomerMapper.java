@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.faitmain.domain.customer.domain.BanStatus;
 import com.faitmain.domain.customer.domain.Customer;
@@ -36,13 +37,13 @@ public interface CustomerMapper {
 	public int updateCustomerBoard(Customer customer) throws Exception;
 	
 //	게시판 리스트 조회
-	public List<Customer> getCustomerBoardList(char boardType) throws Exception;
+	public List<Customer> getCustomerBoardList(@Param("boardType")char boardType, @Param("paging")Paging paging) throws Exception;
 	
 //	게시판 삭제
 	public int deleteCustomerBoard(int boardNumber) throws Exception;
 	
 //	게시판 총 개수
-	public int getBoardTotalCount() throws Exception;
+	public int getBoardTotalCount(char boardType) throws Exception;
 	
 //	FAQ 리스트 조회(카테고리이용)	
 	public List<Customer> getFAQList(String FAQCategoryCode) throws Exception;
