@@ -123,7 +123,7 @@ public class ProductServiceImpl implements ProductService {
 		search.setPageSize(10);
 		product.setReviewList(reviewMapper.getReviewList(search));
 		product.setReviewCount(reviewMapper.getTotalCount(search)); //리뷰 개수
-//		log.info("review List = {}", product.getReviewList());
+		log.info("review List = {}", product.getReviewList());
 
 		// 상품 관련 문의 조회
 		search.setSearchCondition("productNumber");

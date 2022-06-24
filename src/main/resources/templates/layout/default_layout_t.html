@@ -10,15 +10,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <link rel="icon" type="image/png" href="/img/logo.png"/>
- 	
- 	<link rel = "stylesheet" th:href = "@{/css/bootstrap.min.css}"/>
+    
+    <link rel = "stylesheet" th:href = "@{/css/bootstrap.min.css}"/> 
+    
+    <link rel="stylesheet"  href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" 	href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
+
+ 	 	 	 	
     <link rel = "stylesheet" th:href = "@{/css/main.css}"/>
     <link rel = "stylesheet" th:href = "@{/css/util.css}"/>
-
+    
+    <!--===============================================================================================-->	
+	<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<!--===============================================================================================-->
+	
+	<script th:src="@{/js/bootstrap.min.js}"></script>	
+	
+	<style>
+	
+		article{
+			
+			margin-top: 50px;
+			
+		}
+		
+	</style>
+			
 </head>
 <!-- [head] 영역 끝 -->
 
-<body>
+<body >
     <!-- [header] 영역 시작 -->
     <header th:replace = "/layout/fragment/header2 :: header2"></header>
     <!-- [header] 영역 끝 -->
@@ -27,15 +49,28 @@
     <article layout:fragment = "content"></article>
     <!-- [content] 영역 끝 -->
 
+	<!-- [footer] 영역 시작 -->
+	<footer th:replace = "/layout/fragment/footer2 :: footer2"></footer>
+	<!-- [footer] 영역 끝 -->
 	
-<!--===============================================================================================-->	
-	<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
-<!--===============================================================================================-->
-	<script th:src="@{/js/animsition.min.js}"></script>
-<!--===============================================================================================-->
-	<script th:src="@{/js/popper.js}"></script>
-	<script th:src="@{/js/bootstrap.min.js}"></script>
-
+	<!-- Back to top -->
+	<div class="btn-back-to-top" id="myBtn">
+		<span class="symbol-btn-back-to-top">
+			<i class="zmdi zmdi-chevron-up"></i>
+		</span>
+	</div>
+	<!-- 
+	<script type="text/javascript">
+		$(window).on('scroll', function () {
+			if ($(window).scrollTop()) {
+				$('.container-menu-desktop').addClass('fix-menu-desktop');
+				$('.wrap-menu-desktop').attr('style')
+			} else {
+				$('.container-menu-desktop').removeClass('fix-menu-desktop');
+			}
+		});
+	</script>
+	-->			
 </body>
 
 </html>

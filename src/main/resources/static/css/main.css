@@ -97,7 +97,6 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   src: url('../fonts/Montserrat/Montserrat-Bold.ttf'); 
 }
 
-
 /*//////////////////////////////////////////////////////////////////
 [ RS PLUGIN ]*/
 
@@ -161,7 +160,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   height: 38px;
   bottom: 0px;
   right: 40px;
-  background-color: #717fe0;
+  background-color: #333;
   opacity: 0.5;
   justify-content: center;
   align-items: center;
@@ -181,7 +180,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 
 .btn-back-to-top:hover {
   opacity: 1;
-  background-color: #717fe0;
+  background-color: #333;
 }
 
 @media (max-width: 575px) {
@@ -253,7 +252,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 }
 
 .right-top-bar a:hover {
-  color: #6c7ae0;
+  color: #fff;
 }
 
 
@@ -379,6 +378,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 
 .header-v3 .main-menu > li > a {
   color: #fff;
+  /*color: #333;*/
 }
 
 /*---------------------------------------------*/
@@ -440,7 +440,8 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 /*---------------------------------------------*/
 .main-menu > li:hover > a {
   text-decoration: none;
-  color: #6c7ae0;
+  /*color: #6c7ae0;*/
+  color: #000000;
 }
 
 .main-menu > li:hover > .sub-menu {
@@ -458,7 +459,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 }
 
 .sub-menu > li:hover > a {
-  color: #6c7ae0;
+  color: #000000;
   text-decoration: none;
 }
 
@@ -638,7 +639,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 
 /*---------------------------------------------*/
 .main-menu > li.active-menu > a {
-  color: #6c7ae0;
+  color: #333;
 }
 
 
@@ -2824,7 +2825,7 @@ input.num-product::-webkit-inner-spin-button {
   min-width: 32px;
   border-radius: 7px;
   padding: 0 4px;
-  background-color: #f74877;
+  background-color: red;
 }
 
 .label1.rs1::after {
@@ -3051,7 +3052,7 @@ input.num-product::-webkit-inner-spin-button {
 
 .hov-cl0:hover {color: #fff;}
 .hov-bg0:hover {background-color: #fff;}
-.hov-cl1:hover {color: #717fe0;}
+.hov-cl1:hover {color: #222;}
 .hov-bg1:hover {background-color: #717fe0;}
 
 /*---------------------------------------------*/

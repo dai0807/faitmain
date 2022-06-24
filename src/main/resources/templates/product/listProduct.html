@@ -64,7 +64,7 @@
 				$("#searchKeyword").autocomplete({
 					source: function (request, response) {
 						$.ajax({
-							url: "/product/json/productNameList/" + $("#searchKeyword").val(),
+							url: "/product/json/getProductNameList/" + $("#searchKeyword").val(),
 							type: "GET",
 							success: function (data) {
 								response(

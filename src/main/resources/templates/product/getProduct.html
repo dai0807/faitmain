@@ -1,16 +1,11 @@
 <!DOCTYPE html>
-<html lang = "ko" layout:decorate = "~{/layout/default_layout}"
+<html lang = "ko" layout:decorate = "~{layout/default_layout_t}"
       xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset = "UTF-8">
     <title>상품 조회</title>
 
-	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/bootstrap/css/bootstrap.min.css">
-	
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
 	
 	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/select2/select2.min.css">
 	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/slick/slick.css">
@@ -18,10 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/MagnificPopup/magnific-popup.css">
 	
 	<script src="/productDesign/vendor/sweetalert/sweetalert.min.js"></script>
-	
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">	
-        
+	        
 	<!-- 카카오 공유하기 -->
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	<!-- 
@@ -112,7 +104,7 @@
 									<div class="wrap-pic-w pos-relative">
 										<img th:src="|../img/upload/${ product.productMainImage }|" alt="IMG-PRODUCT">
 								
-										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
+										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn1 trans-04"
 											th:href="@{/img/upload/} + ${product.productMainImage}">
 											<i class="fa fa-expand"></i>
 										</a>
@@ -165,7 +157,7 @@
 							
 							<!-- 상품명, 가격 표시 -->
 							<p class="stext-102 cl3 p-t-23">
-								<a th:href="@{/product/getStoreInfo(storeId=*{store.id})}" th:text="*{store.storeName}"></a>
+								<a th:href="@{/product/getStoreInfo(storeId=*{store.id})}" th:text="*{store.storeName}" class="stext-107 cl7 hov-cl1 trans-04"></a>
 							</p>
 							<h4 class="mtext-105 cl2 js-name-detail p-b-14" th:text="*{ productName }"></h4>	
 													
@@ -353,7 +345,7 @@
 											<div class="flex-w flex-t p-b-68">								
 												
 												<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
-													<img th:src="|../img/upload/${ review.reviewImage }|" alt="Review-IMG">
+													<img th:if="${ not #strings.isEmpty(review.reviewImage) }" th:src="|../img/upload/${ review.reviewImage }|" alt="Review-IMG">
 												</div>
 												
 												<div class="size-207">

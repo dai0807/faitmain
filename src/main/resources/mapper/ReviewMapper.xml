@@ -62,7 +62,7 @@
 										</if>
 										 -->										
 										<if test="searchCondition == 'productGroupNumber' and searchKeyword !='' ">
-							 				AND p.product_group_number = #{searchKeyword}
+							 				AND (p.product_group_number = #{searchKeyword} OR p.product_number = #{searchKeyword} )
 										</if>																			
 									</if>
 									
@@ -87,7 +87,7 @@
 			 				AND p.product_number = #{searchKeyword}
 						</if>										
 						<if test="searchCondition == 'productGroupNumber' and searchKeyword !='' ">
-			 				AND p.product_group_number = #{searchKeyword}
+			 				AND (p.product_group_number = #{searchKeyword} OR p.product_number = #{searchKeyword} )
 						</if>																			
 					</if>					
 				</where>

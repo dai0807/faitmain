@@ -130,10 +130,10 @@ public class ProductRestController {
 		return jsonObject.toJSONString();
 	}
 	
-	@GetMapping("json/productNameList/{keyword}")
-	public List<String> productNameList(@PathVariable String keyword) throws Exception{
+	@GetMapping("json/getProductNameList/{keyword}")
+	public List<String> getProductNameList(@PathVariable String keyword) throws Exception{
 		
-		System.out.println("/product/json/productNameList");
+		System.out.println("/product/json/getProductNameList");
 		System.out.println("keyword : " + keyword);
 		
 		List<String> productNames = productService.getProductNameList(keyword);
