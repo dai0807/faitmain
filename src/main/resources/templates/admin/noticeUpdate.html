@@ -10,6 +10,10 @@
 	<th:block layout:fragment="title">
 	
 		<title>faitmain</title>
+		
+		 <!--  고유 스크립트 추가 -->
+    <script type="text/javascript"
+    		th:src = "@{/customerDesign/noticeListCss/js/updatePage.js}"></script>
 	</th:block>
 	
 
@@ -91,10 +95,8 @@
 			</th:block>
 			
 				
-				<form id="infoForm"	th:action="@{/customer/updateBoard}" method="get">
+				<form id="infoForm"	th:action="@{/customer/updateBoard}" method="post">
 					<input type="hidden" id="boardNumber" name="boardNumber" th:text="${customer.boardNumber}"/>
-					<input type="hidden" id="pageNum" th:text="${page.pageNum}"/>
-					<input type="hidden" id="amount" th:text="${page.amount}"/>
 				</form>
 		 </form>
 	</div>

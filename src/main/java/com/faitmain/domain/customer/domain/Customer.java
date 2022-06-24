@@ -1,6 +1,7 @@
 package com.faitmain.domain.customer.domain;
 
 
+import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import com.faitmain.domain.user.domain.User;
@@ -12,7 +13,7 @@ public class Customer{
 	private int boardNumber;
 	private String boardTitle;
 	private String boardContent;
-	private Timestamp boardRegDate;
+	private Date boardRegDate;
 	private Time boardUpdateDate;
 	private String FAQCategoryCode;
 	private char boardType;
