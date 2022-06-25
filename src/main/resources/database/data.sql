@@ -237,7 +237,7 @@ UPDATE customer SET customer_board_type='R', customer_board_title="TITLE 44", cu
 UPDATE customer SET customer_board_type='L', customer_board_title="TITLE 55", customer_board_title="CONTENT 55", update_date = now(), customer_id = "admin@naver.com"
  WHERE customer_board_number = 7;
 
-/*
+
 INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
 VALUES (10001, 'user01@naver.com', 'receiverName 01', '010-3937-9322', '경기도 고양시', '손석구 이치동', '3153143', NOW(), '주문접수', 0, 2000, 'imp_uid 01');
 INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid)
@@ -408,6 +408,6 @@ INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, rece
 INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid) VALUES (92338, 'user03@naver.com', '김옥정', '1812332211', '함경남도열기구손석구', '삼산동 ', '23453', NOW(), '주문접수', 0, 200, 'imp_uid33758');
 INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid) VALUES (95339, 'user03@naver.com', '김옥정', '1912332211', '함경남도열기구손석구', '삼산동 ', '23453', NOW(), '주문접수', 0, 200, 'imp_uid33759');
 INSERT INTO `order` (order_number, buyer_id, receiver_name, receiver_phone, receiver_address1, receiver_address2, receiver_address3, order_date, order_status, delivery_charge, using_point, imp_uid) VALUES (92330, 'user03@naver.com', '김옥정', '2012332211', '함경남도열기구손석구', '삼산동 ', '23453', NOW(), '주문접수', 0, 200, 'imp_uid33750');
-*/
+
 
 

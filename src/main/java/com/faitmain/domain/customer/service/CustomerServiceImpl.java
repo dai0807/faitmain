@@ -87,14 +87,14 @@ public class CustomerServiceImpl implements CustomerService{
 	
 // 게시판 조회	
 	@Override
-	public List<Customer> getCustomerBoardList(char boardType) throws Exception {
+	public List<Customer> getCustomerBoardList(char boardType, Paging paging) throws Exception {
 						
-		return customerMapper.getCustomerBoardList(boardType); 
+		return customerMapper.getCustomerBoardList(boardType, paging); 
 	}
 	
 // 게시물 총 개수
-	public int getBoardTotalCount() throws Exception{
-		return customerMapper.getBoardTotalCount();
+	public int getBoardTotalCount(char boardType) throws Exception{
+		return customerMapper.getBoardTotalCount(boardType);
 	}
 	
 // 게시판 목록(페이징 적용)
