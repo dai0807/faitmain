@@ -68,42 +68,7 @@ public class UserRestController{
 		   
 	   }
     
-	   @GetMapping("/json/getUserlist")
-	   public  List<User>  getUserList  (Model model  ,  @RequestParam ("order") String searchCondition  , Search search )throws Exception {
-		
-		   
-		   log.info("getUserList  도착 !! ");
-		   log.info("getUserList searchCondition ={}", searchCondition);
 
-		   Map<String, Object> searchMap = new HashMap<>();
-		   
-		   if( searchCondition =="store") {
-			   searchMap.put("searchCondition", searchCondition) ;
-		   }else if(searchCondition =="user") {
-			   searchMap.put("searchCondition", searchCondition) ;  
-		   }
-	   
-		   List<User> userList = userSerivce.getlist(searchMap) ;
-		   for(User user : userList) {
-			   System.out.println("getUserlist : 유저 출력"+user);
-		   }
-		   
-		   
-		   Map<String, Object> returnuserList = new HashMap<String, Object>();
- 		   
-		   returnuserList.put("data", userList) ;
-		   
-		   
-		   log.info("getUserList searchCondition ={} 끝");
-	  
-		   
-		   return userList ;
-		   
-	   }
-	   
-	   
-	   
-	   
 	   
 	   
 		// find Id Rest Control로 갈 운명 
@@ -417,7 +382,7 @@ public class UserRestController{
 
     //폰번호 검사
     @GetMapping( value = "phoneNumbereCheck" )
-    public int phoneNumber( @RequestParam( "phoneNumber" ) String phoneNumber ) throws Exception{
+    public int phoneNumberCheck( @RequestParam( "phoneNumber" ) String phoneNumber ) throws Exception{
         //아직  checkDuplication 없음
 
         log.info( "중복체크 phoneNumber {} " , phoneNumber );
@@ -435,7 +400,7 @@ public class UserRestController{
 
 
     @GetMapping( value = "storeNameheck" )
-    public int storeName( @RequestParam( "storeName" ) String storeName ) throws Exception{
+    public int storeNameheck( @RequestParam( "storeName" ) String storeName ) throws Exception{
         //아직  checkDuplication 없음
 
         log.info( "중복체크 nicknameCheck {} " , storeName );
@@ -454,7 +419,7 @@ public class UserRestController{
 
     // sms 휴대폰 문자보내기
     @GetMapping( value = "uphoneCheck" )
-    public String sendSMS( @RequestParam( "phone" ) String userPhoneNumber , HttpSession session ) throws Exception{
+    public String sendSms( @RequestParam( "phone" ) String userPhoneNumber , HttpSession session ) throws Exception{
 
         //인증번호 4자리 난수로  생성
         int randomNumber = ( int ) ( ( Math.random() * ( 9999 - 1000 + 1 ) ) + 1000 );
@@ -514,6 +479,7 @@ public class UserRestController{
     
      
   @PostMapping( "updatePassword" )
+ // public int updatePassword( @ModelAttribute( "user" ) User user  ) throws Exception{
   public int updatePassword( @ModelAttribute( "user" ) User user  ) throws Exception{
 	  
 	  
@@ -523,39 +489,48 @@ public class UserRestController{
 
 		user = userSerivce.getUser(user.getId());
 
-		System.out.println("업데이트 유저  :: " + restult);
+		if(SecurityContextHolder.getContext()
+					.getAuthentication().getPrincipal().equals("anonymousUser")) {
 
-		if (SecurityContextHolder.getContext().getAuthentication() != null) {  // 보안 세션이 null이 아니면 
+			
+		}else {  // updatePassword 시 접속 하는 유저가 anonymousUser(로그인 안한 유저가 아닐때 )
+			
+			System.out.println("업데이트 유저  :: " + restult);
 
-			System.out.println("  #Authentication : " + SecurityContextHolder.getContext().getAuthentication());
+			if (SecurityContextHolder.getContext().getAuthentication() != null) {  // 보안 세션이 null이 아니면 
 
-			SecurityContextHolder.clearContext(); // 없애고
-			System.out.println("클리어  :: ");
+				System.out.println("  #Authentication : " + (SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString().equals("anonymousUser")));
 
-			System.out.println("  #Authentication : " + SecurityContextHolder.getContext().getAuthentication());
+				SecurityContextHolder.clearContext(); // 없애고
+				System.out.println("클리어  :: ");
 
-			SecurityUserService securityUserService = new SecurityUserService(user); // 디테일 섭스를 다시 만들어서 주입
-			System.out.println("securityUserService :: " + securityUserService);
+				System.out.println("  #Authentication : " + SecurityContextHolder.getContext().getAuthentication());
 
-			// authentication 에 토큰 새로 만들어서 주입 됨
-			Authentication authentication = new UsernamePasswordAuthenticationToken(securityUserService, null,
-					securityUserService.getAuthorities());
-			SecurityContext securityContext = SecurityContextHolder.getContext(); // SecurityContextHolder 안에 있는 컨텍스트에
-																					// 접근
-			securityContext.setAuthentication(authentication); // securityContext 에 setAuthentication 에 authentication
-																// 세팅
+				SecurityUserService securityUserService = new SecurityUserService(user); // 디테일 섭스를 다시 만들어서 주입
+				System.out.println("securityUserService :: " + securityUserService);
 
-			// 무슨 짓을 해도..... 안되서 직접 인증 토큰 만들어서 주입해줌
-			// Authentication 만들기
-			// AuthenticationManager 에서 인증을 인증에 성공하면 Authentication을 만들어서 컨텍스트 홀더에 주입
-			// 그럼 우리도 SecurityContextHolder.clearContext()를 없애고
-			// UsernamePasswordAuthenticationToken를 직접만들어서 setAuthentication에 set
-			// Authentication newAuth = new UsernamePasswordAuthenticationToken(userDetails,
-			// null, userDetails.getAuthorities());
-			//
+				// authentication 에 토큰 새로 만들어서 주입 됨
+				Authentication authentication = new UsernamePasswordAuthenticationToken(securityUserService, null,
+						securityUserService.getAuthorities());
+				SecurityContext securityContext = SecurityContextHolder.getContext(); // SecurityContextHolder 안에 있는 컨텍스트에
+																						// 접근
+				securityContext.setAuthentication(authentication); // securityContext 에 setAuthentication 에 authentication
+																	// 세팅
+
+				// 무슨 짓을 해도..... 안되서 직접 인증 토큰 만들어서 주입해줌
+				// Authentication 만들기
+				// AuthenticationManager 에서 인증을 인증에 성공하면 Authentication을 만들어서 컨텍스트 홀더에 주입
+				// 그럼 우리도 SecurityContextHolder.clearContext()를 없애고
+				// UsernamePasswordAuthenticationToken를 직접만들어서 setAuthentication에 set
+				// Authentication newAuth = new UsernamePasswordAuthenticationToken(userDetails,
+				// null, userDetails.getAuthorities());
+				//
+			}
+
+			log.info("uauthRequest :: = {}", authentication);
+
 		}
-
-		log.info("uauthRequest :: = {}", authentication);
+		
 
 		log.info("##POST ##updatePassword {} ##", user);
 
@@ -609,10 +584,12 @@ public class UserRestController{
 	     System.out.println("결과 ={} " +user ) ; 
 	     System.out.println("getPhoneNumber ={} " + user.getPhoneNumber() ) ; 
 
+//	        //나의 API 키
+//	        String api_key = "NCSX1AN2GVPGAKYQ";
+//	        String api_secret = "VU56XMOI4OLSANYT4OD1LQJUVNOSS9KN";
 	        //나의 API 키
-	        String api_key = "NCSX1AN2GVPGAKYQ";
-	        String api_secret = "VU56XMOI4OLSANYT4OD1LQJUVNOSS9KN";
-	        
+	        String api_key = "NCSFLNAKPLATWT5U";
+	        String api_secret = "UQHE4HDGLZ99FWYC4YHSECRYKMLHGVZI";	        
 // 친구가 기부해준 coolsms 키
 //	API : NCSFLNAKPLATWT5U
 //	 시크릿키 :UQHE4HDGLZ99FWYC4YHSECRYKMLHGVZI       
@@ -622,7 +599,7 @@ public class UserRestController{
 	        HashMap<String, String> map = new HashMap<String, String>();
 	        map.put( "to" , user.getPhoneNumber() );
 	        // 수신전화번호
-	        map.put( "from" , "01028382468" );
+	        map.put( "from" , "01080077545" );
 	        // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
 	        map.put( "type" , "SMS" );
 	        map.put( "text" , "Fait-Main입니다. 스토어 신청서 심사가 완료 되었습니다. 확인 부탁드립니다." );

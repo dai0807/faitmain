@@ -130,13 +130,8 @@ public class UserController {
 
 
 	@GetMapping("login")
-	public String longin(Model model,@RequestParam(value = "errorMessage", required = false) String errorMessage) {
+	public String longin() {
 		log.info(" 컨트롤러 탐 login Page로 이동");
-		if(errorMessage != null) {
-			log.info("err메시지 ={}",errorMessage);
-			model.addAttribute("errorMessage",errorMessage) ;
-		}
-		
 		return "/user/login";
 	}
 
@@ -160,11 +155,10 @@ public class UserController {
 			User user = userSerivce.getUser(loginuser.getId()); // 로그인 된 사람 정보 가져와서 회월탈퇴 값 있는지 검증
 
 			System.out.println("너의 값은 무엇이냐" + user.getWithdrawalStatus());
-			if (user.getWithdrawalStatus()) { // true 는 회원 탈퇴 일때 리터 바로함
+			if (user.getWithdrawalStatus()) { // true 는 회원 탈퇴
 				result = "withdraw"; //
-				model.addAttribute("errorMessage", 3);
 
-				return "/user/login";
+				return result;
 
 			}
 
@@ -199,122 +193,9 @@ public class UserController {
 		return "/user/login";
 	}
 
-	// userList 유정 리스트 뽑기 
-	@GetMapping("getUserlist")
-	public String getUserList(Model model, Paging paging) throws Exception {
-
-		
-		log.info("getUserlist  도착 !! ");
-
-		log.info("paging {}: ", paging);
-		
-		if (paging.getKeyword() == null) {
-			paging.setKeyword("");
-			log.info("paging {}", paging.getKeyword());
-
-		} else if (paging.getKeyword().equals("ALL")) {
-			paging.setKeyword("");
-
-		} else {
-
-			paging.setKeyword(paging.getKeyword());
-			log.info("paging {}", paging.getKeyword());
-
-		}
-
-		
-		List<User> list = userSerivce.getUserList(paging);
 	
-		log.info("getUserList = {}", list);
-		if (!list.isEmpty()) {
-			model.addAttribute("userList", list);
-
-			log.info("list! ={}", list);
-
-			model.addAttribute("pageMaker", new Page(paging, userSerivce.getUserListTotal(paging)));
-			log.info("pageMaker   pageMaker !! ={}", new Page(paging, userSerivce.getUserListTotal(paging)));
-
-		} else {
-			model.addAttribute("listCheck", "empty");
-			model.addAttribute("pageMaker", new Page(paging, userSerivce.getUserListTotal(paging)));
-			log.info("pageMaker   pageMaker !! ={}", new Page(paging, userSerivce.getUserListTotal(paging)));
-
-		}
-		log.info("model = {}", model);
-
-		log.info("getUserlist   끝 !! ={}", list);
 	
-		
-		
-		
-		
-		
-		
-//		log.info("getUserList  도착 !! ");
-//		log.info("getUserList searchCondition ={}", searchCondition);
-//
-//		Map<String, Object> searchMap = new HashMap<>();
-//
-//		if (searchCondition != null && searchCondition.equals("store")) {
-//			searchMap.put("searchCondition", searchCondition);
-//
-//			searchMap.put("searchkeword", searchCondition);
-//
-//		} else if (searchCondition != null && searchCondition.equals("user")) {
-//			searchMap.put("searchkeword", searchCondition);
-//			searchMap.put("searchCondition", searchCondition);
-//
-//		} else {
-//			searchMap.put("searchkeword", "ALL");
-//
-//			searchMap.put("searchCondition", "ALL");
-//
-//		}
-//
-//		List<User> userList = userSerivce.getlist(searchMap);
-//		for (User user : userList) {
-//			System.out.println("getUserlist : 유저 출력" + user);
-//		}
-//
-//		model.addAttribute("userList", userList);
-
-		return "/admin/getUserList";
-
-	}
-
-//로그인 ajax로 바꾸면서 RestController 탐	   
-	/*
-	 * @PostMapping( "login" ) public RedirectView longin( RedirectAttributes model
-	 * , @ModelAttribute("user") User loginuser, HttpSession session) throws
-	 * Exception {
-	 * 
-	 * log.info("Post login Page 도착"); log.info("user 출력  :: {}" , loginuser);
-	 * 
-	 * int result = 0; result = userSerivce.getLogin(loginuser) ; // id/ pw 값 있으면 1
-	 * 없으면 0 ,,
-	 * 
-	 * if(result == 1) { User user = userSerivce.getUser(loginuser.getId()) ;
-	 * log.info("{}의 로그인이 완료 되었습니다  " , user.getId()); session.setAttribute("user",
-	 * user) ; // user 정보 u로그인 }else { log.info("로그인 실패");
-	 * 
-	 * } log.info("Post login 끝 ");
-	 * 
-	 * Map<String, Object> map = new HashMap<String, Object>();
-	 * 
-	 * map.put("orderName", "product_name DESC"); map.put("startRowNum", 1);
-	 * map.put("endRowNum", 5);
-	 * 
-	 * map = productService.getProductList(map); log.info("after getProductList");
-	 * 
-	 * map.put("liveList", liveService.getLiveList().get("liveList"));
-	 * log.info("after getLiveList");
-	 * 
-	 * model.addFlashAttribute("map", map);
-	 * 
-	 * return new RedirectView("/"); }
-	 * 
-	 */
-
+	
 	@GetMapping("logout")
 	public RedirectView logout(HttpSession session, HttpServletRequest request) {
 
@@ -325,6 +206,8 @@ public class UserController {
 
 		return new RedirectView("/");
 	}
+	
+
 
 	@GetMapping("addUser")
 	public String addUser() {
@@ -383,7 +266,370 @@ public class UserController {
 		log.info("::끝 :::addStore:: ");
 
 		return new RedirectView("/");
+	}	
+	
+	// 스토어 재 신청 Add
+		@GetMapping("addStoreApplication")
+		public String addStoreApplicationDocument() {
+			log.info(" start !!  addStoreApplicationDocument ");
+
+			return "/user/addStoreApplicationDocument";
+		}
+
+		// 스토어 재 신청 Add
+		@PostMapping("addStoreApplicationDocument")
+		public String addStoreApplicationDocument(Model model,
+				@ModelAttribute("storeApplicationDocument") StoreApplicationDocument storeApplicationDocument)
+				throws Exception {
+			log.info(" addStoreApplicationDocument 에 옴 출력하라   {}", storeApplicationDocument);
+
+			int result = userSerivce.AddStoreApplicationDocument(storeApplicationDocument);
+			log.info("결과 에  출력하라   {}", result);
+
+			if (result == 1) {
+
+				int addStoreApplicationNumber = userSerivce
+						.getStoreApplicationDocumenNumber(storeApplicationDocument.getId());
+				storeApplicationDocument.setStoreApplicationDocumentNumber(addStoreApplicationNumber);
+				storeApplicationDocument.setExaminationStatus("W"); // 대기
+				
+				
+				log.info("StoreApplicationDocument {}", storeApplicationDocument);
+
+			}
+			
+			
+			
+			
+			
+			securityUserService = (SecurityUserService) SecurityContextHolder.getContext().getAuthentication()
+					.getPrincipal(); // principal 에 사용자 인증 정보 담음
+			User guser = securityUserService.getUser();
+			int storeNumber = userSerivce.getStoreApplicationDocumenNumber(guser.getId());
+			guser.setStoreApplicationDocumentNumber(storeNumber);
+			
+			
+		 
+			
+			log.info(" 출력하라 getUSer {}", guser);
+
+			model.addAttribute("getuser", guser);		
+			
+			
+
+ 
+			return "/user/getUser";
+		}
+
+	 
+		
+	// userList 유정 리스트 뽑기 
+	@GetMapping("getUserlist")
+	public String getUserList(Model model, Paging paging) throws Exception {
+
+		
+		log.info("getUserlist  도착 !! ");
+
+		log.info("paging {}: ", paging);
+		
+		if (paging.getKeyword() == null) {
+			paging.setKeyword("");
+			log.info("paging {}", paging.getKeyword());
+
+		} else if (paging.getKeyword().equals("ALL")) {
+			paging.setKeyword("");
+
+		} else {
+
+			paging.setKeyword(paging.getKeyword());
+			log.info("paging {}", paging.getKeyword());
+
+		}
+
+		
+		List<User> list = userSerivce.getUserList(paging);
+	
+		log.info("getStoreApplicationDocumentList = {}", list);
+		if (!list.isEmpty()) {
+			model.addAttribute("userList", list);
+
+			log.info("list! ={}", list);
+
+			model.addAttribute("pageMaker", new Page(paging, userSerivce.getUserListTotal(paging)));
+			log.info("pageMaker   pageMaker !! ={}", new Page(paging, userSerivce.getUserListTotal(paging)));
+
+		} else {
+			model.addAttribute("listCheck", "empty");
+			model.addAttribute("pageMaker", new Page(paging, userSerivce.getUserListTotal(paging)));
+			log.info("pageMaker   pageMaker !! ={}", new Page(paging, userSerivce.getUserListTotal(paging)));
+
+		}
+		log.info("model = {}", model);
+
+		log.info("getUserlist   끝 !! ={}", list);
+	
+		
+		
+		
+		
+		return "/admin/getUserList";
+
 	}
+	
+	
+
+	// admin 페이지 리스트 보이기 , 스토어 신청서 리스트
+	@GetMapping("getStoreApplicationDocumentList")
+	public String getStoreApplicationDocumentList(Model model, Paging paging) throws Exception {
+
+		log.info("getStoreApplicationDocumentList  도착 !! ");
+
+		log.info("paging {}: ", paging);
+
+		// getKeyword 없으면 ,
+		if (paging.getKeyword() == null) {
+			paging.setKeyword("");
+			log.info("paging {}", paging.getKeyword());
+
+		} else if (paging.getKeyword().equals("ALL")) {
+			paging.setKeyword("");
+
+		} else {
+
+			paging.setKeyword(paging.getKeyword());
+			log.info("paging {}", paging.getKeyword());
+
+		}
+		// Map<String, Object> map =
+		// userSerivce.getStoreApplicationDocumentList(searchMap);
+
+		List<StoreApplicationDocument> list = userSerivce.getStoreApplicationDocumentList(paging);
+
+		log.info("getStoreApplicationDocumentList = {}", list);
+		if (!list.isEmpty()) {
+			model.addAttribute("list", list);
+
+			log.info("list! ={}", list);
+
+			model.addAttribute("pageMaker", new Page(paging, userSerivce.getStoreApplicationDocumentListTotal(paging)));
+			log.info("pageMaker   pageMaker !! ={}", new Page(paging, userSerivce.getStoreApplicationDocumentListTotal(paging)));
+
+		} else {
+			model.addAttribute("listCheck", "empty");
+			model.addAttribute("pageMaker", new Page(paging, userSerivce.getStoreApplicationDocumentListTotal(paging)));
+			log.info("pageMaker   pageMaker !! ={}", new Page(paging, userSerivce.getStoreApplicationDocumentListTotal(paging)));
+
+		}
+		log.info("model = {}", model);
+
+		log.info("getStoreApplicationDocumentList   끝 !! ={}", list);
+
+ 
+
+		return "/admin/getStoreApplicationDocumentList";
+
+	}
+	// 스토어 신청서 상세 보기
+	@GetMapping("getStoreApplicationDocument")
+	public String getStoreApplicationDocument(Model model,
+			@RequestParam("storeApplicationDocumentNumber") int storeApplicationDocumentNumber) throws Exception {
+		log.info(" getStoreApplicationDocument 에 옴 출력하라   {}", storeApplicationDocumentNumber);
+
+		StoreApplicationDocument storeApplicationDocument = userSerivce
+				.getStoreApplicationDocument(storeApplicationDocumentNumber);
+		log.info("StoreApplicationDocument {}", storeApplicationDocument);
+
+		model.addAttribute("StoreApplicationDocument", storeApplicationDocument);
+
+		return "/user/getStoreApplicationDocument";
+	}
+	
+	// 유저 상세 정보
+	// //id가 있으면 list에서 온거 , 아니면 내 정보 조회에서 온 것
+//getUser 유저 상세    // 변자기돈 getUSer시 아이디 날라가기 
+	@GetMapping("getUser")
+	public String getUser(Model model, @RequestParam(value = "id", required = false) String id
+	// , @AuthenticationPrincipal SecurityUserService securityUserService
+	) throws Exception {
+
+		log.info(" GestUSer에 옴 출력하라 id  {}", id);
+		User user = null;
+
+		if (id == null) {
+
+			securityUserService = (SecurityUserService) SecurityContextHolder.getContext().getAuthentication()
+					.getPrincipal(); // principal 에 사용자 인증 정보 담음
+			user = securityUserService.getUser();
+
+			log.info(" 로그인한 유저   ={} ", securityUserService.getUser());
+
+		} else {
+			user = userSerivce.getUser(id);
+
+		}
+
+		if (user.getRole().equals("store") || user.getRole().equals("storeX")) {
+			// 롤이 스토어면 스토어 넘버 가져와서 user에 넣어라
+			int storeNumber = userSerivce.getStoreApplicationDocumenNumber(user.getId());
+			user.setStoreApplicationDocumentNumber(storeNumber);
+		}
+
+		log.info(" 출력하라 getUSer {}", user);
+
+		model.addAttribute("getuser", user);
+		return "/user/getUser";
+	}
+
+//로그인 ajax로 바꾸면서 RestController 탐	   
+	/*
+	 * @PostMapping( "login" ) public RedirectView longin( RedirectAttributes model
+	 * , @ModelAttribute("user") User loginuser, HttpSession session) throws
+	 * Exception {
+	 * 
+	 * log.info("Post login Page 도착"); log.info("user 출력  :: {}" , loginuser);
+	 * 
+	 * int result = 0; result = userSerivce.getLogin(loginuser) ; // id/ pw 값 있으면 1
+	 * 없으면 0 ,,
+	 * 
+	 * if(result == 1) { User user = userSerivce.getUser(loginuser.getId()) ;
+	 * log.info("{}의 로그인이 완료 되었습니다  " , user.getId()); session.setAttribute("user",
+	 * user) ; // user 정보 u로그인 }else { log.info("로그인 실패");
+	 * 
+	 * } log.info("Post login 끝 ");
+	 * 
+	 * Map<String, Object> map = new HashMap<String, Object>();
+	 * 
+	 * map.put("orderName", "product_name DESC"); map.put("startRowNum", 1);
+	 * map.put("endRowNum", 5);
+	 * 
+	 * map = productService.getProductList(map); log.info("after getProductList");
+	 * 
+	 * map.put("liveList", liveService.getLiveList().get("liveList"));
+	 * log.info("after getLiveList");
+	 * 
+	 * model.addFlashAttribute("map", map);
+	 * 
+	 * return new RedirectView("/"); }
+	 * 
+	 */
+
+
+	// find Id  
+	@GetMapping("findId")
+	public String findId(@ModelAttribute("user") User user) {
+
+		log.info("###Stat###findId ={} ##", user);
+
+		return ("/user/findUserId");
+
+	}
+
+//    
+//    // find Id  
+	@GetMapping("findPassword")
+	public String findPassword() {
+
+		log.info("###Stat###findUserPassword ={} ##");
+
+		return ("/user/findUserPassword");
+
+	}
+	// 스토어 재 신청 Add
+	@GetMapping("deleteUser")
+	public String deleteUser() throws Exception {
+		System.out.println("GET deleteUser");
+
+		return "/user/deleteUser";
+	}
+
+
+
+	
+
+/* rest로감
+	@PostMapping("deleteUser")
+	public RedirectView deleteUser(@ModelAttribute("user") User user,
+			@AuthenticationPrincipal SecurityUserService securityUserService) throws Exception {
+		System.out.println("POST withdrawUser");
+
+		log.info("::POST withdrawUserwithdrawUser ={}", user.getId());
+		int result = userSerivce.deleteUser(user.getId());
+		SecurityContextHolder.clearContext();
+		System.out.println("컨텍스트 홀더 날림");
+
+		return new RedirectView("/");
+	}
+*/
+	
+
+	// UpdatePassword
+	@GetMapping("updatePassword")
+	public String updatePassword(@RequestParam(value = "id", required = false) String id, Model model) {
+		log.info("##updatePassword {} ##");
+
+		if (id == null) {
+			SecurityUserService securityUserService = (SecurityUserService) SecurityContextHolder.getContext()
+					.getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+			id = securityUserService.getUser().getId();
+
+		}
+		log.info("updatePassword id :: {}  " + id);
+
+		model.addAttribute("id", id);
+		return ("/user/updatePassword");
+
+	}
+
+	
+	
+	@PostMapping(value = "updateUser")
+	public String updateUser(Model model, User user, MultipartHttpServletRequest mRequest,
+			@AuthenticationPrincipal SecurityUserService securityUserService) throws Exception {
+
+		log.info(":::storeLogoFileName ={}", user);
+//		 
+// 		MultipartFile storeLogo =mRequest.getFile("LogoImage");
+//		log.info(":::storeLogoFileName ={}", storeLogo);
+//   	log.info("ajax Updtae에 옴  user 값은 = {}" , user) ;
+		// 아직 checkDuplication 없음
+		int result = 0;
+		// log.info("updateUser :: user 출력 {} " , user );
+		result = userSerivce.updateUser(user);
+
+		log.info("updateUser :: result 출력  = {} ", result);
+		user = userSerivce.getUser(user.getId());
+
+ 
+
+		if (user.getRole().equals("store") || user.getRole().equals("storeX")) {
+			// 롤이 스토어면 스토어 넘버 가져와서 user에 넣어라
+			int storeNumber = userSerivce.getStoreApplicationDocumenNumber(user.getId());
+			user.setStoreApplicationDocumentNumber(storeNumber);
+		}
+
+		///////////////// 날리기전 //////////////////////
+		System.out.println("  #Authentication : " + SecurityContextHolder.getContext().getAuthentication());
+
+		/////////////////// SecurityContextHolder 날림 ///////////////////////////////////
+		SecurityContextHolder.clearContext();
+
+		SecurityUserService securityUser = new SecurityUserService(user);
+		System.out.println("  #updateUserDetails : " + securityUser);
+
+		/////////////////// SecurityContextHolder 세팅 ///////////////////////////////////
+
+		Authentication authRequest = new UsernamePasswordAuthenticationToken(securityUser, null,
+				securityUser.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(authRequest);
+
+		System.out.println("  #updateUserDetails : " + authRequest);
+
+		log.info(" 출력하라 getUSer {}", user);
+
+		model.addAttribute("getuser", user);
+		return "/user/getUser";
+	}
+
 
 	@GetMapping("kakaoLogin")
  
@@ -452,9 +698,10 @@ public class UserController {
 		return "/";
 
 	}
-
+/*
 	// RedirectView longin( RedirectAttributes model ,
 	// kakao회원 추가 가입
+	
 	@PostMapping("addSnsUser")
 	public RedirectView addSnsUser(@RequestParam(value = "code", required = false) String code,
 			RedirectAttributes model, @ModelAttribute("user") User kuser, HttpSession session) throws Exception {
@@ -508,362 +755,7 @@ public class UserController {
 
 	}
 
- 
+ */
 
-	// UpdatePassword
-	@GetMapping("updatePassword")
-	public String updatePassword(@RequestParam(value = "id", required = false) String id, Model model) {
-		log.info("##updatePassword {} ##");
 
-		if (id == null) {
-			SecurityUserService securityUserService = (SecurityUserService) SecurityContextHolder.getContext()
-					.getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
-			id = securityUserService.getUser().getId();
-
-		}
-		log.info("updatePassword id :: {}  " + id);
-
-		model.addAttribute("id", id);
-		return ("/user/updatePassword");
-
-	}
-
-	// find Id Rest Control로 갈 운명
-	@GetMapping("findId")
-	public String findId(@ModelAttribute("user") User user) {
-
-		log.info("###Stat###findId ={} ##", user);
-
-		return ("/user/findUserId");
-
-	}
-
-//    
-//    // find Id Rest Control로 갈 운명
-	@GetMapping("findPassword")
-	public String findPassword() {
-
-		log.info("###Stat###findUserPassword ={} ##");
-
-		return ("/user/findUserPassword");
-
-	}
-
-	// 유저 상세 정보
-	// //id가 있으면 list에서 온거 , 아니면 내 정보 조회에서 온 것
-//getUser 유저 상세    // 변자기돈 getUSer시 아이디 날라가기 
-	@GetMapping("getUser")
-	public String getUser(Model model, @RequestParam(value = "id", required = false) String id
-	// , @AuthenticationPrincipal SecurityUserService securityUserService
-	) throws Exception {
-
-		log.info(" GestUSer에 옴 출력하라 id  {}", id);
-		User user = null;
-
-		if (id == null) {
-
-			securityUserService = (SecurityUserService) SecurityContextHolder.getContext().getAuthentication()
-					.getPrincipal(); // principal 에 사용자 인증 정보 담음
-			user = securityUserService.getUser();
-
-			log.info(" 로그인한 유저   ={} ", securityUserService.getUser());
-
-		} else {
-			user = userSerivce.getUser(id);
-
-		}
-
-		if (user.getRole().equals("store") || user.getRole().equals("storeX")) {
-			// 롤이 스토어면 스토어 넘버 가져와서 user에 넣어라
-			int storeNumber = userSerivce.getStoreApplicationDocumenNumber(user.getId());
-			user.setStoreApplicationDocumentNumber(storeNumber);
-		}
-
-		log.info(" 출력하라 getUSer {}", user);
-
-		model.addAttribute("getuser", user);
-		return "/user/getUser";
-	}
-
-	// 스토어 신청서 상세 보기
-	@GetMapping("getStoreApplicationDocument")
-	public String getStoreApplicationDocument(Model model,
-			@RequestParam("storeApplicationDocumentNumber") int storeApplicationDocumentNumber) throws Exception {
-		log.info(" getStoreApplicationDocument 에 옴 출력하라   {}", storeApplicationDocumentNumber);
-
-		StoreApplicationDocument storeApplicationDocument = userSerivce
-				.getStoreApplicationDocument(storeApplicationDocumentNumber);
-		log.info("StoreApplicationDocument {}", storeApplicationDocument);
-
-		model.addAttribute("StoreApplicationDocument", storeApplicationDocument);
-
-		return "/user/getStoreApplicationDocument2";
-	}
-
-	// 스토어 재 신청 Add
-	@GetMapping("addStoreApplication")
-	public String addStoreApplicationDocument() {
-		log.info(" start !!  addStoreApplicationDocument ");
-
-		return "/user/addStoreApplicationDocument2";
-	}
-
-	// 스토어 재 신청 Add
-	@PostMapping("addStoreApplicationDocument")
-	public String addStoreApplicationDocument(Model model,
-			@ModelAttribute("storeApplicationDocument") StoreApplicationDocument storeApplicationDocument)
-			throws Exception {
-		log.info(" addStoreApplicationDocument 에 옴 출력하라   {}", storeApplicationDocument);
-
-		int result = userSerivce.AddStoreApplicationDocument(storeApplicationDocument);
-		log.info("결과 에  출력하라   {}", result);
-
-		if (result == 1) {
-
-			int addStoreApplicationNumber = userSerivce
-					.getStoreApplicationDocumenNumber(storeApplicationDocument.getId());
-			storeApplicationDocument.setStoreApplicationDocumentNumber(addStoreApplicationNumber);
-			storeApplicationDocument.setExaminationStatus("W"); // 대기
-			log.info("StoreApplicationDocument {}", storeApplicationDocument);
-
-		}
-
-		model.addAttribute("StoreApplicationDocument", storeApplicationDocument);
-
-		return "/user/getStoreApplicationDocument";
-	}
-
-/*    
-	@PostMapping("/updateStoreApplicationDocument")
-	public String updateStoreApplicationDocument(Model model, StoreApplicationDocument storeApplicationDocument)
-			throws Exception {
-		log.info(" 그냥 커트롤러 updateStoreApplicationDocument 에 들어옴 ");
-
-		log.info("  들어온 값 storeApplicationDocument {}", storeApplicationDocument);
-		System.out.println(storeApplicationDocument);
-		String returnResult = "";
-		int result = userSerivce.updateStoreApplicationDocument(storeApplicationDocument);
-		log.info("##  결과  {} ##", result);
-
-		// 신청서 심사 UPDATE가 성공 적일떄
-		if (result == 1) {
-
-			// 스토어 정보 가져오기
-			storeApplicationDocument = userSerivce
-					.getStoreApplicationDocument(storeApplicationDocument.getStoreApplicationDocumentNumber());
-			if (storeApplicationDocument.getExaminationStatus().equals("A")) { // A 승인일때
-
-				Map<String, Object> map = new HashMap<>();
-				map.put("role", "store");
-				map.put("id", storeApplicationDocument.getId());
-				log.info("map 값은 :  {}", map);
-				result = 0;
-				result = userSerivce.updateUserStore(map);
-				log.info("##신청서 승인된 User , Role 권한 상승  결과  {} ##", result);
-
-			}
-
-			returnResult = storeApplicationDocument.getExaminationStatus(); // 스토어 신청서 상태 리턴
-			System.out.println("결과 ={} " + returnResult);
-
-		} else {
-			returnResult = "error"; // result 값이 1이 아니면 update 실패 한거
-			System.out.println("결과 ={} " + returnResult);
-
-		}
-
-		//////////////////////////////////////////// 결과 문자 보내기//////////////////////
-		User user = userSerivce.getUser(storeApplicationDocument.getId());
-		System.out.println("결과 ={} " + user);
-		System.out.println("getPhoneNumber ={} " + user.getPhoneNumber());
-
-		// 나의 API 키
-		String api_key = "NCSX1AN2GVPGAKYQ";
-		String api_secret = "VU56XMOI4OLSANYT4OD1LQJUVNOSS9KN";
-
-		Message coolsms = new Message(api_key, api_secret);
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("to", user.getPhoneNumber());
-		// 수신전화번호
-		map.put("from", "01028382468");
-		// 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
-		map.put("type", "SMS");
-		map.put("text", "Fait-Main입니다. 스토어 신청서 심사가 완료 되었습니다. 확인 부탁드립니다.");
-		// 문자 내용 입력
-		map.put("app_version", "test app 1.2");
-		// application name and version
-		try {
-			JSONObject obj = coolsms.send(map);
-			System.out.println(obj.toString());
-
-		} catch (CoolsmsException e) {
-			System.out.println(e.getMessage());
-			System.out.println(e.getCode());
-			e.printStackTrace();
-		}
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-		log.info("끝 ");
-
-		model.addAttribute("StoreApplicationDocument", storeApplicationDocument);
-		return "/user/getStoreApplicationDocument2";
-	}
-*/
-	
-	// 스토어 재 신청 Add
-	@GetMapping("deleteUser")
-	public String deleteUser() throws Exception {
-		System.out.println("GET deleteUser");
-
-		return "/user/deleteUser";
-	}
-/* rest로감
-	@PostMapping("deleteUser")
-	public RedirectView deleteUser(@ModelAttribute("user") User user,
-			@AuthenticationPrincipal SecurityUserService securityUserService) throws Exception {
-		System.out.println("POST withdrawUser");
-
-		log.info("::POST withdrawUserwithdrawUser ={}", user.getId());
-		int result = userSerivce.deleteUser(user.getId());
-		SecurityContextHolder.clearContext();
-		System.out.println("컨텍스트 홀더 날림");
-
-		return new RedirectView("/");
-	}
-*/
-	@PostMapping(value = "updateUser")
-	public String udateUser(Model model, User user, MultipartHttpServletRequest mRequest,
-			@AuthenticationPrincipal SecurityUserService securityUserService) throws Exception {
-
-		log.info(":::storeLogoFileName ={}", user);
-//		 
-// 		MultipartFile storeLogo =mRequest.getFile("LogoImage");
-//		log.info(":::storeLogoFileName ={}", storeLogo);
-//   	log.info("ajax Updtae에 옴  user 값은 = {}" , user) ;
-		// 아직 checkDuplication 없음
-		int result = 0;
-		// log.info("updateUser :: user 출력 {} " , user );
-		result = userSerivce.updateUser(user);
-
-		log.info("updateUser :: result 출력  = {} ", result);
-		user = userSerivce.getUser(user.getId());
-
-//		MultipartFile storeLogo =mRequest.getFile("LogoImage");
-//		log.info("addStore fileStorageLocation ={}" ,  fileStorageLocation );		
-//		
-//		if(!storeLogo.isEmpty()) {
-//			log.info("addStore  로고사진 " );		
-//				String storeLogoFileName = addFile(storeLogo) ;
-//				log.info(":::storeLogoFileName ={}", storeLogoFileName);
-//				user.setStoreLogoImage(storeLogoFileName);
-//		}
-//       
-//       
-
-		if (user.getRole().equals("store") || user.getRole().equals("storeX")) {
-			// 롤이 스토어면 스토어 넘버 가져와서 user에 넣어라
-			int storeNumber = userSerivce.getStoreApplicationDocumenNumber(user.getId());
-			user.setStoreApplicationDocumentNumber(storeNumber);
-		}
-
-		///////////////// 날리기전 //////////////////////
-		System.out.println("  #Authentication : " + SecurityContextHolder.getContext().getAuthentication());
-
-		/////////////////// SecurityContextHolder 날림 ///////////////////////////////////
-		SecurityContextHolder.clearContext();
-
-		SecurityUserService securityUser = new SecurityUserService(user);
-		System.out.println("  #updateUserDetails : " + securityUser);
-
-		/////////////////// SecurityContextHolder 세팅 ///////////////////////////////////
-
-		Authentication authRequest = new UsernamePasswordAuthenticationToken(securityUser, null,
-				securityUser.getAuthorities());
-		SecurityContextHolder.getContext().setAuthentication(authRequest);
-
-		System.out.println("  #updateUserDetails : " + authRequest);
-
-		log.info(" 출력하라 getUSer {}", user);
-
-		model.addAttribute("getuser", user);
-		return "/user/getUser";
-	}
-
-
-	// admin 페이지 리스트 보이기 , 스토어 신청서 리스트
-	@GetMapping("getStoreApplicationDocumentList")
-	public String getStoreApplicationDocumentList(Model model, Paging paging) throws Exception {
-
-		log.info("getStoreApplicationDocumentList  도착 !! ");
-
-		log.info("paging {}: ", paging);
-
-		// getKeyword 없으면 ,
-		if (paging.getKeyword() == null) {
-			paging.setKeyword("");
-			log.info("paging {}", paging.getKeyword());
-
-		} else if (paging.getKeyword().equals("ALL")) {
-			paging.setKeyword("");
-
-		} else {
-
-			paging.setKeyword(paging.getKeyword());
-			log.info("paging {}", paging.getKeyword());
-
-		}
-		// Map<String, Object> map =
-		// userSerivce.getStoreApplicationDocumentList(searchMap);
-
-		List<StoreApplicationDocument> list = userSerivce.getTestAppList(paging);
-
-		log.info("getStoreApplicationDocumentList = {}", list);
-		if (!list.isEmpty()) {
-			model.addAttribute("list", list);
-
-			log.info("list! ={}", list);
-
-			model.addAttribute("pageMaker", new Page(paging, userSerivce.getTestAppListTotal(paging)));
-			log.info("pageMaker   pageMaker !! ={}", new Page(paging, userSerivce.getTestAppListTotal(paging)));
-
-		} else {
-			model.addAttribute("listCheck", "empty");
-			model.addAttribute("pageMaker", new Page(paging, userSerivce.getTestAppListTotal(paging)));
-			log.info("pageMaker   pageMaker !! ={}", new Page(paging, userSerivce.getTestAppListTotal(paging)));
-
-		}
-		log.info("model = {}", model);
-
-		log.info("getStoreApplicationDocumentList   끝 !! ={}", list);
-
- 
-
-		return "/admin/getStoreApplicationDocumentList";
-
-	}
-/*	
-	// admin 페이지 리스트 보이기 , 스토어 신청서 리스트 안슴
-	@PostMapping("getStoreApplicationDocumentList")
-	public String getStoreApplicationDocumentList(Paging paging, Model model,
-			@RequestParam(value = "searchCondition", required = false) String searchCondition) throws Exception {
-		log.info("  Paging  === {}  ", paging);
-
-		paging.setKeyword("W");
-		List<StoreApplicationDocument> list = userSerivce.getTestAppList(paging);
-		List<StoreApplicationDocument> resultList = new ArrayList<>();
-
-		log.info("getStoreApplicationDocumentList = {}", list);
-		if (!list.isEmpty()) {
-			model.addAttribute("list", list);
-			model.addAttribute("pageMaker", new Page(paging, userSerivce.getTestAppListTotal(paging)));
-		} else {
-			model.addAttribute("listCheck", "empty");
-		}
-		log.info("model = {}", model);
-
-
-		return "/admin/getStoreApplicationDocumentList";
-	}
-
-*/	
 }
