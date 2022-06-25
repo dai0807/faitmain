@@ -273,7 +273,7 @@ public class UserController {
 		public String addStoreApplicationDocument() {
 			log.info(" start !!  addStoreApplicationDocument ");
 
-			return "/user/addStoreApplicationDocument2";
+			return "/user/addStoreApplicationDocument";
 		}
 
 		// 스토어 재 신청 Add
@@ -292,13 +292,33 @@ public class UserController {
 						.getStoreApplicationDocumenNumber(storeApplicationDocument.getId());
 				storeApplicationDocument.setStoreApplicationDocumentNumber(addStoreApplicationNumber);
 				storeApplicationDocument.setExaminationStatus("W"); // 대기
+				
+				
 				log.info("StoreApplicationDocument {}", storeApplicationDocument);
 
 			}
+			
+			
+			
+			
+			
+			securityUserService = (SecurityUserService) SecurityContextHolder.getContext().getAuthentication()
+					.getPrincipal(); // principal 에 사용자 인증 정보 담음
+			User guser = securityUserService.getUser();
+			int storeNumber = userSerivce.getStoreApplicationDocumenNumber(guser.getId());
+			guser.setStoreApplicationDocumentNumber(storeNumber);
+			
+			
+		 
+			
+			log.info(" 출력하라 getUSer {}", guser);
 
-			model.addAttribute("StoreApplicationDocument", storeApplicationDocument);
+			model.addAttribute("getuser", guser);		
+			
+			
 
-			return "/user/getStoreApplicationDocument333";
+ 
+			return "/user/getUser";
 		}
 
 	 

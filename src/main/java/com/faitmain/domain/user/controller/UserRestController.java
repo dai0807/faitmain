@@ -479,6 +479,7 @@ public class UserRestController{
     
      
   @PostMapping( "updatePassword" )
+ // public int updatePassword( @ModelAttribute( "user" ) User user  ) throws Exception{
   public int updatePassword( @ModelAttribute( "user" ) User user  ) throws Exception{
 	  
 	  
@@ -488,39 +489,48 @@ public class UserRestController{
 
 		user = userSerivce.getUser(user.getId());
 
-		System.out.println("업데이트 유저  :: " + restult);
+		if(SecurityContextHolder.getContext()
+					.getAuthentication().getPrincipal().equals("anonymousUser")) {
 
-		if (SecurityContextHolder.getContext().getAuthentication() != null) {  // 보안 세션이 null이 아니면 
+			
+		}else {  // updatePassword 시 접속 하는 유저가 anonymousUser(로그인 안한 유저가 아닐때 )
+			
+			System.out.println("업데이트 유저  :: " + restult);
 
-			System.out.println("  #Authentication : " + SecurityContextHolder.getContext().getAuthentication());
+			if (SecurityContextHolder.getContext().getAuthentication() != null) {  // 보안 세션이 null이 아니면 
 
-			SecurityContextHolder.clearContext(); // 없애고
-			System.out.println("클리어  :: ");
+				System.out.println("  #Authentication : " + (SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString().equals("anonymousUser")));
 
-			System.out.println("  #Authentication : " + SecurityContextHolder.getContext().getAuthentication());
+				SecurityContextHolder.clearContext(); // 없애고
+				System.out.println("클리어  :: ");
 
-			SecurityUserService securityUserService = new SecurityUserService(user); // 디테일 섭스를 다시 만들어서 주입
-			System.out.println("securityUserService :: " + securityUserService);
+				System.out.println("  #Authentication : " + SecurityContextHolder.getContext().getAuthentication());
 
-			// authentication 에 토큰 새로 만들어서 주입 됨
-			Authentication authentication = new UsernamePasswordAuthenticationToken(securityUserService, null,
-					securityUserService.getAuthorities());
-			SecurityContext securityContext = SecurityContextHolder.getContext(); // SecurityContextHolder 안에 있는 컨텍스트에
-																					// 접근
-			securityContext.setAuthentication(authentication); // securityContext 에 setAuthentication 에 authentication
-																// 세팅
+				SecurityUserService securityUserService = new SecurityUserService(user); // 디테일 섭스를 다시 만들어서 주입
+				System.out.println("securityUserService :: " + securityUserService);
 
-			// 무슨 짓을 해도..... 안되서 직접 인증 토큰 만들어서 주입해줌
-			// Authentication 만들기
-			// AuthenticationManager 에서 인증을 인증에 성공하면 Authentication을 만들어서 컨텍스트 홀더에 주입
-			// 그럼 우리도 SecurityContextHolder.clearContext()를 없애고
-			// UsernamePasswordAuthenticationToken를 직접만들어서 setAuthentication에 set
-			// Authentication newAuth = new UsernamePasswordAuthenticationToken(userDetails,
-			// null, userDetails.getAuthorities());
-			//
+				// authentication 에 토큰 새로 만들어서 주입 됨
+				Authentication authentication = new UsernamePasswordAuthenticationToken(securityUserService, null,
+						securityUserService.getAuthorities());
+				SecurityContext securityContext = SecurityContextHolder.getContext(); // SecurityContextHolder 안에 있는 컨텍스트에
+																						// 접근
+				securityContext.setAuthentication(authentication); // securityContext 에 setAuthentication 에 authentication
+																	// 세팅
+
+				// 무슨 짓을 해도..... 안되서 직접 인증 토큰 만들어서 주입해줌
+				// Authentication 만들기
+				// AuthenticationManager 에서 인증을 인증에 성공하면 Authentication을 만들어서 컨텍스트 홀더에 주입
+				// 그럼 우리도 SecurityContextHolder.clearContext()를 없애고
+				// UsernamePasswordAuthenticationToken를 직접만들어서 setAuthentication에 set
+				// Authentication newAuth = new UsernamePasswordAuthenticationToken(userDetails,
+				// null, userDetails.getAuthorities());
+				//
+			}
+
+			log.info("uauthRequest :: = {}", authentication);
+
 		}
-
-		log.info("uauthRequest :: = {}", authentication);
+		
 
 		log.info("##POST ##updatePassword {} ##", user);
 
