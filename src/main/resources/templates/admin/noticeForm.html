@@ -3,13 +3,16 @@
 				layout:decorate = "~{layout/customer_default_layout2}"
       			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
       			xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-	
+<head>	
 	
 	<th:block layout:fragment="title">
 	<link th:href="@{/css/customer.css}" rel="stylesheet" />
 		<title>faitmain</title>
 	</th:block>
-
+	
+</head>
+<body>
+	<div class="container">
 	<th:block layout:fragment="content">
 		<div class="card-content">
 			<form class="form-horizontal" th:action="@{/customer/addBoard}" method="post" > <!-- onsubmit="return registerBoard(this)" -->
@@ -56,6 +59,7 @@
 		</div>
 		<!-- /.card-content -->
 	</th:block>
-
+		</div>
+</body>
 	
 </html>

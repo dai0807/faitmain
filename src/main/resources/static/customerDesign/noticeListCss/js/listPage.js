@@ -45,8 +45,8 @@ $(document).ready(function () {
 	});
 /* 수정 하기 버튼 */
 	$("#modify_btn").on("click", function(e){
-		mform.attr("action", "/customer/updateBoard");
-		mform.submit();
+		form.attr("action", "/customer/updateBoard");
+		form.submit();
 	});
 /* 취소 버튼 */
     $("#cancel_btn").on("click", function(e){
@@ -54,11 +54,29 @@ $(document).ready(function () {
         form.submit();
     });   	
 	
-	$(".move").on("click", function(e){
+/*	$(".move").on("click", function(e){
 		e.preventDefault();
 		
 		moveForm.append("<input type='hidden' name='boardNumber' th:value='"+$(this).attr("th:href")+"'>");
-		moveForm.attr("action", "/customer/detailBoard");
+		mveForm.attr("action", "/customer/detailBoard");
 		moveForm.submit();
-	});
+	});*/o
+	
+	 /* 목록 페이지 이동 버튼 */
+    $("#list_btn").on("click", function(e){
+        form.find("#bno").remove();
+        form.attr("action", "/board/list");
+        form.submit();
+    });
+    
+    /* 수정 하기 버튼 */
+    $("#modify_btn").on("click", function(e){
+        mForm.submit();
+    });
+    
+    /* 취소 버튼 */
+    $("#cancel_btn").on("click", function(e){
+        form.attr("action", "/board/get");
+        form.submit();
+    });    
 }); // ready

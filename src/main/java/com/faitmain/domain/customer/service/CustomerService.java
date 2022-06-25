@@ -32,13 +32,13 @@ public interface CustomerService {
 	public int deleteCustomerBoard(int boardNumber) throws Exception;
 
 //	게시판 리스트 조회	
-	public List<Customer> getCustomerBoardList(char boardType) throws Exception;
+	public List<Customer> getCustomerBoardList(char boardType, Paging paging) throws Exception;
 
 //	자주묻는질문 리스트 조회
 	public List<Customer> getFAQList(String FAQCategoryCode) throws Exception;
 	
 //	게시판 총 개수
-	public int getBoardTotalCount() throws Exception;
+	public int getBoardTotalCount(char boardType) throws Exception;
 	
 // 게시판 목록(페이징 적용)
 	public List<Customer> getListPaging(Paging paging) throws Exception;
