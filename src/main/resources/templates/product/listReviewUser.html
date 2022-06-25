@@ -3,23 +3,8 @@
 <head>
     <meta charset = "UTF-8">
     <title>나의 리뷰 목록</title>
-	
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="/productDesign/images/icons/favicon.png"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
-	
+		
 	<script src="/productDesign/vendor/sweetalert/sweetalert.min.js"></script>
-	
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">
 	
 	<style>
 	
@@ -160,7 +145,7 @@
 	
 </head>
 <body >
-	<article class="py-5" layout:fragment="content">
+	<article layout:fragment="content">
 	
 		<div class="container">
 			<div class="row">
@@ -170,7 +155,7 @@
 					<!-- 모든 리뷰 삭제 -->
 					<div class="statusDeleteBtnArea">
 	
-						<button type="button" id="deleteReview" class="flex-c-m stext-101 cl2 size-126 bg8 bor13 hov-btn3 trans-04 pointer m-tb-10">
+						<button type="button" id="deleteReview" class="btn btn-danger">
 							삭제
 						</button>
 	

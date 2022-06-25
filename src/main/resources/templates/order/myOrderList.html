@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html layout:decorate = "~{layout/default_layout}"
+<html layout:decorate = "~{layout/myPage_layout}"
       xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
 
@@ -15,36 +15,6 @@
     </style>
     <!--  고유 스크립트 추가 -->
     <script src = "/js/order/orderList.js"></script>
-
-    <meta content = "width=device-width, initial-scale=1" name = "viewport">
-    <!--===============================================================================================-->
-    <link href = "/productDesign/images/icons/favicon.png" rel = "icon" type = "image/png"/>
-    <!--===============================================================================================-->
-    <link href = "/productDesign/vendor/bootstrap/css/bootstrap.min.css" rel = "stylesheet" type = "text/css">
-    <!--===============================================================================================-->
-    <link href = "/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel = "stylesheet" type = "text/css">
-    <!--===============================================================================================-->
-    <link href = "/productDesign/fonts/iconic/css/material-design-iconic-font.min.css" rel = "stylesheet" type = "text/css">
-    <!--===============================================================================================-->
-    <link href = "/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css" rel = "stylesheet" type = "text/css">
-
-    <link href = "/productDesign/vendor/select2/select2.min.css" rel = "stylesheet" type = "text/css">
-
-    <link href = "/productDesign/css/util.css" rel = "stylesheet" type = "text/css">
-    <link href = "/productDesign/css/main.css" rel = "stylesheet" type = "text/css">
-
-    <style>
-
-        .form-group {
-            margin-top: 10px;
-        }
-
-        h5, span {
-            font-family: 'Nanum Gothic Coding', monospace;
-        }
-
-
-    </style>
 
     <style>
         .table-shopping-cart .fuku {
@@ -73,25 +43,25 @@
 
         h1 {
             text-align: center;
-            padding: 10px;
+            /*padding: 10px;*/
         }
     </style>
 </head>
 <body>
-<article class = "py-5" layout:fragment = "content">
+<article layout:fragment = "content">
 
     <div class = "container">
 
-        <div class = "row">
+        <!--<div class = "row">-->
             <div class = "form-horizontal">
                 <div class = "form-group">
                     <!-- 주문완료 페이지 -->
-                    <form class = "bg0 p-t-75 p-b-85">
+                    <form class = "bg0 p-b-85">
                         <div class = "container">
                             <div class = "row" style = "text-align: center">
 
                                 <!-- 상품 -->
-                                <h1 class = "page-header" style = "margin-bottom: 50px;">주문 내역</h1>
+                                <h1 class="title mtext-112 cl2 p-b-33" style = "margin-bottom: 10px;">주문 내역</h1>
                                 <table class = "table-shopping-cart" style = "text-align: center">
                                     <colgroup>
                                         <col width = "20%"/>
@@ -101,7 +71,7 @@
 
                                     </colgroup>
                                     <th:block th:each = "list : ${list}">
-                                        <tr bgcolor = "#dcdcdc" class = "table_head" style = "text-align: center">
+                                        <tr  class = "table_head" style = "text-align: center">
                                             <th class = "column">주문번호</th>
                                             <th class = "column">주문날짜</th>
                                             <th class = "column">주문상태</th>
@@ -113,8 +83,8 @@
                                             <th class = "column" th:text = "${list.orderStatus}"></th>
                                             <th class = "column" th:text = "${list.usingPoint}"></th>
                                         </tr>
-                                        <tr bgcolor = "#fff0f5" class = "table_head">
-                                            <th class = "column">이미지</th>
+                                        <tr bgcolor = "#efefef" class = "table_head">
+                                            <th class = "column" >이미지</th>
                                             <th class = "column">상품명</th>
                                             <th class = "column">수량</th>
                                             <th class = "column">가격</th>
@@ -143,7 +113,7 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            <!--</div>-->
         </div><!-- class=row -->
     </div><!-- class=container -->
 

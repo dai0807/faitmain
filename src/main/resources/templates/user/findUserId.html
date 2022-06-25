@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/default_layout}">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 
@@ -19,18 +19,24 @@
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
+	<link rel = "stylesheet" th:href = "@{/css/bootstrap.min.css}"/> 
+    
+    <link rel="stylesheet"  href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" 	href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
+
+ 	 	 	 	
+    <link rel = "stylesheet" th:href = "@{/css/main.css}"/>
+    <link rel = "stylesheet" th:href = "@{/css/util.css}"/>
+    
+    <!--===============================================================================================-->	
+	<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+	<!--===============================================================================================-->	
+	<script th:src="@{/js/bootstrap.min.js}"></script>
 
 
 	<script type="text/javascript">
-
-
-
-
-
-
-
-
-
+	
 		$(function () {
 			$("#findId").on("click", function () {
 
@@ -234,6 +240,10 @@
 			text-decoration: none;
 			cursor: pointer;
 		}
+		
+		span{
+			font-size: 0.9em;
+		}
 	</style>
 
 
@@ -242,146 +252,141 @@
 	<!-- 길이는 스타일 건들이 -->
 </head>
 
+<body>
 
-<article layout:fragment="content">
-
-	<div class="container col-lg-2"> </div>
-
-
-
-	<div class="container col-lg-8">
-		<div class="wrapper">
-			<br>
-			<div id="formContent">
-				<h3>아이디찾기</h3>
-				<hr>
-
-				<form id="form" onsubmit="return false">
-
-					<div class="form-group">
-						<h5>이름</h5>
-						<div>
-							<input type="text" class="form-control" id="name" name="name" placeholder="회원이름">
+	<section class="sec-product-detail bg0 p-t-25 p-b-60">
+		
+			<div class="container">
+			
+				<div class="m-t-50 p-t-43 p-b-40" style="margin: 0 auto; width: 70%;">
+				
+					<h2 class="mtext-109 cl2 txt-center" style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #333;">아이디 찾기</h2>
+					
+					<form id="form" onsubmit="return false" style="padding-top: 20px;">
+					
+						<div class="form-group row p-b-25">
+							<!--<label for="name" class="col-md-8 control-label">이름</label>
+													<h5 class="fw-bolder">이름</h5>-->
+							<div class="col-12 p-b-5">
+								<label class="stext-102 cl3" for="name">이름</label>
+								<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name" name="name" placeholder="회원이름">
+							</div>
+						
 						</div>
-					</div>
-					<br>
-
-					<div class="form-group">
-						<h5> 휴대전화번호 </h5>
-						<div>
-							<div class="input-group mb-2">
-								<input class="form-control" id="phone" name="phoneNumber"
+						
+						<div class="form-group row p-b-25">
+							<!--<label for="name" class="control-label">휴대폰번호</label> 
+													<h5 class="fw-bolder"> 인증번호 </h5>-->
+						
+							<div class="col-9 p-b-5">
+								<label class="stext-102 cl3" for="phone">휴대전화 인증</label>
+								<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="phone" name="phoneNumber"
 									placeholder="휴대전화번호 입력 01012345678" type="text" />
-								<span class="btn btn-success" id="phoneChk"> 인증번호 보내기</span>
 							</div>
-						</div>
-
-
-						<div>
-							<div class="input-group mb-2">
-								<input class="form-control" disabled id="phone2" name="CertificationNumber"
+						
+							<div class="col-3 p-b-5">
+								<label class="stext-102 cl3" for="address">&nbsp;</label>
+								<span class="stext-102 size-111 bg8 bor8 hov-btn1 p-lr-20 trans-04 pointer flex-c-m" id="phoneChk">
+									인증번호
+								</span>
+							</div>
+						
+							<div class="col-9 p-b-5">
+								<input class="size-111 bor8 stext-102 cl2 p-lr-20" disabled id="phone2" name="CertificationNumber"
 									placeholder="인증번호 입력" required type="text" />
-
-								<span class="btn btn-success" disabled id="phoneChk2" name="CertificationNumber"
-									placeholder="인증번호 입력" required> 본인인증</span>
-
+						
+								<span class="point successPhoneChk">휴대폰 번호 입력후 인증번호 보내기를 해주십시오.</span>
 							</div>
-							<span class="point successPhoneChk">휴대폰 번호 입력후 인증번호 보내기를 해주십시오.</span>
-
+						
+							<div class="col-3 p-b-5">
+								<span class="size-111 bg8 bor8 hov-btn1 p-lr-20 trans-04 pointer flex-c-m" disabled id="phoneChk2" name="CertificationNumber"
+									placeholder="인증번호 입력" required>
+									본인인증
+								</span>
+							</div>
+						
+							<input id="phoneDoubleChk" type="hidden" /> </p>
 						</div>
-
-						<input id="phoneDoubleChk" type="hidden" /> </p>
-					</div>
-					<div class="form-group">
-						<div>
-							<span class="fw-bolder btn btn-success col-md-12" id="findId"> 아이디 찾기</span>
+						
+						<div class="flex-c-m flex-w w-full p-t-10">
+						
+							<span class="flex-c-m stext-101 cl2 size-101 bg0 bor13 hov-btn1 p-lr-15 trans-04 pointer m-tb-10" id="findId">
+								아이디 찾기
+							</span>
+						
 						</div>
-
-					</div>
-
-				</form>
-			</div>
-
-
-			<!-- 모l -->
-			<div id="myModal" class="modal">
-
-				<!-- Modal content -->
-				<div class="modal-content">
-					<span id="close" class="close" onclick="clseoModal();">&times;</span>
-					<!--모달에 x버튼 클릭시 나가기  -->
-					<p> </p>
-
+					
+					</form>
+					
 				</div>
+				
+				<!-- 모l -->
+				<div id="myModal" class="modal">
+				
+					<!-- Modal content -->
+					<div class="modal-content">
+						<span id="close" class="close" onclick="clseoModal();">&times;</span>
+						<!--모달에 x버튼 클릭시 나가기  -->
+						<p> </p>
+				
+					</div>
+				
+				</div>
+				
+				<script>
 
-			</div>
-
-			<script>
-
-				function openModal() {
-					modal.style.display = "block";
-				}
-				function clseoModal() {
-
-					console.log("spane");
-					modal.style.display = "none";
-
-
-					window.opener.top.location.href = "/user/login"
-					window.close()
-
-					modal.style.display = "block";
-				}
-
-				var modal = document.getElementById('myModal');
-
-				// Get the button that opens the modal
-				var btn = document.getElementById("myBtn");
-
-				// Get the <span> element that closes the modal
-				var span = document.getElementById("close");
-				console.log("span" + span);
-
-				// When the user clicks on the button, open the modal 
-				btn.onclick = function () {
-					modal.style.display = "block";
-				}
-
-				// When the user clicks on <span> (x), close the modal
-				span.onclick = function () {
-					console.log("spane");
-					modal.style.display = "none";
-
-
-					window.opener.top.location.href = "/user/login"
-					window.close()
-
-				}
-
-				// When the user clicks anywhere outside of the modal, close it
-				window.onclick = function (event) {
-					if (event.target == modal) {
-						modal.style.display = "none";
+					function openModal() {
+						modal.style.display = "block";
 					}
-				}
+					function clseoModal() {
 
-			</script>
-
-		</div>
-
-	</div>
+						console.log("spane");
+						modal.style.display = "none";
 
 
+						window.opener.top.location.href = "/user/login"
+						window.close()
 
-	</div>
+						modal.style.display = "block";
+					}
+
+					var modal = document.getElementById('myModal');
+
+					// Get the button that opens the modal
+					var btn = document.getElementById("myBtn");
+
+					// Get the <span> element that closes the modal
+					var span = document.getElementById("close");
+					console.log("span" + span);
+
+					// When the user clicks on the button, open the modal 
+					btn.onclick = function () {
+						modal.style.display = "block";
+					}
+
+					// When the user clicks on <span> (x), close the modal
+					span.onclick = function () {
+						console.log("spane");
+						modal.style.display = "none";
 
 
-	<div class="container col-lg-2"> <br> <br> <br> <br> </div>
+						window.opener.top.location.href = "/user/login"
+						window.close()
 
+					}
 
+					// When the user clicks anywhere outside of the modal, close it
+					window.onclick = function (event) {
+						if (event.target == modal) {
+							modal.style.display = "none";
+						}
+					}
 
-
-</article>
+				</script>
+				
+			</div>
+			
+	</section>		
 
 </body>
 

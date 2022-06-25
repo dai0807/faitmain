@@ -1,35 +1,97 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap" rel="stylesheet">
+
 <!-- Header -->
-<header class="bg-dark pt-3 pb-2 nav-down" th:fragment="header">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid px-5">
-            <a class="navbar-brand" th:href="@{/}">Fait-Main</a>
-
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+	<!-- Header -->
+	<header th:fragment="header" class="header">
+		<!-- Header desktop -->
+		<div class="container-menu-desktop">
+			<!-- Topbar -->
+			<div class="top-bar bg10">
+				<div class="content-topbar flex-sb-m h-full container">
+					<div class="left-top-bar">
 						
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        	
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+					</div>
 
-					<li class="nav-item"><a class="nav-link" th:href="@{/product/getProductList(resultJsp='listProduct')}">상품</a></li>
-					
-					<li sec:authorize  ="isAnonymous()" class="nav-item"><a class="nav-link" th:href="@{/user/login}">로그인</a></li>
-                   		<th:block   sec:authorize="isAuthenticated()" >
-                   		 	<li      class="nav-item"><a class="nav-link" th:href="@{/user/logout}">로그아웃</a></li>
+					<div class="right-top-bar flex-w h-full">
+						<a href="#" class="flex-c-m trans-04 p-lr-25">
+							회원가입
+						</a>
+
+						<a sec:authorize="isAnonymous()" th:href="@{/user/login}" class="flex-c-m trans-04 p-lr-25">
+							로그인
+						</a>
+						
+						<th:block   sec:authorize="isAuthenticated()" >
+							<a sec:authorize="isAuthenticated()" th:href="@{/user/logout}" class="flex-c-m trans-04 p-lr-25">
+								로그아웃
+							</a>
                    		</th:block>
- 					
- <!-- 라이브 오빠들 로그아웃 <li th:if="${session.user != null AND session.user.joinPath =='KAKAO' }" class="nav-item"><a class="nav-link" th:href="@{https://kauth.kakao.com/oauth/logout?client_id=f0b36852932e865ae00c9ff2fcd19874&logout_redirect_uri=https://fait-main.kro.kr:8080/user/logout}">로그아웃</a></li> -->
-<!--                       	<li sec:authorize ="isAuthenticated()"   th:if="${#authentication.principal.user.joinPath =='NAVER' }"  class="nav-item"><a class="nav-link" th:href="@{https://kauth.kakao.com/oauth/logout?client_id=f0b36852932e865ae00c9ff2fcd19874&logout_redirect_uri=http://localhost:8080/user/logout}">카카오로그아웃</a></li> -->
-<!--				      	<li sec:authorize ="isAuthenticated()"   th:if="${#authentication.principal.user.joinPath =='NAVER' }"  class="nav-item"><a class="nav-link" th:href="@{https://kauth.kakao.com/oauth/logout?client_id=f0b36852932e865ae00c9ff2fcd19874&logout_redirect_uri=http://localhost:8080/user/logout}">카카오로그아웃</a></li> -->
+                   		
+                   		<a sec:authorize="isAuthenticated" th:href="@{/myPage}" class="flex-c-m trans-04 p-lr-25">
+							My Page
+						</a>
+
+						<a th:href="@{/customer/openBoardIndex}" class="flex-c-m trans-04 p-lr-25">
+							고객센터
+						</a>
+						
+					</div>
+				</div>
+			</div>
+
+			<div class="wrap-menu-desktop">
+				<nav class="limiter-menu-desktop container">
 					
-					<li  sec:authorize = "isAuthenticated"  class="nav-item"><a class="nav-link" th:href="@{/myPage}">회원정보</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/customer/openBoardIndex}">고객센터</a></li>
-                    
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header>
+					<!-- Logo desktop -->		
+					<a th:href="@{/}" class="logo" style="font-family: 'Julius Sans One', sans-serif; font-weight: bold; color: #0f0e0e; font-size: 1.50em;">
+						Fait-Main
+					</a>
+
+					<!-- Menu desktop -->
+					<div class="menu-desktop">
+						<ul class="main-menu">
+						
+							<li class="active-menu">
+								<a th:href="@{/product/getProductList(resultJsp='listProduct')}">전체 카테고리</a>
+								<ul class="sub-menu">
+									<li><a href="#">식품</a></li>
+									<li><a href="#">생활</a></li>
+									<li><a href="#">뷰티</a></li>
+									<li><a href="#">패션</a></li>
+									<li><a href="#">인테리어</a></li>
+								</ul>
+							</li>
+
+							<li class="label1" data-label1="hot">
+								<a href="#">Live</a>
+							</li>
+
+							<li>
+								<a href="#">신상품</a>
+							</li>
+							
+						</ul>
+					</div>	
+
+					<!-- Icon header -->
+					<div class="wrap-icon-header flex-w flex-r-m">
+											
+						<a sec:authorize="isAuthenticated()" th:href="@{/cart/{buyerId}(buyerId=${#authentication.principal.user.id})}">
+							<div class="icon-header-item cl7 hov-cl1 trans-04 p-l-22 p-r-11  js-show-cart">
+								<i class="zmdi zmdi-shopping-cart"></i>
+							</div>
+						</a>
+						
+					</div>
+				</nav>
+			</div>	
+		</div>
+		
+	</header>
+	
 </html>

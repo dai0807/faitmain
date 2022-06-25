@@ -1,80 +1,165 @@
 <!DOCTYPE html>
-<html lang = "ko" xmlns:sec = "http://www.thymeleaf.org/extras/spring-security"
-      xmlns:th = "http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
+	<!-- SideBar -->
+	<th:block th:fragment="sidebar">
+		
+		<div class="side-menu">
+			<!-- 일반 User -->
+			<div class="p-t-20" sec:authorize = "hasRole('user')">
+			
+				<h4 class="mtext-103 cl2 p-b-33" style="font-weight: bold;">
+					나의 쇼핑활동
+				</h4>
 
-<head>
-    <link href = "css/style.css" rel = "stylesheet">
+				<ul class="list-group list-group-flush">
+											
+					<li>
+						<a th:href = "@{/user/getUser?id=}+${#authentication.principal.user.id}" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							상세 정보 보기
+						</a>
+					</li>
 
-    <!-- BootStrap Css -->
-    <link crossorigin = "anonymous" href = "https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity = "sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
-          rel = "stylesheet">
+					<li>
+						<a th:href = "@{/order/myList/{buyerId}(buyerId=${#authentication.principal.user.id})}" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							주문 내역 조회
+						</a>
+					</li>
 
-    <!-- BootStrap Bundle -->
-    <script crossorigin = "anonymous" integrity = "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            src = "https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
-    <script crossorigin = "anonymous" integrity = "sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
-            src = "https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+					<li>
+						<a th:href = "@{/inquiry/getInquiryList(resultJsp=listInquiryUser,searchCondition=userId,searchKeyword=${#authentication.principal.user.id})}" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							상품 문의
+						</a>
+					</li>
 
-    <!-- STYLE -->
-    <style>
-        h4.myShopping {
-            padding-left: 15px;
-            padding-top: 20px;
-            margin-bottom: 0px;
-        }
-    </style>
-</head>
+					<li>
+						<a th:href = "@{/review/getReviewList(searchCondition=userId,searchKeyword=${#authentication.principal.user.id})}" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							나의 리뷰
+						</a>
+					</li>
 
+					<li>
+						<a th:href = "@{/live/getUserAlarmList}" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							라이브 알림 설정 목록
+						</a>
+					</li>
+					
+					<li>
+						<a href = "#" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							신고 목록
+						</a>
+					</li>
+					
+				</ul>
+				
+			</div>
+			
+			<!-- 스토어 -->
+			<div class="p-t-20" sec:authorize="hasRole('store')">
+			
+				<h4 class="mtext-103 cl2 p-b-33" style="font-weight: bold;">
+					나의 스토어
+				</h4>
 
-<!-- SideBar -->
-<th:block th:fragment = "sidebar">
-    <!-- Sidebar -->
-    <div>
-        <div class = "list-group list-group-flush" sec:authorize = "hasRole('user')">
-            <h4 class = "myShopping">나의 쇼핑활동</h4>
-            <hr/>
-            <a class = "list-group-item list-group-item-action" th:href = "@{/user/getUser?id=}+${#authentication.principal.user.id}">상세 정보 보기</a>
-            <a class = "list-group-item list-group-item-action" th:href = "@{/order/myList/{buyerId}(buyerId=${#authentication.principal.user.id})}">주문내역</a>
-            <a class = "list-group-item list-group-item-action"
-               th:href = "@{/inquiry/getInquiryList?resultJsp=listInquiryUser&searchCondition=userId&searchKeyword=} + ${#authentication.principal.user.id}">문의 목록</a>
-            <a class = "list-group-item list-group-item-action" th:href = "@{/review/getReviewList?searchCondition=userId&searchKeyword=} + ${#authentication.principal.user.id}">리뷰 목록</a>
-            <a class = "list-group-item list-group-item-action" th:href = "@{/live/getUserAlarmList}">라이브 알림 설정 목록</a>
-            <a class = "list-group-item list-group-item-action" href = "#">신고 목록</a>
-        </div>
-        <div class = "list-group list-group-flush" sec:authorize = "hasRole('store')">
-            <h4 class = "myShopping">나의 스토어</h4>
-            <hr/>
-            <a class = "list-group-item list-group-item-action" th:href = "@{/product/addProduct}">상품 등록</a>
-            <a class = "list-group-item list-group-item-action" th:href = "@{/product/getProductList?resultJsp=listProductStore}">등록 상품 목록</a>
-            <a class = "list-group-item list-group-item-action" th:href = "@{/user/getUser}">스토어 정보</a>
-            <a class = "list-group-item list-group-item-action"
-               th:href = "@{/inquiry/getInquiryList?resultJsp=listInquiryStore&searchCondition=storeId&searchKeyword=} + ${#authentication.principal.user.id}">문의 내역</a>
+				<ul sec:authorize="hasRole('store')" class="list-group list-group-flush">
+				
+					<li>
+						<a th:href="@{/user/getUser}" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							스토어 정보
+						</a>
+					</li>
+											
+					<li>
+						<a th:href="@{/product/addProduct}" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							상품 등록
+						</a>
+					</li>
 
-            <a class = "list-group-item list-group-item-action" th:href = "@{/live/getStoreAlarmList}">알림 설정 유저 목록</a>
-        </div>
-        <div class = "list-group list-group-flush" sec:authorize = "hasRole('storeX')">
-            <a class = "list-group-item list-group-item-action" th:href = "@{/user/getUser}">스토어 정보</a>
-        </div>
-        <div sec:authorize = "hasRole('admin')">
-            <a class = "list-group-item list-group-item-action" th:href = "@{/user/getUserlist}">회원 목록 조회 </a>
-            <a class = "list-group-item list-group-item-action" th:href = "@{/product/getProductList(resultJsp=listProductAdmin)}">전체 상품 조회</a>
-            <a class = "list-group-item list-group-item-action" th:href = "@{/order/list}">주문내역</a>
-            <a class = "list-group-item list-group-item-action" th:href = '@{/user/getStoreApplicationDocumentList(searchCondition=W)}'>스토어 신청서 조회 </a>
-            
-            <a class = "list-group-item list-group-item-action" th:href = "@{/customer/addNotice}">공지사항 등록 </a>
-            <a class = "list-group-item list-group-item-action" th:href = "@{/customer/listBoard?boardType=L}">라이브가이드</a>
-            <a class = "list-group-item list-group-item-action" th:href = "@{/customer/addFAQ}">자주묻는질문 등록 </a>
+					<li>
+						<a th:href="@{/product/getProductList(resultJsp=listProductStore)}" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							등록 상품 목록
+						</a>
+					</li>
 
-            <p>
-        </div>
+					<li>
+						<a th:href="@{/inquiry/getInquiryList(resultJsp=listInquiryStore, searchCondition=storeId, searchKeyword=${#authentication.principal.user.id})}" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							문의 내역
+						</a>
+					</li>
 
-    </div>
+					<li>
+						<a th:href="@{/live/getStoreAlarmList}" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							알림 설정 유저 목록
+						</a>
+					</li>
+					
+				</ul>
+				
+				<ul sec:authorize = "hasRole('storeX')" class="list-group list-group-flush">
+				
+					<li>
+						<a th:href="@{/user/getUser}" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							스토어 정보
+						</a>
+					</li>
+				</ul>
+				
+			</div>
+			
+			<!-- 관리자 -->
+			<div class="p-t-20" sec:authorize = "hasRole('admin')">
+										
+				<ul class="list-group list-group-flush">
+				
+					<li>
+						<a th:href = "@{/user/getUserlist}" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							회원 목록 조회
+						</a>
+					</li>
+											
+					<li>
+						<a th:href = "@{/product/getProductList(resultJsp=listProductAdmin)}" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							전체 상품 조회
+						</a>
+					</li>
 
+					<li>
+						<a th:href = "@{/order/list}" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							주문내역
+						</a>
+					</li>
 
-    <link href = "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel = "stylesheet">
-    <link href = "/user/myPageSidebar/css/Sidebarstyle.css" rel = "stylesheet">
+					<li>
+						<a th:href = '@{/user/getStoreApplicationDocumentList(keyword=ALL)}' class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							스토어 신청서 조회
+						</a>
+					</li>
 
-
-</th:block>
+					<li>
+						<a th:href = "@{/customer/addNotice}" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							공지사항 등록
+						</a>
+					</li>
+					
+					<li>
+						<a th:href = "@{/customer/listBoard?boardType=L}" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							라이브가이드
+						</a>
+					</li>
+					
+					<li>
+						<a th:href = "@{/customer/addFAQ}" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+							자주묻는질문 등록
+						</a>
+					</li>
+					
+				</ul>				
+				
+			</div>
+			
+		</div>
+		
+	</th:block>
+	
 </html>

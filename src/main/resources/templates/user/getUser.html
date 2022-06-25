@@ -1,21 +1,14 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout/myPage_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
+	
+	
+	
 
 <head>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link
-		href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nanum+Gothic+Coding:wght@400;700&display=swap"
-		rel="stylesheet">
-	<link href="@{/css/styles.css}" rel="stylesheet" />
-	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 	<script src="https://kit.fontawesome.com/10b89606ac.js" crossorigin="anonymous"></script>
-
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css"> <meta charset="UTF-8">
+	
 	<title>상세정보 </title>
 	<style>
 		.form-group {
@@ -30,7 +23,7 @@
 		}
 
 		form-horizontal {
-			font-family: 'Nanum Gothic Coding', monospace;
+			/*font-family: 'Nanum Gothic Coding', monospace;*/
 		}
 
 		#getUser,
@@ -49,8 +42,9 @@
 		input[type="button"]:hover,
 		button:hover,
 		.button:hover {
-			color: #f2849e !important;
-			box-shadow: inset 0 0 0 2px #f2849e;
+			border-color: #222;
+  			background-color: #222;
+  			color: #fff;
 		}
 
 		input[type="submit"]:active,
@@ -58,7 +52,7 @@
 		input[type="button"]:active,
 		button:active,
 		.button:active {
-			background-color: rgba(242, 132, 158, 0.1);
+			background-color: rgba(0, 0, 0, 0.1);
 		}
 
 
@@ -121,14 +115,15 @@
 		input[type="tel"]:focus,
 		select:focus,
 		textarea:focus {
-			border-bottom-color: #f2849e;
-			box-shadow: inset 0 -1px 0 0 #f2849e;
+			border-bottom-color: black;
+			box-shadow: inset 0 -1px 0 0 black;
 		}
 
 		.form-text {
 			margin-top: 0.25rem;
 			font-size: 0.875em;
-			color: #6c757d;
+			color: black;
+			font-weight: bold;
 		}
 
 		.form-control {
@@ -150,18 +145,6 @@
 		}
 
 
-
-
-		/*   */
-		.box {
-			width: 100px;
-			height: 100px;
-			border-radius: 30%;
-			overflow: hidden;
-		}
-
-
-
 		.profile {
 			width: 100%;
 			height: 99%;
@@ -171,12 +154,30 @@
 
 			padding-left: 0px;
 		}
+		
+		span{
+			font-size: 0.8em;
+		}
+		
+		.btn{
+			border: 1px solid black;
+			background-color: white;
+			color: black;
+		}
+		
+		.btn:hover{
+			background-color: black;
+			color: white;
+		}
+		
 	</style>
+	
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<noscript>
 		<link rel="stylesheet" th:href="@{/user/noscript.css}" />
 	</noscript>
+	
 	<script type="text/javascript">
 
 
@@ -606,21 +607,16 @@
 	<article id="getUser" layout:fragment="content">
 
 
-		<div class="container col-lg-2">
+		<div class="container col-lg-2" >
 		</div>
 
-
-
-
-
-
 		<div class="container col-lg-8 ">
-
-
-
+		
 			<div class="text-center">
 				<br>
-				<h3>상세 정보</h3>
+				<h4 class="mtext-112 cl2 p-b-33">
+					상세 정보
+				</h4>
 
 
 			</div>
@@ -631,7 +627,7 @@
 
 					<div class="form-group">
 						<div class="div_css">
-							<h5> 아이디</h5>
+							<h5 class="stext-114 cl3"> 아이디</h5>
 
 							<input type="text" class="form-control" th:id="id" th:name="id" th:value="${getuser.id}"
 								readonly>
@@ -639,7 +635,7 @@
 						</div>
 
 						<div class="div_css">
-							<h5 class="fw-bolder"> 이름 </h5>
+							<h5 class="stext-114 cl3"> 이름 </h5>
 
 							<input type="text" class="form-control" th:id="name" th:name="name"
 								th:value="${getuser.name}" readonly>
@@ -650,7 +646,7 @@
 
 
 						<div class="div_css" th:if="${getuser.role == 'user'}">
-							<h5 class="fw-bolder"> 닉네임 </h5>
+							<h5 class="stext-114 cl3"> 닉네임 </h5>
 
 							<input type="text" class="form-control" th:id="nickname" th:name="nickname" maxlength='10'
 								th:value="${getuser.nickname}" readonly>
@@ -660,7 +656,7 @@
 
 						<div th:if="${getuser.role == 'store' || getuser.role =='storeX'}">
 							<div class="div_css">
-								<h5 class="fw-bolder"> 스토어 이름 </h5>
+								<h5 class="stext-114 cl3"> 스토어 이름 </h5>
 
 								<input type="text" class="form-control" th:id="storeName" th:name="storeName"
 									maxlength='10' th:value="${getuser.storeName}" readonly>
@@ -669,7 +665,7 @@
 								<span id="storeName_info"> &nbsp; </span>
 							</div>
 							<div class="div_css">
-								<h5 class="fw-bolder"> 스토어 소개 </h5>
+								<h5 class="stext-114 cl3"> 스토어 소개 </h5>
 
 								<input type="text" class="form-control" th:id="storeIntroduction"
 									th:name="storeIntroduction" th:value="${getuser.storeIntroduction}" readonly>
@@ -679,7 +675,7 @@
 
 
 							<div class="div_css">
-								<h5 class="fw-bolder"> 스토어 로고 </h5>
+								<h5 class="stext-114 cl3"> 스토어 로고 </h5>
 
 
 								<div>
@@ -707,12 +703,12 @@
 
 
 						<div class="div_css">
-							<h5 class="fw-bolder"> 휴대폰번호 </h5>
+							<h5 class="stext-114 cl3"> 휴대폰번호 </h5>
 							<div class="input-group">
 
 								<input type="text" class="form-control" id="phoneNumber" th:name="phoneNumber"
 									th:value="${getuser.phoneNumber}" readonly>
-								<span class="btn btn-success" id="phoneChk" style="display:none" ;> 번호 변경 </span>
+								<span class="btn" id="phoneChk" style="display:none" ;> 번호 변경 </span>
 
 
 							</div>
@@ -727,7 +723,7 @@
 									<div class="input-group">
 										<input type="text" id="phoneCheck" class="form-control"
 											name="CertificationNumber" placeholder="인증번호입력" />
-										<span class="btn btn-success" id="phoneChk2" name="CertificationNumber"
+										<span class="btn" id="phoneChk2" name="CertificationNumber"
 											placeholder="인증번호 입력" required onclick="check_sms()"> 본인인증</span>
 
 									</div>
@@ -740,30 +736,32 @@
 						</div>
 
 						<div>
-							<h5 class="fw-bolder"> 성별 </h5>
+							<h5 class="stext-114 cl3"> 성별 </h5>
 
-							<span th:text="${getuser.gender == 'W' ? '여성' :'남성'}">
+							<span class="mtext-102" th:text="${getuser.gender == 'W' ? '여성' :'남성'}">
 
 
 						</div>
-
+						
+						<br/>
+						
 						<div class="div_css">
 
-							<h5 class="fw-bolder"> 가입일자 </h5>
-							<span th:text="${getuser.regDate}">
+							<h5 class="stext-114 cl3"> 가입일자 </h5>
+							<span class="mtext-102" th:text="${getuser.regDate}">
 
 						</div>
 
 
 
 						<div class="div_css">
-							<h5 class="fw-bolder"> 주소 </h5>
+							<h5 class="stext-114 cl3"> 주소 </h5>
 							<div>
 								<div class="input-group mb-2">
 
 									<input class="form-control" id="userAddress1" name="userAddress1"
 										placeholder="우편주소." th:value="${getuser.userAddress1}" readonly type="text" />
-									<button class="btn btn-success" id="button-newsletter" onclick="findAddr()"
+									<button class="btn" id="button-newsletter" onclick="findAddr()"
 										type="button" style="display:none">주소찾기</button>
 								</div>
 
@@ -781,36 +779,37 @@
 
 
 			<br />
-			<a href="javascript:history.back()" class="btn btn-secondary btn-xs" role="button">확인</a>
-
-
-			<th:block sec:authorize="hasAnyRole('ROLE_user','ROLE_store','ROLE_storeX')">
-
-				<button type="button" id="updatebutton" class="btn btn-success">정보수정</button>
-
-				<!-- 가입 경로가 자사 회원이 유저들만 이용 가능-->
-				<span th:if="${getuser.joinPath == 'HOME'}">
-
-					<a href="#" onclick="getPassword()" class="btn btn-info" role="button">비밀번호 재설정</a>
-					<span>
-
-						<span th:if="${getuser.role == 'store' || getuser.role =='storeX'}">
-							<a href="#" class="btn btn-secondary btn-xs"
-								th:href="@{/user/getStoreApplicationDocument(storeApplicationDocumentNumber =${getuser.storeApplicationDocumentNumber})}"
-								value="${getuser.storeApplicationDocumentNumber}" role="button">스토어 신청서 상세보기 </a>
-
-
-
-
+			
+			<div style="width: 500px; margin: 0 auto;">
+				<a href="javascript:history.back()" class="btn" role="button">확인</a>
+				
+				
+				<th:block sec:authorize="hasAnyRole('ROLE_user','ROLE_store','ROLE_storeX')">
+				
+					<button type="button" id="updatebutton" class="btn">정보수정</button>
+				
+					<!-- 가입 경로가 자사 회원이 유저들만 이용 가능-->
+					<span th:if="${getuser.joinPath == 'HOME'}">
+				
+						<a href="#" onclick="getPassword()" class="btn" role="button">비밀번호 재설정</a>
+						<span>
+				
+							<span th:if="${getuser.role == 'store' || getuser.role =='storeX'}">
+								<a href="#" class="btn btn-secondary btn-xs"
+									th:href="@{/user/getStoreApplicationDocument(storeApplicationDocumentNumber =${getuser.storeApplicationDocumentNumber})}"
+									value="${getuser.storeApplicationDocumentNumber}" role="button">스토어 신청서 상세보기 </a>
+				
+							</span>
 						</span>
-					</span>
+			</div>
+			
 
 
 
 
 					<br /><br />
 					<hr />
-					회원탈퇴를 원하시면 눌러주세요 <a onclick="deleteUser()" class="btn btn-wh   btn-xs" role="button">회원 탈퇴</a>
+					회원탈퇴를 원하시면 눌러주세요 <a onclick="deleteUser()" class="btn" role="button">회원 탈퇴</a>
 
 
 

@@ -100,55 +100,29 @@ public class WebController {
 		return "index";
 	}
 	
-	@GetMapping("/t")
-	public String t(Model model) throws Exception {
-
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		map.put("orderName", "reg_date DESC");
-		map.put("startRowNum", 1);
-		map.put("endRowNum", 12);
-
-		map = productService.getProductList(map);
-		
-		
-		List<Live> list = (List<Live>) liveService.getLiveList().get("liveList");	
-		System.out.println("개찍먹띵 : " + list );
-		
-		List<Live> userList = new ArrayList<Live>();
-	
-		for(Live lol : list) {
-			Live live = lol;
-			lol.setLiveWatcher(getLiveUserList(lol.getRoomId()).size()-1);
-			userList.add(lol);
-		}		
-		
-		map.put("liveList", userList);
-
-
-		LiveReservation liveReservation = liveService.getCurrentLiveReservation();
-
-		Live live = null;
-
-		if (liveReservation != null) {
-			List<LiveProduct> liveProduct = liveService.getLiveProductList(liveReservation.getLiveReservationNumber());
-			live = liveService.getLiveByStoreId(liveReservation.getStore().getId());
-			liveReservation.setLiveProduct(liveProduct);
-		}
-		
-
-		model.addAttribute("map", map);
-		model.addAttribute("liveReservation", liveReservation);
-		model.addAttribute("live", live);
-
-		System.out.println(model);
-		return "index2";
-	}
-
 	@GetMapping("/myPage")
 	public String getMyPage() {
+		
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+		
+		if((user.getRole()).equals("admin")) {
+			
+			return "redirect:/user/getStoreApplicationDocumentList?keyword=ALL";
+			
+		}else if((user.getRole()).equals("user")) {
+			
+			return "redirect:/user/getUser?id=" + user.getId();
+			
+		}else if((user.getRole()).equals("storeX")){
+			
+			return "redirect:/user/getUser";
+			
+		}else {
+			return "redirect:/product/getProductList?resultJsp=listProductStore";
+		}
 
-		return "myPage";
+//		return "myPage";
 	}
 	
 	public JSONArray getLiveUserList(String roomId) throws Exception {

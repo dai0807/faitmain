@@ -7,7 +7,7 @@
 <head>
     <link href = "https://fonts.googleapis.com" rel = "preconnect">
     <link crossorigin href = "https://fonts.gstatic.com" rel = "preconnect">
-    <link href = "@{/css/styles.css}" rel = "stylesheet"/>
+    <!--<link href = "@{/css/styles.css}" rel = "stylesheet"/>-->
 
     <link href = "https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap"
           rel = "stylesheet">
@@ -28,6 +28,22 @@
         h5, span {
             font-family: 'Nanum Gothic Coding', monospace;
         }
+        
+        input:focus{
+			outline: 1px  solid #757575;			
+		}
+		
+		span{
+			font-size: 0.9em;
+		}
+		
+		input[type="radio"] {
+			width:13px; 
+			height:13px; 
+			margin-left: 15px;
+			border: 1px solid #FFF; 
+			vertical-align:middle;
+		}
 
     </style>
 
@@ -42,17 +58,17 @@
 
 
  
- //파일 보여주기
- function PreviewImage() {
-        // 파일리더 생성 
-        var preview = new FileReader();
-        preview.onload = function (e) {
-        // img id 값 
-        document.getElementById("user_image").src = e.target.result;
-    };
-    // input id 값 
-    preview.readAsDataURL(document.getElementById("LogoImage").files[0]);
- };
+		 //파일 보여주기
+		 function PreviewImage() {
+		        // 파일리더 생성 
+		        var preview = new FileReader();
+		        preview.onload = function (e) {
+		        // img id 값 
+		        document.getElementById("user_image").src = e.target.result;
+		    };
+		    // input id 값 
+		    preview.readAsDataURL(document.getElementById("LogoImage").files[0]);
+		 };
  
  
         function email_check(id) {
@@ -302,7 +318,7 @@
 
 
                                 $("#phone2").attr("disabled", false);
-                                $("#phoneChk2").css("display", "inline-block");
+                                //$("#phoneChk2").css("display", "inline-block");
                                 $(".successPhoneChk").text("인증번호를 입력한 뒤 본인인증을 눌러주십시오.");
                                 $(".successPhoneChk").css("color", "green");
                                 $("#phone").attr("readonly", true);
@@ -510,244 +526,230 @@ $(function(){
 
 <body>
 
-<article class = "py-5" layout:fragment = "content">
+<article layout:fragment = "content">
 
-
-    <div class = "container col-lg-3">
-    </div>
-
-
-    <div class = "container col-lg-6">
-        <!-- Team members section-->
-
-
-        <div class = "text-center">
-            <h2 class = "fw-bolder">스토어 회원 가입 </h2>
-            <p class = "lead fw-normal text-muted ">회원 정보를 입력해주세요 </p>
-        </div>
-
-
-        <div class = "container col-md-9">
-
-            <form class = "form-horizontal"  method="post" name = "form" id="form"  enctype="multipart/form-data">
-
-                <div class = "form-group">
-                    <!--<label for="userId" class="col-form-label-lg" style="font-size:20px;">아 이 디</label>  -->
-                    <h5 class = "fw-bolder"> 아이디</h5>
-                    <div>
-                        <input class = "form-control" id = "id" name = "id" placeholder = "이메일을 입력하세요" type = "text">
-                        <span class = "help-block" id = "helpBlock">
- 		     	  <span class = "id_ok" style = "display:none;">사용 가능한 id 입니다.</span>
-				 <span class = "text-danger" style = "display:none;">사용 불가한 id입니다.</span>
-				  
-				 <span class = "id_info" id = "id_info">사용 가능한 이메일을 입력해주세요</span>
-		      </span>
-                    </div>
-
-                </div>
-
-                <div class = "form-group">
-                    <!-- <label for="password" class="control-label">비밀번호</label>-->
-                    <h5 class = "fw-bolder"> 비밀번호</h5>
-                    <div>
-                        <input class = "form-control" id = "password" maxlength = '12' name = "password"
-                               placeholder = "비밀번호" type = "password">
-                    </div>
-                </div>
-
-                <div class = "form-group">
-                    <!--<label for="password2" class="col-md-8 control-label">비밀번호 확인</label> -->
-                    <h5 class = "fw-bolder"> 비밀번호 확인</h5>
-                    <div>
-                        <input class = "form-control" id = "password2" maxlength = '15' name = "password2"
-                               placeholder = "비밀번호 확인" type = "password">
-                    </div>
-                    <span class = "help-block" id = "helpBlock">
- 		     	 <span class = "pw_ok" style = "display:none;">패스워드가 일치합니다.</span>
- 				 <span class = "text-dange">일치하는 패스워드를 입력해주세요</span>
-		      </span>
-                </div>
-
-                <div class = "form-group">
-                    <!--<label for="name" class="col-md-8 control-label">이름</label>-->
-                    <h5 class = "fw-bolder">이름</h5>
-                    <div>
-                        <input class = "form-control" id = "name" name = "name" placeholder = "회원이름" type = "text">
-                    </div>
-
-
-                </div>
-  
-
-                <div class = "form-group">
-
-
-                    <!--<label for="userId" class="col-md-8control-label">주소</label>-->
-                    <h5 class = "fw-bolder"> 주소 </h5>
-                    <div>
-                        <div class = "input-group mb-2">
-
-                           <!-- <input id = "postcode" name = "postcode" type = "text" value = "${vo.postcode}">&nbsp;
-                            <input class = "btn btn-default btn-sm" id = "searchAdd" type = "button" value = "우편번호 찾기"><br>
-                            <input class = "form-control" id = "roadAddress" name = "useraddress" type = "text"
-                                   value = "${vo.useraddress}">
-                            <input class = "form-control" id = "detailAddress" name = "detailAddress" placeholder = "상세주소"
-                                   type = "text">-->
-                            
-                            
-                            
-                             <input class = "form-control" id = "userAddress1" name = "userAddress1" placeholder = "우편주소."
-                                   readonly type = "text"/>
-                            <button class = "btn btn-success" id = "button-newsletter" onclick = "findAddr()"
-                                    type = "button">주소찾기
-                            </button>
-                        </div>
-                        <input class = "form-control" id = "userAddress2"  name = "userAddress2" placeholder = "주소" readonly type = "text">
-                        <input class = "form-control" id = "userAddress3"   name = "userAddress3" placeholder = "추가입력" type = "text">
-                        <input id = "address" name = "address" type = "hidden" value = "">
- 
-                        </div>
-
-                        <input name = "joinPath" type = "hidden" value = "HOME">
-                           <input name = "role" type = "hidden" value = "storeX">
-
-                    </div>
-
-
-                    <div class = "form-group">
-                        <!--	<label for="name" class="control-label">휴대폰번호</label> -->
-                        <h5 class = "fw-bolder"> 인증번호 </h5>
-                        <div>
-                            <div class = "input-group mb-2">
-                                <input class = "form-control" id = "phone" name = "phoneNumber"
-                                       placeholder = "휴대전화번호 입력 01012345678"
-                                       type = "type"/>
-                                <span class = "btn btn-success" id = "phoneChk"> 인증번호 보내기</span>
-                            </div>
-                        </div>
-
-
-                        <div>
-                            <div class = "input-group mb-2">
-                                <input class = "form-control" disabled id = "phone2" name = "CertificationNumber"
-                                       placeholder = "인증번호 입력" required type = "number"/>
-
-                                <span class = "btn btn-success" disabled id = "phoneChk2"
-                                      name = "CertificationNumber" placeholder = "인증번호 입력" required>  본인인증</span>
-
-                            </div>
-                            <span class = "point successPhoneChk">휴대폰 번호 입력후 인증번호 보내기를 해주십시오.</span>
-
-                        </div>
-
-                        <!--  <button id="phoneChk" class="doubleChk"  > 인증번호 보내    </button> <br/>-->
-                        <!-- <span id="phoneChk" class="doubleChk">인증번호 보내기</span><br/>    -->
-                        <!--  <input id="phone2" type="text" name="CertificationNumber" placeholder="인증번호 입력" disabled required/>
-
-
-                      <button id="phoneChk2" class="doubleChk"  > 본인인증   </button> <br/> -->
-
-                        <!--   <span id="phoneChk2" class="doubleChk3">본인인증</span>  <br/>
-                       <span class="point successPhoneChk">휴대폰 번호 입력후 인증번호 보내기를 해주십시오.</span>     -->
-                        <input id = "phoneDoubleChk" type = "hidden"/> </p>
-                    </div>
-
-
-                    <div class = "form-group">
-                        <h5 class = "fw-bolder">성별&nbsp;&nbsp;&nbsp;</h5>
-                        <p class = "tip">
-                            <input name = "gender" type = "radio" value = "M">남
-                            <input name = "gender" type = "radio" value = "W">여
-
-                        </p>
-					<br><br><hr>
-                    </div>
-
-              <div class = "form-group">
-                    <!--  <label for="userName" class="col-md-8 control-label">닉네임</label>-->
-                    <h5 class = "fw-bolder">스토어 이름 </h5>
-                    <div>
-                        <input class = "form-control" id = "storeName" maxlength = '10' name = "storeName"
-                               placeholder = "2~10자 사이의 사용할 스토어이름 입력해주세요"
-                               type = "text">
-                        <span class = "help-block" id = "helpBlock">
- 		     	 <!--<span id ="nickname_ok"class="text" 		 style="display:none;" > 사용가능한 닉네임입니다. </span> -->
-			 				 <span class = "text" id = "storeName_info">사용이 가능한 스토어이름 입력해주세요</span>
-					      </span>
-		      
-                    </div>  
-                </div>
-		      
-		      
-                <div class = "form-group">
-                    <!--<label for="name" class="col-md-8 control-label">이름</label>-->
-                    <h5 class = "fw-bolder">스토어 소개</h5>
-                    <div>
-                        <input class = "form-control" id = "storeIntroduction" name = "storeIntroduction" placeholder = "스토어 소개를 입력해주세요" type = "text">
-                    </div>
-
-		      
-                 </div>
-
-
-
-                  <div class = "form-group">
-                    <!--<label for="name" class="col-md-8 control-label">이름</label>-->
-                    <h5 class = "fw-bolder">스토어 로고사진 </h5>
-                    <div>
-                        <input class = "form-control" id = "LogoImage" name = "LogoImage"  type = "file" onchange ="PreviewImage();">
-                    </div>
-					<div>
-					 	<img id="store_image" src="#" alt="" >
- 						<img id="user_image" src="#" alt="" style="width: 300px; height: auto;" >
-
-						 
+	<!-- Title page -->
+	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('/img/bg_1.jpg');">
+		<h2 class="ltext-105 cl0 txt-center">
+			스토어 회원가입
+		</h2>
+	</section>	
+	
+	
+	<section class="sec-product-detail bg0 p-t-65 p-b-60">
+	
+		<div class="container">
+		
+			<div class="bor10 m-t-50 p-t-43 p-b-40" style="width: 800px; margin: 0 auto; padding: 30px 70px;">
+				
+				<form class="form-horizontal" method="post" name="form" id="form" enctype="multipart/form-data">
+					
+					<div class="form-group row p-b-25">
+						<!--<label for="userId" class="col-form-label-lg" style="font-size:20px;">아 이 디</label>  
+						<h5 class="fw-bolder"> 아이디</h5>-->
+						
+						<div class="col-12 p-b-5">
+							<label class="stext-102 cl3" for="id">아이디</label>
+							<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="id" name="id" placeholder="이메일을 입력하세요" type="text">	
+							<span class="help-block" id="helpBlock">
+								<span class="id_ok" style="display:none;">사용 가능한 id 입니다.</span>
+								<span class="text-danger" style="display:none;">사용 불가한 id입니다.</span>
+							
+								<span class="id_info" id="id_info">사용 가능한 이메일을 입력해주세요</span>
+							</span>
+						</div>
+				
 					</div>
-		      
-                 </div>
- 
+					
+					<div class="form-group row p-b-25">
+						<!-- 비밀번호 -->
+						<div class="col-sm-6 p-b-5">
+							<label class="stext-102 cl3" for="password">비밀번호</label>
+							<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="password" maxlength='12' name="password" placeholder="비밀번호" type="password">
+						</div>
+						<!-- 비밀번호 확인 -->
+						<div class="col-sm-6 p-b-5">
+							<label class="stext-102 cl3" for="email">비밀번호 확인</label>
+							<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="password2" maxlength='15' name="password2" placeholder="비밀번호 확인" type="password">
+							
+							<span class="help-block" id="helpBlock">
+								<span class="pw_ok" style="display:none;">패스워드가 일치합니다.</span>
+								<span class="text-dange">일치하는 패스워드를 입력해주세요</span>
+							</span>
+						</div>
+						
+					</div>
 				
-				<div  class="form-group">		
-				                    <h5 class = "fw-bolder"> 상품 제작 설명  </h5>
-	 				
-	 				
-					<textarea id="summernote" name="productDetial" rows="1"></textarea> 
+					<div class="form-group row p-b-25">
+						<!--<label for="name" class="col-md-8 control-label">이름</label>
+							<h5 class="fw-bolder">이름</h5>-->
+						<div class="col-12 p-b-5">						
+							<label class="stext-102 cl3" for="name">이름</label>
+							<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name" name="name" placeholder="회원이름" type="text">							
+						</div>			
 				
-					 <p class = "text-muted"  style="font-size:13px;"> 작가님이 앞으로 판매하실 수공예품에 대한 설명과 제작과정을 작성해 주세요. 작성된 내용은 스토어 회원가입완료시 판매를 위한 스토어 신청서에 자동으로 들어가며 
-		 				 		 스토어 신청서가 승인되었을때, 승인될때에 물건 판매가 가능합니다.<br>
-		 				 		   반려될 경우 다시 신청 부탁드립니다. 
-		 			</p> <br> 
+					</div>
 				
-				</div>
-
-                    <div class = "form-group">
-                        <div>
-                            <span class = "fw-bolder btn btn-success col-md-12" id = "loginButton"> 회원가입</span></div>
-
-                    </div>
-                </div>
-
-
-            </form>
-
-        </div>
-    </div>
-
-
-    <div class = "container col-lg-3">
-    </div>
-
-
-    </div>
-
-
-    </div>
-
-
+				
+					<div class="form-group row p-b-25">	
+						<!--<label for="userId" class="col-md-8control-label">주소</label>
+						<h5 class="fw-bolder"> 주소 </h5>-->			
+						<div class="col-9 p-b-5">
+							<label class="stext-102 cl3" for="address">주소</label>
+							<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="userAddress1" name="userAddress1" placeholder="우편주소" readonly
+									type="text" />
+						</div>
+						
+						<div class="col-3 p-b-5">
+							<label class="stext-102 cl3" for="address">&nbsp;</label>
+							<button class="stext-102 size-111 bg8 bor8 hov-btn1 p-lr-20 trans-04 pointer flex-c-m" id="button-newsletter" onclick="findAddr()" type="button">
+								주소찾기
+							</button>
+						</div>
+						
+						<div class="col-12 p-b-5">						
+							<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="userAddress2" name="userAddress2" placeholder="주소" readonly type="text">							
+						</div>
+						
+						<div class="col-12 p-b-5">						
+							<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="userAddress3" name="userAddress3" placeholder="추가입력" type="text">							
+						</div>
+						
+						<input id="address" name="address" type="hidden" value="">
+				
+						<input name="joinPath" type="hidden" value="HOME">
+						<input name="role" type="hidden" value="storeX">
+				
+					</div>
+				
+				
+					<div class="form-group row p-b-25">
+						<!--<label for="name" class="control-label">휴대폰번호</label> 
+							<h5 class="fw-bolder"> 인증번호 </h5>-->
+							
+						<div class="col-9 p-b-5">
+							<label class="stext-102 cl3" for="phone">휴대전화 인증</label>
+							<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="phone" name="phoneNumber" placeholder="휴대전화번호 입력 01012345678"
+									type="type" />
+						</div>
+						
+						<div class="col-3 p-b-5">
+							<label class="stext-102 cl3" for="address">&nbsp;</label>
+							<span class="stext-102 size-111 bg8 bor8 hov-btn1 p-lr-20 trans-04 pointer flex-c-m" id="phoneChk">
+								인증번호
+							</span>
+						</div>
+						
+						<div class="col-9 p-b-5">
+							<input class="size-111 bor8 stext-102 cl2 p-lr-20" disabled id="phone2" name="CertificationNumber" placeholder="인증번호 입력"
+									required type="number" />
+									
+							<span class="point successPhoneChk">휴대폰 번호 입력후 인증번호 보내기를 해주십시오.</span>		
+						</div>
+						
+						<div class="col-3 p-b-5">
+							<span class="size-111 bg8 bor8 hov-btn1 p-lr-20 trans-04 pointer flex-c-m" disabled id="phoneChk2" name="CertificationNumber" placeholder="인증번호 입력"
+									required>
+								본인인증
+							</span>							
+						</div>
+				
+						<!--  <button id="phoneChk" class="doubleChk"  > 인증번호 보내    </button> <br/>-->
+						<!-- <span id="phoneChk" class="doubleChk">인증번호 보내기</span><br/>    -->
+						<!--  <input id="phone2" type="text" name="CertificationNumber" placeholder="인증번호 입력" disabled required/>
+				
+				
+				                      <button id="phoneChk2" class="doubleChk"  > 본인인증   </button> <br/> -->
+				
+						<!--   <span id="phoneChk2" class="doubleChk3">본인인증</span>  <br/>
+				                       <span class="point successPhoneChk">휴대폰 번호 입력후 인증번호 보내기를 해주십시오.</span>     -->
+						<input id="phoneDoubleChk" type="hidden" /> </p>
+					</div>
+				
+					<div class="form-group row p-b-25">
+						
+						<div class="col-12 p-b-5">
+							<label class="stext-102 cl3">성별</label>	
+						</div>
+						
+						<input name="gender" type="radio" value="M" >&nbsp;&nbsp;남
+						<input name="gender" type="radio" value="W">&nbsp;&nbsp;여
+							
+					</div>
+					
+					<div class="form-group row p-b-25">
+						
+						<div class="col-12 p-b-5">
+							<label class="stext-102 cl3" for="phone">스토어 이름</label>
+							<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="storeName" maxlength='10' name="storeName"
+								placeholder="2~10자 사이의 사용할 스토어이름 입력해주세요" type="text" />
+							<span class="help-block" id="helpBlock">
+								<!--<span id ="nickname_ok"class="text" 		 style="display:none;" > 사용가능한 닉네임입니다. </span> -->
+								<span class="text" id="storeName_info">사용이 가능한 스토어 이름을 입력해주세요</span>
+							</span>	
+						</div>
+						
+					</div>	
+					
+					<div class="form-group row p-b-25">
+						
+						<div class="col-12 p-b-5">
+							<label class="stext-102 cl3" for="phone">스토어 소개</label>
+							<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="storeIntroduction" name="storeIntroduction" placeholder="스토어 소개를 입력해주세요"
+								type="text" />
+						</div>
+						
+					</div>	
+					
+					<div class="form-group row p-b-25">
+						
+						<div class="col-12 p-b-5">
+							<label class="stext-102 cl3" for="phone">스토어 로고사진</label>
+							<input class="size-111 bor8 cl2 p-lr-20 p-t-5" id="LogoImage" name="LogoImage" type="file" onchange="PreviewImage();" />
+						</div>
+						
+						<div class="col-12 p-b-5">
+							<img id="store_image" src="#" alt="">
+							<img id="user_image" src="#" alt="" style="width: 300px; height: auto;">
+						</div>
+						
+					</div>				
+				
+					<div class="form-group row p-b-25">
+					
+						<div class="col-12 p-b-5">
+						
+							<label class="stext-102 cl3" for="phone">상품 제작 설명</label>
+							
+							<textarea id="summernote" name="productDetial" rows="1"></textarea>
+							
+							<p class="text-muted" style="font-size:13px; margin-top: 10px;"> 
+								작가님이 앞으로 판매하실 수공예품에 대한 설명과 제작과정을 작성해 주세요.<br>
+								작성된 내용은 스토어 회원가입완료시 판매를 위한 스토어 신청서에 자동으로 들어가며<br>
+								스토어 신청서가 승인되었을때, 승인될때에 물건 판매가 가능합니다.<br>
+								반려될 경우 다시 신청 부탁드립니다.
+							</p> 
+							
+						</div>
+						
+					</div>
+				
+					<div class="flex-c-m flex-w w-full p-t-38">
+					
+						<span class="flex-c-m stext-101 cl2 size-101 bg0 bor13 hov-btn1 p-lr-15 trans-04 pointer m-tb-10" id="loginButton"> 회원가입</span>				
+				
+					</div>
+				
+				</form>
+				
+			</div>
+				
+		</div>
+		
+	</section>
+		
 </article>
 
-
 </body>
-
 
 </html>

@@ -3,18 +3,7 @@
 
 
 <head>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="@{/css/styles.css}" rel="stylesheet" />
-	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
-
-	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/animsition/css/animsition.min.css">
-
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">
+	
 </head>
 <title> 회원 리스트 조회 </title>
 
@@ -136,18 +125,19 @@
 	.Tsize-114 {
 		width: calc(100% - 38px);
 	}
+	
 </style>
 
 <body>
-	<article class="py-5" layout:fragment="content">
+	<article layout:fragment="content">
 		<div class="container col-lg-2">
 		</div>
 
 
 		<div class="container col-lg-8">
-			<div class="text-center">
+			<div>
 
-				<h4 class=".ltext-109 ">회원 조회 </h4>
+				<h4 class="title mtext-112 cl2 p-b-33">회원 조회 </h4>
 
 			</div>
 			<br>
@@ -219,7 +209,7 @@
 										<tbody class='customtable'>
 											<tr class="table_row" th:each="user:${userList}">
 												<td></td>
-												<td> <a th:text="${user.id}" th:href="@{/user/getUser(id=${user.id})}">
+												<td> <a class="cl7 hov-cl1" th:text="${user.id}" th:href="@{/user/getUser(id=${user.id})}">
 														..</a> </td>
 												<td th:text="${user.name}"> </td>
 												<td th:text="${user.phoneNumber}"> </td>
@@ -261,49 +251,45 @@
 
 	
 					<!--         페이지 이동 인터페이스 영역-->
+					<div class="flex-c-m flex-w w-full p-t-38" th:fragment="pageNavi">
+						<nav aria-label="Page navigation">
 					
-					<div class="flex-c-m flex-w w-full p-t-38" th:fragment="pageNavi" >
-								<ul class="pageMaker">
-									<!--  이전 버튼-->
-									<th:block th:if="${pageMaker.prev}">
-										<li class="pageMaker_btn prev">
-											<a th:href="@{${pageMaker.pageStart - 1}}">이전</a>
-										</li>
-									</th:block>
-			
-									<!-- 페이지 번호 -->
-									<th:block th:each="num,iterStat : ${#numbers.sequence(pageMaker.pageStart,pageMaker.pageEnd)}">
-										<li th:class="|pageMaker_btn ${pageMaker.paging.pageNum == num ? 'active' : ''}|">
-											<a th:href="@{${num}}" th:text="${num}"></a>
-										</li>
-									</th:block>
-			
-									<!--  다음 버튼-->
-									<th:block th:if="${pageMaker.next}">
-										<li class="pageMaker_btn next">
-											<a th:href="@{${pageMaker.pageEnd + 1}}">다음</a>
-										</li>
-									</th:block>
-								</ul>
-							</div>
-			
+							<ul class="pageMaker pagination">
+					
+								<!--  이전 버튼-->
+								<th:block th:if="${pageMaker.prev}">
+									<li class="pageMaker_btn prev">
+										<a th:href="@{${pageMaker.pageStart - 1}}">이전</a>
+									</li>
+								</th:block>
+					
+								<!-- 페이지 번호 -->
+								<th:block th:each="num,iterStat : ${#numbers.sequence(pageMaker.pageStart,pageMaker.pageEnd)}">
+									<li th:class="|pageMaker_btn ${pageMaker.paging.pageNum == num ? 'active' : ''}|">
+										<a th:href="@{${num}}" th:text="${num}" class="flex-c-m how-pagination1 trans-04 m-all-7"></a>
+									</li>
+								</th:block>
+					
+								<!--  다음 버튼-->
+								<th:block th:if="${pageMaker.next}">
+									<li class="pageMaker_btn next">
+										<a th:href="@{${pageMaker.pageEnd + 1}}">다음</a>
+									</li>
+								</th:block>
+							</ul>
+							
 							<form id="moveForm" method="get" th:action="@{/user/getStoreApplicationDocumentList}">
 								<input name="pageNum" th:value="${pageMaker.paging.pageNum}" type="hidden">
 								<input name="amount" th:value="${pageMaker.paging.amount}" type="hidden">
 								<input name="keyword" th:value="${pageMaker.paging.keyword}" type="hidden">
 							</form>
-			
+							
 							<script src="/js/userlist.js"></script>
-			
-			
+						</nav>
+					</div>
 					
-				</div> <!-- 검ㅅ개 끝-->
-	
-
-
-
-
-
+					
+				
 			</div>	</div>
 
 
