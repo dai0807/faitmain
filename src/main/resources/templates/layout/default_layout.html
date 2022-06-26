@@ -9,14 +9,13 @@
     <meta charset = "UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <link rel="icon" type="image/png" href="/img/logo.png"/>
+    <link rel="icon" type="image/png" href="/img/rainbow.png"/>
     
     <link rel = "stylesheet" th:href = "@{/css/bootstrap.min.css}"/> 
     
     <link rel="stylesheet"  href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" 	href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
-
  	 	 	 	
     <link rel = "stylesheet" th:href = "@{/css/main.css}"/>
     <link rel = "stylesheet" th:href = "@{/css/util.css}"/>
@@ -28,10 +27,10 @@
 	
 	<style>
 	
-		article{
-			
-			margin-top: 70px;			
-			
+		@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+	
+		article{			
+			margin-top: 100px;			
 		}
 		
 	</style>
@@ -41,7 +40,7 @@
 
 <body >
     <!-- [header] 영역 시작 -->
-    <header th:replace = "/layout/fragment/header :: header"></header>
+    <header th:replace = "/layout/fragment/header :: header" class=""></header>
     <!-- [header] 영역 끝 -->
 
     <!-- [content] 영역 시작 -->

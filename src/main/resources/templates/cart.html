@@ -7,7 +7,7 @@
     <title>장바구니 페이지</title>
 
 
-    <link href="https://fonts.googleapis.com/earlyaccess/jejugothic.css" rel="stylesheet">]
+    <link href="https://fonts.googleapis.com/earlyaccess/jejugothic.css" rel="stylesheet">
 
     <script src = "/js/cart.js" type = "text/javascript"></script>
     <!--  고유 CSS 추가 -->
@@ -17,6 +17,16 @@
     </style>
 
     <style>
+    
+    	 * {
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+			color:unset;
+            text-decoration: none;            
+        }
 
         /* 이미지 */
         .img_product {
@@ -25,25 +35,23 @@
         }
 
         .img_product img {
-            max-width: 30%;
+            max-width: 20%;
             height: auto;
             display: block;
         }
 
         .input_size_20 {
-            width: 20px;
-            height: 20px;
+            width: 15px;
+            height: 15px;
             accent-color: #0b0b0b;
         }
 
         .all_check_input {
-            margin: 18px 0 18px 18px;
+            margin: 18px 0 18px 20px;
         }
 
         .all_chcek_span {
-            padding-left: 8px;
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 15px;
         }
 
         table {
@@ -61,17 +69,19 @@
             height: 0;
             font-size: 0;
             line-height: 0;
+            padding: 0;
             overflow: hidden;
         }
-
+	/*
         .content_subject {
+		
             height: 110px;
             line-height: 110px;
             background-color: #e0e0e0;
             margin-bottom: 60px;
             text-align: center;
             color: #000000;
-
+			
         }
 
         .content_subject span {
@@ -82,7 +92,7 @@
             font-weight: bolder;
             text-align: center;
         }
-
+		*/
         .content_totalCount_section {
             margin-bottom: 12px;
         }
@@ -121,9 +131,13 @@
             border-bottom: 1px solid #e7e7e7;
             border-top: 1px solid #181a1c;
             background: #ffffff;
-            padding: 2px 0;
+            padding: 10px 0;
         }
-
+			
+		td {
+            padding: 20px 0;
+        }
+			
         .td_width_1 {
             width: 5%;
             text-align: center;
@@ -185,9 +199,9 @@
         .quantity_input {
             position: absolute;
             width: 27px;
-            height: 23px;
+            height: 25px;
             text-align: center;
-            border: 1px solid #000000;
+            border: 1px solid #cbcbcb;
             border-right: 0px;
             line-height: 19px;
             font-size: 12px;
@@ -197,7 +211,7 @@
 
         .quantity_btn {
             position: absolute;
-            border: 1px solid #aaa;
+            border: 1px solid #cbcbcb;
             color: #000000;
             width: 14px;
             height: 13px;
@@ -221,20 +235,21 @@
 
         .quantity_modify_btn {
             border: 1px solid #cbcbcb;
-            height: 22px;
-            line-height: 13px;
+            height: 30px;
+            /*line-height: 18px;*/
             background-color: #ffffff;
             text-align: center;
-            width: 50px;
-            color: #0b0b0b;
+            width: 41px;
+            color: #000000;
             display: inline-block;
             padding: 3px 6px 2px;
             margin-top: 3px;
         }
-
+/**/
         .quantity_modify_btn:hover {
+	 		color: white !important;
             background-color: #000000;
-            color: gainsboro;
+           
         }
 
         .table_text_align_center {
@@ -246,7 +261,7 @@
         }
 
         .content_total_section {
-            background-color: rgb(224, 224, 224);
+            /*background-color: rgb(224, 224, 224, 0.2);*/
         }
 
         .total_wrap {
@@ -257,10 +272,11 @@
 
         .total_wrap td {
             width: 50%;
+            padding: 10px 0px;
         }
 
         .finalTotalPrice_span {
-            color: #2d282b;
+            color: #000000;
             font-size: 17px;
             font-weight: bold;
         }
@@ -272,18 +288,11 @@
 
         .boundary_div {
             font-size: 0;
-            border: 1px dotted #ffffff;
+            border-bottom: 1px solid #efefef;
             margin: 5px 0 5px 0;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-        }
-
-        a {
-            text-decoration: none;
-        }
+       
 
         /* 화면 전체 렙 */
         .wrapper {
@@ -297,16 +306,17 @@
         }
 
         .delete_btn {
-            border: none;
-            color: white;
+            border: 1px solid #efefef;
+            color: black;
             padding: 5px 5px;
             cursor: pointer;
-            border-radius: 20%;
-            background-color: #000000;
+            /*border-radius: 10%;
+            background-color: #000000;*/
         }
 
         .delete_btn:hover {
-            background-color: #da190b;
+            background-color: black;
+            color: white;
         }
 
         .order_btn {
@@ -319,10 +329,9 @@
         }
 
         .order_btn:hover {
-            background-color: #da190b;
+            background-color: blue;
         }
-
-
+        
     </style>
 
 </head>
@@ -330,11 +339,27 @@
 
 
 <!-- content -->
-<article class = "py-5" id="google" layout:fragment = "content">
+<article id="google" layout:fragment = "content">
     <div class = "container">
+    
+    	<div class="bread-crumb flex-w p-r-15 p-t-30 p-lr-0-lg p-b-20">
+			<a th:href="@{/}" class="stext-109 cl8 hov-cl1 trans-04">
+				Home
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
 
-        <div class = "content_area">
-            <div class = "content_subject"><span>장바구니</span></div>
+			<a th:href="@{/myPage}" class="stext-109 cl8 hov-cl1 trans-04">
+				My Page
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+
+			<span class="stext-109 cl4">
+				장바구니									
+			</span>
+		</div>
+
+        <div class = "content_area p-b-50">
+            <div class = "content_subject text-center"><span class="mtext-112 cl2 p-b-40">장바구니</span></div>
             <!-- 장바구니 리스트 -->
             <div class = "content_middle_section"></div>
             <!-- 장바구니 가격 합계 -->
@@ -393,14 +418,14 @@
                                     <button class = "quantity_btn minus_btn" type = "button">-</button>
 
                                 </div>
-                                <!--                                        <button class = "quantity_modify_btn" th:data-cartNumber = "${cart.cartNumber}">변경</button>-->
-                                <a class = "quantity_modify_btn " th:data-cart-number = "${cart.cartNumber}">변경</a>
+                                <!-- <button class = "quantity_modify_btn" th:data-cartNumber = "${cart.cartNumber}">변경</button>-->
+                                <a class = "quantity_modify_btn stext-109 cl2 hov-cl0 trans-04" th:data-cart-number = "${cart.cartNumber}">변경</a>
                             </td>
                             <td class = "td_width_4 table_text_align_center">
                                 <th:block th:text = "${cart.salePrice * cart.productOrderCount}"/>
                             </td>
                             <td class = "td_width_4 table_text_align_center">
-                                <button class = "delete_btn" th:data-cart-number = "${cart.cartNumber}">X</button>
+                                <button class = "delete_btn" th:data-cart-number = "${cart.cartNumber}">삭제</button>
                             </td>
                         </tr>
                     </th:block>

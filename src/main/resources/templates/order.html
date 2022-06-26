@@ -50,24 +50,28 @@
         }
 
         .addressInfo_input_div_wrap {
-            border-bottom: 1px solid #f3f3f3;
-            height: 225px;
+            /**/
+            padding-bottom: 20px;
+            border-bottom: 1px solid #efefef;
+            /*height: 225px;*/
         }
 
         .address_btn {
-            background-color: #555;
-            color: white;
+            background-color: #f3f3f3;
+            color: #555;
             float: left;
             border: none;
+            border: 1px solid #cfcfcf;
             outline: none;
             cursor: pointer;
             padding: 14px 16px;
-            font-size: 17px;
+            font-size: 14px;
             width: 50%;
         }
 
         .address_btn:hover {
-            background-color: #777;
+            background-color: white;
+            color: black;
         }
 
         .addressInfo_button_div::after {
@@ -84,7 +88,7 @@
         }
 
         .addressInfo_input_div th {
-            border-color: transparent;
+            /**/border-color: transparent;
             background-color: transparent;
         }
 
@@ -98,7 +102,9 @@
         }
 
         .addressInfo_input_div_2 input {
-            padding: 6px 5px;
+			border-bottom: 1px solid #dfdfdf;
+			
+            /*padding: 6px 5px;*/
         }
 
         .address_search_btn {
@@ -111,17 +117,18 @@
             line-height: 30px;
             color: #555;
             cursor: pointer;
+            margin: 30px 0px 20px 80px;
         }
 
         .orderGoods_div {
-            margin-top: 30px;
+            margin: 50px 0px;
         }
 
         .goods_kind_div {
-            font-size: 25px;
+            font-size: 18px;
             line-height: 35px;
-            font-weight: bold;
-            text-align: center;
+           /* font-weight: bold;
+            text-align: center;*/
         }
 
         .goods_subject_table {
@@ -134,11 +141,11 @@
 
         .goods_subject_table th {
             text-align: center;
-            color: #333;
-            border-bottom: 1px solid #e7e7e7;
+            color: #555;
+            border-bottom: 1px solid #cfcfcf;
             border-top: 2px solid #030302;
-            background: #f4f9fd;
-            padding: 2px 0;
+            background: #f3f3f3;
+            padding: 10px 0;
         }
 
         .goods_table {
@@ -163,9 +170,9 @@
         }
 
         .point_div_subject {
-            font-size: 25px;
-            line-height: 35px;
-            font-weight: bold;
+           font-size: 18px;
+            /* line-height: 35px;
+            font-weight: bold;*/
         }
 
         .point_table {
@@ -173,25 +180,26 @@
             border-spacing: 0;
             border-top: 1px solid #363636;
             border-bottom: 1px solid #b6b6b6;
+            padding: 20px 0px;
         }
 
         .point_table th {
             border-color: #ddd;
-            vertical-align: top;
+            vertical-align: center;
             text-align: center;
             color: #333333;
             background: #fbfbfb;
             text-indent: 0;
-            padding: 12px 5px 12px 20px;
+            padding: 20px;
             font-size: 15px;
             line-height: 20px;
         }
 
-        .point_table_td {
+        .point_table td {
             border-color: #ddd;
             text-align: left;
             color: #333333;
-            padding: 8px 15px;
+            padding: 20px;
         }
 
         .order_point_input_btn {
@@ -296,7 +304,7 @@
     </style>
 
     <link href = "https://fonts.googleapis.com/earlyaccess/jejugothic.css" rel = "stylesheet">
-    ]
+    
     <!--  고유 스크립트 추가 -->
     <script src = "/js/order/order.js"></script>
     <!-- 다음주소 -->
@@ -307,8 +315,8 @@
 <body>
 
 <!-- content -->
-<article class = "py-5" id = "google" layout:fragment = "content">
-    <div class = "container">
+<article id = "google" layout:fragment = "content">
+    <div class = "container p-t-30">
         <div class = "wrap">
             <div class = "content_area">
                 <div class = "content_main">
@@ -317,7 +325,7 @@
                     <!-- 배송지 정보 -->
                     <div class = "addressInfo_div">
                         <div class = "addressInfo_button_div">
-                            <button class = "address_btn address_btn_1" onclick = "showAddress('1')" style = "background-color: #3c3838;">주문자 정보</button>
+                            <button class = "address_btn address_btn_1" onclick = "showAddress('1')" style = "background-color: white; border-bottom: 1px solid white;">주문자 정보</button>
                             <button class = "address_btn address_btn_2" onclick = "showAddress('2')">정보 새로 입력</button>
                         </div>
                         <div class = "addressInfo_input_div_wrap">
@@ -352,19 +360,19 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class = "addressInfo_input_div addressInfo_input_div_2" style = "float:left;">
-                                <table style = "float: left">
-                                    <tbody style = "float:left;">
+                            <div class = "addressInfo_input_div addressInfo_input_div_2">
+                                <table >
+                                    <tbody>
                                     <tr>
                                         <th>이름</th>
-                                        <td><input class = "address0_input"></td>
+                                        <td><input class = "address0_input" type="text"></td>
                                     </tr>
                                     <tr>
                                         <th>주소</th>
                                         <td style = "text-align: center">
                                             <input class = "selectAddress" type = "hidden" value = "F">
-                                            <input class = "address2_input" readonly = "readonly">
-                                            <input class = "address3_input" readonly = "readonly">
+                                            <input class = "address2_input" type="text" readonly = "readonly">
+                                            <input class = "address3_input" type="text" readonly = "readonly">
                                             <a class = "address_search_btn" onclick = "execution_daum_address()">주소 찾기</a>
                                         </td>
 
@@ -392,7 +400,7 @@
                     <!-- 상품 정보 -->
                     <div class = "orderGoods_div">
                         <!-- 상품 종류 -->
-                        <div class = "goods_kind_div">
+                        <div class = "goods_kind_div mtext-112 cl2 p-b-33">
                             주문상품 <span class = "goods_kind_div_kind"></span>
                         </div>
                         <!-- 상품 테이블 -->
@@ -418,7 +426,7 @@
                             </colgroup>
                             <tbody>
                             <tr th:each = "orderPageProduct: ${orderPageProductList}" th:if = "${#lists.size(orderPageProductList) > 0}">
-                                <td><img class = "image_wrap" th:src = "|../img/upload/${orderPageProduct.productMainImage }|"></td>
+                                <td><img class = "image_wrap" th:src = "|../img/upload/${orderPageProduct.productMainImage }|" style="width: 50%; height: 50%;"></td>
                                 <td th:text = "${orderPageProduct.productName}"></td>
                                 <td class = "goods_table_price_td">
                                     <th:block th:text = "${orderPageProduct.salePrice}"></th:block>
@@ -449,12 +457,13 @@
                         </table>
                     </div>
                     <!-- 포인트 정보 -->
-                    <div class = "point_div">
-                        <div class = "point_div_subject">포인트 사용</div>
+                    <div class = "point_div p-b-33">
+                        <div class = "point_div_subject mtext-112 cl2">포인트 사용</div>
                         <table class = "point_table">
                             <colgroup>
                                 <col width = "25%">
                                 <col width = "*">
+                                 <col width = "25%">
                             </colgroup>
                             <tbody>
                             <tr>
@@ -463,10 +472,11 @@
                                 <input class = "totalPoint" th:value = "${buyer.totalPoint}" type = "hidden">
                                 <th>사용 포인트</th>
                                 <td>
-                                    <input class = "order_point_input" th:value = "0"/>원
-                                    <a class = "order_point_input_btn order_point_input_btn_N" data-state = "N">모두사용</a>
+                                    <input class = "order_point_input" th:value = "0"/>
+                                </td>
+                                <td>
+                                	<a class = "order_point_input_btn order_point_input_btn_N" data-state = "N">모두사용</a>
                                     <a class = "order_point_input_btn order_point_input_btn_Y" data-state = "Y" style = "display: none;">사용취소</a>
-
                                 </td>
                             </tr>
                             </tbody>
