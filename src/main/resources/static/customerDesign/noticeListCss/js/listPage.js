@@ -19,12 +19,10 @@ $(document).ready(function () {
 
         e.preventDefault();
         /* 검색 키워드 유효성 검사 */
-        if (!searchForm.find("input[name='keyword']").val()) {
-            alert("키워드를 입력하십시오");
-            return false;
-        }
-        searchForm.find("input[name='pageNum']").val(1);
-        searchForm.submit();
+     	let val = $("input[name='keyword']").val();
+     	moveForm.find("input[name='keyword']").val(val);
+     	moveForm.find("input[name='pageNum']").val(1);
+     	moveForm.submit();
 
     });
 /* 삭제 버튼 */

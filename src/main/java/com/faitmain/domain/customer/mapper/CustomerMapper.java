@@ -43,7 +43,7 @@ public interface CustomerMapper {
 	public int deleteCustomerBoard(int boardNumber) throws Exception;
 	
 //	게시판 총 개수
-	public int getBoardTotalCount(char boardType, Paging paging) throws Exception;
+	public int getBoardTotalCount(@Param("boardType") char boardType, @Param("paging") Paging paging) throws Exception;
 	
 //	FAQ 리스트 조회(카테고리이용)	
 	public List<Customer> getFAQList(String FAQCategoryCode) throws Exception;
@@ -56,7 +56,7 @@ public interface CustomerMapper {
 	
 //	이미지 수정
 	public void updateCustomerBoardImage(Image image) throws Exception;
-	
+
 //	BanStatus
 //	public int updateBanStatus(BanStatus banStatus) throws Exception;
 	

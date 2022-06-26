@@ -28,9 +28,10 @@
 <article  class="py-5" layout:fragment="content">
 <div class="container" id="app">
   <div class="column is-two-thirds" id="apps">
-  <form class="form-horizontal" th:action="@{/customer/addBoard}" method="post"  enctype="multipart/form-data" >
+  <form class="form-horizontal" th:action="@{/customer/addReport}" method="post"  enctype="multipart/form-data" >
     <section class="section">
-      <h1 class="title">신고 등록</h1>
+    <input type="hidden" name="boardType" value='R'/>
+      <h4 class="title">신고 등록</h4>
       <hr />
       <!-- form starts here -->
       <section class="form">

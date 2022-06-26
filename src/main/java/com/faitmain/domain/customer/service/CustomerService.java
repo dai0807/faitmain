@@ -19,7 +19,7 @@ import com.faitmain.global.common.Search;
 public interface CustomerService {
 	
 //	게시판 등록
-	public int addCustomerBoard(Customer customer, MultipartHttpServletRequest mRequest) throws Exception;
+	public int addCustomerBoard(Customer customer) throws Exception;
 	
 //	게시판 수정
 	public int updateCustomerBoard(Customer customer) throws Exception;
@@ -50,6 +50,8 @@ public interface CustomerService {
 	
 //	이미지 수정
 	public void updateCustomerBoardImage(Image image) throws Exception;
+	
+
 }
 //	public BanStatus updateBanStatus(int reportNumber) throws Exception;
 

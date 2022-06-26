@@ -9,8 +9,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.faitmain.domain.customer.domain.BanStatus;
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.mapper.CustomerMapper;
 import com.faitmain.domain.product.domain.Product;
@@ -35,7 +37,8 @@ public class CustomerServiceImpl implements CustomerService{
 
 //	게시판 등록
 	@Override
-	public int addCustomerBoard(Customer customer, MultipartHttpServletRequest mRequest) throws Exception {
+	public int addCustomerBoard(Customer customer) throws Exception {
+		
 		return customerMapper.addCustomerBoard(customer);
 	}
 
@@ -114,7 +117,8 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public void updateCustomerBoardImage(Image image) throws Exception {
 		customerMapper.updateCustomerBoardImage(image);
-
 	}
+	
+
 }
 

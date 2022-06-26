@@ -2,6 +2,7 @@
 package com.faitmain.domain.customer.controller;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +26,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.faitmain.domain.customer.domain.BanStatus;
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.service.CustomerService;
+import com.faitmain.domain.order.domain.Order;
 import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.MiniProjectPage;
 import com.faitmain.global.common.Page;
@@ -65,19 +68,16 @@ public class CustomerController extends UiUtils {
 		return "admin/faqForm";
 	}
 	
-	@GetMapping("addReport")
-	public String openReport() throws Exception{	
-		return "customer/reportForm";
-	}
 	
 //	게시판 등록
 	@PostMapping("addBoard")
-	public String addCustomerBoard( @ModelAttribute Customer customer, Model model, Paging paging, MultipartHttpServletRequest mRequest) throws Exception{
+	public String addCustomerBoard( @ModelAttribute Customer customer, Model model, Paging paging) throws Exception{
 		
 		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
 		User user = (User) securityUserService.getUser();
 		
-		customerService.addCustomerBoard(customer, mRequest);
+		
+		customerService.addCustomerBoard(customer);
 		
 		System.out.println(customer);
 		
@@ -92,12 +92,12 @@ public class CustomerController extends UiUtils {
 			url = "customer/liveGuideDetail";
 		}else if(customer.getBoardType() == 'F') {
 			url =  "customer/faqList";
-		}else if(customer.getBoardType() == 'R') {
-			url = "customer/reportList";
 		}
+		
 		return url;
 
 	}
+
 
 // 게시판 수정
 	@GetMapping("updateBoard")
@@ -149,14 +149,19 @@ public class CustomerController extends UiUtils {
 //		model.addAttribute("boardList", customerService.getCustomerBoardList(customer.getBoardType()));
 		List<Customer> boardList = customerService.getCustomerBoardList(customer.getBoardType(), paging);
 		System.out.println(customer.getBoardType());
+		List<Customer> resultList = new ArrayList<>();
 		int total = customerService.getBoardTotalCount(customer.getBoardType(), paging);
-        
+        System.out.println(paging);
         Page page = new Page(paging, total);
 		model.addAttribute("boardList", boardList);
-		model.addAttribute("page", customerService.getListPaging(paging));
-		model.addAttribute("page", paging.getKeyword());
-		System.out.println(boardList);
+		System.out.println("boardList ="+boardList);
+		
+		model.addAttribute("pageMaker", customerService.getListPaging(paging));
+		System.out.println("pageMaker ="+customerService.getListPaging(paging));
+		
+		model.addAttribute("pageMaker", page.getPaging().getKeyword());
 		System.out.println(paging.getKeyword());
+		
 		String url =  null;
        
 		if(customer.getBoardType() == 'N') {
@@ -171,19 +176,7 @@ public class CustomerController extends UiUtils {
 			
 			url="customer/faqList";
 		
-		}
-		
-		
-//		int total = customerService.getBoardTotalCount(customer.getBoardType(), paging);
-//        
-//        Page page = new Page(paging, total);
-       
-//        System.out.println("==-==-===-=");
-//     
-//        model.addAttribute("page", page);
-//		
-//        System.out.println(page);
-        
+		}       
 		return url;
 		
 	}
@@ -199,7 +192,7 @@ public class CustomerController extends UiUtils {
 		System.out.println("============= detail ===============");
 			
 		model.addAttribute("customer", customerService.getCustomerBoard(boardNumber));
-		model.addAttribute("page", paging);
+		model.addAttribute("pageMaker", paging);
 		System.out.println(boardNumber);
 		
 
@@ -228,36 +221,6 @@ public class CustomerController extends UiUtils {
 		return url;
 	}
 	
-//
-//
-////	게시판 목록	(페이징 적용, 게시판 타입별, 라이브가이드 카테고리별 조회 적용)	
-//	@GetMapping("listBoard")
-//	public String openBoardList(@RequestParam(value= "boardNumber", required=false) Integer boardNumber, @RequestParam(value= "boardType", required=false) char boardType, 
-//											@RequestParam(value="FAQCategoryCode", required=false) String FAQCategoryCode, Model model, Criterion criterion) throws Exception {
-//		
-//		System.out.println("=======list==========");
-//		System.out.println(boardType);
-//		
-//		List<Customer> boardList = customerService.getCustomerBoardList(boardType);
-//		
-//		model.addAttribute("boardList", boardList);
-//		model.addAttribute("boardList",boardNumber);
-//		System.out.println(boardList);
-//		
-//		model.addAttribute("boardList",customerService.getListPaging(criterion));
-//		int total = customerService.getBoardTotalCount();
-//		Page page = new Page(criterion, total);
-//		model.addAttribute("page", page);
-//		
-//
-//		model.addAttribute("customer", customer);
-//
-//		
-//		return "customer/noticeDetail";
-//
-//	}
-
-
 
 	
 	@PostMapping("deleteBoard")
@@ -296,11 +259,8 @@ public class CustomerController extends UiUtils {
 			return 1;
 		
 	}
-	
-	
-	
+		
 }	
-
 
 
 
@@ -322,8 +282,5 @@ public class CustomerController extends UiUtils {
 ////		return "redirect:/customer/list";
 ////
 ////	}
-//	
-//
-//	
-//
+
 //}

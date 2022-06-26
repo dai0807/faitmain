@@ -13,7 +13,6 @@
 		<result property="FAQCategoryCode"			 	column="customer_FAQ_category_code" jdbcType="VARCHAR" />
 		<result property="boardType"  					column="customer_board_type" 		jdbcType="CHAR" />
 		<result property="viewCount"  					column="view_cnt" 					jdbcType="INTEGER" />
-		<result property="deleteYn"  					column="delete_yn" 					jdbcType="VARCHAR" />
 		<!-- <result property="image"  						column="boardImage" 				jdbcType="VARCHAR" /> -->
 		<association property="customerId" javaType="User" >	
 			<id property="id" column="customer_id" jdbcType="VARCHAR"/>
@@ -25,6 +24,9 @@
 		<result property="respondentId"				column="respondent_id"			jdbcType="VARCHAR" />
 		<result property="respondentNickname"  		column="respondent_nickname"	jdbcType="VARCHAR" />
 		<result property="respondentStoreName" 		column="respondent_store_name" 	jdbcType="VARCHAR" />
+		<result property="reportTitle"				column="report_title" 			jdbcType="VARCHAR" />
+		<result property="reportContent"			column="report_content" 		jdbcType="VARCHAR" />
+		<result property="reportRegDate"			column="reg_date"	 			jdbcType="DATE" />
 		<result property="statusNumber"  			column="status_number"			jdbcType="INTEGER" />
 		<result property="periodNumber"  			column="ban_period_number" 		jdbcType="INTEGER" />
 		<result property="endDate"					column="ban_end_date" 			jdbcType="DATE" />
@@ -130,20 +132,23 @@
 	<select id="getCustomerBoardList" parameterType="com.faitmain.global.common.Paging" resultMap="customerMap">
 	
 			SELECT * FROM(
-		SELECT customer_board_number, customer_board_title, customer_id, reg_date, customer_board_type  
-		FROM customer 
-		<if test="keyword != null">
-			<where>
-				customer_board_type = #{boardType} AND customer_board_title LIKE concat('%',#{keyword}, '%')
-			</where>
-		</if>
-		ORDER BY reg_date DESC ) as T1
-		
-		
-		LIMIT #{paging.skip}, #{paging.amount}
-		
-		
+							SELECT customer_board_number, customer_board_title, customer_id, reg_date, customer_board_type  
+							FROM customer 
+							<if test="paging.keyword != null">
+								 customer_board_title LIKE concat('%',#{paging.keyword}, '%')
+									<where>
+									customer_board_type = #{boardType} 	
+									</where>
+							</if>
+							ORDER BY reg_date DESC ) as T1
+			LIMIT #{paging.skip}, #{paging.amount}
+							
 	</select>
+		
+		
+		
+							
+							
 	
 	
     
@@ -220,11 +225,13 @@
     
     	SELECT COUNT(*)
     	FROM customer
-    	<if test = "keyword != null">
-	    	<where>
-	    		customer_board_type = #{boardType} AND customer_board_title LIKE concat('%',#{keyword}, '%')
-	    	</where> 
-    	</if>
+	    	
+   			<if test = "paging.keyword != null">
+    			customer_board_title LIKE concat('%',#{paging.keyword}, '%')
+	    		 <where>
+	    			customer_board_type = #{boardType}
+	    		</where> 
+	    	</if>
     </select> 
     
     
