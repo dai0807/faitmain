@@ -39,9 +39,11 @@ import com.faitmain.global.util.UiUtils;
 import com.faitmain.global.util.security.SecurityUserService;
 
 
+
+
 @Controller
 @RequestMapping("/customer/")
-public class CustomerController extends UiUtils {
+public class CustomerController {
 
 	@Autowired
 	@Qualifier("customerServiceImpl")
@@ -107,7 +109,8 @@ public class CustomerController extends UiUtils {
 		User user = (User) securityUserService.getUser();
 		
 		String url = null;
-				
+		model.addAttribute("customer", customer);
+		System.out.println(customer);
 		model.addAttribute("customer", customerService.getCustomerBoard(customer.getBoardNumber()));
 		System.out.println(customerService.getCustomerBoard(customer.getBoardNumber()));
 		
@@ -149,7 +152,7 @@ public class CustomerController extends UiUtils {
 //		model.addAttribute("boardList", customerService.getCustomerBoardList(customer.getBoardType()));
 		List<Customer> boardList = customerService.getCustomerBoardList(customer.getBoardType(), paging);
 		System.out.println(customer.getBoardType());
-		List<Customer> resultList = new ArrayList<>();
+	
 		int total = customerService.getBoardTotalCount(customer.getBoardType(), paging);
         System.out.println(paging);
         Page page = new Page(paging, total);
@@ -159,8 +162,9 @@ public class CustomerController extends UiUtils {
 		model.addAttribute("pageMaker", customerService.getListPaging(paging));
 		System.out.println("pageMaker ="+customerService.getListPaging(paging));
 		
-		model.addAttribute("pageMaker", page.getPaging().getKeyword());
-		System.out.println(paging.getKeyword());
+		model.addAttribute("pageMaker", page);
+	
+		System.out.println(page);
 		
 		String url =  null;
        
@@ -183,7 +187,6 @@ public class CustomerController extends UiUtils {
 	
 
 	
-	
 	@RequestMapping("detailBoard")
 	public  String getCustomerBoard(@RequestParam Integer boardNumber, Model model, Paging paging) throws Exception{
 	
@@ -194,6 +197,7 @@ public class CustomerController extends UiUtils {
 		model.addAttribute("customer", customerService.getCustomerBoard(boardNumber));
 		model.addAttribute("pageMaker", paging);
 		System.out.println(boardNumber);
+		System.out.println(paging);
 		
 
 		return "customer/noticeDetail";

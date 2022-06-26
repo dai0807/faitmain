@@ -149,13 +149,13 @@ CREATE TABLE `image` (
                      );
 
 CREATE TABLE `customer` (
-                        `customer_board_number`      int       NOT NULL AUTO_INCREMENT ,
+                        `customer_board_number`      int       	NOT NULL AUTO_INCREMENT ,
                         `customer_board_title`       varchar(30)    DEFAULT NULL ,
-                        `customer_board_content`     LONGTEXT  NOT NULL ,
-                        `reg_date`                   TIMESTAMP NOT NULL ,
-                        `update_date`                TIMESTAMP      DEFAULT NULL ,
+                        `customer_board_content`     LONGTEXT  		NOT NULL ,
+                        `reg_date`                   DATA		 	NOT NULL ,
+                        `update_date`                DATA 		     DEFAULT NULL ,
                         `customer_FAQ_category_code` VARCHAR(2)     DEFAULT NULL ,
-                        `customer_board_type`        CHAR(1)   NOT NULL ,
+                        `customer_board_type`        CHAR(1)  		 NOT NULL ,
                         `customer_id`                varchar(25)    DEFAULT NULL ,                                   
                         PRIMARY KEY ( `customer_board_number` ) ,
                         FOREIGN KEY ( `customer_id` ) REFERENCES `user` ( `id` )
@@ -170,7 +170,7 @@ CREATE TABLE `report` (
                           `respondent_store_name` varchar(20) NOT NULL ,
                           `report_title`      	  varchar(30) NOT NULL ,
                           `report_content`        VARCHAR(2000)  NOT NULL ,
-                          `reg_date`              TIMESTAMP NOT NULL ,
+                          `reg_date`              DATE			 NOT NULL ,
                           `status_number`         int DEFAULT NULL ,
                           `ban_period_number`     int DEFAULT NULL ,
                           `ban_end_date`          date        NOT NULL ,

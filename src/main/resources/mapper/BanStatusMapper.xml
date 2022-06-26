@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.faitmain.domain.customer.mapper.BanMapper">
 	
-	<resultMap id="banStatusMap" type="com.faitmain.domain.customer.domain.BanStatus">
+	<resultMap id="banStatusMap" type="BanStatus">
 		<result property="reportNumber"				column="report_number" 			jdbcType="INTEGER"/>
 		<result property="respondentId"				column="respondent_id"			jdbcType="VARCHAR" />
 		<result property="respondentNickname"  		column="respondent_nickname"	jdbcType="VARCHAR" />
@@ -15,11 +15,12 @@
 		<result property="statusNumber"  			column="status_number"			jdbcType="INTEGER" />
 		<result property="periodNumber"  			column="ban_period_number" 		jdbcType="INTEGER" />
 		<result property="endDate"					column="ban_end_date" 			jdbcType="DATE" />
+		<result property="reportImage" 				column="report_image" 			jdbcType="VARCHAR" />
 		
-		<association property="customerId" javaType="com.faitmain.domain.user.domain.User" >	
-			<id property="id" column="customer_id" jdbcType="VARCHAR"/>
-			<result property="respondentNickname" column="respondent_nickname" jdbcType="VARCHAR"/>
-			<result property="respondentStoreName" column="respondent_store_name" jdbcType="VARCHAR"/>
+		<association property="respondent" javaType="User" >	
+			<id property="id" column="respondent_id" jdbcType="VARCHAR"/>
+			<result property="respondentNickname" column="nickname" jdbcType="VARCHAR"/>
+			<result property="respondentStoreName" column="store_name" jdbcType="VARCHAR"/>
 		</association>
 		
 	</resultMap>
@@ -33,5 +34,13 @@
 	
 <!-- ============================================================================= -->	
 	
+ 	<insert id="addReport" parameterType="BanStatus" >
+		    INSERT INTO report
+		    ( report_number, respondent_id, respondent_nickname, report_title, report_content, reg_date, report_image )
+		VALUES
+		    ( #{reportNumber}, #{respondentId.id}, #{respondentNickname.nickname}, #{reportTitle}, #{reportContent}, 
+		    NOW(), #{reportImage})    
+	</insert>
+ 	
  	
 </mapper>

@@ -57,8 +57,7 @@ public interface CustomerMapper {
 //	이미지 수정
 	public void updateCustomerBoardImage(Image image) throws Exception;
 
-//	BanStatus
-//	public int updateBanStatus(BanStatus banStatus) throws Exception;
+
 	
 	
 	

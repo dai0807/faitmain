@@ -45,7 +45,7 @@
               <th scope="col">제목</th>
               <th scope="col">작성자</th>
               <th scope="col">등록일</th>
-              <th scope="col">조회수</th>
+              
 
             </tr>
           </thead>
@@ -57,7 +57,7 @@
 				</td>
 				<td th:text="${row.customerId.id}"></td> 
 				<td th:text="${#dates.format(row.boardRegDate, 'yyyy-MM-dd')}"></td>
-				<td th:text="${row.viewCount}"></td> 
+			
 			</tr>
             <tr th:unless="${not #lists.isEmpty(boardList)}">
 				<td colspan="5">조회된 결과가 없습니다.</td>
@@ -92,7 +92,7 @@
 	                </th:block>
 	
 	                <!-- 페이지 번호 -->
-	                <th:block th:each = "num,iterStat : ${#numbers.sequence(pageMaker.pageStart,page.pageEnd)}">
+	                <th:block th:each = "num,iterStat : ${#numbers.sequence(pageMaker.pageStart,pageMaker.pageEnd)}">
 	                    <li th:class = "|pageMaker_btn ${pageMaker.paging.pageNum == num ? 'active' : ''}|">
 	                        <a th:href = "@{/customer/listBoard (boardType=N,pageNum=${num})}" th:text = "${num}"></a>
 	                    </li>

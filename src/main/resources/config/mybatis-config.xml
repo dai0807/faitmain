@@ -25,6 +25,7 @@
 <!--        <mapper resource="mapper/LiveMapper.xml"/>-->
 <!--        <mapper resource="mapper/CartMapper.xml"/>-->
 <!--        <mapper resource="mapper/CustomerBoardMapper.xml"/>-->
+<!-- 		<mapper resource="mapper/BanStatusMapper.xml"/>-->
 <!--        <mapper resource="mapper/InquiryMapper.xml"/>-->
 <!--        <mapper resource="mapper/OrderMapper.xml"/>-->
 <!--        <mapper resource="mapper/ProductMapper.xml"/>-->

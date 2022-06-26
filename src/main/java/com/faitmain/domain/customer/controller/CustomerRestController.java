@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -82,6 +83,24 @@ public class CustomerRestController {
 		}
 		
 		
+	}
+	
+	@GetMapping("json/deleteFAQ/{boardNumber}")
+	public String deleteFAQ(@PathVariable int boardNumber) throws Exception{
+		
+		JSONObject jsonObject = new JSONObject();
+		int result = customerService.deleteCustomerBoard(boardNumber);
+		
+		System.out.println("FAQ 삭제 : "+ result);
+		
+		if(result > 0) {
+			jsonObject.put("responseCode", "success");
+		}else {
+			jsonObject.put("responseCode", "fail");
+		}
+		
+		
+		return jsonObject.toJSONString();
 	}
 	
 	

@@ -50,7 +50,7 @@ public interface CustomerService {
 	
 //	이미지 수정
 	public void updateCustomerBoardImage(Image image) throws Exception;
-	
+
 
 }
 //	public BanStatus updateBanStatus(int reportNumber) throws Exception;

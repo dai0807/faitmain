@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.maven.shared.invoker.SystemOutLogger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,12 @@ import com.faitmain.global.common.Search;
 import com.faitmain.global.util.UiUtils;
 import com.faitmain.global.util.security.SecurityUserService;
 
+import lombok.extern.log4j.Log4j;
+
 
 @Controller
 @RequestMapping("/customer/")
+@Log4j
 public class BanController extends UiUtils {
 
 	@Autowired
@@ -47,14 +51,34 @@ public class BanController extends UiUtils {
 	private BanService banService;
 	
 	@GetMapping("addReport")
-	public String openReport() throws Exception{	
+	public String openReport(Model model) throws Exception{	
+		
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+		
+		log.info("ReportForm");
+		model.addAttribute("msg", "로그인 해주세요.");
+
+		model.addAttribute("url", "addReport");
 		return "customer/reportForm";
 	}
-
 	
-//	신고 기능
+	@GetMapping("listReport")
+	public void reportList() {
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+		
+		log.info("ReportList");
+	}
+	
+//	신고 등록 기능
 	@PostMapping("addReport")
 	public String addReport(@ModelAttribute BanStatus banStatus, MultipartHttpServletRequest mRequest) throws Exception{
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+		
+		
+		log.info("BanStatus : " + banStatus);
 		
 		banService.addReport(banStatus, mRequest);
 		return null;

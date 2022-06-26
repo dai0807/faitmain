@@ -16,6 +16,7 @@ import com.faitmain.domain.customer.domain.BanStatus;
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.mapper.CustomerMapper;
 import com.faitmain.domain.product.domain.Product;
+import com.faitmain.domain.user.domain.User;
 import com.faitmain.global.common.Image;
 import com.faitmain.global.common.Page;
 import com.faitmain.global.common.Paging;
@@ -119,6 +120,6 @@ public class CustomerServiceImpl implements CustomerService{
 		customerMapper.updateCustomerBoardImage(image);
 	}
 	
-
+	
 }
 

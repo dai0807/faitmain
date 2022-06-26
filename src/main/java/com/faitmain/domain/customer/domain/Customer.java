@@ -13,14 +13,14 @@ public class Customer{
 	private int boardNumber;
 	private String boardTitle;
 	private String boardContent;
-	private Timestamp boardRegDate;
-	private Timestamp boardUpdateDate;
+	private Date boardRegDate;
+	private Date boardUpdateDate;
 	private String FAQCategoryCode;
 	private char boardType;
 	private User customerId;
 //	private int totalCount;
 	private int viewCount;
-	private String deleteYn;
+
 
 
 

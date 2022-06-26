@@ -55,7 +55,7 @@
 						<th scope="row" style="padding:13px 0 0 15px;">작성자</th>
 							<td th:text="${customer.customerId.id}"></td>
 						<th scope="row" style="padding:13px 0 0 15px;">작성일</th>
-							<td th:text="${#dates.format( customer.boardRegDate, 'yyyy-MM-dd : HH:mm:ss' )}"></td>
+							<td th:text="${#dates.format( customer.boardRegDate, 'yyyy-MM-dd' )}"></td>
 						<th scope="row" style="padding:13px 0 0 15px;">조회수</th>
 							<td th:text="${customer.viewCount}"></td>
 					</tr>
@@ -92,9 +92,9 @@
 				<form id="infoForm"	th:action="@{/customer/updateBoard}" method="get">
 					<input type="hidden" id="boardNumber" name="boardNumber" th:value="${customer.boardNumber}"/>
 					<input type="hidden" id="boardType" name="boardType" value="N"/>
-					<input type="hidden" id="pageNum" name="pageNum" th:value="${pageMaker.paging.pageNum}"/>
+					<!-- <input type="hidden" id="pageNum" name="pageNum" th:value="${pageMaker.paging.pageNum}"/>
 					<input type="hidden" name = "amount" th:value = "${pageMaker.paging.amount}" />
-					<input type="hidden" name = "keyword" th:value = "${pageMaker.paging.keyword}" >
+					<input type="hidden" name = "keyword" th:value = "${pageMaker.paging.keyword}" > -->
 				</form>
 		
 	</div>
