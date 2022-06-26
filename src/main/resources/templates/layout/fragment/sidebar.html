@@ -56,7 +56,7 @@
 			</div>
 			
 			<!-- 스토어 -->
-			<div class="p-t-20" sec:authorize="hasRole('store')">
+			<div class="p-t-20" sec:authorize="hasAnyRole('store', 'storeX')">
 			
 				<h4 class="mtext-103 cl2 p-b-33" style="font-weight: bold;">
 					나의 스토어

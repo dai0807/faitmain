@@ -165,7 +165,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   position: fixed;
   width: 40px;
   height: 38px;
-  bottom: 0px;
+  bottom: 30px;
   right: 40px;
   background-color: #333;
   opacity: 0.5;
@@ -1108,6 +1108,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 [ in select ]*/
 .rs1-select2 .select2-container .select2-selection--single .select2-selection__rendered {
   /*font-family: Poppins-Regular;*/
+  font-family: Nanum Gothic Coding;
   font-size: 13px;
   color: #555;
   line-height: 1.2;
@@ -1136,13 +1137,13 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 
 .rs1-select2 .select2-container--default .select2-selection--single .select2-selection__arrow::after {
   content: "\f0dc";
-  /*font-family: FontAwesome;*/
+  font-family: FontAwesome;
   font-size: 13px;
   color: #808080;
 }
 
 .rs1-select2 .select2-container--default .select2-selection--single .select2-selection__arrow:hover:after {
-  color: #6c7ae0;
+  color: #efefef;
 }
 
 
@@ -1174,12 +1175,12 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 }
 
 .rs1-select2 .select2-container .select2-results__option[aria-selected="true"] {
-  background: #6c7ae0;
+  background: #555;
   color: white;
 }
 
 .rs1-select2 .select2-container .select2-results__option--highlighted[aria-selected] {
-  background: #6c7ae0;
+  background: #555;
   color: white;
 }
 
@@ -1759,8 +1760,8 @@ button.mfp-close {
 
 .show-search:hover:after,
 .show-filter:hover:after {
-  background-color: #717fe0;
-  border-color: #717fe0;
+  background-color: white;
+  border-color: black;
 }
 
 /*---------------------------------------------*/
@@ -1776,8 +1777,8 @@ button.mfp-close {
 }
 
 .filter-link:hover {
-  color: #6c7ae0;
-  border-bottom: 1px solid #6c7ae0;
+  color: black;
+  /*border-bottom: 1px solid #6c7ae0;*/
 }
 
 .filter-link-active {
@@ -2848,6 +2849,11 @@ input.num-product::-webkit-inner-spin-button {
   border: 1px solid #d9d9d9;
 }
 
+.bor21 {
+  border: 1px solid #222;
+  border-radius: 23px;
+}
+
 /*==================================================================
  HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW 
 ==================================================================*/
@@ -3035,6 +3041,17 @@ input.num-product::-webkit-inner-spin-button {
 
 
 /*---------------------------------------------*/
+.how-itemcart {
+  width: 60px;
+  position: relative;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.how-itemcart img {
+  width: 100%;
+}
+
 .how-itemcart1 {
   width: 60px;
   position: relative;
