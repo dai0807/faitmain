@@ -86,7 +86,7 @@
 				        <div class="btn_wrap" sec:authorize="hasRole('ROLE_admin')">
 				        	<a class="btn" id="list_btn">목록 페이지</a>	
 				        	<a class="btn" id="modify_btn">수정 완료</a>		
-							<a class="btn" id="cancel_btn">수정 취소</a>	
+								
 						
 						</div>
 					</th:block>
@@ -94,6 +94,11 @@
 					
 					<form id="infoForm"	th:action="@{/customer/updateBoard}" method="get">
 						<input type="hidden" id="boardNumber" name="boardNumber" th:text="${customer.boardNumber}"/>
+						<input type="hidden" id="boardType" name="boardType" value="N"/>
+						<input type="hidden" id="pageNum" name="pageNum" th:value="${page.pageNum}"/>
+						<input type="hidden" name = "amount" th:value = "${page.paging.amount}" />
+						<input type="hidden" name = "keyword" th:value = "${page.paging.keyword}" >
+					
 					</form>
 		</div>
 				

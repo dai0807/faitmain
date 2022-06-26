@@ -28,6 +28,7 @@
 <article  class="py-5" layout:fragment="content">
 <div class="container" id="app">
   <div class="column is-two-thirds" id="apps">
+  <form class="form-horizontal" th:action="@{/customer/addBoard}" method="post"  enctype="multipart/form-data" >
     <section class="section">
       <h1 class="title">신고 등록</h1>
       <hr />
@@ -94,7 +95,10 @@
           </div>
 
           <div class="field" style="padding:13px 0 0 15px;">
-            <label><strong>사진첨부</strong></label>
+            <label>
+            	<strong>사진첨부</strong>
+            	<input type="file" name="files" multiple="multiple"/>
+            </label>
             <div class="control">
               
             </div>
@@ -112,6 +116,7 @@
         </form>
       </section>
     </section>
+    </form>
   </div>
 
   <div class="column">

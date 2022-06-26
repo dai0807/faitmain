@@ -132,9 +132,11 @@
 			SELECT * FROM(
 		SELECT customer_board_number, customer_board_title, customer_id, reg_date, customer_board_type  
 		FROM customer 
-		<where>
-			customer_board_type = #{boardType}
-		</where>
+		<if test="keyword != null">
+			<where>
+				customer_board_type = #{boardType} AND customer_board_title LIKE concat('%',#{keyword}, '%')
+			</where>
+		</if>
 		ORDER BY reg_date DESC ) as T1
 		
 		
@@ -218,10 +220,11 @@
     
     	SELECT COUNT(*)
     	FROM customer
-    	<where>
-    		customer_board_type = #{boardType}
-    	</where> 
-    
+    	<if test = "keyword != null">
+	    	<where>
+	    		customer_board_type = #{boardType} AND customer_board_title LIKE concat('%',#{keyword}, '%')
+	    	</where> 
+    	</if>
     </select> 
     
     

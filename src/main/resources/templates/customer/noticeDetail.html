@@ -26,9 +26,7 @@
 	 	height: 100px;
 	 }
 	</style>
-		 <!--  고유 스크립트 추가 -->
-    <script type="text/javascript"
-    		th:src = "@{/customerDesign/noticeListCss/js/listPage.js}"></script>
+
 </head>
 
 <body>
@@ -95,7 +93,8 @@
 					<input type="hidden" id="boardNumber" name="boardNumber" th:value="${customer.boardNumber}"/>
 					<input type="hidden" id="boardType" name="boardType" value="N"/>
 					<input type="hidden" id="pageNum" name="pageNum" th:value="${page.pageNum}"/>
-					<input type="hidden" id="amount">
+					<input type="hidden" name = "amount" th:value = "${page.paging.amount}" />
+					<input type="hidden" name = "keyword" th:value = "${page.paging.keyword}" >
 				</form>
 		
 	</div>

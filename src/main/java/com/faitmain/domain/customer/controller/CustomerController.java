@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.faitmain.domain.customer.domain.Customer;
@@ -69,14 +70,14 @@ public class CustomerController extends UiUtils {
 		return "customer/reportForm";
 	}
 	
-
+//	게시판 등록
 	@PostMapping("addBoard")
-	public String addCustomerBoard( @ModelAttribute Customer customer, Model model, Paging paging) throws Exception{
+	public String addCustomerBoard( @ModelAttribute Customer customer, Model model, Paging paging, MultipartHttpServletRequest mRequest) throws Exception{
 		
 		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
 		User user = (User) securityUserService.getUser();
 		
-		customerService.addCustomerBoard(customer);
+		customerService.addCustomerBoard(customer, mRequest);
 		
 		System.out.println(customer);
 		
@@ -91,15 +92,16 @@ public class CustomerController extends UiUtils {
 			url = "customer/liveGuideDetail";
 		}else if(customer.getBoardType() == 'F') {
 			url =  "customer/faqList";
+		}else if(customer.getBoardType() == 'R') {
+			url = "customer/reportList";
 		}
-		
 		return url;
 
 	}
-	
+
 // 게시판 수정
 	@GetMapping("updateBoard")
-	public String updateCustomerBoardad(@ModelAttribute Customer customer, Model model) throws Exception {
+	public String updateCustomerBoard(@ModelAttribute Customer customer, Model model) throws Exception {
 		System.out.println("=======update=====");
 		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
 		User user = (User) securityUserService.getUser();
@@ -118,19 +120,21 @@ public class CustomerController extends UiUtils {
 	}
 	
 	@PostMapping("updateBoard")
-	public String updateCustomerBoardad(@ModelAttribute Customer customer, RedirectAttributes rttr) throws Exception {
-		
+	public String updateCustomerBoard(@ModelAttribute Customer customer, RedirectAttributes rttr) throws Exception {
+		System.out.println("=======udpatePOST========");
 		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
 		User user = (User) securityUserService.getUser();
 		
 		String url = null;
 		
 		customerService.updateCustomerBoard(customer);
+		
+		System.out.println(customer);
 		rttr.addFlashAttribute("result", "update success");
 		if(customer.getBoardType() == 'N') {
-			url =  "redirect:/customer/detailBoard?boardType="+ customer.getBoardType();
+			url =  "redirect:/customer/listBoard?boardType="+ customer.getBoardType();
 		}else if(customer.getBoardType() == 'L')
-			url = "redirect:/customer/detailGuide?boardType="+ customer.getBoardType();
+			url = "redirect:/customer/listBoard?boardType="+ customer.getBoardType();
 		
 		return url;
 	}
@@ -145,10 +149,16 @@ public class CustomerController extends UiUtils {
 //		model.addAttribute("boardList", customerService.getCustomerBoardList(customer.getBoardType()));
 		List<Customer> boardList = customerService.getCustomerBoardList(customer.getBoardType(), paging);
 		System.out.println(customer.getBoardType());
+		int total = customerService.getBoardTotalCount(customer.getBoardType(), paging);
+        
+        Page page = new Page(paging, total);
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("page", customerService.getListPaging(paging));
-		String url =  null;
+		model.addAttribute("page", paging.getKeyword());
 		System.out.println(boardList);
+		System.out.println(paging.getKeyword());
+		String url =  null;
+       
 		if(customer.getBoardType() == 'N') {
 			
 			url= "customer/noticeList";
@@ -157,24 +167,22 @@ public class CustomerController extends UiUtils {
 			
 			url = "admin/liveGuideList";
 			
-		
 		}else if(customer.getBoardType() == 'F'){	
 			
 			url="customer/faqList";
-		}		
+		
+		}
 		
 		
-		int total = customerService.getBoardTotalCount(customer.getBoardType());
-        
-        Page page = new Page(paging, total);
-        
-        
-        
-        System.out.println("==-==-===-=");
-     
-        model.addAttribute("page", page);
-		
-        System.out.println(page);
+//		int total = customerService.getBoardTotalCount(customer.getBoardType(), paging);
+//        
+//        Page page = new Page(paging, total);
+       
+//        System.out.println("==-==-===-=");
+//     
+//        model.addAttribute("page", page);
+//		
+//        System.out.println(page);
         
 		return url;
 		
@@ -253,9 +261,15 @@ public class CustomerController extends UiUtils {
 
 	
 	@PostMapping("deleteBoard")
-	public String deleteCustomerBoard(@ModelAttribute Customer customer, Model model) throws Exception {
+	public String deleteCustomerBoard(@ModelAttribute Customer customer, Model model, RedirectAttributes rttr) throws Exception {
 		
-		int isDeleted = customerService.deleteCustomerBoard(customer.getBoardNumber());
+		System.out.println("=========delete===========");
+		
+		customerService.deleteCustomerBoard(customer.getBoardNumber());
+		
+		System.out.println(customer.getBoardNumber());
+		
+		rttr.addFlashAttribute("result", "delete success");
 	
 		
 		return "redirect:/customer/listBoard?boardType="+customer.getBoardType();
@@ -287,87 +301,9 @@ public class CustomerController extends UiUtils {
 	
 }	
 
-//	@PostMapping("deleteNotice")
-//	public String deleteNotice(@RequestParam(value = "boardNumber", required = false) Integer boardNumber) {
-//		if (boardNumber == null) {
-//			return "redirect:/customer/list";
-//		}
-//		try {
-//			boolean isDeleted = customerService.deleteCustomerBoard(boardNumber);
-//			if (isDeleted == false) {
-//
 
-//			}
-//		}		
-//		System.out.println(url);
-//		return url;
-//		
-//	}
-//	
-//	
-//	@GetMapping("detailBoard")
-//	public String openBoardDetail(@RequestParam(value="boardNumber", required=false) Integer boardNumber, @RequestParam(value="boardType", required=false) char boardType, Model model) throws Exception{
-//		
-//		model.addAttribute("customer",boardNumber);
-//		
-//		String url = null;
-//		
-//		Customer customer = customerService.getLiveGuide(boardType);
-//		model.addAttribute("customer", customer);
-//		
-//		if(boardType == 'L') {
-//		 url = "customer/liveGuideDetail?boardNumber="+boardNumber;
-//		}else if(boardType == 'N') {
-//			url = "customer/noticeDetail?boardNumber="+boardNumber;
-//		}
-//		return url;
-//	}
-//	
-//
-//
-//
-////	@GetMapping("listFAQ")
-////	public String openFAQList(Model model) throws Exception {
-////		
-////		List<Customer> boardList = customerService.getCustomerBoardList();
-////		model.addAttribute("boardList", boardList);
-//////		model.addAttribute("boardList", customerService.getCustomerBoardList());
-////				
-////		return "customer/listFAQ";
-////		
-////	}
-//
-//	
-////	@GetMapping("detailBoard")
-////	public String openBoardDetail(@RequestParam(value="boardNumber", required=false) Integer boardNumber, Model model) throws Exception {
-////		
-////
-////		model.addAttribute("customer", customer);
-////
-////		
-////		return "customer/noticeDetail";
-////
-////	}
-//
-//
-//
-//	
-//	@PostMapping("deleteBoard")
-//	public String deleteBoard(@RequestParam(value = "boardNumber", required=false) Integer boardNumber, @RequestParam(value = "boardType", required=false) char boardType) throws Exception {
-//		
-//		int isDeleted = customerService.deleteCustomerBoard(boardNumber);
-//		
-//		String url = null;
-//		
-//		if(boardType == 'N') {
-//			return "redirect:/customer/listBoard";
-//		}else if(boardType == 'L') {
-//			return "redirect:/customer/customerCenterIndex2";
-//		}
-//		return url;
-//	}		
-//		
-//
+
+
 ////	@PostMapping("deleteNotice")
 ////	public String deleteNotice(@RequestParam(value = "boardNumber", required = false) Integer boardNumber) {
 ////		if (boardNumber == null) {

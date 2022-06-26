@@ -9,13 +9,15 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.mapper.CustomerMapper;
 import com.faitmain.domain.product.domain.Product;
+import com.faitmain.global.common.Image;
 import com.faitmain.global.common.Page;
 import com.faitmain.global.common.Paging;
-import com.faitmain.global.common.Search;
+
 
 
 
@@ -33,7 +35,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 //	게시판 등록
 	@Override
-	public int addCustomerBoard(Customer customer) throws Exception {
+	public int addCustomerBoard(Customer customer, MultipartHttpServletRequest mRequest) throws Exception {
 		return customerMapper.addCustomerBoard(customer);
 	}
 
@@ -93,8 +95,8 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 	
 // 게시물 총 개수
-	public int getBoardTotalCount(char boardType) throws Exception{
-		return customerMapper.getBoardTotalCount(boardType);
+	public int getBoardTotalCount(char boardType, Paging paging) throws Exception{
+		return customerMapper.getBoardTotalCount(boardType, paging);
 	}
 	
 // 게시판 목록(페이징 적용)
@@ -102,5 +104,17 @@ public class CustomerServiceImpl implements CustomerService{
 		return customerMapper.getListPaging(paging);
 	}
 	
+// 이미지 등록
+	@Override
+	public void addCustomerBoardImage(Image image) throws Exception {
+		customerMapper.addCustomerBoardImage(image);
+	}
+
+// 이미지 수정
+	@Override
+	public void updateCustomerBoardImage(Image image) throws Exception {
+		customerMapper.updateCustomerBoardImage(image);
+
+	}
 }
 
