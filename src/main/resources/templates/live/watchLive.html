@@ -85,7 +85,6 @@
 </style>
 
 <body>
-	
 	<!-- ================================= 필요 데이터 =========================================================== -->
 		<input sec:authorize="isAuthenticated()" type="hidden" id="userNickname" th:value="${#authentication.principal.user.nickname}">
 	    <input sec:authorize="isAuthenticated()" type="hidden" id="userId" th:value="${#authentication.principal.user.id}">
@@ -182,7 +181,6 @@
    			
    		</div>
    	</div>
-         
 </body>
 
 <script th:inline="javascript">
