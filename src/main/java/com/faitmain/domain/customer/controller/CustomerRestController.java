@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.service.CustomerService;
 import com.faitmain.domain.user.domain.User;
+import com.faitmain.global.common.Paging;
 import com.faitmain.global.common.Search;
 import com.faitmain.global.util.security.SecurityUserService;
 
@@ -66,17 +67,17 @@ public class CustomerRestController {
 //	}
 	
 	@GetMapping("json/getCustomerBoardList")
-	public List<Customer> listFAQ(@ModelAttribute Customer customer, String FAQCategoryCode) throws Exception{
+	public List<Customer> listFAQ(@ModelAttribute Customer customer, String FAQCategoryCode, Paging paging) throws Exception{
 		
 		System.out.println(FAQCategoryCode);
 		if(FAQCategoryCode.equals("00")) {
-			List<Customer> boardList = customerService.getFAQList(FAQCategoryCode);
+			List<Customer> boardList = customerService.getFAQList(FAQCategoryCode, paging);
 	
 			return boardList;	
 		
 		}else {
 		
-			List<Customer> boardList = customerService.getFAQList(FAQCategoryCode);;
+			List<Customer> boardList = customerService.getFAQList(FAQCategoryCode, paging);;
 			System.out.println(boardList);
 
 			return boardList;

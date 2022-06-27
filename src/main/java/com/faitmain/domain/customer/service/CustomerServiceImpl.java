@@ -64,9 +64,14 @@ public class CustomerServiceImpl implements CustomerService{
 	
 //	FAQ 리스트 조회(카테고리 이용)	
 	@Override
-	public List<Customer> getFAQList(String FAQCategoryCode) throws Exception{
+	public List<Customer> getFAQList(String FAQCategoryCode, Paging paging) throws Exception{
 		
-		return customerMapper.getFAQList(FAQCategoryCode);
+		return customerMapper.getFAQList(FAQCategoryCode, paging);
+	}
+	
+// 게시물 총 개수
+	public int getFAQTotalCount(String FAQCategoryCode, Paging paging) throws Exception{
+		return customerMapper.getFAQTotalCount(FAQCategoryCode, paging);
 	}
 	
 //	라이브가이드 상세조회	

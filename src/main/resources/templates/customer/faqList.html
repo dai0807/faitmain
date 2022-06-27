@@ -75,16 +75,15 @@ traq.net.nz/thymeleaf/layout">
 					
 					for(let i = 0 ; i < data.length ; i ++){
 						
-				     	abc += '<ul class="faq-accordion" th:if="${not #lists.isEmpty(boardList)}" th:each="row : ${boardList}">'	
-			                +  '<li>'
+				     	abc  	
+			                +=  '<li>'
 			                +  '<a title="Click" class="expanded" id="title" >'+data[i].boardTitle+ '</a>'
 			                +  '<ul class="faq-content" style="display: block;">' 
 			                +  '<li>'
 			                +  '<div id="contents"><p>'+data[i].boardContent+'</p></div>'
 			                +  '</li>'
 			                +  '</ul>' 
-			                +  '</li>'
-			                +  '<button type="button" id="updateFAQ" class="btn_updateFAQ" th:onclick="update()" >수정</button>	</ul>';
+			                +  '</li>';
 					}
 					
 					$('div.faq').append(abc);
@@ -143,13 +142,47 @@ traq.net.nz/thymeleaf/layout">
 				</div><!--faq-group-->
 				<div class="slide-left">
 	              <div  class="faq">
-	                 <ul class="faq-accordion" th:if="${not #lists.isEmpty(boardList)}" th:each="row : ${boardList}">
+	                 <ul class="faq-accordion" th:if="${not #lists.isEmpty(listFAQ)}" th:each="row : ${listFAQ}">
 	
 	                    <li>
 	                        <a id="title" title="Click" th:text="${row.boardTitle}"></a>
 	                        	<ul class="faq-content">
 		                            <li style= "width: auto;">
 		                                <div><p class="contents"><textarea class="textarea" th:text="${row.boardContent}" style="background:#ececec; border:none; width: 650px; hegith:auto;" readonly/></p></div>
+                                <!--         페이지 이동 인터페이스 영역-->
+									        <div class = "pageMaker_wrap">
+									        	<div class = "pageInfo_area">
+										            <ul class = "pageMaker">
+										                <!--  이전 버튼-->
+										                <th:block th:if = "${pageMaker.prev}">
+										                    <li class = "pageMaker_btn prev">
+										                        <a th:href = "@{${pageMaker.pageStart - 1}}">이전</a>
+										                    </li>
+										                </th:block>
+										
+										                <!-- 페이지 번호 -->
+										                <th:block th:each = "num,iterStat : ${#numbers.sequence(pageMaker.pageStart,pageMaker.pageEnd)}">
+										                    <li th:class = "|pageMaker_btn ${pageMaker.paging.pageNum == num ? 'active' : ''}|">
+										                        <a th:href = "@{/customer/listFAQBoard (boardType=N,pageNum=${num})}" th:text = "${num}"></a>
+										                    </li>
+										                </th:block>
+										
+										                <!--  다음 버튼-->
+										                <th:block th:if = "${pageMaker.next}">
+										                    <li class = "pageMaker_btn next">
+										                        <a th:href = "@{${pageMaker.pageEnd + 1}}">다음</a>
+										                    </li>
+										                </th:block>
+										            </ul>
+									            </div>
+									        </div>	
+									        
+									        <form id = "moveForm" method = "get" th:action = "@{/customer/listFAQBoard}">
+										        <input name = "pageNum" th:value = "${pageMaker.paging.pageNum}" type = "hidden">
+										        <input name = "amount" th:value = "${pageMaker.paging.amount}" type = "hidden">
+										        <input name = "keyword" th:value = "${pageMaker.paging.keyword}" type = "hidden">
+									    	</form>
+											                               
 		                                <th:block sec:authorize="isAuthenticated()">
 										<div class="btn_wrap text-right" sec:authorize="hasRole('ROLE_admin')">
 			                   				 <button type="button" id="updateFAQ" class="btn_updateFAQ" th:onclick="update()" 

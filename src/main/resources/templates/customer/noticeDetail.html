@@ -56,8 +56,6 @@
 							<td th:text="${customer.customerId.id}"></td>
 						<th scope="row" style="padding:13px 0 0 15px;">작성일</th>
 							<td th:text="${#dates.format( customer.boardRegDate, 'yyyy-MM-dd' )}"></td>
-						<th scope="row" style="padding:13px 0 0 15px;">조회수</th>
-							<td th:text="${customer.viewCount}"></td>
 					</tr>
 					<tr>
 						<th scope="row" style="padding:13px 0 0 15px;">제목</th>

@@ -104,7 +104,7 @@
     
     
 <!-- 게시판 목록 -->
-	<select id="getCustomerBoardList" parameterType="com.faitmain.global.common.Paging" resultMap="customerMap">
+	<select id="getCustomerBoardList" parameterType="com.faitmain.global.common.Paging"  resultMap="customerMap">
 	
 			SELECT * FROM(
 							SELECT customer_board_number, customer_board_title, customer_id, reg_date, customer_board_type  
@@ -120,7 +120,18 @@
 							
 	</select>
 		
-		
+	<select id="getFAQList" parameterType="com.faitmain.global.common.Paging"  resultMap="customerMap">
+	
+			SELECT * FROM(
+							SELECT customer_board_number, customer_board_title, customer_id, reg_date, customer_board_type, customer_FAQ_category_code  
+							FROM customer 
+							<where>
+								customer_FAQ_category_code = #{FAQCategoryCode}
+							</where>
+							ORDER BY reg_date DESC ) as T1
+			LIMIT #{paging.skip}, #{paging.amount}
+							
+	</select>	
 		
 							
 							
@@ -205,6 +216,17 @@
 		   			<if test = "paging.keyword != null">
 		    		AND	customer_board_title LIKE concat('%',#{paging.keyword}, '%')
 			    	</if>
+	    	</where>
+    </select> 
+    
+    
+    <select id="getFAQTotalCount"  resultType="int">
+    
+    	SELECT COUNT(*)
+    	FROM customer
+	    	 <where>
+	    		customer_FAQ_Category_code = #{FAQCategoryCode}
+		   			
 	    	</where>
     </select> 
     
