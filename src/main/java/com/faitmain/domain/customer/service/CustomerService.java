@@ -4,6 +4,8 @@ package com.faitmain.domain.customer.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import com.faitmain.domain.customer.domain.BanStatus;
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.user.domain.User;
@@ -35,14 +37,24 @@ public interface CustomerService {
 	public List<Customer> getCustomerBoardList(char boardType, Paging paging) throws Exception;
 
 //	자주묻는질문 리스트 조회
-	public List<Customer> getFAQList(String FAQCategoryCode) throws Exception;
+	public List<Customer> getFAQList(String FAQCategoryCode, Paging paging) throws Exception;
 	
 //	게시판 총 개수
-	public int getBoardTotalCount(char boardType) throws Exception;
+	public int getBoardTotalCount(char boardType, Paging paging) throws Exception;
 	
 // 게시판 목록(페이징 적용)
 	public List<Customer> getListPaging(Paging paging) throws Exception;
 	
+//	게시판 총 개수
+	public int getFAQTotalCount(String FAQCategoryCode, Paging paging) throws Exception;
+	
+//	이미지 등록
+	public void addCustomerBoardImage(Image image) throws Exception;
+	
+//	이미지 수정
+	public void updateCustomerBoardImage(Image image) throws Exception;
+
+
 }
 //	public BanStatus updateBanStatus(int reportNumber) throws Exception;
 

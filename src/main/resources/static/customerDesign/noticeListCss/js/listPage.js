@@ -5,7 +5,7 @@ $(document).ready(function () {
 	let mForm = $("#modifyForm"); 
     let searchForm = $("#searchForm");
     let moveForm = $("#moveForm");	
- 	/* 페이지 이동 버튼 */
+ /* 페이지 이동 버튼 */
    	 $(".pageInfo a").on("click", function(e){
  		
  		e.preventDefault();
@@ -14,10 +14,10 @@ $(document).ready(function () {
          moveForm.submit();
  	});
 	
-	 /* 작거 검색 버튼 동작 */
+	 /* 게시판 검색 버튼 동작 */
     $("#searchForm button").on("click", function (e) {
 
-        e.preventDefault();
+         e.preventDefault();
         /* 검색 키워드 유효성 검사 */
         if (!searchForm.find("input[name='keyword']").val()) {
             alert("키워드를 입력하십시오");
@@ -27,16 +27,13 @@ $(document).ready(function () {
         searchForm.submit();
 
     });
-	 
-    $(".delete_btn").on("click", function (e) {
-
-        e.preventDefault();
-
-        let id = $(this).data("orderNumber");
-
-        $("#deleteForm").find("input[name='orderNumber']").val(id);
-        $("#deleteForm").submit();
+/* 삭제 버튼 */
+    $("#delete_btn").on("click", function (e) {
+ 		form.attr("action", "/customer/deleteBoard");
+ 		form.attr("method", "post");
+ 		form.submit();
     });
+    
 /* 목록 페이지 이동 버튼 */  
     $("#list_btn").on("click", function(e){
 		form.find("#boardNumber").remove();
@@ -62,21 +59,34 @@ $(document).ready(function () {
 		moveForm.submit();
 	});*/o
 	
-	 /* 목록 페이지 이동 버튼 */
-    $("#list_btn").on("click", function(e){
-        form.find("#bno").remove();
-        form.attr("action", "/board/list");
-        form.submit();
-    });
+
     
-    /* 수정 하기 버튼 */
-    $("#modify_btn").on("click", function(e){
-        mForm.submit();
-    });
-    
-    /* 취소 버튼 */
-    $("#cancel_btn").on("click", function(e){
-        form.attr("action", "/board/get");
-        form.submit();
-    });    
+      
 }); // ready
+
+$(document).ready(function(){
+	
+	let result = '<th:value="${result}"/>';
+	
+	checkAlert(result);
+	console.log(result);
+	
+	function checkAlert(result){
+		
+		if(result === ''){
+			return;
+		}
+		
+		if(result === "enroll success"){
+			alert("등록되었습니다.");
+		}
+		
+		if(result === "update success"){
+			alert("수정되었습니다.");
+		}
+		
+		if(result === "delete success"){
+			alert("삭제되었습니다.");
+		}
+	}
+});

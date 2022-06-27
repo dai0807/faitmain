@@ -9,13 +9,18 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.faitmain.domain.customer.domain.BanStatus;
 import com.faitmain.domain.customer.domain.Customer;
 import com.faitmain.domain.customer.mapper.CustomerMapper;
 import com.faitmain.domain.product.domain.Product;
+import com.faitmain.domain.user.domain.User;
+import com.faitmain.global.common.Image;
 import com.faitmain.global.common.Page;
 import com.faitmain.global.common.Paging;
-import com.faitmain.global.common.Search;
+
 
 
 
@@ -34,6 +39,7 @@ public class CustomerServiceImpl implements CustomerService{
 //	게시판 등록
 	@Override
 	public int addCustomerBoard(Customer customer) throws Exception {
+		
 		return customerMapper.addCustomerBoard(customer);
 	}
 
@@ -58,9 +64,14 @@ public class CustomerServiceImpl implements CustomerService{
 	
 //	FAQ 리스트 조회(카테고리 이용)	
 	@Override
-	public List<Customer> getFAQList(String FAQCategoryCode) throws Exception{
+	public List<Customer> getFAQList(String FAQCategoryCode, Paging paging) throws Exception{
 		
-		return customerMapper.getFAQList(FAQCategoryCode);
+		return customerMapper.getFAQList(FAQCategoryCode, paging);
+	}
+	
+// 게시물 총 개수
+	public int getFAQTotalCount(String FAQCategoryCode, Paging paging) throws Exception{
+		return customerMapper.getFAQTotalCount(FAQCategoryCode, paging);
 	}
 	
 //	라이브가이드 상세조회	
@@ -93,14 +104,27 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 	
 // 게시물 총 개수
-	public int getBoardTotalCount(char boardType) throws Exception{
-		return customerMapper.getBoardTotalCount(boardType);
+	public int getBoardTotalCount(char boardType, Paging paging) throws Exception{
+		return customerMapper.getBoardTotalCount(boardType, paging);
 	}
 	
 // 게시판 목록(페이징 적용)
 	public List<Customer> getListPaging(Paging paging) throws Exception{
 		return customerMapper.getListPaging(paging);
 	}
+	
+// 이미지 등록
+	@Override
+	public void addCustomerBoardImage(Image image) throws Exception {
+		customerMapper.addCustomerBoardImage(image);
+	}
+
+// 이미지 수정
+	@Override
+	public void updateCustomerBoardImage(Image image) throws Exception {
+		customerMapper.updateCustomerBoardImage(image);
+	}
+	
 	
 }
 

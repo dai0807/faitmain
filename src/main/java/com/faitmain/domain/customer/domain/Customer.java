@@ -14,13 +14,13 @@ public class Customer{
 	private String boardTitle;
 	private String boardContent;
 	private Date boardRegDate;
-	private Time boardUpdateDate;
+	private Date boardUpdateDate;
 	private String FAQCategoryCode;
 	private char boardType;
 	private User customerId;
 //	private int totalCount;
 	private int viewCount;
-	private String deleteYn;
+
 
 
 
