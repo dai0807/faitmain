@@ -2,10 +2,13 @@
 <html layout:decorate="~{layout/myPage_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	
-	
+
 	
 
 <head>
+
+    <script src = "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 	<script src="https://kit.fontawesome.com/10b89606ac.js" crossorigin="anonymous"></script>
 	
@@ -421,7 +424,7 @@
 
 					$("#button-newsletter").css("display", "inline-block"); // 주소 찾기 버튼 보이기
 					$("#phoneChk").css("display", "inline-block"); 			//번호 변경 버튼 보이기 
-					$("#button-newsletter").css("display", "inline-block"); // 주소 추가 버튼 
+				//	$("#button-newsletter").css("display", "inline-block"); // 주소 추가 버튼 
 					$("#userAddress3").attr("readonly", false);
 					$("#storeIntroduction").attr("readonly", false);
 
@@ -440,7 +443,7 @@
 
 					$("#button-newsletter").css("display", "none"); // 주소 찾기 버튼 보이기 x
 					$("#phoneChk").css("display", "none"); 			//번호 변경 버튼 보이기  x
-					$("#button-newsletter").css("display", "none"); // 주소 추가 버튼  x
+				//	$("#button-newsletter").css("display", "none"); // 주소 추가 버튼  x
 
 
 					$("#phone_C").css("display", "none"); // 휴대폰 인증 보이기

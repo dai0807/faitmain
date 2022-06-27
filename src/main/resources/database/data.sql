@@ -5,9 +5,15 @@ VALUES 			('admin@naver.com','$2a$10$5Lr5uObFPftkMoQa.vmtS.3ep3lF/HdxDMfQeDZsfQn
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
 VALUES  ('store01@naver.com','$2a$10$bBc8LEVW86ppQsDcmGLqSuyPRMjSlmLqc86eMKEuuGzAc9F8W2op2' ,'W',			'서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'01011212221','이지원',		 	'2022-04-20','HOME',	NULL,		NULL,		'20220612212554fac6d925-0d36-4f3d-88fa-d29731dcf6e0.PNG','수공예품점','store','손짓',0);
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
-VALUES  ('store02@naver.com','$2a$10$bBc8LEVW86ppQsDcmGLqSuyPRMjSlmLqc86eMKEuuGzAc9F8W2op2','M','서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'0104434567','정재완',		 	'2022-05-01','HOME',	NULL,		NULL,		'20220612211736fafe5da1-3fb3-4341-991f-042f9a98b694.png','dd','store','fait-main',0);
+VALUES  ('store02@naver.com','$2a$10$bBc8LEVW86ppQsDcmGLqSuyPRMjSlmLqc86eMKEuuGzAc9F8W2op2','M','서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'0104439967','정재완',		 	'2022-05-01','HOME',	NULL,		NULL,		'20220612211736fafe5da1-3fb3-4341-991f-042f9a98b694.png','든든한곳','store','fait-main',0);
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
 VALUES  ('store03@naver.com','$2a$10$bBc8LEVW86ppQsDcmGLqSuyPRMjSlmLqc86eMKEuuGzAc9F8W2op2','M','서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'01022408567','정인하',		 	'2022-05-14','HOME',	NULL,		NULL,		'store_min.jpg','건강하고 튼튼한 맛, 민하네 식탁','store','민하네식탁',0);
+
+INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
+VALUES  ('store04@naver.com','$2a$10$bBc8LEVW86ppQsDcmGLqSuyPRMjSlmLqc86eMKEuuGzAc9F8W2op2','M','서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'0101134567','정신완',		 	'2022-05-01','HOME',	NULL,		NULL,		'20220612211736fafe5da1-3fb3-4341-991f-042f9a98b694.png','단단한 수공예','store','Fait',0);
+INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
+VALUES  ('store05@naver.com','$2a$10$bBc8LEVW86ppQsDcmGLqSuyPRMjSlmLqc86eMKEuuGzAc9F8W2op2','M','서울특별시 강남구','userAddress2','userAddress3',		NULL 	,'01022497567','정인오',		 	'2022-05-14','HOME',	NULL,		NULL,		'store_min.jpg','건강하고 튼튼한 맛, 민하네 식탁','store','민하네에식탁',0);
+
 
 INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
 VALUES  ('hand01@naver.com','$2a$10$bBc8LEVW86ppQsDcmGLqSuyPRMjSlmLqc86eMKEuuGzAc9F8W2op2','W','13480','경기 성남시 분당구 대왕판교로 477','2층 203호',		NULL 	,'0101233968','구이빈',		 	'2022-05-20','HOME',	NULL,		NULL,		'store_s.PNG','손수만든 정성! 손짓','store','손짓손짓',0);
@@ -43,8 +49,16 @@ INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_a
  VALUES  ('bearbear11@naver.com','$2a$10$bBc8LEVW86ppQsDcmGLqSuyPRMjSlmLqc86eMKEuuGzAc9F8W2op2','M','13770','경기도 부천시 원흥로','노랑노랑 10층','곰돌곰돌','010698786','이지영',		 				'2022-06-20','HOME',NULL,1000,			NULL,NULL,'user',NULL,1);
 
 
+INSERT INTO user (id, password,		 	gender, 	user_address1, user_address2, user_address3, 	nickname, phone_number, name, 				reg_date, 	join_path, 	book_number, total_point, store_logo_image, store_introduction,  role, store_name, withdrawal_status)
+ VALUES  ( 'riri987@naver.com', '$2a$10$zxnRZCFU6jk8Ln8iP6i6cOoh7euukjJQ7Dx.I3CWKfhHOUeL/5o4u', 'W', '18316', '경기 화성시 봉담읍 최루백로 55', '2층', NULL, '01051872180', '최아란', '2022-06-27', 'HOME', NULL, NULL, '20220624190420a3140fb7-b5c5-4d89-9082-e0a281107e29.JPG', '안녕하세요 , 손수만든 허브티과 ,수제청을 판매하는 허뷰티입니다.', 'storeX', '허뷰우티', '0');
+
+
+
+
 /* store application document */
-INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10000,'store01@naver.com','R','우리 스토어 오랜동안 베이킹을 배운 장인이 만든 과자를 판매합니다. ','2022-05-02');
+INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10000,'store01@naver.com','R','<p> 장인이 손수 직접 만든 제품들을 판매팝니다. </p> ','2022-05-02');
+INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10001,'store01@naver.com','A','<p>손수 만든 수공예품을 판매 합니다.</p><p>손으로 한땀한땀 만들어 갑니다.</p><p><img src="/summernoteImage/b8e62260-a170-488a-82c3-3b3e64e5767e.JPG" style="width: 649px;"></p><p><img src="/summernoteImage/35b8b7bc-dc7f-4d88-a8f2-e9d0380f2c06.JPG" style="width: 514px;"><br></p><p><img src="/summernoteImage/2d46cc2d-3da3-402d-a34b-becd3b3bb9d8.JPG" style="width: 365px;"><img src="/summernoteImage/b3e0e7e0-74bb-4e0d-bc65-815b048b8dcc.JPG" style="width: 441px;"><br></p><p>저희 상점은 이런 제품들을 손수 만들어 판매할 예정입니다.&nbsp;</p>','2022-05-03');
+
 INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10001,'store02@naver.com','A','우리스토어','2022-05-30');
 INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10002,'store03@naver.com','W','product_detail 3','2022-05-30');
 INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10003,'store01@naver.com','A','product_detail 4','2022-05-30');
@@ -56,6 +70,8 @@ INSERT INTO store_application_document (`store_application_document_number`,`id`
 INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10007,'hand01@naver.com','A','직접 손으로 만든 핸메이드 제품들을 하나하나 제작 합니다.','2022-04-01');
 INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10008,'saebom01@naver.com','W',' 새봄새봄은 필요한 제품들을 한땀한땀 만듭니다.','2022-05-07');
 INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10009,'newnew01@naver.com','A','뉴뇨냐냐','2022-05-10');
+INSERT INTO store_application_document (`store_application_document_number`,`id`,`examination_status`,`product_detail`,`reg_date`) VALUES (10010,'riri987@naver.com','W','<p>구매자들의 건강을 생각해서 직접 손수 만드는 수제청을 제작합니다.&nbsp;</p><p><br></p><p>저희 스토어 대표&nbsp; 상품 샤인머스캣 청입니다.</p><p><img src="/summernoteImage/69fd27bb-aadb-489e-9f6f-ee1750bbf47a.JPG" style="width: 468.281px;"></p><p><img src="/summernoteImage/c4c84c82-da29-4ef4-9ecd-ec7827648532.JPG" style="width: 468.281px;"><br></p><p>샤인 머스켓을 먹기 좋은 크기로 잘라서 직접제작합니다.</p><p>어린 아이들에게도 인기가 좋습니다.&nbsp;<img src="/summernoteImage/9cf13352-4a83-40fb-a91d-6464aada05ef.JPG" style="width: 468.281px;"></p><p><img src="/summernoteImage/56826a76-9bf4-49bb-ba98-0a64f3d64ae3.JPG" style="width: 468.281px;"></p><p>다양한 상품들을 판매할 예정입니다.&nbsp;<br></p>'
+,'2022-06-27');
 
 
 
