@@ -12,41 +12,48 @@ traq.net.nz/thymeleaf/layout">
 	<script src="https://code.jquery.com/jquer-latest.js"></script>
 	
 	<script type="text/javascript">
-		function update(){
+		function optionAdd(){
 			
-			console.log("FAQ 수정")
-			var updateval = $("#update").html();
-			
-			if(updateval == '수정'){
+			$(document).on("click", "#updateFAQ", function(){
 				
-				$("#title").attr("readonly", false);
-				$("contents").attr("readonly", false);
-				$("updateFAQ").html('수정')
-			}else{
+				console.log("FAQ 수정")
+				var updateval = $("#update").html();
 				
-				var formdata = $(".table").serialize();
-				formdata = decodeURIComponent(formdata);
-				
-				$.ajax({
-					type:"POST",
-					url:"/customer/json/updateCustomerBoard",
-					data: formdata,
+				if(updateval == '수정'){
 					
-					success: function(result){
+					$("#title").attr("readonly", false);
+					$(".contents").attr("readonly", false);
+					$("updateFAQ").html('수정')
+				}else{
+					
+					var formdata = $(".table").serialize();
+					formdata = decodeURIComponent(formdata);
+					
+					$.ajax({
+						type:"POST",
+						url:"/customer/json/updateCustomerBoard",
+						data: formdata,
 						
-						if(result == 1){
-							alert("수정완료")
-						}else{
-							alert("수정 실패")
+						success: function(result){
+							
+							if(result == 1){
+								alert("수정완료")
+							}else{
+								alert("수정 실패")
+							}
 						}
-					}
-				});
+					});
 				
-				$("#title").attr("readonly", true);
-				$("contents").attr("readonly", true);
-				$("updateFAQ").html('수정')
-			}
-		}
+					$("#title").attr("readonly", true);
+					$(".contents").attr("readonly", true);
+					$("updateFAQ").html('수정')
+				}
+			});
+			
+			$("#deleteFAQ").on("click", function(){
+				
+			});
+			
 		</script>
 		<script type="text/javascript">
 		function getList(code){
@@ -97,74 +104,73 @@ traq.net.nz/thymeleaf/layout">
 <body>
 
 
-
 <article class = "fq-1" layout:fragment = "content">
 	<div class="container">
 	
+		<input type="hidden" name="boardType" value='F'/> 
 		<h3 class ="mb-5">자주묻는질문</h3>
 		<hr/>
 	
 		<table class="table">
-		<div id="faq-links">
-		    <div id="total" class="faq-selected">
-		    	<button style= "border:0; outline:0; background-color: white;" onclick="getList('00')">전체</button>
-		    </div>
-		    <div id="pay" >
-		    	<button style= "border:0; outline:0; background-color: white;" onclick="getList('01')">결제</button>
-		    </div>
-		    <div id="return" >
-		    	<button style= "border:0; outline:0; background-color: white;" onclick="getList('02')">교환/반품</button>
-		    </div>
-		    <div id="order" >
-		    	<button style= "border:0; outline:0; background-color: white;" onclick="getList('03')">배송</button>
-		    </div>
-		    <div id="live" >
-		    	<button style= "border:0; outline:0; background-color: white;" onclick="getList('04')">라이브</button>
-		    </div>
-		    <div id="point">
-		    	<button style= "border:0; outline:0; background-color: white;" onclick="getList('05')">포인트</button>
-		    </div>
-		</div>
+			<div id="faq-links">
+			    <div id="total" class="faq-selected">
+			    	<button style= "border:0; outline:0; background-color: white;" onclick="getList('00')">전체</button>
+			    </div>
+			    <div id="pay" >
+			    	<button style= "border:0; outline:0; background-color: white;" onclick="getList('01')">결제</button>
+			    </div>
+			    <div id="return" >
+			    	<button style= "border:0; outline:0; background-color: white;" onclick="getList('02')">교환/반품</button>
+			    </div>
+			    <div id="order" >
+			    	<button style= "border:0; outline:0; background-color: white;" onclick="getList('03')">배송</button>
+			    </div>
+			    <div id="live" >
+			    	<button style= "border:0; outline:0; background-color: white;" onclick="getList('04')">라이브</button>
+			    </div>
+			    <div id="point">
+			    	<button style= "border:0; outline:0; background-color: white;" onclick="getList('05')">포인트</button>
+			    </div>
+			</div>
 	
 			<div id="faq-wrapper" class="about-service ">
 			
-			<div class="faq-group">
-			        <div class="slide-left">
-			            <!-- <div>service</div> -->
-			        </div>
-			    <hr>
-			</div><!--faq-group-->
-			<div class="slide-left">
-			              <div  class="faq">
-			                 <ul class="faq-accordion" th:if="${not #lists.isEmpty(boardList)}" th:each="row : ${boardList}">
-			
-			                    <li>
-			                        <a title="Click" th:text="${row.boardTitle}"></a>
-			                         <ul class="faq-content">
-			                            <li>
-			                                <div><p th:text="${row.boardContent}"></p></div>
-			                            </li>
-			                        </ul> 
-			                    </li>
-			                    <button type="button" id="updateFAQ" class="btn_updateFAQ" th:onclick="update()" >수정</button>
-			                    </ul>
-			            </div>
-			</div>
-			</div>
-				
-
-
-
-
-
-
-
-
- 
+				<div class="faq-group">
+				        <div class="slide-left">
+				            <!-- <div>service</div> -->
+				        </div>
+				    <hr>
+				</div><!--faq-group-->
+				<div class="slide-left">
+	              <div  class="faq">
+	                 <ul class="faq-accordion" th:if="${not #lists.isEmpty(boardList)}" th:each="row : ${boardList}">
+	
+	                    <li>
+	                        <a id="title" title="Click" th:text="${row.boardTitle}"></a>
+	                        	<ul class="faq-content">
+		                            <li style= "width: auto;">
+		                                <div><p class="contents"><textarea class="textarea" th:text="${row.boardContent}" style="background:#ececec; border:none; width: 650px; hegith:auto;" readonly/></p></div>
+		                                <th:block sec:authorize="isAuthenticated()">
+										<div class="btn_wrap text-right" sec:authorize="hasRole('ROLE_admin')">
+			                   				 <button type="button" id="updateFAQ" class="btn_updateFAQ" th:onclick="update()" 
+			                   				 style= "border:0; outline:0; ">수정</button>
+			                   				 <button type="button" id="deleteFAQ" class="btn_deleteFAQ" th:onclick="delete()" 
+			                   				 style= "border:0; outline:0; ">삭제</button>
+			                   			</div> 	
+										</th:block>	 
+		                            </li>
+	                        	</ul> 
+	                   		 </li>
+	                    </ul>
+	           		 </div>
+					</div>
+				</div>
+			 
         </table>
      
      </div><!--container-->
       <script type="text/javascript" th:src="@{/customerDesign/faqCss/js/cFAQ.js}"></script>
-    </article>
+</article>
+
 </body>
 </html> 

@@ -12,29 +12,9 @@
 		<result property="boardUpdateDate"				column="update_date" 				jdbcType="DATE" />
 		<result property="FAQCategoryCode"			 	column="customer_FAQ_category_code" jdbcType="VARCHAR" />
 		<result property="boardType"  					column="customer_board_type" 		jdbcType="CHAR" />
-		<result property="viewCount"  					column="view_cnt" 					jdbcType="INTEGER" />
-		<result property="deleteYn"  					column="delete_yn" 					jdbcType="VARCHAR" />
-		<!-- <result property="image"  						column="boardImage" 				jdbcType="VARCHAR" /> -->
 		<association property="customerId" javaType="User" >	
 			<id property="id" column="customer_id" jdbcType="VARCHAR"/>
 		</association>
-	</resultMap>
-	
-	<resultMap id="banStatusMap" type="com.faitmain.domain.customer.domain.BanStatus">
-		<result property="reportNumber"				column="report_number" 			jdbcType="INTEGER"/>
-		<result property="respondentId"				column="respondent_id"			jdbcType="VARCHAR" />
-		<result property="respondentNickname"  		column="respondent_nickname"	jdbcType="VARCHAR" />
-		<result property="respondentStoreName" 		column="respondent_store_name" 	jdbcType="VARCHAR" />
-		<result property="statusNumber"  			column="status_number"			jdbcType="INTEGER" />
-		<result property="periodNumber"  			column="ban_period_number" 		jdbcType="INTEGER" />
-		<result property="endDate"					column="ban_end_date" 			jdbcType="DATE" />
-		
-		<association property="customerId" javaType="com.faitmain.domain.user.domain.User" >	
-			<id property="id" column="customer_id" jdbcType="VARCHAR"/>
-			<result property="respondentNickname" column="respondent_nickname" jdbcType="VARCHAR"/>
-			<result property="respondentStoreName" column="respondent_store_name" jdbcType="VARCHAR"/>
-		</association>
-		
 	</resultMap>
 	
 	<resultMap id="imageSelectMap" type="com.faitmain.global.common.Image">
@@ -52,7 +32,7 @@
 	 <select id="getCustomerBoard" parameterType="int" resultType="Customer" resultMap ="customerMap" >
 
     	SELECT 
-    	customer_board_number, customer_board_title, customer_board_content, view_cnt, 
+    	customer_board_number, customer_board_title, customer_board_content, 
 		reg_date, update_date, customer_FAQ_category_code, customer_board_type, customer_id
     	FROM customer 
     	<where>
@@ -76,9 +56,9 @@
 	<insert id="addCustomerBoard" parameterType="Customer" >
 		    INSERT INTO customer
 		    ( customer_board_title, customer_board_content, 
-		     delete_yn, reg_date, update_date, customer_FAQ_category_code, customer_board_type,  customer_id )
+		      reg_date, update_date,customer_FAQ_category_code, customer_board_type,  customer_id  )
 		VALUES
-		    ( #{boardTitle}, #{boardContent},'N', NOW(), NULL, #{FAQCategoryCode}, #{boardType}, #{customerId.id} )    
+		    ( #{boardTitle}, #{boardContent}, NOW(), NULL, #{FAQCategoryCode}, #{boardType}, #{customerId.id} )    
 	</insert>
 	
 	
@@ -89,9 +69,6 @@
     		customer_board_title	= #{boardTitle},
     		customer_board_content	= #{boardContent},
     		reg_date				= NOW()
-    		<!-- customer_id				= #{customerId.id} -->
-    		<!-- customer_FAQ_category_code = #{FAQCategoryCode}, -->
-    		<!-- image_number			= #{imageNumber}, -->
     	</set>
 		<where> 
 			customer_board_number = #{boardNumber}
@@ -130,17 +107,25 @@
 	<select id="getCustomerBoardList" parameterType="com.faitmain.global.common.Paging" resultMap="customerMap">
 	
 			SELECT * FROM(
-		SELECT customer_board_number, customer_board_title, customer_id, reg_date, customer_board_type  
-		FROM customer 
-		<where>
-			customer_board_type = #{boardType}
-		</where>
-		ORDER BY reg_date DESC) as T1
-		
-		LIMIT #{paging.skip}, #{paging.amount}
-		
-		
+							SELECT customer_board_number, customer_board_title, customer_id, reg_date, customer_board_type  
+							FROM customer 
+							<where>
+								customer_board_type = #{boardType}
+									<if test="paging.keyword != null">
+									AND	 customer_board_title LIKE concat('%',#{paging.keyword}, '%')
+									</if>
+							</where>
+							ORDER BY reg_date DESC ) as T1
+			LIMIT #{paging.skip}, #{paging.amount}
+							
 	</select>
+		
+		
+		
+							
+							
+	
+	
     
      <select id="getListPaging"   resultType="Customer"   >
      
@@ -215,10 +200,12 @@
     
     	SELECT COUNT(*)
     	FROM customer
-    	<where>
-    		customer_board_type = #{boardType}
-    	</where> 
-    
+	    	 <where>
+	    		customer_board_type = #{boardType}
+		   			<if test = "paging.keyword != null">
+		    		AND	customer_board_title LIKE concat('%',#{paging.keyword}, '%')
+			    	</if>
+	    	</where>
     </select> 
     
     
@@ -226,7 +213,14 @@
     
     
 <!-- ============================================================================= -->	
-
+	<!-- <update id="viewCount">
+		UPDATE
+			customer
+		SET
+			view_cnt = view_cnt + 1
+		WHERE
+			customer_id = #{customerId}
+	</update> -->
 
 
  	

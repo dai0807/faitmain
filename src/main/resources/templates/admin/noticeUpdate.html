@@ -13,7 +13,7 @@
 		
 		 <!--  고유 스크립트 추가 -->
     <script type="text/javascript"
-    		th:src = "@{/customerDesign/noticeListCss/js/updatePage.js}"></script>
+    		th:src = "@{/customerDesign/noticeListCss/js/noticeUpdate.js}"></script>
 	</th:block>
 	
 
@@ -34,72 +34,74 @@
 </head>
 
 
-
-
-
 <body>
 	<th:block layout:fragment="content">
 		<div id="out" class="container" >
 	
 			<div id="in" class="page-header">
-				<h2>공지사항</h2>
+				<h2>공지사항 수정</h2>
 				<hr />
 			</div>
-	     	   <form id="modifyForm" method="post" th:action="@{/customer/detailBoard}" >
-   				 <input type="hidden" name="boardNumber" th:value="${customer.boardNumber}">
-	   			 <input type="hidden" name="boardType" value='N'/>
-	   			 
-	   			 <table class="table">
-	   			 <tbody>
-					<tr>
-						 <th:block   sec:authorize="isAuthenticated()" >
-	       				 	<div class="btn_wrap text-center" sec:authorize="hasRole('ROLE_admin')">
-								<th scope="row" style="padding:13px 0 0 15px;">글 번호</th>
-								<td th:text="${customer.boardNumber}"></td>
-								</div>
-						</th:block>
-					</tr>
-					<tr>
-						<th scope="row" style="padding:13px 0 0 15px;">작성자</th>
-							<td th:text="${customer.customerId.id}"></td>
-						<th scope="row" style="padding:13px 0 0 15px;">작성일</th>
-							<td th:text="${#dates.format( customer.boardRegDate, 'yyyy-MM-dd HH:mm:ss' )}"></td>
-						<th scope="row" style="padding:13px 0 0 15px;">조회수</th>
-							<td th:text="${customer.viewCount}"></td>
-					</tr>
-					<tr>
-						<th scope="row" style="padding:13px 0 0 15px;">제목</th>
-						<td colspan="3">
-							<input type="text" id="title" name="boardTitle" 
-								th:value="${customer.boardTitle } "  style="resize:none; border:none;" />
-						</td>
+	     		<form id="modifyForm" method="post" th:action="@{/customer/updateBoard}" >
+	   				<input type="hidden" name="boardNumber" th:value="${customer.boardNumber}">
+		   			<input type="hidden" name="boardType" value='N'/>
+		   			 
+		   			 <table class="table">
+		   			 	<tbody>
+							<tr>
+								 <th:block   sec:authorize="isAuthenticated()" >
+			       				 	<div class="btn_wrap text-center" sec:authorize="hasRole('ROLE_admin')">
+										<th scope="row" style="padding:13px 0 0 15px;">글 번호</th>
+										<td th:text="${customer.boardNumber}"></td>
+										</div>
+								</th:block>
+							</tr>
+							<tr>
+								<th scope="row" style="padding:13px 0 0 15px;">작성자</th>
+									<td th:text="${customer.customerId.id}"></td>
+								<th scope="row" style="padding:13px 0 0 15px;">작성일</th>
+									<td th:text="${#dates.format( customer.boardRegDate, 'yyyy-MM-dd'  )}"></td>
+								<th scope="row" style="padding:13px 0 0 15px;">조회수</th>
+									<td th:text="${customer.viewCount}"></td>
+							</tr>
+							<tr>
+								<th scope="row" style="padding:13px 0 0 15px;">제목</th>
+								<td colspan="3">
+									<input type="text" id="title" name="boardTitle" 
+										th:value="${customer.boardTitle } "  style="resize:none; border:none;" />
+								</td>
+								
+							</tr>
+							<tr>
+								<td colspan="6"  class="view_text">
+									<textarea title="내용" id="contents" name="boardContent"  class="form-control input-sm"  style="height: 500px; resize:none; border:none; min-height:350px; "
+										th:text="${customer.boardContent }" ></textarea>
+									<span class="help-block"></span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+			       
+			        <th:block   sec:authorize="isAuthenticated()" >
+				        <div class="btn_wrap" sec:authorize="hasRole('ROLE_admin')">
+				        	<a class="btn" id="list_btn">목록 페이지</a>	
+				        	<a class="btn" id="modify_btn">수정 완료</a>		
+								
 						
-					</tr>
-					<tr>
-						<td colspan="6"  class="view_text">
-							<textarea title="내용" id="contents" name="boardContent"  class="form-control input-sm"  style="height: 500px; resize:none; border:none; min-height:350px; "
-								th:text="${customer.boardContent }" ></textarea>
-							<span class="help-block"></span>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-	       
-	        <th:block   sec:authorize="isAuthenticated()" >
-		        <div class="btn_wrap" sec:authorize="hasRole('ROLE_admin')">
-		        	<a class="btn" id="list_btn">목록 페이지</a>	
-		        	<a class="btn" id="modify_btn">수정 완료</a>		
-					<a class="btn" id="cancel_btn">수정 취소</a>	
+						</div>
+					</th:block>
+				 </form>
+					
+					<form id="infoForm"	th:action="@{/customer/updateBoard}" method="get">
+						<input type="hidden" id="boardNumber" name="boardNumber" th:text="${customer.boardNumber}"/>
+						<input type="hidden" id="boardType" name="boardType" value="N"/>
+						<!-- <input type="hidden" id="pageNum" name="pageNum" th:value="${pageMaker.pageNum}"/>
+						<input type="hidden" name = "amount" th:value = "${pageMaker.paging.amount}" />
+						<input type="hidden" name = "keyword" th:value = "${pageMaker.paging.keyword}" > -->
+					
+					</form>
+		</div>
 				
-				</div>
-			</th:block>
-			
-				
-				<form id="infoForm"	th:action="@{/customer/updateBoard}" method="post">
-					<input type="hidden" id="boardNumber" name="boardNumber" th:text="${customer.boardNumber}"/>
-				</form>
-		 </form>
-	</div>
 	<!-- <th:block layout:fragment="script"> -->
 	
 	</th:block> 

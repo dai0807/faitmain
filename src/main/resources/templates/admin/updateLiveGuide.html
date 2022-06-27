@@ -92,7 +92,7 @@
 		<h4>라이브 가이드 수정</h4>
 		<hr />
 	<div class="container">
-		<form method="post" th:action="@{/customer/updateBoard}"   name="updateGuideForm" id="updateGuideForm" class="form-h">
+		<form method="post" th:action="@{/customer/updateBoard}"  name="updateGuideForm" id="updateGuideForm" class="form-h">
 		
 		<input type="hidden" name="boardType" value='L'/>
 		
@@ -100,7 +100,7 @@
 			<div class="form-group">
 				<textarea id="summernote" name="boardContent" >
 				
-					<th:block th:utext = "${customer.boardContent }"></th:block>
+					<th:block th:utext = "${customer?.boardContent }"></th:block>
 				</textarea>
 					
 			</div>
