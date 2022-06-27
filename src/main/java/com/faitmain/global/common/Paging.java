@@ -2,6 +2,8 @@ package com.faitmain.global.common;
 
 import java.util.Arrays;
 
+import lombok.Data;
+
 public class Paging{
 
     /* 현재 페이지 번호 */

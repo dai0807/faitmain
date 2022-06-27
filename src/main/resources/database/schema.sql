@@ -149,31 +149,32 @@ CREATE TABLE `image` (
                      );
 
 CREATE TABLE `customer` (
-                        `customer_board_number`      int       NOT NULL AUTO_INCREMENT ,
+                        `customer_board_number`      int       	NOT NULL AUTO_INCREMENT ,
                         `customer_board_title`       varchar(30)    DEFAULT NULL ,
-                        `customer_board_content`     LONGTEXT  NOT NULL ,
-                        `reg_date`                   TIMESTAMP NOT NULL ,
-                        `update_date`                TIMESTAMP      DEFAULT NULL ,
+                        `customer_board_content`     LONGTEXT  		NOT NULL ,
+                        `reg_date`                   DATA		 	NOT NULL ,
+                        `update_date`                DATA 		     DEFAULT NULL ,
                         `customer_FAQ_category_code` VARCHAR(2)     DEFAULT NULL ,
-                        `customer_board_type`        CHAR(1)   NOT NULL ,
-                        `customer_id`                varchar(25)    DEFAULT NULL ,
-                        `delete_yn`                  ENUM ('Y','N') DEFAULT 'N' ,
-                        `view_cnt`                   int            DEFAULT 0 ,
+                        `customer_board_type`        CHAR(1)  		 NOT NULL ,
+                        `customer_id`                varchar(25)    DEFAULT NULL ,                                   
                         PRIMARY KEY ( `customer_board_number` ) ,
                         FOREIGN KEY ( `customer_id` ) REFERENCES `user` ( `id` )
                         );
 
 
 
-CREATE TABLE `ban_period` (
-                          `report_number`         int         NOT NULL ,
+CREATE TABLE `report` (
+                          `report_number`         int         NOT NULL AUTO_INCREMENT,
                           `respondent_id`         varchar(25) NOT NULL ,
                           `respondent_nickname`   varchar(20) NOT NULL ,
                           `respondent_store_name` varchar(20) NOT NULL ,
+                          `report_title`      	  varchar(30) NOT NULL ,
+                          `report_content`        VARCHAR(2000)  NOT NULL ,
+                          `reg_date`              DATE			 NOT NULL ,
                           `status_number`         int DEFAULT NULL ,
                           `ban_period_number`     int DEFAULT NULL ,
                           `ban_end_date`          date        NOT NULL ,
-                          FOREIGN KEY ( `report_number` ) REFERENCES `customer` ( `customer_board_number` ) ,
+                          PRIMARY KEY ( `report_number` ) ,
                           FOREIGN KEY ( `respondent_id` ) REFERENCES `user` ( `id` ) ,
                           FOREIGN KEY ( `respondent_nickname` ) REFERENCES user ( nickname ) ,
                           FOREIGN KEY ( `respondent_store_name` ) REFERENCES user ( store_name )
