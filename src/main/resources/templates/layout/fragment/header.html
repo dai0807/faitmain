@@ -18,7 +18,7 @@
 					</div>
 
 					<div class="right-top-bar flex-w h-full">
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
+						<a sec:authorize="isAnonymous()" th:href="@{/user/addUser}" class="flex-c-m trans-04 p-lr-25">
 							회원가입
 						</a>
 
