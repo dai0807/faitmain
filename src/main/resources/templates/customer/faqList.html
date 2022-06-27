@@ -9,51 +9,49 @@
 	<title>faitmain</title>
 	<script src="https://code.jquery.com/jquer-1.12.4.min.js"></script>
 	<script src="https://code.jquery.com/jquer-latest.js"></script>
+	 <!-- Channel Plugin Scripts -->
+<script>
+  (function() {
+    var w = window;
+    if (w.ChannelIO) {
+      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
+    }
+    var ch = function() {
+      ch.c(arguments);
+    };
+    ch.q = [];
+    ch.c = function(args) {
+      ch.q.push(args);
+    };
+    w.ChannelIO = ch;
+    function l() {
+      if (w.ChannelIOInitialized) {
+        return;
+      }
+      w.ChannelIOInitialized = true;
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.async = true;
+      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+      s.charset = 'UTF-8';
+      var x = document.getElementsByTagName('script')[0];
+      x.parentNode.insertBefore(s, x);
+    }
+    if (document.readyState === 'complete') {
+      l();
+    } else if (window.attachEvent) {
+      window.attachEvent('onload', l);
+    } else {
+      window.addEventListener('DOMContentLoaded', l, false);
+      window.addEventListener('load', l, false);
+    }
+  })();
+  ChannelIO('boot', {
+    "pluginKey": "d7f92812-9849-482b-84c6-731d4076b5df"
+  });
+</script>
+<!-- End Channel Plugin -->		
 	
-	<script type="text/javascript">
-		function optionAdd(){
-			
-			$(document).on("click", "#updateFAQ", function(){
-				
-				console.log("FAQ 수정")
-				var updateval = $("#update").html();
-				
-				if(updateval == '수정'){
-					
-					$("#title").attr("readonly", false);
-					$(".contents").attr("readonly", false);
-					$("updateFAQ").html('수정')
-				}else{
-					
-					var formdata = $(".table").serialize();
-					formdata = decodeURIComponent(formdata);
-					
-					$.ajax({
-						type:"POST",
-						url:"/customer/json/updateCustomerBoard",
-						data: formdata,
-						
-						success: function(result){
-							
-							if(result == 1){
-								alert("수정완료")
-							}else{
-								alert("수정 실패")
-							}
-						}
-					});
-				
-					$("#title").attr("readonly", true);
-					$(".contents").attr("readonly", true);
-					$("updateFAQ").html('수정')
-				}
-			});
-			
-			$("#deleteFAQ").on("click", function(){
-				
-			});
-			
-		</script>
 		<script type="text/javascript">
 		function getList(code){
 			console.log(code)
@@ -106,7 +104,6 @@
 <article class = "fq-1" layout:fragment = "content">
 	<div class="container">
 	
-		<input type="hidden" name="boardNumber" th:value="${customer.boardNumber}">
 		<input type="hidden" name="boardType" value='F'/> 
 		<h3 class ="mb-5">자주묻는질문</h3>
 	
@@ -152,7 +149,8 @@
 		                                		<textarea id="contents" name="boardContent" class="textarea" th:text="${row.boardContent}" style="background:#ececec; border:none; width: 650px; hegith:auto;" readonly></textarea>
 		                              		</p>
 		                                </div>
-                                	
+                                 			<input type="hidden" name="boardNumber" th:value="${row.boardNumber}">
+                                 	
 									        
 									        <form id = "moveForm" method = "get" th:action = "@{/customer/listBoard}">
 										        <input name = "pageNum" th:value = "${pageMaker.paging.pageNum}" type = "hidden">
@@ -162,10 +160,10 @@
 											                               
 		                                <th:block sec:authorize="isAuthenticated()">
 										<div class="btn_wrap text-right" sec:authorize="hasRole('ROLE_admin')">
-			                   				 <button type="button" id="updateFAQ" class="btn_updateFAQ" th:onclick="update()" 
-			                   				 style= "border:0; outline:0; ">수정</button>
+			                   				 <button type="button" id="updateFAQ" class="btn_updateFAQ" onclick="updateC()" 
+			                   				 style= "border:0; outline:0;"    >수정</button>
 			                   				 <button type="button" id="deleteFAQ" class="btn_deleteFAQ" th:onclick="delete()" 
-			                   				 style= "border:0; outline:0; ">삭제</button>
+			                   				 style= "border:0; outline:0;">삭제</button>
 			                   			</div> 	
 										</th:block>	 
 		                            </li>
@@ -177,7 +175,50 @@
 				</div>
 			 
         </table>
-        
+        <script type="text/javascript">
+		function updateC(){
+			
+			$(document).on("click", "#updateFAQ", function(){
+				
+				console.log("FAQ 수정")
+				var updateval = $("#update").html();
+				
+				if(updateval == '수정'){
+					
+					$("#title").attr("readonly", false);
+					$(".contents").attr("readonly", false);
+					$("updateFAQ").html('수정')
+				}else{
+					
+					var formdata = $(".table").serialize();
+					formdata = decodeURIComponent(formdata);
+					
+					$.ajax({
+						type:"POST",
+						url:"/customer/json/updateCustomerBoard",
+						data: formdata,
+						
+						success: function(result){
+							
+							if(result == 1){
+								alert("수정완료")
+							}else{
+								alert("수정 실패")
+							}
+						}
+					});
+				
+					$("#title").attr("readonly", true);
+					$(".contents").attr("readonly", true);
+					$("updateFAQ").html('수정')
+				}
+			});
+			
+			$("#deleteFAQ").on("click", function(){
+				
+			});
+			
+		</script>
         <!--         페이지 이동 인터페이스 영역-->
 		<div class="pageMaker_wrap text-center p-t-50">
 			<div class="pageInfo_area">
