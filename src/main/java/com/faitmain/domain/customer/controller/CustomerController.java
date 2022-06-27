@@ -189,11 +189,13 @@ public class CustomerController {
 			User user = (User) securityUserService.getUser();
 			url = "admin/liveGuideList";
 			
-		}  
+		}else if(customer.getBoardType() == 'F') {
+			url = "customer/faqList";
+		}
 		return url;
 		
 	}
-	
+	/*
 	@GetMapping("listFAQ")
 	public String getFAQList(@ModelAttribute Customer customer, Model model, 
 									   @ModelAttribute Paging paging) throws Exception {
@@ -211,7 +213,7 @@ public class CustomerController {
 		model.addAttribute("pageMaker", page);
 		
 		return "customer/faqList";
-	}
+	}*/
 	@GetMapping("detailBoard")
 	public  String getCustomerBoard(@RequestParam Integer boardNumber, Model model, Paging paging) throws Exception{
 	

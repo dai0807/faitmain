@@ -46,10 +46,7 @@ public interface CustomerMapper {
 	public int getBoardTotalCount(@Param("boardType") char boardType, @Param("paging") Paging paging) throws Exception;
 	
 //	FAQ 리스트 조회(카테고리이용)	
-	public List<Customer> getFAQList(@Param("FAQCategoryCode")String FAQCategoryCode, @Param("paging")Paging paging ) throws Exception;
-	
-//	FAQ게시판 총 개수
-	public int getFAQTotalCount(@Param("FAQCategoryCode")String FAQCategoryCode, @Param("paging") Paging paging) throws Exception;	
+	public List<Customer> getFAQCategoryList(String FAQCategoryCode) throws Exception;
 	
 // 	게시판 목록(페이징 적용)
 	public List<Customer> getListPaging(Paging paging) throws Exception;
@@ -59,10 +56,5 @@ public interface CustomerMapper {
 	
 //	이미지 수정
 	public void updateCustomerBoardImage(Image image) throws Exception;
-
-
-	
-	
 	
 }
-

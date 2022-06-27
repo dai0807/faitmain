@@ -71,13 +71,13 @@ public class CustomerRestController {
 		
 		System.out.println(FAQCategoryCode);
 		if(FAQCategoryCode.equals("00")) {
-			List<Customer> boardList = customerService.getFAQList(FAQCategoryCode, paging);
+			List<Customer> boardList = customerService.getFAQList("");
 	
 			return boardList;	
 		
 		}else {
 		
-			List<Customer> boardList = customerService.getFAQList(FAQCategoryCode, paging);;
+			List<Customer> boardList = customerService.getFAQList(FAQCategoryCode);
 			System.out.println(boardList);
 
 			return boardList;
@@ -160,9 +160,3 @@ public class CustomerRestController {
 	
 	
 }
-	
-	
-	
-	
-
-
