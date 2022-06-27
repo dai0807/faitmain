@@ -57,16 +57,28 @@ public class CustomerController {
 
 	@GetMapping("addNotice")
 	public String openNotice() throws Exception{
+		
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+		
 		return "admin/noticeForm";
 	}	
 
 	@GetMapping("addLiveGuide")
 	public String openGuide() throws Exception{
+		
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+		
 		return "admin/liveGuideForm";
 	}
 	
 	@GetMapping("addFAQ")
 	public String openFAQ() throws Exception{
+		
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+		
 		return "admin/faqForm";
 	}
 	
@@ -173,21 +185,34 @@ public class CustomerController {
 			url= "customer/noticeList";
 						
 		}else if(customer.getBoardType() == 'L') {
-			
+			SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+			User user = (User) securityUserService.getUser();
 			url = "admin/liveGuideList";
 			
-		}else if(customer.getBoardType() == 'F'){	
-			
-			url="customer/faqList";
-		
-		}       
+		}  
 		return url;
 		
 	}
 	
-
-	
-	@RequestMapping("detailBoard")
+	@GetMapping("listFAQ")
+	public String getFAQList(@ModelAttribute Customer customer, Model model, 
+									   @ModelAttribute Paging paging) throws Exception {
+		System.out.println("=====listFAQBoard======");
+		List<Customer> boardList = customerService.getFAQList(customer.getFAQCategoryCode(), paging);
+		int total = customerService.getFAQTotalCount(customer.getFAQCategoryCode(), paging);
+		System.out.println(paging);
+        Page page = new Page(paging, total);
+		model.addAttribute("FAQList", boardList);
+		System.out.println("FAQList ="+boardList);
+		
+		model.addAttribute("pageMaker", customerService.getListPaging(paging));
+		System.out.println("pageMaker ="+customerService.getListPaging(paging));
+		
+		model.addAttribute("pageMaker", page);
+		
+		return "customer/faqList";
+	}
+	@GetMapping("detailBoard")
 	public  String getCustomerBoard(@RequestParam Integer boardNumber, Model model, Paging paging) throws Exception{
 	
 		System.out.println("boardNumber = "+boardNumber);
