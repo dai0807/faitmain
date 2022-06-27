@@ -21,31 +21,7 @@
 -->
     <title>faitmain</title>
     
-    <style>
-    
-    	th, td{
-			
-			text-align: center;
-				
-		}
-		
-		td > a{
-			color: #777;
-			font-weight: bold;
-		}
-		
-		td > a:hover{
-			color: black;
-		}
-		
-		.btn{			
-			background-color: #333;
-			border: none;
-			margin-right: 10px;
-		}
-    	
-    </style>
-    
+  	<link rel="stylesheet"  th:href="@{/customerDesign/liveGuide/list/css/style.css}">
     <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
 	    <script type="text/javascript">
 	    $(function(){
@@ -178,7 +154,33 @@
 				</tbody>
 				
 			</table>
-			
+					  <!--         페이지 이동 인터페이스 영역-->
+				<div class="pageMaker_wrap text-center p-t-50">
+					<div class="pageInfo_area">
+						<ul class="pageMaker">
+							<!--  이전 버튼-->
+							<th:block th:if="${pageMaker.prev}">
+								<li class="pageMaker_btn prev">
+									<a th:href="@{${pageMaker.pageStart - 1}}">이전</a>
+								</li>
+							</th:block>
+				
+							<!-- 페이지 번호 -->
+							<th:block th:each="num,iterStat : ${#numbers.sequence(pageMaker.pageStart,pageMaker.pageEnd)}">
+								<li th:class="|pageMaker_btn ${pageMaker.paging.pageNum == num ? 'active' : ''}|">
+									<a th:href="@{/customer/listBoard (boardType=L,pageNum=${num})}" th:text="${num}"></a>
+								</li>
+							</th:block>
+				
+							<!--  다음 버튼-->
+							<th:block th:if="${pageMaker.next}">
+								<li class="pageMaker_btn next">
+									<a th:href="@{${pageMaker.pageEnd + 1}}">다음</a>
+								</li>
+							</th:block>
+						</ul>
+					</div>
+				</div>
 		</div>
 		
 	</div>
@@ -189,6 +191,9 @@
     <script type="text/javascript" th:src="@{/customerDesign/noticeListCss/js/main.js}"></script>
  	
  </article>
+ <!--  고유 스크립트 추가 -->
+    <script type="text/javascript"
+    		th:src = "@{/customerDesign/liveGuide/list/js/listPage.js}"></script>
  </body>
   
 </html>

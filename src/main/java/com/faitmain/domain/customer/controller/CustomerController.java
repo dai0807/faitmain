@@ -195,25 +195,7 @@ public class CustomerController {
 		return url;
 		
 	}
-	/*
-	@GetMapping("listFAQ")
-	public String getFAQList(@ModelAttribute Customer customer, Model model, 
-									   @ModelAttribute Paging paging) throws Exception {
-		System.out.println("=====listFAQBoard======");
-		List<Customer> boardList = customerService.getFAQList(customer.getFAQCategoryCode(), paging);
-		int total = customerService.getFAQTotalCount(customer.getFAQCategoryCode(), paging);
-		System.out.println(paging);
-        Page page = new Page(paging, total);
-		model.addAttribute("FAQList", boardList);
-		System.out.println("FAQList ="+boardList);
-		
-		model.addAttribute("pageMaker", customerService.getListPaging(paging));
-		System.out.println("pageMaker ="+customerService.getListPaging(paging));
-		
-		model.addAttribute("pageMaker", page);
-		
-		return "customer/faqList";
-	}*/
+
 	@GetMapping("detailBoard")
 	public  String getCustomerBoard(@RequestParam Integer boardNumber, Model model, Paging paging) throws Exception{
 	
