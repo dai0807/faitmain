@@ -70,7 +70,7 @@ public class CustomerRestController {
 		
 		System.out.println(FAQCategoryCode);
 		if(FAQCategoryCode.equals("00")) {
-			List<Customer> boardList = customerService.getFAQList(FAQCategoryCode);
+			List<Customer> boardList = customerService.getFAQList("");
 	
 			return boardList;	
 		

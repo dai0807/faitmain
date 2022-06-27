@@ -66,7 +66,7 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public List<Customer> getFAQList(String FAQCategoryCode) throws Exception{
 		
-		return customerMapper.getFAQList(FAQCategoryCode);
+		return customerMapper.getFAQCategoryList(FAQCategoryCode);
 	}
 	
 //	라이브가이드 상세조회	

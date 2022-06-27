@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-				layout:decorate = "~{layout/customer_default_layout2}"
-      			xmlns:layout = "http://www.
-traq.net.nz/thymeleaf/layout">
+				layout:decorate = "~{layout/customer_layout}"
+      			xmlns:layout = "http://www.traq.net.nz/thymeleaf/layout">
 
 <head>
 	
@@ -74,17 +73,17 @@ traq.net.nz/thymeleaf/layout">
 					var abc = "";
 					
 					for(let i = 0 ; i < data.length ; i ++){
-						
-				     	abc += '<ul class="faq-accordion" th:if="${not #lists.isEmpty(boardList)}" th:each="row : ${boardList}">'	
-			                +  '<li>'
-			                +  '<a title="Click" class="expanded" id="title" >'+data[i].boardTitle+ '</a>'
-			                +  '<ul class="faq-content" style="display: block;">' 
-			                +  '<li>'
-			                +  '<div id="contents"><p>'+data[i].boardContent+'</p></div>'
-			                +  '</li>'
-			                +  '</ul>' 
-			                +  '</li>'
-			                +  '<button type="button" id="updateFAQ" class="btn_updateFAQ" th:onclick="update()" >수정</button>	</ul>';
+												
+				     	abc += '<ul class="faq-accordion">'	
+			                +  		'<li>'
+			                +  			'<a title="Click" id="title" >'+data[i].boardTitle+ '</a>'
+			                +  			'<ul class="faq-content" style="display: none;">' 
+			                +  				'<li style= "width: auto;">'
+			                +  					'<div><p class="contents">'+data[i].boardContent+'</p></div>'
+			                +  				'</li>'
+			                +  			'</ul>' 
+			                +  		'</li>'
+			                +  '<button type="button" id="updateFAQ" class="btn_updateFAQ new" th:onclick="update()" sec:authorize="hasRole("ROLE_admin")">수정</button>	</ul>';
 					}
 					
 					$('div.faq').append(abc);
@@ -109,7 +108,6 @@ traq.net.nz/thymeleaf/layout">
 	
 		<input type="hidden" name="boardType" value='F'/> 
 		<h3 class ="mb-5">자주묻는질문</h3>
-		<hr/>
 	
 		<table class="table">
 			<div id="faq-links">
@@ -139,7 +137,6 @@ traq.net.nz/thymeleaf/layout">
 				        <div class="slide-left">
 				            <!-- <div>service</div> -->
 				        </div>
-				    <hr>
 				</div><!--faq-group-->
 				<div class="slide-left">
 	              <div  class="faq">

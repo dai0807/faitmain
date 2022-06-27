@@ -68,9 +68,9 @@ $(function () {
 
 accordWithPage();
 
-/*$(function () {
+$(function () {
    $("#faq-links div").click(function () {
     $('.slide-left').fadeOut( "slow", "linear" );
      $('.slide-left').fadeIn( "slow", "linear" );
     }); //faq link fade in and out
-  }); //document ready*/
+  }); /*//document ready*/

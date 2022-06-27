@@ -144,12 +144,12 @@
     
     	SELECT * 
     	FROM customer
-    
+   <!--  
     <where>
     	customer_FAQ_category_code = #{FAQCategoryCode}
     </where>
     
-    <!-- 	
+    	
     </select> 
     
     <select id="getFAQList" parameterType="String" resultMap="customerMap">
@@ -180,7 +180,7 @@
 								</if>
 								ORDER BY reg_date ) inner_table
 								WHERE (@ROWNUM:=0)=0 limit #{endRowNum} ) result_table
-								WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}-->
+								WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
 			SELECT * 
 			FROM customer -->
 			<where>

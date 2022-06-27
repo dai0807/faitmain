@@ -3,13 +3,24 @@
         	height: 100%;
        }
        
-.container {width: 800px; margin: 0 auto; overflow: hidden}
+.container {
+
+	/*width: 800px; */
+	margin: 0 auto; 
+	overflow: hidden
+	
+}
+
 a{text-decoration: none}
 /*  body, html {
         	height: 100%;
        }
         */
-#faq-links {padding: 10px 20px}
+#faq-links {
+	padding: 10px 20px;
+	border-bottom: 1px solid #efefef;
+	margin-bottom: 10px;	
+}
 
 #faq-links div {
     color: #aeaeaf;
@@ -20,7 +31,7 @@ a{text-decoration: none}
 }
 
 .faq-group {
-    padding: 0 20px 40px 20px;
+    padding: 10px 20px 50px 20px;
     position: relative
 }
 
@@ -56,7 +67,7 @@ a{text-decoration: none}
 .faq-accordion>li  {
     border-top: 1px solid rgba(198, 198, 198, 0.4);
     color: #666;
-    padding: 1.125em 0;
+    padding: 20px 0;
     list-style: none;
 }
 
@@ -75,7 +86,7 @@ a{text-decoration: none}
 }
 
 .faq-accordion > li > a:after {
-    color: #ff8300;
+    color: #cfcfcf;
     content: '+';
     float: right;
     font-weight:300;
@@ -87,7 +98,7 @@ a{text-decoration: none}
 }
 
 .faq-accordion > li > a.expanded:after {
-    color:  #ffa326;
+    color:  #333;
     content: '\2212';
     -webkit-transform: scale(2);
     -ms-transform: scale(2);
@@ -103,7 +114,7 @@ a{text-decoration: none}
 
 .faq-content p:before {
     content: 'A.';
-    color: #ff8300;
+    color: #333;
     float: left;
     font-weight: 700;
   margin-right: .5em
@@ -232,7 +243,8 @@ a{text-decoration: none}
 
 div#total{
 	float: left;
-	margin-inline: 30px;
+	margin-inline: 50px;
+	padding-left: 50px;
 }
 
 div#pay{
@@ -252,15 +264,25 @@ div#order{
 
 div#live{
 	float: left;
-	margin-inline: 50x;
+	margin-inline: 50px;
 }
 
 div#point{
 	text-align: center;
+	margin-inline: 50px;
 }
 
 h3.mb-5{
-	margin-top: 40px;
+	/*margin-top: 40px;*/
 	text-align: center;
 }
 
+.btn_updateFAQ, .btn_deleteFAQ{
+	margin-right: 20px;	
+	margin-bottom: 20px;
+}
+
+.btn_updateFAQ.new{
+	margin: 20px 10px 0px 20px;
+	padding-bottom: 20px;
+}

@@ -46,7 +46,7 @@ public interface CustomerMapper {
 	public int getBoardTotalCount(@Param("boardType") char boardType, @Param("paging") Paging paging) throws Exception;
 	
 //	FAQ 리스트 조회(카테고리이용)	
-	public List<Customer> getFAQList(String FAQCategoryCode) throws Exception;
+	public List<Customer> getFAQCategoryList(String FAQCategoryCode) throws Exception;
 	
 // 	게시판 목록(페이징 적용)
 	public List<Customer> getListPaging(Paging paging) throws Exception;

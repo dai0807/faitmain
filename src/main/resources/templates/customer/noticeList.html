@@ -15,10 +15,91 @@
      Bootstrap CSS 
     <link rel="stylesheet"  th:href="@{/customerDesign/noticeListCss/css/bootstrap.min.css}">-->
     
-    <!-- Style 
-    <link rel="stylesheet"  th:href="@{/customerDesign/noticeListCss/css/style.css}">-->
+    <!-- Style
+    <link rel="stylesheet"  th:href="@{/customerDesign/noticeListCss/css/style.css}"> -->
 
     <title>faitmain</title>
+    
+    <style>
+    
+    	.move{
+			font-weight: bold;
+			color: #555;
+		}
+    	
+    	.btn{
+			background-color: black;
+			color:white;
+			border: none;
+		}
+		
+		.btn:hover{
+			background-color: black;
+			color:white;
+			border: none;
+		}
+		
+		.pageInfo_area{
+			list-style : none;
+		     display: inline-block;
+		  	 margin: 50px 0 0 100px;      
+		}
+		.pageInfo_area li{
+			float: left;
+		   	font-size: 15px;
+		   	margin-left: 18px;
+		   	padding: 7px;
+		   	font-weight: bold;
+		 }
+		 
+		.pageMaker_wrap a:link {
+			color:black; text-decoration: none;
+		}
+		
+		.pageMaker_wrap a:visited {
+			color:black; 
+			text-decoration: none;
+		}
+		
+		.pageMaker_wrap a, .move:hover {
+			color:black; 
+			text-decoration: underline;
+		}
+		
+		.active{
+			background-color: #cfcfcf;
+		}
+		
+		/* 페이지 버튼 인터페이스 */
+		 .pageMaker_wrap {
+		     text-align: center;
+		     margin-top: 30px;
+		     margin-bottom: 40px;
+		 }
+		
+		 .pageMaker {
+		     list-style: none;
+		     display: inline-block;
+		 }
+		
+		 .pageMaker_btn {
+		     float: left;
+		     width: 35px;
+		     height: 35px;
+		     line-height: 18px;
+		     border-radius: 50%;
+		 }
+		
+		
+		 .next, .prev {
+		     border: 1px solid #ff0404;
+		     padding: 0 10px;
+		 }
+		
+		 .next a, .prev a {
+		     color: #ff0000;
+		 }
+    </style>
     
    <!--  고유 스크립트 추가 -->
     <script type="text/javascript"
@@ -34,8 +115,25 @@
     <div class="container">
     <input type="hidden" name="boardType" value='N'/> 
       <h3 class="mb-5">공지사항</h3>
-      <hr/>
-
+	
+	<!-- 검색 영역 -->
+    <div class = "search_wrap" style="float: right; margin-bottom: 20px;">
+        <form id = "searchForm" method = "get" th:action = "@{/customer/listBoard}">
+            <div class = "search_input">
+            
+				<div class="input-group mb-2">
+					<input name = "keyword" th:value = "${pageMaker.paging.keyword}" type = "text" class="bor19 stext-111 cl2 plh3 p-lr-18"/>
+					<button class = 'btn search_btn '>검 색</button>						
+				</div>
+				
+				<!--<input name = "keyword" th:value = "${pageMaker.paging.keyword}" type = "text" class="bor19 stext-111 cl2 plh3 p-lr-18">-->
+                <input name = "pageNum" th:value = "${pageMaker.paging.pageNum }" type = "hidden">
+                <input name = "amount" th:value = '${pageMaker.paging.amount}' type = "hidden">
+                <!--<button class = 'btn search_btn '>검 색</button>-->
+            </div>
+        </form>
+    </div>
+    
       <div class="table-responsive">
         <table class="table custom-table">
           <thead>
@@ -66,17 +164,7 @@
         <form id="moveForm" method="get">    
     	</form>
       </div>
-		 <!-- 검색 영역 -->
-            <div class = "search_wrap">
-                <form id = "searchForm" method = "get" th:action = "@{/customer/listBoard}">
-                    <div class = "search_input">
-                        <input name = "keyword" th:value = "${pageMaker.paging.keyword}" type = "text">
-                        <input name = "pageNum" th:value = "${pageMaker.paging.pageNum }" type = "hidden">
-                        <input name = "amount" th:value = '${pageMaker.paging.amount}' type = "hidden">
-                        <button class = 'btn search_btn'>검 색</button>
-                    </div>
-                </form>
-            </div>
+		 
         </div>
 
         <!--         페이지 이동 인터페이스 영역-->
