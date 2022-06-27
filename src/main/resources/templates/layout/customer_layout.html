@@ -133,7 +133,18 @@
 	<!-- [footer] 영역 시작 -->
 	<footer th:replace="/layout/fragment/footer :: footer"></footer>
 	<!-- [footer] 영역 끝 -->
-
+	
+	<script type="text/javascript">
+		$(window).on('scroll', function () {
+			if ($(window).scrollTop()) {
+				$('.container-menu-desktop').addClass('fix-menu-desktop');
+				$('.wrap-menu-desktop').css('top', '0');
+			} else {
+				$('.container-menu-desktop').removeClass('fix-menu-desktop');
+				$('.wrap-menu-desktop').css('top', '40px');
+			}
+		});
+	</script>
 </body>
 
 </html>

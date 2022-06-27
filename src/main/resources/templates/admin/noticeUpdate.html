@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-				layout:decorate = "~{layout/customer_default_layout2}"
+				layout:decorate = "~{layout/customer_layout}"
       			xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
 <head>	
 
-	<!-- Style -->
-    <link rel="stylesheet"  th:href="@{/customerDesign/noticeListCss/css/style.css}">
+	<!-- Style 
+    <link rel="stylesheet"  th:href="@{/customerDesign/noticeListCss/css/style.css}">-->
     
 	<th:block layout:fragment="title">
 	
@@ -20,16 +20,40 @@
 
 		
 	<style>
-	#out {
-	 	width: 100%;
-		padding: 20px;
-		margin: 15px;
-	 }
-	#in {
-	 	display: inline-block;
-	 	
-	 	height: 100px;
-	 }
+	
+		#out {
+		 	width: 100%;
+			padding: 20px;
+			/*margin: 15px;*/
+		 }
+		 
+		#in {
+		 	display: inline-block;
+		 	/*height: 100px;*/
+		 }
+		 
+		 .table{
+			border: 1px solid #efefef;
+		}
+		
+		th{
+			border: 1px solid #efefef;
+			text-align: center;
+		}
+		
+		
+		th, td{
+			padding: 10px 0px;
+		}
+		 
+		.btn_wrap > a{
+			margin: 10px;
+			color: black !important;
+		} 
+		
+		.btn_wrap > a:hover{
+			color: white !important;
+		} 
 	</style>
 </head>
 
@@ -38,9 +62,8 @@
 	<th:block layout:fragment="content">
 		<div id="out" class="container" >
 	
-			<div id="in" class="page-header">
-				<h2>공지사항 수정</h2>
-				<hr />
+			<div id="in" class="page-header p-b-30">
+				<h2 class="mtext-112 cl2">공지사항 수정</h2>
 			</div>
 	     		<form id="modifyForm" method="post" th:action="@{/customer/updateBoard}" >
 	   				<input type="hidden" name="boardNumber" th:value="${customer.boardNumber}">
@@ -51,30 +74,28 @@
 							<tr>
 								 <th:block   sec:authorize="isAuthenticated()" >
 			       				 	<div class="btn_wrap text-center" sec:authorize="hasRole('ROLE_admin')">
-										<th scope="row" style="padding:13px 0 0 15px;">글 번호</th>
+										<th scope="row">글 번호</th>
 										<td th:text="${customer.boardNumber}"></td>
 										</div>
 								</th:block>
 							</tr>
 							<tr>
-								<th scope="row" style="padding:13px 0 0 15px;">작성자</th>
+								<th scope="row">작성자</th>
 									<td th:text="${customer.customerId.id}"></td>
-								<th scope="row" style="padding:13px 0 0 15px;">작성일</th>
+								<th scope="row">작성일</th>
 									<td th:text="${#dates.format( customer.boardRegDate, 'yyyy-MM-dd'  )}"></td>
-								<th scope="row" style="padding:13px 0 0 15px;">조회수</th>
-									<td th:text="${customer.viewCount}"></td>
 							</tr>
 							<tr>
-								<th scope="row" style="padding:13px 0 0 15px;">제목</th>
+								<th scope="row">제목</th>
 								<td colspan="3">
 									<input type="text" id="title" name="boardTitle" 
-										th:value="${customer.boardTitle } "  style="resize:none; border:none;" />
+										th:value="${customer.boardTitle } "  style="resize:none; border:1px solid #afafaf;" />
 								</td>
 								
 							</tr>
 							<tr>
 								<td colspan="6"  class="view_text">
-									<textarea title="내용" id="contents" name="boardContent"  class="form-control input-sm"  style="height: 500px; resize:none; border:none; min-height:350px; "
+									<textarea title="내용" id="contents" name="boardContent"  class="form-control input-sm"  style="height: 500px; resize:none; border:1px solid #afafaf;; min-height:350px; "
 										th:text="${customer.boardContent }" ></textarea>
 									<span class="help-block"></span>
 								</td>
@@ -83,17 +104,17 @@
 					</table>
 			       
 			        <th:block   sec:authorize="isAuthenticated()" >
-				        <div class="btn_wrap" sec:authorize="hasRole('ROLE_admin')">
-				        	<a class="btn" id="list_btn">목록 페이지</a>	
-				        	<a class="btn" id="modify_btn">수정 완료</a>		
-								
-						
+				        <div class="btn_wrap flex-c-m flex-w w-full p-t-38" sec:authorize="hasRole('ROLE_admin')">
+				        	<a class="btn flex-c-m stext-101 size-105 bg0 bor17 hov-btn1 p-lr-10 trans-04 m-b-10" id="list_btn">목록</a>	
+				        	<a class="btn flex-c-m stext-101 size-105 bg0 bor17 hov-btn1 p-lr-10 trans-04 m-b-10" id="modify_btn">수정</a>
 						</div>
 					</th:block>
 				 </form>
 					
 					<form id="infoForm"	th:action="@{/customer/updateBoard}" method="get">
-						<!-- <input type="hidden" id="boardNumber" name="boardNumber" th:text="${customer.boardNumber}"/> -->
+
+						<input type="hidden" id="boardNumber" name="boardNumber" th:value="${customer.boardNumber}"/>
+
 						<input type="hidden" id="boardType" name="boardType" value="N"/>
 						<!-- <input type="hidden" id="pageNum" name="pageNum" th:value="${pageMaker.pageNum}"/>
 						<input type="hidden" name = "amount" th:value = "${pageMaker.paging.amount}" />
