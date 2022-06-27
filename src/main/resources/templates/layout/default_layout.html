@@ -30,7 +30,22 @@
 		@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
 	
 		article{			
-			margin-top: 100px;			
+			margin-top: 100px;	
+			height: auto;
+			min-height: 100%;
+			padding-bottom: 136.984px;		
+		}
+		
+		#wrapper {
+			height: auto;
+			min-height: 100%;
+			padding-bottom: 72px;
+		}
+
+		footer {
+			height: 72px;
+			position: relative;
+			transform: translateY(-100%);
 		}
 		
 	</style>
@@ -39,13 +54,16 @@
 <!-- [head] 영역 끝 -->
 
 <body >
-    <!-- [header] 영역 시작 -->
-    <header th:replace = "/layout/fragment/header :: header" class=""></header>
-    <!-- [header] 영역 끝 -->
 
-    <!-- [content] 영역 시작 -->
-    <article layout:fragment = "content"></article>
-    <!-- [content] 영역 끝 -->
+	<div id="wrapper">
+		<!-- [header] 영역 시작 -->
+		<header th:replace="/layout/fragment/header :: header" class=""></header>
+		<!-- [header] 영역 끝 -->
+
+		<!-- [content] 영역 시작 -->
+		<article layout:fragment="content"></article>
+		<!-- [content] 영역 끝 -->
+	</div>
 
 	<!-- [footer] 영역 시작 -->
 	<footer th:replace = "/layout/fragment/footer :: footer"></footer>
