@@ -3,29 +3,18 @@
 <head>
     <meta charset = "UTF-8">
     <title>리뷰 수정</title>
-    
-    <link rel="stylesheet" type="text/css" href="/productDesign/vendor/bootstrap/css/bootstrap.min.css">
-	
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
-		
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">	
 	
 	<style>
 	
  		.form-group{ 
 			margin-top:10px ; 	 
 		}
-		
-		h5,span{font-family: 'Nanum Gothic Coding', monospace;}
-				
-		#updateReviewForm span{
+		/*				
+		#updateReviewForm fieldset{
 		    display: inline-block;
 		    direction: rtl;
 		    border:0;
-		}
+		}*/
 		#updateReviewForm input[type=radio]{
 		    display: none;
 		}
@@ -34,6 +23,7 @@
 		    font-size: 2em;
 		    color: transparent;
 		    text-shadow: 0 0 0 #f0f0f0;
+		    float: left;
 		}
 		
 		#updateReviewForm .star:hover{
@@ -128,7 +118,7 @@
 </head>
 <body>
 
-	<article  class="py-5" layout:fragment="content">
+	<article layout:fragment="content">
 	
 		<div class="container">
 			
@@ -145,8 +135,8 @@
 					</div>
 
 					<div class="size-215 flex-col-t p-t-8">
-						<span class="stext-116 cl8 trans-04" th:text="${review.orderProduct.productName}">
-						</span>
+						<th:block class="stext-116 cl8 trans-04" th:text="${review.orderProduct.productName}">
+						</th:block>
 					</div>
 				</div>
 				
@@ -154,13 +144,13 @@
 					<span class="stext-102 cl3 m-r-16">
 						별점
 					</span>
-
+					
 					<span class="wrap-rating fs-18 cl11 pointer">
-						<input type="radio" name="rating" value="5" id="rate1" th:checked="*{rating == 5}"><label for="rate1" class="star">★</label>
-						<input type="radio" name="rating" value="4" id="rate2" th:checked="*{rating == 4}"><label for="rate2" class="star">★</label>
-						<input type="radio" name="rating" value="3" id="rate3" th:checked="*{rating == 3}"><label for="rate3" class="star">★</label>
-						<input type="radio" name="rating" value="2" id="rate4" th:checked="*{rating == 2}"><label for="rate4" class="star">★</label>
-						<input type="radio" name="rating" value="1" id="rate5" th:checked="*{rating == 1}"><label for="rate5" class="star">★</label>
+						<input class="item-rating" type="radio" name="rating" value="5" id="rate1" th:checked="*{rating == 5}"><label for="rate1" class="star">★</label>
+						<input class="item-rating" type="radio" name="rating" value="4" id="rate2" th:checked="*{rating == 4}"><label for="rate2" class="star">★</label>
+						<input class="item-rating" type="radio" name="rating" value="3" id="rate3" th:checked="*{rating == 3}"><label for="rate3" class="star">★</label>
+						<input class="item-rating" type="radio" name="rating" value="2" id="rate4" th:checked="*{rating == 2}"><label for="rate4" class="star">★</label>
+						<input class="item-rating" type="radio" name="rating" value="1" id="rate5" th:checked="*{rating == 1}"><label for="rate5" class="star">★</label>
 					</span>
 				</div>
 				

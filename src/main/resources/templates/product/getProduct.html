@@ -1,27 +1,17 @@
 <!DOCTYPE html>
-<html lang = "ko" layout:decorate = "~{/layout/default_layout}"
+<html lang = "ko" layout:decorate = "~{layout/default_layout}"
       xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset = "UTF-8">
     <title>상품 조회</title>
 
-	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/bootstrap/css/bootstrap.min.css">
-	
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
 	
 	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/select2/select2.min.css">
 	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/slick/slick.css">
-	
-	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/MagnificPopup/magnific-popup.css">
-	
+		
 	<script src="/productDesign/vendor/sweetalert/sweetalert.min.js"></script>
-	
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">	
-        
+	        
 	<!-- 카카오 공유하기 -->
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	<!-- 
@@ -112,22 +102,14 @@
 									<div class="wrap-pic-w pos-relative">
 										<img th:src="|../img/upload/${ product.productMainImage }|" alt="IMG-PRODUCT">
 								
-										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-											th:href="@{/img/upload/} + ${product.productMainImage}">
-											<i class="fa fa-expand"></i>
-										</a>
+										
 									</div>
 								</div>
 									
 								<th:block th:each="extraImg : ${product.productExtraImage}">
 									<div class="item-slick3" th:data-thumb="|../img/upload/${ extraImg.imageName }|">
 										<div class="wrap-pic-w pos-relative">
-											<img th:src="|../img/upload/${ extraImg.imageName }|" alt="IMG-PRODUCT">
-								
-											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-												th:href="@{/img/upload/} + ${extraImg.imageName}">
-												<i class="fa fa-expand"></i>
-											</a>
+											<img th:src="|../img/upload/${ extraImg.imageName }|" alt="IMG-PRODUCT">								
 										</div>
 									</div>
 								</th:block>							
@@ -137,19 +119,7 @@
 					</div>
 					<script src="/productDesign/vendor/slick/slick.min.js"></script>
 					<script src="/productDesign/js/slick-custom.js"></script>
-					<script src="/productDesign/vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
-					<script>
-						$('.gallery-lb').each(function () { // the containers for all your galleries
-							$(this).magnificPopup({
-								delegate: 'a', // the selector for gallery item
-								type: 'image',
-								gallery: {
-									enabled: true
-								},
-								mainClass: 'mfp-fade'
-							});
-						});
-					</script>
+					
 				</div>
 				<!-- --------------------------------------- -->
 				
@@ -164,8 +134,9 @@
 							</th:block>
 							
 							<!-- 상품명, 가격 표시 -->
-							<p class="stext-102 cl3 p-t-23">
-								<a th:href="@{/product/getStoreInfo(storeId=*{store.id})}" th:text="*{store.storeName}"></a>
+							<p class="stext-301 cl3 p-t-23">
+								<a th:href="@{/product/getStoreInfo(storeId=*{store.id})}" th:text="*{store.storeName}" class="stext-107 cl7 hov-cl1 trans-04"></a>
+								<i id="create-kakao-link-btn" href="javascript:;" class="fs-16 zmdi zmdi-share hov-btn2 p-lr-10"></i>
 							</p>
 							<h4 class="mtext-105 cl2 js-name-detail p-b-14" th:text="*{ productName }"></h4>	
 													
@@ -190,14 +161,14 @@
 										<div class="size-204 flex-w flex-m respon6-next">
 											<div class="wrap-num-product flex-w m-r-20 m-tb-10">
 											
-												<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+												<div class="btn-num-product-down cl8 hov-btn2 trans-04 flex-c-m">
 													<i class="fs-16 zmdi zmdi-minus"></i>
 												</div>
 												
 												<input class="mtext-104 cl3 txt-center num-product" name="orderPageProductList[0].productOrderCount" 
 														readonly="readonly"	type="text" value="1" />
 														
-												<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+												<div class="btn-num-product-up cl8 hov-btn2 trans-04 flex-c-m">
 													<i class="fs-16 zmdi zmdi-plus"></i>
 												</div>
 												
@@ -214,7 +185,7 @@
 								<th:block th:if="${#lists.size(product.productOptions) > 0}">
 									<div class="flex-w flex-r-m p-b-10">
 									
-										<div class="size-203 flex-c-m respon6">
+										<div class="size-203 flex-c-m respon6 stext-117">
 											상품선택
 										</div>
 								
@@ -254,7 +225,7 @@
 								<!-- 총 상품 가격 표시 (선택 수량에 따라 값 변동) -->
 								<div class="flex-w flex-r-m p-b-10">
 								
-									<div class="size-203 flex-c-m respon6">
+									<div class="size-203 flex-c-m respon6 stext-117">
 										총 상품 가격
 									</div>
 								
@@ -271,13 +242,7 @@
 								
 								<!-- 장바구니 & 구매하기 버튼 -->
 								<div class="flex-w flex-r-m p-b-10">
-									<ul id="buttonArea">
-										<li>
-											<a id="create-kakao-link-btn" href="javascript:;">
-												<img src="/img/kakaotalk_sharing_btn_small.png" />
-											</a>
-										</li>
-									
+									<ul id="buttonArea">									
 										<li>
 											<button id="addCart" type="button" class="flex-c-m stext-101 cl2 size-101 bg0 bor13 hov-btn1 p-lr-15 trans-04 pointer m-tb-10">
 												장바구니
@@ -353,7 +318,7 @@
 											<div class="flex-w flex-t p-b-68">								
 												
 												<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
-													<img th:src="|../img/upload/${ review.reviewImage }|" alt="Review-IMG">
+													<img th:if="${ not #strings.isEmpty(review.reviewImage) }" th:src="|../img/upload/${ review.reviewImage }|" alt="Review-IMG">
 												</div>
 												
 												<div class="size-207">
@@ -433,15 +398,13 @@
 								
 							</div>
 						</div>	
-						<!-- -------------- -->		
+						<!-- -------------- -->	
+								
 					</div>
 				</div>			
 			</div>	
-			
 			<script src="/productDesign/vendor/bootstrap/js/popper.js"></script>
 			<script src="/productDesign/vendor/bootstrap/js/bootstrap.min.js"></script>
-			
-			<!-- 상세 정보, 리뷰, 문의 끝-->
 								
 		</div>	
 	</section>

@@ -233,11 +233,13 @@ function showAddress(className) {
 
     /* 버튼 색상 변경 */
     /* 모든 색상 동일 */
-    $(".address.btn").css('backgroundColor', '#555');
+    //$(".address.btn").css('background-color','#f3f3f3');
+    $(".address_btn").css({'background-color':'#f3f3f3', 'border':'1px solid #cfcfcf'});
 
     /* 지정 색상 변경*/
-    $(".address.btn_" + className).css('backgroundColor', '#3c3838');
-
+    //$(".address.btn_" + className).css('backgroundColor', '#3c3838');
+	$(".address_btn.address_btn_" + className).css({"background-color":"white", 'border-bottom':'1px solid white'});
+	
     /* selectAddress T/F */
     /* 모든 selectAddress F만들기 */
     $(".addressInfo_input_div").each(function (i, obj) {

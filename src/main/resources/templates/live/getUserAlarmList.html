@@ -10,15 +10,14 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	
 	<!-- Bootstrap -->
-		<!-- CSS -->
+		<!-- CSS 
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-		
+		-->
 		<!-- JS -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
 		
 		
 	<!-- 추가 JS -->
-	<script src="/js/addliveReservationView.js"></script>
 	<script type="text/javascript">
 	
 		$(function(){
@@ -26,18 +25,20 @@
 			$('.btn').on("click", function(){
 				$('form').attr("method", "POST").attr("action", "/live/updateAlarmList").submit();	
 			});
-			
+		});	
 	</script>
 	
 	<style type="text/css">
+		/*	
 		@font-face{
 			src: url("../font/BMJUA_ttf.ttf");
 			font-family: "jua";
 		}
+		*/
 		
 		h5.title {
-			 font-size: 35px; 
-			 font-family:jua;
+			 font-size: 20px; 
+			 /*font-family:jua;*/
 		}
 	</style>
 	
@@ -46,7 +47,7 @@
 	<article layout:fragment="content">
 		<div class="container-fluid">
 			<div>
-				<h5 class="title">유저 알림 설정 목록</h5>
+				<h5 class="title mtext-112 cl2 p-b-33">유저 알림 설정 목록</h5>
 			</div>
 			
 			<div>

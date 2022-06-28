@@ -5,19 +5,12 @@
     <title>상품 목록</title>
 	
 	<!-- Product -->
-    <link rel="stylesheet" type="text/css" href="/productDesign/vendor/bootstrap/css/bootstrap.min.css">	
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
 	
 	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/animsition/css/animsition.min.css">
 	
 	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/select2/select2.min.css">
 	
 	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/slick/slick.css">
-	
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">	
 	
 	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/jqueryui/jquery-ui.css">
 			
@@ -64,7 +57,7 @@
 				$("#searchKeyword").autocomplete({
 					source: function (request, response) {
 						$.ajax({
-							url: "/product/json/productNameList/" + $("#searchKeyword").val(),
+							url: "/product/json/getProductNameList/" + $("#searchKeyword").val(),
 							type: "GET",
 							success: function (data) {
 								response(
@@ -103,7 +96,7 @@
 	
 </head>
 <body >
-	<article  class="py-5" layout:fragment="content">
+	<article layout:fragment="content">
 		
 		<div class="bg0 m-t-23 p-b-140">
 			<div class="container">				

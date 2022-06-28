@@ -152,7 +152,8 @@ $(function () {
 			console.log(orderLink);
 			
 			if (Number($("#totalPrice").val()) == '0') { //옵션 선택 안했을 때
-				alert("옵션을 선택해주세요");
+				swal("옵션을 선택해주세요");
+				return;
 			}
 			
 			$("#getProductForm").attr("action", "/order/" + orderLink); // 주소 세팅
@@ -240,13 +241,13 @@ $(function () {
 				
 				+		"<div class='wrap-num-product flex-w m-r-20 m-tb-10'>"
 				
-				+			"<div class='btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m'>"
+				+			"<div class='btn-num-product-down cl8 hov-btn2 trans-04 flex-c-m'>"
 				+				"<i class='fs-16 zmdi zmdi-minus option'></i>"
 				+			"</div>"
 				
 				+			"<input class='mtext-104 cl3 txt-center num-product option' name='orderPageProductList["+ optionIndex + "].productOrderCount' readonly='readonly' type='text' value='1' />"
 				
-				+			"<div class='btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m'>"
+				+			"<div class='btn-num-product-up cl8 hov-btn2 trans-04 flex-c-m'>"
 				+				"<i class='fs-16 zmdi zmdi-plus option'></i>"
 				+			"</div>"
 				

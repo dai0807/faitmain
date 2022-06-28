@@ -68,9 +68,33 @@ $(function () {
 
 accordWithPage();
 
-/*$(function () {
+$(function () {
    $("#faq-links div").click(function () {
     $('.slide-left').fadeOut( "slow", "linear" );
      $('.slide-left').fadeIn( "slow", "linear" );
     }); //faq link fade in and out
-  }); //document ready*/
+  }); /*//document ready*/
+  
+  
+$(document).ready(function () {
+
+	let form = $("#infoForm");
+
+    let moveForm = $("#moveForm");	
+ /* 페이지 이동 버튼 */
+   	 $(".pageInfo a").on("click", function(e){
+ 		
+ 		e.preventDefault();
+         moveForm.find("input[name='pageNum']").val($(this).attr("href"));
+         moveForm.attr("action", "/customer/listBoard");
+         moveForm.submit();
+ 	});
+
+    
+/* 목록 페이지 이동 버튼 */  
+    $("#list_btn").on("click", function(e){
+		form.find("#boardNumber").remove();
+		form.attr("action", "/customer/listBoard");
+		form.submit();
+	});
+});

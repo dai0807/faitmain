@@ -23,10 +23,6 @@
 
 	<script type="text/javascript">
 
-
-
-
-
 		$(function () {
 
 
@@ -65,7 +61,7 @@
 			popWin
 				= window.open("/user/findId",
 					"popWin",
-					"top=200,left=300,width=780,height=550,marginwidth=0,marginheight=0," +
+					"top=200,left=500,width=600,height=550,marginwidth=0,marginheight=0," +
 					"scrollbars=no,scrolling=no,menubar=no,resizable=no");
 
 
@@ -77,7 +73,7 @@
 			popWin
 				= window.open("/user/findPassword",
 					"popWin",
-					"top=200,left=300,width=780,height=550,marginwidth=0,marginheight=0," +
+					"top=200,left=500,width=800,height=550,marginwidth=0,marginheight=0," +
 					"scrollbars=no,scrolling=no,menubar=no,resizable=no");
 		}
 
@@ -103,7 +99,7 @@
 
 				if(errorMessage == 1){
 					Swal.fire({
-						title: '아이디와 비밀번호가 맞지 않습니다.',
+						title: '아이디,비밀번호가 맞지 않습니다.',
 						text: '아이디와 비밀번호 확인 후 입력 부탁드립니다.',
 						icon: 'warning',
 
@@ -123,7 +119,7 @@
 				} else if (errorMessage == 3) {
 
 					Swal.fire({
-						title: '아이디와 비밀번호가 맞지 않습니다.',
+						title: '아이디,비밀번호가 맞지 않습니다.',
 						text: '아이디와 비밀번호 확인 후 입력 부탁드립니다.',
 						icon: 'warning',
 
@@ -156,7 +152,7 @@
        body, html {
         	height: 100%;
        }
-       
+              
         
 	</style>
 	<!-- 길이는 스타일 건들이 -->
@@ -165,9 +161,6 @@
 <body>
 	<article layout:fragment="content">
 		<div class="wrapper">
-
-
-
 
 			<section class="py-5" id="features">
 

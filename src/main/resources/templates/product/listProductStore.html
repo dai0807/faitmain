@@ -4,30 +4,12 @@
     <meta charset = "UTF-8">
     <title>상품 목록</title>
 	
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="/productDesign/images/icons/favicon.png"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
 	
 	<link rel="stylesheet" type="text/css" href="/productDesign/vendor/select2/select2.min.css">
 	
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">
-	
 	<style>
-	
- 		.form-group{ 
-			margin-top:10px ; 	 
-		}
-		
-		h5,span{font-family: 'Nanum Gothic Coding', monospace;}
 	
 		
    	</style>
@@ -53,7 +35,7 @@
 	
 </head>
 <body >
-	<article  class="py-5" layout:fragment="content">		
+	<article  layout:fragment="content">		
 				
 		<!-- Shoping Cart -->
 		<form class="bg0 p-t-75 p-b-85" th:action="@{/product/getProductList?resultJsp=listProductStore}" method="post">
@@ -193,12 +175,7 @@
 		<!-- 페이지(어떻게 할지 모르겠다) -->
 		<div  th:replace="/product/pageNavigation :: pageNavi">
 		</div>
-		<!-- =============== -->
-			
-		<!-- Product 관련 js -->
-		<script src="/productDesign/vendor/jqueryui/jquery-ui.js"></script>
-		<script src="/productDesign/vendor/bootstrap/js/bootstrap.min.js"></script>
-		<!-- ============ -->
+		
 	</article>
 </body>
 </html>

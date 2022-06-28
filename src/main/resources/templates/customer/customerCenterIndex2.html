@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang = "ko" layout:decorate = "~{/layout/default_layout}"
-      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
-      >
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
 
 
 <head>
 	 <meta charset = "UTF-8">
-	<link rel="stylesheet" type="text/css" href="/customerDesign/index/css/style.css">
+	<!--<link rel="stylesheet" type="text/css" href="/customerDesign/index/css/style.css">-->
 	 
 	 <!-- Channel Plugin Scripts -->
 <script>
@@ -62,13 +61,20 @@
 </head> 
      
 <body id="page-top">
-<article class="py-5" layout:fragment="content">
-<div id = 'wrapper'>
+<article  layout:fragment="content">
+<div id = 'wrapper' class="sec-banner bg0 p-t-80 p-b-50">
 		<div class="container">
-			<div class="process-row">
-			    <div class="activity animate-from-bottom__0">
-			        <div class="relative-block">
+			<div class="row">
+			
+			    <div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
+			    			    
+			        <div class="block1 wrap-pic-w">
+			        	
+			        	<img src=""
+			        	
+			        	
 			            <div class="activity-icon">
+			            
 			             <a class="link_service" th:href="@{/customer/listBoard?boardType=N}">
 			               <!--  <img alt="An image" src="https://i.ibb.co/ZWp3Yts/ad-operations-process-strategy.png"> -->
 			                <img id = "An image" th:src="@{https://i.ibb.co/ZWp3Yts/}+@{/img/customer/ad-operations-process-strategy.png}" />
@@ -83,11 +89,12 @@
 			            </a>
 			        </div>
 			    </div>
+			    
 			    <div class="activity animate-from-bottom__1">
 			        <div class="relative-block">
 			            <div class="activity-icon">
 			               <!--  <img alt="An image" src="https://i.ibb.co/s2nghrT/ad-operations-process-strategy-activation.png" alt="ad-operations-process-strategy-activation"> -->
-			                <a class="link_service" th:href="@{/customer/listFAQ}">
+			                <a class="link_service" th:href="@{/customer/listBoard?boardType=F&FAQCategoryCode=00}">
 			                <img id = "An image" th:src="@{https://i.ibb.co/s2nghrT/}+@{/img/customer/ad-operations-process-strategy-activation.png}"  alt="ad-operations-process-strategy-activation"/>
 			            </div>
 			            <div class="inactive">
@@ -101,6 +108,7 @@
 			            </a>
 			        </div>
 			    </div>
+			    
 			    <div class="activity animate-from-bottom__2">
 			        <div class="relative-block">
 			            <div class="activity-icon">
@@ -116,23 +124,6 @@
 			                <div class="sub-title"></div>
 			            </div>
 			            </a>
-			        </div>
-			    </div>
-			    <div class="activity animate-from-bottom__3">
-			        <div class="relative-block">
-			            <div class="activity-icon">
-			             <!--<img alt="An image" src="https://i.ibb.co/s2nghrT/ad-operations-process-strategy-activation.png" alt="ad-operations-process-strategy-activation"> -->
-			                   <a class="link_service" th:href="@{/customer/addReport}">
-			                  <img id = "An image" th:src="@{https://i.ibb.co/s2nghrT/}+@{/img/customer/ad-operations-process-strategy-activation.png}" alt="ad-operations-process-strategy-activation"/>
-			            </div>
-			            <div class="inactive">
-			                <div class="title"></div>
-			            </div>
-			            <div class="active">
-			                <div class="title_1">신고</div>
-			                <div class="sub-title"></div>
-			        
-			            </div>
 			        </div>
 			    </div>
 			   

@@ -3,37 +3,33 @@
 <head>
     <meta charset = "UTF-8">
     <title>리뷰 등록</title>
-    
-    <link rel="stylesheet" type="text/css" href="/productDesign/vendor/bootstrap/css/bootstrap.min.css">
-	
+    		
 	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/iconic/css/material-design-iconic-font.min.css">
 	<link rel="stylesheet" type="text/css" href="/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css">
-		
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/util.css">
-	<link rel="stylesheet" type="text/css" href="/productDesign/css/main.css">
 	
 	<style>
-	
- 		.form-group{ 
-			margin-top:10px ; 	 
-		}
-		
-		h5,span{font-family: 'Nanum Gothic Coding', monospace;}
-				
-		#addReviewForm span{
+					
+		#addReviewForm fieldset {
 		    display: inline-block;
 		    direction: rtl;
 		    border:0;
 		}
-		#addReviewForm input[type=radio]{
-		    display: none;
+		
+		#addReviewForm fieldset legend{
+   	 		text-align: right;
 		}
 		
-		#addReviewForm .star{
+		#addReviewForm input[type=radio]{
+		    display: none;
+		    
+		}
+		
+		#addReviewForm label{
 		    font-size: 2em;
 		    color: transparent;
 		    text-shadow: 0 0 0 #f0f0f0;
+		    float: left;
 		}
 		
 		#addReviewForm .star:hover{
@@ -63,6 +59,7 @@
 			float: right;
 		}
 		
+		
     </style>
     
     <script type="text/javascript">
@@ -89,51 +86,52 @@
 </head>
 <body>
 
-	<article  class="py-5" layout:fragment="content">
+	<article layout:fragment="content">
 	
 		<div class="container">
 			
 			<!-- Add review -->
-			<form class="w-full" id="addReviewForm" th:action="@{/review/addReview}" method="post" th:object="${review}" enctype="multipart/form-data">
+			<form id="addReviewForm" th:action="@{/review/addReview}" method="post" th:object="${review}" enctype="multipart/form-data">
 			
 				<h5 class="mtext-108 cl2 p-b-7">
 					리뷰 작성
 				</h5>				
 				
-				<div class="flex-w flex-m p-t-50 p-b-23">
+				<div class="flex-m p-t-50 p-b-23">
 					<div class="wrao-pic-w size-214 m-r-20">
 						<img th:src = "|../img/upload/${ review.orderProduct.productMainImage }|" alt="PRODUCT" width="100%">
 					</div>
 
 					<div class="size-215 flex-col-t p-t-8">
-						<span class="stext-116 cl8 trans-04" th:text="${review.orderProduct.productName}">
-						</span>
+						<th:block class="stext-116 cl8 trans-04" th:text="${review.orderProduct.productName}">
+						</th:block>
 					</div>
 				</div>
 				
-				<div class="flex-w flex-m p-t-50 p-b-23">
-					<span class="stext-102 cl3 m-r-16">
+				
+				<div class="flex-m p-t-50 p-b-23">					
+					<span class="stext-102 cl3">
 						별점
-					</span>
-
-					<span class="wrap-rating fs-18 cl11 pointer">
-						<input type="radio" name="rating" value="5" id="rate1"><label for="rate1" class="star">★</label>
-						<input type="radio" name="rating" value="4" id="rate2"><label for="rate2" class="star">★</label>
-						<input type="radio" name="rating" value="3" id="rate3"><label for="rate3" class="star">★</label>
-						<input type="radio" name="rating" value="2" id="rate4"><label for="rate4" class="star">★</label>
-						<input type="radio" name="rating" value="1" id="rate5"><label for="rate5" class="star">★</label>
 					</span>
 				</div>
 				
+				<fieldset>
+					<input type="radio" name="rating" value="5" id="rate1"><label for="rate1" class="star">★</label>
+					<input type="radio" name="rating" value="4" id="rate2"><label for="rate2" class="star">★</label>
+					<input type="radio" name="rating" value="3" id="rate3"><label for="rate3" class="star">★</label>
+					<input type="radio" name="rating" value="2" id="rate4"><label for="rate4" class="star">★</label>
+					<input type="radio" name="rating" value="1" id="rate5"><label for="rate5" class="star">★</label>						
+				</fieldset>
+				
 				<div class="row p-b-25">
 					<div class="col-12 p-b-5">
-						<label class="stext-102 cl3" for="review">리뷰 내용</label>
+						<span class="stext-102 cl3" for="review">리뷰 내용</span>
 						<textarea class="bor8 stext-102 cl2 p-lr-20 p-tb-10" id="reviewContent" name="reviewContent"></textarea>
 						<div id="reviewWord_cnt">(0 / 100)</div>
 					</div>
 				
 					<div class="col-12 p-b-5">
-						<label class="stext-102 cl3" for="name">리뷰 사진</label>
+						<span class="stext-102 cl3" for="name">리뷰 사진</span>
 						<input class="bor8 cl2 p-lr-20 p-tb-10" id="reviewImg" type="file" name="reviewImg" width="100%">
 					</div>
 				</div>

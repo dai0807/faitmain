@@ -15,14 +15,14 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 public interface UserSerivce{
 
 // 신청서 리스트 
-	public List<StoreApplicationDocument> getTestAppList(Paging paging) throws Exception;
+	public List<StoreApplicationDocument> getStoreApplicationDocumentList(Paging paging) throws Exception;
  
 // 신청서 총 개수
     /* 주문 총 개수 */
-	public int getTestAppListTotal(Paging paging) throws Exception;
+	public int getStoreApplicationDocumentListTotal(Paging paging) throws Exception;
 
 	
-
+ 
 	// 신청서 리스트 
 		public List<User> getUserList(Paging paging) throws Exception;
 	 
@@ -43,10 +43,7 @@ public interface UserSerivce{
 	
     //insert 신청서
 	public int AddStoreApplicationDocument( StoreApplicationDocument storeApplicationDocument ) throws Exception;
-
-    //insert  이미지
-	public int addImage( Image image ) throws Exception;
-
+ 
     ////////////////////////////////select////////////////////////////////////////////////////
     //SELECT 로그인
 	public int getLogin( User user ) throws Exception;
@@ -70,17 +67,17 @@ public interface UserSerivce{
 	public StoreApplicationDocument getStoreApplicationDocument( int StoreApplicationDocumenNumber ) throws Exception;
 
 
-    //SELECT 스토어 이미지 조회
-	List<Image> getImageList( int storeApplicationDocumentNumber ) throws Exception;
+//    //SELECT 스토어 이미지 조회
+//	List<Image> getImageList( int storeApplicationDocumentNumber ) throws Exception;
+//
+//    //SELECT USER 리스트 조회
+//	Map<String, Object> getUserList( Map<String, Object> map ) throws Exception;
+//
+//    //SELECT 스토어 리스트 조회
+//	Map<String, Object> getStoreApplicationDocumentList( Map<String, Object> map ) throws Exception;
 
-    //SELECT USER 리스트 조회
-	Map<String, Object> getUserList( Map<String, Object> map ) throws Exception;
 
-    //SELECT 스토어 리스트 조회
-	Map<String, Object> getStoreApplicationDocumentList( Map<String, Object> map ) throws Exception;
-
-
-	public List<User> getlist( Map<String, Object> map ) throws Exception;
+	//public List<User> getlist( Map<String, Object> map ) throws Exception;
 
 	
     ////////////////////////////////UPDATE////////////////////////////////////////////////////
@@ -103,8 +100,7 @@ public interface UserSerivce{
 
 
     ////////////////////////////////delete////////////////////////////////////////////////////
-	public String addFile(MultipartFile file) throws Exception ;
-	
+ 	
 	
 
    

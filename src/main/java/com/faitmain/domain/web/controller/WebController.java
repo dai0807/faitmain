@@ -99,11 +99,30 @@ public class WebController {
 		System.out.println(model);
 		return "index";
 	}
-
+	
 	@GetMapping("/myPage")
 	public String getMyPage() {
+		
+		SecurityUserService securityUserService = ( SecurityUserService ) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // principal 에 사용자 인증 정보 담음
+		User user = (User) securityUserService.getUser();
+		
+		if((user.getRole()).equals("admin")) {
+			
+			return "redirect:/user/getStoreApplicationDocumentList?keyword=ALL";
+			
+		}else if((user.getRole()).equals("user")) {
+			
+			return "redirect:/user/getUser?id=" + user.getId();
+			
+		}else if((user.getRole()).equals("storeX")){
+			
+			return "redirect:/user/getUser";
+			
+		}else {
+			return "redirect:/product/getProductList?resultJsp=listProductStore";
+		}
 
-		return "myPage";
+//		return "myPage";
 	}
 	
 	public JSONArray getLiveUserList(String roomId) throws Exception {
