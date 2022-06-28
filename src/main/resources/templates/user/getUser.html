@@ -173,6 +173,10 @@
 			color: white;
 		}
 		
+		#area{
+			max-width: 1000px;
+		}
+		
 	</style>
 	
 
@@ -610,10 +614,10 @@
 	<article id="getUser" layout:fragment="content">
 
 
-		<div class="container col-lg-2" >
+		<div class="container col-lg-3" >
 		</div>
 
-		<div class="container col-lg-8 ">
+		<div class="container col-lg-6 " id="area">
 		
 			<div class="text-center">
 				<br>
@@ -807,24 +811,26 @@
 			</div>
 			
 
-
+				</th:block>
 
 
 					<br /><br />
 					<hr />
+					
+			<th:block sec:authorize="hasAnyRole('ROLE_user','ROLE_store','ROLE_storeX')">
 					회원탈퇴를 원하시면 눌러주세요 <a onclick="deleteUser()" class="btn" role="button">회원 탈퇴</a>
-
+			</th:block>
 
 
 
  
 
 
-			</th:block>
+		
 			<br>
 
 		</div>
-		<div class="container col-lg-2">
+		<div class="container col-lg-3">
 		</div>
 	</article>
 
