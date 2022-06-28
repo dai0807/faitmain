@@ -48,6 +48,7 @@
     	FROM customer 
     	<where>
 			customer_board_type = #{boardType}
+				
       	</where>    	
       		ORDER BY reg_date	
       		DESC LIMIT 1	  	
