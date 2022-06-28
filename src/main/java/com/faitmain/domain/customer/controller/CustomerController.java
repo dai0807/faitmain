@@ -218,14 +218,22 @@ public class CustomerController {
 		System.out.println("boardNumber = "+customerService.getCustomerBoard(customer.getBoardNumber()));
 		System.out.println("앙 찍먹따리 : " + paging);
 		System.out.println("============= detail ===============");
-			
+		customerService.getLiveGuide(customer.getBoardType());
 		model.addAttribute("customer", customerService.getCustomerBoard(customer.getBoardNumber()));
+//		model.addAttribute("customer", customerService.getCustomerBoard(customer.getBoardType()));
 		model.addAttribute("pageMaker", paging);
+		System.out.println(customer.getBoardType());
 		System.out.println(customerService.getCustomerBoard(customer.getBoardNumber()));
 		System.out.println(paging);
 		
-
-		return "customer/noticeDetail";
+		String url = null;
+		if(customer.getBoardType() == 'N') {
+			url = "customer/noticeDetail";
+		}else if(customer.getBoardType() == 'L') {
+			url = "customer/liveGuideDetail";
+		}
+		
+		return url;
 	}
 	
 	

@@ -234,7 +234,7 @@
 								th:value="${row.boardNumber}" /></td>
 						<td th:text="${row.boardNumber}"></td>
 						<td>
-							<a th:href="@{/customer/detailGuide( boardType=${row.boardType})}"
+							<a th:href="@{/customer/detailBoard(boardType=L, boardNumber=${row.boardNumber})}"
 								th:text="${row.boardTitle}"></a>
 						</td>
 						<td th:text="${#dates.format(row.boardRegDate, 'yyyy-MM-dd')}"></td>

@@ -28,14 +28,14 @@
 
 <body>
 	<article class = "lgf-1" layout:fragment = "content">
-		 <div class = "container" th:action="@{/customer/detailGuide}">
+		 <div class = "container" th:action="@{/customer/detailBoard}">
 		 <input type="hidden" name="boardType" value='L'/> 
-			
+		
 		<!-- 	<input type="hidden" name="boardType" value='L'/> --> 
 				<tr >
 					<td >
-						 <!-- <textarea title="내용" id="contents" name="boardContent" th:text="${row.boardContent }"  ></textarea>	 -->	
-							<th:block th:utext = "${customer.boardContent }"></th:block>
+						
+							<th:block th:utext = "${customer.boardContent}"></th:block>
 					</td>
 				</tr>
 				
