@@ -77,141 +77,173 @@ INSERT INTO store_application_document (`store_application_document_number`,`id`
 
 
 /* PRODUCT */
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
-     VALUES (10000, '수제청 딸기청 패션후르츠 결혼식 답례품 생일선물', 5000, 'store03@naver.com', 'product_main_image.jpg', 'product_detail 01', '01', '01', NOW(), 3000, 10);
-INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
-     VALUES ('종류: 딸기청best / 용량: 250ml', 6000, 'store03@naver.com', 'product_main_image.jpg', '01', '01', NOW(), 3000, 10, 10000);
-INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
-     VALUES ('종류: 자몽청best / 용량: 250ml', 6000, 'store03@naver.com', 'product_main_image.jpg', '01', '01', NOW(), 3000, 10, 10000);
-INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
-     VALUES ('종류: 오렌지청best / 용량: 250ml', 6000, 'store03@naver.com', 'product_main_image.jpg', '01', '02', NOW(), 3000, 10, 10000);
-INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
-     VALUES ('종류: 포도청best / 용량: 250ml', 6000, 'store03@naver.com', 'product_main_image.jpg', '01', '03', NOW(), 3000, 0, 10000);
-INSERT INTO product (product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
-     VALUES ('식빵 쿠키커터 스마일식빵 쿠키틀', 7000, 'store02@naver.com', 'product_main_image.jpg', 'product_detail 02', '02', '01', NOW(), 3000, 20);
-INSERT INTO product (product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
-     VALUES ('진정밤 멀티밤 트러블에 정말 좋아요~', 10000, 'store02@naver.com', 'product_main_image.jpg', 'product_detail 03', '03', '01', NOW(), 3000, 30);
-INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
-     VALUES ('성분: 라벤더', 6000, 'store02@naver.com', 'product_main_image.jpg', '03', '01', NOW(), 3000, 10, 10006);
-INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
-     VALUES ('성분: 로즈마리', 6000, 'store02@naver.com', 'product_main_image.jpg', '03', '01', NOW(), 3000, 10, 10006);
-INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
-     VALUES ('성분: 로즈', 6000, 'store02@naver.com', 'product_main_image.jpg', '03', '02', NOW(), 3000, 10, 10006);
-INSERT INTO product (product_name, product_price, store_id, product_main_image, product_category_code, product_status, reg_date, delivery_charge, product_quantity, product_group_number)
-     VALUES ('성분: 카모마일', 6000, 'store02@naver.com', 'product_main_image.jpg', '03', '03', NOW(), 3000, 0, 10006);
-INSERT INTO product (product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
-     VALUES ('아디다스 티셔츠 한정판', 12000, 'store01@naver.com', 'product_main_image.jpg', 'product_detail 02', '04', '01', NOW(), 3000, 10);
-INSERT INTO product (product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
-     VALUES ('감성 무드등', 30000, 'store01@naver.com', 'product_main_image.jpg', 'product_detail 02', '05', '01', NOW(), 3000, 10);
-INSERT INTO product (product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
-     VALUES ('순면 100% 턱받침', 15300, 'store01@naver.com', 'product_main_image.jpg', 'product_detail 02', '06', '01', NOW(), 3000, 10);
-INSERT INTO product (product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
-     VALUES ('수제 터키 과자 딜라이트', 10000, 'store03@naver.com', 'product_main_image.jpg', 'product_detail 02', '01', '01', NOW(), 3000, 10);
-INSERT INTO product (product_name, product_price, store_id, product_main_image, product_detail, product_category_code, product_status, reg_date, delivery_charge, product_quantity)
-     VALUES ('프랑스에서 만든 마카롱 10개 세트', 20000, 'store03@naver.com', 'product_main_image.jpg', 'product_detail 02', '01', '01', NOW(), 3000, 10);
+/* 뷰티 - 손수만든 정성 손짓손짓 storeId: hand01 */
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10000, '허브 쿨링 솝', 4300, 'hand01@naver.com', 'product_beauty_1.PNG', '03', '01', 3000, 10, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10000, 'product_beauty_1_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10000, 'product_beauty_1_extra_2.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10000, 'product_beauty_1_extra_3.png');
+
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10001, '진정밤/기피제 모기벌레 아웃도어 3총사', 6500, 'hand01@naver.com', 'product_beauty_2.PNG', '03', '01', 3000, 20, now());
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10002, '아웃도어 밤', 6500, 'hand01@naver.com', 'product_beauty_2.PNG', '03', '01', 3000, 10, now(), 10001);
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10003, '아웃도어 스프레이', 6500, 'hand01@naver.com', 'product_beauty_2.PNG', '03', '01', 3000, 10, now(), 10001);
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10001, 'product_beauty_2_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10001, 'product_beauty_2_extra_2.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10001, 'product_beauty_2_extra_3.png');
+
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10004, '미니 다리미 스틱 Light', 4300, 'hand01@naver.com', 'product_beauty_3.PNG', '03', '01', 3000, 10, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10004, 'product_beauty_3_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10004, 'product_beauty_3_extra_2.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10004, 'product_beauty_3_extra_3.png');
+
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10005, '달의 요람 향수', 42000, 'hand01@naver.com', 'product_beauty_5.PNG', '03', '01', 3000, 10, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10005, 'product_beauty_5_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10005, 'product_beauty_5_extra_2.png');
+
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10006, '자연닮은 음악향수', 47200, 'hand01@naver.com', 'product_beauty_6.PNG', '03', '01', 3000, 10, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10006, 'product_beauty_6_extra_1.png');
+
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10007, '천연 데오드란트', 16200, 'hand01@naver.com', 'product_beauty_7.PNG', '03', '01', 3000, 30, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10007, 'product_beauty_7_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10007, 'product_beauty_7_extra_2.png');
+
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10008, '웨이브 버블바스 3종세트', 13900, 'hand01@naver.com', 'product_beauty_8.PNG', '03', '01', 3000, 30, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10008, 'product_beauty_8_extra_1.png');
+
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10009, '거품+탄산 마블링 배쓰밤', 9800, 'hand01@naver.com', 'product_beauty_9.PNG', '03', '01', 3000, 30, now());
+
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10010, '대용량 모스큐브', 11900, 'hand01@naver.com', 'product_beauty_10.PNG', '03', '01', 3000, 30, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10010, 'product_beauty_10_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10010, 'product_beauty_10_extra_2.png');
 
 
-/* 추가 insert */
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10050, '허브 쿨링 솝', 4300, 'store01@naver.com', 'product_beauty_1.PNG', '03', '01', 3000, 10, now());
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10050', 'product_beauty_1_extra_1.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10050', 'product_beauty_1_extra_2.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10050', 'product_beauty_1_extra_3.png');
+/* 패션 - 주얼리 storeId: jewdha999 */
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10012, '그린 클로버 써지컬 목걸이', 10400, 'jewdha999@naver.com', 'product_fashion_13.PNG', '04', '01', 3000, 50, now());
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10013, '그린 클로버 써지컬 목걸이 골드', 10400, 'jewdha999@naver.com', 'product_fashion_13.PNG', '04', '01', 3000, 25, now(), 10012);
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10014, '그린 클로버 써지컬 목걸이 실버', 10400, 'jewdha999@naver.com', 'product_fashion_13.PNG', '04', '01', 3000, 25, now(), 10012);
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10012, 'product_fashion_13_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10012, 'product_fashion_13_extra_2.png');
 
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10051, '진정밤/기피제 모기벌레 아웃도어 3총사', 6500, 'store01@naver.com', 'product_beauty_2.PNG', '03', '01', 3000, 20, now());
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10052, '아웃도어 밤', 6500, 'store01@naver.com', 'product_beauty_2.PNG', '03', '01', 3000, 10, now(), 10051);
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10053, '아웃도어 스프레이', 6500, 'store01@naver.com', 'product_beauty_2.PNG', '03', '01', 3000, 10, now(), 10051);
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10051', 'product_beauty_2_extra_1.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10051', 'product_beauty_2_extra_2.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10051', 'product_beauty_2_extra_3.png');
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10015, '블루 레이스 목걸이', 24800, 'jewdha999@naver.com', 'product_fashion_14.PNG', '04', '01', 3000, 50, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10015, 'product_fashion_14_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10015, 'product_fashion_14_extra_2.png');
 
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10054, '미니 다리미 스틱 Light', 4300, 'store01@naver.com', 'product_beauty_3.PNG', '03', '01', 3000, 10, now());
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10054', 'product_beauty_3_extra_1.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10054', 'product_beauty_3_extra_2.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10054', 'product_beauty_3_extra_3.png');
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10016, '퍼플 귀걸이', 6000, 'jewdha999@naver.com', 'product_fashion_10.PNG', '04', '01', 3000, 50, now());
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10017, '퍼플 스터드 귀걸이', 6000, 'jewdha999@naver.com', 'product_fashion_10.PNG', '04', '01', 3000, 25, now(), 10016);
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10018, '퍼플 드롭 귀걸이', 6000, 'jewdha999@naver.com', 'product_fashion_10.PNG', '04', '01', 3000, 25, now(), 10016);
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10016, 'product_fashion_10_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10016, 'product_fashion_10_extra_2.png');
 
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10055, '달의 요람 향수', 42000, 'store01@naver.com', 'product_beauty_5.PNG', '03', '01', 3000, 10, now());
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10055', 'product_beauty_5_extra_1.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10055', 'product_beauty_5_extra_2.png');
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10019, '꽃 유리 피어싱', 9000, 'jewdha999@naver.com', 'product_fashion_11.PNG', '04', '01', 3000, 50, now());
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10020, '빨간꽃 유리 피어싱', 9000, 'jewdha999@naver.com', 'product_fashion_11.PNG', '04', '01', 3000, 10, now(), 10019);
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10021, '주황꽃 유리 피어싱', 9000, 'jewdha999@naver.com', 'product_fashion_11.PNG', '04', '01', 3000, 10, now(), 10019);
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10022, '흰꽃 유리 피어싱', 9000, 'jewdha999@naver.com', 'product_fashion_11.PNG', '04', '01', 3000, 10, now(), 10019);
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10023, '파란꽃 유리 피어싱', 9000, 'jewdha999@naver.com', 'product_fashion_11.PNG', '04', '01', 3000, 10, now(), 10019);
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10024, '남보라꽃 유리 피어싱', 9000, 'jewdha999@naver.com', 'product_fashion_11.PNG', '04', '01', 3000, 10, now(), 10019);
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10019, 'product_fashion_11_extra_1.png');
 
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10056, '마스크스트랩 목걸이', 12000, 'store02@naver.com', 'product_fashion_1.PNG', '04', '01', 3000, 20, now());
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10057, '마스크스트랩 목걸이 파스텔 곰젤리', 12000, 'store02@naver.com', 'product_fashion_1.PNG', '04', '01', 3000, 10, now(), 10056);
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10058, '마스크스트랩 목걸이 민트블루 곰젤리', 12000, 'store02@naver.com', 'product_fashion_1.PNG', '04', '01', 3000, 10, now(), 10056);
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10025, '알러지NO 귀여운 피어싱/귀걸이', 3300, 'jewdha999@naver.com', 'product_fashion_12.PNG', '04', '01', 3000, 50, now());
 
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10059, '아쿠아마린 나비 귀걸이 목걸이', 10000, 'store02@naver.com', 'product_fashion_2.PNG', '04', '01', 3000, 20, now());
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10060, '아쿠아마린 나비 귀걸이', 12000, 'store02@naver.com', 'product_fashion_2.PNG', '04', '01', 3000, 10, now(), 10059);
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10061, '아쿠아마린 나비 목걸이', 12000, 'store02@naver.com', 'product_fashion_2.PNG', '04', '01', 3000, 10, now(), 10059);
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10059', 'product_fashion_2_extra_1.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10059', 'product_fashion_2_extra_2.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10059', 'product_fashion_2_extra_3.png');
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10026, '꽃 시리즈 비즈 꽃반지 5 Color', 5000, 'jewdha999@naver.com', 'product_fashion_7.PNG', '04', '01', 3000, 50, now());
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10027, '비즈 벚꽃반지', 5000, 'jewdha999@naver.com', 'product_fashion_7.PNG', '04', '01', 3000, 10, now(), 10026);
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10028, '비즈 아카시아꽃반지', 5000, 'jewdha999@naver.com', 'product_fashion_7.PNG', '04', '01', 3000, 10, now(), 10026);
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10029, '비즈 망고튤꽃립반지', 5000, 'jewdha999@naver.com', 'product_fashion_7.PNG', '04', '01', 3000, 10, now(), 10026);
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10030, '비즈 양귀비꽃반지', 5000, 'jewdha999@naver.com', 'product_fashion_7.PNG', '04', '01', 3000, 10, now(), 10026);
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10031, '비즈 나팔꽃반지', 5000, 'jewdha999@naver.com', 'product_fashion_7.PNG', '04', '01', 3000, 10, now(), 10026);
 
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10062, '뮬 슬리퍼 3cm 슬링백', 26000, 'store02@naver.com', 'product_fashion_3.PNG', '04', '01', 3000, 30, now());
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10063, '뮬 슬리퍼 블랙', 26000, 'store02@naver.com', 'product_fashion_3.PNG', '04', '01', 3000, 10, now(), 10062);
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10064, '뮬 슬리퍼 베이지', 26000, 'store02@naver.com', 'product_fashion_3.PNG', '04', '01', 3000, 10, now(), 10062);
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10065, '뮬 슬리퍼 화이트', 26000, 'store02@naver.com', 'product_fashion_3.PNG', '04', '01', 3000, 10, now(), 10062);
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10062', 'product_fashion_3_extra_1.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10062', 'product_fashion_3_extra_2.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10062', 'product_fashion_3_extra_3.png');
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10032, '이니셜 은반지', 17000, 'jewdha999@naver.com', 'product_fashion_8.PNG', '04', '01', 3000, 50, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10032, 'product_fashion_8_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10032, 'product_fashion_8_extra_2.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10032, 'product_fashion_8_extra_3.png');
 
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10066, '와이드 슬랙스 밴딩 Grey', 18900, 'store02@naver.com', 'product_fashion_6.PNG', '04', '01', 3000, 30, now());
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10067, '와이드 슬랙스 밴딩 Grey S', 18900, 'store02@naver.com', 'product_fashion_6.PNG', '04', '01', 3000, 10, now(), 10066);
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10068, '와이드 슬랙스 밴딩 Grey M', 18900, 'store02@naver.com', 'product_fashion_6.PNG', '04', '01', 3000, 10, now(), 10066);
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10069, '와이드 슬랙스 밴딩 Grey L', 18900, 'store02@naver.com', 'product_fashion_6.PNG', '04', '01', 3000, 10, now(), 10066);
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10066', 'product_fashion_6_extra_1.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10066', 'product_fashion_6_extra_2.png');
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10033, '천연석 핑크러브 드로잉투링', 89000, 'jewdha999@naver.com', 'product_fashion_9.PNG', '04', '01', 3000, 50, now());
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10034, '천연석 장미석 드로잉투링', 89000, 'jewdha999@naver.com', 'product_fashion_9.PNG', '04', '01', 3000, 25, now(), 10033);
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10035, '천연석 핑크칼세도니 드로잉투링', 89000, 'jewdha999@naver.com', 'product_fashion_9.PNG', '04', '01', 3000, 25, now(), 10033);
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10033, 'product_fashion_9_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10033, 'product_fashion_9_extra_2.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10033, 'product_fashion_9_extra_3.png');
 
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10070, '아낌없이 만든 수제쿠키 세트', 15000, 'store03@naver.com', 'product_food_1.PNG', '01', '01', 3000, 30, now());
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10070', 'product_food_1_extra_1.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10070', 'product_food_1_extra_2.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10070', 'product_food_1_extra_3.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10070', 'product_food_1_extra_4.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10070', 'product_food_1_extra_5.png');
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10036, '아쿠아마린 나비 귀걸이 목걸이', 10000, 'jewdha999@naver.com', 'product_fashion_2.PNG', '04', '01', 3000, 20, now());
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10037, '아쿠아마린 나비 귀걸이', 12000, 'jewdha999@naver.com', 'product_fashion_2.PNG', '04', '01', 3000, 10, now(), 10036);
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10038, '아쿠아마린 나비 목걸이', 12000, 'jewdha999@naver.com', 'product_fashion_2.PNG', '04', '01', 3000, 10, now(), 10036);
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10036, 'product_fashion_2_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10036, 'product_fashion_2_extra_2.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10036, 'product_fashion_2_extra_3.png');
 
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10071, '맛있는 무설탕 자일리톨 캔디 11종 랜덤', 6900, 'store03@naver.com', 'product_food_2.PNG', '01', '01', 3000, 110, now());
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10071', 'product_food_2_extra_1.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10071', 'product_food_2_extra_2.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10071', 'product_food_2_extra_3.png');
+/* 식품 - 민하네 식탁 storeId: minha01 / 허뷰티 h01@naver.com */
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10039, '맛있는 무설탕 자일리톨 캔디 11종 랜덤', 6900, 'minha01@naver.com', 'product_food_2.PNG', '01', '01', 3000, 110, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10039, 'product_food_2_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10039, 'product_food_2_extra_2.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10039, 'product_food_2_extra_3.png');
 
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10072, '대용량 더치커피 1L', 8900, 'store03@naver.com', 'product_food_3.PNG', '01', '01', 3000, 50, now());
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10073, '대용량 더치커피 1L 바닐라', 8900, 'store03@naver.com', 'product_food_3.PNG', '01', '01', 3000, 25, now(), 10072);
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10074, '대용량 더치커피 1L 헤이즐넛', 8900, 'store03@naver.com', 'product_food_3.PNG', '01', '01', 3000, 25, now(), 10072);
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10072', 'product_food_3_extra_1.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10072', 'product_food_3_extra_2.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10072', 'product_food_3_extra_3.png');
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10040, '무설탕 무첨가 건강 대추차', 5900, 'minha01@naver.com', 'product_food_4.PNG', '01', '01', 3000, 100, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10040, 'product_food_4_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10040, 'product_food_4_extra_2.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10040, 'product_food_4_extra_3.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10040, 'product_food_4_extra_4.png');
 
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10075, '무설탕 무첨가 건강 대추차', 5900, 'store03@naver.com', 'product_food_4.PNG', '01', '01', 3000, 100, now());
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10075', 'product_food_4_extra_1.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10075', 'product_food_4_extra_2.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10075', 'product_food_4_extra_3.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10075', 'product_food_4_extra_4.png');
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10041, '생일선물 부모님선물 꽃차 5종 세트', 24500, 'h01@naver.com', 'product_food_5.PNG', '01', '01', 3000, 70, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10041, 'product_food_5_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10041, 'product_food_5_extra_2.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10041, 'product_food_5_extra_3.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10041, 'product_food_5_extra_4.png');
 
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10076, '생일선물 부모님선물 꽃차 5종 세트', 24500, 'store03@naver.com', 'product_food_5.PNG', '01', '01', 3000, 70, now());
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10076', 'product_food_5_extra_1.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10076', 'product_food_5_extra_2.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10076', 'product_food_5_extra_3.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10076', 'product_food_5_extra_4.png');
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10042, '썸머 후르츠 펀치 복숭아 자두 체리청', 14500, 'h01@naver.com', 'product_food_6.PNG', '01', '01', 3000, 70, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10042, 'product_food_5_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10042, 'product_food_5_extra_2.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10042, 'product_food_5_extra_3.png');
 
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10077, '스마일꽃 믹스사이즈 마그넷', 24500, 'store04@naver.com', 'product_interior_3.PNG', '05', '01', 3000, 30, now());
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10077', 'product_interior_3_extra_1.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10077', 'product_interior_3_extra_2.png');
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10043, '라임 모히또 시럽 캠핑 여름나기', 14500, 'h01@naver.com', 'product_food_7.PNG', '01', '01', 3000, 70, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10043, 'product_food_7_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10043, 'product_food_7_extra_2.png');
 
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10078, '친환경 제로웨이스트 대나무 칫솔', 1780, 'store05@naver.com', 'product_life_1.PNG', '02', '01', 3000, 60, now());
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10079, '친환경 제로웨이스트 대나무 칫솔 스퀘어형', 1780, 'store04@naver.com', 'product_life_1.PNG', '02', '01', 3000, 30, now(), 10078);
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10080, '친환경 제로웨이스트 대나무 칫솔 기본형', 1780, 'store04@naver.com', 'product_life_1.PNG', '02', '01', 3000, 30, now(), 10078);
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10078', 'product_life_1_extra_1.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10078', 'product_life_1_extra_2.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10078', 'product_life_1_extra_3.png');
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10044, '리얼 자두 시럽 자두청 고농축 착즙시럽', 13500, 'h01@naver.com', 'product_food_8.PNG', '01', '01', 3000, 70, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10044, 'product_food_8_extra_1.png');
 
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10081, '민트 머그컵', 15750, 'store05@naver.com', 'product_life_2.PNG', '02', '01', 3000, 80, now());
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10081', 'product_life_2_extra_1.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10081', 'product_life_2_extra_2.png');
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10045, '자몽 얼그레이 티 시럽 자허블 홈카페', 14000, 'h01@naver.com', 'product_food_9.PNG', '01', '01', 3000, 70, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10045, 'product_food_9_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10045, 'product_food_9_extra_2.png');
 
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10082, '시리얼볼 + 우드스푼 SET', 11700, 'store05@naver.com', 'product_life_3.PNG', '02', '01', 3000, 50, now());
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10082', 'product_life_3_extra_1.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10082', 'product_life_3_extra_2.png');
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10082', 'product_life_3_extra_3.png');
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10046, '호랑이 해장냉면', 4500, 'minha01@naver.com', 'product_food_10.PNG', '01', '01', 3000, 70, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10046, 'product_food_10_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10046, 'product_food_10_extra_2.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10046, 'product_food_10_extra_2.png');
 
-INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10083, '반려돌 키우기 돌멩이', 6900, 'store04@naver.com', 'product_interior_5.PNG', '05', '01', 3000, 90, now());
-INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10083', 'product_interior_5_extra_1.png');
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10047, '내 영혼을 울리는 닭고기 스프', 10000, 'minha01@naver.com', 'product_food_11.PNG', '01', '01', 3000, 70, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10047, 'product_food_11_extra_1.png');
+
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10048, '부대찌개 2~3인분(Original)', 13400, 'minha01@naver.com', 'product_food_13.PNG', '01', '01', 3000, 70, now());
+
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10049, '수제 로제 소스 파스타', 8000, 'minha01@naver.com', 'product_food_15.PNG', '01', '01', 3000, 70, now());
+
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10050, '화려한 심플함 마르게리따 피자', 11900, 'minha01@naver.com', 'product_food_16.PNG', '01', '01', 3000, 70, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10050, 'product_food_16_extra_1.png');
+
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10051, '겉빠속촉 빠스(고구마맛탕)300g', 16500, 'minha01@naver.com', 'product_food_17.PNG', '01', '01', 3000, 70, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10050, 'product_food_17_extra_1.png');
+
+
+/* 인테리어 - rami54*/
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10052, '스마일꽃 믹스사이즈 마그넷', 24500, 'rami54@naver.com', 'product_interior_3.PNG', '05', '01', 3000, 30, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10052', 'product_interior_3_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', '10052', 'product_interior_3_extra_2.png');
+
+/* 생활 - 새봄마켓 storeId: saebom01 */
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10053, '친환경 제로웨이스트 대나무 칫솔', 1780, 'saebom01@naver.com', 'product_life_1.PNG', '02', '01', 3000, 60, now());
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10054, '친환경 제로웨이스트 대나무 칫솔 스퀘어형', 1780, 'saebom01@naver.com', 'product_life_1.PNG', '02', '01', 3000, 30, now(), 10053);
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date, product_group_number) VALUES (10055, '친환경 제로웨이스트 대나무 칫솔 기본형', 1780, 'saebom01@naver.com', 'product_life_1.PNG', '02', '01', 3000, 30, now(), 10053);
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10053, 'product_life_1_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10053, 'product_life_1_extra_2.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10053, 'product_life_1_extra_3.png');
+
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10056, '민트 머그컵', 15750, 'saebom01@naver.com', 'product_life_2.PNG', '02', '01', 3000, 80, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10056, 'product_life_2_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10056, 'product_life_2_extra_2.png');
+
+INSERT INTO product (product_number, product_name, product_price, store_id, product_main_image, product_category_code, product_status, delivery_charge, product_quantity, reg_date) VALUES (10057, '시리얼볼 + 우드스푼 SET', 11700, 'saebom01@naver.com', 'product_life_3.PNG', '02', '01', 3000, 50, now());
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10057, 'product_life_3_extra_1.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10057, 'product_life_3_extra_2.png');
+INSERT INTO image (image_classification_code, image_classification_number, image_name) VALUES ('P', 10057, 'product_life_3_extra_3.png');
+
 
 /* live */
 INSERT INTO live (store_id, room_id, live_title, live_intro, live_image, live_status, chatting_status) VALUES ('admin@naver.com', 'WNJOYtULLN-qPbfm8l9nO-20220610231056', 'live_title 01', 'live_intro 01', 'live_image 01', 0, 0);
