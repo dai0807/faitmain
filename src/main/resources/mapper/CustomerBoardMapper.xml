@@ -52,6 +52,7 @@
       		ORDER BY reg_date	
       		DESC LIMIT 1	  	
     </select>
+    
 	
 	<insert id="addCustomerBoard" parameterType="Customer" >
 		    INSERT INTO customer

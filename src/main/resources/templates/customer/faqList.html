@@ -7,7 +7,7 @@
 	
 	<link rel="stylesheet"  th:href="@{/customerDesign/faqCss/css/style.css}">
 	<title>faitmain</title>
-	<script src="https://code.jquery.com/jquer-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquer-3.2.1.min.js"></script>
 	<script src="https://code.jquery.com/jquer-latest.js"></script>
 	 <!-- Channel Plugin Scripts -->
 <script>
@@ -51,51 +51,58 @@
   });
 </script>
 <!-- End Channel Plugin -->		
+
+<script type="text/javascript">
+$(document).ready(function(){
 	
-		<script type="text/javascript">
-		function getList(code){
-			console.log(code)
-			console.log("리스트 가져오기")
-			var listvar = $(".table").html();
-
-			
-			$.ajax({
-				url:"/customer/json/getCustomerBoardList?boardType=F&FAQCategoryCode="+code,
-				type:"GET",
-				/* data{
-					
-				} */
-				success : function(data){
-
-					$('div.faq').children().remove();
-					var abc = "";
-					
-					for(let i = 0 ; i < data.length ; i ++){
-												
-				     	abc += '<ul class="faq-accordion">'	
-			                +  		'<li>'
-			                +  			'<a title="Click" id="title" >'+data[i].boardTitle+ '</a>'
-			                +  			'<ul class="faq-content" style="display: none;">' 
-			                +  				'<li style= "width: auto;">'
-			                +  					'<div><p class="contents">'+data[i].boardContent+'</p></div>'
-			                +  				'</li>'
-			                +  			'</ul>' 
-			                +  		'</li>'
-			                +  '<button type="button" id="updateFAQ" class="btn_updateFAQ new" th:onclick="update()" sec:authorize="hasRole("ROLE_admin")">수정</button>	</ul>';
-					}
-					
-					$('div.faq').append(abc);
-					
-					
-				},
+	getList(code);
+	
+	function getList(code){
+		console.log(code)
+		console.log("리스트 가져오기")
+		var listvar = $(".table").html();
+	
+		
+		$.ajax({
+			url:"/customer/json/getCustomerBoardList?boardType=F&FAQCategoryCode="+code,
+			type:"GET",
+			/* data{
+				
+			} */
+			success : function(data){
+	
+				$('div.faq').children().remove();
+				var abc = "";
+				
+				for(let i = 0 ; i < data.length ; i ++){
+											
+			     	abc += '<ul class="faq-accordion">'	
+		                +  		'<li>'
+		                +  			'<a title="Click" id="title" >'+data[i].boardTitle+ '</a>'
+		                +  			'<ul class="faq-content" style="display: none;">' 
+		                +  				'<li style= "width: auto;">'
+		                +  					'<div><p class="contents">'+data[i].boardContent+'</p></div>'
+		                +  				'</li>'
+		                +  			'</ul>' 
+		                +  		'</li>'
+		                +  '<button type="button" id="updateFAQ" class="btn_updateFAQ " th:onclick="update()" sec:authorize="hasRole("ROLE_admin")">수정</button>'	
+		                +  '<button type="button" id="deleteFAQ" class="btn_deleteFAQ " th:onclick="delete()" sec:authorize="hasRole("ROLE_admin")">삭제</button>'	
+		                + '</ul>';
+				}
+				
+				$('div.faq').append(abc);
 				
 				
-			});
+			},
 			
-		}
+			
+		});
+		
+	}
+});
 
 		
-	</script>
+</script>
 </head>
 
 <body>
@@ -136,6 +143,7 @@
 				            <!-- <div>service</div> -->
 				        </div>
 				</div><!--faq-group-->
+				
 				<div class="slide-left">
 	              <div  class="faq">
 	                 <ul class="faq-accordion" th:if="${not #lists.isEmpty(boardList)}" th:each="row : ${boardList}">
@@ -160,7 +168,7 @@
 											                               
 		                                <th:block sec:authorize="isAuthenticated()">
 										<div class="btn_wrap text-right" sec:authorize="hasRole('ROLE_admin')">
-			                   				 <button type="button" id="updateFAQ" class="btn_updateFAQ" onclick="updateC()" 
+			                   				 <button type="button" id="updateFAQ" class="btn_updateFAQ" th:onclick="update()" 
 			                   				 style= "border:0; outline:0;"    >수정</button>
 			                   				 <button type="button" id="deleteFAQ" class="btn_deleteFAQ" th:onclick="delete()" 
 			                   				 style= "border:0; outline:0;">삭제</button>
@@ -176,7 +184,7 @@
 			 
         </table>
         <script type="text/javascript">
-		function updateC(){
+		function update(){
 			
 			$(document).on("click", "#updateFAQ", function(){
 				
