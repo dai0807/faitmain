@@ -97,13 +97,6 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   src: url('../fonts/Montserrat/Montserrat-Bold.ttf'); 
 }
 
-@font-face {
-    font-family: 'GmarketSansMedium';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-}
-
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap');
-
 @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
 /*//////////////////////////////////////////////////////////////////
 [ RS PLUGIN ]*/
@@ -2050,7 +2043,7 @@ input.num-product::-webkit-inner-spin-button {
 
 /*---------------------------------------------*/
 .block1-txt:hover {
-  background-color: rgba(103,117,214,0.8);
+  background-color: rgba(0,0,0,0.7);
 }
 
 .block1-txt:hover .block1-txt-child2 {
@@ -2422,45 +2415,57 @@ input.num-product::-webkit-inner-spin-button {
 /*//////////////////////////////////////////////////////////////////
 [ L-Text >= 26 ]*/
 .ltext-101 {
-  font-family: Poppins-Regular;
+  /*font-family: Poppins-Regular;*/
+  font-family: 'Jeju Gothic';
   font-size: 28px;
   line-height: 1.2857;
 }
 
 .ltext-102 {
-  font-family: Poppins-Bold;
+  /*font-family: Poppins-Bold;*/
+  font-family: 'Jeju Gothic';
+  font-weight: bold;
   font-size: 28px;
   line-height: 1.1;
 }
 
 .ltext-103 {
-  font-family: Poppins-Bold;
+  /*font-family: Poppins-Bold;*/
+  font-family: 'Jeju Gothic';
   font-size: 36px;
   line-height: 1.1;
   text-transform: uppercase;
 }
 
 .ltext-104 {
-  font-family: Poppins-Bold;
+  /*font-family: Poppins-Bold;*/
+  font-family: 'Jeju Gothic';
+  font-weight: bold;
   font-size: 60px;
   line-height: 1.1;
   text-transform: uppercase;
 }
 
 .ltext-105 {
-  font-family: Poppins-Bold;
+  /*font-family: Poppins-Bold;*/
+  font-family: 'Jeju Gothic';
+  font-weight: bold;
   font-size: 50px;
   line-height: 1.1;
 }
 
 .ltext-106 {
-  font-family: Poppins-Bold;
+  /*font-family: Poppins-Bold;*/
+  font-family: 'Jeju Gothic';
+  font-weight: bold;
   font-size: 36px;
   line-height: 1.2;
 }
 
 .ltext-107 {
-  font-family: Poppins-Bold;
+  /*font-family: Poppins-Bold;*/
+  font-family: 'Jeju Gothic';
+  font-weight: bold;
   font-size: 30px;
   line-height: 1.1;
 }
