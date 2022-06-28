@@ -75,7 +75,7 @@ public class LiveServiceImpl implements LiveService {
 	public Map<String, Object> getLiveList() throws Exception {
 		log.info("Impl getLiveList start...");
 		List<Live> list = liveMapper.getLiveList();
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		map.put("liveList", list);
@@ -243,7 +243,7 @@ public class LiveServiceImpl implements LiveService {
 
 	@Override
 	public void sendSMS(Live live) throws Exception {
-		this.messageService = NurigoApp.INSTANCE.initialize("NCSLCAD1LDIHGZEO", "HDZEBLI8LKM2PVESFMBEXAVENHAFDEDP",
+		this.messageService = NurigoApp.INSTANCE.initialize("NCSFLNAKPLATWT5U", "UQHE4HDGLZ99FWYC4YHSECRYKMLHGVZI",
 				"https://api.coolsms.co.kr");
 
 		User store = userMapper.getUser(live.getStoreId());
@@ -264,7 +264,7 @@ public class LiveServiceImpl implements LiveService {
 
 			message = new Message();
 
-			message.setFrom("01091740269");
+			message.setFrom("01080077545");
 			message.setTo(user.getPhoneNumber());
 			message.setText(store.getStoreName() + "님 방송이 시작되었습니다.");
 

@@ -215,10 +215,10 @@
        userNick = $("#userNickname").val(), // 접속자의 닉네임, 사용자에게 입력받은 값을 사용해도 된다.
        randomNick = 'xxxxxxxx'.replace(/[xy]/g, function(a, b) { return (b = Math.random() * 16, (a == 'y' ? b & 3 | 8 : b | 0).toString(16)) }), // 접속자 고유 키
    	   userKey = $('#userId').val();
-   	   
+   	if( userId != null ){
    	   userId = userId.replace("@", "");
    	   userId = userId.replace(".", "");
-     
+   	}
     if( $('#userNickname').val() == null || $('#userNickname').val() == "" ){
 		var clientKey = randomNick;
 	} else {
