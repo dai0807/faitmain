@@ -313,7 +313,7 @@
 							success: function (data) {
 								console.log("컨트롤러에서 받은 data : " + data);
 
-								if (data == 'success') {
+								if (data.responseCode == 'success') {
 									swal("상품 삭제 완료", "삭제가 완료되었습니다!", "success").then(function () {
 										history.back();
 									});
