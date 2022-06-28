@@ -3,7 +3,6 @@ package com.faitmain.domain.live.controller;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +13,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -131,7 +129,7 @@ public class LiveRestController {
 	}
 
 	@PostMapping("json/sanctionUserList")
-	public JSONArray sanctionUserList(HttpServletRequest req, Model model) throws Exception {
+	public JSONArray kickUserList(HttpServletRequest req, Model model) throws Exception {
 
 		log.info("Controller = {} ", "/live/getLiveUserList : GET start...");
 
@@ -309,15 +307,6 @@ public class LiveRestController {
 		return jsonArr;
 	}
 
-	// 라이브 채팅방 유저목록 조회 요청 구현중
-	@PostMapping("json/getLiveUserList")
-	public Map<String, Object> getLiverUserList() throws Exception {
-
-		Map<String, Object> map = new HashMap<>();
-
-		return map;
-	}
-
 	public String getToken() throws Exception {
 
 		log.info("getToken Method start...");
@@ -382,9 +371,6 @@ public class LiveRestController {
 			throws Exception {
 
 		log.info("editRoom = {} ", this.getClass());
-		
-		
-		
 
 		// DB에 강제퇴장 내용 등록
 
@@ -420,7 +406,7 @@ public class LiveRestController {
 		sc.init(null, trustCerts, new java.security.SecureRandom());
 
 		for (String client : clientKey) {
-			
+
 			URL url = new URL("https://vchatcloud.com/openapi/v1/exiles/" + roomId + "/" + client);
 
 			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
@@ -553,7 +539,7 @@ public class LiveRestController {
 
 		}
 	}
-	
+
 	// 유저 채팅제한
 	@GetMapping("json/muteUser/{roomId}/{clientKey}")
 	public void muteUser(@PathVariable("roomId") String roomId, @PathVariable("clientKey") List<String> clientKey)
