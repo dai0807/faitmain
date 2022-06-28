@@ -148,10 +148,11 @@
 								<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04" id="search">
 									<i class="zmdi zmdi-search"></i>
 								</button>
-								<form th:action="@{/product/getProductList?resultJsp=listProduct}" method="POST">
+								<form th:action="@{/product/getProductList?resultJsp=listProduct}" method="POST" style="width: 500px;">
 									<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" id="searchKeyword" name="searchKeyword" placeholder="Search">
 									<input type="hidden" id="currentPage" name="currentPage" value="0" />
 									<input type="hidden" id="orderName" name="orderName" th:value="${search.orderName}" />
+									<input type="hidden" id="categoryCode" name="categoryCode" th:value="${search.categoryCode}" />
 								</form>	
 							</div>
 						</div>

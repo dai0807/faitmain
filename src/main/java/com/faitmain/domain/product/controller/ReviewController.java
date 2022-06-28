@@ -61,7 +61,7 @@ public class ReviewController {
 				
 		reviewService.addReview(review, mRequest);
 		
-		return "/order/OrderList?userId=" + review.getUserId();
+		return "/order/myList/" + review.getUserId();
 	}
 	
 	@GetMapping("getReview")
