@@ -68,7 +68,7 @@
                                         <col width = "30%"/>
                                         <col width = "30%"/>
                                         <col width = "20%"/>
-
+										<col width = "10%"/>
                                     </colgroup>
                                     <th:block th:each = "list : ${list}">
                                         <tr  class = "table_head" style = "text-align: center">
@@ -76,18 +76,21 @@
                                             <th class = "column">주문날짜</th>
                                             <th class = "column">주문상태</th>
                                             <th class = "column">사용포인트</th>
+                                            <th class = "column" style="color: transparent;">dskjdd</th>
                                         </tr>
                                         <tr class = "fuku">
                                             <th class = "column" th:text = "${list.orderNumber}"></th>
                                             <th class = "column" th:text = "${list.orderDate}"></th>
                                             <th class = "column" th:text = "${list.orderStatus}"></th>
                                             <th class = "column" th:text = "${list.usingPoint}"></th>
+                                            <th class = "column"></th>
                                         </tr>
                                         <tr bgcolor = "#efefef" class = "table_head">
                                             <th class = "column" >이미지</th>
                                             <th class = "column">상품명</th>
                                             <th class = "column">수량</th>
                                             <th class = "column">가격</th>
+                                            <th class = "column"></th>
                                         </tr>
                                         <tr class = "fuku" th:each = " orplist :${list.orderProductList}" th:style = "${orplistStat.last ? 'border-bottom-width: 50px':'' }">
                                             <th class = "column">
@@ -105,6 +108,9 @@
                                             </th>
                                             <th class = "column">
                                                 <a th:text = "${orplist.productPrice}"></a>
+                                            </th>
+                                            <th class = "column" style = "width: 20px;">
+                                                <a class = "stext-115 cl7 hov-cl1 size-213 p-t-18" th:href = "@{/review/addReview(orderProductNumber=${orplist.orderProductNumber})}">리뷰</a>
                                             </th>
                                         </tr>
                                     </th:block>

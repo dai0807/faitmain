@@ -89,6 +89,12 @@
 					close: function (evt) {
 					}
 				});
+				
+				$(".categoryBtn").on("click", function(){
+					
+					
+					
+				});
 
 			});
    	</script>
@@ -106,23 +112,23 @@
 								All Products
 							</button>
 					
-							<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".01">
+							<button class="categoryBtn stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".01">
 								식품
 							</button>
 					
-							<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".02">
+							<button class="categoryBtn stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".02">
 								생활
 							</button>
 					
-							<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".03">
+							<button class="categoryBtn stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".03">
 								뷰티
 							</button>
 					
-							<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".04">
+							<button class="categoryBtn stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".04">
 								패션
 							</button>
 					
-							<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".05">
+							<button class="categoryBtn stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".05">
 								인테리어
 							</button>
 						</div>
@@ -148,10 +154,11 @@
 								<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04" id="search">
 									<i class="zmdi zmdi-search"></i>
 								</button>
-								<form th:action="@{/product/getProductList?resultJsp=listProduct}" method="POST">
+								<form th:action="@{/product/getProductList?resultJsp=listProduct}" method="POST" style="width: 500px;">
 									<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" id="searchKeyword" name="searchKeyword" placeholder="Search">
 									<input type="hidden" id="currentPage" name="currentPage" value="0" />
 									<input type="hidden" id="orderName" name="orderName" th:value="${search.orderName}" />
+									<input type="hidden" id="searchCategory" name="searchCategory" th:value="${search.searchCategory}" />
 								</form>	
 							</div>
 						</div>

@@ -105,7 +105,7 @@ public class CustomerController {
 		}else if(customer.getBoardType() == 'L') {
 			url = "customer/liveGuideDetail";
 		}else if(customer.getBoardType() == 'F') {
-			url =  "customer/faqList";
+			url =  "redirect:/customer/listBoard?boardType="+customer.getBoardType();
 		}
 		
 		return url;

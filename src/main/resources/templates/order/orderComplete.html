@@ -6,33 +6,10 @@
     <meta charset = "UTF-8">
     <title>주문 완료</title>
 
-    <meta content = "width=device-width, initial-scale=1" name = "viewport">
-    <!--===============================================================================================-->
-    <link href = "/productDesign/images/icons/favicon.png" rel = "icon" type = "image/png"/>
-    <!--===============================================================================================-->
-    <link href = "/productDesign/vendor/bootstrap/css/bootstrap.min.css" rel = "stylesheet" type = "text/css">
-    <!--===============================================================================================-->
-    <link href = "/productDesign/fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel = "stylesheet" type = "text/css">
-    <!--===============================================================================================-->
-    <link href = "/productDesign/fonts/iconic/css/material-design-iconic-font.min.css" rel = "stylesheet" type = "text/css">
-    <!--===============================================================================================-->
-    <link href = "/productDesign/fonts/linearicons-v1.0.0/icon-font.min.css" rel = "stylesheet" type = "text/css">
-
-    <link href = "/productDesign/vendor/select2/select2.min.css" rel = "stylesheet" type = "text/css">
-
-    <link href = "/productDesign/css/util.css" rel = "stylesheet" type = "text/css">
-    <link href = "/productDesign/css/main.css" rel = "stylesheet" type = "text/css">
 
     <style>
 
-        .form-group {
-            margin-top: 10px;
-        }
-
-        h5, span {
-            font-family: 'Nanum Gothic Coding', monospace;
-        }
-
+       
 
     </style>
 
@@ -48,7 +25,7 @@
 
 </head>
 <body>
-<article class = "py-5" layout:fragment = "content">
+<article layout:fragment = "content">
 
     <!-- 주문완료 페이지 -->
     <form class = "bg0 p-t-75 p-b-85">
@@ -121,11 +98,11 @@
             </div>
         </div>
     </form>
-    <div class = "row" style = "margin: 80px 0; text-align: center;">
-        <a th:href = "@{/order/myList/{buyerId}(buyerId=${#authentication.principal.user.id})}">
-            <span>주문내역으로 이동하기</span>
+    <div class="flex-c-m flex-w w-full p-t-38">
+    	<a th:href = "@{/order/myList/{buyerId}(buyerId=${#authentication.principal.user.id})}">
+            <span class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">주문내역으로 이동하기</span>
         </a>
-    </div>
+    </div>   
 
 
     <!-- Product 관련 js -->
