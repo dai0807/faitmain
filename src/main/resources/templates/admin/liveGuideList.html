@@ -19,8 +19,68 @@
     <!-- Style 
     <link rel="stylesheet"  th:href="@{/customerDesign/noticeListCss/css/style.css}">
 -->
+<style>
+.pageInfo_area{
+	list-style : none;
+     display: inline-block;
+  	 margin: 50px 0 0 100px;      
+}
+.pageInfo_area li{
+	float: left;
+   font-size: 20px;
+   margin-left: 18px;
+   padding: 7px;
+   font-weight: 500;
+ }
+ 
+</style>
+	 <!-- Channel Plugin Scripts -->
+<script>
+  (function() {
+    var w = window;
+    if (w.ChannelIO) {
+      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
+    }
+    var ch = function() {
+      ch.c(arguments);
+    };
+    ch.q = [];
+    ch.c = function(args) {
+      ch.q.push(args);
+    };
+    w.ChannelIO = ch;
+    function l() {
+      if (w.ChannelIOInitialized) {
+        return;
+      }
+      w.ChannelIOInitialized = true;
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.async = true;
+      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+      s.charset = 'UTF-8';
+      var x = document.getElementsByTagName('script')[0];
+      x.parentNode.insertBefore(s, x);
+    }
+    if (document.readyState === 'complete') {
+      l();
+    } else if (window.attachEvent) {
+      window.attachEvent('onload', l);
+    } else {
+      window.addEventListener('DOMContentLoaded', l, false);
+      window.addEventListener('load', l, false);
+    }
+  })();
+  ChannelIO('boot', {
+    "pluginKey": "d7f92812-9849-482b-84c6-731d4076b5df"
+  });
+</script>
+<!-- End Channel Plugin -->	
     <title>faitmain</title>
     
+
+  	
+
     <style>
     
     	th, td{
@@ -52,6 +112,7 @@
     	
     </style>
     
+
     <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
 	    <script type="text/javascript">
 	    $(function(){
@@ -184,7 +245,33 @@
 				</tbody>
 				
 			</table>
-			
+					  <!--         페이지 이동 인터페이스 영역-->
+				<div class="pageMaker_wrap text-center p-t-50">
+					<div class="pageInfo_area">
+						<ul class="pageMaker">
+							<!--  이전 버튼-->
+							<th:block th:if="${pageMaker.prev}">
+								<li class="pageMaker_btn prev">
+									<a th:href="@{${pageMaker.pageStart - 1}}">이전</a>
+								</li>
+							</th:block>
+				
+							<!-- 페이지 번호 -->
+							<th:block th:each="num,iterStat : ${#numbers.sequence(pageMaker.pageStart,pageMaker.pageEnd)}">
+								<li th:class="|pageMaker_btn ${pageMaker.paging.pageNum == num ? 'active' : ''}|">
+									<a th:href="@{/customer/listBoard (boardType=L,pageNum=${num})}" th:text="${num}"></a>
+								</li>
+							</th:block>
+				
+							<!--  다음 버튼-->
+							<th:block th:if="${pageMaker.next}">
+								<li class="pageMaker_btn next">
+									<a th:href="@{${pageMaker.pageEnd + 1}}">다음</a>
+								</li>
+							</th:block>
+						</ul>
+					</div>
+				</div>
 		</div>
 		
 	</div>
@@ -195,6 +282,9 @@
     <script type="text/javascript" th:src="@{/customerDesign/noticeListCss/js/main.js}"></script>
  	
  </article>
+ <!--  고유 스크립트 추가 -->
+    <script type="text/javascript"
+    		th:src = "@{/customerDesign/liveGuide/list/js/listPage.js}"></script>
  </body>
   
 </html>

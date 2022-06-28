@@ -112,7 +112,9 @@
 				 </form>
 					
 					<form id="infoForm"	th:action="@{/customer/updateBoard}" method="get">
+
 						<input type="hidden" id="boardNumber" name="boardNumber" th:value="${customer.boardNumber}"/>
+
 						<input type="hidden" id="boardType" name="boardType" value="N"/>
 						<!-- <input type="hidden" id="pageNum" name="pageNum" th:value="${pageMaker.pageNum}"/>
 						<input type="hidden" name = "amount" th:value = "${pageMaker.paging.amount}" />

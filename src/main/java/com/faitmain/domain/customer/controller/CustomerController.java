@@ -195,35 +195,33 @@ public class CustomerController {
 		return url;
 		
 	}
-	/*
-	@GetMapping("listFAQ")
-	public String getFAQList(@ModelAttribute Customer customer, Model model, 
-									   @ModelAttribute Paging paging) throws Exception {
-		System.out.println("=====listFAQBoard======");
-		List<Customer> boardList = customerService.getFAQList(customer.getFAQCategoryCode(), paging);
-		int total = customerService.getFAQTotalCount(customer.getFAQCategoryCode(), paging);
-		System.out.println(paging);
-        Page page = new Page(paging, total);
-		model.addAttribute("FAQList", boardList);
-		System.out.println("FAQList ="+boardList);
-		
-		model.addAttribute("pageMaker", customerService.getListPaging(paging));
-		System.out.println("pageMaker ="+customerService.getListPaging(paging));
-		
-		model.addAttribute("pageMaker", page);
-		
-		return "customer/faqList";
-	}*/
-	@GetMapping("detailBoard")
-	public  String getCustomerBoard(@RequestParam Integer boardNumber, Model model, Paging paging) throws Exception{
+
+//	@GetMapping("detailBoard")
+//	public  String getCustomerBoard(@RequestParam Integer boardNumber, Model model, Paging paging) throws Exception{
+//	
+//		System.out.println("boardNumber = "+boardNumber);
+//		System.out.println("앙 찍먹따리 : " + paging);
+//		System.out.println("============= detail ===============");
+//			
+//		model.addAttribute("customer", customerService.getCustomerBoard(boardNumber));
+//		model.addAttribute("pageMaker", paging);
+//		System.out.println(boardNumber);
+//		System.out.println(paging);
+//		
+//
+//		return "customer/noticeDetail";
+//	}
 	
-		System.out.println("boardNumber = "+boardNumber);
+	@GetMapping("detailBoard")
+	public  String getCustomerBoard(@ModelAttribute Customer customer, Model model, Paging paging) throws Exception{
+	
+		System.out.println("boardNumber = "+customerService.getCustomerBoard(customer.getBoardNumber()));
 		System.out.println("앙 찍먹따리 : " + paging);
 		System.out.println("============= detail ===============");
 			
-		model.addAttribute("customer", customerService.getCustomerBoard(boardNumber));
+		model.addAttribute("customer", customerService.getCustomerBoard(customer.getBoardNumber()));
 		model.addAttribute("pageMaker", paging);
-		System.out.println(boardNumber);
+		System.out.println(customerService.getCustomerBoard(customer.getBoardNumber()));
 		System.out.println(paging);
 		
 
