@@ -43,7 +43,6 @@ import com.faitmain.domain.user.service.UserSerivce;
 import com.faitmain.global.util.security.SecurityUserService;
 
 import lombok.extern.slf4j.Slf4j;
-import net.nurigo.sdk.message.service.DefaultMessageService;
 
 @Slf4j
 @Controller
